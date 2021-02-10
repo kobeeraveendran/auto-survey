@@ -1,0 +1,30 @@
+name: autosurvey
+channels:
+  - defaults
+dependencies:
+  - ca-certificates=2021.1.19=haa95532_0
+  - certifi=2020.12.5=py37haa95532_0
+  - openssl=1.1.1i=h2bbff1b_0
+  - pip=20.3.3=py37haa95532_0
+  - python=3.7.9=h60c2a47_0
+  - setuptools=52.0.0=py37haa95532_0
+  - sqlite=3.33.0=h2a8f88b_0
+  - vc=14.2=h21ff451_1
+  - vs2015_runtime=14.27.29016=h5e58377_2
+  - wheel=0.36.2=pyhd3eb1b0_0
+  - wincertstore=0.2=py37_0
+  - zlib=1.2.11=h62dcd97_4
+  - pip:
+    - arxiv==0.5.3
+    - cffi==1.14.4
+    - chardet==4.0.0
+    - cryptography==3.3.1
+    - feedparser==6.0.2
+    - idna==2.10
+    - pdfminer-six==20201018
+    - pycparser==2.20
+    - requests==2.25.1
+    - sgmllib3k==1.0.0
+    - six==1.15.0
+    - sortedcontainers==2.3.0
+    - urllib3==1.26.3
