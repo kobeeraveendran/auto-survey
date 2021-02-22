@@ -78,6 +78,7 @@ As the motivation is made clear, you want to also state the problem more formall
 \section{Related Work}\label{sec:related}
 At this stage, you don't want to provide a comprehensive list of related work, but rather you want to consider this as a part in which you will provide a list of the resources that will be used to assist you conducting the project. Find out some of the related work that would be relevant to this project, and summarize how similar or different your work to them is. Even better, highlight in broad terms what would the $\delta$ you think you will achieve by this magnificent work be. 
 
+% NOTE: feel free to change/add to these, I just have them in as placeholders for now from what I picked up on recent readings
 \subsection{Latent Dirichlet Allocation}
 
 \subsection{TextRank}
@@ -86,22 +87,31 @@ At this stage, you don't want to provide a comprehensive list of related work, b
 
 \section{How to Train Your Dragon}\label{sec:design}
 
-
-
-To generate more detailed multi-document summaries, we considered expanding on existing extractive multi-document summarization 
+To generate multi-document summaries, we considered expanding on existing extractive multi-document summarization 
 methods. Extractive summarization entails selecting key sentences from the source texts, and using them directly in the 
 summary. First, documents must be segmented into sentences, each assumed to convey its own idea. Then, sentence vectors can be 
 compared (currently exploring methods for this), ranked and selected for the final summary. This process can be modified 
-and repeated for individual documents to form the related works section. 
+and repeated for individual documents to form more detailed explanations of each constituent paper in isolation.
 
 Due to the limitations of current summarization methods, we will only be considering 
 conceptual content in the form of sentences. For other facets of papers, such as figures, tables, and formulas, extractive 
-methods may not adequately capture meaning or properly judge relevance to textual concepts, so they will thus be 
+methods may not adequately capture meaning or properly judge relevance to textual concepts, so they will be 
 disregarded in preprocessing.
 
 Here should be the actual proposal. What methods are you proposing? Describe the method you will use in designing your training method for your dragons. Relate to the problem statement. The description should be specific so that reproduction of the training method you used for your dragon are reproducible. Avoid copying others' work and others' style, and be creative. 
 
 \section{Evaluation}\label{sec:evaluation}
+
+We will use existing literature surveys and a set of their associated papers as the human-generated 
+summaries and source texts to benchmark against. We do not need a large training set, only a set of documents per summary, 
+so we will compile this data manually.
+
+Since summaries for a set of documents are not absolute (i.e. many valid summaries can exist for a set of documents), 
+we will use quantitative and qualitative metrics to evaluate our method. The generated surveys can be evaluated quantitatively 
+by computing ROUGE \cite{rouge} scores between the generated and reference summaries. ROUGE scores typically measure 
+overlaps between the reference and generated summaries, and use either N-grams or common subsequences (LCSS). However, 
+since human summaries are often abstractive and paraphrased, ROUGE scores can be slightly misguided, so we will also 
+provide the generated and reference summaries for human qualitative comparison.
 
 In this section, you want to describe two things: the data that you will use for evaluating the method against the problem stated above, and the results. As for data, describe your source of dragons, in as much details as needed, but not too much that I won't have the time to read. Be realistic. 
 
@@ -116,11 +126,51 @@ Here is your chance to tell me what you expect of outcomes.
 Also you want to tell me what are the risks associated with the project, and how you plan to deal with them. 
 
 \section{Plan and Roles of Collaborators}
+
 Divide your project into components, and tell me who is going to work on what, how much time each will work on each item. Have a timeline for the project. Tasks may include coding, testing, evaluation and analysis, write-up, presentation, etc. 
 
+\subsection{Components}
 
-\section{References}\label{sec:conclusion}
-This space would be your chance to list the resources you used for the proposal. 
+% NOTE: these are estimates, change/fill in with the real numbers
+\subsubsection{Paper text extraction}
+
+Kobee: $\sim$1 hour
+
+\subsubsection{Method Brainstorming and Research}
+
+Shane: $\sim$10 hours
+
+Kobee: $\sim$6 hours
+
+\subsubsection{Data Preprocessing}
+
+\textbf{TODO}
+
+Both: $\sim$6 hours
+
+\subsubsection{Method Adaptation/Implementation}
+
+\textbf{TODO}
+Both: $\sim$20+ hours
+
+\subsubsection{Writeup}
+
+Both: $\sim$8-10 hours
+
+\subsection{Timeline}
+
+\begin{center}
+  \begin{tabular}{|c|c|} \hline
+
+    \textbf{Component}                & \textbf{Estimated Date}    \\ \hline
+    Text extraction [code]            & 2/20                       \\ \hline
+    Method brainstorming \& research  & 3/5                        \\ \hline
+    Preprocessing pipeline [code]     & 3/10                       \\ \hline
+    Implementation [code]             & 4/2                        \\ \hline
+    Writeup                           & 4/9                        \\ \hline
+
+  \end{tabular}
+\end{center}
 
 \bibliographystyle{ieeetr}
 \bibliography{bib}
