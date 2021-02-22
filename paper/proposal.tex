@@ -27,15 +27,26 @@
 
 
 
-\title{Proposal: How To Train Your Dragon}
+\title{AutoSurvey: Extractive Multi-Document Text Summarization for Generating Literature Surveys}
 
 
-\author{Adam Smith\\ as@ucf.edu \and Alan M. Turing  \\ at@ucf.edu \and Claude E. Shannon\\ ces@ucf.edu}
+\author{Shane Rhoads\\ email \and Kobee Raveendran  \\ kobee.raveendran@knights.ucf.edu}
 
 \maketitle
 
+\section{Problem Statement}
 
-\section{Motivation \& Problem Statement}\label{sec:motivation}
+Literature surveys are a valuable resource for researchers exploring a foreign technical domain. They serve as a 
+centralized collection of information on recent or foundational works in a digestible manner, and give the reader 
+a solid conceptual, comparative understanding of the works discussed. 
+
+However, obtaining a comprehensive compilation of influential research requires extensive manual effort, and intuitively 
+portraying the numerous concepts and methods requires vast domain-specific knowledge. For this reason, literature 
+surveys can be scarce, particularly in new or unpopular research areas.
+
+To alleviate the burden of manual survey creation, we seek to develop a system capable of automatically generating meaningful
+ literature surveys. The problem will be formulated as an extractive multi-document text summarization task.
+
 This is an introduction part, in which you should include a clear motivation on the problem being addressed in this project (why should I care?). You will need to also define the problem in broad terms so that you can outline the motivation. 
 
 As the motivation is made clear, you want to also state the problem more formally; in terms that an NLP expert will understand. 
@@ -47,6 +58,14 @@ At this stage, you don't want to provide a comprehensive list of related work, b
 
 
 \section{How to Train Your Dragon}\label{sec:design}
+
+To generate more detailed multi-document summaries, we considered expanding on existing extractive multi-document summarization 
+methods. Extractive summarization entails selecting key sentences from the source texts, and using them directly in the 
+summary. In our approach, we must first segment documents by topic. Then, sentences containing prevalent topics can be 
+ranked and selected for the final summary. Due to the nature of summarization methods, we will only be considering 
+conceptual content in the form of sentences. Other facets of papers, such as figures, tables, and formulas, may not have 
+their relevance accurately judged automatically, and will thus be disregarded in preprocessing.
+
 Here should be the actual proposal. What methods are you proposing? Describe the method you will use in designing your training method for your dragons. Relate to the problem statement. The description should be specific so that reproduction of the training method you used for your dragon are reproducible. Avoid copying others' work and others' style, and be creative. 
 
 \section{Evaluation}\label{sec:evaluation}
@@ -57,7 +76,7 @@ Here, I know that you won't have results, so don't worry. Describe to me the eva
 
 A bonus would be if you could propose to compare your work against a baseline. 
 
-\section{Expected outcomes and risk management}
+\section{Expected Outcomes and Risks}
 
 Here is your chance to tell me what you expect of outcomes. 
 
