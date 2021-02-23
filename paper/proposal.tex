@@ -30,7 +30,7 @@
 \title{AutoSurvey: Extractive Multi-Document Text Summarization for Generating Literature Surveys}
 
 
-\author{Shane Rhoads\\ email \and Kobee Raveendran  \\ kobee.raveendran@knights.ucf.edu}
+\author{Shane Rhoads\\ srhoads2@knights.ucf.edu \and Kobee Raveendran  \\ kobee.raveendran@knights.ucf.edu}
 
 \maketitle
 
@@ -38,20 +38,21 @@
 
 Literature surveys are a valuable resource for researchers exploring a foreign technical domain. They serve as a 
 centralized collection of information on recent or foundational works in a digestible manner, and give the reader 
-a solid conceptual, comparative understanding of the works discussed. 
+a solid conceptual, comparative understanding of the various works within a problem domain. 
 
-However, creating a comprehensive compilation of influential research requires extensive manual effort, and intuitively 
-portraying the numerous concepts and methods requires vast domain-specific knowledge. Without spending significant 
-time, it is also difficult to find relationships between papers not directly cited by each other. For these reasons, literature 
-surveys can be scarce, particularly in new or unpopular research areas.
+However, creating these compilations requires extensive manual effort and vast domain-specific knowledge about the numerous concepts and methods proposed by various influential works. Furthermore, it is also difficult to find and understand relationships between papers not directly cited by each other. For these reasons, literature 
+surveys can be scarce, particularly in new or underdeveloped research areas.
 
 % might wanna check this bit, feel free to change it up
 To alleviate the burden of manual survey creation, we seek to develop a system capable of automatically generating meaningful, 
 high-level literature surveys. We formulate the problem as a combination of multi-document summarization (MDS) and 
-single-document summarization tasks. Multi-document summaries serve to outline the relationships between the selected papers, 
-useful for introduction or conclusion sections of literature surveys. The single-document summaries allow for more detailed 
-coverage on the intricacies specific to each paper, providing the bulk of a typical related works section.
+single-document summarization tasks. Multi-document summaries serve to outline the relationships between the selected papers and provide high-level information about the problem domain. 
+% useful for introduction or conclusion sections of literature surveys. 
+The single-document summaries allow for more detailed 
+coverage on the contributions of each specific paper. By combining both of these, we can can create a comprehensive overview of a problem domain defined by a set of related works. %providing the bulk of a typical related works section.
 
+% I like the disucssion of abstractive vs extractive, however currently feels a bit long and conceptually repetitive
+% Prehaps drop the third paragraph or just condense the ideas down a bit.
 The two most prominent approaches to text summarization are abstractive and extractive summarization. Abstractive methods attempt to generate a 
 \textit{novel} summary by grasping the key topics from the text and generating grammatically-sound sentences from scratch. 
 Extractive methods instead generate summaries by selecting important sentences directly from the source text. 
@@ -80,6 +81,13 @@ material in the other papers.
 
 % NOTE: feel free to change/add to these, I just have them in as placeholders for now from what I picked up on recent readings
 \subsection{Latent Dirichlet Allocation}
+The core of our approach is based on the well-known Latent Dirichlet Allocation (LDA) \cite{lda} method for Topic Modeling.
+LDA is a statistical approach that models each document as a collection of words, generated from a probability distribution of one or more topics.
+The key idea is that each document will be defined by some number of Topics.
+These Topics define a probability distribution over a vocabulary, which is how likely a given word is to appear within a given topic.
+We can then view the documents as a sampling of words from the probability distribution defined by its topics. 
+
+Latent Dirichlet Allocation works to extract these underlying Topics from a large set of documents. Then, we can define the Topic of new documents based on their word distribution. We can also extract key sentences or phrases from the documents based their probability given the Topics. 
 
 \subsection{TextRank}
 
