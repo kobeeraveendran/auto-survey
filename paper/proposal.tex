@@ -40,7 +40,7 @@ Literature surveys are a valuable resource for researchers exploring a foreign t
 centralized collection of information on recent or foundational works in a digestible manner, and give the reader 
 a solid conceptual, comparative understanding of the works discussed. 
 
-However, obtaining a comprehensive compilation of influential research requires extensive manual effort, and intuitively 
+However, creating a comprehensive compilation of influential research requires extensive manual effort, and intuitively 
 portraying the numerous concepts and methods requires vast domain-specific knowledge. Without spending significant 
 time, it is also difficult to find relationships between papers not directly cited by each other. For these reasons, literature 
 surveys can be scarce, particularly in new or unpopular research areas.
@@ -56,27 +56,27 @@ The two most prominent approaches to text summarization are abstractive and extr
 \textit{novel} summary by grasping the key topics from the text and generating grammatically-sound sentences from scratch. 
 Extractive methods instead generate summaries by selecting important sentences directly from the source text. 
 
-While abstractive summarization is ideal and much closer to human-level summarization in theory, in practice most 
-abstractive methods may face issues producing coherent summaries on single documents \cite{mds2017}, and even moreso 
-across multiple documents. This is partly due to the burden of learning the grammatical structure of sentences being 
-placed on the model, a responsibility absent in extractive approaches. 
+While abstractive summarization is theoretically much closer to human summarization, in practice most 
+abstractive methods face issues producing coherent summaries on both single documents \cite{mds2017}, and even moreso 
+across multiple documents. This is largely due to the burden of learning the grammatical structure of sentences being 
+placed on the model, a major challenge shared by all text generation tasks. % absent in extractive approaches. 
 
 Among abstractive methods that perform decently, all require 
 immense compute resources, training time, and training data to work well. Since full-paper datasets of sufficient size are not 
-widely available, we must parse content from downloaded papers individually, making the data-reliance of abstractive 
-methods severely crippling. Even if such a dataset were available, abstractive summarization may not fare well if given 
+widely available, we must parse content from papers individually, making the data-reliance of abstractive 
+methods impractical. Even if such a dataset were available, abstractive summarization may not fare well if given 
 only one document per topic, or several loosely-related documents. In abstractive summarization datasets like WikiSum \cite{wikisum}, 
 each reference document is likely to cover the same central topic, with minimal divergence. In related research papers, however, the overarching task 
 may be shared but the bulk of the paper's content lies in the proposed method, which is fundamentally different from the 
 material in the other papers.
 
-This is an introduction part, in which you should include a clear motivation on the problem being addressed in this project (why should I care?). You will need to also define the problem in broad terms so that you can outline the motivation. 
+ % This is an introduction part, in which you should include a clear motivation on the problem being addressed in this project (why should I care?). You will need to also define the problem in broad terms so that you can outline the motivation. 
 
-As the motivation is made clear, you want to also state the problem more formally; in terms that an NLP expert will understand. 
+ % As the motivation is made clear, you want to also state the problem more formally; in terms that an NLP expert will understand. 
 
 
 \section{Related Work}\label{sec:related}
-At this stage, you don't want to provide a comprehensive list of related work, but rather you want to consider this as a part in which you will provide a list of the resources that will be used to assist you conducting the project. Find out some of the related work that would be relevant to this project, and summarize how similar or different your work to them is. Even better, highlight in broad terms what would the $\delta$ you think you will achieve by this magnificent work be. 
+ % At this stage, you don't want to provide a comprehensive list of related work, but rather you want to consider this as a part in which you will provide a list of the resources that will be used to assist you conducting the project. Find out some of the related work that would be relevant to this project, and summarize how similar or different your work to them is. Even better, highlight in broad terms what would the $\delta$ you think you will achieve by this magnificent work be. 
 
 % NOTE: feel free to change/add to these, I just have them in as placeholders for now from what I picked up on recent readings
 \subsection{Latent Dirichlet Allocation}
@@ -87,7 +87,7 @@ At this stage, you don't want to provide a comprehensive list of related work, b
 
 \section{How to Train Your Dragon}\label{sec:design}
 
-To generate multi-document summaries, we considered expanding on existing extractive multi-document summarization 
+To generate multi-document summaries, we will expand on existing extractive multi-document summarization 
 methods. Extractive summarization entails selecting key sentences from the source texts, and using them directly in the 
 summary. First, documents must be segmented into sentences, each assumed to convey its own idea. Then, sentence vectors can be 
 compared (currently exploring methods for this), ranked and selected for the final summary. This process can be modified 
