@@ -80,6 +80,15 @@ material in the other papers.
  % At this stage, you don't want to provide a comprehensive list of related work, but rather you want to consider this as a part in which you will provide a list of the resources that will be used to assist you conducting the project. Find out some of the related work that would be relevant to this project, and summarize how similar or different your work to them is. Even better, highlight in broad terms what would the $\delta$ you think you will achieve by this magnificent work be. 
 
 % NOTE: feel free to change/add to these, I just have them in as placeholders for now from what I picked up on recent readings
+
+\subsection{Research Article Summarization}
+There have been several works exploring the summarization of research articles \cite{citsum, citnetsum, impactsum}. 
+Many of these methods focus on utilizing the citations of a work in other papers \cite{citsum, citnetsum}, as these citations should provide effective summaries of the contributions of the work. 
+However, these citations are often noisy and can be too high-level for more detailed summaries. 
+Furthermore, nearly all these approaches focus on single-document summaries and do not attempt to provide an overview of multiple, related works.
+
+Yeloglu et al. \cite{multisum} explored the performance of multiple, general-purpose multi-document summarization methods on scientific corpora. The tested methods include MEAD \cite{mead}, MEAD with Keyword Extraction, LexRank \cite{lexrank}, and W3SS \cite{w3ss}. The authors focused primarily on analyzing the performance of these general summarization algorithms on research articles, and did not make any significant changes for the specific domain. They also generated only very brief, three sentence summaries of the input documents. 
+
 \subsection{Latent Dirichlet Allocation}
 The core of our approach is based on the well-known Latent Dirichlet Allocation (LDA) \cite{lda} method for Topic Modeling.
 LDA is a statistical approach that models each document as a collection of words, generated from a probability distribution of one or more topics.
@@ -87,7 +96,9 @@ The key idea is that each document will be defined by some number of Topics.
 These Topics define a probability distribution over a vocabulary, which is how likely a given word is to appear within a given topic.
 We can then view the documents as a sampling of words from the probability distribution defined by its topics. 
 
-Latent Dirichlet Allocation works to extract these underlying Topics from a large set of documents. Then, we can define the Topic of new documents based on their word distribution. We can also extract key sentences or phrases from the documents based their probability given the Topics. 
+Latent Dirichlet Allocation works to extract these latent Topics from a large set of documents through unsupervised training. 
+Then, we can define the Topic of new documents based on their word distribution. 
+We can also extract key sentences or phrases from the documents based their probability given the Topics. 
 
 \subsection{TextRank}
 
@@ -106,7 +117,7 @@ conceptual content in the form of sentences. For other facets of papers, such as
 methods may not adequately capture meaning or properly judge relevance to textual concepts, so they will be 
 disregarded in preprocessing.
 
-Here should be the actual proposal. What methods are you proposing? Describe the method you will use in designing your training method for your dragons. Relate to the problem statement. The description should be specific so that reproduction of the training method you used for your dragon are reproducible. Avoid copying others' work and others' style, and be creative. 
+% Here should be the actual proposal. What methods are you proposing? Describe the method you will use in designing your training method for your dragons. Relate to the problem statement. The description should be specific so that reproduction of the training method you used for your dragon are reproducible. Avoid copying others' work and others' style, and be creative. 
 
 \section{Evaluation}\label{sec:evaluation}
 
@@ -129,17 +140,20 @@ A bonus would be if you could propose to compare your work against a baseline.
 
 \section{Expected Outcomes and Risks}
 
-Here is your chance to tell me what you expect of outcomes. 
+Probably just a restatement of the problem statement. Outcome is meaningful multi-document summaries on research articles. Probably can also talk about ROUGE scores or something if you understand that well enough to provide a reasonable estimate, otherwise just say we will use it to evaluate our approach.
 
-Also you want to tell me what are the risks associated with the project, and how you plan to deal with them. 
+% Here is your chance to tell me what you expect of outcomes. 
+
+% Also you want to tell me what are the risks associated with the project, and how you plan to deal with them. 
 
 \section{Plan and Roles of Collaborators}
 
-Divide your project into components, and tell me who is going to work on what, how much time each will work on each item. Have a timeline for the project. Tasks may include coding, testing, evaluation and analysis, write-up, presentation, etc. 
+% Divide your project into components, and tell me who is going to work on what, how much time each will work on each item. Have a timeline for the project. Tasks may include coding, testing, evaluation and analysis, write-up, presentation, etc. 
 
 \subsection{Components}
 
 % NOTE: these are estimates, change/fill in with the real numbers
+% Based on proff definition, this is supposed to be future work I think, not current work. Can probably be reflective of both.
 \subsubsection{Paper text extraction}
 
 Kobee: $\sim$1 hour
@@ -163,7 +177,7 @@ Both: $\sim$20+ hours
 
 \subsubsection{Writeup}
 
-Both: $\sim$8-10 hours
+Both: $\sim$10 hours
 
 \subsection{Timeline}
 
