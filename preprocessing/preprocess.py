@@ -1,6 +1,7 @@
 import pdfminer.high_level
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+import re
 
 def clean_text(path, spacy_model):
     '''
@@ -15,26 +16,32 @@ def clean_text(path, spacy_model):
     # sentence segmentation
     assert doc.has_annotation("SENT_START")
 
-    for i, sentence in enumerate(doc.sents):
-        print("SENT {}: '{}'".format(i + 1, sentence.text))
+    sentences = []
 
-    return
-    # basic cleaning
-    text = text.split(' ')
-    text = [s.lower() for s in text if s.isalpha() or '.' in s]
+    for sentence in doc.sents:
+        s = re.sub("['|.|,|0-9]", '', sentence.text)
+        s = s.encode(encoding = "ascii", errors = "ignore").decode()
+        sentences.append(s.lower())
+        #sentences.append(re.sub("['|.|,|0-9]", '', sentence))
+
+    for i in range(5):
+        print(sentences[i])
+
+    # text = text.split(' ')
+    # text = [s.lower() for s in text if s.isalpha()]
 
     # non-eng removal
-    for i, t in enumerate(text):
-        text[i] = t.encode(encoding = "ascii", errors = "ignore").decode()
+    # for i, t in enumerate(text):
+    #     text[i] = t.encode(encoding = "ascii", errors = "ignore").decode()
 
-    text = ' '.join(text)
+    #text = ' '.join(text)
 
-    token_list = [token.text for token in tokens if str(token).isalpha() or token.pos_ not in ['X', 'SYM', 'PUNCT']]
+    #token_list = [token.text for token in tokens if str(token).isalpha() or token.pos_ not in ['X', 'SYM', 'PUNCT']]
 
-    text = ' '.join(token_list)
+    #text = ' '.join(token_list)
 
-    with open('test.txt', 'w', encoding = 'utf-8') as file:
-        file.write(text)
+    # with open('test.txt', 'w', encoding = 'utf-8') as file:
+    #     file.write(text)
 
     return text
 
