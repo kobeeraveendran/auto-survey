@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
     ### TRAINING LDA MODEL ###
     # Load Data
-    data_path = "./test.bow"
+    data_path = "./article_dump.bow"
     raw_bow = load_bow(path=data_path)
     vocabulary = create_vocabulary([raw_bow])
     print("Vocab: ", vocabulary.id2token.keys())

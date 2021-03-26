@@ -1,12 +1,18 @@
 import pdfminer.high_level
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+
 import re
 import pandas as pd
+import os
 
 def clean_text(path, spacy_model):
 
-    text = pdfminer.high_level.extract_text(path)
+    try:
+        text = pdfminer.high_level.extract_text(path)
+    
+    except:
+        return None
 
     doc = spacy_model(text)
     token_list = []
@@ -22,17 +28,22 @@ def clean_text(path, spacy_model):
 
     text = ' '.join(token_list)
 
-    with open('test.bow', 'w', encoding = 'utf-8') as file:
-        file.write(text)
+    with open('article_dump.bow', 'a', encoding = 'utf-8') as file:
+        file.write(text + '\n')
 
     return text
 
 if __name__ == "__main__":
 
-    doc = "../downloads/1201.2240v1.Bengali_text_summarization_by_sentence_extraction.pdf"
-    
     nlp = spacy.load("en_core_web_sm")
-    text = clean_text(doc, nlp)
+
+    print("Processing articles...")
+
+    for i, pdf in enumerate(os.scandir('../downloads/')):
+        _ = clean_text(pdf.path, nlp)
+
+        if i % 10 == 0:
+            print("Processed {} articles...\n".format(i))
 
     #x, df = vectorize(sents)
     #print(text)
