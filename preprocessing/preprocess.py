@@ -21,7 +21,7 @@ def pdf2text(path):
 
     text = ' '.join(token_list)
 
-    with open('test.bow', 'w', encoding = 'utf-8') as file:
+    with open('test.txt', 'w', encoding = 'utf-8') as file:
         file.write(text)
 
     return text

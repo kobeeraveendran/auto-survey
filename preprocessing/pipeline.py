@@ -1,4 +1,5 @@
-from gensim.models import LdaModel
+from gensim import models
+from gensim.corpora import Dictionary
 from collections import defaultdict
 
 # Can use max count to limit impact of frequent words by capping their count
@@ -22,10 +23,20 @@ def load_bow(path="", vocab=None, max_count=0):
                     add_word(word)
 
                 # Otherwise, only include words in vocab
-                elif word in vocab:
+                # Also, when using vocab, use the word id instead of the word
+                elif word in vocab.token2id:
                     add_word(word)
 
     return word_dict
+
+def convert_bow(bow=dict()):
+    words = []
+    for word in bow:
+        for i in range(bow[word]):
+            words.append(word)
+
+    return words
+
 
 def create_vocabulary(documents=[], min_word_frequency=0.05, max_word_frequency=1, min_word_count=5):
     if len(documents) < 1:
@@ -52,23 +63,62 @@ def create_vocabulary(documents=[], min_word_frequency=0.05, max_word_frequency=
         if (word_counts[word] >= min_word_count) and (freq >= min_word_frequency and freq <= max_word_frequency):
             vocab[word] = True
 
-    return vocab
+    words = []
+    for word in vocab:
+        words.append(word)
+    words = [words]
 
+    print ("WORDS: ", words)
+    dct = Dictionary(words)
 
-
-
+    return dct
 
 
 if __name__ == "__main__":
 
+    ### TRAINING LDA MODEL ###
+    # Load Data
     data_path = "./test.bow"
     raw_bow = load_bow(path=data_path)
-
     vocabulary = create_vocabulary([raw_bow])
+    print("Vocab: ", vocabulary.id2token.keys())
 
-    print("Vocab: ", vocabulary.keys())
-
+    # Build vocabulary
     filtered_bow = load_bow(path=data_path, vocab=vocabulary)
-
     print("Filtered BOW: ", filtered_bow)
+
+    # Create LDA model
+    # train_data = [convert_bow(filtered_bow)]
+    train_data = [[]]
+    for word in vocabulary.token2id.keys():
+        train_data[0].append(word)
+
+    train_data = [vocabulary.doc2bow(train_data[0])]
+
+    print("Training data: ", train_data)
+    model = models.LdaModel(
+        corpus=train_data,
+        num_topics=10,
+        alpha='asymmetric',
+        eta='auto',
+        minimum_probability='0.02',
+        per_word_topics=True)
+
+    # Train LDA model
+    # model.update(corpus=train_data, update_every=1)
+
+
+    # Save LDA model
+    # Note: Also need to save word_to_id for inputting data into model
+    model.save("./test_model.lda")
+    
+    ### USE LDA MODEL ###
+    # Sample topic distribution
+    print("Test data: ", train_data[0])
+    topic_dist = model.get_document_topics(train_data[0])
+    print("Predicted topic distribution: ", topic_dist)
+    
+
+
+
 
