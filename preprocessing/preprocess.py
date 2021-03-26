@@ -1,34 +1,66 @@
 import pdfminer.high_level
 import spacy
-import string
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+import re
+import pandas as pd
 
-def pdf2text(path):
+def clean_text(path, spacy_model):
+    '''
+    input:
+        - path (str): path to PDF file from which text is extracted
+        - spacy_model: loaded spaCy language model (english small model - 'en_core_web_sm')
+    output:
+        - sentences: list of strings, where each element is a cleaned sentence from the PDF
+    '''
+
     text = pdfminer.high_level.extract_text(path)
 
-    # basic cleaning
-    text = text.split(' ')
-    text = [s for s in text if s.isalpha()]
+    doc = spacy_model(text)
 
-    for i, t in enumerate(text):
-        text[i] = t.encode(encoding = "ascii", errors = "ignore").decode()
+    # sentence segmentation
+    assert doc.has_annotation("SENT_START")
 
-    text = ' '.join(text)
+    originals = []
+    sentences = []
 
-    tokenizer = spacy.load("en_core_web_sm")
-    tokens = tokenizer(text)
+    # preserve sentences for reconstruction later
+    for sentence in doc.sents:
+        originals.append(sentence)
+        s = re.sub("et. al|['.,0-9]", '', sentence.text)
+        s = s.encode(encoding = "ascii", errors = "ignore").decode()
+        sentences.append(s.lower())
 
-    token_list = [token.text for token in tokens if str(token).isalpha() or token.pos_ not in ['X', 'SYM', 'PUNCT']]
+    with open('original.txt', 'w', encoding = 'utf-8') as file:
+        file.writelines(originals)
+        
 
-    text = ' '.join(token_list)
+    return sentences
 
-    with open('test.txt', 'w', encoding = 'utf-8') as file:
-        file.write(text)
+# TODO: add further preprocessing as per the steps outlined in the milestone report (i.e. pruning words by high frequency); the stuff here is just general preprocessing
+def vectorize(docs):
 
-    return text
+    '''
+    input:
+        - docs: list of strings, where each element is a sentence (provided by clean_text())
+
+    output:
+        - x: matrix of word frequencies (num. occurrences x vocab. size) to be fed into LDA
+        - df: pandas DataFrame containing the same matrix as in x, with feature names (word strings) included in header
+    '''
+
+    vect = CountVectorizer(stop_words = "english")
+    x = vect.fit_transform(docs)
+
+    df = pd.DataFrame(x.toarray(), columns = vect.get_feature_names())
+
+    return x, df
 
 if __name__ == "__main__":
 
     doc = "../downloads/1201.2240v1.Bengali_text_summarization_by_sentence_extraction.pdf"
     
-    text = pdf2text(doc)
+    nlp = spacy.load("en_core_web_sm")
+    sents = clean_text(doc, nlp)
+
+    x, df = vectorize(sents)
     #print(text)
