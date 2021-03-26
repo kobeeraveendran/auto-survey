@@ -13,7 +13,6 @@ def clean_text(path, spacy_model):
         - sentences: list of strings, where each element is a cleaned sentence from the PDF
     '''
 
-    # extract text from pdf @ path
     text = pdfminer.high_level.extract_text(path)
 
     doc = spacy_model(text)
@@ -21,16 +20,18 @@ def clean_text(path, spacy_model):
     # sentence segmentation
     assert doc.has_annotation("SENT_START")
 
+    originals = []
     sentences = []
 
     # preserve sentences for reconstruction later
     for sentence in doc.sents:
+        originals.append(sentence)
         s = re.sub("et. al|['.,0-9]", '', sentence.text)
         s = s.encode(encoding = "ascii", errors = "ignore").decode()
         sentences.append(s.lower())
 
-    # with open('test.txt', 'w', encoding = 'utf-8') as file:
-    #     file.writelines(sentences)
+    with open('original.txt', 'w', encoding = 'utf-8') as file:
+        file.writelines(originals)
         
 
     return sentences
