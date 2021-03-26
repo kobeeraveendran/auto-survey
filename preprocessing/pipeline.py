@@ -15,7 +15,6 @@ def load_bow(path="", vocab=None, max_count=0):
     with open(path, 'r') as file:
         for line in file:
             for word in line.split():
-                word = word.lower()
 
                 # No vocab, include all words
                 if vocab == None:
@@ -42,7 +41,7 @@ def create_vocabulary(documents=[], min_word_frequency=0.05, max_word_frequency=
             word_counts[word] += doc[word]
 
             if word not in seen_words:
-                word_appearances[word] =+ 1
+                word_appearances[word] += 1
                 seen_words[word] = True
 
     # Build vocabulary
