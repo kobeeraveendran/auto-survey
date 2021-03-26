@@ -93,15 +93,15 @@ if __name__ == "__main__":
     for word in vocabulary.token2id.keys():
         train_data[0].append(word)
 
-    train_data = [vocabulary.doc2bow(train_data[0])]
+    train_data = [vocabulary.doc2bow(convert_bow(filtered_bow))]
 
-    print("Training data: ", train_data)
+    #print("Training data: ", train_data)
     model = models.LdaModel(
         corpus=train_data,
         num_topics=10,
         alpha='asymmetric',
         eta='auto',
-        minimum_probability='0.02',
+        minimum_probability=0.02,
         per_word_topics=True)
 
     # Train LDA model
@@ -114,8 +114,8 @@ if __name__ == "__main__":
     
     ### USE LDA MODEL ###
     # Sample topic distribution
-    print("Test data: ", train_data[0])
-    topic_dist = model.get_document_topics(train_data[0])
+    #print("Test data: ", train_data[0])
+    topic_dist = model.get_document_topics(vocabulary.doc2bow(convert_bow(filtered_bow)))
     print("Predicted topic distribution: ", topic_dist)
     
 
