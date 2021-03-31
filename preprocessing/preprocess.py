@@ -18,20 +18,31 @@ def clean_text(path, spacy_model):
     token_list = []
 
     # may be helpful if we need any other sentence-specific work later
+    sentences = []
+
     for sent in doc.sents:
-        
+
+        curr_sent = []
+
         for token in sent:
             t = token.text.encode(encoding = "ascii", errors = "ignore").decode()
+            t = t.lower()
 
             if t.isalpha() and token.pos_ not in ['X', 'SYM', 'PUNCT']:
-                token_list.append(t.lower())
+                token_list.append(t)
+                curr_sent.append(t)
+
+        sentences.append(' '.join(curr_sent) + '\n')
 
     text = ' '.join(token_list)
 
     with open('article_dump.bow', 'a', encoding = 'utf-8') as file:
         file.write(text + '\n')
 
-    return text
+    with open("article_dump_docs.sents", 'a', encoding = 'utf-8') as file:
+        file.writelines(sentences)
+
+    return
 
 if __name__ == "__main__":
 
@@ -40,7 +51,7 @@ if __name__ == "__main__":
     print("Processing articles...")
 
     for i, pdf in enumerate(os.scandir('../downloads/')):
-        _ = clean_text(pdf.path, nlp)
+        clean_text(pdf.path, nlp)
 
         if i % 10 == 0:
             print("Processed {} articles...\n".format(i))
