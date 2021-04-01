@@ -170,7 +170,7 @@ finally we apply a ear transform with sigmoid function to predict whether the co
 hc
 
 
-hc t bi i t c i to train the denoising module we use the cross entropy loss to supervise this procedure
+t bi i t c i to train the denoising module we use the cross entropy loss to supervise this procedure
 ld c i
 where i is the ground truth salience score of ments
 denotes the i th comment ci is helpful for generating summary and vice versa
