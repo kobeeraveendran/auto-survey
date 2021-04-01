@@ -124,17 +124,6 @@ if __name__ == "__main__":
     overall_vocabulary = create_vocabulary(overall_bow)
     overall_topic_dist = overall_model.get_document_topics(overall_vocabulary.doc2bow(convert_bow()))
 
-    # overall
-    for doc_path in os.scandir("../bags/"):
-        raw_bow = load_bow(path = doc_path)
-        vocabulary = 
-
     # Save LDA model
     # Note: Also need to save word_to_id for inputting data into model
     overall_model.save("./overall_model.lda")
-    
-    ### USE LDA MODEL ###
-    # Sample topic distribution
-    #print("Test data: ", train_data[0])
-    topic_dist = model.get_document_topics(vocabulary.doc2bow(convert_bow(filtered_bow)))
-    print("Predicted topic distribution: ", topic_dist)
