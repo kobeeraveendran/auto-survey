@@ -2,6 +2,8 @@ from gensim import models
 from gensim.corpora import Dictionary
 from collections import defaultdict
 
+import os
+
 # Can use max count to limit impact of frequent words by capping their count
 def load_bow(path="", vocab=None, max_count=0):
     word_dict = dict()
@@ -13,18 +15,22 @@ def load_bow(path="", vocab=None, max_count=0):
         else:
             word_dict[word] = 1
 
-    with open(path, 'r') as file:
-        for line in file:
-            for word in line.split():
+    if path:
+        with open(path, 'r') as file:
+            for line in file:
+                for word in line.split():
 
-                # No vocab, include all words
-                if vocab == None:
-                    add_word(word)
+                    # No vocab, include all words
+                    if vocab == None:
+                        add_word(word)
 
-                # Otherwise, only include words in vocab
-                # Also, when using vocab, use the word id instead of the word
-                elif word in vocab.token2id:
-                    add_word(word)
+                    # Otherwise, only include words in vocab
+                    # Also, when using vocab, use the word id instead of the word
+                    elif word in vocab.token2id:
+                        add_word(word)
+
+    else:
+        for word in 
 
     return word_dict
 
@@ -78,47 +84,57 @@ if __name__ == "__main__":
 
     ### TRAINING LDA MODEL ###
     # Load Data
-    data_path = "./article_dump.bow"
-    raw_bow = load_bow(path=data_path)
-    vocabulary = create_vocabulary([raw_bow])
-    print("Vocab: ", vocabulary.id2token.keys())
 
-    # Build vocabulary
-    filtered_bow = load_bow(path=data_path, vocab=vocabulary)
-    #print("Filtered BOW: ", filtered_bow)
+    overall_model = models.LdaModel(
+        num_topics = 15, 
+        alpha = "asymmetric", 
+        eta = "auto", 
+        minimum_probability = 0.02, 
+        per_word_topics = True
+    )
+    
+    overall_bow = []
 
-    # Create LDA model
-    # train_data = [convert_bow(filtered_bow)]
-    train_data = [[]]
-    for word in vocabulary.token2id.keys():
-        train_data[0].append(word)
+    # individual docs
+    for doc_path in os.scandir("../bags/"):
+        raw_bow = load_bow(path = doc_path)
+        doc_vocabulary = create_vocabulary([raw_bow])
+        overall_bow.append(raw_bow)
 
-    train_data = [vocabulary.doc2bow(convert_bow(filtered_bow))]
+        doc_filtered_bow = load_bow(path = doc_path, vocab = doc_vocabulary)
+        train_data = [[]]
 
-    #print("Training data: ", train_data)
-    model = models.LdaModel(
-        corpus=train_data,
-        num_topics=10,
-        alpha='asymmetric',
-        eta='auto',
-        minimum_probability=0.02,
-        per_word_topics=True)
+        for word in doc_vocabulary.token2id.keys():
+            train_data[0].append(word)
 
-    # Train LDA model
-    # model.update(corpus=train_data, update_every=1)
+        train_data = [doc_vocabulary.doc2bow(convert_bow(doc_filtered_bow))]
 
+        doc_model = models.LdaModel(
+            corpus = train_data, 
+            num_topics = 10, 
+            alpha = "asymmetric", 
+            eta = "auto", 
+            minimum_probability = 0.02, 
+            per_word_topics = True
+        )
+
+        overall_model.update(corpus = train_data, update_every = 1)
+        doc_topic_dist = doc_model.get_document_topics(doc_vocabulary.doc2bow(convert_bow(doc_filtered_bow)))
+    
+    overall_vocabulary = create_vocabulary(overall_bow)
+    overall_topic_dist = overall_model.get_document_topics(overall_vocabulary.doc2bow(convert_bow()))
+
+    # overall
+    for doc_path in os.scandir("../bags/"):
+        raw_bow = load_bow(path = doc_path)
+        vocabulary = 
 
     # Save LDA model
     # Note: Also need to save word_to_id for inputting data into model
-    model.save("./test_model.lda")
+    overall_model.save("./overall_model.lda")
     
     ### USE LDA MODEL ###
     # Sample topic distribution
     #print("Test data: ", train_data[0])
     topic_dist = model.get_document_topics(vocabulary.doc2bow(convert_bow(filtered_bow)))
     print("Predicted topic distribution: ", topic_dist)
-    
-
-
-
-
