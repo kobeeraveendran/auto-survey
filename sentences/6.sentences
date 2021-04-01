@@ -1,0 +1,542 @@
+v o
+
+n g a
+
+h t a m v h t a m v
+i x r a moduli stacks of vector bundles on curves and the king schoeld rationality proof norbert homann introduction let c be a connected smooth projective curve of genus
+g over an gebraically closed eld consider the coarse moduli scheme bunr d resp
+bunr l of stable vector bundles on c with rank r and degree d z resp
+determinant isomorphic to the line bundle l on c
+
+motivated by work of tyurin and
+newstead it has been believed for a long time that bunr l is rational if r and the degree of l are coprime
+finally this conjecture was proved in by king and
+schoeld they deduce it from their following main result theorem
+king schoeld
+bunr d is birational to the product of an ane space an and where h be the highest common factor of r and
+the present text contains the complete proof of king and schoeld lated into the language of algebraic stacks
+following their strategy the moduli stack bunr d of rank r degree d vector bundles is shown to be birational to a grassmannian bundle over for some r then induction is used
+
+however this grassmannian bundle is in some sense twisted
+mainly for that reason king and schoeld need a stronger induction hypothesis than they add the condition that their birational map preserves a certain brauer class r on bunr
+one main advantage of the stack language here is that this extra condition is not needed the stack analogue of theorem is proved by a direct induction
+in more abstract terms this can be understood roughly as follows a brauer class corresponds to a gerbe with band gm
+but the gerbe on bunr sponding to r d is just the moduli stack bunr
+thus a rational map of coarse moduli schemes preserving this brauer class corresponds to a rational map of the moduli stacks
+this paper consists of four parts
+section contains the precise formulation of the stack analogue to theorem then the original results of king and schoeld are deduced
+section deals with grassmannian bundles over stacks mathematisches
+institut der universitat gottingen bunsenstr
+gottingen germany
+email because they are the main tool for the proof of theorem in section
+finally appendix a summarizes the basic properties of the moduli stack bunr d that we use
+in particular a proof of hirschowitz theorem about the tensor product of general vector bundles on c is given here following russo and teixidor
+the present article has grown out of a talk in the joint seminar of stuhler and tschinkel in gottingen
+i would like to thank them for the opportunity to speak and for encouraging me to write this text
+i would also like to thank heinloth for some valuable suggestions and for many useful discussions about these stacks
+the king schoeld theorem in stack form
+we denote by bunr d the moduli stack of vector bundles of rank r and degree
+d on our smooth projective curve c of genus g over k k
+this stack is algebraic in the sense of artin smooth of dimension over k and irreducible these properties are discussed in more detail in the appendix
+our main subject here is the birational type of bunr
+
+we will frequently use the notion of a rational map between algebraic stacks it is dened in the usual way as an equivalence class of morphisms dened on dense open substacks
+
+a birational map is a rational map that admits a two sided inverse
+m denition
+a rational map of algebraic stacks m tionally linear if it admits a factorization is m
+an m m into a birational map followed by the projection onto the rst factor
+now we can formulate the stack analogue of the king schoeld theorem its proof will be given in section
+theorem
+let h be the highest common factor of the rank r and
+the degree d
+there is a birationally linear map of stacks and an isomorphism between the picard schemes and such that the following diagram commutes bunr d bunr det det remark
+one can not expect an isomorphism of picard stacks here if were a commutative diagram of stacks then choosing a general vector bundle
+
+
+
+
+
+e of rank r and degree d would yield a commutative diagram of automorphism groups gm
+gm r h gm
+gm which is impossible for r remark
+in the theorem we can furthermore achieve that preserves scalar automorphisms in the following sense let e and e be vector bundles over c that correspond to a general point in bunr d and its image in
+then e and e are stable because we have assumed g and hence simple
+the rational map induces a morphism of algebraic groups e gm
+gm which is an isomorphism because is birationally linear
+thus e is either the identity or it is independent of e because bunr d is irreducible
+
+modifying by the automorphism e edual of if necessary we can achieve that e is the identity for every general
+clearly the map in the theorem restricts to a birationally linear map between the dense open substacks of stable vector bundles
+but any rational resp
+birational resp
+birationally linear map between these induces a rational resp
+birational resp
+birationally linear map between the corresponding coarse moduli schemes cf
+proposition in the appendix for details
+hence the original theorem of king and schoeld follows corollary king schoeld
+let bunr d be the coarse moduli scheme of stable vector bundles of rank r and degree d on then there is a birationally linear map of schemes bunr d
+of course this is just a reformulation of the theorem mentioned in the introduction
+remark
+as mentioned before king and schoeld also prove that the preserves their brauer class r
+this rational map bunr is equivalent to the condition that induces a rational map between the sponding gm gerbes a rational map bunr that preserves scalar automorphisms in the sense of remark
+
+
+we recall the consequences concerning the rationality of bunr because the diagram commutes restricts to a rational map between xed determinant moduli schemes thus one obtains
+
+
+corollary
+king schoeld
+let l be a line bundle on c and let bunr l be the coarse moduli scheme of stable vector bundles of rank r and determinant l on
+then there is a birationally linear map of schemes bunr l bunh o where h is the highest common factor of r and
+
+in particular bunr l is rational if the rank r and the degree are coprime this proves the conjecture mentioned in the introduction
+more erally it follows that bunr l is rational if bunh o is
+for h it seems to be still an open question whether bunh o is rational or not
+grassmannian bundles let v be a vector bundle over a dense open substack u bunr
+recall that a part of this datum is a functor from the groupoid to the groupoid of vector spaces over
+so for each appropriate vector bundle e over c we do not only get a vector space ve over k but also a group homomorphism
+autoc e
+note that both groups contain the scalars denition
+a vector bundle v over a dense open substack u bunr has weight w z if the diagram w autoc e commutes for all vector bundles e over c that are objects of the groupoid
+example
+the trivial vector bundle on over bunr has weight
+we denote by e univ the universal vector bundle over c bunr d and by e univ p its restriction to p bunr for some point
+example
+e univ e univ p p dual is a vector bundle of weight
+is a vector bundle of weight on bunr d and its dual for another example we x a vector bundle f over by semicontinuity there is an open substack u bunr d that parameterizes vector bundles e of rank r and degree d over c with e we assume u
+the vector spaces e are the bres of a vector bundle e univ over u according to grothendieck s theory of cohomology and base change in ega iii
+
+similarly there is a vector bundle univ f dened over an open stack of bunr whose bre over any point e with f is the vector space f
+
+
+
+
+
+example
+e univ is a vector bundle of weight and univ f is a vector bundle of weight
+note that any vector bundle of weight over an open substack u bunr contained in the stable locus descends to a vector bundle over the corresponding open subscheme u bunr d of the coarse moduli scheme cf proposition
+
+vector bundles of nonzero weight do not descend to the coarse moduli scheme
+proposition
+consider all vector bundles v of xed weight w over dense open substacks of a xed stack bunr assume that has minimal rank among them
+then every such v is generically isomorphic to v n for some proof
+the homomorphism bundles and v are vector dles of weight over dense open substacks of bunr
+hence they descend to vector bundles a and m over dense open subschemes of bunr d cf
+proposition
+
+the algebra structure on and its right action on v also descend they turn a into an azumaya algebra and m into a right module
+
+in particular the generic bre mk is a right module under the central simple algebra
+ak over the function eld k
+by our choice of there are no nontrivial idempotent elements in ak hence ak is a skew eld
+we have just constructed a functor v mk from the category in question to the category of nite dimensional right vector spaces over ak
+this functor is a morita equivalence its inverse is dened as follows given such a right vector space mk over ak we can extend it to a right
+a module m over a dense open subscheme of bunr d to a right
+module of weight over a dense open substack of bunr d we send mk to the vector bundle of weight w v m
+using this morita equivalence the proposition follows from the ing statement for right vector spaces over ak
+corollary
+there is a vector bundle of weight w resp
+w and rank h over a dense open substack of bunr proof
+because the case of weight w follows by dualizing the vector dles we only consider vector bundles of weight w
+here e univ is a vector bundle of rank r over bunr d and e univ is a vector bundle of rank
+g over a dense open substack if l is a suciently ample line bundle on consequently the rank of divides r and
+g d hence it also divides their highest common factor p to each vector bundle v over a dense open substack u bunr we can associate a grassmannian bundle u bunr by denition is the moduli stack of those vector bundles e over c which are parameterized by u endowed with a j dimensional vector subspace of ve
+is again a smooth artin stack locally of nite type over k and its canonical morphism to u is representable by grassmannian bundles of schemes
+
+if v is a vector bundle of some weight then all scalar automorphisms of e preserve all vector subspaces of ve
+this means that the automorphism groups of the groupoid also contain the scalars
+in particular it makes sense to say that a vector bundle over has weight w z there is an obvious way to generalize denition to this situation
+to give some examples we x a point p
+let parm r d be the moduli stack of rank r degree d vector bundles e over c endowed with a quasiparabolic structure of multiplicity m over recall that such a quasiparabolic structure is just a coherent subsheaf e e with the property that e e is isomorphic to the skyscraper sheaf om p
+example
+parm univ dual over bunr p r d is canonically isomorphic to the grassmannian bundle
+here we have regarded a quasiparabolic vector bundle e
+e e as the vector bundle e together with a dimension m quotient of the bre ep
+but we can also regard it as the vector bundle e together with a dimension m vector subspace in the bre at p of the twisted vector bundle
+choosing a trivialization of the line bundle oc p over p we can identify the bres of and e at p hence we also obtain r d is isomorphic to the grassmannian bundle univ
+example
+parm over bunr dm where e univ is the universal vector bundle over c bunr dm
+p these two grassmannian bundles bunr parm r d bunr dm form a correspondence between bunr d and bunr dm the hecke dence
+its eect on the determinant line bundles is given by det
+oc mp det for each parabolic vector bundle e
+e e with multiplicity m at
+proposition
+let v and w be two vector bundles of the same weight w over dense open substacks of bunr
+if j then there is a birationally linear map over bunr proof
+according to proposition there is a vector bundle w of weight w such that v w w over some dense open substack u bunr
+we may assume without loss of generality that u is contained in the stable locus and denote by u bunr d the corresponding open subscheme cf
+proposition
+
+
+we use the following simple fact from linear algebra if w and w are vector spaces over k with j then every j dimensional vector subspace of w w
+whose image s in w also has dimension j is the graph of a unique linear map s w
+this means that w contains as a dense open subscheme the total space of the vector bundle w over where suniv is the universal subbundle of the constant vector bundle w over
+in our stack situation these considerations imply that is birational to the total space of the vector bundle w over where suniv is the universal subbundle of the pullback of w over
+this denes the rational map
+the vector bundle w
+has weight because suniv and w both have weight
+since the scalars act trivially we can descend and this vector bundle over it to a grassmannian bundle over u and a vector bundle over it cf
+proposition
+in particular our homomorphism bundle is trivial over a dense open substack of
+this proves that is birationally linear
+corollary
+let v be a vector bundle of weight w over a dense open substack of bunr
+if j is divisible by then the grassmannian bundle is birationally linear
+bunr proof
+by corollary there is a vector bundle w of weight w and rank due to the proposition is birationally linear over bunr proof of theorem the aim of this section is to prove theorem to construct the birationally where h is the highest common factor of linear map bunr d the rank r and the degree
+
+we proceed by induction on r for r h the theorem is trivial tensoring with an appropriate line bundle with the required denes even an isomorphism of stacks bunr d properties
+thus we may assume r lemma
+there are unique integers rf and df that satisfy and r rf d rdf
+h
+
+proof
+has an integer solution rf df because h is also the highest common factor of r and d here rf is unique modulo r
+furthermore rf is nonzero modulo r h since rdf
+h has no solution
+hence precisely one of the solutions rf df of also satises
+we x rf df and dene hrf r hdf d
+
+
+then r and is a multiple of
+in particular r lemma
+there is an exact sequence f k v e where f e are vector bundles over c and v is a vector space over k with
+
+rf df r
+h such that the following two conditions are satised e and the induced map v e is bijective
+f and the induced map v dual f is injective
+proof
+we may assume h without loss of generality if there is such a sequence for r h and h instead of r and d then the direct sum of h copies is the required sequence for r and
+by our choice of rf and df and riemann roch all vector bundles f and e of these ranks and degrees satisfy e dimk e dimk e h
+if f and e are general then e
+k and e according to a theorem of hirschowitz section and there is a surjective map f e by an argument of russo and teixidor
+
+thus we obtain an exact sequence f e that satises condition i with v k
+for the convenience of the reader a proof of the cited results is given in the appendix cf theorem
+
+furthermore all vector bundles of the given ranks and degrees satisfy f e e e
+h
+because now we can argue as above for general and f we have
+f by hirschowitz and there is an injective map f with
+torsionfree cokernel by russo teixidor cf also theorem in the appendix
+thus we obtain an exact sequence that satises condition ii with v k
+
+finally we consider the moduli stack of all exact sequences of vector bundles with the given ranks and degrees
+as explained in the appendix cf
+corollary it is an irreducible algebraic stack locally of nite type over
+but i and ii are open conditions so there is a sequence that satises both
+from now on let f be a xed vector bundle of rank rf and degree df that occurs in such an exact sequence
+denition
+the rational map of stacks f bunr is dened by sending a general rank r degree d vector bundle e over c to the kernel of the natural evaluation map e e k f
+we check that this does dene a rational map
+let uf bunr d be the open substack that parameterizes all e for which e
+and e is surjective
+then the e are the restrictions of a surjective morphism univ of vector bundles over c uf
+so the kernel of univ is also a vector bundle it denes a morphism f
+uf
+this gives the required rational map because uf is nonempty by our choice of f
+for later use we record the eect of f on determinant line bundles det f e
+h
+
+following the next step is to understand the bres of f
+we denote by f the vector bundle over an open substack of whose bre univ over any point with f is the vector space f
+proposition
+bunr d is over naturally birational to the mannian bundle univ f
+proof
+if e is a rank r degree d vector bundle over c for which e and the above map e is surjective then the exact sequence e k f e satises the condition i of the previous lemma
+this identies the above open substack uf bunr d with the moduli stack of all exact sequences that satisfy similarly let u
+f univ f be the open substack that
+eterizes all pairs s f for which f
+and the natural map sdual k f is injective with torsionfree cokernel
+for such a pair s the exact sequence sdual k f satises the condition ii of the previous lemma
+this identies u moduli stack of all exact sequences that satisfy ii
+f with the hence both bunr d and univ f contain as an open substack the f of all exact sequences that satisfy both conditions i and ii
+
+f is nonempty by our choice of f so it is dense in both stacks thus they moduli stack u
+but u are birational over
+still following the proof of theorem can now be summarized in the following diagram it is explained below
+
+parh bunr
+
+j j j f j j here and are the birationally linear maps given by the induction
+esis
+is the hecke correspondence explained in the previous section note that is birationally linear by corollary
+univ p
+dual is the pullback of the vector bundle e univ
+the square in this diagram is cartesian so is the pullback of and w dual over to which is the associated grassmannian bundle
+using remark we may that w has the same assume that preserves scalar automorphisms weight as e univ
+dual
+then we can apply proposition to obtain the birationally linear map
+now we have the required birationally linear map p p bunr it satises the determinant condition in theorem due to equations and the corresponding induction hypothesis on
+a moduli stacks of sheaves on curves
+this section summarizes some well known basic properties of moduli stacks of vector bundles and more generally coherent sheaves on curves
+for the eral theory of algebraic stacks we refer the reader to or the appendix of
+
+we prove that the moduli stacks in question are algebraic smooth and irreducible
+then we discuss descent to the coarse moduli scheme
+finally we deduce hirschowitz theorem and a renement by russo and teixidor about morphisms between general vector bundles
+recall that we have xed an algebraically closed eld and a connected smooth projective curve c k of genus
+
+we say that a coherent sheaf f on c has type t r if its rank at the generic point of c equals r and its degree equals
+if f and f are coherent sheaves of types t r d and t
+r d on c then the euler characteristic f
+dimk f dimk f
+
+
+
+satises the riemann roch theorem f t with t rd note that f vanishes for all n since
+
+we denote by coht the moduli stack of coherent sheaves f of type t on more precisely is for each k scheme s the groupoid of all coherent sheaves on c s which are at over s and whose bre over every point of s has type now assume t
+we denote by the moduli stack of exact sequences of coherent sheaves on c f where fi has type ti ri for i
+this means that is for each k scheme s the groupoid of short exact sequences of coherent sheaves on c s which are at over s and brewise of the given types
+proposition
+the stacks coht and are algebraic in the sense of artin and locally of nite type over proof
+let be an ample line bundle on for n
+z we denote by
+cohn t
+coht resp
+
+the open substack that parameterizes coherent sheaves f on c resp exact sequences f of coherent sheaves on c such that the twist f n f is generated by global sections and n
+
+
+by grothendieck s theory of quot schemes there is a scheme quotn t of nite type over k that parameterizes such coherent sheaves f together with a basis of the k vector space n
+moreover there is a relative quot scheme of nite type over quotn t that parameterizes such exact sequences f together with a basis of n
+let n denote the dimension of n
+according to riemann roch n depends only on t n and the ample line bundle but not on f
+changing the chosen basis denes an action of on quotn t and cohn t is precisely the stack quotient quotn t
+similarly is precisely the stack quotient
+hence these two stacks are algebraic and of nite type over
+by the ampleness of the cohn t resp
+
+form an open ering of coht resp
+
+remark
+in general coht is not quasi compact because the family of all coherent sheaves on c of type t is not bounded
+proposition
+
+coht is smooth of dimension t over ii
+if we assign to each exact sequence f
+the two sheaves then the resulting morphism of algebraic stacks is smooth of relative dimension and all its bres are connected
+is smooth of dimension
+over proof
+i
+by standard deformation theory f is the automorphism group of any innitesimal deformation of the coherent sheaf f f classies such deformations and f contains the obstructions against
+
+because vanishes extending deformations innitesimally cf
+deformations of f are unobstructed and hence coht is smooth its dimension at f is then dim f dim f t
+
+
+the bre of this morphism over is the moduli stack of all tensions of by it is the stack quotient of the ane space modulo the trivial action of the algebraic group
+hence this bre is smooth of dimension and connected
+more generally consider a scheme s of nite type over k and a morphism s let and be the corresponding coherent sheaves over c by ega iii the object in the derived category of coherent sheaves on s can locally be represented by a complex of length one v where v v are vector bundles
+this means that the pullback of v to s is locally the stack quotient of the total space of v modulo the action of the algebraic group v given by
+hence this pullback is smooth over s this proves ii
+iii follows from i and ii
+proposition
+the stacks coht and are connected
+proof
+proposition implies that is connected if and are
+we prove the connectedness of the latter by induction on the rank and on the degree for rank zero
+coht is connected for t because there is a canonical surjection c
+coht it sends a point p to the skyscraper sheaf op
+now consider t with d and write t
+by induction hypothesis and is connected
+but there is a canonical surjection coht it sends an extension f to the sheaf f
+this shows that coht is also connected now we have proved all connectedness assertions in rank zero
+if f and f are two coherent sheaves on c of type t
+r d with r then there is a line bundle l on c such that both ldual f and ldual f have a generically nonzero section
+
+in other words there are injective morphisms
+l f and l f let tl be the type of l then f and f are both in the image of the canonical morphism tl coht
+but tl tl is connected by the induction hypothesis and
+this shows that any two points f and f lie in the same connected component of coht coht is connected
+corollary
+the stacks coht and are reduced and irreducible
+
+the moduli stack bunt of vector bundles the moduli stack sstabt of stable vector bundles and the moduli stack stabt of geometrically stable vector bundles on c of type t r d are open substacks stabt sstabt bunt coht
+hence these stacks are all irreducible and smooth of the same dimension t
+if they are nonempty
+stabt is known to be nonempty for g and r
+moreover sstabt and stabt are quasi compact and thus of nite type because the family of vector bundles of given type t is bounded
+proposition
+assume g
+let stabt bunt be the coarse moduli scheme of stable vector bundles of type t and let v be a vector bundle of some weight w z over an open substack u stabt
+
+
+u descends to an open subscheme u bunt
+descends to a twisted grassmannian scheme over
+if v has weight w then it descends to a vector bundle over
+more generally any vector bundle of weight over descends to a vector bundle over
+v any birationally linear map of stacks stabt tionally linear map of schemes bunt
+bunt
+
+stabt induces a proof
+we continue to use the notation introduced in the proof of proposition
+by boundedness there is an integer n such that stabt is contained in cohn is the stable locus
+here the center of acts trivially by geometric invariant theory
+quotstab is a principal over bunt
+t hence stabt quotstab where quotstab quotn t
+let u
+quotstab be the inverse image of
+then u is a
+open subscheme in the total space of this principal bundle and hence the inverse image of a unique open subscheme u bunt
+t t t t
+let v be the pullback of v to u it is a vector bundle with
+
+hence its grassmannian scheme u also carries an action of
+
+but here the center acts trivially i d acts as the scalar w on the bres of v and hence acts trivially on
+thus we obtain an action of on our grassmannian scheme over u
+since this action is free descends to a grassmannian bundle over u which may be twisted not
+zariski locally trivial
+the assumption w means that the scalars in act trivially on the bres of v
+hence acts on v over u here
+again since this action is free v descends to a vector bundle over
+here weight means that the scalars in act trivially on the pullback of the given vector bundle to
+hence acts on this pullback but it acts freely on the base so the vector bundle descends to
+v such a birationally linear map can be represented by an isomorphism
+u u between dense open substacks u
+stabt a
+and u stabt
+by
+i u corresponds to an open subscheme
+u bunt the proof of i shows that u is a coarse moduli scheme for the stack
+a straightforward generalization of this argument shows that u corresponds to an open subscheme u
+bunt a
+and that u is again a coarse moduli scheme for u
+by the universal property of coarse moduli schemes induces an isomorphism u u and thus the required birationally linear map of schemes
+theorem hirschowitz russo teixidor
+assume g
+let and be a general pair of vector bundles on c with given types and
+
+if then dim and
+
+
+if and resp
+resp
+then a injective injective resp
+general morphism is surjective resp
+
+with torsionfree cokernel
+proof
+the cases and are trivial so we may assume then
+
+
+by semicontinuity there is a dense open substack u
+
+of stable vector bundles with dim minimal say equal to
+according to riemann roch m part i of the theorem precisely claims that we have equality here
+f univ let univ be the vector bundle of rank m over u whose bre over is
+by generic atness cf
+ega iv there is a dense open substack v in the total space of univ such that the cokernel of the universal family of morphisms is at over
+then its image and kernel are also at over v we denote the types of cokernel image and kernel by rq dq t r d and tk
+rk dk
+f univ if r then the theorem clearly holds in this case the general morphism has generic rank zero so this means m
+together with this proves i and shows that the hypothesis of ii can not hold here
+henceforth we may thus assume r
+note that tk t and t
+tq moreover we have a canonical morphism of moduli stacks v tk coht t that sends a morphism to the extensions and
+conversely two extensions k i and j q together with an isomorphism
+i j determine a morphism
+thus is an isomorphism onto the open locus in ext coh ext where both extension sheaves are stable vector bundles and dim
+
+hence the stack dimensions coincide m
+tk
+t
+since is biadditive this is equivalent to m
+tq
+in particular tq follows
+now suppose that tk and tq were both nonzero
+since the general vector bundles and are stable we then have dk rk r dq rq
+using the assumption we get
+tq
+rkrq
+g dk rk dq rq g
+and hence tq
+this contradiction proves tk
+or tq
+in some sense this argument also covers the cases rk and rq
+more precisely rk implies tk
+because every rank zero coherent subsheaf of a vector bundle is trivial
+on the other hand rk and tq dq would imply tq
+rk dq which is again a contradiction
+in particular we get tq together with equation this proves part i of the theorem
+
+if resp
+then rk rq resp
+rk rq and hence rk rq resp
+rk we have just seen that this implies
+resp tk the general morphism is surjective resp injective
+
+furthermore the morphism of stacks v cohtq that sends a morphism to its cokernel is smooth due to the open embedding and proposition
+if then rq so buntq is open and dense in cohtq this implies that the inverse image of buntq is open and dense in v the general morphism has torsionfree cokernel
+references grothendieck
+elements algebrique ega
+inst
+hautes etudes sci
+publ
+math
+
+hirschowitz
+brill noether en rang
+
+
+huybrechts and lehn
+the geometry of moduli spaces of sheaves friedr
+vieweg sohn braunschweig
+king and schoeld
+rationality of moduli of vector bundles on curves
+indag
+math
+
+
+laumon and moret bailly
+champs algebriques
+springer verlag berlin
+mumford fogarty and kirwan
+geometric invariant theory
+
+springer verlag berlin
+newstead
+rationality of moduli spaces of stable bundles
+math
+
+ann
+newstead
+correction to rationality of moduli spaces of stable bundles
+math
+ann
+russo and teixidor i bigas
+on a conjecture of lange
+algebraic geom
+
+tyurin
+classication of vector bundles over an algebraic curve of arbitrary genus
+izv
+akad
+nauk sssr ser
+mat
+
+english translation amer
+math
+soc
+transl
+
+
+tyurin
+classication of n dimensional vector bundles over an braic curve of arbitrary genus
+izv
+akad
+nauk sssr ser
+mat
+english translation amer
+math
+soc
+transl
+
+vistoli
+intersection theory on algebraic stacks and on their moduli spaces
+invent
+math
+

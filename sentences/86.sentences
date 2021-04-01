@@ -1,0 +1,252 @@
+n
+a
+j o h
+
+h t a m v
+v i x r a richard dedekind
+style and influence stefan m uller stach abstract
+this text is based on an invited talk at the dedekind memorial conference at braunschweig in october
+it summarizes views from
+
+intro the monograph contains a commented edition of the two books stetigkeit und irrationale zahlen and was sind und was sollen die zahlen
+by richard dedekind
+both books were conceived much earlier the rst in the late s as a preparation for lectures in and the second in the as handwritten manuscripts in the gottingen archives show
+
+hilbert reported after discussing with other mathematicians about the hostile
+gegnerische reception of dedekind s book vorwort i m jahre machte ich als junger privatdozent von aus eine rundreise an die deutschen universitaten
+auf meiner sten station in berlin ich in allen mathematischen kreisen bei jung und alt von der damals erschienenen arbeit dedekinds was sind und was sollen die zahlen
+meist in nerischem sinne
+die abhandlung ist neben der untersuchung von frege der wichtigste erste tiefgreifende versuch einer begrundung der elementaren zahlenlehre
+at the time mathematicians had similar problems while digesting dedekind s equally inuential and innovative work on galois theory and algebraic number theory
+dedekind was so much ahead of his time in his research that some of his achievements reach without any necessary historical transformation into the century
+the editors of dedekind s collected works fricke noether ore conrmed this view in nachwort vol
+es ist ein zeichen wie dedekind seiner zeit voraus war da seine
+werke noch heute lebendig sind da sie vielleicht erst heute ganz lebendig geworden sind
+dedekind s style has many implications for the reception of his work as we will try to explain here
+
+character and style dedekind had a very close relationship with his whole family
+he lived with his mother and his sister julie in their family s home until julie s death in
+we imagine the siblings spending hours together reading and talking
+the family owned a weekend retreat in harzburg where they used to meet with other friends and went for hiking tours
+richard was close to the family of his brother adolf as well and supported them during a period of health problems of his nephew atta
+stefan m uller stach these strong ties made dedekind never leave his hometown braunschweig for other universities after he had returned from his rst position in
+
+dedekind had an impressive and unique style in his works and showed a generous character in his communication with colleagues
+he characterized his own matical style in the following way preface was beweisbar ist soll in der wissenschaft nicht ohne beweis geglaubt werden
+indem ich die arithmetik algebra analysis nur einen
+teil der
+logik nenne
+die zahlen sind freie schopfungen menschlichen geistes
+the second sentence shows that he considered himself being a logicist logicism was originated by frege as a program to reduce mathematics to logic
+dedekind s words sound quite dramatic in a way
+indeed the times in which he lived were times of major changes in science
+epple called the underlying phenomenon das ende der groenlehre
+the invention of set theory by cantor and dedekind was a scientic revolution comparable to the invention of riemannian manifolds or galois theory
+
+the occurence of the word schopfungen creations is remarkable
+there are three areas where dedekind employed this technique
+first in an unpublished manuscript die schopfung der null und der negativen ganzen zahlen from in which he constructs z and q from n using equivalence relations
+then in the book stetigkeit und irrationale zahlen where he invented dedekind cuts and nally in his creation of ideal numbers through ideals in number rings
+in all three cases new numbers are dened as sets
+divisibility and other concepts arise from set theoretic operations
+dedekind saw a step of abstraction in dening the new numbers as single objects therefore he used the phrase schopfung
+he defended this viewpoint in a letter to weber
+
+dedekind s mathematical style was characterized by other people as axiomatique formel et abstrait sinaceur and as built on traditions abstract und baki style scharlau
+similarities to the bourbaki group and eventually to
+grothendieck are quite important
+dedekind prefered to study mathematics in a more formal way by using mappings instead of element wise considerations and theoretical concepts instead of examples
+in this sense he was quite dierent from mathematicians of his time
+
+i would like to add that his style was very elegant always concise and well readable for a modern reader so also in this respect dedekind was far ahead of his time
+this modernness can also be expressed by saying that there is almost no historical transformation necessary in order to translate his ideas into our times
+dedekind published only relatively few papers after a rather long time of thinking
+he would probably hate the modern rapid publication style with its enormous output
+
+a programmatic document for dedekind s approach to mathematics is his able habilitationsvortrag from vol
+
+in it he describes rst some basics of scientic theories in general and then proceeds to set up his program for the creation of new objects and theories in mathematics
+
+some years later dedekind clearly distinguishes his own views from those of others in the preface of his book das erscheinen dieser abhandlungen
+von helmholtz und necker ist die veranlassung die mich bewogen hat nun auch mit richard dedekind
+style and influence meiner in mancher beziehung ahnlichen aber durch ihre dung doch wesentlich verschiedenen auassung hervorzutreten die ich mir seit vielen jahren und ohne jede beeinussung gebildet habe
+dedekind s personal style is present in his correspondence and relationships
+the letters to cantor and others show in their friendly and open way of sharing common knowledge many positive features of the personality of dedekind
+many letters to his family were published by ilse dedekind
+
+they prove that the older colleagues gau riemann and lejeune dirichlet were dedekind s vorbilder in gottingen
+
+in particular dedekind was close to dirichlet which eventually led to his edition of dirichlet s number theory lectures with the famous appendix the supplement on algebraic number theory
+dirichlet seems to have inuenced dedekind also in foundational matters in the way he prefered conceptual mathematics to examples sometimes called the second dirichlet principle and in the idea of reducing mathematics to the theory of natural numbers
+
+dedekind had a very strong and long lasting friendship with heinrich weber
+both collaborated during the dicult edition of riemann s collected works which is documented in their letters
+in joint work they developed the theory of function elds in one variable vol
+
+
+the relationship with kronecker a powerful gure in berlin must have been comfortable at least during later years
+kronecker in his lectures on number theory from and weyl in his book das kontinuum both explicitly cize dedekind s treatment of real numbers
+dedekind appears in retrospect as one of the opponents together with hilbert of dogmatic forms of intuitionism and constructivism in mathematics
+
+after cantor s unthoughtful publication of some common ideas about the ability of algebraic numbers without mentioning dedekind thus violating scientic standards boldly dedekind did not react anymore to cantor s letters for a certain period from on most likely because of this instance
+a letter from dedekind s nephew atta to julie from proves that this was a well known issue in the entire dedekind family
+in both met again but even after this as the letter to weber shows dedekind was not happy with cantor s attitude
+in a letter to hilbert from cantor avoided to mention any of this and only emphasized the problems about the existence of an innite set
+in summary the personalities of both were quite dierent and apparently sometimes incompatible
+
+axioms for n and recursion theory dedekind found appropriate axioms for the natural numbers n without calling them axioms and constructed models of n using some portion of his newly invented elementary set theory
+
+dedekind considered an innite set x together with
+an injective self map sor map
+s x x and a distinguished element
+
+we write x s for a triple with these properties
+a chain is a subset c x such that c is stable under s
+a chain containing is called simply innite if it is the chain of stefan m uller stach all successors of the intersection of all chains containing c chain c
+simply innite chains are determined uniquely by the triple x s
+for dedekind a model n for the natural numbers is a simply innite chain arising from a triple x s where the set x may be arbitrarily large
+let us denote the restriction of the map s to the simply innite set by n s
+dedekind thus obtained the following axiomatic characterization of the natural numbers dedekind axioms nr in dedekind
+
+the triple n s satises is not contained in the image of s is injective
+induction
+the set n is simply innite n c chain c
+
+the following equivalent version is used by most authors dedekind peano axioms
+the triple n s satises is not contained in the image of
+s is injective
+
+induction
+for any subset m n such that i m
+ii n m
+m one has m
+both descriptions above use quantication over subsets of n hence are lated using a second order logic framework
+of course dedekind did not know about model theory in the modern sense and the distinction between syntax and semantics was not common then but some of his remarks indicate that he took care to rule out possible non standard models with undesired properties once some axioms would be relaxed
+a posteriori assuming a rst order logic framework we know that many non standard models indeed exist
+
+the most important result in dedekind s book is the famous recursion theorem
+
+it implies the categoricity and semantical completeness of
+these two notions mean that all models of n are isomorphic and any statement which holds for one model holds for any other model too
+in modern form the recursion theorem states recursion theorem nr in dedekind
+let be a set together with a self map und
+then there is one richard dedekind
+style and influence and only one map n such that the diagram n n s commutes such that
+there are more general versions where the function depends on two variables and the rules are and
+
+
+even more generally we may look at recursion with additional auxiliary variables
+the recursion theorem in such a form was used in dedekind s book
+in in the proof of satz
+
+it leads naturally to the denition of new functions
+n by primitive recursion
+
+
+
+from given functions g general recursion theory alias the theory of computation needs one additional concept called the unbounded search operator in order to obtain all computable alias partial recursive functions
+
+the invention of recursion theory is often attributed to godel or skolem
+
+ever it was dedekind who rst brought the recursive thinking to its full power by proving the recursion theorem
+modern recursion theory owes to the work of church godel herbrand hilbert with ackermann bernays grzegorczyk kalmar kleene peter post skolem turing et al
+
+
+reception the reception of dedekind s work is partly a story of misunderstandings which had both positive and negative eects
+
+keferstein s critical but mathematically not well founded comments on the book led to a famous letter of dedekind which explains dedekind s tions and some ideas very well including the potential existence of non standard models of the natural numbers
+
+the wrong proof of satz in dedekind s book in which he claimed the existence of an innite set by refering to non mathematical objects thoughts was aected by the antinomies in set theory
+those eventually led to a crisis grundlagenkrise in the foundations of mathematics after
+dedekind also used the axiom of choice in his book
+in contrast to the case of frege we do not know in detail how dedekind thought and felt about the antinomies after his book was criticized on their basis
+the only witness for this is felix bernstein who remembered that dedekind told him that he had almost started to doubt the rationality of human thinking vol
+
+nowadays one postulates the existence of an innite set and much of the foundational crisis seems to be exaggerated in retrospect
+the antinomies had as an eect a lesser citation of dedekind s work for example by hilbert and others even though his work was
+
+
+stefan m uller stach
+in recent years dedekind silently incorporated in contemporary mathematics
+position in the foundations of mathematics is becoming readjusted again
+
+the beginnings of set theory were quite constructive with rather concrete sets
+
+there was no axiomatic method as in the later approach of zermelo who was a icated follower of dedekind and called the axiom of innity after him
+dedekind s letters with cantor had a strong inuence on the notions of cardinality and dimension in early set theory reaching as far as to brouwer s solution of the dimension problem for rn as conjectured by dedekind that there is no homeomorphism between rn and rm unless m
+there are also the letters to lipschitz from band in which dedekind explained very well and way before hilbert and peano the essence of the axiomatic method
+in addition he made clear that the axiom of continuity is not part of euklid s considerations but rather a property of the ground eld in question
+frege hilbert and peano used the axiomatic method in a more quent way sometimes even without any reference to concrete models in the case of hilbert s axioms for the real numbers
+in contrast dedekind required the set theoretic existence at the beginning of any new creation schopfung of a mathematical structure
+
+most surprising to me was skolem s rejection of dedekind s achievements in sion theory
+in in a response to a remark in a paper of curry skolem claimed to have discovered the recursive method in arithmetic in the year
+
+
+although skolem had indeed invented the primitiv recursive arithmetic a rst order fragment of dedekind peano arithmetic avoiding quantiers over innite sets of integers the recursive method of dedekind and others was certainly still a major building block of this theory
+hao wang was the rst to correct this cal misinterpretation by stressing the importance of the earlier work of dedekind peano and gramann
+as a pioneer for the introduction of rst order methods in mathematics skolem is however a very important gure
+
+influence in our times dedekind had a very strong inuence on the development of algebraic number theory through the famous supplement vol
+to dirichlet lectures on number theory in which he developed algebraic number theory from scratch using ideas of galois and kummer
+his presentation became a raw model for most number theory lectures and books to follow
+hilbert in his zahlbericht promoted dedekind s theory even more
+subsequent developments include class eld theory and later generalizations of the class number formula
+
+there is a remarkable analogy between algebraic number theory and the theory of function elds of one variable
+the latter was developed by dedekind and weber
+vol
+in as well as independently by kronecker in his festschrift for kummer
+dedekind wrote a small unpublished paper bunte gen on his readings of kronecker s work
+from a modern perspective both proaches are equivalent
+the unication of algebraic number theory and the theory of function elds which was intended by both parties reaches out into the century to grothendieck s marriage of algebraic and arithmetic geometry via his theory of schemes and stacks
+however history has seen a lot of rivalry between followers of dedekind and kronecker
+weil mentions such a partisan war in his icm address and strengthens the role of kronecker
+richard dedekind
+style and influence emmy noether adored dedekind
+this is apparent from her numerous comments in the collected works of dedekind and her famous sentence es steht alles schon bei dedekind as witnessed by her student van der waerden
+this shows that she must have been on dedekind s side in the partisan issue
+
+dedekind s book set the path for the axiomatic treatment of arithmetic nowadays called dedekind peano arithmetic
+recursion is also used in hilbert s tistic proof theory program as a metamathematical tool
+furthermore dedekind s recursion theorem is related to godel s two incompleteness theorems via the use of primitive recursive functions and via transnite or higher type versions to the consistency proofs for arithmetic of gentzen and godel hence to modern proof theory in general
+finally it aected of course the theory of computation as well as intuitionistic and constructive mathematics
+algebraic set theory lawvere is a prototype example for the inuence of dedekind on other mathematical foundations including category theory and higher type theory
+
+traces of dedekind s presence can also still be felt in the famous hilbert problems especially in nr
+continuum hypothesis nr consistency of arithmetic nr
+trancendence theory nr reciprocity laws nr
+
+diophantine equations quadratic forms nr generalized kronecker weber theorem and nr proof theory
+among the millenium problems of the clay foundation the problem p versus np is very close to recursion theory and the birch and swinnerton dyer conjecture to algebraic number theory
+
+finally the unpublished manuscript schopfung der null und der negativen ganzen zahlen may be viewed as being pointing to k theory and the theory of tives of grothendieck
+those theories are related to extensions of the class number formula of dirichlet and dedekind beilinson s conjectures and their variants and are vital areas of research in modern arithmetic and algebraic geometry
+the theory of automorphic l functions and the langlands program can be seen as a vast extension of dedekind s functions and the theory of modular forms
+references jean emmy noether hrsg
+briefwechsel cantor dedekind paris
+
+ilse dedekind
+unter glas und rahmen appelhans verlag braunschweig
+richard dedekind stetigkeit und irrationale zahlen
+auage vieweg verlag richard dedekind was sind und was sollen die zahlen
+auage vieweg verlag schweig
+erste auage
+schweig
+erste auage
+verlag braunschweig
+richard dedekind gesammelte werke fricke noether ore hrsg bande vieweg moritz epple
+das ende der groenlehre
+grundlagen der analysis kapitel in geschichte der analysis jahnke hrsg
+spektrum verlag heidelberg
+
+stefan muller stach hrsg richard dedekind stetigkeit und irrationale zahlen
+and was sind und was sollen die zahlen
+edition with commentaries klassische
+texte in der mathematik springer verlag
+katrin scheel der briefwechsel richard dedekind heinrich weber de gruyter verlag jens erik fenstad ed
+selected works in logic by thoralf skolem universitetsforlaget christian tapp hrsg richard dedekind brief an keferstein letter to keferstein see
+oslo
+
+institut fur mathematik staudingerweg johannes gutenberg universitat mainz mainz germany email
+

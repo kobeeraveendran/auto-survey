@@ -1,0 +1,1117 @@
+n u
+j a r
+
+h t a m v
+
+v
+i x r a chapter
+on deformations of n lie algebras abdenacer makhlouf abstract t he aim of this paper is to review the deformation theory of n lie algebras
+we summarize the parameter formal deformation theory and provide a generalized approach using any unital commutative associative algebra as a deformation base
+
+moreover we discuss degenerations and quantization of n lie algebras
+introduction
+the purpose of this paper is to provide a survey on deformations of n lie algebras
+
+deformation is one of the oldest techniques used by mathematicians and cists
+the rst instances of the so called deformation theory were given by kodaira and spencer for complex structures and by gerstenhaber for associative algebras
+abstract deformation theory and deformation functors in algebraic geometry were inspired and developed in the works of andre deligne goldman grothendick
+lusie laudal lichtenbaum milson quillen schlessinger and stasheff
+among concrete deformation theory developed by gerstenhaber for associative algebras and later with schack for bialgebras the lie algebras case was studied by huis and richardson and then by fialowski and her collaborators in a more general framework
+deformations of n ary algebras was considered in several papers
+
+formation theory is the study of a family in the neighborhood of a given element
+
+intuitively a deformation of a mathematical object is a family of the same kind of objects depending on some parameters
+the main and popular tool is the power series ring or more generally any commutative algebras
+by standard facts of formation theory the innitesimal deformations of an algebra of a given type are parametrized by a second cohomology of the algebra
+more generally it is stated universite haute alsace laboratoire de mathematiques informatique et applications mulhouse france e mail abdenacer makhlouf that deformations are controlled by a suitable cohomology
+deformations help to construct new objects starting from a given object and to infer some of its ties
+they can also be useful for classication problems
+a modern approach sentially due to quillen deligne drinfeld and kontsevich is that in characteristic zero every deformation problem is controlled by a differential graded lie algebra via solutions of maurer cartan equation modulo gauge equivalence
+some matical formulations of quantization are based on the algebra of observables and consist in replacing the classical algebra of observables typically complex valued smooth functions on a poisson manifold by a noncommutative one constructed by means of an algebraic formal deformations of the classical algebra
+in sevich solved a longstanding problem in mathematical physics that is every poisson manifold admits formal quantization which is canonical up to a certain equivalence
+
+deformation theory has been applied as a useful tool in the study of many other mathematical structures in lie theory quantum groups operads and so on
+even today it plays an important role in many developments of contemporary ics especially in representation theory
+
+the n ary algebraic structures which are natural generalizations of binary erations appeared naturally in various domains of theoretical and mathematical physics
+indeed theoretical physics progress of quantum mechanics and the
+ery of the nambu mechanics see as well as a work of okubo
+on
+yang baxter equation gave impulse to a signicant development on n ary algebras
+
+the n ary operations appeared rst through cubic matrices which were introduced in the nineteenth century by cayley
+the cubic matrices were considered again and generalized by kapranov gelfand zelevinskii in see and sokolov in see
+another recent motivation to study n ary operation comes for string theory and m branes where appeared naturally a so called bagger lambert bra algebra involving a ternary operation
+hundred of papers are dedicated to bagger lambert algebra
+for other physical applications see
+the rst conceptual generalization of binary algebras was the ternary algebras introduced by jacobson in connection with problems from jordan theory and quantum mechanics he dened the lie triple systems
+a lie triple system consists of a space of linear operators on vector space v that is closed under the ternary bracket y
+where yx
+equivalently the lie triple tem may be viewed as a subspace of the lie algebra closed relative to the ternary product
+a lie triple system arose also in the study of symmetric spaces
+more
+generally we distinguish two kinds of generalization of binary lie algebras
+firstly n ary lie algebras in which the jacobi identity is generalized by considering a cyclic summation over instead of see and secondly n ary nambu gebras in which the fundamental identity generalizes the fact that the adjoint maps are derivations
+the corresponding identity is called fundamental identity and it
+peared rst in nambu mechanics the abstract denition of n ary nambu bras or n lie algebras when the bracket is skew symmetric was given by fillipov in see and for the algebraic formulation of the nambu mechanics
+the leibniz n ary algebras were introduced and studied in
+
+on deformations of n lie algebras
+this article is organized as follows
+in the rst section we summarize the tions of n ary algebras of lie type and associative type and provide some classical examples
+moreover we discuss the representations of n lie algebras
+in the ond section we review homological algebra tools and dene the cohomology for n lie algebra that suits with deformation theory
+the third section is dedicated to one parameter formal deformations based on formal power series
+we also describe the case where the parameter no longer commutes with the original algebra
+in tion we present a more general approach based on any commutative associative algebra generalizing to n lie algebras the approach developed by fialowski and her collaborators for lie algebras
+section deals with algebraic varieties of n lie algebras and degenerations
+in the last section we discuss n lie poisson algebras and quantization
+denitions and examples of n lie algebras and other types of n ary algebras
+throughout this paper k is a eld of characteristic zero and n is a k vector space
+n lie algebras
+in this section we provide basics on n lie algebras which are also called filippov n ary algebras or nambu lie algebras
+denition
+an n lie algebra is a pair n consisting of a vector space n and an n linear map n n n satisfying xn and
+xs xs
+xn s sn and xn
+n where sn stands for the permutation group on n elements and denotes the signature of s
+we call condition
+nambu identity it is also called fundamental identity or filippov identity
+remark
+let n be an n lie algebra
+let
+
+n and y n
+let lx be a linear map on n dened by
+
+abdenacer makhlouf
+then the nambu identity maybe written xn
+
+
+n let n m and n n be two n ary operations m n n n n
+we dene a operation m n by m n xn m n xn
+n m xn n xi
+
+then an n ary operation m on a vector space n satises nambu identity if and only if m m
+morphisms of n lie algebras are dened as follows
+denition
+let n and n be two n lie algebras
+a linear map r n n is an n lie algebras morphism if it satises
+r i n example
+the polynomial algebra of variables with the bracket dened by the functional jacobian d d d d d
+d d
+d d d d d d
+
+
+
+
+
+
+
+is a lie algebra
+we have also this fundamental example example
+let v be the dimensional oriented euclidian space over the bracket of vectors is given by
+
+
+
+
+with respect to orthonormal basis
+
+
+
+
+
+
+
+
+where are the coordinates of er
+then v is a lie algebra
+remark
+every lie algebra on could be deduced from the previous example see
+
+on deformations of n lie algebras n ary algebras of associative type
+there are several possible generalizations of binary associative algebras
+a typical example is the ternary product of rectangular matrices introduced by hestenes dened for a b c mn m by where b is the conjugate transpose
+consider an n ary operation n n n or m n n
+
+the n ary operation is said to be symmetric resp
+skew symmetric if xs n
+xn s sn and xn n resp
+
+xs n xn s sn and xn n where denotes the signature of the permutation s sn
+it is said to be commutative if
+xs n xn
+
+n
+s sn remark
+a symmetric ternary operation is commutative
+we have the following type of associative ternary operations
+denition
+a totally associative n ary algebra is given by a k vector space n and an n ary operation m satisfying for all n
+i
+example
+let be a basis of a dimensional space n the ternary operation on n given by
+
+
+
+denes a totally associative ternary algebra
+denition
+a weak totally associative n ary algebra is given by a k vector space n and a ternary operation m satisfying for all n xn
+
+
+naturally any totally associative n ary algebra is a weak totally associative n ary algebra
+abdenacer makhlouf denition
+a partially associative n ary algebra is given by a k vector space n and an n ary operation m satisfying for all n xi
+example
+let be a basis of a dimensional space n the ternary operation on n given by
+denes a partially associative ternary algebra
+remark
+let n be a bilinear associative algebra
+then the n ary operation dened by
+xn determines on the vector space n a structure of totally associative n ary algebra which is not partially associative
+
+the category of totally resp partially n ary algebras is encoded by symmetric operad denoted resp
+the space on p ary non symmetric operations of is given by
+p
+otherwise
+if we put the degree k on the generating operation of then the non symmetric operads and are koszul dual to each other
+moreoever the koszulity can be proved by the rewriting method
+k
+there is another generalization of jacobi condition that leads to another type of n ary lie algebra
+denition
+an n ary lie algebras is a skew symmetric n ary operation on a k vector space n satisfying n the following generalized
+jacobi condition
+xs xs xs xn xs
+s as in the binary case there is a functor which makes correspondence to any partially associative n ary algebra an n ary lie algebra see
+proposition
+to any partially associative n ary algebra on a vector space n with n ary operation m one associates an n ary lie algebra on n dened xn
+n by the bracket xn
+s
+xs n
+sgn s sn representations of n lie algebras
+in this section we consider adjoint representations of n lie algebras and show that any n lie algebra can be represented by a leibniz algebra
+
+on deformations of n lie algebras denition
+a representation of an n lie algebra n on a vector space
+n is a skew symmetric multilinear map r satisfying for y n the identity r y r y r where
+is an endomorphism of n
+two representations r and r on n are equivalent if there exists n n an isomorphism of vector space such that y
+f where y r and y r for n and y n
+example
+let n be an n lie algebra
+the map ad dened in is a representation
+the identity is equivalent to nambu identity
+it is called adjoint representation
+leibniz algebras were introduced by loday
+a leibniz algebra is a pair a a consisting of a vector space a a bilinear map a a a satisfying for y a
+
+
+let n be an n lie algebras and be the set of elements
+that are skew symmetric in their arguments
+we denote by l n the space and call it the fundamental set
+let y n
+let l be a linear map dened as
+and extending it linearly to all elements of
+notice that
+
+we dene a bilinear map by lemma
+the map l satises
+
+y yi
+z z for all y l n
+n
+proposition
+the pair l n is a leibniz algebra
+proof
+straightforward verication see
+
+we obtain a similar result if we consider the space t n instead of l n
+
+abdenacer makhlouf central extensions
+we racall some basics about extensions of n lie algebras
+denition
+let a b c be three n lie algebras n
+an extension of b by a is a short sequence l c m b a such that l i m l ker m
+we say also that c is an extension of b by is an injective homomorphism m is a surjective homomorphism and denition
+let a b be two n lie algebras and a by l c m b be an extension of b
+the extension is said to be trivial if there exists an ideal i of c such that c ker m
+it is said to be central if ker m
+we may equivalently dene central extensions by a dimensional algebra we will simply call it central extension this way denition
+let n be an n lie algebra
+we call central extension of n the space
+n
+
+kc equipped with the bracket
+xn w xn c and xn n where w identity or jacobi identity for n
+is a skew symmetric n linear form such that c satises the nambu proposition
+
+the bracket of a central extension satises the nambu identity if and only if w is a cocycle for the scalar cohomology of n lie algebras
+
+two central extensions of an n lie algebra a given by two maps w and w are isomorphic if and only if w w is a coboundary for the scalar cohomology of n lie algebras
+deformation cohomology of n lie algebras the basic concepts of homological algebra are those of a complex and phisms of complexes dening the category of complexes see for example
+
+a chain complex is a sequence c of abelian groups or more ally objects of an abelian category and an indexed set d of phisms
+d cp such that d d for all a chain complex can be considered as a cochain complex by reversing the enumeration c cp and on deformations of n lie algebras d d p
+a cochain complex c is a sequence of abelian groups and with the property d d for all
+the phisms homomorphisms d p are called coboundary operators or codifferentials
+a ogy of a cochain complex c is given by the groups h
+kerd p imd
+c
+d c p d the elements of c p are p cochains the elements of z p
+kerd p are p cocycles the elements of bp
+imd are p coboundaries
+because d for all we have
+bp z p c p for all
+
+the pth cohomology group is the quotient
+h p
+z p bp
+the cohomology of n lie algebras is induced by the cohomology of leibniz algebras
+let n be an n lie algebra and the pair l n
+
+n
+be the leibniz algebra associated to n where the bracket is dened in
+theorem
+let n be an n lie algebra
+
+let c n n n n for p be the cochains set and d
+c n c n l n be the linear map dened for p by
+dj j xi and for p by dj
+
+j xi
+where a j j for n lie algebras such that d d d d
+j
+then there exists a cohomology complex c n
+the coboundary map d c n c n is dened for j c n by ap z ai a ai a j z ai z y ap b
+where y
+ai
+y ap y ap xi for element ai l n n
+
+in particular for p we get the set of cocycles j
+
+
+
+
+abdenacer makhlouf n n n n satisfying where for and
+y y xi
+y y z y z
+y xi
+for p y n n and xn
+
+n n we have
+xn xn y xn n notice that a linear map y n n such that is a cocycle and it corresponds to a derivation of the n lie algebra
+the set of coboundaries is dened as n
+n n n j n n such that
+
+hence the second cohomology group which plays an important role in deformation theory is dened as n n n
+formal deformation of n lie algebras
+in this section we study one parameter formal deformations of n lie algebras
+this approach were introduced by gerstenhaber for associative and by nijenhuis and richardson for lie
+since then the approach were extended to many other algebraic structures
+the main results connect formal deformation to cohomology groups
+the noncommutative case was studied by pincson
+
+one parameter formal deformation of n lie algebras let be the power series ring in one variable t and coefcients in k and n be the set of formal series whose coefcients are elements of the vector space n
+n is obtained by extending the coefcients domain of n from k to
+
+given a k n linear map j n
+n n it admits naturally an extension
+
+on deformations of n lie algebras to a linear map j n
+n
+n that is if xi
+a j
+i t j i n then j xn
+
+jnj a a n
+
+denition
+let n be an n lie algebra
+a one parameter formal mation of the n lie algebra n is given by a linear map n
+n
+n of the form t
+ti
+i where each i is a skew symmetric n linear map i n
+n n extended to a linear map and
+
+such that for xn
+
+the deformation is said to be of order if t ti i and mal if
+
+the condition may be written for l n and by setting z
+lt
+
+lt lt y z lt where lt assume that the deformation is innitesimal and set y
+then eq
+is equivalent to y y
+y yi yi
+n n
+y this identity may be viewed as the cocycle condition d dened in
+more generally let n m and n n be two n ary operations m n n n n
+we dene a operation m n by
+
+
+abdenacer makhlouf m n xn m n xn
+m xn n xi
+then an n ary operation m on a vector space n satises nambu identity if and only if m m
+
+therefore the nambu identity is equivalent to an innite system called deformation equation i ki
+for an arbitrary k the kth equation of the previous system may be written k i ki
+assume that a deformation of order m satises the deformation equation
+the cated deformation is extended to a deformation of order m if m i mi
+the right hand side of this equation is called the obstruction to nd
+m
+tending the deformation
+
+it turns out that the obstruction is a cocycle
+then if n n it lows that all obstructions vanish and every m n n is integrable
+
+in the following we characterize equivalent and trivial deformations
+denition
+let n be an n lie algebra
+given two deformations nt
+n t and n ti i t of n where t t n
+t
+ti
+and
+
+we say that nt and t are equivalent if there exists a formal automorphism f t n n
+
+that iti where i and i d such that n may be written in the form t i with
+
+
+f t
+t t xn t
+
+a deformation nt of n is said to be trivial if nt is equivalent to n viewed as an n ary algebra on n
+
+let n be an n lie algebra and n
+the cocycle is said to be integrable if there exists a family
+
+
+
+
+
+on deformations of n lie algebras
+such that t
+n
+ti
+denes a formal deformation nt
+n t of theorem
+let n be an n lie algebra and n
+where t ti i be a one parameter formal deformation
+
+the rst term is a cocycle that is n
+
+
+there exists an equivalent deformation n
+i such that n and
+moreover if n then every one parameter formal deformation is ial
+t where t
+n n
+ti
+t
+the proof is similar to the case n
+
+noncommutative one parameter formal deformations in previous formal deformation theory the parameter commutes with the original algebra
+motivated by some nonclassical deformation appearing in quantization of nambu mechanics pinczon introduced a deformation called noncommutative formation where the parameter no longer commutes with the original algebra
+he developed also the associated cohomology
+let n be a k vector space and s be an endomorphism of n
+we give n a structure dened for every ap a l q k by apt p l qtq l qapt p l apt l qs
+p denition
+a s of an n ary algebra n is a k algebra structure on n
+which is compatible with the previous structure and such that n a
+a generalization of these deformations was proposed by nadaud where he considered deformations based on two commuting endomorphisms s and t
+the structure on n is dened for a n by the formulas a s
+and a t t a t being the right action of t on a
+the remarquable difference with commutative deformation is that the weyl gebra of differential operators with polynomial coefcients over r is rigid for mutative deformations but has a nontrivial noncommutative deformation it is given by the enveloping algebra of the lie algebra
+
+
+abdenacer makhlouf global deformations this approach follows from a general fact in schlessinger s works and was veloped by fialowski and her collaborators for different kind of algebras lie algebra leibniz algebras
+
+
+in the sequel we extend this proach to n lie algebras
+let b be a commutative algebra over a eld k of teristic and an augmentation morphism e
+a k a k algebra homomorphism e
+we set me me is a maximal ideal of a maximal ideal m of b such that a k denes naturally an augmentation
+we call b m base of deformation
+denition
+a global deformation of base b m of an n lie algebra n is a structure of b algebra on the tensor product b k n n with a bracket b such that e i d b n k n n is an n ary algebra homomorphism
+a b and x y a
+an an
+the bracket b satises nambu identity
+
+
+i d xn blinearity
+every formal deformation of an n lie algebra n in gerstenhaber sense is a global deformation with a basis b m where b and m
+remark
+condition shows that to describe a global deformation it is enough to know the brackets where xn
+n
+the conditions and show that we have an n lie algebra and the last condition insures the compatibility with the augmentation
+we deduce xn a i zi with a i m zi n
+i
+a global deformation is called trivial if the structure of n ary b algebra on bk n satises xn
+two deformations of an n lie algebra with the same base are called equivalent or isomorphic if there exists an algebra isomorphism between the two copies of b k n compatible with e i a global deformation with base b m is called local if b is a local k with a unique maximal ideal if in addition the deformation is called innitesimal
+
+
+let b be another commutative algebra over k with augmentation e
+b k and f
+b b an algebra homomorphism such that f and e f e
+
+if a deformation m b with a base b of a is given we call push out b f b a deformation of a with a base b with the following algebra structure on b a b b a b
+b a a b a n b an
+a a n an on deformations of n lie algebras a with a with the structure af
+suppose that b b a
+the algebra b is viewed as a b module xn a i zi with a i m zi n
+then m xn f a zi i i with a i m zi n
+
+one may address the problem of nding for a xed algebra particular tions which induces all the others in the space of all deformations moduli space or in a xed category of deformations
+the problem of constructing universal or versal deformations of lie algebras was considered for the categories of deformations over innitesimal local algebras and complete local algebras see
+
+they show that if we consider the innitesimal deformations the deformations over local algebras b such that b where mb is the maximal ideal then there ists a universal deformation the morphism between base algebras is unique
+if we consider the category of complete local rings then there does not exist a universal deformation but only versal deformation there is no unicity for the morphism
+let b be a complete local algebra over k so b limit where m is the maximal ideal of b and we assume that b m a formal global deformation of n with base b m is an algebra structure on limn b mn
+n such that e i d the completed tensor product b n n k n
+n is an algebra homomorphism
+
+the formal global deformation of n with base are the same as b limn b mn inductive formal one parameter deformation of gerstenhaber
+the algebraic varieties l ien m and degenerations let n be an m dimensional vector space over k and em be a basis of n
+an n linear bracket can be dened by specifying the structure constants
+ck in k where eim ck in ek
+m
+the nambu identity and skew symmetry limits the sets of structure constants
+ck
+it is ated by the polynomial relations to a subvariety of which we denote by l ien in m ck jncs
+ck jrcs n m s abdenacer makhlouf
+therefore l ien m carries a structure of algebraic variety which is quadratic non regular and in general non reduced
+the natural action of the group
+
+
+sponds to the change of basis two n lie algebras n and n are isomorphic if there exists in such that that is xn
+n
+the orbit of an n lie algebra n denoted by j is the set of all its isomorphic n lie algebras
+in a point in l ien m is dened by m n parameters which are the structure constants ck satisfying
+the orbits are in correspondence with the isomorphism classes of m dimensional n lie algebras
+the stabilizer group of stab glm k
+is aut the automorphism group of
+the orbit j is identied with the homogeneous space glm k
+
+then dim j
+dimaut
+the orbit j is provided when k c a complex eld with the structure of a differentiable manifold
+in fact j is the image through the action of the lie group glm k of the point considered as a point of hom n n n
+the m at the point corresponds to n and the zariski tangent space to l ien tangent space to the orbit corresponds to n
+the rst approach to study varieties l ien m is to establish classications of n lie algebras up to isomorphisms for a xed dimension
+classication of n lie algebras of dimension less than or equal to is known see
+we have the following results
+theorem
+any n lie algebra n of dimension less than or equal to n is isomorphic to one of the following n ary algebras omitted brackets are either obtained by skew symmetry or
+if n then a is abelian
+
+
+if dimn n then we have cases a is abelian
+
+
+en
+a is abelian
+
+
+
+en
+
+if dimn n then we have the following cases
+
+on deformations of n lie algebras an a c d
+
+
+aen en cen with c invertible matrix
+two such algebras dened by matrices and are
+phic if and only if there exists a scalar a and an invertible matrix b such that a
+
+ei en aiei for
+i r r dim n ai
+ei en aiei for i n which is simple
+
+theorem
+let k be an algebraically closed eld
+any n b n lie algebra n is isomorphic to one of the n ary algebras listed below where n denotes
+n n
+if dimn then n is abelian
+
+
+if dimn let n then we have n
+
+n
+en
+
+if dimn let n then we have
+
+
+
+
+
+
+a
+
+a
+
+
+where a k
+if dimn let n then we have
+
+
+a
+k
+
+
+
+
+
+
+
+
+
+and
+lie algebras corresponding to this case with coefcients s t u and u are isomorphic if and only if there exists a non zero element r k such that s
+if dimn r with r n let eri then we have abdenacer makhlouf
+
+ei er
+
+ei
+er
+the second approach to study the algebraic variety l ien m is to describe its ducible components
+this problem was considered for binary lie algebras of small dimensions but it is still open for n lie algebras
+the main approach uses formal deformations and degenerations
+a degeneration notion is a sort of dual notion of a deformation
+it appeared rst in physics literature inonu and wigner
+
+
+degeneration is also called specialisation or contraction
+we provide rst the metric denition of a degeneration using zariski topology
+
+denition
+let
+n and
+n be two m dimensional n lie algebras
+we said that is a degeneration of if belongs to the closure of the orbit of in l ien m j
+
+therefore and are in the same irreducible component
+a characterization of degeneration for lie algebras in the global deformations viewpoint was given by grunewald and ohalloran in
+it generalizes naturally to n lie as follows
+
+theorem
+let and be two m dimensional n lie algebras over k with brackets and
+the n lie algebra is a degeneration of if
+and only if there is a discrete valuation k algebra b with residue eld k whose quotient eld k is nitely generated over k of transcendence degree one one rameter and there is an m dimensional n lie algebra
+b over b such that b k k and b k
+
+we call such a degeneration a global degeneration
+a formal degeneration is dened as follows
+denition
+let
+n be an m dimensional n lie algebra
+let t be a parameter in k and ft be a continuous family of invertible linear maps on
+n over the limit when it exists of a sequence ft ft is a mal degeneration of in the sense that is in the zariski closure of the set ft
+
+the bracket is given by xn
+n lim t ft ft
+we have the following observations
+
+the bracket t t when t tends to the condition remains satised
+ft ft satises nambu identity
+thus
+the linear map ft is invertible when t and may be singular when t
+then we may obtain by degeneration a new n lie algebra
+
+on deformations of n lie algebras
+the denition of formal degeneration may be extended naturally to innite mensional case
+
+when k is the complex eld the multiplication given by the limit follows from a limit of the structure constants using the metric topology
+in fact corresponds to a change of basis when t
+when t they give eventually a new point in l ien
+if ft is dened by a power serie the images of ft n are in general in the laurent
+but when the degeneration exists it lies in the t power series ring n power series ring n
+
+
+every formal degeneration is a global degeneration
+
+remark
+rigid n lie algebras will have a special interest an open orbit of a given n lie algebra is dense in the irreducible component in which it lies
+then its zariski closure determines an irreducible component of l ien m all n lie algebras in this irreducible component are degenerations of the rigid n lie algebra and there is no n lie algebra which degenerates to the rigid n lie algebra
+two non isomorphic rigid n lie algebras correspond to different irreducible components
+so the number of rigid n lie algebra classes gives a lower bound of the number of irreducible components of l ien note that not all irreducible components are zariski closure of open orbits
+n lie poisson algebras and quantization n lie poisson algebras
+we introduce the notion of n lie poisson algebra
+denition
+an n lie poisson algebra is a triple n m consisting of a k vector space n a bilinear map m n n n and an n ary bracket such that
+n m is a binary commutative associative algebra
+n is a n lie algebra
+the following leibniz rule m xn m xn m xn holds for all
+n
+a morphism of n lie poisson algebras is a linear map that is a morphism of the underlying n lie algebras and associative algebras
+example
+let c be the algebra of c functions on and the dinates on
+we dene the ternary brackets as in then c is a ternary lie algebra
+in addition the bracket satises the leibniz rule g abdenacer makhlouf g where g c and the multiplication being the pointwise multiplication that is f
+
+therefore the algebra is a lie poisson algebra
+
+this algebra was considered already in by nambu
+as a possibility of tending the poisson bracket of standard hamiltonian mechanics to bracket of three functions dened by the jacobian
+clearly the nambu bracket may be generalized further to an n lie poisson allowing for an arbitrary number of entries
+quantization of nambu mechanics the quantization problem of nambu mechanics was investigated by dito flato sternheimer and takhtajan see also
+let m be an m dimensional c
+and a be the algebra of smooth real valued functions on
+assume that a carries a structure of n lie poisson structure where the tative associative multiplication is the pointwise multiplication
+the skew symmetry of the nambu bracket and the leibniz identity imply that there exists an n vector eld h on m such that fn h fn fn a
+
+an n vector eld is called a nambu tensor if its associated nambu bracket dened by satises the nambu identity
+denition
+a nambu poisson manifold m h is a manifold m on which is ned a nambu tensor h
+then m is said to be endowed with a nambu poisson structure
+the dynamics associated with a nambu bracket on m is specied by n tonians
+a and the time evolution of f a is given by d dt
+then a is called an integral of motion for the system dened by if it satises
+poisson manifolds it follows from the nambu identity that a poisson like theorem exists for theorem
+the nambu bracket of n integrals of motion is also an integral of tion
+
+it turns out that a direct application of deformation quantization to
+son structures is not possible a solution to the quantization problem was presented in the approach of zariski quantization of elds observables functions in this case on deformations of n lie algebras polynomials
+instead of looking at the deformed nambu bracket as some symmetrized form of an n linear product the nambu bracket is deformed directly
+
+in the case of previous example the usual jacobian bracket is replaced by any n ary bracket having the preceding properties we get a modied jacobian which is still a nambu bracket
+that is to say the modied jacobian is symmetric it satises the leibniz rule with respect to the new bracket and the nambu identity is veried
+the deformed bracket is given by
+s e s
+xs
+xs xs where is the permutation group of and e s is the signature
+in this approach the whole problem of quantizing nambu poisson structure reduces to the construction of the deformed product
+a non trivial abelian deformation of the algebra of polynomials on rm does nt exist because of the vanishing of the ond harrison cohomology group
+nevertheless it is possible to construct an abelian associative deformation of the usual pointwise product of the following form b g t g where maps a real polynomial on to the symmetric algebra constructed over the polynomials on
+a
+t is an evaluation map which allows to go back to deformed polynomials t a
+it replaces the symmetric tensor product by a symmetrized form of a partial moyal product on moyal product on a hyperplane in with deformation rameter t
+the extension of the map to deformed polynomials by requiring that it annihilates non zero powers of t will give rise to an abelian deformation of the usual product t restores a t dependence
+in general does not dene an associative product and we look for a b which makes the product b associative
+
+ternary virasoro witt algebras curtright fairlie and zachos provided the following ternary q virasoro witt bras constructed through the use of enveloping algebra techniques
+denition
+the ternary algebras dened on the linear space vw generated by qn and the skewsymmetric ternary brackets qk qm qn
+k
+qk qm rn k
+qk rm rn n
+rk rm rn
+abdenacer makhlouf is called ternary virasoro witt algebras
+
+actually the previous ternary algebra is a ternary nambu lie algebra only in the cases z
+
+larsson showed in that the above ternary virasoro witt algebras can be constructed by applying to the virasoro representation acting scalar densities primary elds the ternary commutator bracket y z z y
+z y where the dot denotes the associative multiplication and the binary commutator bracket of its corresponding lie algebra
+he considered the operators
+em emx
+lm l m
+sm l dx which lead to the binary commutators
+lm n em lm
+therefore one obtains the ternary brackets
+lk lm l l
+lk lm m
+lk em m
+ek em en the brackets involving s s are not needed to recover the ternary virasoro witt bras
+the brackets are obtained by taking lm l
+qk em l l p p
+naturally these ternary algebras are lie algebras only for l
+
+p l l
+remark
+one may notice that the ternary commutator does not lead matically to ternary nambu lie algebra when starting from an associative algebra and the corresponding lie algebra given by the binary commutators
+see and
+for triple commutator leading to lie algebras and ternary hom nambu lie algebras
+more general construction of n algebras induced by n lie algebras was studied in on deformations of n lie algebras references
+abramov le roy and kerner
+hypersymmetry a graded generalization of persymmetry journ
+in math
+phys
+
+ammar makhlouf and silvestrov ternary q virasoro witt hom nambu lie algebras journal of physics a mathematical and theoretical
+
+ammar mabrouk makhlouf representations and cohomology of n ary multiplicative hom nambu lie algebras geom
+physics no
+
+arnlind makhlouf silvestrov ternary hom nambu lie algebras induced by lie algebras math
+phys pp
+
+
+arnlind makhlouf silvestrov construction of n lie algebras and ary hom lie algebras
+math
+phys
+no pp
+
+ataguema and makhlouf deformations of ternary algebras lie theory and app
+
+
+ataguema and makhlouf notes on cohomologies of ternary algebras of associative type journal of generalized lie theory and applications no
+
+
+ataguema makhlouf and silvestrov generalization of n ary nambu algebras and beyond journal of mathematical physics no
+
+awata li minic and yoneya t
+on the quantization of nambu brackets arxiv
+
+
+bai song zhang
+on classication of n lie algebras front
+math
+china
+
+
+bagger and lambert gauge symmetry and supersymmetry of multiple branes
+bazunova borowiec and kerner universal differential calculus on ternary algebras lett
+math
+phys
+
+bremmer and peresi ternary analogues of lie and malcev algebras linear algebra and its applications
+
+bordemann makhlouf et
+petit
+deformation par quantication et rigidite des enveloppantes algebra no
+
+
+carles rigidite dans la variete crasc paris t pp
+
+
+curtright zachos branes strings and odd quantum nambu brackets
+quantum theory and symmetries world sci
+publ hackensack nj
+
+zachos curtright branes quantum nambu brackets and the hydrogen atom
+vak phys
+no
+
+
+curtright zachos nambu dynamics deformation quantization and bility
+superintegrability in classical and quantum systems crm proc
+lecture notes amer
+math
+soc
+providence ri
+
+borowiec
+a dudek a and duplij
+basic concepts of ternary hopf algebras journal of kharkov national university ser
+nuclei particles and fields n
+
+carlsson n ary algebras nagoya math
+
+
+carlsson cohomology of associative triple systems proc
+amer
+math
+soc
+
+
+
+cassas loday and pirashvili leibniz n algebras forum math
+
+
+
+de azcarraga izquierdo and perez bueno on the higher order tions of poisson structures phys
+a math
+
+
+de azcarraga perelomov m and perez bueno the schouten nijenhuis bracket cohomology and generalized poisson structures arxiv hep
+
+de azcarraga and perez bueno multibracket simple lie algebras
+in physical applications and mathematical aspects of geometry groups and algebra vol i pp
+
+world sci
+
+
+de azcarraga izquierdo n ary algebras a review with applications journal of physics a mathematical and theoretical
+doi
+
+abdenacer makhlouf
+dito flato sternheimer and takhtajan deformation quantization and nambu mechanics commun
+math
+phys
+
+fialowski deformation of lie algebras math ussr sbornik vol
+n pp
+fialowski
+an example of formal deformations of lie algebras in deformation theory of algebras and structures and applications ed
+hazewinkel and gerstenhaber nato adv
+sci
+inst
+serie c kluwer acad
+publ
+
+
+fialowski and ohalloran a comparison of deformations and orbit closure comm
+in
+fialowski and post versal deformations of lie algebra algebra n
+fialowski and fuchs construction of miniversal deformations of lie algebras algebra
+
+funct
+anal n
+
+fialowski and schlichenmaier global deformation of the witt algebra of novikov type
+comm
+math
+phys
+no
+fialowski mukherjee naolekar versal deformation theory of algebras over a quadratic operad
+homology homotopy appl
+no
+dito flato sternheimer nambu mechanics n ary operations and their quantization in deformation theory and symplectic geometry mathematical physics studies vol kluwer acad
+publ
+
+
+dito flato sternheimer takhtajan quantization and nambu chanics commun
+math
+phys
+
+
+filippov n ary lie algebras sibirskii math
+russian
+
+
+gautheron some remarks concerning nambu mechanics letters in mathematical physics
+
+
+gautheron simple facts concerning nambu algebras
+gerstenhaber
+on the deformations of rings and algebras ann of math
+gerstenhaber and schack
+relative hochschild cohomology rigid algebras and the bockstein of pure and applied algebras
+
+gerstenhaber and schack bialgebras quantum groups and algebraic mations contemporary mathematics vol
+ams
+
+gerstenhaber and giaquinto compatible deformation contemporary mathematics vol
+ams
+
+
+gnedbaye les k aires et leurs operades acad
+sci
+paris
+serie i
+gnedbaye operades leibniz triples de jordan memoire de pour lhabilitation a diriger recherches preprint irma strasbourg
+
+goze
+n and remm
+dimension theorem for free ternary partially associative algebras and applications
+journal of algebra
+
+goze goze remm n lie algebras
+afr
+math
+phys no
+
+
+goze
+n and rausch de traubenberg hopf algebras for ternary algebras math
+phys no
+
+grabowski and marmo remarks on nambu poisson and nambu jacobi brackets phys
+a
+mah
+
+
+grabowski abstract jacobi and poisson structures geom
+phys
+
+
+
+grunewald and ohalloran a characterization of orbit closure and applications journal of algebra
+
+hanlon ph and wachs on lie algebras adv
+math
+
+
+
+harris
+b cohomology of lie triple systems and lie algebras with involution trans
+amer
+
+hestenes on ternary algebras scripta math
+no
+
+
+
+hu witt algebras q lie algebras q holomorph structure and representations algebra math
+soc
+colloq
+no
+
+on deformations of n lie algebras
+ibanez de leon marrero and martin de diego dynamics of generalized poisson and nambu poisson brackets math
+phys
+
+
+inonu and wigner on the contraction of groups and their representations proc
+nat
+
+acad
+sci
+
+jacobson
+lie and jordan triple systems amer
+math
+
+
+
+
+kapranov gelfand and zelevinskii discriminants resultants and sional determinants berlin birkhauser
+
+kasymov sh
+on a theory of n lie algebras
+algebra and logic
+katsylo and mikhailov ternary quartics and dimensional commutative algebras arxiv alg
+
+kerner ternary algebraic structures and their applications in physics in the proc
+btlp
+international colloquium on group theoretical methods in physics arxiv math
+
+kerner graded algebras and non commutative gauge theories dans spinors twistors clifford algebras and quantum deformations eds
+oziewicz jancewicz borowiec pp
+kluwer academic publishers
+
+kerner
+grading and ternary algebraic structures dans les proceedings du workshop new symmetries and differential geometry clausthal dobrev doebner and ushveridze eds pp
+world scientic
+
+kerner
+the cubic chessboard geometry and physics classical quantum gravity pp
+
+
+
+kerner
+graded ternary algebras new gauge theories and quarks dans proceedings du workshop topics in quantum field theory maynooth tchrakian ed
+world scientic
+
+kerner
+and vainerman on special classes of n algebras journ
+in math
+phys
+
+kerner
+generalized cohomologies and differentials of higher order proceedings conference dgmtp de tianjin
+eds
+ge wang world scientic
+
+
+kurosh
+g multioperator rings and algebras russ math surv
+
+
+larsson virasoro algebra from scalar densities
+
+
+lister ternary rings trans
+amer
+math
+soc
+
+
+
+loday j l and vallette algebraic operads a seies of the comprehensive studies in ematics springer
+
+loos assoziative tripelsysteme manuscripta math
+
+
+
+loos symmetric spaces vol
+benjamin new york
+
+
+makhlouf
+the irreducible components of the nilpotent associative algebras revista ematica la universidad complutence de madrid vol
+
+makhlouf and goze classication of rigid algebras in low dimensions
+coll
+travaux en cours goze ed
+edition hermann
+
+makhlouf associative et calcul formel theoretical computer science
+michor and vaisman a note on n ary poisson brackets proceedings of the winter school geometry and physics srn
+rend
+circ
+mat
+palermo suppl
+no
+
+michor and vinogradov n ary lie and assciative algebras rend
+sem
+mat
+nadaud deformations koszul resolutions moyal products math
+phys
+univ
+pol
+torino
+
+
+
+nambu generalized hamiltonian mechanics phys
+
+
+
+neretin yu
+an estimate for the number of parameters dening an n dimensional algebra
+nijenhuis and richardson cohomology and deformations in graded lie algebras bull
+math ussr izv
+
+amer
+math
+soc abdenacer makhlouf
+okubo triple products and yang baxter equation i octonionic and quaternionic triple systems math
+phys
+
+
+pincson deformation theory lett
+math
+phys
+
+
+
+rausch de traubenberg
+and slupinski slupinski finite dimensional lie algebras of order f math
+phys
+
+rausch de traubenberg
+ternary algebras and groups
+phys
+conf
+ser
+
+
+rausch de traubenberg
+some results on cubic and higher order extensions of the poincare
+santana and muradian hopf structure in nambu lie n algebras theoretical and algebra
+mathematical physics
+
+schlessinger functors of artin rings trans
+amer
+math
+soc
+
+
+sokolov introduction to the theory of multidimensional matrices kiev naukova
+takhtajan on foundation of the generalized nambu mechanics comm
+math
+phys
+
+takhtajan a higher order analog of chevally eilenberg complex and deformation theory of n algebras petersburg math
+
+
+yamaguti
+
+on the cohomologie space of lie triple systems kumamoto sci
+ser
+a
+
+
+
+weibel ch
+an introduction to homological algebra
+cambridge studies in advanced ematics cambridge university press
+

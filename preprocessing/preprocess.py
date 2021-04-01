@@ -6,7 +6,7 @@ import re
 import pandas as pd
 import os
 
-def clean_text(path, spacy_model):
+def clean_text(id, path, spacy_model):
 
     try:
         text = pdfminer.high_level.extract_text(path)
@@ -16,8 +16,6 @@ def clean_text(path, spacy_model):
 
     doc = spacy_model(text)
     token_list = []
-
-    # may be helpful if we need any other sentence-specific work later
     sentences = []
 
     for sent in doc.sents:
@@ -36,10 +34,13 @@ def clean_text(path, spacy_model):
 
     text = ' '.join(token_list)
 
-    with open('article_dump.bow', 'a', encoding = 'utf-8') as file:
+    with open("ids.txt", 'a', encoding = 'utf-8') as file:
+        file.write("{}\n".format(path.split('/')[-1]))
+
+    with open('../bags/{}.bow'.format(id), 'w', encoding = 'utf-8') as file:
         file.write(text + '\n')
 
-    with open("article_dump_docs.sents", 'a', encoding = 'utf-8') as file:
+    with open("../sentences/{}.sentences".format(id), 'w', encoding = 'utf-8') as file:
         file.writelines(sentences)
 
     return
@@ -48,13 +49,16 @@ if __name__ == "__main__":
 
     nlp = spacy.load("en_core_web_sm")
 
-    print("Processing articles...")
+    os.makedirs("../bags/", exist_ok = True)
+    os.makedirs("../sentences/", exist_ok = True)
+
+    print("Processing documents...")
 
     for i, pdf in enumerate(os.scandir('../downloads/')):
-        clean_text(pdf.path, nlp)
+        clean_text(i, pdf.path, nlp)
 
-        if i % 10 == 0:
-            print("Processed {} articles...\n".format(i))
+        if (i + 1) % 10 == 0:
+            print("Processed {} documents...\n".format(i + 1))
 
     #x, df = vectorize(sents)
     #print(text)

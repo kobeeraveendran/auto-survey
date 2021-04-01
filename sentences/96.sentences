@@ -1,0 +1,668 @@
+deep keyphrase generation rui meng sanqiang zhao shuguang han daqing he peter brusilovsky yu chi school of computing and information
+university of pittsburgh pittsburgh pa daqing peterb p e s l c
+s
+c
+v
+v
+i x r a abstract keyphrase provides highly summative information that can be effectively used for understanding organizing and ing text content
+though previous studies have provided many workable solutions for automated keyphrase extraction they commonly divided the to be summarized content into multiple text chunks then ranked and selected the most meaningful
+these approaches could neither ones
+identify keyphrases that do not appear in the text nor capture the real semantic meaning behind the text
+we propose a generative model for keyphrase prediction with an encoder decoder framework which can effectively overcome the above drawbacks
+we name it as deep keyphrase generation since it attempts to capture the deep semantic meaning of the content with a deep learning method
+empirical sis on six datasets demonstrates that our proposed model not only achieves a
+nicant performance boost on extracting keyphrases that appear in the source text but also can generate absent keyphrases based on the semantic meaning of the code and dataset are available text
+
+at keyphrase
+introduction a keyphrase or keyword is a piece of short mative content that expresses the main semantic meaning of a longer text
+the typical use of a keyphrase or keyword is in scientic publications to provide the core information of a paper
+we use corresponding author the term keyphrase interchangeably with word in the rest of this paper as both terms have an implication that they may contain tiple words
+high quality keyphrases can tate the understanding organizing and accessing of document content
+as a result many studies have focused on ways of automatically extracting keyphrases from textual content liu et al medelyan et al witten et al
+due to public accessibility many scientic publication datasets are often used as test beds for keyphrase extraction algorithms
+therefore this study also focuses on extracting keyphrases from scientic publications
+
+automatically extracting keyphrases from a document is called keypharase extraction and it has been widely used in many applications such as information retrieval jones and staveley text summarization zhang et al text categorization hulth and megyesi and opinion mining berend
+most of the existing keyphrase extraction algorithms have addressed this problem through two steps liu al tomokiyo and hurst
+the rst step is to acquire a list of keyphrase dates
+researchers have tried to use n grams or noun phrases with certain part of speech patterns for identifying potential candidates hulth le et al liu et al wang et al
+
+the second step is to rank candidates on their importance to the document either through pervised or unsupervised machine learning ods with a set of manually dened features frank et al liu et al kelleher and
+luz matsuo and ishizuka mihalcea and tarau song et al witten et al
+there are two major drawbacks in the above keyphrase extraction approaches
+these methods can only extract the keyphrases that
+first pear in the source text they fail at predicting meaningful keyphrases with a slightly different quential order or those that use synonyms
+
+ever authors of scientic publications commonly assign keyphrases based on their semantic ing instead of following the written content in the publication
+in this paper we denote phrases that do not match any contiguous subsequence of source text as absent keyphrases and the ones that fully match a part of the text as present keyphrases
+table shows the proportion of present and absent keyphrases from the ment abstract in four commonly used datasets from which we can observe large portions of sent keyphrases in all the datasets
+the absent keyphrases can not be extracted through previous approaches which further prompts the ment of a more powerful keyphrase prediction model
+
+second when ranking phrase candidates vious approaches often adopted machine learning features such as tf idf and pagerank
+however these features only target to detect the importance of each word in the document based on the tics of word occurrence and co occurrence and are unable to reveal the full semantics that underlie the document content
+table proportion of the present keyphrases and absent keyphrases in four public datasets dataset
+inspec krapivin nus
+semeval keyphrase
+present absent to overcome the limitations of previous ies we re examine the process of keyphrase diction with a focus on how real human annotators would assign keyphrases
+given a document man annotators will rst read the text to get a sic understanding of the content then they try to digest its essential content and summarize it into keyphrases
+their generation of keyphrases relies on an understanding of the content which may not necessarily use the exact words that occur in the source text
+for example when human tors see latent dirichlet allocation in the text they might write down topic modeling text mining as possible keyphrases
+in addition to the semantic understanding human annotators might also go back and pick up the most tant parts based on syntactic features
+for ple the phrases following we propose apply use could be important in the text
+as a result a better keyphrase prediction model should understand the semantic meaning of the content as well as ture the contextual features
+to effectively capture both the semantic and syntactic features we use recurrent neural works rnn cho et al
+gers and huber to compress the semantic tion in the given text into a dense vector mantic understanding
+furthermore we rate a copying mechanism gu et al to
+low our model to nd important parts based on positional information
+thus our model can erate keyphrases based on an understanding of the text regardless of the presence or absence of keyphrases in the text at the same time it does not lose important in text information
+
+the contribution of this paper is three fold
+
+first we propose to apply an rnn based erative model to keyphrase prediction as well as incorporate a copying mechanism in rnn which enables the model to successfully dict phrases that rarely occur
+second this is the rst work that concerns the problem of sent keyphrase prediction for scientic tions and our model recalls up to of absent keyphrases
+third we conducted a sive comparison against six important baselines on a broad range of datasets and the results show that our proposed model signicantly outperforms existing supervised and unsupervised extraction methods
+in the remainder of this paper we rst review the related work in section
+then we elaborate upon the proposed model in section
+after that we present the experiment setting in section and results in section followed by our discussion in section
+section concludes the paper
+related work automatic keyphrase extraction
+a keyphrase provides a succinct and accurate way of describing a subject or a subtopic in a document
+a number of extraction algorithms have been proposed and the process of extracting keyphrases can typically be broken down into two steps
+the rst step is to generate a list of phrase didates with heuristic methods
+as these dates are prepared for further ltering a erable number of candidates are produced in this step to increase the possibility that most of the correct keyphrases are kept
+the primary ways of extracting candidates include retaining word quences that match certain part of speech tag terns nouns adjectives
+liu et al wang et al le et al and extracting important n grams or noun phrases hulth medelyan et al
+the second step is to score each candidate phrase for its likelihood of being a keyphrase in the given document
+the top ranked candidates are returned as keyphrases
+both supervised and supervised machine learning methods are widely employed here
+for supervised methods this task is solved as a binary classication problem and various types of learning methods and features have been explored frank et al
+witten et al hulth medelyan et al
+lopez and romary gollapalli and caragea
+as for unsupervised approaches primary ideas include nding the central nodes in text graph mihalcea and tarau grineva et al detecting representative phrases from cal clusters liu et al and so on
+
+aside from the commonly adopted two step process another two previous studies realized the keyphrase extraction in entirely different ways
+
+tomokiyo and hurst applied two language models to measure the phraseness and tiveness of phrases
+liu et al
+share the most similar ideas to our work
+they used a word alignment model which learns a translation from the documents to the keyphrases
+this approach alleviates the problem of vocabulary gaps between source and target to a certain degree
+however this translation model is unable to handle tic meaning
+additionally this model was trained with the target of title summary to enlarge the number of training samples which may diverge from the real objective of generating keyphrases
+
+zhang et al
+proposed a joint layer rent neural network model to extract keyphrases from tweets which is another application of deep neural networks in the context of keyphrase traction
+however their work focused on quence labeling and is therefore not able to dict absent keyphrases
+encoder decoder model
+the rnn encoder decoder model which is also referred as sequence to sequence learning is an end to end approach
+
+it was rst introduced by cho et al
+and sutskever et al
+to solve translation problems
+as it provides a erful tool for modeling variable length sequences in an end to end fashion it ts many natural guage processing tasks and can rapidly achieve great successes rush
+al vinyals et al serban et al
+different strategies have been explored to prove the performance of the encoder decoder model
+the attention mechanism bahdanau et al is a soft alignment approach that allows the model to automatically locate the relevant input components
+in order to make use of the tant information in the source text some ies sought ways to copy certain parts of content from the source text and paste them into the target text allamanis et al
+gu et al zeng et al
+a discrepancy exists between the optimizing objective during training and the rics during evaluation
+a few studies attempted to eliminate this discrepancy by incorporating new training algorithms marcaurelio ranzato et al or by modifying the optimizing jectives shen et al
+methodology
+this section will introduce our proposed deep keyphrase generation method in detail
+
+first the task of keyphrase generation is dened lowed by an overview of how we apply the rnn encoder decoder model
+details of the work as well as the copying mechanism will be introduced in sections and problem denition that consists of n
+given a keyphrase dataset the i th data sample data samples contains one source text and
+mi
+get keyphrases
+
+
+mi
+
+both the source text and keyphrase j are sequences of words
+
+
+lxi j
+j j
+j
+l j and the length of word quence of and j respectively
+
+each data sample contains one source text sequence and multiple target phrase sequences
+
+to apply the rnn encoder decoder model the data need to be converted into text keyphrase pairs that contain only one source sequence and one target sequence
+we adopt a simple way which splits the data sample into mi pairs
+mi
+
+then the encoder decoder model is ready to be applied to learn the mapping from the source sequence to target sequence
+for the purpose of simplicity y is used to denote each data pair in the rest of this section where is the word sequence of a source text and y is the word sequence of its keyphrase
+encoder decoder model
+the basic idea of our keyphrase generation model is to compress the content of source text into a den representation with an encoder and to generate corresponding keyphrases with the decoder based on the representation
+both the encoder and coder are implemented with recurrent neural works rnn
+the encoder rnn converts the variable length input sequence xt into a set of hidden representation
+
+ht by iterating the following equations along time t
+ht
+xt where f is a non linear function
+we get the text vector c acting as the representation of the whole input through a non linear function ht
+the decoder is another rnn it decompresses the context vector and generates a variable length sequence y
+yt word by word through a conditional language model st c
+st c where st is the hidden state of the decoder rnn
+at time the non linear function g is a softmax classier which outputs the probabilities of all the words in the vocabulary
+yt is the predicted word at time t by taking the word with largest
+ity after g
+the encoder and decoder networks are trained jointly to maximize the conditional probability of the target sequence given a source sequence
+
+ter training we use the beam search to generate phrases and a max heap is maintained to get the predicted word sequences with the highest bilities
+details of the encoder and decoder a bidirectional gated recurrent unit gru is plied as our encoder to replace the simple rent neural network
+previous studies bahdanau et al cho et al indicate that it can generally provide better performance of language modeling than a simple rnn and a simpler ture than other long short term memory works hochreiter and schmidhuber
+as a result the above non linear function is replaced by the gru function see in cho et al
+
+another forward gru is used as the decoder
+
+in addition an attention mechanism is adopted to improve performance
+the attention mechanism was rstly introduced by bahdanau et al
+to make the model dynamically focus on the tant parts in input
+the context vector c is puted as a weighted sum of hidden representation h
+
+ht ci ijhj t
+ij hj
+
+hk
+where hj is a soft alignment function that measures the similarity between and hj namely to which degree the inputs around tion j and the output at position i match
+copying mechanism
+to ensure the quality of learned representation and reduce the size of the vocabulary typically the rnn model considers a certain number of quent words words in cho et al but a large amount of long tail words are simply ignored
+therefore the rnn is not able to recall any keyphrase that contains out vocabulary words
+actually important phrases can also be identied by positional and syntactic information in their contexts even though their act meanings are not known
+the copying nism gu et al is one feasible solution that enables rnn to predict out of vocabulary words by selecting appropriate words from the source text
+
+by incorporating the copying mechanism the probability of predicting each new word sists of two parts
+the rst term is the probability of generating the term see equation and the second one is the probability of copying it from the source text similar to attention mechanism the copying mechanism weights the importance of each word in source text with a measure of positional tion
+but unlike the generative rnn which dicts the next word from all the words in lary the copying part
+only
+siders the words in source text
+consequently on the one hand the rnn with copying mechanism is able to predict the words that are out of
+ulary
+but in the source text on the other hand the model would potentially give preference to the pearing words which caters to the fact that most keyphrases tend to appear in the source text
+
+y z j
+yt j
+
+where is the set of all of the unique words in the source text is a non linear function and
+wc r is a learned parameter matrix
+z is the sum of all the scores and is used for normalization
+
+please see gu et al for more details
+experiment settings
+this section begins by discussing how we signed our evaluation experiments followed by the description of training and testing datasets
+
+then we introduce our evaluation metrics and baselines
+training dataset
+there are several publicly available datasets for evaluating keyphrase generation
+the largest one came from krapivin et al
+which tains scientic publications
+however this amount of data is unable to train a robust rent neural network model
+in fact there are lions of scientic papers available online each of which contains the keyphrases that were assigned by their authors
+therefore we collected a large amount of high quality scientic metadata in the computer science domain from various online ital libraries including acm digital library
+encedirect wiley and web of science
+han et al rui et al
+
+in total we tained a dataset of articles after ing duplicates and overlaps with testing datasets which is times larger than the one of krapivin et al
+
+note that our model is only trained on articles since publications are randomly held out among which articles were used for building a new test dataset
+another articles served as the validation dataset to check the convergence of our model as well as the training dataset for supervised lines
+testing datasets
+for evaluating the proposed model more
+hensively four widely adopted scientic tion datasets were used
+in addition since these datasets only contain a few hundred or a few sand publications we contribute a new testing dataset with a much larger number of entic articles
+we take the title and abstract as the source text
+each dataset is described in detail below
+inspec hulth this dataset provides paper abstracts
+we adopt the ing papers and their corresponding trolled keyphrases for evaluation and the maining papers are used for training the supervised baseline models
+krapivin krapivin et al this dataset provides papers with full text and author assigned keyphrases
+however the author did not mention how to split ing data so we selected the rst papers in alphabetical order as the testing data and the remaining papers are used to train the pervised baselines
+nus nguyen and kan we use both author assigned and reader assigned keyphrases and treat all papers as the testing data
+since the nus dataset did not specically mention the ways of ting training and testing data the results of the supervised baseline models are obtained through a ve fold cross validation
+kim et al
+
+ticles were collected from the acm digital library
+articles were used for testing and the rest were used for training supervised baselines
+we built a new testing dataset that contains the titles abstracts and keyphrases of scientic articles in computer ence
+they were randomly selected from our obtained articles
+due to the ory limits of implementation we were not able to train the supervised baselines on the whole training set
+thus we take the articles in the validation set to train the pervised baselines
+it is worth noting that we also examined their performance by ing the training dataset to articles but no signicant improvement was observed
+implementation details in total
+there are pairs for training in which text refers to the nation of the title and abstract of a publication and keyphrase indicates an author assigned word
+the text pre processing steps including kenization lowercasing and replacing all digits with symbol are applied
+two decoder models are trained one with only tention mechanism rnn and one with both tention and copying mechanism enabled rnn
+for both models we choose the top frequently occurred words as our vocabulary the dimension of embedding is set to the mension of hidden layers is set to and the word embeddings are randomly initialized with uniform distribution in
+models are timized using adam kingma and ba with initial learning rate gradient clipping and dropout rate
+the max depth of beam search is set to and the beam size is set to
+
+the training is stopped once convergence is termined on the validation dataset namely stopping the cross entropy loss stops dropping for several iterations
+in the generation of keyphrases we nd that the model tends to assign higher probabilities for shorter keyphrases whereas most keyphrases tain more than two words
+to resolve this problem we apply a simple heuristic by preserving only the rst single word phrase with the highest ing probability and removing the rest
+baseline models
+four unsupervised algorithms
+tf idf
+
+trank mihalcea and tarau ank wan and xiao and expandrank wan and xiao and two supervised algorithms kea witten al and maui medelyan al are adopted as baselines
+we set up the four unsupervised methods following the
+mal settings in hasan and ng and the two supervised methods following the default setting as specied in their papers
+evaluation metric
+three evaluation metrics the macro averaged cision recall and f measure are employed for measuring the algorithm s performance
+lowing the standard denition precision is dened as the number of correctly predicted keyphrases over the number of all predicted keyphrases and recall is computed by the number of predicted keyphrases over the total number of data records
+note that when determining the match of two keyphrases we use porter stemmer for processing
+results and analysis
+we conduct an empirical study on three different tasks to evaluate our model
+
+predicting present keyphrases this is the same as the keyphrase extraction task in prior studies in which we analyze how well our proposed model performs on a commonly dened task
+to make a fair comparison we only sider the present keyphrases for evaluation in this task
+table provides the performances of the six baseline models as well as our proposed models rnn and copyrnn
+for each method the table lists its f measure at top and top dictions on the ve datasets
+the best scores are highlighted in bold and the underlines indicate the second best performances
+the results show that the four unsupervised models tf idf texttank singlerank and pandrank have a robust performance across ferent datasets
+the expandrank fails to return any result on the dataset due to its high time complexity
+the measures on nus and
+meval here are higher than the ones reported in
+hasan and ng and kim et al probably because we utilized the paper abstract instead of the full text for training which may method tf idf textrank singlerank expandrank
+maui kea
+rnn copyrnn inspec nus krapivin semeval
+
+
+
+
+
+
+
+
+
+
+
+
+n a
+n a table
+the performance of predicting present keyphrases of various models on ve benchmark datasets lter out some noisy information
+the mance of the two supervised models maui and kea were unstable on some datasets but
+maui achieved the best performances on three datasets among all the baseline models
+as for our proposed keyphrase prediction proaches the rnn model with the attention anism did not perform as well as we expected
+it might be because the rnn model is only cerned with nding the hidden semantics behind the text which may tend to generate keyphrases or words that are too general and may not sarily refer to the source text
+in addition we serve that of keyphrases in our dataset contain out of vocabulary words which the rnn model is not able to recall since the rnn model can only generate results with the words in vocabulary
+this indicates that a pure generative model may not t the traction task and we need to further link back to the language usage within the source text
+the copyrnn model by considering more contextual information signicantly outperforms not only the rnn model but also all baselines ing the best baselines by more than on erage
+this result demonstrates the importance of source text to the extraction task
+besides nearly of all correct predictions contained of vocabulary words
+
+the example in figure shows the result of predicted present keyphrases by rnn and
+rnn for an article about video search
+we see that both models can generate phrases that relate to the topic of information retrieval and video
+
+ever most of rnn predictions are high level minologies which are too general to be selected as keyphrases
+copyrnn on the other hand predicts more detailed phrases like video data and integrated ranking
+an interesting bad case rich content coordinates with a keyphrase video metadata and the copyrnn mistakenly puts it into prediction
+
+predicting absent keyphrases as stated one important motivation for this work is that we are interested in the proposed model s capability for predicting absent keyphrases based on the understanding of content
+
+it is worth noting that such prediction is a very challenging task and to the best of our knowledge no existing methods can handle this task
+therefore we only provide the rnn and copyrnn performances in the discussion of the results of this task
+here we evaluate the performance within the recall of the top and top results to see how many absent keyphrases can be correctly predicted
+we use the absent keyphrases in the testing datasets for uation
+
+dataset inspec
+krapivin nus semeval
+rnn copyrnn
+
+
+
+table absent keyphrases prediction mance of rnn and copyrnn on ve datasets table presents the recall results of the top predicted keyphrases for our rnn and copyrnn models in which we observe that the copyrnn can on average recall around of keyphrases at top predictions
+
+this indicates that to some extent both models can capture the hidden semantics behind the tual content and make reasonable predictions
+in addition with the advantage of features from the source text the copyrnn model also outperforms the rnn model in this condition though it does not show as much improvement as the present keyphrase extraction task
+an example is shown in figure in which we see that two absent keyphrases video retrieval and video ing are correctly recalled by both models
+note that the term indexing does not appear in the text but the models may detect the information index videos in the rst sentence and paraphrase it to the target phrase
+and the copyrnn fully predicts another two keyphrases by capturing the detailed information from the text highlighted text segments
+
+transferring the model to the news domain rnn and copyrnn are supervised models and they are trained on data in a specic domain and writing style
+however with sufcient training on a large scale dataset we expect the models to be able to learn universal language features that are also effective in other corpora
+thus in this task we will test our model on another type of text to see whether the model would work when being transferred to a different environment
+we use the popular news article dataset wan and xiao for analysis
+the dataset consists of news articles and manually annotated keyphrases
+the result of this analysis is shown in table from which we could see that the copyrnn can extract a portion of rect keyphrases from a unfamiliar text
+we also
+port the baseline performance included in hasan and ng
+the performance of copyrnn is better than textrank mihalcea and tarau and keycluster liu et al but lags behind the other three baselines
+it is worth noting
+that the hyperparameters of baseline models such as number of recalled keyphrases for tf idf and glerank are carefully tuned and may drastically affect the results
+however for copyrnn we ply report its score of top predicted phrases
+as it is transferred to a corpus in a completely different type and domain the model encounters more unknown words and has to rely more on the positional and syntactic features within the
+in this experiment the copyrnn recalls text
+keyphrases
+of them contain out vocabulary words and many names of persons and places are correctly predicted
+
+model
+tf idf textrank singlerank model
+expandrank
+keycluster copyrnn
+table keyphrase prediction performance of copyrnn on
+the model is trained on scientic publication and evaluated on news
+discussion
+the
+our experimental results demonstrate that copyrnn model not only performs well on dicting present keyphrases but also has the ity to generate topically relevant keyphrases that
+in a broader sense this are absent in the text
+model attempts to map a long text paper stract with representative short text chunks keyphrases which can potentially be applied to improve information retrieval performance by generating high quality index terms as well as sisting user browsing by summarizing long ments into short readable phrases
+
+thus far we have tested our model with entic publications and news articles and have demonstrated that our model has the ability to ture universal language patterns and extract key formation from unfamiliar texts
+we believe that our model has a greater potential to be ized to other domains and types like books online reviews if it is trained on a larger data pus
+also we directly applied our model which was trained on a publication dataset into
+ing keyphrases for news articles without any tive training
+we believe that with proper training on news data the model would make further provement
+additionally this work mainly studies the lem of discovering core content from textual rials
+here the encoder decoder framework is plied to model language however such a work can also be extended to locate the core mation on other data resources such as
+ing content from images and videos
+figure an example of predicted keyphrase by rnn and copyrnn
+phrases shown in bold are correct predictions
+conclusions and future work
+in this paper we proposed an rnn based erative model for predicting keyphrases in tic text
+to the best of our knowledge this is the rst application of the encoder decoder model to a keyphrase prediction task
+our model marizes phrases based the deep semantic meaning of the text and is able to handle rarely occurred phrases by incorporating a copying mechanism
+
+comprehensive empirical studies demonstrate the effectiveness of our proposed model for
+ing both present and absent keyphrases for ent types of text
+our future work may include the following two directions
+in this work we only evaluated the mance of the proposed model by conducting off line experiments
+in the future we are terested in comparing the model to human
+notators and using human judges to evaluate the quality of predicted phrases
+our current model does not fully consider correlation among target keyphrases
+
+it would also be interesting to explore the multiple output optimization aspects of our model
+
+acknowledgments we would like to thank jiatao gu and miltiadis allamanis for sharing the source code and ing helpful advice
+we also thank wei lu
+yong huang qikai cheng and other irlab members at wuhan university for the assistance of dataset development
+this work is partially supported by the national science foundation under grant
+
+erratum we mistakenly reported the micro averaged scores for all models instead of macro averaged ones
+
+we have updated all the scores to macro averaged
+
+as the difference between micro averaged and macro averaged score is marginal this mistake does nt affect any conclusions we drew in the mitted version
+we sincerely apologize for this mistake and we thank wang chen from the nese university of hong kong for pointing it out
+references allamanis peng and sutton
+
+a volutional attention network for extreme rization of source code
+arxiv e prints
+dzmitry bahdanau kyunghyun cho and yoshua gio
+
+neural machine translation by jointly arxiv preprint learning to align and translate
+
+
+gabor berend
+
+opinion expression mining by
+in ijcnlp
+exploiting keyphrase extraction
+seer pages
+kyunghyun cho bart van merrienboer caglar cehre dzmitry bahdanau fethi bougares
+holger
+learning
+schwenk and yoshua bengio
+phrase representations using rnn encoder decoder for statistical machine translation
+arxiv preprint
+
+eibe frank gordon w paynter
+ian h witten carl gutwin and craig g nevill manning
+
+domain specic keyphrase extraction
+felix a gers and e schmidhuber
+
+lstm rent networks learn simple context free and sensitive languages
+ieee transactions on neural networks
+sujatha das gollapalli and cornelia caragea
+
+
+extracting keyphrases from research papers
+the ing citation networks
+
+twenty eighth aaai conference on articial ligence
+aaai press pages
+
+
+in proceedings of maria grineva maxim grinev and dmitry lizorkin
+
+
+extracting key terms from noisy and
+in proceedings of the theme documents
+ternational conference on world wide web
+acm new york ny usa www pages
+
+jiatao gu zhengdong lu hang li and victor ok
+incorporating copying mechanism in arxiv preprint li
+
+sequence to sequence learning
+
+
+shuguang han daqing he jiepu jiang and zhen yue
+
+
+supporting exploratory people search a study
+in of factor transparency and user control
+ceedings of the acm international conference on information knowledge management
+acm pages
+kazi saidul hasan and vincent ng
+
+conundrums in unsupervised keyphrase extraction making sense of the state of the art
+in proceedings of the ternational conference on computational tics posters
+association for computational guistics pages
+sepp hochreiter and jurgen schmidhuber
+
+
+neural computation long short term memory
+
+
+anette hulth
+
+improved automatic keyword
+in traction given more linguistic knowledge
+ceedings of the conference on empirical
+ods in natural language processing
+association for computational linguistics pages
+anette hulth and beata b megyesi
+
+a study on automatically extracted keywords in text
+in proceedings of the international rization
+
+conference on computational linguistics and the annual meeting of the association for tational linguistics
+association for computational linguistics pages
+steve jones and mark s staveley
+
+phrasier a system for interactive document retrieval using keyphrases
+in proceedings of the annual ternational acm sigir conference on research and development in information retrieval
+acm pages
+daniel kelleher and saturnino luz
+
+automatic
+in proceedings of hypertext keyphrase detection
+
+the international joint conference on articial intelligence
+morgan kaufmann publishers san francisco ca usa pages
+
+
+
+su nam kim olena medelyan min yen kan and timothy baldwin
+
+task
+tomatic keyphrase extraction from scientic articles
+
+in proceedings of the international workshop on semantic evaluation
+association for tional linguistics pages
+
+diederik kingma and jimmy ba
+adam a method for stochastic optimization
+arxiv preprint
+
+mikalai krapivin aliaksandr autayeu and izio marchese
+large dataset for keyphrases extraction
+technical report disi trento italy
+tho thi ngoc le minh le nguyen and
+akira mazu
+
+unsupervised keyphrase extraction
+introducing new kinds of words to keyphrases springer international publishing cham pages
+zhiyuan liu xinxiong chen yabin zheng and maosong sun
+
+automatic keyphrase tion by bridging vocabulary gap
+in proceedings of the fifteenth conference on computational natural language learning
+association for computational linguistics pages
+zhiyuan liu wenyi huang yabin zheng and maosong sun
+
+automatic keyphrase
+in proceedings of tion via topic decomposition
+the conference on empirical methods in ural language processing
+association for tational linguistics pages
+zhiyuan liu peng li yabin zheng and maosong sun
+
+clustering to nd exemplar terms for
+in proceedings of the keyphrase extraction
+
+conference on empirical methods in natural guage processing volume volume
+association for computational linguistics pages
+patrice lopez and laurent romary
+
+humb automatic key term extraction from scientic the articles in grobid
+
+international workshop on semantic evaluation
+
+association for computational linguistics burg pa usa semeval pages
+
+
+
+in proceedings of sumit chopra marcaurelio ranzato michael auli and wojciech zaremba
+
+sequence level
+ing with recurrent neural networks
+iclr san juan puerto rico
+yutaka matsuo and mitsuru ishizuka
+
+word extraction from a single document using word co occurrence statistical information
+international journal on articial intelligence tools
+ilya sutskever oriol vinyals and quoc v le
+
+sequence to sequence learning with neural works
+in advances in neural information ing systems
+pages
+
+in proceedings of approach to keyphrase takashi tomokiyo and matthew hurst
+
+a language model the acl traction
+
+workshop on multiword expressions volume
+sis acquisition and treatment
+linguistics for association stroudsburg pa usa mwe pages
+
+computational oriol vinyals ukasz kaiser terry koo slav petrov ilya sutskever and geoffrey hinton
+
+
+mar as a foreign language
+in advances in neural information processing systems
+pages
+xiaojun wan and jianguo xiao
+single ument keyphrase extraction using neighborhood knowledge
+
+minmei wang bo zhao and yihua huang
+
+
+ptr phrase based topical ranking for automatic keyphrase extraction in scientic publications springer international publishing cham pages
+ian h witten gordon w paynter eibe frank carl gutwin and craig g nevill manning
+kea
+in
+practical automatic keyphrase extraction
+ceedings of the fourth acm conference on digital libraries
+acm pages
+wenyuan zeng wenjie luo sanja fidler and raquel efcient summarization with arxiv preprint urtasun
+
+read again and copy mechanism
+
+
+
+qi zhang yang wang yeyun gong and xuanjing
+huang
+
+keyphrase extraction using deep
+in current neural networks on twitter
+ings of the conference on empirical ods in natural language processing
+association for computational linguistics austin texas pages
+
+
+yongzheng zhang nur zincir heywood and los milios
+
+world wide web site tion
+web intelligence and agent systems an national journal
+olena medelyan eibe frank and ian h witten
+
+
+human competitive tagging using automatic
+in proceedings of the keyphrase extraction
+
+conference on empirical methods in natural guage processing volume volume
+association for computational linguistics pages
+olena medelyan eibe frank and ian witten
+
+human competitive tagging using
+
+in proceedings of the matic keyphrase extraction
+
+conference on empirical methods in natural language processing volume volume
+
+association for computational linguistics burg pa usa emnlp pages
+
+olena medelyan ian h witten and david milne
+
+in proceedings of topic indexing with wikipedia
+
+the aaai wikiai workshop volume pages
+rada mihalcea and paul tarau
+
+textrank
+ing order into texts
+association for computational linguistics
+thuy dung nguyen and min yen
+
+keyphrase extraction in scientic publications
+
+in international conference on asian digital braries
+springer pages
+meng rui han shuguang huang yun
+he daqing and brusilovsky peter
+
+knowledge based
+in content ieee wic acm international conference on web intelligence
+the institute of electrical and ics engineers pages
+linking for online textbooks
+alexander rush sumit chopra and jason ston
+
+a neural attention model for
+in proceedings of tive sentence summarization
+the conference on empirical methods in
+ural language processing emnlp lisbon portugal september
+pages
+
+
+iulian v serban alessandro sordoni yoshua bengio aaron courville and joelle pineau
+
+building end to end dialogue systems using generative archical neural network models
+in proceedings of the aaai conference on articial intelligence
+shiqi shen yong cheng zhongjun he wei he hua wu maosong sun and yang liu
+
+
+mum risk training for neural machine translation
+
+in proceedings of the annual meeting of the association for computational linguistics volume long papers
+association for computational
+linguistics berlin germany pages
+
+min song il yeol song and xiaohua hu
+
+a exible information gain based kpspotter keyphrase extraction system
+in proceedings of the acm international workshop on web tion and data management
+acm pages
+

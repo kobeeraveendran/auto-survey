@@ -1,0 +1,327 @@
+v o
+
+n l c
+s
+c
+v
+s
+c v
+i x r a utilizing the world wide web as an encyclopedia
+extracting term descriptions from semi structured texts atsushi fujii and tetsuya ishikawa
+university of library and information science kasuga tsukuba japan
+abstract
+in this paper we propose a method to extract descriptions of
+cal terms from web pages in order to utilize the world wide web as an encyclopedia
+we use linguistic patterns and html text structures to extract text fragments
+ing term descriptions
+we also use a language model to discard neous descriptions and a clustering method to summarize resultant scriptions
+we show the ness of our method by way of iments
+introduction
+reecting the growth in utilization of readable texts extraction and linguistic knowledge from large sition of corpora has been one of the major ics within the natural language processing nlp community
+a sample of linguistic knowledge targeted in past research includes grammars word classes hatzivassiloglou and mckeown and bilingual lexicons smadja et al
+while human experts nd it dicult to produce exhaustive and consistent linguistic knowledge automatic methods can help viate problems associated with manual struction
+kupiec and maxwell term descriptions which are usually fully organized in encyclopedias are able linguistic knowledge but have seldom been targeted in past nlp literature
+as with other types of linguistic knowledge ing on human introspection and supervision constructing encyclopedias is quite expensive
+additionally since existing encyclopedias are usually revised every few years in many cases users nd it dicult to obtain descriptions for newly created terms
+to cope with the above limitation of ing encyclopedias it is possible to use a search engine on the world wide web as a tute expecting that certain web pages will describe the submitted keyword
+however since keyword based search engines often trieve a surprisingly large number of web pages it is time consuming to identify pages that satisfy the users information needs
+
+in view of this problem we propose a method to automatically extract term
+scriptions from web pages and summarize them
+in this paper we generally use web pages to refer to those pages containing textual contents excluding those with only image audio information
+besides this we specically target descriptions for technical terms and thus terms generally refer to technical terms
+in brief our method extracts fragments of web pages based on patterns or templates typically used to describe terms
+web pages are in a sense semi structured data because html hyper text markup language tags provide the textual information contained in a page with a certain structure
+thus our method relies on both linguistic and tural description patterns
+we used several nlp techniques to automatically produce linguistic patterns
+
+we call this approach nlp based method
+we also produced several heuristics ated with the use of html tags which we call html based method
+while the former method is language dependent and currently applied only to japanese the latter method is theoretically language independent
+our research can be classied from several dierent perspectives
+as explained in the beginning of this section our research can be seen as linguistic knowledge extraction
+
+specically our research is related to web mining methods nie et al resnik
+
+from an information retrieval point of view our research can be seen as constructing domain specic or task oriented web search engines and software agents etzioni mccallum et al
+overview
+our objective is to collect encyclopedic knowledge from the web for which we signed a system involving two processes
+as with existing web search systems in the background process our system periodically updates a database consisting of term tions a description database while users can browse term descriptions anytime in the ground process
+
+in the background process depicted as in figure a search engine searches the web for pages containing terms listed in a lexicon
+then fragments such as paragraphs of retrieved web pages are extracted based on linguistic and structural description patterns
+note that as a preprocessing for the tion process we discard newline codes dant white spaces and html tags that our extraction method does not use in order to standardize the layout of web pages
+
+however in some cases the extraction cess is unsuccessful and thus extracted ments are not linguistically understandable
+
+in addition web pages contain some linguistic information such as special ters symbols and e mail addresses for tact along with linguistic information
+sequently those noises decrease extraction curacy
+web extraction patterns lexicon search engine extraction description database browser clustering filtering language model
+figure the control ow of our extraction system
+
+in view of this problem we perform a tering to enhance the extraction accuracy
+in practice we use a language model to measure the extent to which a given extracted ment can be linguistic and index only ments judged as linguistic into the description database
+
+at the same time the urls of web pages from which descriptions were extracted are also indexed in the database so that users can browse the full content in the case where descriptions extracted are not satisfactory
+
+in the case where a number of tions are extracted for a single term the sultant description set is redundant because it contains a number of similar descriptions
+thus it is preferable to summarize tions rather than to present all the tions as a list
+
+for this purpose we use a clustering method to divide descriptions for a single term into a certain number of clusters and present only descriptions that are tive for each cluster
+as a result it is expected that descriptions resembling one another will be in the same cluster and that each cluster corresponds to dierent viewpoints and word senses
+possible sources of the lexicon include ing machine readable terminology
+ies which often list terms but lack tions
+however since new terms unlisted in existing dictionaries also have to be ered newspaper articles and magazines tributed via the web can be possible sources
+
+in other words a morphological analysis is performed periodically weekly to
+tify word tokens from those resources in order to enhance the lexicon
+however this is not the central issue in this paper
+
+in the foreground process given an input term a browser presents one or more scriptions to a user
+
+in the case where the database does not index descriptions for the given term term descriptions are dynamically extracted as in the background process
+the background process is optional and thus term descriptions can always be obtained cally
+however this potentially decreases the time eciency for a real time response
+figure shows a web browser in which our prototype page presents several japanese descriptions extracted for the word mainingu data mining
+for example an english translation for the rst description is as follows data mining is a process that collects data for a certain task and retrieves relations latent in the data
+
+in figure each description uses various expressions but describes the same content data mining is a process which discovers rules latent in given databases
+it is expected that users can understand what data mining is by browsing some of those descriptions
+in dition each headword deeta mainingu in this case positioned above each description is linked to the web page from which the scription was extracted
+
+in the following sections we rst
+orate on the nlp html based extraction methods in section
+we then elaborate on noise reduction and clustering methods in sections and respectively
+finally in tion we investigate the eectiveness of our extraction method by way of experiments
+extracting term descriptions nlp based extraction method
+the crucial content for the nlp based tion method is the way to produce linguistic figure example japanese descriptions for deeta mainingu data mining
+patterns that can be used to describe
+cal terms
+however human introspection is a dicult method to exhaustively enumerate possible description patterns
+thus we used nlp techniques to automatically collect description patterns from machine readable encyclopedias
+
+cause they usually contain a signicantly large number of descriptions for existing terms
+in practice we used the japanese rom world encyclopedia heibonsha which includes approximately entries related to various elds
+before collecting description patterns through a preliminary study on the pedia we used we found that term
+tions frequently contain salient patterns sisting of two japanese bunsetsu phrases
+the following sentence which describes the term x contains a typical bunsetsu nation that is x toha and de aru x toha y de aru x is de aru itself is not a bunsetsu phrase we use bunsetsu phrases to refer to combinations of several words
+in other words we collected description terns based on the co occurrence of two setsu phrases as in the following method
+
+first we collected entries associated with technical terms listed in the world pedia and replaced headwords with a able note that the world dia describes various types of words including technical terms historical people and places and thus description patterns vary depending on the word type
+for example entries for historical people usually contain when where the people were born and their major butions to the society
+however for the purposes of our tion it is desirable to use entries solely ated with technical terms
+we then consulted the edr machine readable technical nology dictionary which contains mately terms related to the tion processing eld japan electronic nary research institute and obtained entries associated with terms listed in the edr dictionary
+
+second we used the chasen cal analyzer matsumoto et al which has commonly been used for much japanese nlp research to segment collected entries into words and assign them parts of speech
+
+we also developed simple heuristics to duce bunsetsu phrases based on the part speech information
+
+finally we collected combinations of two bunsetsu phrases and sorted them according to their co occurrence frequency in ing order
+however since the resultant setsu co occurrences even with higher ings are extraneous we supervised veried corrected or discarded the top dates and produced description patterns
+
+figure shows a fragment of the resultant patterns and their english glosses
+in this ure x and y denote variables to which technical terms and sentence fragments can be unied respectively
+
+here we are in a position to extract tences that match with description patterns from web pages retrieved by the search engine see figure
+in this process we do not english gloss japanese x toha y dearu
+
+x ha y dearu
+
+y wo x to iu
+
+x wo y to sadameru
+x is dened as y wo x to yobu
+x is x
+is y is called y is called figure a fragment of linguistic description patterns we produced
+duct morphological analysis on web pages because of computational cost
+
+instead we rst segment textual contents in web pages into sentences based on the japanese tuation system and use a surface pattern matching based on regular expressions
+
+however in most cases term descriptions consist of more than one sentence
+this is especially salient in the case where anaphoric expressions and itemization are used
+thus it is desirable to extract a larger fragment taining sentences that match with description patterns
+
+in view of this problem we rst use guistic description patterns to briey identify a zone and sequentially search the following fragments relying partially on html tags until a certain fragment is paragraph tagged with or
+in the case where is missing itemization tagged with n sentences identied with the japanese punctuation system where the sentence that matched with a description pattern is positioned as near center as possible where we empirically set n html based extraction method through a preliminary study on existing web pages we identied two typical usages of we use html tags to identify priate text fragments we call the method described in this section nlp based method in a comparison with the method in section that relies solely on html tags
+html tags associated with describing nical terms
+
+in the rst usage a term in question is lighted as a heading by way of or tag and followed by its description in a short fragment
+
+in the ond usage terms that are potentially miliar to readers are tagged with the anchor a tag providing hyperlinks to other pages
+or a dierent position within the same page where they are described
+the crucial factor here is to determine which fragment in the page is extracted as a description
+for this purpose we use the same rules described in section
+however unlike the nlp based method in the based method we extract the fragment that follows the heading and the position linked from the anchor
+however in the case where a term in question is tagged with dt we extract the following fragment tagged with dd
+note that dt and dd are ently provided to describe terms
+the html based method is expected to extract term descriptions that can not be
+tracted by the nlp based method and vice versa
+in fact in figure the third and fourth descriptions were extracted with the based method while the rest were extracted with the nlp based method
+language modeling for filtering given a set of web page fragments extracted by the nlp html based methods we lect fragments that are linguistically standable and index them into the tion database
+for this purpose we perform a language modeling so as to quantify the extent to which a given text fragment is guistically acceptable
+there are several alternative methods for language modeling
+for example grammars are relatively strict language modeling ods
+however we use a model based on n gram which is usually more robust than that based on grammars
+in other words text
+ments with lower perplexity values are more linguistically acceptable
+
+in practice we used the cmu cambridge toolkit clarkson and rosenfeld and produced a trigram based language model from two years of mainichi shimbun japanese newspaper articles mainichi shimbun which were automatically segmented into words by the chasen morphological alyzer matsumoto et al
+in the current implementation we cally select as the nal extraction results
+text fragments whose perplexity values are lower than
+
+clustering term descriptions for the purpose of clustering term tions extracted using methods in sections and we use the hierarchical bayesian tering hbc method iwayama and naga which has been used for
+ing news articles and constructing thesauri
+
+as with a number of hierarchical ing methods the hbc method merges similar items term descriptions in our case in a bottom up manner until all the items are merged into a single cluster
+that is a tain number of clusters can be obtained by splitting the resultant hierarchy at a certain level
+
+at the same time the hbc method also determines the most representative item troid for each cluster
+then we present only those centroids to users
+
+the similarity between items is computed based on feature vectors that characterize each item
+
+in our case vectors for each term description consist of frequencies of tent words nouns and verbs identied through a morphological analysis appearing in the description
+experimentation methodology
+we investigated the eectiveness of our traction method from a scientic point of view
+however unlike other research topics where benchmark test collections are able to the public information retrieval there are two major problems for the purpose of our experimentation as follows production of test terms for which results scriptions are extracted judgement for descriptions extracted for those test terms
+
+for test terms possible sources are those listed in existing terminology dictionaries
+
+however since the judgement can be erably expensive for a large number of test terms it is preferable to selectively sample a small number of terms that potentially reect the interest in the real world
+
+in view of this problem we used as test terms those contained in queries in the sis test collection kando et al which consists of japanese queries and imately abstracts in either a
+bination of english and japanese or either of the languages individually collected from technical papers published by japanese sociations for various this collection was originally produced for the evaluation of information retrieval tems where each query is used to retrieve technical abstracts
+thus the title eld of each query usually contains one or more nical terms
+besides this since each query was produced based partially on existing nical abstracts they reect the real world terest to some extent
+as a result we tracted test terms as shown in table
+in this table we romanized japanese terms and inserted hyphens between each morpheme for enhanced readability
+note that unlike the case of information trieval a patent retrieval where every relevant document must be retrieved in our case even one description can potentially be sucient
+in other words in our experiments more weight is attached to accuracy sion than recall
+
+for the search engine in figure we used
+which is one of the major japanese web search engines
+then for each extracted description one of the authors judged it rect or incorrect
+
+out of the test terms extracted from the nacsis collection for terms goo retrieved one or more web pages
+among those test terms our method extracted at least one term description for terms disregarding the judgement
+thus the coverage or plicability of our method was
+in ble the third column denotes the number of web pages identied by goo
+however goo retrieves contents for only the top pages
+table also shows the number descriptions judged as correct the column c the total number of descriptions extracted the column t and the accuracy the umn a for both cases with without the trigram based language model
+table shows that the nlp html based methods extracted appropriate term
+tions with a accuracy and that the trigram based language model further
+proved the accuracy from to
+in other words only two descriptions are cient for users to understand a term in tion
+reading a few descriptions is not consuming because they usually consist of short paragraphs
+we also investigated the eectiveness of clustering where for each test term we tered descriptions into three clusters in the case where there are less than four tions individual descriptions were regarded as dierent clusters and only descriptions determined as representative by the hbc method were presented as the nal result
+we found that of descriptions presented were correct ones
+in other words users can obtain descriptions from dierent viewpoints and word senses maintaining the extraction accuracy obtained above
+
+however we concede that we did not tigate whether or not each cluster corresponds to dierent viewpoints in a rigorous manner
+
+for the polysemy problem we investigated all the descriptions extracted and found that only korokeishon collocation was ated with two word senses that is word collocations and position of machinery
+
+among the three representative descriptions table extraction accuracy for the test terms c the number of correct descriptions t the total number of extracted descriptions a accuracy
+japanese term english gloss zipf s law access control document image understanding intelligent agent data mining digital watermark digital library image retrieval groupware optical ber position measurement genetic algorithm articial intelligence autonomous mobile robot next generation internet
+zipf no housoku akusesu seigyo bunsho gazou rikai chiteki eejento deeta mainingu denshi sukashi denshi toshokan gazou kensaku guruupuwea hikari faibaa ichi keisoku identeki arugorizumu jinkou chinou jiritsu idou robotto jisedai intaanetto kiiwaado jidou chuushutsu keyword automatic extraction kikai honyaku korokeishon koshou shindan maruchikyasuto media douki nettowaaku toporojii nyuuraru nettowaaku ringu gata nettowaaku shisourasu souraa kaa teromea machine translation collocation fault diagnosis multicast media synchronization network topology neural network ring network thesaurus solar car telomere total trigram w trigram pages c t
+a c t
+a
+
+
+
+
+
+
+
+
+
+
+
+
+for korokeishon collocation two
+sponded to the rst sense and one sponded to the second sense
+to sum up the hbc clustering method correctly ed polysemy
+conclusion in this paper we proposed a method to tract encyclopedic knowledge from the world wide web
+
+for extracting fragments of web pages taining term descriptions we used tic and html structural patterns typically used to describe terms
+then we used a language model to discard irrelevant tions
+we also used a clustering method to summarize extracted descriptions based on dierent viewpoints and word senses
+we evaluated our method by way of ments and found that the accuracy of our traction method was practical that is a user can understand a term in question by
+ing two descriptions on average
+we also found that the language model and the tering method further enhanced our work
+future work will include experiments using a larger number of test terms and tion of extracted descriptions to other nlp research
+
+acknowledgments
+the authors would like to thank hitachi
+ital heibonsha for their support with the cd rom world encyclopedia makoto iwayama and takenobu tokunaga for their report naist is naist
+
+japanese
+in andrew mccallum kamal nigam jason rennie and kristie seymore
+
+a machine learning approach to building domain specic search engines
+in ings of the international joint ence on articial intelligence pages jian yun nie michel simard pierre
+abelle and richard durand
+
+language information retrieval based on parallel texts and automatic mining of allel texts from the web
+in proceedings of the annual international acm sigir conference on research and development in information retrieval pages
+
+philip resnik
+mining the web for bilingual texts
+in proceedings of the annual meeting of the association for computational linguistics pages
+
+frank smadja kathleen mckeown and vasileios hatzivassiloglou
+
+ing collocations for bilingual lexicons a statistical approach
+computational guistics
+support with the hbc clustering software and noriko kando national institute of formatics japan for her support with the nacsis collection
+references philip clarkson and ronald rosenfeld
+
+
+statistical language modeling using the cmu cambridge toolkit
+in proceedings of pages
+oren etzioni
+
+moving up the tion food chain
+ai magazine
+
+vasileios hatzivassiloglou and kathleen mckeown
+towards the automatic identication of adjectival scales ing adjectives according to meaning
+
+in proceedings of the annual meeting of the association for computational tics pages
+hitachi digital heibonsha
+
+cd rom world encyclopedia
+in japanese
+makoto iwayama and takenobu tokunaga
+
+
+hierarchical bayesian clustering for
+in automatic text classication
+ings of the international joint ence on articial intelligence pages
+japan electronic dictionary research
+
+edr electronic dictionary tute
+technical guide
+noriko kando kazuko kuriyama and hiko nozue
+nacsis test collection
+in proceedings of workshop
+the annual international acm sigir conference on research and development in information retrieval pages
+julian kupiec and john maxwell
+
+
+training stochastic grammars from
+in workshop on labelled text corpora
+
+statistically based natural language gramming techniques
+aaai technical
+ports
+
+mainichi shimbun
+
+mainichi shimbun cd rom
+in japanese
+
+yuji matsumoto akira kitauchi tatsuo mashita osamu imaichi and tomoaki imamura
+
+japanese morphological analysis system chasen manual
+technical

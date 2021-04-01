@@ -1,0 +1,411 @@
+g u
+a l c
+s
+c
+v
+
+
+v i x r a measuring the effect of discourse relations on blog summarization shamima mithun concordia university montreal quebec canada leila kosseim
+concordia university montreal quebec canada
+abstract
+the work presented in this paper attempts to evaluate and quantify the use of course relations in the context of blog summarization and compare their use to more traditional and factual texts
+ically we measured the usefulness of discourse relations namely son contingency illustration attribution topic opinion and attributive for the task of text summarization from blogs
+we have evaluated the effect of each relation using the tac opinion
+tion dataset and compared them with the results with the duc dataset
+the sults show that in both textual genres tingency comparison and illustration
+lations provide a signicant improvement on summarization content while tion topic opinion and attributive tions do not provide a consistent and nicant improvement
+these results cate that at least for summarization course relations are just as useful for formal and affective texts as for more ditional news articles
+introduction
+it is widely accepted that in a coherent text units should not be understood in isolation but in tion with each other through discourse relations that may or may not be explicitly marked
+a text is not a linear combination of textual units but a archically organized group of units placed together based on informational and intentional relations to one another
+according to taboada course relations relations that hold together ferent parts proposition sentence or graph of the discourse are partly responsible for the perceived coherence of a text
+for example have been relations and news applications generation in many nlp language in the sentence if you want the full vista rience you ll want a heavy system and graphics hardware and lots of memory the rst and ond clauses do not bear much meaning dently but become more meaningful when we
+alize that they are related through the discourse lation condition
+
+discourse found such useful
+as natural summarization
+mckeown
+blair goldensohn and mckeown bosma
+to improve coherence and better simulate human writing
+however most of these work have been developed for formal written and factual documents
+text available in the social media are typically written in a more casual style are opinionated and speculative
+andreevskaia et al
+this techniques developed for formal texts such as news articles often do not behave as well when dealing with informal documents
+in particular news articles are more uniform in style and structure whereas blogs often do not exhibit a stereotypical discourse structure
+as a result for blogs it is usually more difcult to identify and rank relevant units for summarization compared to news articles
+
+because of several work have shown that discourse lations can improve the results of tion in the case of factual texts or news articles
+otterbacher et al
+however to our knowledge no work has evaluated the usefulness of discourse relations for the summarization of
+formal and opinionated texts as those found in the social media
+
+in this paper we consider the most frequent discourse relations found in blogs namely comparison contingency illustration tribution topic opinion and attributive and
+uate the effect of each relation on informal text summarization using the text analysis ence tac opinion summarization
+
+we then compare these results to those found with the news articles of the document understanding conference duc
+main task
+the results show that in both types of texts discourse relations seem to be as useful contingency parison and illustration relations provide a tically signicant improvement on the summary content while the attribution topic opinion and attributive relations do not provide a consistent and signicant improvement
+related work on discourse relations for summarization a single relation for proposed otterbacher et al discourse summarization the use of discourse relations for text rization is not new
+most notably marcu relations
+used and
+ment parsing identication course
+
+bosma
+in some work rithm
+blair goldensohn and mckeown course relations have been exploited successfully for multi document summarization
+
+in experimentally ular showed that discourse relations can improve the coherence of multi document summaries
+
+
+
+bosma
+tions can be used effectively to incorporate information for a given additional contextual summarization
+question in used
+blair goldensohn and mckeown discourse relations for content selection and organization and automatic achieved an improvement in both cases
+course relations were also used successfully by zahri and fukumoto for news rization
+showed how discourse query based summaries of a
+however the work described above have been developed for formal well written and factual documents
+most of these work show how course relations can be used in text summarization and show their overall usefulness
+to the best of our knowledge our work is the rst to measure the effect of specic relations on the summarization of informal and opinionated text
+tagging discourse relations to evaluate the effect of discourse relations on a large scale sentences need to be tagged ically with discourse relations
+for example the sentence yesterday i stayed at home because it was raining
+needs to be tagged as containing a cause relation
+one sentence can convey zero or several discourse relations
+for example the sentence starbucks has contributed to the larity of good tasting coffee does not contain any discourse relations of interest to us
+on the other hand the sentence while i like the zillow face and agree it s an easy way to nd data i d prefer my readers used their own brain to perform a basic valuation of a property instead of relying on zestimates contains relations of interest one comparison three illustrations and one bution
+most frequent discourse relations
+since our work is performed within the work of blog summarization we have only sidered the discourse relations that are most ful to this application
+to nd the set of the relations needed for this task we have rst manually analyzed summaries randomly lected from participating systems at the tac opinion summarization track and domly selected blogs from
+in building our relation taxonomy we considered all main discourse relations listed in the omy of mann and thompson s rhetorical ture theory rst mann and thompson
+
+these discourse relations are also considered in grimes grimes and williams predicate lists
+from our corpus analysis we have identied
+the six most prevalent discourse relations in this blog dataset namely comparison contingency lustration attribution topic opinion and tive
+the comparison contingency and tion relations are also considered by most of the work in the eld of discourse analysis such as the pdtb
+penn discourse treebank research group prasad et al and the rst discourse bank research group carlson and marcu
+
+we considered three additional classes of tions attributive attribution and topic opinion
+
+these discourse relations are summarized in ure while a description of these relations is given below
+
+illustration
+is used to provide additional mation or detail about a situation
+for example collections figure most frequent discourse relations in blogs and their sub relations allied capital is a closed end management vestment company that will operate as a business development concern
+as shown in figure illustration
+tions can be sub divided into sub categories joint list disjoint and elaboration relations according to the rst discourse treebank
+carlson and marcu and the penn
+course treebank prasad et al
+contingency provides cause condition reason or evidence for a situation result or claim
+for example the meat is good because they slice it
+right in front of you
+as shown in figure the contingency tion subsumes several more specic relations
+planation evidence reason cause result quence background condition hypothetical ablement and purpose relations according to the penn discourse treebank prasad et al
+comparison gives a comparison and contrast among different situations
+for example its forward and rewind work much more smoothly and consistently than those of other models i ve had
+the comparison relation subsumes the contrast relation according to the penn discourse
+bank prasad et al and the analogy and preference relations according to the rst
+course
+treebank
+carlson and marcu
+attributive
+relation provides details about an entity or an event mary has a pink coat
+it can be used to illustrate a particular feature about a concept or an entity picasa makes sure
+your pictures are always organized
+the tributive relation also included in grimes icates grimes is considered because it
+scribes attributes or features of an object or event and is often used in query based summarization and question answering
+topic opinion we introduced topic opinion
+lations to represent opinions which are not pressed by reported speech
+this relation can be used to express an opinion an internal feeling or belief towards an object or an event
+for example cage is a wonderfully versatile actor
+attribution these relations are instances of ported speech both direct and indirect which may express feelings thoughts or hopes
+for ple the legendary gm chairman declared that his company would make a car for every purse and purpose automatic discourse tagging
+once the manual analysis identied the most relations we tried to prevalent set of frequency by tagging them sure their tomatically within a larger corpus
+only
+recently the hilda hernault et al
+and feng and hirst discourse parser were made publicly available
+both of these parsers work at the text level as opposed to the sentence level and hence currently achieve the highest tagging performance when compared feng and hirst s to the state of the art
+work showed a signicant improvement on the performance of hilda by enhancing its original feature set
+however at the time this research was done the only publicly available discourse parser was spade soricut and marcu which operates on individual sentences
+to identify illustration contingency comparison and attribution relations we have used spade discourse parser
+however we have mented this parser with three other approaches
+jindal and liu s approach is used to tify intra sentence comparison relations we have designed a tagger based on fei et al
+s approach to identify topic opinion relations
+and we have proposed a new approach to tag attributive relations mithun
+a tion and evaluation of these approaches can be found in mithun
+by combining these approaches a sentence is tagged with all possible discourse relations that it contains
+distribution of discourse relations to nd the most prevalent discourse relations for opinion summarization we have used the tac opinion summarization track input document set collection which is a subset of and the answer nuggets provided by tac as the reference summary or model summaries which had been created to evaluate participants maries at the tac
+opinion summarization track
+the collection consists of blogs on different topics
+the dataset of the model maries consists of sentences
+using the discourse parsers presented in section we computed the distribution of discourse lations within the tac
+opinion
+
+tion collection and the model summaries
+tion contingency comparison attributive opinion and attribution are the most frequently occuring relations in our data sets
+the tion is shown in table
+table distribution of discourse relations in the and datasets discourse relation illustration contingency
+comparison attributive
+topic opinion
+attribution other
+none tac duc coll
+model coll
+model
+table shows that in the tac input ument set the illustration relation occurs in of the sentences while attribution is the least quently occurring relation
+in this dataset other relations such as antithesis and temporal tions occur in about of the sentences and about of the sentences did not receive any lation tag
+as indicated in table the tac model summaries have a similar distribution as the lection as a whole
+the attributive relation seems however to be more frequent in the summaries than in the original texts
+we pect that the reason for this is due to the question types of this track
+to successfully generate relevant summaries that answer the questions of this track candidate sentences need to contain tributive relations
+for example to answer the questions from this track why do people like casa
+or what features do people like about windows vista the summary needs to provide table the percentages do not add up to because a sentence may contain more than one relation
+details about these entities or illustrate a particular feature about them
+as a result the summary will be composed of many attributive relations since
+attributive relations help to model the required formation
+
+to compare the distribution of discourse tions within more formal types of texts such as news articles we used the document ing conference duc
+main task input ument set collection and their associated model summaries
+the duc dataset is a news
+cle based dataset from the aquaint corpus
+the duc input document set contains news articles on different topics
+the model maries were used to evaluate the duc ticipants summaries
+the dataset of the model summaries contains summaries generated by the national institute of standards and ogy nist assessors with a summary length of about words
+the distribution of relations in this dataset are shown in table
+table shows that the most frequently ring relation in the duc document tion and in the model summaries is illustration while the attribution relation is the least frequently occurring relation
+here again it is interesting to note that the distribution of the discourse relations in the document collection and in the model maries is generally comparable
+the distribution of the illustration contingency and comparison relations in the duc dataset is comparable to those in the tac opinion summarization dataset
+
+indeed table shows that illustration contingency and comparison lations occur quite frequently irrespective of the textual genre
+however in contrast to the tac dataset attributive topic opinion and attribution relations occur very rarely in duc
+we pect that this is mostly due to the opinionated ture of blogs
+another observation is that temporal relations included in other occurred very quently in the duc dataset whereas
+this relation occurs rarely in the blog dataset
+this is in line with our intuition that news articles present events that inherently contain temporal formation
+evaluation of discourse relations
+to measure the usefulness of discourse relations for the summarization of informal texts we have tested the effect of each relation with four ferent summarizers blogsum mithun mead
+radev et al the best scoring tem at tac and the best scoring system at duc
+we have evaluated the effect of each discourse relation on the summaries ated and compared the results
+let us rst describe the blogsum summarizer
+blogsum blogsum is a domain independent query based extractive summarization system that uses sentential discourse relations within the work based on text schemata
+the heart of sum is based on discourse relations and text schemata
+blogsum works in the following way first candidate sentences are extracted and ranked using the topic and question similarity to give priority to topic and question relevant sentences
+since blogsum has been designed for blogs which are opinionated in nature to rank a tence the sentence polarity positive negative or neutral is calculated and used for sentence ranking
+to extract and rank sentences blogsum thus calculates a score for each sentence using the features shown below sentence score question similarity topic similarity subjectivity score where question similarity and topic similarity are calculated using the cosine similarity based on words and the subjectivity score is lated using a dictionary based approach based on the mpqa
+once sentences are ranked they are categorized based on the discourse tions that they convey
+this step is critical because the automatic identication of discourse relations renders blogsum independent of the domain
+this step also plays a key role in content selection and summary coherence as schemata are designed
+ing these relations
+
+in order not to answer all questions the same way blogsum uses different schemata to erate a summary that answers specic types of questions
+each schema is designed to give ority to its associated question type and tive sentences as summaries for opinionated texts are generated
+each schema species the types of discourse relations and the order in which they should appear in the output summary for a ticular question type
+figure shows a sample schema that is used to answer reason questions
+why do people like picasa
+according to this one or more sentences containing a topic opinion or attribution relation followed by zero or many sentences containing a contingency or comparison relation followed by zero or many sentences containing a attributive relation should be used
+figure a sample discourse schema used in blogsum
+
+finally the most appropriate schema is selected based on a given question type and candidate
+tences ll particular slots in the selected schema based on which discourse relations they contain in order to create the nal summary details of sum can be found in mithun
+evaluation of discourse relations on blogs
+to evaluate the effect of each discourse relation for blog summarization we performed several iments
+we used as a baseline the original ranked list of candidate sentences produced by blogsum before applying the discourse schemata and pared this to the blogsum generated summaries with and without each discourse relation
+we used the tac opinion summarization dataset which consists of questions on topics on each topic one or two questions were asked and to relevant documents were given
+for each question one summary was generated with no gards to discourse relations and two summaries were produced by blogsum
+one using the course tagger and the other without using the cic discourse tagger
+the maximum summary length was restricted to words
+
+
+notation indicates an alternative indicates tionality indicates that the item may appear to n times and indicates that the item may appear to n times to measure the effect of each relation we have automatically evaluated how blogsum performs using the standard and rouge measures
+for comparative purposes table shows the ofcial and
+
+r for all submissions of the tac opinion summarization track
+
+in the table tac average refers to the mean performance of all participant systems and tac best refers to the best scoring system at tac
+table results of the tac opinion
+marization track system name tac average tac best
+r table with the tac dataset effect of discourse relations on system name baseline illustration contingency comparison attributive
+topic opinion attribution
+with all relations blogsum mead tac best
+
+
+table
+rouge with the tac dataset effect of discourse relations on system name baseline illustration contingency comparison attributive topic opinion attribution with all relations blogsum mead tac best r r
+
+r
+
+the results of our evaluation are shown in bles and rouge
+as the tables show blogsum s baseline is situated below the best scoring system at but much higher than the average system see ble hence it represents a fair baseline
+the tables further show that using both the and
+rouge r metrics with the tac dataset blogsum performs better when taking discourse relations into account
+
+indeed when ignoring discourse relations blogsum has a and r and misses many question relevant sentences whereas the inclusion of these relations helps to incorporate those vant sentences into the nal summary and brings
+in the score to and r to
+order to verify if these improvements were tistically signicant we performed a tailed test
+the results of this test are indicated with the symbol in tables and
+for example the baseline setup of blogsum performed cantly lower for both and r compared to blogsum with all relations
+this result indicates that the use of discourse relations as a whole helps to include more question relevant sentences and improve the summary content
+
+to ensure that the results were not specic to our summarizer we performed the same ments with two other systems the mead marizer
+radev et al a publicly available and a widely used summarizer and with the output of the tac best scoring system
+for mead we rst generated candidate sentences using mead then these candidate sentences were tagged using discourse relation taggers used under blogsum
+
+then these tagged sentences were ltered using
+blogsum
+so that no sentence with a specic lation is used in summary generation for a ticular experiment
+we have calculated rouge scores using the original candidate sentences erated by mead and also using the ltered date sentences
+as a baseline we used the nal candidate sentences generated by mead
+as a best case scenario we have passed these candidate sentences through the discourse schemata used by
+blogsum see section
+in tables and this is referred to as mead with all relations
+we have applied the same approach with the output of the tac best scoring system
+in the tables best baseline refers to the original summaries generated by the tac best system and tac best with all relations refers to the summaries
+erated by applying discourse schemata using the summary sentences generated by the tac best system
+when looking at individual relations tables and show that considering illustrations gencies and comparisons make a statistically
+nicant improvement in all scenarios and with all summarisers
+for example if tac best does not consider illustration relations then the score decreases from to and respectively
+on the other hand the relations of topic opinion attribution and attributive do not consistently lead to a statistically signicant provement on rouge scores
+it is interesting to note that although mal texts may not exhibit a clear discourse ture the use of individual discourse relations such as illustration contingency and comparison is nonetheless useful in the analysis of informal uments such as those found in the social media
+effect of discourse relations on news to compare the results found with blogs with more formal types of texts we have performed the same experiments
+but this time with the duc
+main task dataset
+
+in this task given a topic title and a set of relevant documents ticipants had to create an automatic summary of length words from the input documents
+in the dataset there were topics and thirty teams
+ticipated to this shared task
+table shows the cial and
+rouge r scores of the duc main task summarization
+in table duc average refers to the track
+
+mean performance of all participant systems and duc best refers to the best scoring system at duc
+table duc main task summarization results system name duc average duc best
+
+r table with the duc dataset effect of discourse relations on system name baseline illustration contingency comparison attributive
+topic opinion attribution
+with all relations
+blogsum mead
+duc best
+
+tables and show the results with this dataset with respect to and respectively
+as the tables show table effect of discourse relations on rouge
+with the duc dataset system name baseline illustration contingency comparison attributive topic opinion attribution with all relations
+blogsum
+mead duc best r r r
+
+sum s performance with all discourse relations and r is similar to the duc average performance shown in table and r which is much lower than the duc best performance r shown in table
+however these results show that even though blogsum was signed for informal texts it still performs tively well with formal documents
+tables and further show that with the news dataset the same relations have the most effect as with blogs
+indeed blogsum generated summaries also
+et most from the contingency illustration and comparison relations and all three relations bring a statistically signicant contribution to the mary content
+
+here again as shown in tables and we performed the same experiments with two other the mead summarizer and the output systems of the duc best system
+again for the duc dataset each discourse relation has the same effect on summarization with all systems as with the blog dataset contingency illustration and comparison provide a statistically signicant improvement in content while attributive opinion and attribution do not reduce the content but do not see to bring a systematic and signicant improvement
+conclusion and future work
+in this paper we have evaluated the effect of course relations on summarization
+we have sidered the six most frequent relations in blogs namely comparison contingency illustration tribution topic opinion and attributive
+first we have measured the distribution of discourse tions on blogs and on news articles and show that the prevalence of these six relations is not genre dependent
+for example the relations of tration contingency and comparison occur quently in both textual genres
+we have then uated the effect of these six relations on rization with the tac opinion
+tion dataset and the duc dataset
+we have conducted these evaluations with our tion system called blogsum the tac best scoring the duc best scoring system and the system mead summarizer
+the results show that for both textual genres some relations have more effect on summarization compared to others
+in both types of texts the contingency illustration and ison relations provide a signicant improvement on summary content while the attribution opinion and attributive relations do not provide a systematic and statistically signicant ment
+these results seem to indicate that at least for summarization discourse relations are just as useful for informal and affective texts as for more traditional news articles
+this is interesting
+cause although informal texts may not exhibit a clear discourse structure the use of individual course relations is nonetheless useful in the sis of informal documents
+
+in the future it would be interesting to ate the effect of other relations such as the poral relation
+indeed temporal relations occur infrequently in blogs but are very frequent in news articles
+such an analysis would allow us to lor the type of discourse relations to include in the nal summary as a function of the textual genre being considered
+
+in the future it would also be interesting to use other types of texts such as reviews and evaluate the effect of discourse relations using other measures than and rouge
+
+finally we would like to validate this work again with the newly able discourse parsers of hernault et al and feng and hirst
+acknowledgement
+
+the authors would like to thank the anonymous referees for their valuable comments on an earlier version of the paper
+this work was nancially supported by an nserc grant
+references andreevskaia et
+andreevskaia bergler urseanu all blogs are not made equal
+exploring genre differences in sentiment tagging of blogs
+in proceedings of the international ference on weblogs and social media boulder colorado
+blair goldensohn and
+
+goldensohn mckeown
+integrating
+rhetorical semantic relation models for focused summarization
+in proceedings of the document understanding conference duc
+workshop at naacl hlt new york usa
+
+bosma query based tion using rhetorical structure theory
+in ings of the meeting of computational guistics in the netherlands clin leiden netherlands
+
+carlson and carlson marcu course tagging reference manual
+university of southern california information sciences institute isi
+
+fei et fei huang wu
+mining the relation between sentiment expression and target
+using dependency of words
+proceedings of the pacic asia conference on language mation and computation wuhan china
+
+feng and
+feng hirst text level discourse parsing with rich linguistic features
+in proceedings of burg usa
+
+grimes
+the thread of discourse
+
+technical report
+no
+nsf nsf
+
+cornell university ithaca new york
+
+hernault
+hernault prendinger
+
+verle ishizuka hilda
+a discourse parser using support vector machine classication
+dialogue and discourse
+
+jindal and
+jindal liu identifying comparative sentences in text documents
+in ceedings of ton usa
+mann and mann thompson rhetorical structure theory
+toward a functional theory of text organisation
+text
+
+marcu from discourse tures to text summaries
+proceedings of the workshop on intelligent scalable text summarization
+madrid spain
+
+mckeown
+discourse gies for generating natural language text
+ticial intelligence
+
+mithun exploiting rhetorical tions in blog summarization
+phd thesis ment of computer science and software
+ing concordia university montreal canada
+
+otterbacher otterbacher radev luo revisions that improve cohesion in multi document summaries a preliminary study
+
+in proceedings of the workshop on matic summarization philadelphia usa
+prasad et prasad miltsakaki dinesh lee joshi robaldo webber
+the penn discourse treebank
+annotation manual
+
+university of pennsylvania
+
+radev radev et al
+mead
+form for multidocument multilingual text rization
+in proceedings of lisbon portugal
+
+soricut and soricut marcu tence level discourse parsing using syntactic and lexical information
+in proceedings of naacl hlt edmonton canada
+
+taboada discourse markers as signals or not of rhetorical relations
+ics
+
+zahri and
+zahri moto multi document summarization using link analysis based on rhetorical relations tween sentences
+in proceedings of cicling tokyo japan
+

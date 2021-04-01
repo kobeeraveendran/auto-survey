@@ -1,0 +1,342 @@
+semantic sentence embeddings for paraphrasing and text summarization chi zhang shagan sah thang nguyen dheeraj peri alexander loui carl salvaggio raymond ptucha rochester institute of technology rochester ny usa kodak alaris imaging science rochester ny usa p e s l c
+s
+c
+v
+
+v
+i x r a abstract
+this paper introduces a sentence to vector encoding work suitable for advanced natural language processing
+our latent representation is shown to encode sentences with mon semantic information with similar vector tions
+the vector representation is extracted from an decoder model which is trained on sentence paraphrase pairs
+
+we demonstrate the application of the sentence tations for two different tasks sentence paraphrasing and paragraph summarization making it attractive for commonly used recurrent frameworks that process text
+experimental sults help gain insight how vector representations are suitable for advanced language embedding
+index terms sentence embedding sentence encoding sentence paraphrasing text summarization
+deep learning
+introduction modeling temporal sequences of patterns requires the ding of each pattern into a vector space
+for example by passing each frame of a video through a convolutional
+ral network cnn a sequence of vectors can be obtained
+
+these vectors are fed into a recurrent neural network rnn to form a powerful descriptor for video annotation
+
+similar techniques such as and glove have been used to form vector representations of words
+using such embeddings sentences become a sequence of word tors
+when these vector sequences are fed into a rnn we get a powerful descriptor of a sentence
+
+given vector representations of a sentence and video the mapping between these vector spaces can be solved ing a connection between visual and textual spaces
+this ables tasks such as captioning summarizing and searching of images and video to become more intuitive for humans
+by vectorizing paragraphs similar methods can be used for richer textual descriptions
+recent advances at vectorizing sentences represent exact sentences faithfully or pair a current sentence with prior and next sentence
+just like and glove map words of similar meaning close to one another we desire a method to map sentences of similar meaning close to one another
+for example the toy sentences a man jumped over the stream and a person hurdled the creek have similar meaning to humans but are not close in traditional sentence vector representations
+just like the words ower rose and tulip are close in good sentence to vector representations our toy sentences must lie close in the introduced embedded tor space
+
+inspired by the meteor
+captioning benchmark which allows substitution of similar words we choose to map similar sentences as close as possible
+we utilize both phrase datasets and ground truth captions from multi human captioning datasets
+for example the ms coco dataset
+has over k images each with ve captions from ve different evaluators
+on average each of these ve captions from each image should convey the same semantic ing
+we present an encoder decoder framework for sentence paraphrases and generate the vector representation of tences from this framework which maps sentences of similar semantic meaning nearby in the vector encoding space
+the main contributions of this paper are
+the usage of sentences from widely available image and video captioning datasets to form sentence paraphrase pairs whereby these pairs are used to train the encoder decoder model
+we show the application of the sentence embeddings for graph summarization and sentence paraphrasing whereby evaluations are performed using metrics vector tions and qualitative human evaluation and
+we extend the vectorized sentence approach to a hierarchical architecture enabling the encoding of more complex structures such as paragraphs for applications such as text summarization
+
+the rest of this paper is organized as follows section reviews some related techniques
+section presents the proposed encoder decoder framework for sentence and graph paraphrasing
+section discusses the experimental sults
+concluding remarks are presented in section
+
+related work most machine learning algorithms require inputs to be sented by xed length feature vectors
+this is a challenging task when the inputs are text sentences and paragraphs
+many studies have addressed this problem in both supervised and unsupervised approaches
+for example presented a tence vector representation while created a paragraph tor representation
+an application of such representations is shown by that has used individual sentence embeddings from a paragraph to search for relevant video segments
+an alternate approach uses an encoder decoder framework that rst encodes inputs one at a time to the rst layer of a two layer long short term memory lstm where can be of variable length
+such an approach is shown for video captioning tasks by that encodes the entire video then decodes one word at a time
+there are numerous recent works on generating long tual paragraph summaries from videos
+for example present a hierarchical recurrent network that comprise of a paragraph generator that is built on top of a sentence
+the sentence generator encodes sentences into compact tations and the paragraph generator captures inter sentence
+performed similar narratives from long dependencies
+videos by combining sentences using connective words at propriate transitions learned using unsupervised learning
+
+methodology
+the vector representation of a sentence is extracted from an encoder decoder model on sentence paraphrasing and then tested on a text summarizer
+
+vector representation of sentences we consider the sentence paraphrasing framework as an encoder decoder model as shown in fig
+
+given a tence the encoder maps the sentence into a vector and this vector is fed into the decoder to produce a phrase sentence
+we represent the paraphrase sentence pairs as sx sy
+let xi denote the word embedding for sentence
+sx and yj denote the word embedding for sentence sy i tx j ty where tx and ty are the length of the paraphrase sentences
+several choices for encoder have been explored including lstm gru and
+bn rhn
+in our model we use an rnn encoder with lstm cells since it is easy to be plemented and performs well on this model
+specically the words in sx are converted into token ids and then embedded using glove
+to encode a sentence the embedded words are iteratively processed by the lstm cell
+
+
+the decoder is a neural language model which conditions on the encoder output htx
+the computation is similar to that of the encoder
+the vector htx encodes the input sentence into a vector and is known as the vector representation of the input sentence or in this paper
+note that we do not have attention between encoder and decoder
+this ensures that all the information extracted from the input sentence by encoder goes through
+in other words attention is not adopted in order to avoid information leakage
+fig
+
+the sentence paraphrasing model
+the red and blue cells represent encoder and decoder respectively
+the mediate vector in black is vector encoded sentence
+
+in full softmax training for every training example in the word level we would need to compute logits for all classes
+however this can get expensive if the universe of classes
+
+pending on size of vocabulary is very large
+given the dicted sentence and ground truth sentence we use sampled softmax as a candidate sampling algorithm
+for each training sample we pick a small set of sampled classes
+cording to a chosen sampling function
+a set of candidates c is created containing the union of the target class and the sampled classes
+the training task gures out given this set c which of the classes in c is the target class
+
+hierarchical encoder for text summarization each sentence in a paragraph can be represented by a tor using the method described in section
+these tors xi i
+tx are fed into a hierarchical encoder
+and then the summarized text is generated word by word in an rnn decoder as shown in fig
+
+we rst divide all tx vectors into several chunks xn xt xt xt where is the stride and it denotes the number of temporal units
+
+
+jacent chunks are apart
+for each chunk a feature vector is extracted using a lstm layer and fed into the second layer
+each feature vector gives a proper abstract of its responding chunk
+we also use lstm units in the second layer to build the hierarchical encoder
+the rst lstm layer serves as a lter and it is used to explore local temporal structure within subsequences
+the second lstm learns the temporal dependencies among subsequences
+as a result the feature vector generated from the second layer which is called summarizes all input vectors
+
+tracted from the entire paragraph
+finally a rnn decoder converts into word sequence forming a summarized sentence
+we integrate a soft attention mechanism in the archical encoder
+the attention mechanism allows the lstm to pay attention to different temporal locations of the input sequence
+when the input sequence and the output sequence are not strictly aligned attention can be especially helpful
+start eos
+levels in each sequence
+
+training details
+sentence paraphrasing
+we trained the model as described in section on the visual caption datasets
+the word bedding is initialized using glove
+the number of units per layer in both encoder and decoder are empirically set to and
+we generate two sets of vocabularies with size and
+stochastic gradient descent is employed for timization where the initial learning rate and decay factor are set to and respectively
+
+paragraph summarization
+in this task we summarize tailed description to single sentence in tacos multi level corpus
+we select detailed descriptions with less than tences
+there are total of samples are used for training and are used for testing
+we employed the erarchical architecture described in section with stride s of
+feature vectors short paragraphs are zero padded are fed into the model with each vector s sentence tation extracted from our paraphrasing model
+to make the model more robust soft attention is used between each layer
+
+during training we use learning rate and adam mizer
+all the lstm cells are set to units except the one in sentence generation layer which is set to units
+
+sentence paraphrasing given a reference sentence the objective is to produce a mantically related sentence
+the paraphrasing model was trained on visual caption datasets and evaluated on the sick dataset without any ne tuning
+the results are shown in table
+the evaluation metrics for this experiment are son s r spearman s and mean squared
+we use the same setup used by for calculation of these metrics
+table
+test set results on the sick semantic relatedness task where denote the number of hidden units and denote the size of the vocabulary
+r and are son s and spearman s metric respectively
+
+
+r
+mse
+in order to visualize the performance of our method we applied pca to the vector representation
+fig
+visualizes some of the paraphrase sentence pairs in the sick dataset
+
+representations are sensitive to the semantic information of the sentences since pairwise sentences are close to each other
+
+for example point and are close because watching and looking are semantically related
+
+the semantic relatedness and grammar correctness are veried by human generated scores
+each score is the erage of different human annotators
+scores take values fig
+the paragraph summarizer
+the red and blue cells represent encoder and decoder respectively
+the encoder puts xi are the vector representation generated using of the sentences in the paragraph
+the decoder outputs are the words in summarized text
+the intermediate vector in black is vector encoded paragraph
+
+experimental results
+datasets visual caption datasets
+there are numerous datasets with multiple captions for images or videos
+for example vtt dataset is comprised of videos with tences each describing the videos
+the sentences are phrases since all the sentences are describing the same visual input
+we form pairs of these sentences to create input target samples
+likewise msvd ms coco and
+are used
+table lists the statistics of datasets used
+
+of captions from all datasets was held out as a test set
+in total we created over m training samples
+table
+sentence pairs statistics in captioning datasets
+msvd msrvtt mscoco flickr
+k k sent sent samp
+sent pairs k m k m k m the sick dataset
+we use the sentences involving sitional knowledge sick dataset
+as a test set for tence paraphrasing task
+it consists about english tence pairs which are annotated for relatedness by means of crowd sourcing techniques
+the sentence relatedness score on a point rating scale for each sentence pair is provided and meant to quantify the degree of semantic relatedness tween sentences
+
+tacos multi level corpus we extract training pairs for the paragraph summarization task from tacos multi level corpus
+
+this dataset provides coherent multi sentence descriptions of complex videos featuring cooking activities with three levels of detail detailed short and single tence description
+there are training and test video sequences with annotations for each of the description a
+fig
+
+t sne visualizations of single sentence descriptions of a subset of all sequences on tacos multi level corpus
+
+our skip thoughts and
+skip gram
+points are colored based on their sequence ids
+there are different annotations for each sequence
+best viewed in color
+c the young boys are playing outdoors and the man is smiling nearby a group of kids is playing in a yard and an old man is standing in the background a brown dog is attacking another animal in front of the man in pants a brown dog is helping another animal in front of the man in pants two people are kickboxing and spectators are watching two people are ghting and spectators are watching kids in red shirts are playing in the leaves three kids are jumping in the leaves a little girl is looking at a woman in costume the little girl is looking at a man in costume
+a woman is removing the peel of a potato a woman is peeling a potato ve children are standing in front of a wooden hut ve kids are standing close together and one kid has a gun training are all from captions
+the styles and ics of the sentences in this dataset are limited
+however the approach of forming sentence paraphrasing pairs and senting sentences using vectors are valid
+table
+evaluation of short to single sentence summarization on tacos multi level corpus using vectors from skip thoughts and skip gram respectively
+skip gram skip thoughts fig
+
+some paraphrase sentence pairs are represented by our and then projected into space using pca
+
+each point represents a sentence in sick dataset and the responding sentence is shown on the right
+between and
+a score of indicates that the sentence pair is not at all related or totally incorrect syntax while a score of indicates they are highly related or grammatically correct
+the sentences in human evaluation come from the visual caption and sick test sets
+the human evaluated scores of most sentence pairs are inversely proportional to the euclidean distance between the vector representation of the corresponding sentences
+
+meteor
+rouge l cider
+
+
+
+fig
+shows t sne
+vector representation using a
+our skip thoughts and c skip gram of domly selected test sequences
+in these plots each point represents a single sentence
+points describing the same video sequence should be clustered
+points with the same color are nicely grouped in visualization
+
+text summarization
+conclusion
+we now show that in addition to paraphrasing is useful for text summarization
+we use the tacos
+level corpus
+sentences from detailed descriptions of each video sequence are rst converted into vectors using our model
+these vectors are fed into our summarizer described in section
+the performance of the summarized text is evaluated based on the metric scores and compared to thoughts and skip gram
+note that skip gram is used as the frequency based average of for each word in the sentence
+as shown in table the scores generated by our model are very close and comparable to the benchmark thoughts
+this result is reasonable since the dataset used in we showed the use of a deep lstm based model in a quence learning problem to encode sentences with common semantic information to similar vector representations
+the presented latent representation of sentences has been shown useful for sentence paraphrasing and document
+
+
+tion
+we believe that reversing the encoder sentences helped the model learn long dependencies over long sentences
+one of the advantages of our simple and straightforward sentation is the applicability into a variety of tasks
+further research in this area can lead into higher quality vector resentations that can be used for more challenging sequence learning tasks
+
+references subhashini venugopalan et al
+translating videos to natural language using deep recurrent neural networks
+
+li yao et al
+describing videos by exploiting temporal structure in iccv pp
+
+andrew shin et al
+beyond caption to narrative video in icip
+ieee captioning with multiple sentences pp
+
+junyoung chung et
+al empirical evaluation of gated recurrent neural networks on sequence modeling arxiv preprint
+
+chi zhang et al batch normalized recurrent highway subhashini venugopalan et al
+sequence to sequence networks in icip
+ieee
+video to text in iccv
+tomas mikolov et al
+distributed representations of words and phrases and their compositionality in nips pp
+
+
+jeffrey pennington richard socher and christopher manning glove global vectors for word tion in emnlp pp
+
+kyunghyun cho et al
+on the properties of neural chine translation encoder decoder approaches arxiv preprint
+quoc v le and tomas mikolov distributed tations of sentences and documents in icml vol
+pp
+
+nal kalchbrenner edward grefenstette and phil som a convolutional neural network for modelling sentences arxiv preprint
+han zhao zhengdong lu and pascal poupart adaptive hierarchical sentence model arxiv preprint
+ryan kiros al
+skip thought vectors in nips pp
+
+
+satanjeev banerjee and alon lavie meteor tomatic metric for mt evaluation with improved tion with human judgments in proceedings of the acl workshop on intrinsic and extrinsic evaluation measures for machine translation summarization
+
+tsung yi lin et al microsoft coco common objects in context in eccv pp
+
+jinsoo choi et al
+textually customized video maries arxiv preprint
+sutskever et al
+sequence to sequence learning with neural networks in nips pp
+
+
+subhashini venugopalan et al
+sequence to video to text in iccv pp
+
+
+haonan yu et al video paragraph captioning using hierarchical recurrent neural networks in cvpr pp
+
+
+sebastien jean et al
+on using very large target cabulary for neural machine translation arxiv preprint
+pingbo pan et al
+hierarchical recurrent neural coder for video representation with application to tioning in cvpr pp
+
+
+dzmitry bahdanau kyunghyun cho and yoshua gio neural machine translation by jointly learning to align and translate arxiv preprint
+
+jun xu
+et al msr vtt a large video description dataset for bridging video and language in cvpr
+
+david l chen and william b dolan collecting highly parallel data for paraphrase evaluation in proceedings of the association for computational linguistics human language technologies volume
+acl pp
+
+
+
+tsung yi lin et al microsoft coco common objects in context in european conference on computer sion
+springer pp
+
+peter young et al
+from image descriptions to visual denotations new similarity metrics for semantic ence over event descriptions transactions of the ciation for computational linguistics
+marco marelli et al
+a sick cure for the evaluation of compositional distributional semantic models in lrec pp
+
+
+anna rohrbach et al
+coherent multi sentence video description with variable level of detail in german conference for pattern recognition
+christopher manning kai sheng tai richard socher from in improved structured long short term memory networks association for computational linguistics
+representations semantic
+
+laurens van der maaten and geoffrey hinton alizing data using t sne journal of machine learning research vol
+no
+nov pp
+
+

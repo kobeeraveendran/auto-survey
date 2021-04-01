@@ -1,0 +1,606 @@
+learning to summarize radiology findings yuhao zhang daisy yi ding tianpei qian christopher manning curtis langlotz stanford university
+stanford ca yuhaozhang dingd manning t
+c
+
+o l c
+s
+c
+v
+v i x r a abstract the impression section of a radiology report summarizes crucial radiology ndings in ural language and plays a central role in municating these ndings to physicians
+
+ever the process of generating impressions by summarizing ndings is time consuming for radiologists and prone to errors
+we propose to automate the generation of radiology
+sions with neural sequence to sequence ing
+we further propose a customized neural model for this task which learns to encode the study background information and use this formation to guide the decoding process
+on a large dataset of radiology reports collected from actual hospital studies our model forms existing non neural and neural baselines under the rouge metrics
+in a blind iment a board certied radiologist indicated that of sampled system summaries are at least as good as the corresponding written summaries suggesting signicant ical validity
+to our knowledge our work resents the rst attempt in this direction
+introduction
+the radiology report documents and cates crucial ndings in a radiology study
+as shown in figure a standard radiology report usually consists of a background section that scribes the exam and patient information a ings section and an impression section kahn jr et al
+in a typical workow a radiologist rst dictates the detailed ndings into the report and then summarizes the salient ndings into the more concise impression section based also on the condition of the patient
+
+the impressions are the most signicant part of a radiology report that communicate the ings
+previous studies have shown that over of referring physicians read only the impression statements in a report lafortune et al background history swelling pain
+technique views of the left ankle were acquired
+comparison no prior study available
+findings there is normal mineralization and alignment
+
+no fracture or osseous lesion is identied
+the ankle tise and hindfoot joint spaces are maintained
+there is no joint effusion
+the soft tissues are normal
+human impression normal left ankle radiographs
+extractive baseline there is no joint effusion
+pointer generator normal right ankle
+our model normal radiographs of the left ankle
+figure an example radiology report with study background information organized into a background section and radiology ndings in a findings tion
+the human written summary or impression and predicted summaries from different models are also shown
+the extractive baseline does not summarize well the baseline pointer generator model generates spurious sequence while our model gives correct mary by incorporating the background information
+
+bosmans al
+despite its importance the generation of the impression statements is prone
+for example crucial ndings may be
+gotten which would cause signicant nications gershanik al
+additionally the process of writing the impression statements is time consuming and highly repetitive with the tation of the ndings
+this suggests a crucial need to automate the radiology impression generation process
+
+in this work we propose to automate the generation of radiology impressions with neural sequence to sequence learning
+in particular we argue that this task could be viewed as a text marization problem where the source sequence is the radiology ndings and the target sequence the impression statements
+we collect a dataset of diology reports from actual hospital radiographic studies and nd that this task involves both tractive summarization where descriptions of diology observations can be taken directly from the ndings and abstractive summarization where new words and phrases such as conclusions of the study need to be generated from scratch
+we empirically evaluate existing popular tion systems on this task and nd that while
+isting neural models such as the pointer generater network can generate plausible summaries they sometimes fail to model the study background formation and thus generate spurious results
+to solve this problem we propose a customized marization model that properly encodes the study background information and uses the encoded formation to guide the decoding process
+we show that our model outperforms existing non neural and neural baselines on our dataset measured by the standard rouge metrics
+over in a blind experiment a board certied ologist indicated that of sampled system maries are at least as good as the reference maries written by well trained radiologists gesting signicant clinical validity of the resulting system
+we further show through detailed sis that our model could be reliably transferred to radiology reports from another organization and that the model can sometimes summarize ogy studies for body parts unseen during training
+
+to review our main contributions in this paper include we propose to summarize radiology ndings into impression statements with neural sequence to sequence learning and to our edge our work represents the rst attempt in this direction we propose a new customized marization model to this task that improves over existing methods by better leveraging study ground information we further show via a diologist evaluation that the summaries generated by our model have signicant clinical validity
+related work early summarization systems
+early work on summarization systems mainly focused on tive approaches where the summaries are ated by scoring and selecting sentences from the input
+luhn proposed to represent the put by topic words and score each sentence by the amount of topic words it contains
+kupiec et al
+scored sentences with a feature based tistical classier
+steinberger and jezek plied latent semantic analysis to cluster the ics and then select sentences that cover the most topics
+meanwhile various graph based methods such as the lexrank mihalcea and tarau and the textrank algorithm erkan and radev were applied to model sentence dency by representing sentences as vertices and similarities as edges
+sentences are then scored and selected via modeling of the graph properties
+neural summarization systems
+tion systems based on neural network models able abstractive summarization where new words and phrases are generated to form the summaries
+
+rush et al
+rst applied an attention based neural encoder and a neural language model
+coder to this task
+nallapati al
+used current neural networks for both the encoder and the decoder
+to address the limitation that neural models with a xed vocabulary can not handle of vocabulary words a pointer generator model was proposed which uses an attention mechanism that copies elements directly from the input lapati et al merity et al see et al
+see et al
+further proposed a age mechanism to address the repetition problem in the generated summaries
+paulus et al
+applied reinforcement learning to summarization and more recently chen and bansal tained improved result with a model
+that rst lects sentences
+and then rewrites them
+summarization of radiology reports
+most prior work that attempts to summarize
+ogy reports focused on classifying and extracting information from the report text friedman et al hripcsak et al elkins et al hripcsak et al
+more recently hassanpour and langlotz studied extracting named tities from multi institutional radiology reports ing traditional feature based classiers
+goff and loehfelm built an nlp pipeline to identify asserted and negated disease entities in the sion section of radiology reports as a step towards report summarization
+cornegruta et al
+proposed to use a recurrent neural network tecture to model radiological language in solving the medical named entity recognition and tion detection tasks on radiology reports
+to our knowledge our work represents the rst attempt
+neural sequence to sequence model where v and v are learnable parameters
+at automatic summarization of radiology ndings into natural language impression statements
+task denition
+we now give a formal denition of the task of summarizing radiology ndings
+given a passage of ndings represented as a sequence of tokens
+xn with n being the length of the ndings our goal is to nd a sequence of tokens
+yl that best summarizes the salient and clinically signicant ndings in x with l being an arbitrary length of the
+note that the mapping between and y can either be modeled in an unsupervised way as done in supervised summarization systems or be learned from a dataset of ndings summary pairs
+models in this section we introduce our model for the task of summarizing radiology ndings
+as our model builds on top of existing work on ral sequence to sequence learning and the generator model we start by introducing them
+
+at a high level our model implements the marization task with an encoder decoder ture where the encoder learns hidden state sentations of the input and the decoder decodes the input representations into an output sequence
+for the encoder we use a bi directional long short term memory bi lstm network
+given
+the ndings sequence
+xn we encode into hidden state vectors with
+bi where h
+
+hn
+here hn combines the last hidden states from both directions in the encoder
+after the entire input sequence is encoded we generate the output sequence step by step with a separate lstm decoder
+formally at the t th step given the previously generated token and the previous decoder state the decoder calculates the current state st with st
+
+we then use st to predict the output word
+for the initial decoder state we set hn
+the name impression is often used in clinical tings we use summary and impression interchangably
+
+the vanilla sequence to sequence model that uses only st to predict the output word has a major limitation it generates the entire output sequence based solely on a vector representation of the put hn which may result in signicant formation loss
+for better decoding we therefore employ the attention mechanism bahdanau et al luong et al which uses a weighted sum of all input states at every decoding step
+
+given the decoder state st and an input hidden state hi we calculate an input distribution at as wsst et at where wh ws and v are learnable
+we then calculate a weighted input vector as h t at ihi
+i
+h t
+encodes the salient input information that is useful at decoding step lastly we obtain the output vocabulary distribution at step t as p y t
+
+st h pointer generator network
+while the encoder decoder framework described above can generate impressions from a xed cabulary the model can clearly benet from being able to copy salient observations directly from the input ndings
+to add such copying capacity into the model we use a pointer generator network similar to the one described in see et al
+
+the main idea is that at each decoding step t we allow the model to either generate a word from the vocabulary with a generation probability pgen or copy a word directly from the input sequence with probability pgen
+we model pgen as pgen hh t s st where denotes the previous decoder output wh ws and wy learnable parameters and a sigmoid function
+for the copy distribution we reuse the attention distribution at calculated in
+
+therefore the overall output distribution in the pointer generator network is p y at i i xi clarity we leave out the bias terms in all linear layers
+figure overall architecture of our summarization model
+where is the same as the output bution in
+
+incorporating study background
+information the background part of a radiology report is also important since crucial information such as the purpose of the study the body part involved and the condition of the patient are often mentioned only in the background
+a straightforward way of incorporating the background information is to prepend all the background text to the ings and treat the entire sequence as input to the pointer generator network
+however as we show in section this naive method in fact hurts the summarization quality presumably because the model can not sufciently distinguish between the ndings and the background information which as a result leads to insufcient modeling of both the ndings and the background
+to solve this we propose to encode the background text with a separate attentional encoder and use the resulting background representation to guide the decoding process in the summarization model figure
+
+for clarity we now use xb to denote the ground token sequence and to denote the actual ndings section
+our goal is then to nd y that maximizes p
+to do this we again
+tain the hidden state vectors h of the ndings tion as in
+similarly we obtain the hidden state vectors of the background text with xb as input ing a separate bi lstm encoder hb
+bi
+
+next we calculate a distribution over hb as
+
+
+i whhn where wb and wh are learnable parameters and
+hn the last hidden state of the ndings encoder
+
+the distribution models the importance of kens in the background section
+we then obtain a weighted representation of the background text as ihb
+
+i i where vector b has the same size as hb and codes the salient background information
+
+lastly we use the background vector b to guide the decoding process by modifying the recurrent kernel of the decoder lstm in to be
+
+it ft ot
+ut tanh
+w
+b ct it ut st ot where it ft ot denotes the input forget and put gates w the weight matrix and ct the nal cell of the lstm repectively and represents an element wise multiplication
+again for clarity we leave out the bias terms in
+as a result every state in the decoding process is directly uenced by the information encoded by the ground vector
+
+the rest of the model including there isnofracture dislocation prominentacutearthritispainfollowinga twoviewrightkneefall findingsmedical background start noacute findings attention distribution background attention distribution azosterfindings hidden states background hidden states vocabulary distribution impressions hidden states azosterarthritisfinalditribution
+there isnofracture dislocation prominentacutearthritisfindings findings attention distribution azosterfindings hidden states vocabulary distribution impressions hidden states azosterarthritisfinalditribution
+thereisnofracture dislocation prominentacutearthritispainfollowinga twoviewrightkneefall noacutendingsattention findingsencoder decoder
+attention background encoder
+there isnofracture dislocation prominentacutearthritispainfollowinga twoviewrightkneefall noacutendings findings attention distribution azosterfindings hidden states impressions hidden states azosterfoundfinalditribution
+azosterpgen
+background attention distribution background hidden states azosterazostercopy distribution vocab distribution text s e l p m a e k k k k pelvis chest abdo m en spine knee ankle shoulder foot wrist elbo w hand tibia figure number of examples split by body part in the collected stanford hospital dataset
+the calculation of the vocabulary distribution and the copy distribution remains the same
+experiments to test the effectiveness of our summarization model we collected reports of radiographic ies from the picture
+archiving and communication system pacs at the stanford hospital
+we scribe our data collection process baseline models and experimental setup in this section and present the results and discussions in section
+data collection reports of all radiographic studies from to were collected
+we rst tokenized all reports with stanford corenlp manning al and ltered the dataset by excluding reports where no ndings or impression section can be found multiple ndings or impression sections can be found but can not be aligned or
+the ndings have fewer than words or the impression has fewer than words
+we removed body parts where only a small number of cases are available and included ports of the top body parts in the pacs system to maintain generalizability
+for common body parts with more than reports chest we subsampled reports from them
+
+this results in a dataset with a total of reports
+we further randomly split the dataset into a training a development and a test set
+we show the dataset statistics split by body part in figure baseline models for our main experiments we compare our model against several competitive non neural and neural systems on the collected dataset
+unless otherwise stated the baseline models take only the ndings section as lsa
+this is an extractive approach scribed by steinberger and jezek which applies latent semantic analysis lsa to marization
+it rst scores concept clusters by
+plying singular value decomposition to the by sentence co occurence matrix derived from the passage
+sentences with the top scored concepts are then kept as the summaries
+lexrank
+lexrank is another popular tive model introduced by erkan and radev
+
+in lexrank a passage is represented as a graph of sentences and a connectivity matrix based on intra sentence cosine similarity is used as the jacency matrix of the graph
+sentences are scored by the eigenvector centrality in the graph and the highest scored sentences are kept
+pointer generator
+we also run the baseline pointer generator model introduced by see et al
+
+we nd the coverage mechanism scribed in the paper did not improve summary quality in our task and therefore did not use it for simplicity
+we compare our model with two versions of the pointer generator model one with only the ndings section as input and another one with the background sections prepended to the ndings section as input
+experimental setup evaluation metrics
+
+in our main experiments we evaluate the models with the widely used rouge metric lin
+we report the scores for and rouge l which measure the word level unigram overlap bigram overlap and the longest common sequence between the reference summary and the system predicted summary respectively
+word vectors
+to enable knowledge transfer from a larger corpus we applied the glove
+rithm pennington et al to a corpus of million radiology reports of all modalities x ray ct and body parts
+we used the ing dimensional word vectors to initialize all word embedding layers in our neural models and empirically found this to improve the performance of our neural models by about rouge l score
+nd
+that when the background section is prepended to the input the extractive baseline models may select tences in the background part as the summary resulting in deteriorated performance
+system rouge l extractive baseline lsa extractive baseline lexrank pointer generator pointer generator background
+our model table main results on the test set of the stanford reports
+background represents prepending the background section to the ndings section to form the input to the model
+all the rouge scores have a condence interval of at most as calculated by the ofcial rouge script
+implementations model details
+for the two non neural extractive baselines we use their open
+for both of them we select the top n scored sentences to form the summary and treat n as a hyperparameter
+we use n in our experiments as it yields best scores on the dev set
+we implemented all neural models with to train the neural models we append a special eos token to the end of every erence summary
+we then employ the standard teacher forcing with the reference summaries and optimize the negative log likelihood loss using the adam optimizer kingma and ba
+we tune all hyperparameters on the dev set
+we use layer
+bi lstm for all encoders and set the hidden size to be for each direction layer lstm for the decoder and set the hidden size to be
+during inference we employ the standard beam search with a beam size of
+we stop decoding
+
+ever a eos token is predicted and otherwise use a maximum output sequence length of results analysis main results we present results of our main experiments in table
+we nd that the two non neural
+tractive models perform comparably and both are able to obtain non trivial subsequence
+lap with the reference summaries as measured by rouge scores
+however a baseline neural pointer generator that combines the sequence eration and the copy mechanism beats the neural baselines substantially on all metrics
+we conrm that naively incorporating the study ground information by prepending the background section directly to the input ndings in the generator model in fact hurts the performance noted by background
+
+in comparison our model benets from using the separately encoded background vector to guide the decoding process and achieves best scores on all rouge metrics
+we also present sampled test examples and tem output in figure
+we nd that compared to the non neural extractive baselines the neural models are not limited by sentences in the ndings section and therefore generate summaries of ter quality
+for example the neural models learn to compose the summary by combining tion phrases from different sentences or by erating new conclusive phrases such as negative study
+compared to the pointer generator model our model learns to correctly utilize relevant ground information previous study or exam information to improve the summary
+clinical validity with radiologist evaluation one potential shortcoming of the rouge rics is that they only measure the similarity
+tween the predicted summary and the reference summary but do not sufciently reect the overall grammaticality or utility of the predictions
+
+fore we also conducted evaluations with a certied radiologist to understand the clinical lidity of our system generated summaries
+in this evaluation we randomly sampled examples from our test set
+we ran our best model over these examples and presented each example along with the corresponding tem predicted summary and reference written summary to the radiologist
+we randomly ordered the predicted and reference summary such that the correspondence can not be guessed from the order
+the radiologist was asked to select which of the two summaries was better or that
+they have roughly equal quality
+table presents the result
+for examples the background radiographic examination of the abdomen
+clinical history xx years of age male please obtain upright and lateral decub
+
+
+ison abdominal ray date procedure
+
+ments two views of the abdomen
+findings median sternotomy wires are seen in the anterior chest wall in addition to several diastinal clips and an aicd
+trace bilateral ral effusions are noted
+interval increase in small bowel dilatation compared to previous study with multiple levels consistent with small bowel obstruction
+there is a paucity of colonic gas
+no pneumoperitoneum
+human small bowel dilatation with multiple levels and
+colonic decompression sistent with small bowel obstruction
+extractive baseline median sternotomy wires are seen in the anterior chest wall in addition to several mediastinal clips and an aicd
+background three views of the right shoulder and three views of the left shoulder
+date
+clinical history an xx year old female with lateral shoulder pain
+background
+three views of the abdomen date comparison date
+clinical history a xx year old male status post hirschsprung s ease repair
+findings three views of the right shoulder
+sisting of external rotation axillary and lar views demonstrate no evidence of fracture or dislocation
+the joint spaces are well maintained without evidence of degenerative change
+there is normal mineralization throughout
+three views of the left shoulder
+
+are well maintained without evidence of degenerative change
+mineralization is normal throughout
+human unremarkable radiographs of bilateral shoulders
+findings the supine left sided decubitus and erect two views of the abdomen show increased dilatation of the small bowel since the prior exam on date
+there are multiple levels suggesting bowel obstruction
+no free toneal gas is present
+human increased dilatation of the small bowel with multiple levels
+suggesting bowel obstruction
+no free intraperitoneal gas
+extractive baseline
+three views of the right shoulder consisting of external rotation axillary and scapular views demonstrate no evidence of fracture or dislocation
+extractive baseline the supine left sided bitus and erect two views of the abdomen show increased dilatation of the small bowel since the prior exam on data
+
+pointer generator interval increase in bowel dilatation consistent with bowel obstruction
+pointer generator no evidence of fracture or dislocation of the right shoulder
+pointer generator increased dilatation of small bowel suggesting small bowel obstruction
+our model interval increase in small bowel dilatation compared to abdominal ray dated date with multiple levels consistent with small bowel obstruction
+our model unremarkable bilateral shoulders
+our model increased dilatation of small bowel suggesting bowel obstruction
+no free toneal gas
+figure sampled test examples and system predictions from the stanford dataset
+first example our model learns to relate the summary with a previous study mentioned only in the background section
+second our model correctly summarizes the body part involved in the study
+third our model correctly includes more crucial mation as found in the human summary
+category percentage system
+
+rouge l human summary wins system prediction wins
+roughly equal quality table radiologist evaluation result on sampled test examples
+for a total of examples the ogist indicated that the system summary is at least as good as the human written summary
+
+lexrank
+our model table cross organization evaluation results on the indiana university chest ray dataset
+all the rouge scores have a condence interval of at most as calculated by the ofcial rouge script
+radiologist indicated that the human written and system generated summaries are equivalent
+for examples the radiologist preferred the system summary and for the remaining examples the radiologist preferred the human written summary
+
+note that under our setting a randomly generated sequence would have almost zero chance to be dicated as good as the human written summary
+
+we therefore believe the result suggests signicant clinical validity of our system
+
+does the model transfer to reports from another organization
+deploying a clinical nlp system at an tion different from the one where the training data comes from is a common need
+however this is challenging in that medical practitioners ing radiologists from different organizations tend to go through different training and follow ent templates or styles when writing medical text
+
+here we aim to understand the cross organization transferability of our summarization model
+we use the publicly available indiana
+versity chest x ray dataset demner fushman et al which consists of chest x ray images paired with the corresponding radiology reports
+
+we ltered the reports with the same set of rules and arrived at a collection of unique reports
+
+we used this dataset as the test set and ran our best model trained on our own dataset directly on it
+
+the results are shown in table and sampled amples are shown in the rst two columns of
+ure
+we nd that our model again outperforms the baseline extractive model substantially in this transfer setting and the generated summaries are both grammatical and clinically meaningful
+cross organization cross organization cross body part knee background with end stage renal disease on hemodialysis indication xxxx year old male findings the heart size is mildly enlarged
+there is tortuosity of the thoracic aorta
+no focal airspace consolidation pleural effusions or mothorax
+no acute bony abnormalities
+background indication xxxx year old female hypoxia
+comparison lateral views of the chest dated xxxx
+findings bilateral emphysematous again noted and lower lobe brotic changes
+postsurgical changes of the chest including cabg procedure stable
+stable valve artifact
+there are no focal eas of consolidation
+no large pleural effusions
+no evidence of pneumothorax
+contour
+normality of the posterior aspect of the right
+rib again noted stable
+background radiographic examination of the knee
+date time
+clinical history year old man with right knee pain
+comparison none procedure comments views of the right knee were performed
+findings there is no visible fracture or likely small joint effusion
+mild malalignment
+fullness in the popliteal region of the right knee may represent a baker s cyst
+mild soft tissue swelling along the medial aspect of the knee is present
+human cardiomegaly without acute pulmonary ndings
+human no acute cardiopulmonary abnormality
+stable bilateral emphysematous and lower lobe brotic changes
+human no acute bony abnormality
+likely joint effusion and soft tissue swelling along the medial aspect of the knee
+our model mild cardiomegaly
+no radiographic evidence of acute cardiopulmonary process
+our model stable postsurgical changes of the chest as described above
+no evidence of mothorax
+our model mild soft tissue swelling along the medial aspect of the knee
+no fracture or malalignment
+figure first two columns sampled examples from the indiana university dataset and system output in the organization evaluation
+last column sampled test example of a knee study in our cross body part evaluation
+body part
+rouge l category percentage chest
+abdomen knee table cross body part evaluation results of our ral model on the stanford dataset
+all the rouge scores have a condence interval of at most as calculated by the ofcial rouge script
+
+does the model transfer to body parts unseen during training
+radiology studies conducted on different body
+parts often include vastly different observations and diagnosis
+for example while lung base opacity is a common observation in chest graphic studies it does not exist in tal studies
+in practice an organization may not have adequate report data that covers some rare body parts
+it is therefore interesting to test to what extent our summarization model can generalize to reports for body parts unseen during training
+we study this by simulating the condition where a specic body part is not present in the ing data
+given the entire dataset d and a set of the dataset db that corresponds to a body part b we reserved the entire subset db as test data and used d db for training and validation
+table presents the tion results for body part chest abdomen and knee
+we nd that for chest and abdomen the system summaries degrade substantially when the corresponding data were not seen during ing
+however the predicted summaries degrade good summary missing critical info
+
+inaccurate spurious info
+
+redundant ungrammatical table error analysis on sampled dev examples from the stanford dataset
+less for knee when reports of it were not seen during training presumably because the model can learn to summarize reasonably well from ports of other close musculoskeletal studies such as ankle or elbow studies
+we conrm this by examining the model predictions in the example shown in the last column of figure the model
+learns to compose the summary with salient vations such as tissue swelling and fracture while being able to copy the anatomy knee seen during training from the ndings section
+
+what is the model missing on
+lastly we run a detailed error analysis on sampled dev examples
+we focus on four types of errors missing critical information if the predicted summary fails to include some clinically important information inaccuate spurious formation if the predicted summary contains servations or conclusions that are inaccurate or that do not exist in the ndings redundant summary if the predicted summary is repetitive or over verbose and ungrammatical summary if the predicted summary contains signicant error type missing critical information error type redundant summary error type ungrammatical summary background radiographic examination of the lumbar spine time
+clinical history age lower back pain
+comparison none
+procedure comments views of the lumbar spine
+
+findings ve non rib bearing lumbar type tebral bodies are present
+there is trace
+there is no evidence of thesis of on
+stability on exion and extension views
+the spinal alignment is otherwise normal
+the disc spaces and vertebral body heights are preserved
+there is no visible fracture
+no visible facet joint arthropathy or pars defects
+human trace retrolisthesis of on with no evidence of instability with motion
+otherwise normal lumbar spine
+our model no acute bony or articular mality
+background radiographic examination of the shoulder time
+clinical history age years of age pain in joint involving shoulder gion
+comparison outside study dated date
+procedure comments single axillary view of the left shoulder
+background radiographic examination of the shoulder time
+clinical history age years of age xray exam of lower spine or views
+ray exam of right shoulder complete
+comparison none procedure comments three views of the right shoulder
+findings single axillary view of the shoulder again demonstrates a highly comminuted ture of the humeral head and likely fracture of the scapular body
+the humeral head appears located on the glenoid
+findings a calcication of the rotator cuff is seen above the greater tuberosity
+there is no ture or malalignment
+the soft tissues and ized lung are unremarkable
+human redemonstration of a highly
+uted fracture of the humeral head and likely ture of the scapular body
+the humeral head pears to be located on the glenoid
+our model highly comminuted fracture of the scapular body and likely fracture of the scapular body
+human no acute bony or joint abnormality but there is calcication of the rotator cuff that may be due to calcic tendinitis
+our model calcication acute bony or joint
+normality
+figure examples of different types of errors that our system makes on the standord dataset
+words that are missing from or are erroneously included in the model predictions are highlighted in red
+matical errors
+for each example we examine whether it contains any of the errors by comparing it with the reference summary otherwise we
+sify it as a good summary
+note that an example can be assigned to more than one error categories
+
+we include examples of different error types in figure and present the result of error analysis in table
+we nd that examples are itatively close to the reference summary which aligns well with the radiologist evaluation result
+
+among the four error categories missing critical information is the most common error with examples suggesting that the summaries may be improved with explicit modeling of the tance of different radiology ndings
+we also nd through qualitative analysis that the model tends to miss on followup procedures recommended by the human radiologist since these procedures are
+ten not included in the ndings section and ating them needs signicant understanding of the study and domain knowledge
+conclusion
+in this paper we proposed to generate radiology impressions from ndings via neural sequence sequence learning
+we proposed a customized neural model for this task which uses encoded background information to guide the decoding process
+we collected a dataset from actual pital studies and showed that our model not only outperforms non neural and neural baselines but also generates summaries with signicant clinical validity and cross organization transferability
+
+acknowledgments
+we thank peng qi and the anonymous reviewers for their helpful suggestions
+references dzmitry bahdanau kyunghyun cho and yoshua gio
+neural machine translation by jointly learning to align and translate
+the tional conference on learning representations
+
+jan ml bosmans joost j weyler arthur m de per and paul m parizel
+
+the radiology report as seen by radiologists and referring clinicians sults of the cover and rover surveys
+ogy
+yen chun chen and mohit bansal
+
+fast tive summarization with reinforce selected sentence rewriting
+the annual meeting of the tion of computational linguistics acl
+savelie cornegruta robert bakewell samuel withey and giovanni montana
+
+modelling logical language with bidirectional long short term memory networks
+proceedings of the seventh ternational workshop on health text mining and formation analysis louhi
+dina demner fushman marc d kohli marc b man sonya e shooshan laritza rodriguez sameer antani george r thoma and clement j ald
+
+preparing a collection of radiology
+
+journal aminations for distribution and retrieval
+of the american medical informatics association
+jacob s elkins carol friedman
+bernadette
+albala ralph l sacco and george hripcsak
+
+
+coding neuroradiology reports for the northern hattan stroke study a comparison of natural guage processing and manual review
+computers and biomedical research gunes erkan and dragomir r radev
+
+lexrank graph based lexical centrality as salience in text
+journal of articial intelligence summarization
+
+research
+carol friedman george hripcsak
+william
+mouchel stephen b johnson and paul d clayton
+
+
+natural language processing in an operational clinical information system
+natural language gineering
+esteban f gershanik ronilda lacson and ramin rasani
+
+critical nding capture in the sion section of radiology reports
+in amia annual symposium proceedings
+american medical matics association
+daniel j goff and thomas w loehfelm
+
+tomated radiology report summarization using an open source natural language processing pipeline
+
+journal of digital imaging
+saeed hassanpour and curtis p langlotz
+mation extraction from multi institutional radiology reports
+articial intelligence in medicine
+george hripcsak john hm austin philip o alderson and carol friedman
+
+use of natural language processing to translate clinical information from a database of chest radiographic reports
+diology
+george hripcsak gilad j kuperman and carol man
+
+extracting ndings from narrative ports software transferability and sources of cian disagreement
+methods of information in medicine
+charles e kahn jr curtis p langlotz
+elizabeth s
+
+burnside john a carrino david s channin david m hovsepian and daniel l rubin
+
+
+ward best practices in radiology reporting
+ogy
+
+diederik p kingma and jimmy ba
+adam a
+in the method for stochastic optimization
+
+international conference for learning tions
+julian kupiec jan pedersen and francine chen
+
+
+a trainable document summarizer
+in proceedings of the annual international acm sigir ence on research and development in information retrieval
+m lafortune g breton and jl baudouin
+
+the radiological report what is useful for the referring physician
+canadian association of radiologists
+
+chin yew lin
+
+rouge
+a package for matic evaluation of summaries
+text summarization
+branches out acl workshop
+hans peter luhn
+the automatic creation of erature abstracts
+ibm journal of research and velopment
+minh thang luong hieu pham and christopher manning
+
+effective approaches to based neural machine translation
+in proceedings of the conference on empirical methods in
+ural language processing
+
+christopher manning mihai surdeanu john bauer jenny finkel steven bethard and
+david
+closky
+
+the stanford corenlp natural guage processing toolkit
+in association for tational linguistics acl system demonstrations
+stephen merity caiming xiong james bradbury and pointer sentinel mixture
+the international conference on richard socher
+models
+
+learning representations
+rada mihalcea and paul tarau
+
+
+textrank
+bringing order into text
+in proceedings of the conference on empirical methods in natural guage processing
+ramesh nallapati bowen zhou caglar gulcehre bing xiang al
+
+abstractive text rization using sequence to sequence rnns and yond
+the signll conference on computational natural language learning conll
+
+romain paulus caiming xiong and richard socher
+
+
+a deep reinforced model for abstractive marization
+the international conference on learning representations
+jeffrey pennington richard socher and christopher d manning
+
+glove
+global vectors for word
+in proceedings of the representation
+ference on empirical methods in natural language processing
+
+alexander m rush sumit chopra and jason weston
+
+
+a neural attention model for abstractive
+in proceedings of the tence summarization
+
+conference on empirical methods in natural guage processing
+
+abigail see peter j liu and christopher d manning
+
+
+get to the point summarization with generator networks
+in the annual meeting of the association of computational linguistics acl
+josef steinberger and karel jezek
+
+using latent semantic analysis in text summarization and mary evaluation
+proceedings of the tional conference on information system tation and modeling
+

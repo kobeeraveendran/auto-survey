@@ -1,0 +1,416 @@
+p e s l c
+s
+c
+v
+v i x r a tude transcriptions une approche base sur rsum automatique carlos emiliano gonzlez gallardo malek hajjem eric
+sanjuan juan manuel torres moreno lia universit davignon pays de vaucluse chemin meinajaris agroparc bp avignon cedex france carlos gallardo dpartement de gnie informatique et gnie logiciel cole polytechnique de montral
+blvd
+edouard montpetit t montral qubec
+canada rsum
+dans cet article nous proposons une nouvelle approche dvaluation de transcriptions issues diffrents systmes de reconnaissance automatiques de la parole
+cette approche fonde sur la notion dinformativit sinscrit particulirement dans cadre rsum automatique texte
+effectu sur ces transcriptions
+nous estimons dans un premier temps contenu informatif diffrentes transcriptions
+par la suite nous explorons
+la cit du rsum automatique pour surmonter la perte informative
+pour ce faire nous utilisons un protocole dvaluation automatique de rsums sans rfrences bas sur contenu informatif
+le but calculer divergences entre distributions frentes reprsentations textuelles obtenues transcriptions manuelles automatiques et leurs rsums
+lissue dune srie dvaluations cette analyse nous a permis la fois transcriptions en terme dinformativit et dvaluer rsum automatique problmes soulevs lors phase de transcription
+abstract
+in this paper we propose a new approach to evaluate the informativeness of tions coming from automatic speech recognition systems
+this approach based in the notion of informativeness is focused on the framework of automatic text summarization performed over these transcriptions
+at a rst glance we estimate the informative content of the ous automatic transcriptions then we explore the capacity of automatic text summarization to overcome the informative loss
+to do this we use an automatic summary evaluation protocol without reference based on the informative content which computes the divergence between probability distributions of different textual representations manual and automatic tions and their summaries
+after a set of evaluations this analysis allowed us to judge both the quality of the transcriptions in terms of informativeness and to assess the ability of automatic text summarization to compensate the problems raised during the transcription phase
+mots cls
+mesures dvaluation rsum automatique textes transcription automatique mtriques dinformativit keywords evaluation measures text automatic summarization automatic speech tion informativeness measures
+introduction le rsum automatique de la parole constitue un cas particulier rsum tique de documents rad torres moreno
+le ot dentre dans cette tche un ot parole continue et la sortie sera sous la forme dun rsum crit ou parl
+lune des mthodes la plus rpandue gnration rsums automatiques parole tirer parti transcriptions automatiques du discours parl ding al szaszk et al
+taskiran et al
+ce discours peut venir demment dune vido
+consiste donc utiliser les algorithmes dvelopps dans du rsum automatique texte produire une version synthtique partir linformation contenue dans la parole prsente dans vidos
+pour ce faire une tape de transcription automatique du contenu parl ncessaire
+
+fois dans ce cas les traitements ne peuvent plus compter sur une transcription faite du rsumer doivent tre capables de grer erreurs produites lors ltape transcription
+en effet aux ventuelles erreurs du rsum automatique sajoutent les limites systmes de reconnaissance automatique de la parole rap
+par consquent prvoir une stratgie pour estimer quel point les mthodes issues domaine textuel sont inuences par un contenu audio devient indispensable
+ce travail recherche sinscrit dans ce cadre prcis
+nous visons lvaluation dun ensemble rsums
+tiques gnrs partir sorties diffrents systmes de transcription automatique
+
+les principales motivations de cette analyse sinspirent essentiellement du besoin
+cru dune reprsentation synthtique informations parles plus importantes
+en effet nos jours les vidos numriques reprsentent un facteur important pour hiculer linformation
+avec lavnement plusieurs sites web dhbergement vido tels que youtube dailymotion hulu et autres lutilisateur a regarder missions chanes tv travers podcasts
+cette rediffusion des missions conduit lexplosion du nombre documents disponibles ce qui rend ncessaire gestion efcace ce contenu vido do nt le volume ne cesse pas daugmenter
+
+pour y arriver une mthode rsum par extraction au contenu parl transcrit pralablement faon automatique
+notre contribution concerne plus spciquement la phase dvaluation de ces rsums obtenus
+nous cherchons dune part explorer la capacit dun rsumeur automatique perte formation issue erreurs de transcription
+dautre part nous cherchons estimer linuence du bruit gnr par ces transcriptions sur rsums automatiques
+ceci sera mesur en termes du contenu informatif retenu lissue du processus dextraction passages les plus reprsentatifs
+
+la suite larticle est organise comme suit
+dans la section nous prsentons travaux connexes
+dans la section nous prsentons les donnes utilises dans lvaluation que nous proposons
+la section introduit une approche lytique qui vise rsums automatiques gnrs base transcriptions issues diffrents systmes rap
+nous mettrons laccent sur mativit travers analyses pousses do nt lobjectif destimer la transcriptions en contenu informatif du rad ser les erreurs de transcription ainsi dans cette section nous discutons rsultats obtenus
+enn dans la section nous prsentons les conclusions cet article
+
+tat de lart
+reconnaissance automatique de parole rap la rap est une dmarche qui permet passer dun signal acoustique sa transcription dans une version crite rabiner et juang haton et al
+elle consiste employer processus dappariement comparer une onde sonore un ensemble dchantillons composs gnralement aussi units sonores encore plus lmentaires appeles phonmes deng et li
+
+on distingue deux approches pour la reconnaissances de ces formes lmentaires
+
+la premire base rgles utilisant formes primitives pralablement mines par des experts lee et kawahara
+la russite expriences repose conditions trs strictes vocabulaire rduit mots isols peu locuteurs gistrements dans conditions lindgren
+ainsi ces mthodes acoustiques seules sont insufsantes ont donn lieu peu de ralisations concrtes car elles posent linfrence rgles ainsi que celui lextraction formes primitives haton et al
+en consquence informations tiques commencent tre prises en compte dans les systmes de reconnaissance pour ajouter aux systmes et ainsi amliorer performance reconnaissance
+ceci a donn naissance deuxime approche qui consiste traire vecteurs paramtres caractristiques partir ces formes une technique classication permettant daccorder une classe une forme donne baker jelinek et al rabiner et al
+dans ce cadre systmes reconnaissance de parole utilisent une approche statistique dites dcodage tique la parole dcrit dans jelinek
+cette conversion parole texte doit tre indpendante vocabulaire laccent du locuteur son niveau stress
+en effet dobtenir une tion correcte systme de transcription doit tre capable grer spcicits parole
+ainsi il est vident que les performances de rap dpendent du type donnes transcrire galibert et al
+gnralement la performance dun systme rap en termes taux derreur
+word error rate wer
+le wer consiste dnombrer erreurs tion et normaliser par le nombre total dans la rfrence pour fournir un pourcentage derreurs
+une telle mtrique semble tre efcace lorsque la transcription automatique est une n elle mme
+cependant de nos jours module rap gnralement combin plusieurs autres
+modules de traitement automatique du langage naturel tal tches encore plus complexes
+ben jannet et al wer nest plus adapt
+le wer accorde mme poids toutes les erreurs erreurs dinsertion sion ou de substitution
+cette stratgie dvaluation entrave la prise en considration du cadre applicatif nal
+dans ce contexte un certain nombre mesures alternatives ont t proposes dans la littrature
+on cite la perte relative dinformation tive information loss ril miller une mesure qui propose dvaluer perte dinformation cause par les erreurs systmes de rap
+cette mtrique base sur linformation mutuelle pour obtenir la force la dpendance statistique entre vocabulaire rfrence x une approximation du ril cest la perte dinformation word information lost wil propose par morris et al
+cette mtrique estime aussi perte dinformation due erreurs de transcription
+contrairement ril wil prend en compte mots rects substitutions au moment comparaison entre la rfrence et lhypothse
+
+une autre proposition mccowan et al consiste mesures recherche dinformation ri pour lestimation perte dinformation cause par les drives la transcription
+ben jannet et al suggrent une nouvelle logie pour valuer des transcriptions automatiques dans le contexte tion dentits nommes partir documents transcrits automatiquement
+ainsi ces diffrents travaux lart conrment lvaluation transcriptions automatiques base wer et dexplorer dautres types de mtriques mieux adaptes pour mettre en vidence des transcriptions automatiques en termes dinformativit
+
+les mesures dinformativit et domaines dapplication lvaluation par identication ppites informationnelles a t propose dans un premiers temps dans nenkova et passonneau
+cette thode base sur la notion summary content units scu ou ppites nuggets
+dnies manuellement par annotateurs
+ces units informationnelles auxquelles les annotateurs accordent des poids correspondent sensiblement au mme contenu exprim diffremment
+un rsum automatique est dit informatif sil est bien et quil contient fort poids
+cette notion dinformativit a t tendue pour couvrir diffrentes briques nologiques issues de tal
+on la retrouve dans de traduction automatique utilisant mthode bleu bilingual evaluation understudy
+papineni et al
+aussi lvaluation rsums automatiques en utilisant mthode rouge
+recall oriented understudy for gisting evaluation
+lin
+le principe gnral rouge calculer lintersection n grammes communs entre rsum automatique valuer et rsums de rfrence disponibles
+pour une valuation correcte avec rouge lart ont montr ncessaire produire au moins cinq rsums de rfrence gnrs par diffrents annotateurs louis et nenkova
+ainsi rouge savre inapproprie lorsque la gnration sums rfrence est trop coteuse comme dans le cas documents trs longs ou dun trs grand nombre documents rsumer ce reprsente cas typique la ri
+en effet dans la ri cette notion de t reprise par la vergence de kullback leibler kl kullback et leibler
+cette mesure permet comparer contenu dun rsum produit automatiquement celui document source
+la comparaison principalement base sur distributions ou ensembles entre documents moriceau et al
+
+une telle comparaison base distributions peu sensible sence ou labsence squence mots communs entre rsum rfrence
+
+ceci la rend difcile adapter pour les rsums guids par une requte ou concernant un sujet particulier
+bellot et al
+ce problme concrtise dans contextualisation tweets sanjuan et al une tche combine notions ri rsum automatique
+fresa framework for evaluating summaries est une mthode automatique inspire de louis et nenkova lin et al
+pour valuer rsums sans utiliser rfrences qui a t introduite par moreno et al saggion et al
+la mthode intgre un prtraitement sique documents ltrage non porteurs dinformation normalisation divergence distributions de probabilits entre
+ment source rsum candidat
+ce prtraitement documents permet garder seulement mots porteurs dinformation focaliser linformativit
+pour la divergence
+fresa a calculer divergence de jensen shannon
+j s et galement une modication kl torres moreno au
+moyen duni grammes bi grammes bi grammes et moyenne fresam
+fresa a t utilise pour valuer rsums de documents caux en langue catalane rsums rfrence auteurs ntaient pas ponibles vivaldi et al
+egalement fresa a t employ lors pagne inex volet question rponse qa track
+torres moreno et al
+cette dernire tche combine les dmarches de ri et rsum tique
+
+corpus notre intrt des transcriptions automatiques a t
+
+cipalement motiv par lexplosion donnes audiovisuels due la rediffusion missions chanes tv travers podcasts dactualits
+pour une meilleure du concept dinformativit nous avons pris en compte contexte multilingue travers une collection franais anglais
+
+fresa tlchargeable ladresse
+tableau thmes vidos thme
+syrie territoires occups donald trump droits lhomme
+terrorisme technologie nombre vidos
+pour chaque langue nous avons slectionn vidos partir web
+youtube pour chanes dactualits
+rt euronews et bbc
+les
+
+ments audiovisuels ont t collects par
+
+leszczuk et al
+rentes thmatiques ont t abordes dans but la prpondrance dun thme sur sujets abords
+le tableau illustre la distribution des thmes
+
+en ce qui concerne la cration textuel une tape transcription tomatique du contenu parl a t applique travers trois systmes de rap
+en plus sorties ces trois systmes nous avons produit une transcription manuelle dite transcription rfrence rf humaine faite par diffrents experts matrisant langue de vido davoir une ressource pour valuer performances
+systmes rap
+pour une tude plus complte nous avons dcid tirer fois systmes rap commerciaux et acadmiques
+
+la transcription automatique base dun systme non commercial a t ralise utilisant kats kaldi based transcription system systme rap qui a t introduit dans fohr al et qui utilise modles acoustiques base rseaux neurones profonds
+en ce qui concerne les systmes commerciaux nous avons utilis systme google cloud speech google asr ainsi que systme ibm speech to ibm asr
+saon et al
+ces deux derniers systmes utilisent modles base rseaux neurones combins dautres statistiques
+
+la description transcriptions franais anglais termes de bulaire a t synthtise au tableau
+en effet les vidos les plus courtes impliquent un contenu textuel infrieur ou gale mots
+en revanche les vidos les plus longues excdent les mots
+
+
+langue tableau statistiques transcriptions
+systme kats moyenne ecart type mots
+franais google asr anglais ibm asr
+rf humaine kats
+google asr ibm asr
+rf humaine
+
+mesure des transcriptions automatiques et limpact du rsum automatique notre hypothse que rsum automatique reprsente un moyen extrinsque assez objectif pour valuer des transcriptions venant dun systme rap
+on sait que linformativit contenue dans un rsum source qualit dun systme rsum automatique nenkova et passonneau saggion et al
+donc possible dvaluer qualit dune transcription via mesure dinformativit contenue dans le rsum correspondant
+dans cadre du rsum automatique lexistence phrases dans source est essentielle pour reprer phrases contenant les informations pertinentes
+les
+transcriptions issues des diffrents systmes rap ne contiennent pas signes de ponctuation et reprsentent une squence continue mots
+ainsi une tape mentation ncessaire enjeu particulier soi
+segmenter une
+cription revient hypothses frontires phrases en positionnant signes de ponctuation dans la squence initiale
+gonzlez gallardo et
+torres moreno sont intresss en particulier trouver les marqueurs phrase qui reprsentent les frontires phrases en franais
+nous nous sommes inspirs travail pour la gnration automatique segments venant transcriptions
+notre approche a t tendue dans but de traiter la langue anglaise plus franais
+larchitecture base neurones de convolution que nous avons appliqu sur transcriptions en anglais et franais mme architecture qui gonzlez gallardo et torres moreno ont signal tre la meilleure pour la segmentation phrases en franais
+
+pour langlais et durant la phase dapprentissage du rseau nous avons utilis un millions extraits de english gigaword fifth
+luation du systme a t applique sur un sous ensemble millions
+
+concernant franais nous avons utilis millions extraits
+tableau performance systmes de segmentation phrases prcision rappel
+langue franais anglais de french gigaword first un sous de millions dant la phase dvaluation
+le tableau illustre la performance deux systmes en termes de prcision rappel et fscore pour prdire les ns phrases
+cette mme stratgie segmentation a t excute aussi bien pour transcriptions
+matiques que sur transcriptions manuelles
+
+en ce qui concerne rsum automatique nous avons opt pour lapproche tractive car en outre sa facilit dimplmentation ses performances ont
+t bien blies dans les travaux lart torres moreno
+cette approche consiste extraire parmi p phrases qui constituent un document source n phrases portant plus grande quantit dinformation
+ces phrases sont censes tre plus relevantes pour produire rsum
+
+artex artex autre rsumer textes systme rsum automatique documents par extraction de segments pertinents qui
+a t introduit par
+moreno
+la premire phase dartex consiste un prtraitement texte source
+il sagit dune tape trs importante qui permet mots supprimer mots outils peu informatifs
+ceci avec but reprsentation vectorielle pouvoir calculer phrases
+une fois prtrait vecteurs type centrode ralis un vecteur lexical moyen v lj j
+n qui reprsente linformativit
+moyenne lexique n termes vecteur thmatique moyen v ti
+
+p qui reprsente thme central document de p phrases
+un produit laire ces deux vecteurs normalis effectu pour chaque phrase i document du i
+p
+un poids pour chaque phrase
+sera donc obtenu moyennant une tion partir produit scalaire
+lissue la pondration phrases la gnration rsum est simple il consiste concatner phrases ayant les scores plus levs dans occurrence dans texte source
+une procdure traitement diminution redondance ou simplication peut tre applique la processus
+
+dans nos expriences ratio a t x pour obtenir rsums automatiques
+le choix dartex pour la gnration criptions automatiques et manuelles justi par sa simplicit dimplmentation rapidit dexcution ses rsultats comptitifs morchid et al
+nous notons aussi que artex est assez indpendant connaissances linguistiques rend particulirement adapt la proposition transcriptions de documents audio plusieurs
+
+valuation linformativit la gure illustre protocole que nous avons suivi pour valuer dabord mativit des transcriptions automatiques ensuite limpact rsum automatique sur linformativit
+figure protocole dvaluation utilis lors de nos expriences
+scnarios tion scnario scnario et scnario
+le ratio de compression reprsente rapport entre la taille rsum document source nombre phrases
+
+
+bien sr dautres systmes de rsum automatique statistiques ou non auraient pu t utiliss dans cette tche
+il sagit dun module du type plug in
+katsgoogle asribm asrartexfresa loss humainersumsautomatiquesvido source
+tout dabord les transcriptions manuelles automatiques ont t effectues sur vidos comme dcrit dans la section
+ensuite rsums automatiques ont t gnrs en utilisant artex
+enn pour mesurer linformativit nous avons calcul la divergence kl modie torres moreno
+entre distributions transcriptions manuelles automatiques ainsi que la divergence entre les butions transcriptions manuelles rsums automatiques en utilisant mthode fresa
+nous proposons trois scnarios dvaluation bass sur scores fresa
+dans premier scnario nous comparons linformativit entre
+la transcription
+
+
+maine et transcriptions automatiques produites par diffrents systmes rap
+puis dans un deuxime scnario linformativit mesure entre la transcription
+
+humaine rsums produits partir transcriptions automatiques et manuelles
+
+lapplication fresa entre la rfrence humaine son rsum tablit une valeur maximale dinformativit attendue qui compare des rsums
+nant transcriptions automatiques
+enn pour un troisime scnario nous comparons un ratio dinformativit par rapport an dvaluer pacit du rsum surmonter la perte dinformativit systmes rap
+les tables afchent les valeurs moyennes lcart type des mesures fresa
+nous avons considr important en compte lcart type car cette valeur donne une ide gnrale la faon do nt linformativit inuence par variations sujets traits
+
+rsultats transcription manuelle transcriptions automatiques
+les scores fresa pour franais
+et langlais concernant premier scnario sont montrs dans les tableaux et respectivement
+en franais on peut observer que systme kats maintient un degr dinformativit suprieur sur toutes les mesures fresa
+linformativit la plus basse produite par systme ibm asr avec un score moyen fresam de
+
+un comportement diffrent observ pour langlais
+google asr obtient la meilleure informativit sur presque tous les scores fresa
+ceci est probablement au fait que lalgorithme google asr utilise plus de ressources pour langlais que pour franais
+un dtail intressant signaler concerne systme ibm asr
+ce systme produit plus bas cart type sur tous les scores fresa
+ce qui suggre quun lger mais stable degr dinformativit a t partag sur les diffrents thmes diffrentes longueurs
+systeme kats tableau transcription manuelle transcriptions automatiques franais
+
+google asr fresam
+
+
+ibm asr systeme kats tableau transcription manuelle transcriptions automatiques anglais
+
+
+google asr
+
+fresam
+
+
+ibm asr transcription manuelle rsums des transcriptions
+les tableaux et montrent les rsultats pour deuxime scnario
+la valeur
+male dinformativit attendue tablie par les scores bass sur rfrences maines correspond au plus grand score fresa quun rsum peut obtenir la rfrence manuelle
+plus score fresa du rsum automatique est proche cette valeur plus il sera informatif
+pour franais google asr possde le score moyen plus proche la valeur dinformativit maximale attendue
+
+par contre pour langlais score moyen dinformativit a t obtenu par kats cest dire plus haut quibm asr
+dans tableau on peut que google asr a produit plus bas nombre moyen
+par transcription pour franais langlais
+aprs une analyse nuelle ces transcriptions nous avons observ que lorsquune partie laudio dans vido difcile google asr ne gnre pas la transcription respondante
+cela semble produire effets opposs en fonction langue
+le processus rsum a un impact positif pour franais liminant
+cace les parties les moins informatives la transcription
+ce comportement semble tre anglais o linformativit de google asr passe premire position dernire
+nous pensons que lexcs moyen crits que kats ibm asr gnrent par rapport la transcription manuelle tableau inuencent score ces deux systmes aprs rsum
+systeme kats tableau transcription manuelle rsums franais
+
+
+google asr
+ibm asr
+rf humaine fresam systeme kats
+
+google asr tableau transcription manuelle rsums anglais
+
+
+ibm asr
+rf humaine fresam
+
+
+
+rsum automatique perte dinformativit
+le scnario prend en compte les scores du scnario et scnario calculer perte dinformativit produite par rsum automatique
+la perte comme un ratio entre score fresa de rsums venant transcriptions automatiques et manuelles
+elle est donne par lquation
+
+iloss
+fresaxsystme fresaxrf humaine o fresaxrf humaine est gale pour scnario
+
+la gure montre la perte dinformativit fresam anglais
+on peut observer dans le cas franais que les systmes google asr et ibm asr ont une perte plus petite aprs que rsum automatique a t gnr avec une qui diminue et respectivement
+par contre rsum automatique produit un impact kats avec une augmentation de iloss de
+un tement distinct prsente en anglais
+la gure montre une augmentation la performance en termes dinformativit
+la perte kats tombe suivie par systme ibm asr
+et
+google asr avec
+figure perte dinformativit pour langlais et franais
+
+conclusion et perspectives dans cet article nous avons propos une valuation indirecte criptions
+au moyen dune mesure dans le rsum automatique
+elle a t inspire travaux sur recherche dinformation ainsi comme rsum tomatique
+ce type mthode dvaluation produit une meilleure comprhension des transcriptions automatiques en comparaison avec les mesures standards comme wer
+notre connaissance il sagit premier travail qui introduit une telle mesure dinformativit dans lvaluation transcriptions utilisation dans une chane traitement automatique langues
+nous avons montr quen gnral rsum automatique peut augmenter contenu informatif venant transcriptions automatiques
+les rsultats sont tables pour guider lvaluation automatique ou semi automatique systmes rap
+coupls aux systmes tal
+la dmarche reste domaine ments et assez langue bien que nos tests aient seulement t ss pour moment en anglais
+des tests en langue arabe sont
+ment en cours
+en outre nous allons augmenter nombre transcriptions manuelles biais produit par leur nombre et galement tester dautres approches rsum automatique
+nous remercions le soutien nancier du programme europen chist era travers du projet access multilingual information opinions amis anr france europe
+remerciements
+bibliographie baker the dragon system an overview ieee transactions on acoustics speech and signal processing vol
+no feb
+bellot moriceau mothe ric sanjuan tannier mesures dinformativit bilit pour un
+cadre dvaluation contextualisation tweets document numrique vol
+no
+ben jannet adda decker galibert kahn rosset how to assess the quality of automatic transcriptions for the extraction of named entities
+xxxe journes dtudes sur la parole le mans france june
+
+deng li machine learning paradigms for speech recognition an overview ieee transactions on audio speech and language processing vol
+no
+ding metze rawat schulam burger younessian bao christel hauptmann beyond audio and video retrieval towards multimedia tion acm icmr acm new york ny usa
+
+fohr mella illina new paradigm in speech recognition deep neural networks ieee international conference on information systems and economic intelligence
+galibert leixa gilles choukri gravier the etape speech processing luation language resources and evaluation reykyavik iceland may
+gonzlez gallardo torres moreno sentence boundary detection for french with subword level information vectors and convolutional neural networks arxiv bruary
+haton cerisara fohr laprie smali reconnaissance automatique de la parole du signal son interprtation universciences paris dunod
+jelinek statistical methods for speech recognition mit press cambridge ma usa
+jelinek bahl mercer design of a linguistic statistical decoder for the recognition of continuous speech ieee transactions on information theory vol
+no
+may
+kullback leibler
+on information and sufciency the annals of mathematical statistics vol
+no
+lee kawahara recent development of open source speech recognition engine julius apsipa asc and ipa annual summit and conference asia pacic signal and mation processing association
+leszczuk grega kozbia gliwski wasieczko smali video tion framework for newscasts and reports work in progress international conference on multimedia communications services and security springer
+lin
+rouge
+a package for automatic evaluation of summaries proc
+acl shop on text summarization branches out
+lin cao gao nie an information theoretic approach to automatic tion of summaries conference on human language technology conference of the north american chapter acl morristown nj etats unis
+lindgren machine recognition of human language part iii cursive script recognition ieee spectrum vol
+no may
+louis nenkova
+automatically evaluating content selection in summarization thout human models conference on empirical methods in natural language sing acl singapour aot
+louis nenkova performance condence estimation for automatic summarization conference of the european chapter of the association for computational linguistics eacl acl stroudsburg pa usa
+mccowan moore dines gatica perez flynn wellner bourlard
+on the use of information retrieval measures for speech recognition evaluation idiap rr no idiap idiap martigny switzerland
+miller note on the bias of information estimates information theory in psychology
+problems and methods
+morchid torres moreno dufour rodrguez linars automatic text summarization approaches to speed up topic model learning process int
+comput
+
+linguistics appl vol
+no
+moriceau sanjuan tannier bellot overview of the qa track
+towards a common task for qa focused ir and automatic summarization systems in geva kamps trotman eds focused retrieval and evaluation berlin
+
+morris maier green from wer and ril to mer and wil improved evaluation measures for connected speech recognition
+interspeech isca
+nenkova passonneau evaluating content selection in summarization the pyramid method
+hlt naacl
+papineni roukos ward zhu bleu a method for automatic evaluation of machine translation proceedings of the annual meeting on association for tional linguistics association for computational linguistics
+rabiner levinson rosenberg wilpon speaker independent recognition of lated words using clustering techniques ieee transactions on acoustics speech and signal processing vol
+no aug
+rabiner juang fundamentals of speech recognition vol
+ptr prentice hall englewood cliffs
+saggion torres moreno cunha sanjuan multilingual summarization luation without human models proceedings of the international conference on putational linguistics posters acl beijing chine
+sanjuan bellot moriceau tannier overview of the inex question wering track
+in geva kamps schenkel trotman eds parative evaluation of focused retrieval springer berlin heidelberg
+saon kuo rennie picheny the ibm english conversational phone speech recognition system arxiv preprint arxiv
+szaszk tndik beke summarization of spontaneous speech using automatic speech recognition and a speech prosody based tokenizer
+kdir
+taskiran amir ponceleon delp automated video summarization using speech transcripts storage and retrieval for media databases vol
+tional society for optics and photonics
+
+torres moreno artex is another text summarizer arxiv
+
+torres moreno automatic text summarization wiley and sons london uk
+
+torres moreno saggion da cunha sanjuan summary evaluation with and without references polibits research journal on computer science and computer gineering with applications vol
+
+vivaldi da cunha torres moreno velzquez morales generaci automtica de textos especialitzats experimentacions en catalana terminlia vol
+
+

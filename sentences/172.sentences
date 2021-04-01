@@ -1,0 +1,297 @@
+t c o l c
+s
+c
+v
+v
+i x r a a multilingual study of compressive cross language text summarization elvys linhares stephane and juan manuel
+torres lia universite davignon pays de vaucluse avignon
+france
+departement gigl ecole polytechnique de montreal succ
+centre ville montreal quebec canada laboratoire gdac universite
+quebec
+a montreal succ
+centre ville montreal quebec canada abstract
+cross language text summarization generates summaries in a language dierent from the language of the source documents
+cent methods use information from both languages to generate maries with the most informative sentences
+however these methods have performance that can vary according to languages which can duce the quality of summaries
+in this paper we propose a compressive framework to generate cross language summaries
+in order to analyze performance and especially stability we tested our system and tive baselines on a dataset available in four languages english french portuguese and spanish to generate english and french summaries
+an automatic evaluation showed that our method outperformed extractive state of art clts methods with better and more stable rouge scores for all languages
+introduction cross language text summarization clts aims to generate a summary of a document where the summary language diers from the document language
+
+many of the state of the art methods for clts are of the extractive class
+they mainly dier on how they compute sentence similarities and alleviate the risk that translation errors are introduced in the produced summary
+previous works analyze the clts only between two languages for a given dataset which does not demonstrate the stability of methods for dierent texts and languages
+recent works carried out compressive approaches based on neural networks phrase segmentation and graph theory
+among these models linhares pontes et al introduced the use of chunks and two compression methods at the sentence and multi sentence levels to improve the informativeness of language summaries
+in this paper we adapt the method presented in to perform clts for several languages
+more precisely we modied the creation of chunks and we simplied their multi sentence compression method to be able to analyze eral languages and compress small clusters of similar sentences
+to demonstrate the stability of our system we extend the multiling pilot dataset
+with two romance languages portuguese and spanish to test our system to generate french portuguese english and english portuguese to french cross language summaries
+finally we carried out an automatic uation to make a systematic performance analysis of systems which details the characteristics of each language and their impacts on the cross language maries
+
+the remainder of this paper is organized as follows
+section details our contributions to the compressive clts approach
+in section we describe the most recent works about clts
+section reports the results achieved on the extended version of the multiling dataset and the analysis of cross language summaries
+finally conclusions and future work are set out in section
+compressive cross language text summarization
+following the approach proposed by linhares pontes et al
+we combined the analysis of documents in the source and the target languages with sentence compression msc to generate more informative summaries
+we panded this approach in three ways
+
+in order to simplify and to extend the analysis to several languages we only use multi word expressions for the english target language and we replace the analysis of parallel phrases with syntactic patterns to create chunks
+then we also optimized the msc method for small clusters by removing the analysis of grams
+unfortunately we have not found any available dataset for sentence compression in other languages therefore we restrict the use of compressive methods to msc
+finally dierently from compressed versions of sentences were considered in the corank method instead of the only original versions in order to estimate the relevance of sentences for summaries
+the following subsections highlight our contributions to the architecture of the method presented in
+
+preprocessing initially source texts are translated into english and french with the google translate which was used in the majority of the state of the art clts methods
+then a chunk level tokenization is performed on the target language side
+
+we applied two simple syntactic patterns to identify useful structures p for english and p
+for
+french where adj stands for adjective np for proper noun and nc for common noun
+we also use the stanford corenlp tool for the english translations
+
+this tool detects phrasal verbs proper names idioms and so on
+unfortunately we did not nd a similar tool for french consequently the french chunk level tokenization is limited to the syntactic pattern
+multi sentence compression
+we aim to generate a single short and informative compression from clusters of similar sentences
+therefore we use the linhares pontes et al
+s
+method
+to create clusters of similar sentences based on their similarity in the source and the target languages
+as the majority of clusters are composed of few similar sentences normally two or three sentences grams are not frequent and the associated score is of little interest for the compress process
+therefore we simplify the linhares pontes et al
+s
+method
+to process msc guided only by the cohesion of words and keywords
+our msc method looks for a sentence that has a good cohesion and the maximum of keywords inside a word graph built for each cluster of similar sentences according to the method devised by filippova
+in this graph arcs between two vertices representing words or chunks are weighted by a cohesion score that is dened by the frequency of these words inside the cluster
+vertices are labeled depending on whether they are or not a keyword identied by the latent dirichlet allocation lda method inside the cluster see for more details
+from these scores and labels the msc problem is expressed as the following objective minimize j xi bl ll
+x where xij indicates the existence of the arc i j in the solution j is the cohesion of the words i and j l is the set of labels each representing a keyword bl indicates the existence of a chunk with a keyword l in the solution k is the keyword bonus of the
+finally we generate the best solutions according to the objective and we select the compression with the lowest normalized score equation as the best compression
+where is the score of the compression c from equation
+we restrict the msc method to the sentences in the target language in order to avoid errors generated by machine translation which would be applied in a post processing step on compressed sentences
+
+the keyword bonus is dened by the geometric average of all weight arcs in the graph and aims at favoring compressions with several keywords
+corank method sentences are scored based on their information in both languages using the corank method which analyzes sentences in each language separately but also between languages equations
+u u mtg v v v mtg u
+m tg ij
+i
+
+if i
+otherwise m sc ij
+i ssc j
+
+if i
+otherwise q mtg sc ij
+i ssc j i stg j where mtg and msc are normalized to m respectively to make the sum of each row equal to
+u and v denote the relevance of the source and target language sentences respectively
+and specify the relative contributions to the nal scores from the information in the source and the target languages with and m tg sc
+finally summaries are generated with the most relevant sentences in the target language
+we add a sentence compression to the summary only if it is suciently dierent from the sentences compressions already in the summary
+related work cross language text summarization schemes can be divided in early and late translations and joint analysis
+the early translation rst translates documents to the target language then it summarizes these translated documents using only information of these translations
+the late translation scheme does the reverse
+
+the joint analysis combines the information from both languages to extract the most relevant information
+
+regarding the analysis of machine translation quality wan et al
+and boudin et al
+used sentence features sentence length number of ation marks number of phrases in the parse tree to estimate the translation quality of a sentence
+wan et al used an annotated dataset made of pairs of english chinese sentences with translation quality scores to train their support vector machine svm regression method
+finally sentences that have a high translation quality and a high informativeness were selected for the summaries
+
+similarly boudin et al trained an e svr using a dataset composed of english and automatic french translation sentences to calculate the translation ity based on the nist metrics
+then they used the pagerank algorithm to estimate the relevance of sentences based on their similarities and translation quality
+yao et al devised a phrase based model to jointly carry out sentence scoring and sentence compression
+they developed a scoring scheme for the clts task based on a submodular term of compressed sentences and a bounded distortion penalty term
+
+wan leverages the information in the source and in the target language for cross language summarization
+he proposed two graph based tion methods simfusion and corank for the english to chinese clts task
+
+the rst method linearly fuses the english side and chinese side similarities for measuring chinese sentence similarity
+in a nutshell this method adapts the pagerank algorithm to calculate the relevance of sentences where the weight arcs are obtained by the linear combination of the cosine similarity of pairs of sentences for each language
+the corank method was described in section
+recently wan et al
+carried out the cross language document tion task by extraction and ranking of multiple summaries in the target language
+
+they analyzed many summaries in order to produce high quality summaries for every kind of documents
+their method uses a top k ensemble ranking for candidate summary based on features that characterize the quality of a date summary
+they used multiple text summarization and machine translation methods to generate the summaries
+
+in order to generate abstractive cross lingual summaries zhang et al
+extended the work of bing et al
+that constructs new sentences by exploring noun verb phrases
+their method rst constructs a pool of concepts and facts represented by phrases in english and chinese translation sentences
+then new sentences are generated by selecting and merging informative phrases in both languages to maximize the salience of phrases and meanwhile satisfy the sentence construction constraints
+they employ integer linear optimization for conducting phrase selection and merging simultaneously in order to generate informative cross lingual summaries with a good translation quality
+this method generates abstractive summaries however the framework to identify concepts and facts only works for english which prevents this method from being extended for other languages
+experimental evaluation
+we estimate the performance of our approach in relation to the early and the late translations simfusion and corank
+all systems generate summaries containing a maximum of words with the best scored sentences without redundant sentences
+we regard a similarity score cosine similarity with a threshold of to create clusters of similar sentences for the and a threshold of to remove redundant sentences in the summary generation
+
+we used the same conguration for simfusion and corank as described in
+
+
+unfortunately the majority of state of the art systems in clts are not available
+
+therefore we only considered extractive systems in our analysis
+
+we use the same threshold of described in for french to english language summaries
+datasets
+we used the english and french language versions of the multiling pilot dataset
+this dataset contains topics which have source texts and ence summaries per topic
+these summaries are composed of words
+in order to extend the analysis to other languages english source texts were translated into the portuguese and spanish languages by native speakers
+specically we use english french portuguese and spanish texts to test our system
+evaluation an automatic evaluation with rouge
+was carried out to compare the dierences between the distribution of n grams of the candidate summary and a set of reference summaries
+more specically we used unigram or bigram rouge or and skip gram rouge or r analyses
+
+table describes the rouge scores obtained by each system to generate french summaries from english portuguese and spanish source texts
+despite using the information from both languages the simfusion method achieved parable results with respect to the early and late approaches
+on the contrary corank and our approach consistently obtained better results than other lines with at least an absolute dierence of in for all languages
+
+the msc method improved the corank method by generating more informative compressions for all languages
+the last two lines show that chunks helped our msc method to generate slightly more informative summaries better scores
+table
+rouge scores for cross language summaries from english portuguese and spanish languages to french language
+methods late
+early english portuguese spanish r r r
+simfusion
+corank
+our approach
+our approach
+chunks
+the multiling dataset is composed of topics in several languages however these topics are expressed in dierent ways for each language
+these ties implies a variety of vocabulary sizes and sentence lengths and consequently
+the extension of the multiling pilot dataset is available at
+of outputs of the mt system from each source language table
+the biggest dierence in the statistics is between english source texts and its french tion vocabulary
+french translations signicantly increased the vocabulary from english source texts and the number of words
+these translations also are longer than source texts except for the spanish that has similar characteristics
+our simple syntactic pattern created similar numbers of chunks for all languages with the same average length
+the addition of these simple chunks did not nicantly improve the informativeness of our compressions
+table
+statistics of datasets and their translation to french
+english
+portuguese
+source fr translation source fr translation source fr translation spanish words vocabulary sentences sentence length chunks average length of chunks
+these dierences also act on the clustering process and the msc method
+
+table details the number and the average size of clusters with at least two
+french sentences translated from each source language
+french translations from portuguese produced the shortest compressions words while compressions from spanish had the highest compression ratio
+with respect to other languages the similarity of the sentences translated from english is lower which leads to fewer clusters
+summaries from spanish have a larger proportion of compressions in the summaries than other languages
+table
+statistics about clusters and compressions for texts translated into french
+clusters average size of clusters average length of clusters average length of compressions
+average number of compressions in summaries
+average compression rate of compressions english portuguese spanish
+we apply a similar analysis for the generation of english summaries from french portuguese and spanish source texts
+as observed before for french summaries the joint analysis still outperformed other baselines table
+while corank obtained a large range of rouge scores among dierent languages between and our approach obtained the best rouge scores for all languages with a small dierence of rouge scores tween and which proves that our method generates more stable cross language summaries for several languages
+chunks spot by the syntactic pattern and the stanford corenlp helped our approach to produce more mative compressions which results in better rouge scores
+table
+rouge scores for cross language summaries from french portuguese and spanish languages to english language
+methods late
+early french portuguese spanish r r r
+simfusion corank
+
+our approach
+our approach chunks
+
+english translations have fewer words and a smaller vocabulary dierence bigger than words than source texts table
+these translations also have shorter sentences and a more similar vocabulary size than french tions and source texts
+the combination of syntactic patterns and the stanford corenlp led to the same characteristics of chunks in terms of numbers and sizes
+table
+statistics of datasets and their translation to english
+
+french portuguese
+source en translation source en translation source en translation spanish words vocabulary sentences sentence length chunks average length of chunks table details the clustering and the compression processes for the english translations
+these translations from french source texts have more clusters because we used a smaller similarity threshold to consider two sentences as lar
+english summaries from french have more compressions because of the large number of clusters
+table
+statistics about clusters and compressions for english translated texts
+clusters average size of clusters average length of clusters average length of compressions
+average number of compressions in summaries
+average compression rate of compressions french portuguese spanish french and portuguese source texts have almost the same number of tences while english and spanish source texts have fewer sentences
+comparing the results of english and french translations english compressions are shorter than french compressions
+the use of chunks in msc improved the results of our cross language summaries especially for english translations that have chunks that are more numerous and complex than french translations
+to sum up our approach has shown to be more stable than extractive ods thus generating more informative cross language summaries with consistent
+rouge scores measured in several languages
+conclusion cross language text summarization clts produces a summary in a target language from documents written in a source language
+it implies a combination of the processes of automatic summarization and machine translation
+nately this combination produces errors thereby reducing the quality of maries
+a joint analysis allows clts systems to extract relevant information from source and target languages which improves the generation of extractive cross language summaries
+recent methods have proposed compressive and stractive approaches for clts however these methods use frameworks or tools that are available in few languages limiting the portability of these methods to other languages
+our multi sentence compression msc approach generates informative compressions from several perspectives translations from dierent languages and achieves stable rouge results for all languages
+in addition our method can be easily adapted to other languages
+as future work we plan to reduce the number of errors generated from the pipeline made of the compression and machine translation processes by oping a neural network method to jointly translate and compress sentences
+it would also be interesting to include a neural language model to correct possible errors produced during the sentence compression process
+acknowledgement
+this work was granted by the european project chistera amis
+we also like to acknowledge the support given by the laboratoire veriform from the ecole polytechnique de montreal and her coordinator hanifa boucheneb
+references
+yao wan xiao phrase based compressive cross language tion
+in emnlp
+
+wan luo sun huang yao
+cross language document marization via extraction and ranking of multiple summaries
+knowledge and information systems
+linhares pontes huet torres moreno linhares cross language text summarization using sentence and multi sentence compression
+in national conference on natural language information systems nldb
+
+
+giannakopoulos el haj favre litvak steinberger varma multiling pilot overview
+in text analysis conference tac
+
+
+wan using bilingual information for cross language document summarization
+
+in acl
+
+moiron tiedemann
+identifying idiomatic expressions using automatic word alignment
+in eacl workshop on multiword expressions in a lingual context
+
+de caseli ramisch das gracas volpe nunes villavicencio alignment based extraction of multiword expressions
+language resources and evaluation
+
+manning surdeanu bauer finkel bethard mcclosky the stanford corenlp natural language processing toolkit
+in annual meeting of the association for computational linguistics acl system demonstrations
+
+
+linhares pontes huet gouveia da silva linhares torres moreno multi sentence compression with word vertex labeled graphs and integer linear programming
+in the workshop on graph based methods for natural language processing association for computational linguistics
+filippova multi sentence compression finding shortest paths in word graphs
+
+in coling
+
+
+wan li xiao cross language document summarization based on chine translation quality prediction
+in acl
+
+boudin huet torres moreno a graph based approach to language multi document summarization
+polibits
+
+zhang zhou zong
+abstractive cross language summarization via lation model enhanced predicate argument structure fusing
+ieee acm trans
+
+audio speech language processing
+bing li liao lam guo passonneau
+abstractive multi document summarization via phrase selection and merging
+in acl the association for computer linguistics
+lin
+rouge
+a package for automatic evaluation of summaries
+
+in workshop text summarization branches out
+

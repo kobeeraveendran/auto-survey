@@ -1,0 +1,1036 @@
+national institute of technology rourkela odisha india e mail automatic keyword extraction for text summarization a survey santosh kumar korra sathya and sanjay kumar abstract
+in recent times data is growing rapidly in every domain such as news social media banking education
+due to the excessiveness of data there is a need of automatic summarizer which will be capable to summarize the data especially textual data in original document without losing any critical purposes
+text summarization is emerged as an important research area in recent past
+
+in this regard review of existing work on text
+summarization process is useful for carrying out further research
+in this paper recent literature on automatic keyword extraction and text summarization are presented since text summarization process is highly depend on keyword extraction
+this literature includes the discussion about different methodology used for keyword extraction and text summarization
+
+it also discusses about different databases used for text summarization in several domains along with evaluation matrices
+
+finally it discusses briefly about issues and research challenges faced by researchers along with future direction
+keywords abstractive summary extractive summary keyword extraction natural language processing text summarization
+
+
+introduction
+in the era of internet plethora of online information are freely available for readers in the form of e newspapers journal articles technical reports transcription dialogues
+there are huge number of documents available in above digital media and extracting only relevant information from all these media is a tedious job for the individuals in stipulated time
+there is a need for an automated system that can extract only relevant information from these data sources
+to achieve this one need to mine the text from the documents
+
+text mining is the process of extracting large quantities of text to derive high quality information
+text mining deploys some of the techniques of natural language processing nlp such as parts of speech parsing n grams tokenization to perform the text analysis
+
+it includes tasks
+text summarization
+automatic keyword extraction tagging pos like and automatic keyword extraction is the process of selecting words and phrases from the text document that can at best project the core sentiment of the document without any human intervention depending on the model
+
+
+the target of automatic keyword extraction is the application of the power and speed of current computation abilities to the problem of access and recovery stressing upon information organization without the added costs of human annotators
+summarization is a process where the most salient features of a text are extracted and compiled into a short abstract of the original document
+
+
+according to mani and maybury
+text summarization is the process of distilling the most important information from a text to produce an abridged version for a particular task and user
+summaries are usually around of the original text and yet contain everything that could have been learned from reading the original article
+
+
+in the wake of big data analysis summarization is an efficient and powerful technique to give a glimpse of the whole data
+the text summarization can be achieved in
+two ways namely abstractive summary and extractive summary
+
+the abstractive summary is a topic under tremendous research however no standard algorithm has been achieved yet
+
+these summaries are derived from learning what was expressed in the article and then converting it into a form expressed by the computer
+it resembles how a human would summarize an article after reading it
+whereas extractive summary extract details from the original article itself and present it to the reader
+automatic keyword extraction for text summarization
+a survey text figure classification of automatic keyword extraction on the basis of approaches used in existing literature is techniques includes all the primary phase of in this paper reviewed the recent literature on automatic keyword extraction and text summarization
+the valuable keywords extraction summarization
+
+therefore in this literature we focused on both the techniques
+in keyword extraction the literature discussed about different methodologies used for keyword extraction process and what algorithms used under each methodology as shown in figure
+it also discussed about different domains in which keyword extraction algorithms applied
+similarly in the process of text summarization literature covers all the possible process of text summarization such as document types single or multi summary types supervised or generic or query based unsupervised characteristics of summary abstractive or extractive
+further the possible it methodologies for text summarization as shown in figure
+this literature also discusses about different databases used for text summarization such as duc tac medline along with differnt evaluation matrices such as precision recall and rouge series
+
+finally it discusses briefly about issues and research challenges faced by researchers followed by future direction of text summarization
+the rest of this paper is organized as follows
+section presents a review on automatic keyword extraction section presents a review on text summarization process
+a review on automatic text summarization methologies are given in section
+the details about different databases are described in section
+section explains about evaluation matrices for text summarization
+
+finally the conclusion with future direction is drawn in section
+automatic keyword
+extraction
+a review
+on the premise of past work done towards automatic keyword extraction from the text for its summarization extraction systems can be classified into four classes namely simple statistical approach linguistics approach machine
+learning approach and hybrid approaches as soon in figure
+
+simple statistical approach these strategies are rough simplistic and have a tendency to have no training sets
+they concentrate on statistics got from non linguistic features of the document for example
+the position of a word inside the document the term frequency and inverse document frequency
+these insights are later used to build up a list of keywords
+cohen utilized n gram statistical data to discover the keyword inside the document automatically
+other techniques side this class incorporate word frequency term frequency tf or term inverse document frequency tf idf
+word occurrences
+and pat tree
+
+the most essential of them is term frequency
+
+in these strategies the frequency of occurrence is the main criteria that choose whether a word is a keyword or not
+it is extremely unrefined and tends to give very unseemly results
+an improvement of this strategy is the tf idf which also takes the frequency of occurrence of a word as the model to choose a keyword or not
+similarly word co occurrence methods manage statistical information about the number of times a word has happened and the number of times it has happened with another word
+this statistical information is then used to compute support and confidence of the words
+apriori technique is then used to infer the keywords
+
+linguistics approach
+this approach utilizes the linguistic features of the words for keyword detection and extraction in text documents
+it incorporates the lexical analysis
+syntactic analysis discourse analysis
+
+the resources used for lexical analysis are an electronic dictionary tree tagger wordnet grams pos pattern
+similarly noun phrase np chunks
+parsing are used as resources for syntactic analysis
+machine learning approach
+keyword extraction can also be seen as a learning problem
+
+this approach requires manually annotated training data and automatic keyword extraction for text summarization
+a survey table previous studies on automatic keyword extraction study types of approach domain types dennis et salton et cohen chien et salton et ohsawa hovy fukumoto et mani et witten et frank et barzilay turney et conroy humphreys hulth et ramos et matsuo et erkan van et mihalcea et zhang ercan litvak zhang thomas
+table
+types of approach and domains used in keyword extraction types of approach simple statistics ss linguistics l machine learning ml hybrid h
+types of domain radio news rn journal articles ja newspaper articles na technical reports tr transcription dialogues td encyclopedia article ea web pages wp
+training models
+hidden
+markov model
+
+support vector machine svm
+naive
+bayes nb
+bagging
+are commonly used training models in these approaches
+
+in the second phase the document whose keywords are to be extracted is given as inputs to the model which then extracts the keywords that best fit the model s training
+
+one of the most famous algorithms in this approach is the keyword extraction algorithm kea
+in this approach the article is first converted into a graph where each word is treated as a node and whenever two words appear in the same sentence the nodes are connected with an edge for each time
+they appear together
+
+then the number of edges connecting the vertices are converted into scores and are clustered accordingly
+the cluster heads are treated as keywords
+
+bayesian algorithms use the
+bayes classifier to classify the word into two categories keyword or not a keyword depending on how it is trained
+genex is another tool in this approach
+hybrid approach
+these approaches combine the above two methods or use heuristics such as position length layout feature of the automatic keyword extraction for text summarization
+a survey words html tags around the words
+
+
+
+these algorithms are designed to take the best features from above mentioned approaches
+based on the classification shown in figure we bring a consolidated summary of previous studies on automatic keyword extraction and is shown in table
+it discusses the approaches that are used for keyword extraction and various domains of dataset in which experiments are performed as shown in table
+
+text summarization process a review based on the literature text summarization process can be characterized into five types namely based on the number of the document based on summary usage based on techniques based on characteristics of summary as text and based on levels of linguistics process as shown in figure
+single document text summarization
+in single document text summarization it takes a single document as an input to perform summarization and produce a single output document
+thomas et al
+designed a system for automatic keyword extraction for text in single document e newspaper article
+summarization
+marcu al
+developed a discourse based summarizer that determines adequacy for summarizing texts for based methods in the domain of single news articles
+
+
+multiple document text summarization
+in multiple documents text summarization it takes numerous documents as an input to perform summarization and deliver a single output document
+
+mirroshandel al
+presents two different algorithms towards temporal relation based keyword extraction and
+text summarization in multi document
+
+the first algorithm was a weakly for classification of temporal relations between events and the supervised machine approach learning learning approach second algorithm was expectation maximization em based unsupervised relation extraction
+
+min al
+used the information which is common to document sets belonging to a common category to improve the quality of automatically extracted content in multi document summaries
+temporal for the
+query based text summarization
+in this summarization technique a particular portion is utilized to extract the essential keyword from input document summary of corresponding document to make
+
+fisher et al
+developed a based summarization system that uses a log linear model to classify each word in a sentence
+it exploits the property of sentence ranking methods in which they consider neural query ranking and query focused ranking
+dong
+al
+developed a query based summarization that uses document ranking time sensitive queries and ranks recency
+sensitive queries as the features for text summarization
+
+extractive text summarization
+in this procedure summarizer discovers more critical information either words or sentences from input document to make the summary of the corresponding document
+
+
+in this process it uses statistical and linguistic features of the sentences to decide the most relevant sentences in the given input document
+thomas al
+designed a hybrid model based extractive summarizer using machine learning and simple statistical method for keyword extraction from e newspaper article
+
+min al
+used freely available open source to extractive summarize the text in multi document
+they used information which is common to document sets belonging to a common category as a feature and encapsulated the concept of category specific importance csi
+they showed that csi is a valuable metric to aid sentence selection in extractive called swing summarization system figure
+characterization of the text summarization process automatic keyword extraction for text summarization a survey summarization tasks
+marcu et al
+developed a based extractive summarizer that uses the rhetorical parsing algorithm to determine discourse structure of the text of given input determine partial ordering on the elementary and parenthetical units of the text
+erkan et al
+developed an extractive summarization environment
+it consists of three steps feature extractor the feature vector and reranker
+features are centroid position length cutoff simwithfirst lexpagerank and queryphrasematch
+
+alguliev al
+learning based extractive developed an unsupervised summarizer relevance redundancy and length
+it split documents into sentences and select salient sentences from the document
+aramaki al
+destined a supervised learning based extractive text summarizer that identifies the negative event and it also investigates what kind of information is helpful for negative event identification
+an svm classifier is used to distinguish negative events from other events
+three properties that optimizes sentences
+
+abstractive text summarization
+in this procedure a machine needs to comprehend the idea of
+all the input documents and then deliver summary with
+its it uses particular linguistic methods to examine and interpret the text and then to find the new concepts and expressions to best describe it by generating a new shorter text that conveys the most important information from the original text document
+
+brandow
+al
+developed an abstractive summarization system that analyses the statistical corpus and extracts the signature words from the corpus
+then it assigns the weight for all the signature words
+based on the extracted signature words they assign the weight to the sentences and select few top weighted sentences as the summary
+daume al
+developed an abstractive summarization system that maps all the documents into database like representation
+
+further it classifies into four categories a single person single event multiple event and natural disaster
+it generates a short headline using a set of predefined templates
+
+it generates summaries by extracting sentences from the database
+
+supervised learning based text summarization this type of learning techniques used labeled dataset for training
+
+
+thomas al
+designed a system for automatic keyword extraction for text summarization using hidden
+markov model
+
+the learning process was supervised it used human annotated keyword set to train the model
+
+mirroshandel al
+used a set of labeled dataset to train the system for the classification of temporal relations between events
+aramaki al
+learning based extractive destined a supervised text summarizer that identifies
+the negative event and also investigates what kind of information is helpful for negative event identification
+an svm classifier is used to distinguish negative events from other events
+
+unsupervised learning based text summarization
+in this technique there are no predefined guidelines available at the time of training
+
+mirroshandel et al
+proposed a method for temporal relation extraction based on the expectation maximization em algorithm
+within em they used different techniques such as a greedy best first search and integer linear programming for temporal inconsistency removal
+the em based approach was a fully unsupervised temporal relation based extraction for text an summarization
+alguliev unsupervised that optimizes three properties relevance redundancy and length
+
+it split documents into sentences and select salient sentences from the document
+developed learning based extractive summarizer et
+al
+
+text summarization approach
+a review based on the literature text summarization approaches can be classified into five types namely statistical based machine learning based coherent based graph based algebraic based as shown in figure
+the documents
+
+there
+statistical based approach
+this approach is very simple and crude often used for keyword extraction from is no predefined dataset required for this approach
+
+to extract the keywords from documents it uses several statistical features of the document such as term or word frequency tf term frequency inverse document frequency tf idf position of keyword pok as mentioned in figures and
+these statistical summarization
+
+features are used text for
+machine learning based approach machine learning is a feature dependent approach we one need annotated dataset to trained the models
+there are several popular machine learning approaches namely nave
+bayes nb decision trees dts
+hidden
+markov model hmm
+maximum entropy me
+neural network nn
+svm
+used for text summarization
+support
+vector machine automatic keyword extraction for text summarization
+a survey table list of abbreviations used in classification of text
+summarization approaches list of abbreviations tf term frequency if idf term frequency inverse document frequency figure classification of text summarization approaches pok hmm position of a keyword hidden markov model
+dt me nn nb decision trees maximum entropy neural networks
+nave bayes dlcss direct lexical chain span score dlcs lcss
+direct lexical chain score lexical chain span score lcs lexical chain score rhetorical structure theory lexical chain gpr google s pagerank rst lc hits
+mlsa snmf slss lsa nmf svd sdd
+hyperlinked induced topic search meta latent semantic analysis
+symmetric nonnegative matrix factorization sentence level semantic analysis latent semantic analysis non negative matrix factorization singular value decomposition semi discrete decomposition
+coherent based approach
+a coherent based approach basically deals with the cohesion the words
+cohesion relations among relations among elements substitution text in a conjunction and lexical cohesion
+
+lexical chain lc reference ellipsis wordnet wn
+lexical chain score of a word lcs
+direct lexical chain score of a word dlcs
+lexical chain span score of a word lcss
+direct lexical chain span score of a word dlcss
+rhetorical structure theory rst
+
+graph based approach
+there are two popular graph based approaches used for text summarization namely hyperlinked
+induced topic search gpr
+hits
+
+and google s
+pagerank such as latent semantic analysis algebraic approach
+in this approach one use algebraic theories namely matrix transpose of matrix eigen vectors
+there are many algorithms used for text summarization using algebraic approach lsa
+meta
+latent semantic analysis mlsa
+symmetric nonnegative matrix factorization snmf
+sentence level semantic analysis
+slss
+non negative matrix factorization nmf
+singular value decomposition svd
+semi discrete decomposition sdd
+
+
+databases a review
+in the literature we observed that there are seven types of databases used for text summarization process namely document understanding workshop duc medline text analysis conference
+tac computational linguistics scientific document
+summarization shared task corpus cl scisumm tipster
+text summarization evaluation conference summac topic detection and
+tracking tdt
+
+the duc international conference for performance evaluation in the area of text summarization
+
+this dataset is composed of topics and documents the is automatic keyword extraction for text summarization
+a survey identifiers and to with
+article relevant to each topic from the aquaint corpus for relevant multi document summarization
+
+pubmed dataset is a baseline repository that links million identifiers and articles
+with it journal contains abstracts from more than journals
+
+
+medline also provides keyword searches and returns abstracts that contain the keywords
+the tac is the international conference for
+performance evaluation in the area of subparts of natural language processing such as text summarization
+
+usually and conference dataset used for text summarization in past
+
+the cl scisumm shared task is run off the cl scisumm corpus and comprises three sub tasks in automatic research paper summarization on a new corpus of research papers
+a training of twenty topics and a test of ten topics were released
+
+the topics comprised of acl
+computational
+linguistics research papers and their citing papers and three output summaries each
+the three output summaries comprise the traditional self summary of the paper the abstract the
+community summary the collection of citation sentences citances and a human summary written by a trained annotator
+
+tipster is a corpus of documents from the computation and language cmp lg collection has been marked up in xml and made available as a general resource to the information retrieval extraction and summarization communities
+
+
+performance evaluation measure
+a review in the field of text summarization performance evaluation measure can be classified into two categories namely intrinsic and extrinsic
+
+the intrinsic evaluation judges the quality of the summary directly based on analysis in terms of some set of norms whereas extrinsic evaluation judges the quality of the summary based on the how it affects the completion of some other task
+the complete structure of classification about evaluation measure for text summarization is given in figure
+to compare the performances one used the rouge evaluation software package which compares various summary results from several summarization methods with summaries generated by humans
+rouge has been applied by the document understanding conference duc for
+performance evaluation
+rouge includes five automatic evaluation methods rougen
+rouge l rouge w
+rouge s and rouge su
+
+each method estimates recall precision and measure between experts reference summaries and candidate summaries of the proposed system
+
+rouge n uses the n gram recall between a candidate summary and a set of reference summaries
+figure
+classification of performance evaluation measure automatic keyword extraction for text summarization a survey table previous studies on automatic text summarization dt tosu cos dbu mat study pollock et brandow et
+hovy
+aone radev marcu et barzilay et chen radev et radev et radev lin et mckeown et daum et harabagiu et saggion et saggion et chali et copeck alfonseca et erkan et filatova
+nobata et conroy et farzindar et witte et witte et he witte et fuentes et dunlavy et gotti et svore schilder et liu et
+zhang et
+aramaki et
+fisher et
+hachey et
+wei
+dong et
+shi et park et archambault
+genest tsarev alguliev et chandra et mirroshandel et
+min et de melo et thomas toa
+automatic keyword extraction for text summarization a survey table approaches documents summary usage characteristics of summary and metrics used in text summarization types of approach toa statistical approach machine learning approach coherent based approach graph based approach algebraic approach document
+type dt single document multiple document types of summary
+usage tosu characteristics of
+summary cos generic query based extractive
+abstractive
+d a t a b a s e s
+u s e
+dbu duc medline tac others performance evaluation metrics rouge rouge rouge l rouge w rouge precision recall f measure relative utility based on the characterization of text summarization process as shown in figure classifications of text summarization approaches as shown in figure databases as discussed in section and
+performance evaluation matrices as shown in figure we bring a consolidated summary of previous studies in text summarization and is shown in table
+it discusses the approaches that are used for text summarization experiment performed using single or multiple documents types of summary usage characteristics of the summary and metrics used
+the details of the parameters are given in table
+issues and challenges occurs in text summarization in the area of text summarization there are following research issues and challenges occurs during implementation
+research issues
+in the case of multi document text summarization several issues occurs frequently while evaluation of summary such as redundancy temporal dimension co reference or sentence ordering which makes very difficult to achieve quality summary
+some other issues occurs such as grammaticality cohesion coherence which is harmful for summary
+
+the quality of summaries are varying from system to system or person to person
+some person feels some set of sentences are important for summary at the same time other person feel the other set of sentences are important for required summary
+
+implementation challenges to get the quality summary quality keywords are required for text summarization
+there is no standard to identify quality keywords within or multiple documents
+the extracted for applying different keywords are varying approaches of keyword extraction
+multi lingual text summarisation is another challenging task
+
+
+conclusion and future direction
+in time
+information text summarization is very helpful for users to extract only this area in stipulated needed considerable amount of work has been done in the recent past
+
+due to lack of information and standardization lot of research overlap is a common phenomenon
+
+since exhaustive is not published on automatic keyword review paper extraction and in indian text summarization especially context
+therefore we thought that the survey paper covering recent work in keyword extraction and text summarization may ignite the research community for filling some important research gaps
+this paper contains the literature review of recent work in text summarization from the point of views of automatic keyword extraction text databases summarization process summarization methodologies and evaluation matrices
+
+some important research issues in the area of text summarization are also highlighted in the paper
+
+in future one can target following direction in the field of summarization
+text summarization languages especially in indian language context such as telugu hindi tamil bengali
+low resourced in
+this work can also be extended to multi lingual text summarization
+multimedia summarization
+
+multi lingual multimedia summarization
+references
+
+zhang automatic keyword extraction from documents using conditional random fields journal of computational information systems vol
+pp
+
+hovy lin automated text summarization and the summarist system in
+proceedings of a workshop on held at baltimore acl pp
+
+
+mani
+maybury advances in automatic text summarization
+vol
+mit press
+
+
+erkan
+radev lexrank graph based lexical centrality as salience in text summarization journal of artificial intelligence research pp
+
+thomas bharti babu automatic keyword extraction for text summarization in e newspapers in
+proceedings of the international conference on informatics and analytics acm pp
+
+
+
+automatic keyword extraction for text summarization
+a survey
+van der plas pallotta
+rajman ghorbel automatic keyword extraction from spoken text a comparison of two lexical resources the edr and wordnet arxiv preprint
+
+
+giarlo a comparative analysis of keyword extraction techniques citeseer pp
+
+
+ercan cicekli using lexical chains for keyword extraction information
+processing management vol
+pp
+
+
+
+litvak
+last graph based keyword extraction for document summarization in
+proceedings of the workshop on source multilingual
+information extraction and summarization acl pp
+
+
+filatova hatzivassiloglou extractive summarization in proceedings of acl workshop on summarization vol pp
+
+event based
+
+conroy
+schlesinger
+stewart classy query based multi document summarization in proceedings of the document understanding workshop citeseer pp
+
+schilder kondadadi fastsum fast and accurate query based multi document summarization in
+proceedings of the annual meeting of the association for computational linguistics on human language technologies acl pp witte bergler fuzzy clustering for topic analysis and summarization of document collections in advances in artificial intelligence springier pp
+
+
+archambault greene cunningham hurley themecrowds
+multiresolution summaries of twitter usage in proceedings of the international workshop on search and mining user generated contents acm pp
+
+
+
+
+cohen
+al highlights and domain independent automatic indexing terms for abstracting jasis vol
+pp
+
+
+luhn a statistical approach to mechanized encoding and searching of literary information ibm journal of research and development vol
+pp
+
+
+ramos using tf idf to determine word relevance in document queries in proceedings of the first instructional conference on machine learning pp
+
+
+matsuo ishizuka keyword extraction from a single document using word co occurrence statistical information international journal on artificial intelligence tools vol
+pp
+
+
+chien pat tree based keyword extraction for chinese information retrieval in acm sigir forum vol
+acm
+pp
+
+
+
+barzilay elhadad using lexical chains for text summarization advances in automatic text summarization pp
+
+
+hulth improved automatic keyword extraction given more linguistic knowledge in
+proceedings of the conference on empirical methods in natural language processing acl pp
+
+
+
+salton singhal mitra buckley automatic text structuring and summarization information processing management vol
+
+pp
+
+
+
+conroy text summarization via hidden markov models in
+proceedings of the annual international acm sigir conference on research and development in information retrieval acm pp
+
+
+
+
+zhang xu tang li keyword extraction using support vector machine in advances in web age information management springier pp
+
+
+frank paynter witten gutwin nevill manning domain specific key phrase extraction
+in
+international joint conference on artificial intelligence vol
+pp
+
+witten paynter frank gutwin nevill manning kea practical automatic key phrase extraction in proceedings of the fourth acm conference on digital libraries acm pp
+
+
+
+turney
+learning to extract key phrases from text arxiv preprint
+pp
+
+humphreys phraserate
+an html key phrase extractor
+dept of computer science university of california riverside california usa
+tech
+
+
+dennis the design and testing of a fully automatic indexing text searching system for documents consisting of expository information retrieval a critical review washington dc thompson book company pp
+
+
+
+salton buckley automatic text structuring and retrieval experiments in automatic encyclopedia searching in proceedings of the annual international acm sigir conference on research and development in information retrieval acm pp
+
+
+ohsawa benson yachida keygraph automatic indexing by co occurrence graph based on building construction metaphor in research and technology
+advances in digital libraries ieee pp
+
+
+
+fukumoto sekiguchi
+suzuki keyword extraction of radio news using term weighting with an encyclopedia and newspaper articles in
+proceedings of the annual international acm sigir conference on research and development in information retrieval acm pp
+
+
+mihalcea graph based ranking algorithms for sentence extraction applied to text summarization
+in proceedings of the association for computational
+linguistics on
+interactive poster and demonstration sessions
+acm
+
+
+pollock zamora automatic abstracting research at chemical abstracts service journal of chemical information and
+computer
+sciences
+
+marcu discourse trees are good indicators of importance in text advances in automatic text summarization
+harabagiu lacatusu
+generating single and multi document summaries with gistexter in
+document understanding conferences pp
+
+
+saggion bontcheva cunningham robust generic and based summarization in
+proceedings of the tenth conference on european chapter of the association for computational linguistics vol
+acl pp
+
+
+
+shi wei liu tan lian zhou understanding text corpora with multiple facets in visual analytics science and technology vast ieee symposium on ieee pp
+
+
+
+alguliev aliguliyev hajirahimova mehdiyev mcmr maximum coverage and minimum redundant text summarization model expert systems with applications
+
+
+
+min
+chew tan exploiting category specific information for multi document summarization in
+proceedings of coling acl pp
+
+genest lapalme framework for abstractive summarization using text to text generation in
+proceedings of the workshop on monolingual text to text generation acl pp
+
+
+tsarev petrovskiy mashechkin using nmf based text summarization to improve supervised and unsupervised classification in hybrid international conference on ieee pp
+
+intelligent systems his
+
+de melo weikum uwn a large multilingual lexical knowledge base in proceedings of the acl system demonstrations acl pp
+
+
+
+mirroshandel ghassem sani towards unsupervised learning of temporal relations between events journal of artificial intelligence research
+
+
+aone okurowski gorlinsky trainable scalable summarization using robust nlp and machine learning in proceedings of the international conference on computational linguistics vol acl pp
+
+
+
+radev fan
+zhang webinessence
+a personalized web based multi document summarization and recommendation system
+ann arbor vol
+pp
+
+
+
+hachey multi document summarization using generic relation extraction in proceedings of the conference on empirical methods in natural language processing vol acl pp
+
+farzindar rozon lapalme cats a topic oriented document summarization system at in proc of the document understanding workshop
+
+
+fuentes rodrguez ferrs femsum at in proceedings of the document understanding conference
+
+
+fisher dunlop roark
+chen burmeister ohsu summarization and entity linking systems in
+proceedings of the text analysis conference tac citeseer
+automatic keyword extraction for text summarization
+a survey
+dong chang zheng mishne bai zhang buchner liao
+diaz towards recency ranking in web search in
+proceedings of the third acm international conference on web search and data mining acm pp
+
+
+radev mckeown generating natural language summaries from multiple on line sources computational
+linguistics vol
+pp
+
+
+
+chen lin a multilingual news summarizer in proceedings of the conference on computational linguistics vol acl pp
+
+radev blair goldensohn zhang experiments in single and multi document summarization using mead
+ann arbor vol pp
+
+
+
+radev blair goldensohn
+zhang raghavan newsinessence
+a system for domain independent real time news clustering and multi document summarization in
+proceedings of the first international conference on human language technology research acl pp
+
+brandow mitze rau automatic condensation of electronic information processing publications by sentence selection management vol
+pp
+
+
+barzilay mckeown elhadad information fusion in the context of multi document summarization in proceedings of the annual meeting of the association for computational
+linguistics on computational linguistics acl pp
+
+
+
+h daum a echihabi d marcu d munteanu soricut gleans
+a generator of logical extracts and abstracts for nice summaries in workshop on automatic summarization pp
+
+
+lin hovy automated multi document summarization in neats in proceedings of the second international conference on human language technology research morgan kaufmann publishers pp
+
+
+
+
+mckeown barzilay evans hatzivassiloglou klavans schi man sigelman tracking and summarizing news on a daily basis the second with columbia newsblaster international conference on human language technology research morgan kaufmann publishers pp
+
+in
+proceedings of nenkova sable saggion lapalme generating indicative informative summaries with sumum computational linguistics vol
+pp
+
+
+
+chali kolla singh zhang the university of lethbridge text summarizer at duc in the proceedings of the hlt naacl workshop on automatic summarization document
+understanding conference
+
+
+copeck szpakowicz picking phrases picking sentences in the the hlt naacl workshop on automatic proceedings document understanding conference
+of
+alfonseca guirao
+moreno sandoval description of the uam system for generating very short summaries at in document understanding conference edmonton canada
+
+erkan
+radev the university of michigan at in proceedings of the document understanding conferences boston ma
+
+nobata sekine crl nyu summarization system at in proceedings of duc
+
+witte krestel bergler erss
+co reference based summarization reloaded in duc
+document understanding workshop canada
+
+krestel bergler al context based multi document summarization using fuzzy co reference cluster graphs in proc of document understanding workshop at hlt naacl
+
+
+
+he liu
+ji yang teng msbga
+a document summarization system based on genetic algorithm in
+international conference on machine
+learning and cybernetics ieee pp
+
+
+dunlavy leary conroy schlesinger qcs a system for querying clustering and summarizing documents information processing management vol
+pp
+
+
+gotti lapalme nerima wehrli du langage gofaisum a symbolic summarizer for duc in proc of duc vol
+
+
+
+svore
+vanderwende burges enhancing single document summarization by combining ranknet and third party sources in emnlp conll pp
+
+
+
+liu wang zhang xu personalized pagerank based document summarization in international workshop on semantic computing and systems ieee pp
+
+
+
+zhang
+cheng wu xu adasum an adaptive model for summarization in
+proceedings of the acm conference on information and knowledge management acm pp
+
+
+
+aramaki miura tonoike ohkuma mashuichi ohe medical text summarization system based on named entity recognition and modality the identification
+workshop on current trends in biomedical natural language
+processing acl pp
+
+in
+proceedings of
+wei liu song pan zhou qian shi tan
+zhang tiara a visual exploratory in proceedings of the acm sigkdd international conference on knowledge discovery and data mining acm pp
+
+
+
+marcus marcinkiewicz santorini building a large annotated of english
+the penn treebank computational linguistics vol
+pp
+
+text analytic system
+
+lappin leass an algorithm for pronominal anaphora resolution computational linguistics vol
+pp
+
+
+bharti vachha pradhan babu jena sarcastic sentiment detection in tweets streamed in real time a big data approach digital communications and networks vol
+pp
+
+
+balinsky balinsky simske on the helmholtz principle for data mining hewlett packard development company lp
+balinsky balinsky simske on helmholtz principle for documents processing in proceedings of the acm symposium on document engineering acm pp
+
+gupta lehal a survey of text summarization extractive techniques journal of emerging technologies in web intelligence vol
+pp
+
+
+kumar
+
+salim automatic multi document summarization approaches in journal of computer science vol
+pp
+
+
+
+
+das martins a survey on automatic text summarization
+
+literature survey for the language and statistics ii course at cmu
+saranyamol sindhu a text summarization int
+computer
+sci
+inf
+technology vol
+
+
+survey on automatic
+mukherjee chakraborty automated knowledge provider system with natural language query processing iete technical review vol
+
+
+park cha
+an automatic multi document summarization based on clustering and nonnegative matrix factorization iete technical review vol
+
+k zechner a literature survey on information extraction and text summarization computational linguistics program vol
+
+
+
+lloret
+palomar text summarisation in progress a literature review artificial intelligence review vol
+
+
+and a statistical approach for automatic text summarization by extraction
+in proceeding of the international conference on communication systems and network technologies ieee pp
+
+
+luhn the automatic creation of literature abstract ibm journal of research and development vol pp
+
+
+murthy reddy reddy satapathy statistical approach based keyword extraction aid dimensionality reduction
+in proceedings of the international conference on information systems design and intelligent applications
+springer
+
+lewis naive bayes at forty
+the independence assumption in information retrieval in proceedings of tenth european conference on machine learning verlag pp
+
+
+rennie
+shih teevan
+karger tackling the poor assumptions of nave
+bayes classifiers
+in proceedings of international conference on machine learning pp
+
+
+mouratis kotsiantis increasing the accuracy of discriminative of multinomial bayesian classifier in text classification
+in proceedings of fourth international conference on computer sciences and convergence information technology ieee
+pp
+
+automatic keyword extraction for text summarization
+a survey
+lin training a selection function for extraction in proceedings of the eighth
+international conference on information and knowledge management acm pp
+
+
+
+
+chengcheng automatic text summarization based on rhetorical structure theory in international conference on computer application and system modeling ieee pp
+
+
+
+knight marcu statistics based step one sentence compression
+in proceeding of
+the
+seventeenth national conference of the american association for artificial intelligence pp
+
+
+brin page the anatomy of a large scale hyper textual web search engine
+in proceedings of the seventh international world wide web conference computer networks and isdn systems elsevier pp
+
+
+
+rabiner juang an introduction to hidden
+markov model acoustics speech and signal processing magazine vol pp
+
+
+
+horowitz kamvar anatomy of a large scale social search engine in
+nineteenth
+international conference on world wide web acm pp
+
+
+nag wong fallside script recognition using hidden markov models
+in proceedings of international conference on acoustics speech and signal processing ieee pp
+
+
+efron information search and retrieval in microblogs journal of the american society for information science and technology vol
+pp
+
+
+zhou li research of information extraction algorithm based on hidden
+markov model
+in proceedings of second international conference on information science and engineering ieee pp
+
+osborne
+using maximum entropy for sentence extraction
+in the workshop on automatic proceedings of summarization acl pp
+
+
+pang lee thumbs up
+sentiment classification using machine learning technique
+in proceedings of the association for
+computational
+linguistics conference on empirical methods in natural language processing acm pp
+
+
+
+
+chieu
+ng a maximum entropy approach information extraction from semi structured and free text
+in proceedings of the
+eighteenth national conference on artificial intelligence american association for artificial intelligence pp
+
+
+malouf a comparison of algorithms for maximum entropy parameter estimation
+in proceedings of sixth conference on natural language learning acm pp
+
+
+
+yu xu
+
+zhang chang
+seide a hidden state maximum entropy model
+in international conference on acoustic speech and
+signal
+processing ieee pp
+
+forward confidence estimation
+
+
+ruiz srinivasan automatic text categorization using neural networks
+in proceedings of the eighth american society for information classification research american society for information science pp
+
+
+
+jo ntc neural network categorizer
+neural network for text categorization international journal of information studies vol
+
+
+
+ciarelli oliveira badue de souza multi label text categorization using a probabilistic neural network international journal of computer
+information systems and industrial management applications vol
+pp
+
+
+guyon weston barnhill vapnik gene selection for cancer classification using support vector machines mach
+learn
+machine
+learning vol
+pp
+
+
+
+hirao sasaki isozaki maeda ntt s text summarization system for
+in proceedings of the document understanding conference pp
+
+
+
+minh shimazu xuan tu horiguchi sentence extraction with support vector machine ensemble in proceedings of the
+first world
+congress of the international federation for systems research pp
+
+
+morris hirst lexical cohesion computed by thesaural relations as an indicator of the structure of text journal of computational linguistics vol acm pp
+
+
+
+pedersen patwardhan michelizzi
+measuring the relatedness of concepts
+in proceedings in human language technology conference acm pp
+
+silber mccoy efficient text summarization using lexical chains
+in proceedings of fifth international conference on intelligent user interfaces acm pp
+
+
+
+mann thompson rhetorical structure theory
+towards a function theory of text organization text interdisciplinary journal for the study of discourse vol
+pp
+
+
+
+uzeda pard nunes evaluation of automatic summarization methods based on rhetorical structure theory
+in eighth
+international conference on intelligent systems design and applications ieee pp
+
+
+
+landauer foltz laham introduction to latent semantic analysis journal of discourse processes vol
+pp
+
+
+
+
+rosario latent semantic indexing an overview technical report of infosys university of california
+
+
+hofmann unsupervised learning by probabilistic latent semantic analysis journal of machine learning vol
+pp
+
+
+simina barbu meta latent semantic analysis
+in ieee international conference on systems man and cybernetics ieee pp
+
+
+
+chien
+
+adaptive bayesian latent semantic analysis ieee
+transactions on audio speech and language processing vol
+
+
+wang li zhu ding multi document summarization via sentence level semantic analysis and symmetric matrix factorization
+in proceedings of the
+annual international acm special interest group on information retrieval conference on research and development in information retrieval
+acm pp
+
+
+
+
+lee park ahn
+kim automatic generic document summarization based on non negative matrix factorization journal on information processing and management vol pp
+
+
+
+kolda oleary algorithm computation and uses of the semi discrete matrix decomposition transactions on mathematical software vol pp
+
+
+snasel moravec pokorny using semi discrete decomposition for topic identification
+in proceedings of the eighth international conference on intelligent systems design and applications ieee pp
+
+
+
+
+afantenos
+karkaletsis stamatopoulos summarization from medical documents a survey
+artificial intelligence in medicine vol
+
+scisumm corpus
+nus scisumm corpus santosh kumar bharti is currently pursuing his in cse from national institute of technology rourkela india
+his research interest includes opinion mining and sarcasm sentiment detection resume
+
+email id india
+
+his is working as an assistant korra
+sathya
+babu
+professor in the dept of cse national institute of interest technology rourkela includes data engineering data privacy opinion mining and sarcasm sentiment detection
+
+email id
+research sanjay
+kumar jena is working as a
+professor in the
+dept of cse national institute of technology rourkela india
+
+his research interest includes data engineering network security opinion mining and
+sarcasm sentiment detection
+
+email id

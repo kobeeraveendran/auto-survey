@@ -1,0 +1,450 @@
+selected updates on semileptonic b decays and determination vxb giulia ricciardi dipartimento di fisica pancini universit di napoli federico ii and infn sezione napoli complesso universitario di monte santangelo via cintia napoli italy
+e
+mail we summarize selected up to date results related to semileptonic b meson decays namely sults on the exclusive determination of the parameter of the ckm matrix on the inclusive determination of and on vcb
+vub v o
+n h
+e h
+v
+v
+i x r a xiii quark connement and the hadron spectrum july august
+maynooth university ireland speaker
+
+copyright owned by the under the terms of the creative commons
+attribution noncommercial noderivatives international license cc by nc nd
+semileptonic b decays and determination vxb giulia ricciardi
+introduction vxb the parameters of the cabibbo kobayashi maskawa ckm matrix play a central role in the analyses of the unitarity triangle and in testing the standard model sm
+the long standing tension among their values depending on whether they are extracted using exclusive or inclusive semi leptonic b decays also motivates more and more precise theoretical and experimental gations
+we briey discuss recent results on the exclusive determination of on the inclusive
+determination of vcb vub and on
+exclusive determination vcb
+we can express the differential ratios for the semi leptonic ckm favoured decays b
+in terms of the recoil parameter pb which corresponds to the energy
+ferred to the leptonic pair
+for negligible lepton masses each ratio depends on one form factor f for b dl and the phase space vanishes at the no recoil point in both cases
+summarizing we can write dl and g for b
+md pd d d
+d
+
+d f f vcb g vcb
+in the heavy quark limit both form factors are related to a single isgur wise function f
+g which is normalized to unity at zero recoil that is
+there are perturbative corrections to this prediction expressed at the zero recoil point by the heavy quark symmetry under the form of powers of qcd m where m mc and mb
+other corrections are perturbatively calculable radiative corrections from hard gluons and photons
+
+in order to extract the ckm factors we need not only to compute the form factors but also to measure experimental decay rates which vanish at zero recoil
+therefore experimental points are extrapolated to zero recoil using a parametrization of the dependence on of the form tor
+several recent extrapolations to zero recoil adopt a parametrization where is mapped onto
+the a complex variable z via the conformal transformation z form factors may be written in form of an expansion in z which converges rapidly in the matical region of heavy hadron decays
+the coefcients of the expansions are subject to unitarity bounds based on analyticity
+common examples are the cln caprini lellouch neubert
+the bgl boyd grinstein lebed
+and the bcl bourrely caprini lellouch
+parameterizations
+
+they are all constructed to satisfy the unitarity bounds but the cln approach differs mostly in its reliance on next to leading order hqet relations between the form factors
+because of such additional constraints the accuracy of the cln approach has been questioned in both b d
+l channels
+the way out of parametrization dependence is to compute
+and b the form factors at nonzero recoil values
+in the case of b d decays the form factors in the unquenched lattice qcd approximation are available for a range of non zero recoil momenta since differential rates and angular
+lastly we remark that combined ts to b tions can help constraining the form factors and allow not only the extraction of but also of form factor ratios under various scenarios
+vcb d brief overviews see for example and references therein
+semileptonic b decays and determination vxb giulia ricciardi b d channel
+the form factor f at zero recoil for the b d channel in the lattice unquenched n approximation has been estimated rst by the fnal milc collaboration which used wilson fermions for both c and b heavy quarks f
+
+the rst error is statistical and the second one is the sum in quadrature of all systematic errors
+the total uncertainty is around the level
+the largest error is the heavy quark discretization error related to the fermilab action
+the lanl swme collaboration is working to reduce it by using an improved version of the fermilab action the oktay kronfeld action
+other preliminary results concern analyses at non zero recoil and with mobius domain wall quarks at zero and zero recoil from n qcd
+a recent value of the form factor f has been presented by the hpqcd collaboration which used the fully relativistic hisq
+highly improved staggered quarks action for light strange and charm quarks and the nrqcd nonrelativistic qcd action for the bottom quark f
+
+both the results in eq
+and eq
+are in good agreement
+the form factor in eq
+has determinations from the heavy flavour and lattice averaging groups been used by the latest hflav and flag respectively
+using the cln parametrization the hflav average gives vcb vcb
+
+where the rst uncertainty is experimental and the second error is theoretical lattice qcd tion and electro weak correction
+the flag n average value yields vcb vcb
+this average employs the hflav experimental average f and the value ew
+
+vcb
+in for the rst time the unfolded fully differential decay rate and associated covariance matrix have been published by the belle collaboration prompting several independent minations of the value of under different theoretical approaches
+most notably using the belle measurement it has been argued that previous determinations using the cln form factor parameterisation could be affected by underestimated uncertainties and fore form factor analyses based on bgl should be preferred
+the previous analyses in the bgl framework appear consistent with each other and give using t lattice zero recoil form factors the values vcb
+the central values are higher than the corresponding values in the cln parametrization and closer to the values from the inclusive approach
+on the other side it has also been argued that ts that vcb vcb
+
+
+semileptonic b decays and determination vxb giulia ricciardi yield the higher values of lattice predictions of the form factor ratios
+vcb suggest large violations of heavy quark symmetry and tension with this year for the rst time the belle collaboration has performed ts with both the cln and bgl form factor parameterizations obtaining f f vcb vcb cln t bgl t the rst uncertainty is statistical the second one is systematic
+this is the experimentally most precise determination performed with exclusive semileptonic b decays
+taking the value for the form factor in eq
+and ew
+they nd vcb vcb cln lqcd bgl lqcd the value of branching fraction is found to be insensitive to the choice of the parameterization
+
+both sets of ts give acceptable ndf therefore the data do not discriminate between the eterizations
+
+form factor estimates via zero recoil sum rules give in general relatively higher values of and a theoretical error more than twice the error in the lattice determinations
+cently form factors determinations from b meson light cone sum rules beyond leading twist have been presented
+vcb the b d channel for b d decay form factors are available for a range of recoil momenta by both the fnal milc collaboration and the hpqcd collaboration
+by parameterizing the pendence on momentum transfer using the bgl parameterization the former collaboration has determined from the relative normalization over the entire range of recoil momenta vcb vcb
+
+decay by the same
+the average value is almost the same than the one inferred from b fnal milc collaboration see eq
+
+the hpqcd collaboration has performed a joint t to lattice and babar experimental data and extracted the ckm matrix element using the cln parametrization vcb vcb
+
+the rst error consists of the lattice simulation errors and the experimental statistical error and the second error is the experimental systematic error
+
+in the decay b d has also been measured in fully reconstructed events by the belle collaboration
+they have performed a t to the cln parametrization which has been used to determine ew g
+by using the form factor normalization g found by the fnal milc vcb collaboration and ew they obtain vcb semileptonic b decays and determination vxb giulia ricciardi
+the belle collaboration has also obtained a slightly more precise result by ploiting lattice data at non zero recoil and performing a combined t to the bgl form factor
+it yields global t results in the bgl parametrization are in agreement with the previous tions giving the value
+vcb
+vcb
+here the lattice results as well as belle and babar data have been used
+
+inclusive determination vub vub
+in order to extract from semileptonic b xu decays one has to reduce the b in order to face this problem that is absent in the inclusive determination of semileptonic background through experimental cuts
+such cuts enhance the relevance of the called threshold region in the phase space jeopardizing the use of operator product expansion techniques
+
+different theoretical schemes have been devised which are tailored to analyze data in the threshold region but differ in their treatment of perturbative corrections and the parametrization of perturbative effects
+in table we present the results for four theoretical different approaches as analyzed by babar belle
+and hflav
+collaborations that is adfr
+blnp
+and ggou
+although conceptually quite different all these approaches lead to roughly consistent results when the same inputs are used and the theoretical errors are taken into account
+generally these values are higher compared to corresponding vcb table status of inclusive inclusive decays hflav
+
+babar
+belle
+adfr
+
+
+vub determinations
+
+
+vub bnlp
+
+
+
+dge
+
+
+
+
+ggou
+
+
+
+sive determinations
+the tension is of the order of depending on the chosen framework
+
+when averaged the adfr value is lower than the ones obtained with the other three approaches and closer to the exclusive values
+by taking the arithmetic average of the results obtained from these four different qcd predictions of the partial rate the babar collaboration gives vub
+the latest analyses and theoretical progresses in semi leptonic heavy to light decays involve power corrections global ts to inclusive rare and semileptonic data and most neural networks have also been used to parameterize the shape functions and extract in the ggou framework
+the results are in good agreement with the original paper
+semileptonic b decays and determination vxb giulia ricciardi recently exploratory lattice calculations of inclusive b meson semileptonic decay
+at belle ii prospects are good for improvements of the determination with both inclusive and exclusive approaches thanks to more data and better reconstruction performance
+
+vub
+exclusive b c decays into heavy leptons in the sm the couplings to the w bosons are universal for all leptons and processes showing non universality would indicate physics beyond the sm
+this universality can be tested in tonic b meson decays involving a lepton through the ratio of branching fractions
+
+
+d
+d
+this ratio is typically used instead of the
+the denominator is the average for decays in order to cancel uncertainties common to the lute branching fraction of b numerator and the denominator
+these include the ckm matrix element and several theoretical uncertainties on hadronic form factors and experimental reconstruction effects
+d in the sm values for have been calculated already in by means of hqe giving
+a later lattice estimate yields
+the discussion on different parameterizations briey outlined in sect has prompted in new sm determinations in the bgl parameterization
+these are generally consistent with the old predictions for
+their arithmetic average as given by hflav is as far as is concerned lattice sm predictions have been averaged by the flag collaboration yielding as before recent calculations have been performed in the bgl parameterization and their arithmetic hflav average
+is
+
+exclusive semi tauonic b decays were rst observed by the belle collaboration in
+
+subsequent analysis by babar and belle measured branching fractions above although consistent with the sm predictions
+in babar has measured by using its full data sample and reported a signicant excess over the sm expectation conrmed in by the rst measurement of using the semileptonic tagging method belle
+in a conrmation came also by the lhcb collaboration who has studied the decay b with d
+in pp collisions
+and
+semileptonic b decays and determination vxb giulia ricciardi
+in the belle collaboration reported a new measurement in the hadronic decay modes
+statistically independent of the previous belle measurements with a different background composition
+these results are consistent with the theoretical predictions of the sm in ref
+within standard deviations
+they also reported the rst measurement of the lepton
+
+ization in the decay b d which is again compatible with sm expectations
+last year the lhcb collaboration has measured in agreement with the sm prediction
+
+by averaging the most recent measurements the hflav collaboration has found
+where the rst uncertainty is statistical and the second one is systematic
+rd and rd exceed the sm values by about and respectively
+if one consider both deviations the tension rises to about
+at belle ii a better understanding of backgrounds tails under the signal and a reduction of the uncertainty to for rd and for rd is expected at ab
+
+this work received partial nancial support from miur under project no
+and acknowledgements from the infn research initiative enp
+references ricciardi magnitudes of vxb ckm
+matrix elements pos
+
+
+ricciardi status of
+
+vcb and vub ckm matrix elements aip conf
+proc
+ricciardi progress on semi leptonic decays mod
+phys
+lett
+ricciardi semileptonic and leptonic b decays circa mod
+phys
+lett
+ricciardi semileptonic decays and determinations epj web conf
+vxb descotes genon and koppenburg the ckm parameters ann
+nucl
+part
+sci
+
+
+
+
+
+
+
+
+caprini lellouch and neubert dispersive bounds on the shape of anti b d lepton anti neutrino form factors nucl
+phys
+
+hep
+boyd grinstein and lebed constraints on form factors for exclusive semileptonic heavy to light meson decays phys
+lett
+
+hep
+
+bourrely caprini and lellouch model independent description of b pi l nu decays and a determination of phys
+
+
+bigi and gambino revisiting b d phys
+
+
+semileptonic b decays and determination vxb giulia ricciardi bigi gambino and schacht a fresh look at the determination of vcb from b d phys
+lett
+
+
+
+grinstein and kobach model independent extraction of
+
+from b vcb d phys
+lett
+bernlochner ligeti papucci and robinson combined analysis of semileptonic b decays to d and d vcb and new physics phys
+
+
+
+bailey bazavov bernard bouchard detar et al
+update of from the d form factor at zero recoil with lattice qcd phys
+vcb b
+
+lanl swme collaboration bailey bhattacharya gupta jang lee leem d form factor at zero recoil using the oktay kronfeld action epj web al calculation of b
+conf
+
+
+vaquero avills casco detar du el khadra kronfeld laiho et al
+b at non zero recoil epj web conf
+
+
+d jlqcd collaboration kaneko aoki colquhoun fukaya and hashimoto b
+form factors from n qcd with mbius domain wall quarks in international symposium on lattice field theory lattice
+east lansing mi united states july
+d hpqcd collaboration harrison davies and wingate lattice qcd calculation of the
+
+
+form factors at zero recoil and implications for phys
+vcb hflav collaboration amhis et al
+averages of hadron c hadron and lepton properties as of summer eur
+phys
+
+
+
+aoki et al
+review of lattice results concerning low energy particle physics eur
+phys
+
+
+heavy flavor averaging group hfag collaboration amhis et al
+averages of hadron hadron and lepton properties as of summer
+
+sirlin large behavior of the
+corrections to semileptonic processes mediated by w nucl
+phys
+
+
+belle collaboration abdesselam et al precise determination of the ckm matrix element decays with hadronic tagging at belle
+with
+vcb bigi gambino and schacht and the heavy quark symmetry relations between vcb form factors jhep
+
+
+jaiswal nandi and patra extraction of from b jhep
+
+vcb predictions of d and the standard model bernlochner ligeti papucci and robinson tensions and correlations in determinations phys
+
+
+belle collaboration abdesselam et al measurement of ckm matrix element vcb from vcb b d
+
+faller khodjamirian klein and mannel b d
+form factors from qcd light cone sum rules eur
+phys
+
+
+semileptonic b decays and determination vxb giulia ricciardi gambino mannel and uraltsev b d at zero recoil revisited phys
+
+
+gambino mannel and uraltsev b
+zero recoil formfactor and the heavy quark expansion in qcd a systematic study jhep
+
+gubernari kokulu and van dyk b p and b v form factors from b meson light cone sum rules beyond leading twist
+milc collaboration bailey et al
+b dl form factors at nonzero recoil and from lattice qcd phys
+
+
+
+hpqcd collaboration na bouchard lepage monahan and shigemitsu phys
+
+dl form factors at nonzero recoil and extraction of vcb babar collaboration aubert et al measurement of and the form factor slope in dl decays in events tagged by a fully reconstructed b meson phys
+lett
+
+b
+
+b
+
+
+belle collaboration glattauer et al measurement of the decay b events and determination of the cabibbo kobayashi maskawa matrix element
+
+vcb
+d in fully reconstructed phys
+babar collaboration lees et al study of b reconstructed b meson decay and determination of
+
+
+vub xu decays in b b events tagged by a fully phys
+beleno charmless semileptonic b decays at colliders in proceedings conference on flavor physics and cp violation fpcp may armacao dos buzios rio de janeiro brazil
+
+belle collaboration urquijo et al
+measurement of b decays phys
+lett
+
+
+
+vub from inclusive charmless semileptonic aglietti and ricciardi a model for next to leading order threshold resummed form factors phys
+
+hep
+
+aglietti ferrera and ricciardi semi inclusive b decays and a model for soft gluon effects nucl
+phys
+
+hep
+aglietti di lodovico ferrera and ricciardi inclusive measure of with the analytic coupling model eur
+phys
+
+
+lange neubert and paz theory of charmless inclusive b decays and the extraction of phys
+
+hep
+
+bosch lange neubert and paz factorization and shape function effects in inclusive b meson decays nucl
+phys
+
+hep
+bosch neubert and paz subleading shape functions in inclusive b decays jhep
+
+hep
+andersen and gardi inclusive spectra in charmless semileptonic b decays by dressed gluon exponentiation jhep
+
+hep
+gambino giordano ossola and uraltsev inclusive semileptonic b decays and the determination of jhep
+
+
+
+semileptonic b decays and determination vxb giulia ricciardi gambino healey and mondino neural network approach to b xul phys
+
+
+gambino healey and turczyk taming the higher power corrections in semileptonic b decays phys
+lett
+
+
+gunawardana and paz on hqet and nrqcd operators of dimension and above jhep
+
+
+
+bernlochner lacker ligeti stewart tackmann and tackmann status of simba in ckm unitarity triangle
+proceedings international workshop ckm warwick uk september
+
+hashimoto colquhoun izubuchi kaneko and ohki inclusive b decay calculations with analytic continuation epj web conf
+
+belle ii collaboration de nardo prospects for semileptonic b decays at belle ii pos
+
+
+fajfer kamenik and nisandzic on the b d sensitivity to new physics phys
+
+
+hflav collaboration amhis et al averages of hadron c hadron and lepton properties as of summer
+belle collaboration matyja et al observation of d decay at belle phys
+lett
+
+
+babar collaboration aubert et al observation of the semileptonic decays b d phys
+lett
+
+
+evidence for b d and belle collaboration bozek et al
+observation of dbar tau and evidence for b at belle phys
+
+
+belle collaboration huschle et al
+measurement of the branching ratio of b
+decays with hadronic tagging at belle phys
+
+d relative to b d
+babar collaboration lees et al
+evidence for an excess of b d decays phys
+lett
+
+
+babar collaboration lees et al
+measurement of an excess of b d
+tau nu decays and implications for charged higgs bosons phys
+
+
+belle collaboration sato et al measurement of the branching ratio of decays with a semileptonic tagging method phys
+relative to
+
+lhcb collaboration aaij et al measurement of the ratio of branching fractions b phys
+lett
+
+
+belle collaboration hirose et al
+measurement of the lepton polarization and in the decay b d phys
+lett
+
+tanaka and watanabe new physics in the weak interaction of b d phys
+
+
+semileptonic b decays and determination vxb giulia ricciardi lhcb collaboration aaij et al
+measurement of the ratio of the and branching fractions using three prong lepton decays phys
+lett
+
+
+
+lhcb collaboration aaij et al
+test of lepton flavor universality by the measurement of the branching fraction using three prong decays phys
+
+
+

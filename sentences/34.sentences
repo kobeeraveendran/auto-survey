@@ -1,0 +1,1003 @@
+r
+a l c
+s
+c
+v
+v i x r a the annals of applied statistics vol
+no
+doi
+institute of mathematical statistics concise comparative summaries ccs of large text corpora with a human by jinzhu luke bin yu brian gawalt laurent el ghaoui luke barnesmoore and sophie clavier peking university harvard university university of california berkeley and san francisco state university
+in this paper we propose a general framework for topic specic summarization of large text corpora and illustrate how it can be used for the analysis of news databases
+our framework concise tive summarization ccs is built on sparse classication methods
+
+ccs is a lightweight and exible tool that oers a compromise
+tween simple word frequency based methods currently in wide use and more heavyweight model intensive methods such as latent dirichlet allocation lda
+we argue that sparse methods have much to oer for text analysis and hope ccs opens the door for a new branch of research in this important eld
+
+for a particular topic of interest china or energy css tomatically labels documents as being either or ally via keyword search and then uses sparse classication methods to predict these labels with the high dimensional counts of all the other words and phrases in the documents
+the resulting small set of phrases found as predictive are then harvested as the summary
+to validate our tool we using news articles from the new york times international section designed and conducted a human survey to compare the dierent summarizers with human understanding
+we demonstrate our approach with two case studies a media analysis of the framing of egypt in the new york times throughout the arab spring and an informal comparison of the new york times and wall street journal s coverage of energy
+overall we nd that the received february revised october
+in part by nsf grant
+under the cyber enabled covery and innovation cdi nsf grant
+aro grant nsf grant nsf cmmi grant and
+
+
+jia and miratrix are authors and are listed in alphabetical order
+
+key words and phrases
+text summarization high dimensional analysis sparse ing lasso regularized logistic regression co occurrence tf idf normalization
+this is an electronic reprint of the original article published by the institute of mathematical statistics in the annals of applied statistics vol
+no
+this reprint diers from the original in pagination and typographic detail
+jia et al
+lasso with normalization can be eectively and usefully used to summarize large corpora regardless of document size
+
+introduction
+stuart wrote the media are part of the dominant means of ideological production
+what they produce is precisely tions of the social world images descriptions explanations and frames for understanding how the world is and why it works as it is said and shown to work
+given this in order to understand how the public constructs its view of the world we need to be able to generate concise comprehensible summaries of these representations
+automatic concise summaries thus come quite useful for comparing themes across corpora or screening corpora for further readings
+our approach to obtain such summaries is by rst identifying a corpus that we believe contains substantial information on prespecied topics of interest and then using automated methods to extract summaries of those topics
+these summaries ideally show the connections between our topics and other concepts and ideas
+the two corpora we investigate in this paper are all the articles in the international section of the new york times from to just after and all the headlines from both the new york times and the wall street journal from to
+our approach however could be applied to other corpora such as the writings of shakespeare books published in statistics in or facebook wall writings of some community
+
+since such corpora are large only a very tiny fraction of them could ever be summarized or read by humans
+there are many ways one might study a corpus
+one common and eective method for text study is comparison
+for example a media analyst interested in investigating how the topic of china is framed or covered by nyt s international section in could form an opinion by comparing articles about china to those not about china
+a shakespeare scholar could gain understanding on shakespeare s view on romance by comparing the author s romantic plays with his nonromantic plays
+
+in this paper we propose and validate by human survey a topic driven concise comparative summarization ccs tool for large text corpora
+our ccs tool executes the comparison idea through statistical sparse cation methods
+we rst automatically label blocks of text in a corpus as positive examples about a topic or negative control examples
+
+we then use a machine learning predictive framework and sparse regression methods such as the lasso tibshirani to form a concise summary of the positive examples out of those phrases selected as being predictive of this labeling
+in james watson s article representing realities an overview of news framing
+concise comparative summaries ccs a novel advantage of our tool is the exible nature of its labeling cess
+it allows dierent ways of forming positive and negative examples to provide snapshot summaries of a corpus from various angles
+for stance we could label articles that mention china as positive examples and the rest as negative examples we could also take the same positive examples and use only those articles that contain other asian countries but not china as the negative examples
+because the summaries are concise it is possible for researchers to quickly and eectively examine and compare multiple snapshots
+therefore changes in coverage across time or between sources can be presented and understood even when the changes are dimensional and complex
+
+even though our tool takes a classication framework as its foundation our interest is in understanding text rather than classifying it
+therefore we validated our tool through a systematic randomized human survey described in section where human subjects evaluated our summaries based on their reading of samples from the original text
+this provided some best practices for generating summaries with the highest overall quality as measured by essentially relevance and clarity
+our ccs tool can be used to provide conrmatory evidence to support pre existing theories
+extending the work of clavier al
+in section media analyst co authors of this paper use this tool and framing theory an analytical framework from media studies described later to compare the evolution of news media representations of countries across dierent distinct periods dened by signicant events such as revolutionary upheaval or tions with existing international relations theory
+our tool can also be used to explore text in a generative manner helping researchers better stand and theorize about possible representations or framing mechanisms of a topic in a body of text
+in our second case study we utilize ccs to compare the headlines of the new york times to the wall street journal in particular for the topic of energy
+the rest of the paper is organized as follows
+before presenting our posed approach concise comparative summary ccs we briey review related work in section
+section describes the ccs framework which consists of three steps
+the labeling scheme what rule to use to automatically label a document unit as positive or negative preprocessing when building and expanding on a bag of words sentation of a corpus we must decide which document unit to use article paragraph and how to rescale counts of phrases appropriately and
+feature selection how to select the summary phrases
+
+for preprocessing we describe tf idf and rescaling
+for feature selection we discuss the lasso penalized logistic regression correlation jia et al
+and co occurrence
+note that the former two fall into the predictive work while the last do not but are included because of their wide use
+the human validation experiment to compare dierent combinations in the ccs framework over labeling rescaling unit choice and feature selection choice is described in section with results in section
+section presents the two case studies introduced above using the lasso with normalization the method found to be the most robust in the human validation experiment
+
+section concludes with a discussion
+
+related works
+automated tools aimed at understanding text pecially newspaper text are becoming more and more important with the increased accumulation of text documents in all elds of human activities
+in the last decade we have seen the emergence of computational social science a eld connecting statistics and machine learning to anthropology sociology public policy and more lazer et al
+
+automatic summarization is in wide use google news trends twitter s trending topics zubiaga al
+and
+crimson hexagon s brand analysis all use text summaries to attempt to make sense of the vast volumes of text generated in public course
+these all illustrate the great potential of statistical methods for text analysis including news media analysis
+we hope our proposed ccs work will help advance this new and exciting eld
+
+most text summarization approaches to date aside from natural and grammar based approaches use word or phrase including sentence counts or frequencies
+they can be considered along two axes
+the rst axis is whether an approach generates topics on its own or summarizes without regard to topic unsupervised or is supplied a topic of interest supervised
+
+the second axis is whether the word and phrase rates of appearance are modeled or simply reweighted
+
+unsupervised model based approaches
+topic modeling where uments in a corpus are described as mixtures of latent topics that are in turn described by words and phrases is a rapidly growing area of text analysis
+
+these methods take text information as input and produce a usually ative model t to the data
+the model itself captures structure in the data and this structure can be viewed as a summary
+the set of topics generated can serve as a summary of the overall and individual documents can be summarized by presenting those topics most associated with them
+a popular example is the latent dirichlet allocation lda model
+blei ng and jordan which posits that each word observed in the text stands in for a hidden latent topic variable
+these models are complex and dense all words play a role in all the topics
+however one can still present the most prominent words in a topic as the summary which produces cogent and reasonable topics see chang et al
+where humans evaluate the concise comparative summaries ccs internal cohesion of learned topics by identifying impostor words inserted into such lists
+grimmer et al
+combine such a model with clustering to organize documents by their topics
+they also extensively evaluate dierent models under their framework with human survey experiments
+
+summarizing or presenting the generated topics with this method can be problematic
+for example taking the most probable words of a topic to represent it can lead to overly general representations
+bischof and airoldi propose focusing on how words discriminate between topics as well as overall frequency essentially a comparative approach to better identify overall topics
+these issues notwithstanding lda style approaches are quite powerful and can be used comparatively
+for example paul zhai and girju use lda to score sentences from opposite viewpoints to summarize dierences between two ideologies
+
+unsupervised simple weighting approaches
+google trends charts are calculated by comparing the number of times a prespecied word of est appears to the overall volume of news for a specied time period within the news outlets that google compiles
+even this simple approach can show how topics enter and leave public discourse across time
+twitter s trending topics appear to operate similarly although it selects the hottest topics by those which are gaining in frequency most quickly
+these approaches are similar in spirit to the normalized simpler methods co occur and tion screen that we compare with ccs in this paper
+hopkins and king extrapolate from a potentially nonrandom ple of hand coded documents to estimate the proportion of documents in several predened categories
+this can be used for sentiment analysis estimating the proportion of blogs showing approval for some specied public gure
+their work drives crimson hexagon a company currently oering brand analysis to several companies
+our approach instead identies key phrases most associated with a given topic or subject
+there is a wide literature on text summarization as compared to topic modeling above by key phrase extraction rose et al
+senellart and blondel
+frank et al
+and sentence extraction hennig
+
+goldstein et al
+neto freitas and kaestner
+these approaches score potential key phrases or sentences using metrics such as position in a paragraph sentence length or frequency of occurrence and then select the highest scorers as the summary
+while typically used for individual documents goldstein et al
+did extend this approach to multiple documents by scoring and selecting sentences sequentially with future sentences penalized by similarity to previously selected sentences
+
+in monroe colaresi and quinn the authors take a comparative approach as we do
+they merge all text into two super documents the positive and negative examples and then score individual words based on jia et al
+their rates of appearance normalized by their overall frequency
+we analyze the corpus through individual document units
+
+supervised approaches
+supervised versions of lda that rate a given topic labeling in the hierarchical bayesian model blei and mcaulie do exist
+although these methods are computationally expensive and produce dense models requiring truncation for
+ity they are powerful indications of the capabilities of computer assisted topic based summarization
+hennig applies a latent topic model ilar to lda for topic specic summarization of documents
+here the topic is represented as a set of documents and a short narrative of the desired content and sentences are then extracted by a scoring procedure that pares the similarity of latent sentence representations to the provided topic of interest
+
+classication of text documents using the phrases in those documents as features and a given prespecied labeling of those documents is iar and well studied genkin lewis and madigan zhang and oles
+however while we extensively build on this work our focus is not on the ability to classify documents but rather on the interpretable features that enable classication
+interpreting these features allows for tion of the quality of the text in relation to other variables of interest
+for example eisenstein smith and xing use similar approaches to amine the relationship between characteristics of dierent authors and their patterns of lexical frequencies
+
+our approach concise comparative summarization ccs via sparse predictive classication
+
+in science and engineering applications cal models often lend themselves to believable generative stories
+for social science applications such as text analysis however models are more likely to be descriptive than generative
+as simple methods are more transparent they are arguably more appealing for such descriptive purposes
+our all goal is to develop computationally light as well as transparent tools for text analysis and by doing so to explore the limits of methods that are not extensively model based
+our ccs framework is composed of three main steps automatically label the text units for a given topic label
+preprocess the possible summarizing phrases and phrase counts weight and sparsely select a comparative phrase list of interest using classication methods on the automatic labels summarize
+
+for a given topic or subject egypt in a given context the nyt international section in ccs produces summaries in the form of concise comparative summaries ccs a list of key phrases
+to illustrate table contains four sample summaries
+
+here we labeled an article as a positive example if it contains the word of the country under various forms at least twice
+as we can see in this table sometimes fragments are selected as stand ins for complete phrases for example the phrase president felipe appears in the mexico column signifying president felipe
+these summaries are suggestive of the aspects of these countries that are most covered in the new york times in relative to other topics even now nazis and the world wars were tied to germany iraq and afghanistan were also tied closely gen as in the military title general and combat were the major focus in iraq
+
+the coverage of mexico revolved around the swine drug cartels and concerns about the border
+russia had a run in with europe about gas and nuclear involvement with iran
+we use sparse classication tools such as the lasso or penalized logistic regression in step these are fast and dierent from the modeling methods described earlier
+our approach is fundamentally about contrasting sets of documents and using found dierences as the relevant summary which allows for a more directed process of summarization than unsupervised methods
+this also allows for multiple snapshots of the same topic in the same document corpus using dierent contrasting sets which gives a more nuanced understanding of how the topic is portrayed
+to situate concise comparative summarization of a given topic in a nary classication framework we now introduce some notation
+a table
+four dierent countries in
+the method used a count rule with a threshold of the lasso for feature selection and tf idf reweighting of features was one of the best identied for article unit analysis by our validation experiment iraq russia germany mexico american and afghanistan
+baghdad brigade combat gen in afghanistan invasion nuri pentagon saddam sergeant sunni troops war and who a medvedev
+caucasus europe gas georgia interfax news agency iran moscow nuclear president dmitri republics sergei soviet vladimir angela merkel berlin chancellor angela european france and frankfurt group of mostly hamburg marwa alsherbini matchxing minister karltheodor zu
+munich nazi world war and border protection antonio betancourt cancn chihuahua denise grady drug cartels guadalajara
+inuenza oaxaca outbreak president felipe sinaloa swine texas tijuana jia et al
+
+
+p n j tive framework consists of n units each with a class label yi and a collection of p possible features that can be used to predict this class is attributed a value xij for each label
+each unit i ture j matrix the n units are blocks of text taken from the corpus entire articles or individual paragraphs the class labels generally built automatically with keyword searches
+indicate whether document unit i contains content on a subject of interest and the features are all the possible key phrases that could be used to summarize the subject or topic
+
+these xij form an n
+i
+x is built from c where c is a representation of text often called the bag of phrases model each document is represented as a vector with the jth element being the total number of times that the specic phrase j appears in the document
+stack these row vectors to make the document term matrix rnp of counts
+from c we build x by rescaling the elements of c c to account for dierent rates of appearance between the phrases
+c and x have one row for each document and one column for each phrase and they tend to be highly sparse most matrix elements are
+
+
+given the processed text x and we can construct summarizers by labeling weighting and selecting phrases
+we can make dierent choices for each step
+we now present several such choices and then discuss a human validation experiment that identies the best combination of these elements
+
+automatic and exible labeling of text units
+to start based on ject knowledge the user of our tool the media analyst translates a topic or subject of interest into a set of topic phrases
+for instance he she might translate the topic of china into a topic list china chinas nese
+energy might be oil gas electricity coal solar
+arab spring might be arab spring arab revolution arab given a topic list the user can apply dierent rules to generate the
+beling
+
+for example label a text unit as a positive example for the topic of china if the text unit contains any of the phrases in the topic set or alternatively if a more stringent criterion is desired label it as positive if it contains more than two topic set phrases
+
+the general rules for labeling by query count we used are as follows topics can be rened and expanded if initially generated summaries return other phrases that are essentially the same
+for example in one of our case studies we ran ccs using the above energy list as a query
+when we saw the term natural surface as a summary word we realized our query set could be improved with the addition of the query natural gas ccs helped us discover a useful addition to the query set leading to a broader more useful summarization from a second pass using the expanded query set
+
+topic modeling and keyword expansion methods could also be of use here
+concise comparative summaries ccs count k
+a document i is given a label yi
+if a query term appears or fewer query k or more times in the document
+documents with k hits receive a label of yi
+
+hard count k or hcount k as above but drop all documents with hits from the analysis as their relationship to the query tween and k may be ambiguous
+
+in other cases labeling is straightforward
+for directly comparing the nyt to the wsj the labeling was for nyt headlines and for wsj lines
+for comparing a period of time to the rest labeling would be built from the dates of publication
+
+the labeling step identies a set of documents to be summarized in the context of another set
+generally we summarize compared to the overall background of all remaining documents but one could drop uncertain documents for example those with only one topic phrase but not more than one or irrelevant ones for example those not relating to any asian country at all
+dierent choices here can unveil dierent aspects of the pus see section for a case study that illustrates this
+
+preprocessing weighting and stop word removal
+
+it is well known that baseline word frequencies impact information retrieval methods and so raw counts are often adjusted to account for commonality and rarity of terms
+monroe colaresi and quinn salton and buckley
+
+in the predictive framework this adjustment is done with the construction of the feature matrix
+we consider three constructions of x all built on the bag of phrases representation
+regardless of the weighting approach we also remove any columns corresponding to any phrases used to generate the labeling to prevent the summary from being trivial and circular
+salton and buckley examine a variety of weighting approaches for document retrieval in a multi factor experiment and found choice of approach to be quite important we compare the ecacy of dierent choices in our human validation survey see section
+each of the following methods stop word removal rescaling and tf idf weighting transform a base bag of words matrix c into a feature matrix
+stop words removal
+stop words are high frequency but low information words such as and or the
+high frequency words have higher variance and eective weight in many methods often causing them to be erroneously selected as features due to sample noise
+to deal with these nuisance words many text processing methods use a xed hand built stop word list and emptively remove all features on that list from consideration zhang and oles ifrim bakir and weikum genkin lewis and madigan
+for our framework this method generates x from c by dropping the columns of c which correspond to a stop word feature while letting x take on c s values exactly in the retained nonstop word feature columns
+jia et al
+this somewhat method does not adapt automatically to the vidual character of a given corpus and this presents many diculties
+stop words may be context dependent
+for example in us international news united states or country seem to be high frequency and low information
+
+switching to a corpus of a dierent language would require new stop word lists
+more importantly when considering phrases instead of single words the stop word list is not naturally or easily extended
+rescaled
+as an alternative appropriately adjusting the document tors can act in lieu of a stop word list by reducing the variance and weight of high frequency features
+we use the corpus to estimate baseline appearance rates for each feature and then adjust the matrix c by a function of these rates see mosteller and wallace and monroe colaresi and quinn
+we say x is a rescaled version of c if each column of c is rescaled to have unit length under the norm that is rescaling xij where zj cij zj n ij under this rescaling the more frequent a phrase the lower its weight
+tf idf weighting
+an alternative rescaling comes from the popular tf idf heuristic salton and buckley salton which attempts to
+emphasize commonly occurring terms while also accounting for each ment s length
+x is a tf idf weighted version of c if tf idf xij cij qi log n where
+i and appears at least once
+
+p p cij p cij is the sum of the counts of all key phrases in document n is the number of documents in which term j
+feature selection methods
+many prediction approaches yield els that give each feature a nonzero weight
+we however want to ensure that the number of phrases selected is small so the researcher can easily read and evaluate the entire summary and compare it to others
+these summaries can even be automatically translated to other languages to more easily compare foreign language news sources dai et al
+
+given the feature matrix x and document labels for a topic we extract phrases corresponding to columns of x to constitute the nal summary
+
+we seek a subset of phrases with cardinality as close as possible to but no larger than a target k the desired summary length
+we typically use k phrases but or might also be desirable depending on the context
+we require selected phrases to be distinct meaning that we do k j concise comparative summaries ccs not count sub phrases
+for example united states and united are both selected we drop united
+the constraint of short summaries renders the summarization problem a sparse feature selection problem as studied in for example forman lee and chen yang and pendersen
+in other domains regularized methods are useful for sparse model selection they can identify relevant features associated with some outcome within a large set of mostly irrelevant features
+in our domain however there is no reasonable tion of an underlying true model that is sparse we expect dierent phrases to be at least somewhat relevant
+our pursuit of a sparse model is motivated instead by a need for results which can be described concisely a constraint that crowds out consideration of complicated dense or nonlinear tion models
+we nonetheless employ the sparse methods hoping that they will select only the most important features
+we examine four methods for extraction or selection detailed below
+
+two of them co occurrence and correlation screening are scoring schemes where each feature is scored independently and top scoring features are taken as a summary
+this is similar to traditional key phrase extraction techniques and to other methods currently used to generate word clouds and other text visualizations
+the other two are regularized least squares linear gression the lasso and logistic regression
+table displays four summaries for china in one from each feature selector choice ters greatly
+we systematically evaluate this diering quality with a human validation experiment in section
+
+co occurrence and correlation screening
+co occurrence is a ple method included in our experiments as a useful baseline
+the idea is to take phrases that appear most often or have greatest weight in the tively marked text as the summary
+this method is often used in tools such as newspaper charts showing the trends of major words over a year such as google news or word or tag clouds created at sites such as
+correlation screening selects features with the largest absolute pearson correlation with the topic labeling
+both methods give each phrase a relevance score sj rank the phrases by these sj and then take the top phrases dropping any sub phrases as the summary
+for co occurrence the relevance score sj of feature j for all j is j co occurrence sj i xij xii
+
+jia et al
+table
+comparison of the four feature selection methods
+four sample summaries of news coverage of china in
+documents labeled via on articles x from rescaling note increased prevalence of stop words in rst column and redundancies in second column co occurrence correlation lasso and by contributed research for global has jintao in beijing its of that the to xinhua year beijing and beijings contributed research from beijing global in beijing li minister wen jiabao president hu jintao prime minister wen shanghai the beijing tibet xinhua
+the zhang asian beijing contributed research euna lee global hong kong
+jintao north korea shanghai staterun uighurs wen jiabao xinhua asian beijing contributed research exports global hong kong
+jintao north korea shanghai tibet uighurs wen jiabao xinhua
+i i yi
+that is sj is the average weight of phrase j in where the positively marked examples
+if x c that is it is not weighted then and this method sj is the average number of times feature appears in selects those phrases that appear most frequently in the positive examples
+
+the weighting step however reduces the co occurrence score for common words that appear frequently in both the positive and negative examples
+i for correlation screening score each feature as sj correl
+screen
+
+
+
+
+
+
+where xj and y are the mean values of feature j and the labels respectively across the considered documents
+y n p pp pp n y
+n
+penalized methods lasso and
+the lasso tibshirani is an penalized version of linear regression and is the rst of two feature selection methods examined in this paper that address our sparsity for interpretability constraint explicitly rather than via ing
+imposing an penalty on a least squares problem regularizes the vector of coecients allowing for optimal model t in high dimensional p n regression settings
+furthermore penalties typically result in sparse feature vectors which is desirable in our context
+the lasso also concise comparative summaries ccs takes advantage of the correlation structure of the features to to a certain extent avoid selecting highly correlated terms
+the lasso can be dened as an optimization problem arg min m k
+xt
+i y j
+
+xj
+we solve this convex optimization problem with a modied version of the bbr algorithm
+genkin lewis and madigan
+the phrases sponding to the nonzero elements of comprise our summary
+the penalty term governs the number of nonzero elements of and would ally be chosen via cross validation to optimize some reasonable metric for prediction
+we however select to achieve a desired prespecied summary length that is a desired number of nonzero
+we nd by a line search
+not tuning for prediction raises concerns of serious or
+generally in order to have short summaries we indeed
+ally since our labeling is not very accurate in general prediction performance might even be misleading
+the main question is whether a human readable signal survives imperfect labeling and over regularized summaries both of which allow for easier exploration of text
+these concerns motivate the man validation study we discuss in section
+similar to the lasso penalized logistic regression is typically used to obtain a sparse feature set for predicting the log odds of an outcome variable being either or
+it is widely studied in the classication ature including text classication see genkin lewis and madigan
+ifrim bakir and weikum zhang and oles
+for an overview of the lasso penalized logistic regression and other sparse methods see for example hastie tibshirani and friedman
+for details of our plementation along with further discussion see jia et al
+
+
+co occurrence correlation screening and the lasso are all related
+the occurrence score sj can be seen as the average count or weighted count for a reweighted feature matrix of phrase j in the positively marked examples noted as y
+correlation screening is related but slightly dierent calculations show that y is proportional to and hence is the dierence between the positive and negative
+ples see jia et al
+for details
+both co occurrence and correlation screening methods are greedy procedures
+since the lasso can be solved via e zhao and yu the lasso procedure can also be interpreted as greedy
+it is an iterative correlation search procedure the rst step is to get the word phrase with the highest correlation then we modify the labels to remove the inuence of this word phrase and then get the highest correlated word phrase with this modied label vector and so on and so forth
+
+jia et al
+table
+
+computational speed chart
+average running times for the four feature selection methods over all subjects considered
+second column includes time to generate y and adjust
+
+final column is percentage increase in total time over co occurrence the baseline method phrase selection sec total time sec percent increase co occurrence
+correlation screen
+the lasso
+the primary advantages of co occurrence and correlation screening are that they are fast scalable and easily distributed across multiple cores for parallel processing
+unfortunately as they score each feature independently from the others they can not take advantage of any dependence between features to aid summarization
+the lasso and can to a certain tent
+the down side is that the sparse methods are more computationally intensive than co occurence and correlation screening
+however this could be mitigated by for example moving to a parallel computing environment or doing clever preprocessing such as safe feature elimination
+el ghaoui viallon and rabbani
+for our current implementation which is our modied form of the bbr algorithm genkin lewis and madigan we timed the lasso as being currently about times and more than times slower than the baseline co occurrence
+see table
+
+the human validation survey
+consider the four sample summaries on table
+these particular summaries came from a specic combination of choices for the reweighting rescaling labeling and feature lection steps co occurrence correlation and the lasso
+but are these summaries better or worse than the summaries from a dierent summarizer with another specic combination
+comparing the ecacy of dierent summarizers requires systematic uation
+to do this many researchers use corpora with existing summaries such as human encoded key phrases in academic journals such as in frank et al
+or baseline human generated summaries such as the tipster data set used in neto freitas and kaestner
+we however give a single summary for many documents and so we can not use an annotated evaluation corpus or summaries of individual documents
+alternatively numerical measures such as prediction accuracy or model
+t might be used to compare dierent methods
+however the major purpose of text summarization is to help humans gather information so the quality of summarization should be compared to human understanding based on the same text
+while we hypothesize that prediction accuracy or model t concise comparative summaries ccs should correlate with summary quality as measured by human evaluation to a certain extent there are no results to demonstrate this
+indeed some research indicates that the correlation between good model t and good summary quality may be absent or even negative in some experiments
+gawalt et al
+
+chang et al
+
+in this section therefore we design and conduct a study where humans assess summary quality
+we compare our four feature selection methods under dierent text segmenting labeling and weighting choices in a crossed and randomized experiment
+nonexperts read both original documents and our summaries in the experiment and judge the quality and relevance of the output
+even though we expect individuals judgements to vary we can average the responses across a collection of respondents and thus get a measure of overall generally shared opinion
+
+human survey through a multiple choice questionnaire
+we carried out our survey in conjunction with the xlab a uc berkeley lab dedicated to helping researchers conduct human experiments
+we recruited dents undergraduates at a major university from the lab s respondent pool via a generic nonspecic message stating that there was a study that would take up to one hour of time
+for our investigation we used the international section of the new york times for
+see our rst case study in section for details on this data set
+we evaluated dierent summarizers built from dierent combinations along the following four dimensions document unit when building c the document units corresponding to the matrix rows may be either full articles or the individual graphs in those articles
+
+labeling documents can be labeled according to the rules described in the preceding section or
+rescaling
+matrix x can be built from c via stop word removal rescaling or tf idf weighting
+feature selection
+data x y can be reduced to a summary using co occurrence correlation screening the lasso or
+together for any given query there exist ccs summary methods available
+we dropped and for paragraphs giving tested
+
+we applied each summarizer to the set of all articles in the new york
+times international section from for dierent countries of interest
+
+these countries are china iran iraq afghanistan israel pakistan russia france india germany japan mexico south korea egypt and turkey
+
+the frequency of appearance in our data for these countries can be found jia et al
+in table of jia et al
+
+we then compared the ecacy of these binations by having respondents assess through answering multiple choice questions the quality of the summaries generated by each summarizer
+
+for our survey paid respondents were convened in a large room of kiosks where they assessed a series of summaries and articles presented in blocks of questions each
+each block considered a single randomly selected topic from our list of
+within a block respondents were rst asked to read four articles and rate their relevance to the specied topic
+respondents were then asked to read and rate four summaries of that topic randomly chosen from the subject library of
+respondents could not go back to previous questions
+only the rst words of each article were shown
+consultation with journalists suggests this would not have a detrimental impact on content presented as a traditional newspaper article s inverted pyramid structure moves from the most important information to more minute details as it progresses
+pottker
+all respondents nished their full survey and fewer than of the questions were skipped
+time to completion ranged from to minutes with a mean completion time of minutes
+see jia et al
+for further details and for the wording of the survey
+
+human survey results
+we primarily examined an aggregate ity score taken as the mean of the assessed content relevance and dancy of the summaries
+figure shows the raw mean aggregate outcomes for the article unit and paragraph unit data
+the rightmost plot suggests that the lasso and performed better overall than co occurrence and correlation screen
+we analyze the data by tting the respondents responses to the rizer characteristics using linear regression although all plots here show raw unadjusted data
+the adjusted plots show similar trends
+the full model cludes terms for respondent subject unit type rescaling used labeling used and feature selector used as well as all interaction terms for the latter four factors
+
+in all models there are large respondent and topic eects
+some ics were more easily summarized than others and some respondents more critical than others
+interactions between the four summarization method factors are unsurprisingly present df f under anova
+there are signicant three way interactions between unit and labeling feature selector and rescaling selector and rescaling p p
+interaction plots figure suggest that the sizes of these actions are large making interpretation of the marginal dierences for each factor potentially misleading
+table shows all signicant two way tions and main eects for the full model as well as for models run on the article unit and paragraph unit data separately
+
+concise comparative summaries ccs fig
+aggregate results
+outcome is aggregate score based on the raw data
+there are major dierences between article unit analysis and paragraph unit analysis when ering the impact of choices in preprocessing
+error bars are unadjusted se based only on subset of scores at given factor combinations
+as the unit of analysis heavily interacts with the other three factors we conduct further analysis of the article unit and paragraph unit data rately
+the article unit analysis is below
+the paragraph unit analysis not shown is summarized in section s discussion on overall ndings
+article unit analysis
+the left column of figure shows for the unit data plots of the three two way interactions between feature selector labeling scheme and rescaling method
+there is a strong interaction between the rescaling and feature selection method df f log p top left plot and no evidence of a labeling by feature selection interaction or a labeling by rescaling interaction
+model adjusted plots not shown
+table
+main eects and interactions of factors
+main eects along diagonal in bold
+a number denotes a signicant main eect or pairwise interaction for aggregate scores and is the rounded log of the value
+denotes lack of signicance at the level
+
+all data is all data in a single model without and fourth order interactions
+article unit and paragraph unit indicate models run on only those data for summarizers operating at that level of granularity all data article unit paragraph unit factor unit feat
+
+lab
+resc
+
+feat
+
+lab
+resc
+
+feat
+
+lab
+resc
+
+unit
+feat select labeling rescaling
+
+
+
+
+
+
+
+
+
+
+jia et al
+fig
+
+aggregate quality plots
+pairwise interactions of feature selector labeling and rescaling technique
+left hand side is for article unit summarizers right for paragraph nit
+see testing results for which interactions are signicant
+akin to figure do not dier substantially in character
+table shows all signicant main eects and pairwise interactions
+concise comparative summaries ccs
+the lasso is the most consistent method maintaining high scores under almost all combinations of the other two factors
+in figure note how the lasso has a tight cluster of means regardless of the rescaling method used in the top left plot and how the lasso s outcomes are high and consistent across all labeling in the middle left plot
+though or co occurrence may be slightly superior to the lasso when coupled with tf idf they are not greatly so and regardless both these methods seem fragile varying a great deal in their outcomes based on the text preprocessing choices
+validating its long history of use tf idf seems to be the best overall ing technique consistently coming out ahead regardless of choice of labeling or feature selection method
+note how its curve is higher than the rescaling and stop word curves in both the and bottom left plots in figure
+
+weighting by tf idf brings otherwise poor feature selectors up to the level of the better selectors
+we partially ordered the levels of each factor by overall marginal impact on summary quality
+for each factor we t a model with no interaction terms for the factor of interest to get its marginal performance and within this model performed pairwise testing for all levels of the factor adjusting the resulting p values to control familywise error rate with tukey s honest signicant dierence to address the multiple testing problem within each factor
+these calculations showed which choices are overall good performers ignoring interactions
+see table for the resulting rankings
+co occurrence and correlation screening performed signicantly worse than and the lasso correlation gives t p
+the labeling method options are indistinguishable
+the rescaling method options are ordered with table
+quality of feature selectors
+this table compares the signicance of the separation of the feature selection methods on the margin
+order is always from lowest to highest estimated quality
+a denotes a signicant separation
+all values corrected for multiple pairwise testing
+the last seven lines are lower power due to subsetting the data data included order article
+order paragraph
+all tf idf only only stop only cooc only corr only lasso only only cooc corr lasso stop resc tf idf cooc corr lasso stop resc no dierences
+cooc lasso corr lasso cooc corr lasso corr lasso stop resc tf idf stop tf idf no dierences no dierences no dierences no dierences cooc lasso stop resc no dierences no dierences tf idf resc jia et al
+tf idf signicantly better than rescaling t log p is better than stop word removal t p
+
+which in turn discussion
+comparing the performance of the feature selectors is dicult due to the dierent nature of interactions for paragraph and article units
+
+that said the lasso consistently performed well
+when building c at the article unit level lasso was a top performer
+for the paragraph unit it did better than most but was not as denitively superior
+if appropriately staged also performs well
+simple methods such as co occurrence are sensitive to the choice of weighting method and generally speaking it is hard to know what ing is best for a given corpus
+this sensitivity is shared by
+under the lasso however these decisions seem unimportant regardless of unit size
+we therefore recommend using the lasso as it is far less sensitive to the choice of weights
+
+a note on tf idf and rescaling
+the main dierence between the unit and article unit data is that tf idf is a poor choice of rescaling and rescaling is the best choice for paragraph unit
+we conducted a further investigation to understand why this was the case and found that any given stop word will appear in most articles due to the articles lengths which under tf idf will result in very small weights
+low weight words are hard to select and thus those terms are dropped
+for the paragraph unit level ever the weights are not shrunk by nearly as much since many paragraphs will not have any particular low content word
+for example prepositions like among or with
+the recalling however maintains the low weights as the weight
+cally depends on total counts across the corpus
+if one makes histograms of these weights not shown this shift is readily apparent
+for short units of text rescaling is a stronger choice since it is not sensitive to document length
+of course the lasso makes these decisions less relevant
+
+case studies
+here we illustrate our ccs tool by conducting two
+ample analyses that demonstrate how researchers can explore corpora lect evidence for existing theories and generate new theories
+that is we here attempt to meaningfully connect our methodology to actual practice an orientation to research argued for in for example wagsta
+
+given the validation of the human reader survey we restrict ccs to use the lasso with regularization over full articles with a rule a combination determined most eective overall by the human experiment
+in the rst study we conduct an analysis of how egypt was covered by the international section of the new york times throughout the arab spring
+
+in the second we compare the headlines of the new york times to those of the wall street journal on the topics of energy
+concise comparative summaries ccs
+egypt as covered by the international section of the new york times
+
+we here investigate how egypt was framed across time in the international section of the new york times from the beginning of through july
+through this analysis we hope to illuminate both consistent and changing trends in the coverage of egypt as well as the impact of dierent stages of the arab spring on how egypt was editorially framed
+though of course there are a myriad of frames and narratives we selected a few of the most inuential recognizable and contextually established narratives to remain within the scope of this paper and to provide a basic overview of possible applications for these tools in the analysis of media representation
+
+this study demonstrates how ccs can be used to examine how the ing of countries and political entities can evolve throughout the progression of political situations such as revolutions and elections
+we show that our tool can also help determine the more macro frames of narration that ture coverage of a region
+we argue the ndings from our tool allow an analyst to better understand the basic logic of reporting for a region and how events such as uprisings and key elections impact that coverage
+articles were scraped from the new york times rss and the html markup was stripped from the text
+we obtained articles
+the new york times upon occasion will edit an article and repost it under a dierent headline and link these multiple versions of the articles remain in the data set
+by looking for similar articles as measured by a small angle between their feature vectors in the document term matrix c we estimate that around have near duplicates
+
+the number of paragraphs in an article ranges from to
+typical have about paragraphs with an inter quartile range iqr of to paragraphs
+however about of the articles the world brieng articles are a special variety that contain only one long among the more typical brieng articles the distribution of article length as number of paragraphs is bell shaped and unimodal
+longer articles with a median length of words have much shorter paragraphs median of words generally than the word brieng single paragraph articles
+median of words
+
+in the early entman posited that our learning of the world is built on frames which he denes as information processing schemata that erate by selecting and highlighting some features of reality while omitting and barnesmoore are conducting a larger study on the topic
+
+
+for example
+for example html
+
+jia et al
+others
+entman page
+media studies incorporate these tions by showing the role of the media in creating these frames stating for example
+that through choice and language and repetition of certain story schemas the media organizes and frames reality in distinctive ways
+mcleod kosicki and pan
+following goman we agree that the analysts task therefore is to identify frames in media discourse within the understanding that media framing under the guise of informing can liberately inuence public opinion
+indeed most of the literature on framing and subsequent agenda setting literature argues that frames are purposely created
+according to entman to frame is to select some aspects of a ceived reality and make them more salient in a communicating text in such a way as to promote a particular problem moral evaluation treatment recommendation entman
+
+in terms of portrayal of other countries frames tend to be easy to observe as popular news media tend to establish simplied dichotomies of we sus other and they classify data under those two categories often outlined as mirror images of positive attributes versus negative ones kiousis and wu kunczik
+given that frames in the media center around repeated and often simplied elements our tools seem to naturally lend themselves to the extraction of a frame s ngerprint
+at core our ods extract relevant phrases that are often repeated in conjunction with a topic of interest
+these phrases when read as news arguably build links in readers minds to the topic and thus contribute to the formation and solidication of how the topic is framed
+to capture the evolving frames of egypt and elections across time we generated several sequences of summaries
+we summarized within specic windows of time with boundaries determined by major political events such table overview of the nyt windows for the egypt summary
+columns encode stats during each period time period name start and stop dates total number of articles number of articles about egypt number of egypt articles per week and egypt article volume as a percentage of total volume period start stop art
+egypt egypt
+before uprisings revolution post mumbarak parl elections
+post elections
+
+whole corpus concise comparative summaries ccs as the beginning of the uprisings in tunisia december or tian parliamentary elections february
+see table
+we present summaries of dierent periods of time an alternate approach would be to tempt to link articles and present a graph of relationships
+see for example shahaf guestrin and horvitz or el ghaoui al
+
+we rst generated ccs summaries using the lasso with rescaling over full article document units comparing all articles mentioning egypt to all other articles
+we subsequently compared egypt the other articles within only those articles that also contained variants of election and examined other arab countries tunisia as well as phrases such as arab and arab spring
+this process generated several graphical displays of summaries all examining dierent facets of news coverage from the nyt
+
+for an example see figure which shows the overall framing of egypt across time
+we identied articles as egypt related if they contained any of egypt egypts egyptian egyptians cairo mubarak the rule
+we alyzed at the article level and used the lasso with tf idf regularization
+after looking at the rst list we removed arab and hosni as uninformative and re ran our summarizer to focus the summary on more content relevant phrases
+such an iterative process is we argued a more natural and cipled way of discovering and eliminating low content features in this case hosni is mubarak s rst name and arab tends to show up in articles in this region as compared to other regions
+neither of these words would be found on any typical stop word list
+
+from figure and others similar to it we can consider consistent and changing trends in the coverage of egypt as well as the impact of dierent stages of the arab spring on how egypt was framed
+we then sampled text fragments and sentences containing these phrases from the corpus to ensure
+we were interpreting them correctly
+for example the arab in cally but not always appears before world as in for example mostly from the arab world
+we now give an overview of the resulting analysis
+
+pre arab spring columns and
+the summaries shown as the rst three columns of figure are for most of and for the time just prior to the uprisings in tunisia
+coverage of the arab world prior to the arab spring is dominated by concern for israel and narratives concerning the war on terror
+note the appearance of israel hamas gaza and palestinian
+there are two probable reasons for the appearance of these words
+first israel bombed egypt in
+second following the camp david accords of the united state s political economic and military strategies within the mena region became reliant on sustaining these cords
+and indeed the mubarak regime sustained this treaty in the face of mass opposition by the egyptian people
+overall we see egypt as being covered in the context of its connection of israel and the israeli palestinian conict
+jia et al
+fig
+
+framing of egypt
+columns correspond to prespecied windows of time
+concise comparative summaries ccs we also see for the period just prior to the uprisings cats and milan
+
+these phrases are overall rare words that happened to appear at portionate rates in the positively marked articles and are thus selected as indicative
+this can happen when there are few positive examples only in this time span in an analysis
+arab spring columns and
+we divided the arab spring into three rough periods the initial revolution during the late months of column the time just after the fall of president mumbarak through column and the time leading up to the parliamentary election at the end of into column at which point a nominal government had been established
+
+throughout this time we see a shift in coverage most obviously indicated by the appearance of the words protests protesters and revolution
+
+the arab which indicated either the arab world or the arab league before now indicates the arab world or the arab spring as found by examining text snippets containing the found summary phrases
+we see that us foreign policy imperatives retain their importance as shown by the continued appearance of israel hamas and gaza
+note the entrance of discussion concerning the military and military
+cils the military and military council in egyptian coverage as elections approach
+the heightened appearance comes at a time when much discussion concerning the elections is dominated by the islamist nature of the major parties running for oce see islamists and hood in column for the time just prior to the parliamentary elections
+as the military regime in egypt could be perceived by many in western circles as a keystone for regional peace with israel this frame of narration arguably lends a sense of stability concerning the status quo
+
+after the parliamentary elections column
+following the initial tions in egypt the frame of israel gaza and hamas remain but we also see islamist morsi and brotherhood suggesting a developing frame of an islamic threat to the western domestic sphere posed by groups like the muslim brotherhood
+the shift comes as the western media begins to cover the elections in egypt
+as the has supported the elections as being gitimate the western media is now faced with the assumption that the will of the egyptian public might be more fully actualized in an open racy
+existing american and israeli fears of islamic extremism mixed with the prevalence of islamist parties in the elections combine to form a new frame of coverage
+this frame however is in many cases still dominated by the relationship of the islamist parties to the and its close ally israel
+
+comparing the new york times to the wall street journal
+
+in our second case study we as readers of the wall street journal wsj and the jia et al
+new york times nyt use ccs to understand the dierences and ities of these two major newspapers across time
+we focus on headlines
+as headlines are quite short we based on the human experiment results used the lasso with rescaling and no stop word removal
+our data set consists of headlines from the new york times and headlines from the wall street journal scraped from their rss feeds for four years from jan through the end of
+as a rst exploratory step we labeled nyt headlines as positive ples and wsj headlines as negative examples and applied ccs
+the initial results gave phrases such as sports review and arts as indicating a headline being from the nyt
+exploration of the raw data revealed that the nyt precedes many headlines with a department name for example arts briey giving this result
+however other phrases for example for and of also repeatedly appear in the summaries as being indicative of the nyt
+this coupled with the fact that very few phrases indicated the wsj suggests that the nyt has a more identiable signal for tion that is a more distinctive headline style
+for further content focused investigations we then dropped these department related words and phrases
+sports review
+as potential features
+we then conducted a content focused analysis to compare the nyt and wsj with respect to how they cover energy as represented by headlines containing general words such as oil solar gas energy and electricity
+of the wsj had headlines containing these words while of the nyt s headlines contained these terms
+see table
+we actually investigated dierently broad interpretations of this topic
+one version cluded energy only and another included words such as oil natural gas solar
+also with an iterative process we can conduct an informal keyword expansion to rene the representation of their topic of interest in the text of the corpus being examined by updating the labeling process
+for example we here included natural as a keyword after seeing it nently in connection with energy as a rst pass
+
+for a rst summary we did a head to head or between source parison as follows we rst dropped all headlines that did not mention any of the energy related terms
+we then labeled nyt energy related headlines as and wsj energy related headlines as and applied ccs
+this gave data prices stocks green ink and crude as being in the wsj s frame and spill greenhouse world business and music review as being the nyt
+see figure
+these latter two phrases are after several similar terms had ready been removed
+world business is a department label for articles about international aairs and its appearance connects coverage of energy with international news
+music review is due to music review articles using energy in headlines such as energy abounds released by a urry of beats or molding sound to behave like a solar eclipse
+a head to head concise comparative summaries ccs table
+summary of headlines for energy investigation headlines energy headlines energy headlines nyt wsj total nyt wsj total nyt wsj
+total
+
+
+year all comparison will capture stylistic dierences between the corpora as well as dierences in what content is covered
+
+to eectively remove dierences in style we can select dierent lines for comparison
+in particular we conduct a dierence of dierences approach by comparing nyt energy headlines to nyt nonenergy lines to subtract out general trends in nyt style doing the same for the wsj and comparing the two resulting summaries to each other
+in particular to do this second phase within source analysis we within the nyt headlines only labeled energy related headlines as left the rest as baseline and applied ccs
+we then did the same for the wsj
+
+this gives two summaries for each year and two for the overall ison
+we then directly read and compared these lists
+we see some of the same words in the resulting lists as our head to head analysis but ally have other more content specic words that give a richer picture
+note for the nyt renewable greenhouse shale and pipeline
+the based words do not tend to appear
+the within wsj comparison produces an overlapping set of words to the nyt comparison indicating similar erage between the two sources see renewable there as well
+the dierences are however suggestive greenhouse is indicated for the nyt each year and the wsj in only
+opec appears in for the wsj and only in for the nyt
+
+by shifting what the baseline is in this case comparing the energy lines of the nyt to the nonenergy headlines of the nyt instead of the energy headlines of the wsj dierent aspects of the topic and dierent aspects of the corpus are foregrounded
+in the within source comparison we come to understand in general what energy headlines are for the tive sources
+in the between source comparison we focus specically on what dierentiates the two outlets which foregrounds style of writing as well as dierential coverage of content
+looking at both seems important for beginning to understand how these themes play out in the media
+jia et al
+fig
+
+the nyt the wsj with regards to energy
+first columns are the between comparison of the nyt the wsj
+second are an internal within comparison of energy to nonenergy within the nyt
+third set are the same for the wsj
+red indicates wsj and green nyt
+within each set columns correspond to and respectively
+all is all four years combined
+concise comparative summaries ccs
+conclusions
+news media signicantly impacts our day to day lives public knowledge and the direction of public policy
+analyzing the news however is a complicated task
+the labor intensity of hand coding and the amount of news available strongly motivate automated methods
+we proposed a sparse predictive framework for extracting meaningful summaries of specic subjects or topics from document corpora
+these maries are contrast based built by comparing two collections of documents to each other and identifying how a primary set diers from a baseline set
+
+this concise and comparative summarization ccs framework expands the horizon of possible approaches to text data mining
+we oer it as an example of a simpler method that is potentially more manipulable exible and pretable than those based on generative models
+in general we believe that there is a rich area between similar naive methods such as simple counts and more heavyweight methods such as lda
+sparse regression at the heart of ccs lies in this area and has much to oer
+to better understand the performance of our approach and to
+ately tune it to maximize the quality and usability of the summaries duced we conducted a human validation experiment to evaluate dierent summarizers based on human understanding
+based on the human ment we conclude that features selected using a sparse prediction framework can generate informative key phrase summaries for subjects of interest
+we also found these summaries to be superior to those from simpler ods currently in wide use such as co occurrence
+in particular the lasso is a good overall feature selector quite robust to how the data is cessed and computationally scalable
+when not using the lasso proper data preparation is quite important
+in this case tf idf is a good overall choice for article length documents but not when the document units are small
+paragraphs and presumably headlines online comments and tweets in which case an scaling should be used
+we illustrated the use of our summarizers by evaluating two media ing questions
+the summarizers indeed allowed for insight and evidence collection
+one of the key aspects of our tool is its interactive capacity a researcher can easily work with resulting summary phrases using them as topics in their own right adding them to the concept of the original topic or dropping them altogether
+overall we argue that ccs allows searchers to easily explore large corpora of documents with an eye to taining concise portrayals of any subject they desire
+a shortcoming of
+the tool is that both generating the labeling and interpreting resulting phrases can depend on fairly detailed knowledge of the topic being plored
+to help with this we are currently extending the tool to allow for sentence selection so researchers can contextualize the phrases more rapidly
+jia et al
+acknowledgments
+we are indebted to the sta of the xlab at uc berkeley for their help in planning and conducting the human validation study
+we are also grateful to hoxie ackerman and saheli datta for help assembling this publication
+luke miratrix is grateful for the support of a graduate research fellowship from the national science foundation
+jinzhu
+jia s work was done when he was a postdoc at uc berkeley supplemented by nsf
+references
+bischof and airoldi
+summarizing topical content with word quency and exclusivity
+in proceedings of the international conference on machine
+learning
+
+edinburgh scotland
+blei and mcauliffe
+supervised topic models
+in advances in neural formation processing systems platt koller singer and roweis eds
+
+mit press cambridge ma
+blei ng and jordan
+latent dirichlet allocation
+mach
+learn
+res
+
+chang boyd graber gerrish wang and blei
+reading tea leaves how humans interpret topic models
+in advances in neural information processing systems bengio schuurmans lafferty williams and culotta eds
+
+vancouver bc canada
+
+clavier el ghaoui barnesmoore and li
+all the news that s t to compare
+comparing chinese representations in the american press and us representations in the chinese press
+dai jia el ghaoui and yu
+
+sba term sparse bilingual tion for terms
+in fifth ieee international conference on semantic computing icsc
+
+stanford univ palo alto ca
+eisenstein smith and xing
+discovering sociolinguistic sociations with structured sparsity
+in proceedings of the annual meeting of the association for computational linguistics human language technologies
+
+association for computational linguistics portland or
+
+el ghaoui viallon and rabbani
+safe feature elimination in sparse supervised learning
+technical report
+no
+uc
+eecs dept univ
+
+california berkeley
+
+el ghaoui li duong pham srivastava and bhaduri
+sparse machine learning methods for understanding large text corpora plication to ight reports
+in conference on intelligent data understanding
+
+mountain view ca
+entman
+framing toward clarication of a fractured paradigm
+journal of communication
+entman
+projections of power framing news public opinion and foreign policy
+univ
+chicago chicago il
+forman
+an extensive empirical study of feature selection metrics for text classication
+mach
+learn
+res
+
+frank paynter witten gutwin and nevill manning
+domain specic keyphrase extraction
+in proceedings of the sixteenth tional joint conference on articial intelligence
+
+morgan mann san francisco ca
+concise comparative summaries ccs gawalt jia miratrix ghaoui yu and clavier
+
+covering word associations in news media via feature selection and sparse classication
+
+in proceedings of the international conference on multimedia information retrieval
+
+
+philadelphia pa
+genkin lewis and madigan
+large scale bayesian logistic gression for text categorization
+technometrics
+goffman
+frame analysis
+an essay on the organization of experience
+
+vard univ
+press cambridge ma
+goldstein mittal carbonell and kantrowitz
+document summarization by sentence extraction
+in naacl anlp workshop on automatic summarization
+seattle wa
+grimmer shorey wallach and zlotnick
+a class of bayesian semiparametric cluster topic models for political texts
+hastie tibshirani and friedman
+the elements of statistical learning vol
+
+springer new york
+hennig
+topic based multi document summarization with probabilistic latent semantic analysis
+in recent advances in natural language processing ranlp
+association for computational linguistics borovets bulgaria
+hopkins and king
+a method of automated nonparametric content ysis for social science
+american journal of political science
+
+ifrim bakir and weikum
+fast logistic regression for text tion with variable length n grams
+in acm sigkdd international conference on knowledge discovery and data mining
+acm new york
+
+jia miratrix gawalt yu and el ghaoui
+what is in the news on a subject automatic and sparse summarization of large document corpora
+technical report dept
+statistics univ
+california berkeley
+kiousis and wu
+international agenda building and agenda setting
+ing the inuence of public relations counsel on us news media and public perceptions of foreign nations
+the international communications gazette
+kunczik
+globalisation news media images of nations and the ow of national capital with special reference to the role of rating agencies
+international
+communication
+lazer pentland adamic aral barabasi brewer
+christakis contractor fowler gutmann jebara king macy roy and van alstyne
+computational social science
+science
+lee and chen
+new methods for text categorization based on a new feature selection method and a new similarity measure between documents
+lecture notes in comput
+sci
+
+mcleod kosicki and pan
+on understanding and standing media eects
+edward arnold london
+monroe colaresi and quinn
+fightin words lexical feature selection and evaluation for identifying the content of political conict
+political analysis
+mosteller and wallace
+applied bayesian and classical inference the case of the federalist papers ed
+springer new york
+neto freitas and kaestner
+automatic text marization using a machine learning approach
+in advances in articial intelligence
+
+lecture notes in computer science
+springer berlin
+jia et al
+paul zhai and girju
+summarizing contrastive viewpoints in ionated text
+in proceedings of the conference on empirical methods in natural language processing
+association for computational linguistics stroudsburg pa
+pottker
+news and its communicative quality the inverted pyramid when and why did it appear
+journalism studies
+rose engel cramer and cowley
+automatic keyword extraction from individual documents
+in text mining applications and theory
+berry and kogan eds
+wiley chichester
+salton
+developments in automatic text retrieval
+science
+
+salton and buckley
+term weighting approaches in automatic text trieval
+information processing and management
+senellart and blondel
+automatic discovery of similar words
+in survey of text mining ii
+springer berlin
+shahaf guestrin and horvitz
+trains of thought generating formation maps
+in proceedings of the international conference on world wide web
+acm lyon france
+
+tibshirani
+regression shrinkage and selection via the lasso
+stat
+soc
+ser
+b stat
+methodol
+
+
+wagstaff
+machine learning that matters
+in international conference on machine learning
+edinburgh scotland
+
+yang and pendersen
+a comparative study on feature selection in text categorization
+in international conference on machine learning
+nashville tn zhang and oles
+text categorization based on regularized linear ication methods
+information retrieval
+zhao and yu
+stagewise lasso
+mach
+learn
+res
+zubiaga spina fresno and martnez
+classifying trending ics a typology of conversation triggers on twitter
+in proceedings of the acm ternational conference on information and knowledge management
+acm new york
+jia
+lmam school of mathematical sciences and center for statistical science peking university beijing
+china
+e mail yu
+department of statistics and department of eecs university of california berkeley berkeley california
+usa e mail
+berkeley
+edu miratrix department of statistics harvard university oxford street cambridge massachusetts
+usa e mail gawalt
+el ghaoui
+department of eecs
+university of california berkeley berkeley california
+
+usa e mail
+
+concise comparative summaries ccs
+barnesmoore clavier department of international relations college of liberal creative arts san francisco state university san francisco california
+usa e
+mail
+

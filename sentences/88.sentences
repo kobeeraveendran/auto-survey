@@ -1,0 +1,389 @@
+c e d l c
+s
+c
+v
+v i x r a abstractive headline generation for spoken content by attentive
+recurrent neural networks with asr error modeling lang chi hung yi and lin shan institute of communication engineering national taiwan university institute of computer science and information engineering national taiwan university abstract headline generation for spoken content is important since spoken content is difcult to be shown on the screen and browsed by the user
+it is a special type of abstractive marization for which the summaries are generated word by word from scratch without using any part of the original tent
+many deep learning approaches for headline generation from text document have been proposed recently all requiring huge quantities of training data which is difcult for spoken document summarization
+in this paper we propose an asr error modeling approach to learn the underlying structure of asr error patterns and incorporate this model in an attentive recurrent neural network arnn architecture
+in this way the model for abstractive headline generation for spoken tent can be learned from abundant text data and the asr data for some recognizers
+experiments showed very encouraging results and veried that the proposed asr error model works
+well even when the input spoken content is recognized by a recognizer very different from the one the model learned from
+index terms abstractive summarization headline
+eration asr error modeling attention mechanism decoder architecture
+introduction
+document summarization is to generate a concise version of a given document while preserving the core information
+this is important for both written and spoken content because both of them usually include redundant noisy or less mative parts causing interference to users who wish to grasp copyright ieee
+published in the ieee workshop on spoken language technology slt scheduled for december in san juan puerto rico
+personal use of this material is permitted
+however permission to reprint republish this material for advertising or promotional purposes or for creating new collective works for resale or redistribution to servers or lists or to reuse any copyrighted component of this work in other works must be obtained from the ieee
+contact manager copyrights and permissions ieee service center hoes lane box
+
+away nj usa
+telephone intl
+
+the key information quickly
+it is much more crucial for ken content than for written content since spoken content is difcult to be shown on the screen and browsed by the user while summaries of spoken content are very helpful in ing
+there are two categories for the summarization task
+
+in extractive approaches the important parts of the original data are extracted and put together to form the summary
+in contrast in abstractive approaches the summary is ated word by word from scratch without using any part of the original content
+when the abstractive summarization sult includes only one sentence this is usually referred to as sentence summarization
+headline generation is an example of abstractive sentence summarization and is tremely important for spoken content because with the lines the users do not have to go through the lengthy part of the spoken content which they are not interested
+we focus on abstractive headline generation for spoken content in this paper
+abstractive summarization for text content has been cessful with deep neural network dnn techniques for example those using dnn models with attention nism and using rnn models with encoder decoder architecture useful in neural machine translation and dialogue model
+improved training techniques were also developed
+for example scheduled sampling was applied to abstractive summarization to bridge the gap between training and inference stage due to the differences in the input tokens to the decoder
+the els can also be learned to directly optimize some evaluation metrics
+
+however all the above works focused on text content while such neural network based approaches for spoken tent summarization were rarely seen probably due to the difculties in acquiring enough quantities of spoken content including the reference summaries to train such models
+for example in the previous works for text summarization the training datasets were english gigaword corpus
+for glish and lcsts corpus for chinese which included respectively million and million document headline pairs
+to collect speech corpora including the reference maries in the quantities of this order of magnitude is probably difcult
+
+it is certainly possible to directly apply the scriptions of audio data to the summarization models trained on text corpora but the asr errors would inevitably degrade the summarization performance since these models never learned how to generate the abstract summaries from content with asr errors
+
+in this paper we solve this problem by developing an asr error model learned from the asr data for some recognizer and incorporate this model with an attentive rnn arnn encoder decoder architecture in order to learn from written content to generate headlines from spoken content
+this per is organized as follows in section we dene the task introduce the previously proposed architectures and present the model proposed in this paper
+we then describe the imental setup in section and present the results in section and concluding remarks in section
+
+models
+task denition our summarization task is dened as below
+given an input sequence x xm which is a sequence of m kens from a xed known dictionary vx the model is to nd y
+
+yn which is another sequence of n tokens from another xed known dictionary vy
+here x is the input text or spoken documents expressed as a sequence and y is the abstractive headline expressing the meaning of x in the most concise way
+for example in our experiments below vy is the set of all allowed chinese characters and vx can be the same character set as vy or a set of initials and finals of mandarin
+initial is the initial consonant of a mandarin lable while final is the vowel part including optional medials and nasal ending
+this is because the input spoken content can be expressed as a sequence of phonetic symbols
+also since very often recognition errors are caused by incorrectly recognized phonetic units expressing the input as a sequence of phonetic units may be helpful in asr error modeling as will be clear below
+the task here can then be considered with a conditional probability p y for all possible y such that the desired output y arg
+maxy p y
+this probability p y is usually parameterized by a set of neural ters as p y and y is usually obtained sequentially by predicting every token in y based on the previous token
+p y
+p
+x n which can be modeled with rnn encoder decoder tures described in the following
+fig
+
+rnn encoder decoder architecture
+rnn encoder decoder architecture an rnn encoder decoder architecture is shown in fig
+
+it consists of two parts the encoder rnn and the decoder rnn
+
+the encoder reads the input x one token at a time and updates its hidden state hj according to the current input xj and the previous hidden state hj j
+m where rnne is a nonlinear function
+after the encoder reads the last token xm it outputs a context vector c hm
+
+rn as the learned representation of the whole input sequence
+the decoder then predicts y one token at a time given the context vector c and all previous predicted tokens based on
+the conditional probability in can be expressed as p
+
+x c hm c hm where rnnd and dec are certain nonlinear tions i
+n
+bos a special token for beginning of sentence and rn is the decoder rnn den state at i th output step
+the i th output token yi is then the one which maximizes the probability in which is then used in for decoding the next output token
+ing training the previous output token can be the labeled reference output
+
+attentive rnn arnn architecture in the above architecture the next token yi of y is predicted based on the conditional probability in which is mined by the context vector c containing information of all the tokens in nonetheless not all tokens in x are equally informative for the decoding process and some of the input token may be noisy
+an improved attentive rnn ture was then proposed as in fig
+
+in fig
+the context vector c in and is modied as the weighted sum of the encoder hidden states at all input steps ci aijhj
+m
+
+now we can dene f as f x
+
+xm where is a distribution p k is a distinct token item in vx over all allowed distinct token item in vx
+so for a given sequence x the confused sequence
+f x
+
+j in can be any token in vx with some probability
+m is stochastic because each
+
+
+asr error modeling for arnn there can be at least two possible approaches for error eling with the attentive rnn arnn as explained below
+
+
+nave approach
+we can simply apply f
+in to the input data x to obtain many confused data f x and use these confused data and their headlines to train the models in section and
+we call this method nave approach
+
+proposed approach
+in this approach we modify the attention mechanism in tion with the function f x in in order to explore the underlying structure of asr error patterns
+first we dene a function
+p
+p xm xm
+
+which is a vector of dimensionality m the lengths of the put sequence x
+xm
+the th element in is the probability that xj is correct
+so this vector gives the likelihood whether or not a token in x is unaffected by asr
+
+we apply to ci ejaijhj
+m
+in this way the decoder pays more attention to those tokens that are more likely to be correct
+
+to estimate the elements in we train a sequential error estimation model see ej
+
+p xj xj where see is a neural network whose training target can be easily obtained by comparing x and any confused version of it
+note that an asr error may lead to a signicant change in semantics which is why ej can be estimated sequentially as in
+this neural network and the attentive rnn can be jointly trained
+in practice see is the direct output of the encoder rnn which is unused in the architectures in tion and as shown in fig and fig
+
+the complete attentive rnn with weighted attention in by error eling is in fig
+
+the training process includes the following steps fig
+attentive rnn arnn encoder decoder architecture the weight aij is dened as aij
+where mij is the cosine similarity between the decoder hidden state si and encoder hidden state hj
+this implies that the input tokens better matched to the output token being decoded are given higher weights
+
+with the new context vector ci in the decoding cess in are modied accordingly p
+
+x
+
+in this way different input tokens are weighted differently for different output tokens the decoder pays more attention to those input tokens more useful for the output token it is currently decoding
+in fig
+we only show the decoding process of
+
+asr error confusion function
+
+the asr error modeling can be started with a ed confusion function
+asr errors can be considered as a transformation called confusion here f x where x
+xm is the correct input sequence and
+
+
+m the asr results both of which are quences of tokens from the dictionary vx in
+we may approximate f with a simplied context independent sion matrix trained with the output samples from a speech recognizer we wish to model
+we rst align the pairs of correct and asr transcriptions with minimum levenshtein distance using dynamic programming
+with the alignment we compute the confusion probability as p q p
+k p where p q k are distinct token items in vx and
+
+q p is the number of token q in asr results aligned to token p in correct transcriptions
+the summation in the denominator is over all allowed distinct token items in vx
+finals of mandarin
+after the preprocessing we paired the rst sentence of each news story with its headline to form a story headline pair and removed those pairs whose headlines contained over of unk symbols
+the whole corpus was used on the training set which consisted of about million story headline pairs and about k distinct characters
+
+the dataset used to obtain the confusion matrix for asr error modeling and evaluation of the headline generation was
+the matbn mandarin chinese broadcast news
+
+it contained a total of hours of broadcast news from the public television service foundation of taiwan with corresponding transcriptions including human generated headlines
+we partitioned the corpus into two parts k utterances for confusion matrix construction and the rest utterances for headline generation evaluation
+for the part for evaluation we paired the asr results of each story with its corresponding headlines to form a story headline pair
+there are about audio stories for the evaluation
+we used two different recognizers in the experiments here the kaldi toolkit and the online asr recognizer
+
+for the recognizer with kaldi toolkit we used a tri gram language model trained on m words of yahoo news and a set of acoustic models with gaussian tures per state and states per model trained on a training corpus of hours of mandarin broadcast news ent from matbn
+the character error rates cer for the matbn corpus with kaldi and were and respectively
+the confusion matrix used for asr error modeling was obtained from the kaldi toolkit while the evaluation part was transcribed by both the kaldi toolkit and
+with the error modeling based on kaldi toolkit performed on transcriptions we wish to evaluate the robustness of the error modeling approach with respect to mismatched recognizers
+
+implementation
+we implemented the models with lstm networks mized by minimizing the negative log likelihood between the predicted and the human generated headlines with mini batch stochastic gradient descent
+the training setting summarized below were adjusted based on the validation set
+
+the encoder and the decoder both had two hidden ers of dimensions
+the lstm network parameters were initialized from a uniform distribution between
+
+the initial learning rate was and divided by if the log likelihood in validation set did not improve for every epoch
+the training dropout rate was
+gradient ping was adopted with a gradient norm threshold of
+the models were trained at most epochs
+during the training process we adopted the scheduled sampling nism with decay schedule of inverse sigmoid decay for k
+fig
+
+the proposed arnn with error modeling
+we apply f
+in to each input training sequence x to generate many different samples of f x since f x is stochastic
+
+the encoder reads all these confused sequences f x into hidden states
+and predicts the
+ness ej for each input token xj
+the decoder predicts y one token at a time based on the encoder hidden states and the weighted attention sidering as in
+
+in the testing process step above is skipped since the input is the asr data
+so fig
+actually shows the testing process
+for training process the input xj should be replaced by f xj
+
+experimental setup
+here we describe the corpora used and some implementation details
+
+datasets the arnn model was trained on the chinese gigaword corpus
+
+this corpus consists of several years of news articles from central news agency of taiwan and xinhua news agency of china
+the following preprocessing steps were performed on this corpus
+all chinese characters were rst converted into the traditional version of characters if they were not
+next we removed articles from the period of the matbn corpus this corpus was used to train the asr recognizer replaced characters that occurred less than ve times in the whole corpus with a special ter unk and replaced arabic numerals with
+
+note that the basic processing unit for the work here was the character so there was no need to segment the character sequences into word sequences
+in order to be able to take initial final sequences as the input we also converted the articles from character sequences to initials final sequences with a pronunciation dictionary which contained a total of right context dependent initials and context independent
+experimental results
+we evaluated the results with and rouge l scores
+as mentioned in section the input spoken content can be either character sequences or initial final sequences
+the models in sections and rnn and arnn without asr error modeling were taken as the baseline models
+the nave approach of directly training the baseline models with confused input sequences described in subsection and the proposed approach described in subsection were compared
+
+oracle results manual transcriptions input
+first we tested the baseline models rnn and arnn on manual transcriptions of news stories without asr errors which can be considered as the upper bound of the task
+
+ble shows the results
+the upper half of the table are for character sequence input char while the lower half for tial final sequence input i f
+from table we observed the slight improvement obtained by including the attention anism arnn rnn
+also character sequence input formed signicantly better than the initial final sequence
+put in all cases
+this is natural because in chinese language there exist large number of homonym characters sharing the same pronunciation
+so the pronunciation sequences carry much less information than character sequences
+table
+oracle results baseline models for manual scriptions input
+
+char i f rnn
+arnn
+rnn
+arnn rouge l
+
+
+asr transcriptions input the results for asr transcriptions input obtained with kaldi and are respectively in table and
+the upper half of table is for character sequence input
+the baseline els bsl in the rows refer to the same models as in table but in table asr errors are not considered the nave models na in rows refer to the nave approaches proposed in section baseline models but directly trained with confused data and the proposed approach in row e is arnn with error modeling
+the lower half is the same but with initial final sequence input
+table is exactly the same but with recognizer
+
+from rows of table we see the baseline arnn was actually slightly worse than baseline rnn rows b table
+results for asr transcriptions input obtained with kaldi
+
+char i f bsl na rnn
+arnn
+c rnn arnn bsl na e proposed rnn
+g arnn
+h rnn
+i arnn j proposed rouge l
+
+
+
+a probably due to the wrong attention caused by asr rors
+
+in other words the model paid attention to some kens which were actually recognition errors
+this situation is reversed in nave approach rows d c probably
+cause the model may have learned to avoid to pay attention to incorrectly recognized errors
+but the overall performance of nave approach was worse than baseline rows probably because the baseline models rows were trained with correct manual transcriptions while the nave models rows were trained with confused scriptions and were therefore weaker
+having the error
+eling telling the model which input tokens were more likely to be correct in the proposed approach row e as explained in section not only the wrong attention could be avoided but the model learned how to take care of the errors when erating the headlines to a certain degree
+so the performance of the model was much better rows e
+the lower half of table for initial final sequence input offered lower performance just as in table but with similar trend as discussed above
+the only difference was that here baseline arnn was slightly better than baseline rnn rows g
+because many homonym characters share the same pronunciation the character error rate was much higher than the initial final error rate
+so the lower initial final error rate led to much less wrong attention on recognition errors
+table
+results for asr transcriptions input obtained with
+
+char i f bsl na rnn
+arnn
+c rnn arnn bsl na e proposed rnn
+g arnn
+h rnn
+i arnn j proposed
+rouge l
+the results using as the recognizer are listed in ble in which the confusion matrix used for error modeling was obtained by the transcriptions of kaldi toolkit
+
+pared with the results in table
+we see the scores in ble are in general lower than those in table not only because of the mismatched recognizers and recognition ror patterns but because the character error rate of was much higher than that of kaldi
+the specially low performance of baseline arnn row was obviously because the very high character error rate caused too much wrong attention and disturbed the model
+the very low performance of initial final sequence input lower half of table indicated that the phonetic sequences with low curacy carried too little information to be used for headline generation
+however we found that the proposed approach still performed very well row e for character sequence put even with the low asr accuracy and the mismatched ognizers
+
+conclusion
+in this paper we propose a novel attentive rnn arnn
+
+chitecture with asr error modeling for headline generation for spoken content which can be trained without a large pus of speech headline pairs
+experimental results show that the proposed model is able to learn the recognition error terns and avoid the errors when paying attention to important tokens in generating the headlines
+the model is even sonably robust with respect to the mismatched condition that the input spoken content is recognized by a recognizer very different from the one the model learned from
+
+references michele banko vibhu o mittal and michael j
+brock headline generation based on statistical lation in proceedings of the annual meeting on association for computational linguistics
+association for computational linguistics pp
+
+
+bonnie dorr david zajic and richard schwartz hedge trimmer a parse and trim approach to line generation in proceedings of the hlt naacl on text summarization workshop volume
+association for computational linguistics pp
+
+
+songhua xu shaohui yang and francis chi moon
+lau keyword extraction and headline generation
+ing novel word features
+in aaai
+alexander m rush sumit chopra and jason weston a neural attention model for abstractive sentence marization in emnlp
+dzmitry bahdanau kyunghyun cho and
+yoshua
+neural machine translation by jointly learning gio to align and translate in international conference on learning representations
+konstantin lopyrev generating news headlines with recurrent neural networks corr
+katja filippova enrique alfonseca carlos colmenares lukasz kaiser and oriol vinyals sentence sion by deletion with lstms in proceedings of emnlp pp
+
+sumit chopra michael auli alexander m rush and seas harvard abstractive sentence summarization with attentive recurrent neural networks in naacl
+
+jiatao gu zhengdong lu hang li and victor ok
+li incorporating copying mechanism in sequence sequence learning in association for computational
+linguistics
+
+jianpeng cheng and mirella lapata neural rization by extracting sentences and words corr
+
+caglar gulcehre sungjin ahn ramesh nallapati bowen zhou and yoshua bengio pointing the known words corr
+
+kyunghyun cho bart van merrienboer caglar cehre dzmitry bahdanau fethi bougares holger
+schwenk and yoshua bengio learning phrase sentations using rnn encoder decoder for statistical chine translation in conference on empirical methods in natural language processing
+lifeng shang zhengdong lu and hang li ral responding machine for short text conversation in emnlp
+
+samy bengio oriol vinyals navdeep jaitly and
+noam shazeer scheduled sampling for sequence prediction with recurrent neural networks in advances in neural information processing systems pp
+
+
+marcaurelio ranzato sumit chopra michael auli and wojciech zaremba sequence level training with recurrent neural networks in international conference on learning representations
+
+shiqi shen zhiyuan liu maosong sun al
+neural headline generation with minimum risk training corr
+
+david graff junbo kong ke chen and kazuaki maeda english gigaword linguistic data tium philadelphia
+baotian hu qingcai chen and fangze zhu lcsts
+a large scale chinese short text summarization dataset corr
+ilya sutskever oriol vinyals and quoc v le quence to sequence learning with neural networks in advances in neural information processing systems pp
+
+
+oriol vinyals meire fortunato and navdeep jaitly pointer networks in advances in neural information processing systems pp
+
+oriol vinyals and quoc le a neural conversational model in international conference on machine
+ing deep learning workshop
+
+david graff and ke chen chinese gigaword ldc
+catalog no
+isbn vol
+pp
+
+
+sebastien jean kyunghyun cho roland memisevic and yoshua bengio on using very large target
+ulary for neural machine translation in proceedings of acl ijcnlp pp
+
+hsin min wang berlin chen jen wei kuo shih sian
+cheng et al matbn a mandarin chinese broadcast news corpus international journal of computational
+linguistics and chinese language processing vol
+
+no pp
+
+
+daniel povey arnab ghoshal gilles boulianne lukas
+burget ondrej glembek nagendra goel mirko nemann petr motlicek yanmin qian petr schwarz al the kaldi speech recognition toolkit in ieee workshop on automatic speech recognition and understanding
+ieee signal processing society number epfl
+
+
+sepp hochreiter and jurgen schmidhuber long term memory neural computation vol
+no pp
+
+
+
+razvan pascanu tomas mikolov and yoshua gio on the difculty of training recurrent neural works icml vol
+pp
+
+chin yew lin rouge a package for automatic uation of summaries in text summarization branches out proceedings of the workshop
+barcelona spain vol
+

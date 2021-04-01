@@ -1,0 +1,325 @@
+l u j l c
+s
+c
+v
+
+
+
+s c v i x r a summarizing encyclopedic term descriptions on the web atsushi fujii and tetsuya ishikawa graduate school of library information and media studies
+university of tsukuba kasuga tsukuba japan abstract
+we are developing an automatic method to compile an encyclopedic corpus from the web
+in our previous work paragraph style descriptions for a term are extracted from web pages and organized based on domains
+however these descriptions are independent and do not comprise a condensed text as in hand crafted encyclopedias
+to resolve this problem we propose a summarization method which produces a single text from multiple descriptions
+the resultant mary concisely describes a term from ferent viewpoints
+we also show the tiveness of our method by means of ments
+introduction term descriptions which have been carefully nized in hand crafted encyclopedias are valuable linguistic knowledge for human usage and tational linguistics research
+however due to the limitation of manual compilation existing pedias often lack new terms and new denitions for existing terms
+the world wide web the web which contains an enormous volume of up to date information is a promising source to obtain new term descriptions
+
+it has become fairly common to consult the web for descriptions of a specic term
+however the use of existing search engines is associated with the ing problems a search engines often retrieve extraneous pages not describing a submitted term even if desired pages are retrieved a user has to identify page fragments describing the term c word senses are not distinguished for mous terms such as hub device and center d descriptions in multiple pages are independent and do not comprise a condensed and coherent text as in existing encyclopedias
+the authors of this paper have been resolving these problems progressively
+for problems a and b fujii and ishikawa proposed an matic method to extract term descriptions from the web
+for problem c fujii and ishikawa improved the previous method so that the multiple descriptions extracted for a single term are rized into domains and consequently word senses are distinguished
+using these methods we have compiled an clopedic corpus for approximately japanese terms
+we have also built a web site called to utilize this corpus in which one or more paragraph style descriptions extracted from ent pages can be retrieved in response to a user input
+
+in figure three paragraphs describing xml are presented with the titles of their source pages
+
+however the above mentioned problem d
+mains unresolved and this is exactly what we intend to address in this paper
+
+in hand crafted encyclopedias a single term is scribed concisely from dierent viewpoints such as the denition exemplication and purpose
+in contrast if the rst paragraph in figure is not described from a sucient number of viewpoints for xml a user has to read remaining paragraphs
+
+however this is inecient because the descriptions are extracted from independent pages and usually include redundant contents
+to resolve this problem we propose a tion method that produces a concise and condensed term description from multiple paragraphs
+as a sult a user can obtain sucient information about a term with a minimal cost
+additionally by reducing the size of descriptions cyclone can be used with mobile devices such as pdas
+however while cyclone includes various types of terms such as technical terms events and imals the required set of viewpoints can vary
+pending the type of target terms
+for example the denition and exemplication are necessary for nical terms but the family and habitat are necessary for animals
+in this paper we target japanese nical terms in the computer domain
+section outlines cyclone
+sections and
+plain our summarization method and its evaluation respectively
+in section we discuss related work and the scalability of our method
+figure example descriptions for xml
+overview of cyclone figure depicts the overall design of cyclone which produces an encyclopedic corpus by means of ve modules term recognition extraction trieval organization and related term tion
+while cyclone produces a corpus users search the resultant corpus for specic
+tions on line
+
+it should be noted that the summarization method proposed in this paper is not included in figure and that the concept of viewpoint has not been used in the modules in figure
+
+in the process the input terms can be
+ther submitted manually or collected by the term recognition module automatically
+the term nition module periodically searches the web for pheme sequences not included in the corpus which are used as input terms
+the retrieval module exhaustively searches the web for pages including an input term as performed in existing web search engines
+the extraction module analyzes the layout the structure of html tags of each retrieved page and identies the paragraphs that potentially scribe the target term
+while promising tions can be extracted from pages resembling on line dictionaries descriptions can also be extracted from general pages
+the organization module classies the multiple paragraphs for a single term into predened domains
+computers medicine and sports and sorts them according to the score
+the score is computed by the reliability determined by hyper links as in and the linguistic validity determined by a language model produced from an existing readable encyclopedia
+thus dierent word senses which are often associated with dierent domains can be distinguished and high quality descriptions can be selected for each domain
+finally the related term extraction module searches top ranked descriptions for terms strongly related to the target term cable and lan for hub
+existing encyclopedias often provide lated terms for each headword which are eective to understand the headword
+in cyclone related terms can also be used as feedback terms to row down the user focus
+however this module is beyond the scope of this paper
+summarization method
+overview given a set of paragraph style descriptions for
+a gle term in a specic domain descriptions for hub in the computer domain
+our summarization term recognition selection which determines one or more retrieval extraction web organization related term extraction descriptions related terms encyclopedic corpus figure overall design of cyclone
+method produces a concise text describing the term from dierent viewpoints
+these descriptions are obtained by the tion module in figure
+thus the related term extraction module is independent of our tion method
+our method is multi document summarization
+mds mani
+because a set of input ments in our case the paragraphs for a single term were written by dierent authors dierent time the redundancy and divergence of the topics in the input are greater than that for single document summarization
+thus the recognition of similarity and dierence among multiple contents is crucial
+
+the following two questions have to be answered by which language unit words phrases or sentences should two contents be compared
+by which criterion should two contents be garded as similar or dierent
+the answers for these questions can be dierent
+pending on the application and the type of input documents
+our purpose is to include as many viewpoints as possible in a concise description
+thus we pare two contents on a viewpoint by viewpoint basis
+
+in addition if two contents are associated with the same viewpoint we determine that those contents are similar and that they should not be repeated in the summary
+our summarization method consists of the following four steps viewpoint based vbs identication which recognizes the language unit associated with a viewpoint classication which merges the identied units associated with the same viewpoint into a single group sentative units for each group
+presentation which produces a summary in a specic format
+the model is similar to those in existing mds ods
+however the implementation of each step varies depending on the application
+we elaborate on the four steps in sections respectively
+identication
+the identication module recognizes the language units each of which describes a target term from a specic viewpoint
+however a compound or plex sentence is often associated with multiple points
+the following example is an english lation of a japanese compound sentence in a web page
+xml is an abbreviation for extensible markup language and is a markup guage
+
+the rst and second clauses describe xml from the abbreviation and denition viewpoints respectively
+
+it should be noted that because xml and tensible markup language are spelled out by the roman alphabet in the original sentence the rst clause does not provide japanese readers with the denition of xml
+to extract the language units on a viewpoint viewpoint basis we segment japanese sentences into simple sentences
+however sentence segmentation remains a dicult problem and the accuracy is not
+first we analyze the syntactic dependency structure of an input sentence by
+
+
+ond we use hand crafted rules to extract simple tences using the dependency structure
+the simple sentences excepting the rst clause
+ten lack the subject
+to resolve this problem zero pronoun detection and anaphora resolution can be used
+however due to the rudimentary nature of existing methods we use hand crafted rules to plement simple sentences with the subject
+
+as a result we can obtain the following two simple sentences from the above mentioned input sentence in which the complement subject is in parentheses
+xml is an abbreviation for extensible markup language
+xml is a markup language
+classication the classication module merges the simple tences related to the same viewpoint into a single group
+an existing encyclopedia for technical terms uses approximately obligatory and optional points
+we selected the following viewpoints for which typical expressions can be coded manually denition abbreviation exemplication purpose synonym reference product vantage drawback history component function
+we manually produced linguistic patterns used to describe terms from a specic viewpoint
+these patterns are regular expressions in which specic morphemes are generalized into parts of speech or the special symbol representing the target term
+we use a two stage classication method
+first the simple sentences that match with a pattern are classied into the associated viewpoint group
+
+a simple sentence that matches with patterns for multiple viewpoints is classied into every possible group
+
+however the pattern based method fails to sify the sentences that do not match with any ned patterns
+thus second we classify the ing sentences into the group in which the most lar sentence has already been classied
+in practice we compute the similarity between an unclassied sentence and each of the classied sentences
+the similarity between two sentences is determined by the dice coecient the ratio of content words commonly included in those sentences
+the tences unclassied through the above method are classied into the miscellaneous group
+
+in summary our two stage method uses ned linguistic patterns and statistics of words
+the following examples are english translations of japanese sentences extracted in the identication module
+these sentences can be classied into a cic group on the ground of the underlined sions excepting sentence e
+however in the second stage sentence e can be classied into the history group because sentence e is most similar to tence c
+a xml is an extensible markup language
+an abbreviation for extensible markup denition guage abbreviation history language abbreviation c was advised as a standard by in xml is an abbreviation for extensible markup e the standard of xml was advised by
+history selection
+the selection module determines one or more resentative sentences for each viewpoint group
+the number of sentences selected from each group can vary depending on the desired size of the resultant summary
+
+we consider the following factors to compute the score for each sentence and select sentences with greater scores in each group
+the number of common words included w
+the representative sentences should contain many words that are common in the group
+we collect the frequencies of words for each group and sentences including frequent words are ferred
+the rank in cyclone r
+as depicted in figure cyclone sorts the trieved paragraphs according to the plausibility as the description
+sentences in highly ranked paragraphs are preferred
+the number of characters included c to minimize the size of a summary short
+tences are preferred
+because these factors are dierent in terms of the dimension range and polarity we normalize each factor in and compute the nal score as a weighed average of the three factors
+the weight of each factor was determined by a preliminary study
+
+in brief the relative importance among the three factors is w r
+however because the miscellaneous group cludes various viewpoints we use a dierent method from that for the regular groups
+first we select resentative sentences from the regular groups
+
+
+ond from the miscellaneous group we select the tence that is most dissimilar to the sentences already selected as representatives
+we use the dice based similarity used in section to measure the similarity between two sentences
+if we select more than one sentence from the miscellaneous group the second process is repeated recursively
+presentation
+the presentation module lists the selected sentences without any post editing
+ideally natural language generation is required to produce a coherent text by for example complementing conjunctions and erating anaphoric expressions
+however a simple list of sentences is also useful to obtain knowledge about a target term
+figure depicts an example summary produced from the top paragraphs for the term xml
+in this gure six viewpoint groups and the neous group were formed and only one sentence was selected from each group
+the order of sentences presented was determined by the score computed in the selection module
+while the source paragraphs consist of characters the summary consists of characters which is almost the same length as an abstract for a technical paper
+the following is an english translation of the tences in figure
+here the words spelled out by the roman alphabet in the original sentences are in italics
+figure example summary for xml
+denition xml is an extensible markup guage extensible markup language
+abbreviation an abbreviation for extensible markup language an extensible markup guage
+purpose because xml is a standard cation for data representation the data dened by xml can be reusable irrespective of the per application
+advantage xml is advantageous to
+ers of the le maker pro which needs to receive data from the client
+history was advised as a standard by
+world wide web consortium a group dardizing www technologies in reference this book is an introduction for xml which has recently been paid much tention as the next generation internet standard format and related technologies
+miscellaneous in xml the tags are enclosed in and
+each viewpoint label or sentence is hyper linked to the associated group or the source paragraph spectively so that a user can easily obtain more formation on a specic viewpoint
+for example by the reference sentence a catalogue page of the book in question can be retrieved
+
+although the resultant summary describes xml from multiple viewpoints there is a room for provement
+for example the sentences classied into the denition and abbreviation viewpoints
+clude almost the same content
+evaluation methodology
+existing methods for evaluating summarization techniques can be classied into intrinsic and sic approaches
+
+in the intrinsic approach the content of a mary is evaluated with respect to the quality of a text coherence and the informativeness the extent to which important contents are in the summary
+in the extrinsic approach the evaluation measure is the extent to which a summary improves the eciency of a specic task relevance ment in text retrieval
+
+in and both approaches have been used to evaluate summarization methods geting newspaper articles
+however because there was no public test collections targeting term tions in web pages we produced our test collection
+
+as the rst step of our summarization research we addressed only the intrinsic evaluation
+in this paper we focused on including as many viewpoints contents as possible in a summary but did not address the text coherence
+thus we used the informativeness of a summary as the ation criterion
+we used the following two measures which are in the trade o relation
+compression ratio characters in summary
+characters in cyclone result coverage viewpoints in summary
+viewpoints in cyclone result here viewpoints denotes the number of point types
+even if a summary contains multiple sentences related to the same viewpoint the ator is increased by
+we used japanese term in an existing computer dictionary as test inputs
+english translations of the test inputs are as follows t ascii sql xml lator assembler binary number crossing cable data warehouse macro virus main memory unit parallel processing tion search time thesaurus
+
+to calculate the coverage the simple sentences in the cyclone results have to be associated with viewpoints
+to reduce the subjectivity in the ation for each of the terms we asked two college students excluding the authors of this paper to notate each simple sentence in the top paragraphs with one or more viewpoints
+the two annotators performed the annotation task independently
+the denominators of the compression ratio and coverage were calculated by the top paragraphs
+
+during a preliminary study the authors and tators dened viewpoints including the points targeted in our method
+we also dened the following three categories which were not considered as a viewpoint non description which were also used to tate non sentence fragments caused by errors in the identication module description for a word sense independent of the computer domain hub as a center stead of a network device miscellaneous
+
+it may be argued that an existing hand crafted encyclopedia can be used as the standard mary
+however paragraphs in cyclone often tain viewpoints not described in existing dias
+thus we did not use existing encyclopedias in our experiments
+results table shows the compression ratio and coverage for dierent methods in which reps and chars denote the number of representative sentences lected from each viewpoint group and the number of characters in a summary respectively
+we always selected ve sentences from the miscellaneous group
+
+the third column denotes the compression ratio
+the remaining columns denote the coverage on a annotator by annotator basis
+the columns viewpoints and viewpoints denote the case in which we focused only on the viewpoints
+
+geted in our method and the case in which all the viewpoints were considered respectively
+
+the columns vbs and lead denote the age obtained with our viewpoint based tion method and the lead method
+the lead method which has often been used as a baseline method in past literature systematically extracted the top n characters from the cyclone result
+here n is the same number in the second column
+in other words the compression ratio of the vbs and lead methods was standardized and we pared the coverage of both methods
+the sion ratio and coverage were averaged over the test terms
+suggestions which can be derived from table are as follows
+
+first in the case of the average size of a summary was characters which is marginally longer than an abstract for a cal paper
+in the case of the average summary size was characters which is almost the maximum size for a single description in crafted encyclopedias
+a summary obtained with four sentences in each group is perhaps too long as term descriptions
+
+second the compression ratio was roughly which is fairly good performance
+it may be argued that the compression ratio is exaggerated
+that is although paragraphs ranked higher than can tentially provide the sucient viewpoints the top paragraphs were always used to calculate the nator of the compression ratio
+we found that the top paragraphs on average contained all viewpoint types in the top graphs
+thus the remaining paragraphs did not provide additional information
+however it is cult for a user to determine when to stop reading a retrieval result
+in existing evaluation workshops such as ntcir the compression ratio is also lated using the total size of the input documents
+third the vbs method outperformed the lead method in terms of the coverage excepting the case of focusing on the viewpoints by notator however in general the vbs method duced more informative summaries than the lead method irrespective of the compression ratio and the annotator
+it should be noted
+that although the vbs method table results of summarization experiments reps chars compression ratio coverage by annotator a viewpoints viewpoints
+lead vbs
+lead vbs
+
+
+coverage by annotator b viewpoints viewpoints
+lead vbs
+lead vbs
+
+targets viewpoints the sentences selected from the miscellaneous group can be related to the
+maining viewpoints
+thus even if we focus on the viewpoints the coverage of the vbs method can potentially increase
+
+it should also be noted that all viewpoints are not equally important
+for example in an existing cyclopedia nagao and others the denition exemplication and synonym are regarded as the obligatory viewpoints and the remaining viewpoints are optional
+we investigated the coverage for the three tory viewpoints
+we found that while the coverage for the denition and exemplication ranged from to the coverage for the synonym was or less
+a low coverage for the synonym is partially due to the fact that synonyms are often described with parentheses
+however because parentheses are used for various purposes it is dicult to identify only synonyms expressed with parentheses
+this problem needs to be further explored
+discussion
+the goal of our research is to automatically compile a high quality large encyclopedic corpus using the web
+hand crafted encyclopedias lack new terms and new denitions for existing terms and thus the quantity problem is crucial
+the web contains reliable and unorganized information and thus the quality problem is crucial
+we intend to alleviate both problems
+to the best of our knowledge no attempt has been made to intend similar purposes
+
+our research is related to question answering qa
+for example in trec qa track denition questions are intended to provide a user with the inition of a target item or person voorhees
+
+however while the expected answer for a trec question is short denition sentences as in a tionary we intend to produce an encyclopedic text describing a target term from multiple viewpoints
+
+the summarization method proposed in this per is related to multi document summarization mani radev and mckeown mds
+schiman et al
+the novelty of our research is that we applied mds to producing a condensed term description from unorganized web pages while existing mds methods used newspaper articles to produce an outline of an event and a biography of a specic person
+we also proposed the concept of viewpoint for mds purposes
+while we targeted japanese technical terms in the computer domain our method can also be applied to other types of terms in dierent languages without modifying the model
+however a set of viewpoints and patterns typically used to describe each point need to be modied or replaced depending the application
+given annotated data such as those used in our experiments machine learning methods can potentially be used to produce a set of points and patterns for a specic application
+conclusion
+to compile encyclopedic term descriptions from the web we introduced a summarization method to our previous work
+future work includes generating a coherent text instead of a simple list of sentences and performing extensive experiments including an extrinsic evaluation method
+references atsushi fujii and tetsuya ishikawa
+
+utilizing the world wide web as an encyclopedia
+ing term descriptions from semi structured texts
+
+in proceedings of the annual meeting of the association for computational linguistics pages
+atsushi fujii and tetsuya ishikawa
+
+ing encyclopedic knowledge based on the web and its application to question answering
+in ings of the annual meeting of the association for computational linguistics pages
+
+inderjeet mani
+automatic summarization chapter pages
+john benjamins
+makoto nagao al
+editors
+
+
+iwanami dic dictoinary of computer science
+
+shoten
+in japanese
+dragomir radev and kathleen mckeown
+language summaries
+generating natural from multiple on line sources
+computational guistics barry schiman inderjeet mani and kristian concepcion
+
+producing biographical maries
+combining linguistic knowledge with
+in proceedings of the pus statistics
+nual meeting of the association for tional linguistics pages
+ellen voorhees
+
+evaluating answers to inition questions
+in companion volume of the proceedings of hlt naacl pages
+

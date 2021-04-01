@@ -1,0 +1,550 @@
+a m l c
+s
+c
+v
+v
+i x r a using statistical and semantic models for multi document summarization divyanshu daiya lnm institute of information
+technology jaipur rajasthan
+
+anukarsh singh lnm institute of information technology
+jaipur rajasthan mukesh jadon lnm institute of information
+technology
+
+jaipur rajasthan
+
+
+abstract we report a series of experiments with different semantic models on top of ious statistical models for extractive text summarization
+though statistical models may better capture word co occurrences and distribution around the text they fail to detect the context and the sense of
+tences as a whole
+semantic els help us gain better insight into the text of sentences
+we show that how ing weights between different models can help us achieve signicant results on ious benchmarks
+learning pre trained vectors used in semantic models further on given corpus can give addition spike in performance
+using weighing techniques in between various statistical models too further renes our result
+
+for cal models we have used tf idf trank jaccard cosine similarities
+for semantic models we have used based model and proposed two models based on glove vectors and facebook s
+infersent
+we tested our approach on duc dataset generating word summaries
+we have discussed the system algorithms analysis and also proposed and tested possible improvements
+rouge scores lin were used to compare to other summarizers
+introduction automatic text summarization deals with the task of condensing documents into a summary whose level is similar to a human generated mary
+
+it is mostly distributed into two distinct domains abstractive summarization and tractive summarization
+abstractive both the authors have contributed equally to this work
+tion dejong et al involves models to
+it then presents duce the crux of the document
+a summary consisting of words and phrases that were not there in the actual document sometimes even et al
+a state of art method proposed by wenyuan zeng
+zeng et al produces such summaries with length restricted to
+there have been many cent developments that produce optimal results
+but it is still in a developing phase
+
+it highly relies on natural language processing techniques which is still evolving to match human standards
+
+these shortcomings make abstractive tion highly domain selective
+as a result their plication is skewed to the areas where nlp niques have been superlative
+extractive rization on the other hand uses different ods to identify the most informative dominant tences through the text and then present the sults ranking them accordingly
+in this paper we have proposed two novel stand alone tion methods
+the rst method is based on glove model pennington et al
+other is based on facebook s infersent conneau et al
+
+we have also discussed how we can effectively subdue shortcomings of one model by using it in coalition with models which capture the view that other faintly held
+related work
+a vast number of methods have been used for document summarization
+some of the methods include determining the length and positioning
+radev et al of sentences in the text
+
+deducing centroid terms to nd the importance of text radev et al and setting a threshold on average tf idf scores
+bag of words approach making sentence word freq matrix using a signature set of words and assigning them weights to use them as a criterion for importance measure lin and hovy have also been it great semantic summarizers in other words miller et al common among semantic used
+
+summarization using weights on frequency words nenkova al describes that high frequency terms can be used to deduce the core of document
+like lexical
+while similarity is based on the assumption that
+portant sentences are identied by strong chains
+gupta al
+barrera and verma relates
+murdock
+
+sentences that employ words with the same meaning synonyms or other semantic relation
+to nd
+it uses wordnet similarity among words that apply to word frequency algorithm
+of speech
+ging and sense disambiguation summarizers
+are graphical summarizers like textrank have also provided results
+textrank benchmark assigns weights to important keywords from the document using graph based model and sentences which capture most of those concepts keywords barrera and verma are ranked higher
+mihalcea and tarau uses
+textrank google s pagerank brin and page for graphical modeling
+
+though semantic and graphical models may better capture the sense of document but miss out on statistical view
+
+there summarizers of
+there have nt been many studies made in the area
+et al conducted some preliminary research but there is nt much there on benchmark tests to our knowledge
+we use a mixture of statistical and semantic models assign weights among them by training on eld specic corpora
+as there is a signicant variation in choices among different elds
+we support our proposal with expectations that shortcomings posed by one model can be lled with positives from others
+we deploy experimental analysis to test our proposition
+a void hybrid is proposed approach for statistical analysis we use similarity matrices word co n gram model andtf idf matrix
+for semantic analysis we use custom glove based model wordnet based model and facebook infersent conneau et al based model
+for multi document summarization after training on corpus we assign weights among the different techniques store the sense vector for documents along with weights for future ence
+for single document summarization rstly we calculate the sense vector for that document and calculate the nearest vector from the stored vectors we use the weights of the nearest vector
+
+we will describe the ow for semantic and tical models separately
+
+prepossessing
+we discuss in detail the steps that are common for both statistical and semantic models
+sentence tokenizer
+we use nltk sentence tokenizer sent tokenize based on punkt tokenizer pre trained on a pus
+it can differentiate between and other abbreviations
+and the normal sentence and strunk
+given a document d we tokenize it into sentences as sn
+
+cleaning
+replacing all the special characters with spaces for easier word tagging and tokenizing
+word tokenizer
+we use nltk word tokenizer which is a penn treebankstyle tokenizer to tokenize words
+we calculate the total unique words in the document
+
+if we can write any sentence si wi wj wk i n
+then the number of unique words can be represented i j k l
+m n t otalsentences m t otaluniquewords using stastical models
+
+similarity correlation matrices frequency matrix generation our tokenized words contain redundancy due to digits and sitional words such as and but which carry little information
+such words are termed stop and sirotkin
+we moved stop words and words occurring in and of the documents considering the word frequency over all documents
+after the moval the no of unique words left in the ticular document be p where p m where m is the total
+no of unique words in our tokenized list inally
+we now formulate a matrix fnp where n we use two similarity measures
+initialize r as is the total number of sentences and p is the total number of unique words left in the document
+ement eij in the matrix fnp denotes frequency of jth unique word in the ith sentence
+similarity correlation matrix generation
+
+we now have have sentence word frequency vector sfi as where fia denotes frequency of ath unique word in the ith sentence
+we now compute sentence sfj
+jaccard similarity
+cosine similarity we generate the similarity matrix simj nn for each of the similarity measure where j indexes the similarity measure
+element eij of simj
+nn
+denotes similarity between ith and jth sentence
+
+consequentially we will end up with nn and nn corresponding to each similarity sure
+jaccard similarity
+for some sets a and b a b c and y respectively the card similarity is dened jaccard b b b generate pagerank or probability distribution
+trix p
+p
+p
+
+where p in original paper denoted bility with which a randomly browsing user lands on a particular page
+for the summarization task they denote how strongly a sentence is connected with rest of document or how well sentence tures multiple views concepts
+the steps are as p
+p
+p
+n n n
+
+dene d probability that randomly chosen sentence is in summary and as measure of change to stop computation when ence between to successive r computations recedes below
+
+using cosine similarity matrix nn we generate the following equation as a measure for relation between
+
+
+cosine similarity the cosine distance tween u and v is dened r nn
+r cosine b u v
+repeat last step until
+where u v is the dot product of u and v
+take top ranking sentences in r for pagerank pagerank algorithm page et al devised to rank web pages forms the core of google search
+it roughly works by ranking pages
+ing to the number and quality of outsourcing links from the page
+for nlp a pagerank based nique textrank has been a major breakthrough in the eld
+textrank based summarization has seeded exemplary results on benchmarks
+we use a naive textrank analogous for our task
+given n sentences sn we intend to mary
+tf idf term of words is the count of how many times a word occurs in the given ument
+inverse document is the number of times word occurs in complete corpus
+
+infrequent words through corpus will have higher weights while weights for more frequent words will be depricated
+
+underlying steps for tf idf summarization are
+create a count vector additional pre processing f rw rw rw
+part of
+tagging
+we tag the words using nltk pos tagger
+
+build a tf idf matrix wm n with element
+lemmatization we use ntlk lemmatizer wi as with pos tags passed as contexts
+wi j tfi j log n dfi
+here tfi j denotes term frequency of ith word in jth sentence and log n dfi sents the idf frequency
+
+score each sentence taking into tion only nouns we use nltk pos tagger for identifying nouns
+j p n n oi j
+np j
+applying positional weighing
+j
+o
+t o sentence index t total sentences in document
+j
+summarize using top ranking sentences
+
+using semantic models we proceed in the same way as we did for tistical models
+all the pre processing steps main nearly same
+we can make a little change by using lemmatizer instead of stemmer
+stemming involves removing the derivational afxes end of words by heuristic analysis in hope to achieve base form
+lemmatization on the other hand volves rstly pos tagging santorini and after morphological and vocabulary analysis
+ducing the word to its base form
+stemmer put for goes is goe while lemmatized output with the verb passed as pos tag is go
+though lemmatization may have little more time
+head as compared to stemming it necessarily
+vides better base word reductions
+since
+
+net pedersen et al and glove both require dictionary look ups in order for them to work
+well we need better base word mappings
+hence lemmatization is preferred
+
+using wordnet
+we generated similarity matrices in the case of statistical models
+we will do the same here but for sentence similarity measure we use the method devised by and simpson
+the method is dened as
+word sense we use the adapted version of lesk as devised by dao to rive the sense for each word
+
+sentence pair similarity for each pair of sentences we create semantic similarity
+trix let a and b be two sentences of lengths m and n respectively
+then the sultant matrix s will be of size m n with element si denoting semantic similarity tween sense synset of word at position i in sentence a and sense synset of word at sition j in sentence b which is calculated by path length similarity using is a nym hyponym hierarchies
+it uses the idea that shorter the path length higher the larity
+to calculate the path length we ceed in following
+for two words and with synsets and respectively smn
+
+
+
+
+
+
+sn
+sj
+sn
+
+
+we formulate the problem of capturing mantic similarity between sentences as the problem of computing a maximum total matching weight of a bipartite graph where x and y are two sets of disjoint nodes
+we use the hungarian method kuhn to solve this problem
+finally we get bipartite matching matrix b with entry bi denoting matching between and
+to obtain the overall similarity we use dice coefcient
+encode each sentence to generate its vector i i representation i
+i
+
+b
+calculate similarity between sentence pair using cosine distance
+with threshold set to and ing lengths of sentence a and b respectively
+
+populate similarity matrix n n using previous step
+
+we perform the previous step over all pairs to generating summaries generate the similarity matrix
+
+using glove model
+glove model provides us with a convenient method to represent words as vectors using tors representation for words we generate vector representation for sentences
+we work in the lowing order
+represent each tokenized word wi in its tor form i i i
+i
+
+represent each sentence into vector using following equation sv fi i i
+i x where fi j being frequency of wi in sj
+
+calculate similarity between sentences using cosine distance between two sentence tors
+
+populate similarity matrix n n using previous step
+
+the model using facebook s infersent infersent is a state of the art supervised sentence encoding technique conneau et al
+
+it outperformed another state of the art sentence encoder skipthought on several benchmarks the sts benchmark
+like stsbenchmark
+is trained on stanford natural language inference snli
+bowman et al using seven dataset chitectures long short term memory lstm
+forward and gated recurrent units backward gru with hidden states concatenated bi directional lstms bilstm with min max pooling self attentive network and hcn
+erarchical convolutional networks
+the network performances are task corpus specic
+
+steps to generate similarity matrix gru n n are tf idf scores and textrank allows us to directly rank sentences and choose k top sentences where k is how many sentences user want in the mary
+on the other hand the similarity matrix based approach is used in case of all semantic models and similarity correlation based cal models
+to rank sentences from similarity
+trix we can use following
+ranking through relevance score for each sentence si in similarity matrix the relevance score is n j
+p we can now choose k top ranking tences by rscores
+higher the rscore higher the rank of sentence
+
+hierarchical clustering
+given a similarity matrix simn let sa an individual element then cal clustering is performed as initialize a empty list
+
+choose element with highest similarity value let it be si where
+j j
+c replace values in column and row i in following sd i sd j
+n d n
+replace entries corresponding to umn and row i by zeros
+
+add i and to r if they are not already there
+repeat steps until single single zero element remains for remaining non zero element apply step and minate
+g we will have rank list r in the end
+we can now choose k top ranking sentences from performances of different models over the training data to ne tune our summary
+single document summarization
+after generating summary from a particular model our aim is to compute summaries through overlap of different models
+
+let us have g summaries from g different models
+for pth marization model let the k sentences contained sump
+p
+now for our list of sentences
+sn
+we dene cweight as weight obtained for each sentence using g models
+cw
+si p
+here si is a function which returns if sentence is in summary of jth model otherwise zero
+wi is weight assigned to each model without training wi g i
+g multi document domain specic summarization
+the elemental concept we here use machine learning based approach to further increase the quality of our rization technique
+is that we use training set of u domain specic documents with gold standard human composed summaries provided we ne tune our weights wii g for different models taking score f as factor
+
+f precision recall we proceed in the following
+for each document in training set generate summary using each model independently compute the
+gold summary
+
+for each model assign the weights using
+wi p i g v i
+u here i ith document
+denotes for jth model in we now obtain cweight as we did previously and formulate cumulative summary capturing the sensus of different models
+we hence used a pervised learning algorithm to capture the mean domain specic single document summarization as we discussed earlier summarization models are eld selective
+some models tend to perform remarkably better than others in certain elds
+so instead of assigning uniform weights to all models we can go by the following approach
+
+for each set of documents we train on we generate document vector using bidirectional
+gru bahdanau al as described by zichao yang yang et al each document
+we then generate complete pus vector as cdocs i i i
+ap i v x where v is total training set size p is number of features in document vector
+
+we save cdocs and weights corresponding to each corpus
+
+for each single document summarization task we generate given texts document tor perform nearest vector search over all stored cdocs apply weights corresponding to that corpus experiments on we our evaluate approaches
+understanding conferences
+
+the dataset has tasks in total
+we work on task
+it task contains news documents
+cluster for multi document summarization
+only character summaries are provided for each
+for evaluation we use rogue an cluster
+automatic summary evaluation metric
+
+it was rstly used for duc data set
+now it has become a benchmark for evaluation of automated summaries
+rouge is a correlation metric for xed length summaries populated using n gram co occurrence
+for comparison between model summary and to be evaluated summary separate scores for and gram matching are kept
+
+we use a bi gram based matching technique for our task
+table average scores for different combination of models
+table average scores for base ods
+models
+a b c d e f rou
+score
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a jaccard cosine similarity matrix b textrank c tfidf
+d wordnet based model e glove vec based model f infersent based model model jaccard cosine
+textrank tfidf wordnet based model
+glove vec based model infersent based model rou ge
+
+in the table we try different model pairs with weights trained on corpus for task
+we have displayed mean scores for base els
+we have calculated nal scores taking into consideration all normalizations stemming matizing and clustering techniques and the ones providing best results were used
+we generally expected wordnet glove based semantic models to perform better given they better capture crux of the sentence and compute similarity using the same but instead they performed average
+this is attributed to the fact they assigned high ilarity scores to not so semantically related tences
+we also observe that combinations with tf idf and similarity cosine offer nearly same results
+the infersent based
+summarizer performed exceptionally well
+we initially used pre trained features to generate tence vectors through infersent conclusion future work
+we can see that using a mixture of semantic and statistical models offers an improvement over stand alone models
+given better training data results can be further improved
+using specic labeled data can provide a further increase in performances of glove and wordnet models
+
+some easy additions that can be worked on are
+unnecessary parts of the sentence can be trimmed to improve summary further
+
+using better algorithm to capture sentence vector through glove model can improve sults
+
+query specic summarizer can be mented with little additions
+
+for generating summary through model laps we can also try graph based methods or different clustering techniques
+
+chin yew lin
+
+rouge
+a package for automatic evaluation of summaries
+text marization branches out
+
+references
+bahdanau dzmitry bahdanau kyunghyun cho and yoshua bengio
+
+neural machine translation by jointly learning to align and translate
+arxiv preprint
+
+barrera and araly barrera and rakesh verma
+
+combining syntax and semantics for automatic extractive single document
+in international conference on rization
+gent text processing and computational linguistics pages
+
+springer
+
+bowman et samuel r bowman gabor
+geli christopher potts and christopher d ning
+
+a large annotated corpus for arxiv preprint ing natural language inference
+
+
+
+conneau
+
+alexis conneau douwe kiela holger schwenk loic barrault and antoine
+
+supervised learning of universal tence representations from natural language
+ence data
+arxiv preprint
+
+dao and
+thanh ngoc dao and troy simpson
+
+measuring similarity between tences
+the code project
+
+gupta pankaj gupta vijay shankar
+luri and ishant vats
+
+summarizing text by ranking text units according to shallow linguistic features
+in advanced communication technology icact international conference on pages
+ieee
+
+kiss and tibor kiss and jan strunk
+
+
+unsupervised multilingual sentence boundary detection
+computational linguistics
+
+harold w kuhn
+
+the hungarian method for the assignment problem
+naval search logistics nrl
+
+michael lesk
+
+automatic sense disambiguation using machine readable ies how to tell a pine cone from an ice cream cone
+in proceedings of the annual international conference on systems documentation pages
+acm
+
+lin and
+chin yew lin and eduard hovy
+
+
+the automated acquisition of topic signatures for text summarization
+in proceedings of the conference on computational linguistics volume pages
+association for computational guistics
+
+mihalcea and rada mihalcea and paul rau
+
+textrank
+bringing order into text
+in proceedings of the conference on empirical methods in natural language processing
+
+miller et
+george a miller richard beckwith christiane fellbaum derek gross and katherine j miller
+
+introduction to wordnet an on line lexical database
+international journal of phy
+
+
+vanessa g murdock
+pects of sentence retrieval
+
+technical report massachusetts univ amherst dept of computer science
+
+nenkova ani nenkova lucy wende and kathleen mckeown
+
+a compositional context sensitive multi document summarizer exploring the factors that inuence summarization
+in proceedings of the annual international acm sigir conference on research and development in information retrieval pages
+
+acm
+
+
+page et
+lawrence page sergey brin rajeev motwani and terry winograd
+
+the pagerank citation ranking bringing order to the web
+cal report stanford infolab
+
+pedersen ted pedersen siddharth han and jason michelizzi
+
+wordnet ilarity measuring the relatedness of concepts
+
+in demonstration papers at hlt naacl pages
+association for computational linguistics
+
+pennington et jeffrey pennington richard socher and christopher manning
+
+glove
+in
+global vectors for word representation
+ceedings of the conference on empirical ods in natural language processing emnlp pages
+
+david martin powers
+
+tion from precision recall and measure to roc formedness markedness and correlation
+
+radev dragomir r radev hongyan jing magorzata stys and daniel tam
+
+based summarization of multiple documents
+mation processing management
+
+rocktaschel tim rocktaschel
+edward grefenstette karl moritz hermann tomas
+reasoning cisky and phil blunsom
+
+corr about entailment with neural attention
+
+
+
+beatrice santorini
+
+part
+
+speech tagging guidelines for the penn treebank project revision
+technical reports cis page
+
+wilbur and w john wilbur and karl sirotkin
+
+the automatic identication of stop words
+journal of information science
+
+wong et kam fai wong mingli wu and wenjie li
+
+
+extractive summarization
+in ing supervised and semi supervised learning
+
+proceedings of the international conference on computational linguistics volume pages
+association for computational linguistics
+
+yang et zichao yang diyi yang chris dyer xiaodong he alex smola and eduard hovy
+
+hierarchical attention networks for document sication
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language nologies pages
+zeng et wenyuan zeng wenjie luo sanja fidler and raquel urtasun
+
+efcient marization with read again and copy mechanism
+corr
+

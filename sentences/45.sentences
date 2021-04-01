@@ -1,0 +1,484 @@
+r a m l c
+s
+c
+v
+
+v
+i x r a pattern recognition letters journal homepage summarization of films and documentaries based on subtitles and scripts marta aparcioa paulo figueiredoa c francisco raposoa david martins de matosa ricardo ribeiroa lus marujoa inesc id lisboa rua alves redol lisboa portugal binstituto universitario de lisboa iscte iul av
+das forcas armadas lisboa portugal cinstituto superior tecnico universidade de lisboa av
+rovisco pais lisboa portugal abstract
+we assess the performance of generic text summarization algorithms applied to lms and taries using extracts from news articles produced by reference models of extractive summarization
+
+we use three datasets i news articles ii lm scripts and subtitles and iii documentary subtitles
+
+standard rouge metrics are used for comparing generated summaries against news abstracts plot summaries and synopses
+we show that the best performing algorithms are lsa for news articles and documentaries and lexrank and support sets for lms
+despite the different nature of lms and documentaries their relative behavior is in accordance with that obtained for news articles
+elsevier
+all rights reserved
+
+introduction input media for automatic summarization has varied from text to speech and video but the plication domain has been in general restricted to tive sources news meetings or tures
+nevertheless application areas within the ment industry are gaining attention summarization of erary short stories music summarization tion of books or inclusion of character analyses in movie summaries
+we follow this direction creating extractive text driven video summaries for lms and documentaries
+documentaries started as cinematic portrayals of reality
+
+today they continue to portray historical events tion and research
+they are commonly understood as capturing reality and therefore seen as inherently
+films in contrast are usually associated with ction
+however lms and documentaries do not fundamentally differ many of the gies and narrative structures employed in lms are also used in documentaries
+in the context of our work lms ctional tell stories based on ctive events whereas documentaries dress mostly scientic subjects
+we study the parallelism
+tween the information carried in subtitles and scripts of both lms and documentaries
+extractive summarization methods corresponding author e mail david martins de matos have been extensively explored for news documents
+our main goal is to understand the
+ity of automatic summaries produced for lms and taries using the well known behavior of news articles as erence
+generated summaries are evaluated against manual abstracts using rouge metrics which correlate with human judgements
+this article is organized as follows section presents the summarization algorithms section presents the collected datasets section presents the evaluation setup section cusses our results section presents conclusions and tions for future work
+
+generic summarization six text based summarization approaches were used to marize newspaper articles subtitles and scripts
+they are scribed in the following sections
+
+maximal marginal relevance mmr mmr is a query based summarization method
+it atively selects sentences via equation q is a query and are similarity metrics si and sj are non selected and previously selected sentences respectively
+balances vance and novelty
+mmr can generate generic summaries by considering the input sentences centroid as a query
+arg max si
+
+
+si q max
+
+si sj
+sj
+lexrank lexrank is a centrality based method based on google s
+pagerank
+
+a graph is built using sentences represented by tf idf vectors as vertexes
+edges are created when the cosine similarity exceeds a threshold
+equation is computed at each vertex until the error rate between two successive iterations is
+in this equation d is a damping lower than a certain value
+factor to ensure the method s convergence n is the number of vertexes and s vi is the score of the ith vertex
+
+s vi d
+n d vj sim vi vj sim vj vk s
+vj
+latent semantic analysis lsa lsa infers contextual usage of text based on word occurrence
+important topics are determined without the need for external lexical resources each word s currence context provides information concerning its meaning producing relations between words and sentences that correlate with the way humans make associations
+singular value
+
+composition svd is applied to each document represented by a t n term by sentences matrix a resulting in its tion u v t
+summarization consists of choosing the highest singular values from giving k
+u and v t are reduced to respectively approximating a by ak
+ukkv t
+uk and v t
+
+
+the most important sentences are selected from v t
+
+
+support sets documents are typically composed by a mixture of subjects involving a main and various minor themes
+support sets are dened based on this observation
+important content is termined by creating a support set for each passage by
+ing it with all others
+the most semantically related passages determined via geometric proximity are included in the support set
+summaries are composed by selecting the most relevant passages the ones present in the largest number of support sets
+for a segmented information source i
+pn support sets si for each passage pi are dened by equation where sim is a similarity function and is a threshold
+the most important passages are selected by equation
+
+si
+i pi pi arg max
+su n
+
+key phrase based centrality kp centrality ribeiro al
+proposed an extension of the centrality algorithm described in section which uses a two stage portant passage retrieval method
+the rst stage consists of a feature rich supervised key phrase extraction step using the
+maui toolkit with additional semantic features the detection of rhetorical signals the number of named entities
+part
+speech pos tags and n gram domain model probabilities
+
+the second stage consists of the extraction of the most important passages where key phrases are considered regular passages
+
+graph random walk with absorbing states that hops among peaks for ranking grasshopper grasshopper
+is a re ranking algorithm that mizes diversity and minimizes redundancy
+it takes a weighted graph w n n n vertexes representing sentences weights are dened by a similarity measure a probability tion r representing a prior ranking and
+that balances the relative importance of w and
+if there is no prior ranking a uniform distribution can be used
+sentences are ranked by applying the teleporting random walks method in an absorbing markov chain based on the n n tion matrix p calculated by normalizing the rows of w p
+p
+the rst sentence to be scored is the one with the highest stationary probability arg maxn i according to the stationary distribution of p p
+ready selected sentences may never be visited again by dening pgg and pgi i
+the expected number of visits is given by matrix n
+i where nij is the expected number of visits to the sentence j if the random walker began at sentence i
+we obtain the average of all possible starting sentences to get the expected number of visits to the jth tence
+the sentence to be selected is the one that satises arg maxn
+vi
+
+datasets
+we use three datasets newspaper articles baseline data lms and documentaries
+film data consists of subtitles and scripts containing scene descriptions and dialog
+documentary data consists of subtitles containing mostly monologue
+ence data consists of manual abstracts for newspaper articles plot summaries for lms and documentaries and synopses for lms
+plot summaries are concise descriptions sufcient for the reader to get a sense of what happens in the lm or mentary
+synopses are much longer and may contain important details concerning the turn of events in the story
+all datasets were normalized by removing punctuation inside sentences and timestamps from subtitles
+
+newspaper articles
+is composed by newspaper articles in brazilian portuguese table covering domains such as world politics and foreign affairs
+each article has a human made reference summary abstract
+table temario corpus properties
+sentences words news story summary news story summary avg min max
+films we collected lms with an average of plot summaries
+minimum of maximum of and plot synopsis per lm table
+table presents the properties of the subtitles scripts and the concatenation of both
+not all the information present in the scripts was used dialogs were removed in order to make them more similar to plot summaries
+table properties of plot summaries and synopses
+sentences words plot summaries plot synopses plot summaries plot synopses avg min max table properties of subtitles and scripts
+sentences words subtitles script script subtitles subtitles script script subtitles avg min max
+
+
+documentaries we collected documentaries
+table presents the erties of their subtitles note that the number of sentences is smaller than in lms inuencing rouge recall based scores
+table properties of documentaries subtitles
+sentences words avg min max
+we collected manual plot summaries and divided them into four classes table informative ative inviting and challenge
+informative maries contain factual information about the program rogative summaries contain questions that arouse viewer
+riosity what is the meaning of life
+inviting are vitations got time for a year vacation and lenge entice viewers on a personal basis are you ready for
+we chose informative summaries due to their blance to the sentences extracted by the summarization rithms
+on average there are informative plot summaries per documentary minimum of maximum of
+table properties of the documentary plot summaries
+sentences words informative interrogative inviting challenge
+informative interrogative inviting challenge avg min max
+experimental setup for news articles summaries were generated with the age size of the manual abstracts of their size
+
+for each lm two summaries were generated by selecting a number of sentences equal to i the average length of its ual plot summaries and the length of its synopsis
+in trast with news articles and documentaries three types of input were considered script subtitles
+
+for each documentary a summary was generated with the same average number of sentences of its manual plot summaries
+of the documentary s size
+content quality of summaries is based on word overlap as dened by rouge between generated summaries and their references
+rouge n computes the fraction of selected words that are correctly identied by the summarization algorithms cf
+equation rs are reference summaries gramn is the gram length and is the maximum number of n grams of a candidate summary that co occur with a set of reference summaries
+rouge su measures the overlap of skip bigrams any pair of words in their sentence order with the addition of unigrams as counting unit
+rouge limits the maximum gap length of skip bigrams to
+
+rouge n srs
+srs gramns
+gramns
+results and discussion subtitles and scripts were evaluated against manual plot maries and synopses to dene an optimal performance
+erence
+the following sections present averaged and rouge scores henceforth and r and the performance of each summarization algorithm as a ratio between the score of the generated summaries and this reference relative performance
+several parametrizations of the algorithms were used we present only the best results
+
+concerning mmr we found that the best corresponds to a higher average number of words per summary
+concerning grasshopper we used the uniform distribution as prior
+
+newspaper articles temario table presents the scores for each summarization
+rithm
+lsa achieved the best scores for and r
+
+figure shows the relative performance results
+table rouge scores for generated summaries and original documents against manual references
+for mmr support sets used manhattan distance and support set nality kp centrality used key phrases
+table rouge scores for generated summaries for tles scripts and scripts concatenated with subtitles against plot summaries
+for mmr support sets used the sine distance and threshold kp centrality used key phrases
+mmr support sets kp lsa grassh
+lexrank original docs r avg words
+
+mmr support sets kp lsa grassh
+lexrank original
+docs subtitles script script subtitles subtitles script script subtitles subtitles script script subtitles subtitles script script subtitles subtitles script script subtitles subtitles script script subtitles subtitles script script subtitles
+
+
+r avg words table rouge scores for generated summaries for subtitles scripts and against plot synopses
+for mmr support sets used the cosine distance and threshold
+kp centrality used key phrases
+mmr support sets kp lsa grassh
+
+lexrank original
+docs subtitles script script subtitles subtitles script script subtitles subtitles script script subtitles subtitles script script subtitles subtitles script script subtitles subtitles script script subtitles subtitles script script subtitles
+
+r
+avg words fig
+
+relative performance for news articles
+for mmr support sets used manhattan distance and support set
+cardinality kp centrality used key phrases
+
+films table presents the scores for the lm data tions against plot summaries
+overall support sets lsa and lexrank capture the most relevant sentences for plot summaries
+
+it would be expected for algorithms such as grasshopper and mmr that maximize diversity to form well in this context because plot summaries are relatively small and focus on the more important aspects of the lm ally without redundant content
+however our results show erwise
+for scripts lsa and lexrank are the best approaches in terms of and r
+table presents the scores for the lm data combinations against plot synopses
+the size of synopses is very different from that of plot summaries
+although synopses also focus on the major events of the story their larger size allows for a more rened description of lm events
+additionally because maries are created with the same number of sentences of the corresponding synopsis higher scores are expected
+from all algorithms lexrank clearly stands out with the highest scores for all metrics except for r for scripts
+
+the combination was used in order to
+termine whether the inclusion of redundant content would prove the scores over the separate use of scripts or subtitles
+
+however in all cases figure leads to worse scores when compared to scripts alone
+the same behavior is observed when using subtitles except for support sets based methods support sets and kp centrality
+for plot synopses the best scores are achieved by lexrank and per while for plot summaries the best scores are achieved by lexrank and lsa
+by inspection of the summaries produced by each algorithm we observed that mmr chooses sentences with fewer words in comparison with all other algorithms mally leading to lower scores
+overall the algorithms behave similarly for both subtitles and scripts
+
+documentaries from all algorithms table lsa achieved the best results for and r along with lexrank for
+kp centrality achieved the best results for
+it is important to notice that lsa also produces the summaries with the highest word count favoring recall
+figure shows the relative performance sults lsa outperformed all other algorithms for and and kp centrality was the best for support sets and kp centrality performed closely to lsa for r the best mmr results were consistently worse across all metrics mmr summaries have the lowest word count
+table rouge scores for generated summaries and nal subtitles against human made plot summaries
+for mmr support sets used the cosine distance and threshold
+kp centrality used key phrases
+mmr support sets kp lsa grassh
+
+lexrank original docs
+r avg words fig
+
+relative performance for documentaries against plot summaries
+for mmr support sets used cosine tance and kp centrality used key phrases
+
+discussion news articles intend to answer basic questions about a ular event
+who what when where why and often how
+their structure is sometimes referred to as inverted pyramid where the most essential information comes rst
+typically the rst sentences provide a good overview of the entire article and are more likely to be chosen when composing the nal summary
+although documentaries follow a narrative structure similar to lms they can be seen as more closely related to news than lms especially regarding their intrinsic informative nature
+in spite of their different natures however summaries created by humans produce similar scores for all of them
+it is possible to observe this behavior in figure
+note that documentaries achieve higher scores than news articles or lms when using the original subtitles documents against the corresponding ual plot summaries
+fig
+rouge scores for news articles lms and taries against manual references plot summaries and synopses and plot summaries respectively
+figure presents an overview of the performance of each summarization algorithm across all domains
+the results cerning news articles were the best out of all three datasets for all experiments
+however summaries for this dataset preserve approximately of the original articles in terms of tences which is signicantly higher than for lms and mentaries which preserve less than necessarily leading to higher scores
+nonetheless we can observe the differences in behavior between these domains
+notably documentaries achieve the best results for plot summaries in comparison with lms using scripts subtitles or the combination of both
+the relative scores on the lms dataset are inuenced by two jor aspects the short sentences found in the lms dialogs and since the generated summaries are extracts from subtitles and scripts they are not able to represent the lm as a whole in contrast with what happens with plot summaries or synopses
+
+additionally the experiments conducted for for lms in general do not improve scores above those of scripts alone except for support sets for
+overall lsa performed consistently better for news articles and documentaries
+similar relatively good behavior had already been observed for meeting recordings where the best summarizer was also lsa
+one possible reason for these results is that lsa tries to capture the relation between words in sentences
+by inferring contextual usage of text based on these relations high scores apart from are produced for and r
+for lms lexrank was the best performing algorithm for subtitles scripts and the bination of both using plot synopses followed by lsa and support sets for plot summaries
+mmr has the lowest scores for all metrics and all datasets
+we observed that sentences closer to the centroid typically contain very few words thus leading to shorter summaries and the corresponding low scores
+
+interestingly by observing the average of and
+it is possible to notice that it follows very closely the ues of r
+these results suggest that r adequately reects the scores of both and capturing the concepts derived from both unigrams and bigrams
+overall summaries considering plot documentaries achieved higher results in comparison with lms
+however in general the highest score for these two domains is achieved using lms scripts against plot synopses
+note that synopses have a signicant difference in terms of sentences in parison with plot summaries
+the average synopsis has sentences while plot summaries have on average sentences for lms and for documentaries
+this gives synopses a clear advantage in terms of rouge recall based scores due to the high count of words
+
+conclusions and future work
+we analyzed the impact of the six summarization algorithms on three datasets
+the newspaper articles dataset was used as a reference
+the other two datasets consisting of lms and mentaries were evaluated against plot summaries for lms and documentaries and synopses for lms
+despite the different nature of these domains the abstractive summaries created by humans used for evaluation share similar scores across rics
+the best performing algorithms are lsa for news and umentaries and lexrank for lms
+moreover we conducted experiments combining scripts and subtitles for lms in order to assess the performance of generic algorithms by inclusion of redundant content
+our results suggest that this combination is unfavorable
+additionally it is possible to observe that all algorithms behave similarly for both subtitles and scripts
+as previously mentioned the average of the scores follows closely the values of r suggesting that r is able to capture concepts derived from both unigrams and bigrams
+we plan to use subtitles as a starting point to perform video summaries of lms and documentaries
+for lms the results from our experiments using plot summaries show that the marization of scripts only marginally improved performance in comparison with subtitles
+this suggests that subtitles are a viable approach for text driven lm and documentary marization
+this positive aspect is compounded by their being broadly available as opposed to scripts
+
+acknowledgements this work was supported by national funds through fundac ao para a ciencia e a tecnologia fct with reference uid
+references ajmal ashraf shakir abbas shah
+video summarization techniques and classication in computer vision and graphics
+springer berlin heidelberg pp
+
+
+barzilay elhadad mckeown
+inferring strategies for sentence ordering in multidocument news summarization
+journal of ticial intelligence research
+
+brin page
+the anatomy of a large scale hypertextual web search engine in proc of the intl
+conf
+on world wide web pp
+
+carbonell goldstein
+the use of mmr diversity based reranking for reordering documents and producing summaries in proc of the annual intl
+acm sigir conf
+on research and velopment in information retrieval pp
+
+edmundson
+new methods in automatic abstracting
+journal of the association for computing machinery
+erkan radev
+lexrank graph based lexical ity as salience in text summarization
+journal of articial intelligence research
+fujii kitaoka nakagawa
+automatic extraction of cue phrases for important sentences in lecture speech and automatic lecture speech summarization
+in proc of interspeech pp
+
+garg favre reidhammer hakkani tur
+
+rank a graph based method for meeting summarization in proc of interspeech pp
+
+
+gong liu
+generic text summarization using relevance measure and latent semantic analysis in proc of the annual intl
+acm sigir conf
+on research and development in information retrieval pp
+
+
+grant sloniowski
+documenting the documentary close readings of documentary film and video
+wayne state university press
+
+hong conroy favre kulesza lin nenkova
+a repository of state of the art and competitive baseline summaries for generic news summarization in proc of the ninth intl
+conf
+on language resources and evaluation reykjavik iceland may pp
+
+
+kazantseva szpakowicz
+summarizing short stories
+putational linguistics
+landauer dutnais
+a solution to plato s problem the latent semantic analysis theory of acquisition induction and tion of knowledge
+psychological review
+landauer foltz laham
+an introduction to latent semantic analysis
+discourse processes
+
+lin
+rouge
+a package for automatic evaluation of maries in text summ
+branches out proc of the workshop pp
+
+
+lin hovy
+the automated acquisition of topic signatures for text summarization in proc of the conf on computational
+linguistics volume pp
+
+
+liu liu
+exploring correlation between rouge and human evaluation on meeting summaries
+ieee transactions on audio speech language processing
+
+luhn
+the automatic creation of literature abstracts
+ibm journal of research and development
+marujo gershman carbonell frederking neto
+supervised topical key phrase extraction of news stories using crowdsourcing light ltering and co reference normalization in chair choukri declerck dogan maegaard ani moreno odijk piperidis eds proceedings of the eight international conference on language resources and evaluation european language resources association elra
+marujo viveiros neto
+keyphrase cloud generation of broadcast news
+in interspeech isca
+pp
+
+fig
+
+relative performance for all datasets
+for lms the relative performance was measured against plot synopses and plot summaries mmr used and support sets used the cosine distance and threshold kp centrality used key phrases
+
+maskey hirschberg
+comparing lexical
+tic prosodic structural and discourse features for speech tion in proc of the eurospeech interspeech pp
+
+
+mckeown hirschberg galley maskey
+from text to speech summarization in acoustics speech and signal processing
+proceedings
+icassp
+ieee intl
+conf
+on pp
+vol
+
+
+mckeown barzilay evans hatzivassiloglou klavans nenkova sable schiffman sigelman tion
+tracking and summarizing news on a daily basis with columbia s newsblaster in proc of hlt pp
+
+bonell
+self reinforcement for important passage retrieval
+tal
+url
+
+
+
+ribeiro matos
+extractive summarization of broadcast news comparing strategies for european portuguese
+in tsd pp
+
+ribeiro matos
+summarizing speech by contextual inforcement of important passages in proc of propor pp
+
+ribeiro matos
+revisiting centrality as relevance
+support sets and similarity as geometric proximity
+journal of articial intelligence research
+mihalcea ceylan
+explorations in automatic book sang xu
+character based movie summarization in proc
+rization in emnlp pp
+
+of the intl
+conf
+on multimedia pp
+
+sparck jones
+automatic summarising the state of the art
+inf
+process
+manage
+
+
+xie liu
+using corpus and knowledge based similarity measure in maximum marginal relevance for meeting summarization in proc icassp ieee intl
+conf
+on acoustics speech and signal cessing pp
+
+zhang chan fung
+extractive speech tion using shallow rhetorical structure modeling
+ieee transactions on audio speech and language processing
+
+zhu goldberg gael andrzejewski
+improving diversity in ranking using absorbing random walks in proc of the naacl hlt pp
+
+
+murray renals carletta
+extractive summarization of meeting recordings in proc of the european conf
+on speech communication and technology pp
+
+murray renals carletta
+extractive summarization of meeting records in proc of the eurospeech interspeech pp
+
+nichols
+representing reality issues and concepts in mentary
+bloomington indiana university press
+
+pardo rino
+
+temario a corpus for matic text summarization
+technical report
+nucleo interinstitucional lingustica computacional nilc
+radev blair goldensohn zhang raghavan
+newsinessence
+a system for domain independent real time news
+clustering and multi document summarization in proc of the first intl
+
+conf
+on human language technology research pp
+
+
+radev otterbacher winkel blair goldensohn
+newsinessence
+summarizing online news topics
+communications of the acm
+raposo ribeiro matos
+on the application of ieee signal processing generic summarization algorithms to music
+
+letters
+
+ribeiro marujo matos neto gershman

@@ -1,0 +1,473 @@
+ijcsis international journal of computer science and information security vol
+no fuzzy logic based method for improving text summarization ladda naomie and mohammed salem of science and technology suan dusit rajabhat university bangkok thailand
+of computer science and information system universiti teknologi malaysia e mail into abstract
+text summarization can be classified two approaches extraction and abstraction
+
+this paper focuses on extraction approach
+
+the goal of text summarization based on extraction approach is sentence selection
+one of the methods to obtain the suitable sentences is to assign some numerical measure of a sentence for the summary called sentence weighting and then select the best ones
+
+the first step in summarization by extraction is the identification of important features
+
+in our experiment we used test documents in data set
+
+each document is prepared by preprocessing process sentence segmentation tokenization removing stop word and word stemming
+then we used important features and calculate their score for each sentence
+we proposed text summarization based on fuzzy logic to improve the quality of the summary created by the general statistic method
+we compared our results with the baseline summarizer and microsoft
+word summarizers
+the results show that the best average precision recall and measure for the summaries were obtained by fuzzy method
+
+fuzzy logic sentence feature text summarization introduction an increasingly important task in the current era of information overload text summarization has become an important and timely tool for helping and interpreting the large volumes of text available in documents
+the goal of text summarization is to present the most important information in a shorter version of the original text while keeping its main content and helps the user to quickly understand large volumes of information
+text summarization addresses both the problem of selecting the most important sections of text and the problem of generating coherent summaries
+this process is significantly different from that of human based text summarization since human can capture and relate deep meanings and themes of text documents while automation of such a skill is very difficult to implement
+
+automatic text summarization researchers since
+luhn work
+they are trying to solve or at least relieve that problem by proposing
+the summaries serve as quick guide to interesting information providing a short form for each document in the document set reading summary makes decision about reading the whole document or not it also serves as time saver
+a number of researchers have proposed techniques for automatic text techniques for generating summaries
+
+suan dusit rajabhat university and universiti teknologi malaysia
+summarization which can be classified into two categories extraction and abstraction
+
+extraction summary is a selection of sentences or phrases from the original text with the highest score and put it together to a new shorter text without changing the source text
+
+abstraction summary method uses linguistic methods to examine and interpret the text
+
+most of the current automated text summarization system use extraction method to produce summary
+automatic text summarization works best on well structured documents such as news reports articles and scientific papers
+the first step in summarization by extraction is the identification of important features such as sentence length
+sentence location term frequency number of words occurring in title number of proper nouns and number of numerical data
+
+in our approach we utilize a feature fusion technique to discover which features out of the available ones are most useful
+
+in this paper we propose text summarization based on fuzzy logic method to extract important sentences as a summary
+
+the rest of this paper is organized as follows
+
+section ii presents the summarization approach
+
+section iii describes preprocessing and the important features
+section iv and v describes our proposed followed by experimental design experimental results and evaluation
+
+finally we conclude and suggest future work that can be carried out in section vi ii
+
+summarization approaches
+in early classic summarization system the important summaries were created according to the most frequent words in the text
+luhn created the first summarization system in
+
+rath et al
+in proposed empirical evidences for difficulties inherent in the notion of ideal summary
+
+both studies used thematic features such as term frequency thus
+they are characterized by surface level approaches
+in the early new approaches called entity level approaches appeared the first approach of this kind used syntactic analysis
+the location features were used in where key phrases are used dealt with three additional components pragmatic words cue words words would have positive or negative effect on the respective sentence weight like significant key idea or hardly title and heading words and
+structural indicators sentence location where the sentences appearing in initial or final of text unit are more significant to include in the summary
+
+in statistical method was described by using a bayesian classifier to compute the probability that a sentence in a source document should be included in a summary
+
+proposed a and domain independent based method for single document extractive summarization
+
+they shown that maximal frequent sequences as well as single words that are part of bigrams repeated more than once in the text are good terms to describe documents
+powerful reasoning in this paper we propose important sentence extraction using fuzzy rules and fuzzy set for selecting sentences based on their features
+
+fuzzy logic techniques in the form of approximate reasoning provide decision support and expert systems with capabilities
+
+the permissiveness of fuzziness in human thought processes suggests that much of the logic behind human reasoning is not only a traditional two values or multi valued logic but
+also logic with fuzzy truths fuzzy connectives and fuzzy rules of inference
+
+
+fuzzy set proposed by
+zadeh is a mathematical tool for dealing with uncertainty imprecision vagueness and ambiguity
+fuzzy logic in text summarization needs more investigation
+
+a few studies were done in this area witte and bergler
+presented a fuzzy theory based approach to co reference resolution and its application to text summarization
+automatic determination of co reference between noun phrases is fraught with uncertainty
+
+kiani and akbarzadeh
+proposed technique for summarizing text using combination of genetic
+algorithm ga and
+genetic
+programming gp to optimize rule sets and membership function of fuzzy systems
+the feature extraction techniques
+are used to obtain the important sentences in the text
+for instance luhn looked at the frequency of word distributions should imply the most important concepts of the document
+some of features are used in this research such as sentence length
+some sentences are short or some sentences are long
+what is clear is that some of the attributes have more importance and some have less so
+they should have balance weight in computations and we use fuzzy logic to solve this problem by defining the membership functions for each feature
+iii
+
+extraction of features
+data set and preprocessing
+we used documents from to create automatic single document summarization
+
+each document consists of to sentences with an average of sentences
+
+the collection provided
+
+each document in collection is supplied with a set of generation summaries provided by two different experts
+
+while each expert was asked to generate summaries of different length we use only generic word variants
+
+currently input document are of plain text format
+
+there are four main activities performed in this stage sentence segmentation tokenization removing stop word and word
+stemming
+
+sentence segmentation is boundary detection and text into sentence
+
+tokenization ijcsis international journal of computer science and information security vol
+no separating source is separating the input document into individual words
+
+next removing stop words stop words are the words which appear frequently in document but provide less meaning in identifying the important content of the document such as a an the
+the last step for preprocessing is
+word
+stemming word stemming is the process of removing prefixes and suffixes of each word
+
+sentence features after this preprocessing each sentence of the document is represented by an attribute vector of features
+
+these features are attributes that attempt to represent the data used for their task
+we focus on eight features for each sentence
+
+each feature is given a value between and
+there are eight features as follows
+title feature the word in sentence that also occurs in title gives high score
+this is determined by counting the number of matches between the content words in a sentence and the words in the title
+we calculate the score for this feature which is the ratio of the number of words in the sentence that occur in the title over the number of words in title
+
+no
+title word in s
+no
+word in title
+sentence length this feature is useful to filter out short sentences such as datelines and author names commonly found in news articles
+
+the short sentences are not expected to belong to the summary
+we use the length of the sentence which is the ratio of the number of words occurring in the sentence over the number of words occurring in the longest sentence of the document
+no
+word occurring in s
+no
+word occurring in longest sentence
+term weight the frequency of term occurrences within a document has often been used for calculating the importance of sentence
+
+the score of a sentence can be calculated as the sum of the score of words in the sentence
+the score of important score wi of word i can be calculated by the traditional method as follows
+
+we applied this method to term frequency inverse sentence frequency
+where tfi is the tern frequency of word i in the document n is the total number of sentences and ni is number of sentences in which word i occurs
+this feature can be calculated as follows
+k is number of words in sentence
+
+sentence position
+whether it is the first sentences in the paragraph sentence position in text gives the importance of the sentences
+
+this feature can involve several items such as the position of a sentence in the document section and paragraph proposed
+the first sentence is highest ranking
+the score for this feature we consider the first sentences in the paragraph
+
+this feature score is calculated as the following equation
+
+for for for for for for other sentences
+sentence to sentence similarity
+this feature is a similarity between sentences
+
+for each sentence s the similarity between s and each other sentence is computed by the cosine similarity measure with a resulting value between and
+the term weight wi and of term t to n term in sentence
+si and sj are represented as the vectors
+
+the similarity of each sentence pair is calculated based on similarity formula
+
+the score of this feature for a sentence
+s is obtained by computing the ratio of the summary of sentence similarity of sentence
+s with each other sentence over the maximum of summary proper noun
+the sentence that contains more proper nouns name entity is an important and it is most probably included in the document summary
+the score for this feature is calculated as the ratio of the number of proper nouns that occur in sentence over the sentence length
+
+
+no proper nouns in s sentence
+length s
+thematic word the number of thematic word in sentence this feature is important because terms that occur frequently in a document are
+probably related to topic
+
+the number of thematic words indicates the words with maximum possible relativity
+
+we used the top most frequent content word for consideration as thematic
+the score for this feature is calculated as the ratio of the number of thematic words that occur in the sentence over the maximum summary of thematic words in the sentence
+
+
+no
+thematic word in s
+thematic word
+numerical data ijcsis international journal of computer science and information security vol
+no
+the number of numerical data in sentence sentence that contains numerical data is important and it is most probably included in the document summary
+the score for this feature is calculated as the ratio of the number of numerical data that occur in sentence over the sentence length
+
+
+no
+numerical data in s sentence length s
+iv
+
+the methods to extract the goal of text summarization based on extraction approach is sentence selection
+
+one of the methods to obtain the suitable sentences is to assign some numerical measure of a sentence for the summary called sentence weighting and then select the best ones
+therefore the features score of each sentence that we described in the previous section are used to obtain the significant sentences
+in this section we use two methods text the summarization based on general statistic method gsm and fuzzy logic method
+the system consists of the following main steps read the source document into the system for preprocessing step the system extracts the individual sentences of the original documents
+then separate the input document into individual words
+next remove stop words
+the last step for preprocessing is word stemming each sentence is associated with vector of eight features that described in section iii whose values are derived from the content of the sentence important sentences the features are calculated to obtain the sentence score base on general statistic method gsm shows in figure
+and fuzzy logic method shows in figure
+a set of highest score sentences are extracted as document summary based on the compression rate
+text summarization based on general statistic method gsm
+
+source document summary document preprocessing extraction of sentences extraction of features calculation of sentence score figure
+text summarization based on general statistic method gsm architecture text summarization base on general statistic method is produced by the sentence weighting
+first for a sentence s a weighted score function as shown in the following equation is exploited to integrate all the eight feature scores mentioned in section iii
+
+the score of the sentence s
+the score of the feature text summarization based on fuzzy logic fuzzy logic system design usually implicates selecting fuzzy rules and membership function
+
+the selection of fuzzy rules and membership the performance of the fuzzy logic system
+functions directly affect the the fuzzy logic system consists of four components fuzzifier fuzzy inference engine
+defuzzifier and knowledge base
+
+in the fuzzifier crisp inputs are translated into linguistic values using a membership function to be used to the input linguistic variables
+
+after fuzzification the inference engine refers to the rule base containing fuzzy
+then rules to derive the linguistic values
+in the last step the output linguistic variables from the inference are converted to the final crisp values by the defuzzifier using membership function for representing the final sentence score
+fuzzifier features score fuzzy input source document inference engine fuzzy output fuzzify
+rule base defuzzifier sentence score extraction of sentences summary document preprocessing extraction of features figure
+text summarization based on fuzzy logic system architecture in order to implement text summarization based on fuzzy logic first the eight features extracted in the previous section are used as input to the fuzzifier
+
+we used
+triangular membership functions and fuzzy logic to summarize the ijcsis international journal of computer science and information security vol
+no document
+the input membership function for each feature is divided into five fuzzy set which are composed of unimportant values low l and very low vl median m and important values high h and very high vh
+the generalized
+triangular membership function depends on three parameters a b and c as given by
+
+a value from zero to one is obtained for each sentence in the output based on sentence features and the available rules in the knowledge base
+the obtained value in the output determines the degree of importance of the sentence in the final summary
+
+
+the parameters a and set the left and right feet or
+base points of the triangle
+the parameter b sets the location of the triangle peak
+for instance membership function of number of words in sentence occurred in title is show in figure
+figure
+membership function of number of words in sentence occurred in title in inference engine the most important part in this procedure is the definition of fuzzy
+if then rules
+
+the important sentences are extracted from these rules according to our features criteria
+sample of if then rules shows as the following rule
+is vh and if nowordintitle is vh and sentencelength is h and
+termfreq is h and
+sentencesimilarity is vh and nopropernoun is h and nothematicword is vh and numbericaldata is h
+then
+sentence is important sentenceposition
+likewise the last step in fuzzy logic system is the defuzzification
+
+we used the output membership function which is divided into three membership functions
+output unimportant average and important to convert the fuzzy results from the inference engine into a crisp output for the final score of each sentence
+extraction of sentences both gsm and fuzzy logic method each sentence of the document is represented by sentence score
+then all document sentences are ranked in a descending order according to their scores
+
+a set of highest score sentences are extracted as document summary based on the compression rate
+therefore we extracted the appropriate number of sentences according to compression rate
+
+it has been proven that the extraction of of sentences from the source document can be as informative as the full text of a document
+
+finally the summary sentences are arranged in the original order
+evaluation and results gold standard summaries
+we use the rouge a set of metrics called recall oriented understudy for gisting evaluation evaluation toolkit that has become standards of automatic evaluation of summaries
+it compares the summaries generated by the program with the human generated
+
+
+for comparison it uses n gram statistics
+our evaluation was done using n gram setting of rouge which was found to have the highest correlation with human judgments at a confidence level of
+it is claimed that consistently correlates highly with human assessments and has high recall and precision significance test with manual evaluation results
+
+we choose as the measurement of our experiment results
+in the table we compare the average precision recall and measure score between general statistic method gsm fuzzy summarizer microsoft
+word summarizer and baseline summarizer form data set
+the baseline is the first words from the beginning of the document as determine by duc
+table
+i the comparison average precision recall and f measure score among four summarizers summarizer gsm
+fuzzy ms word baseline precision average recall f measure
+the results are shown in table i gsm reaches the average precision of recall of and measure of
+the fuzzy summarizer achieves the average precision of recall of and measure of
+while microsoft
+word summarizer reaches the average precision recall of and measure of
+baseline reaches an average precision of recall of and measure of
+
+figure
+average precision recall and measure score among four summarizers ijcsis international journal of computer science and information security vol
+no table ii comparison of the number of documents for average measure score from different summarizer
+average f measure gsm
+fuzzy baseline
+word table ii shows of documents from gsm reaches the average measure more than while the fuzzy summarizer reaches on the other hand and of microsoft word and baseline gets the average recall more than
+
+figure
+
+the number of documents for average f measure score from different summarizer vi conclusion and future work in this paper we have presented a fuzzy logic aided sentence extractive summarizer that can be as informative as the full text of a document with better information coverage
+a prototype has also been constructed to evaluate this automatic text summarization scheme using as input some news articles collection provided by
+we extracted the important features for each sentence of the document represented as the vector of features consisting of the following elements title feature
+sentence length term weight sentence position sentence to sentence similarity proper noun thematic word and numerical data
+we have done experiments with data set comparing our summarizer with microsoft word and baseline using precision recall and measure built by rouge
+
+the results show that the best average precision recall and measure to summaries produced by the fuzzy method
+
+certainly the experimental result is based on fuzzy logic could improve the quality of summary results that based on the general statistic method
+in conclusion we will extend the proposed method using combination of fuzzy logic and other learning methods and extract the other features could provide the sentences more important
+
+acknowledgment
+we would like to thank
+suan dusit
+rajabhat university and universiti teknologi malaysia for supporting us
+references luhn
+the automatic creation of literature abstracts ibm journal of research and development vol
+
+
+rath resnick and savage the formation of abstracts by the selection of sentences american documentation vol
+
+
+inderjeet mani and mark maybury editors advances in automatic text summarization mit press
+
+
+edmundson new methods in
+automatic extracting journal of the association for computing machinery
+
+salton buckley term weighting approaches in automatic text retrieval information processing and
+management
+
+
+reprinted in sparck jones willet eds
+readings in
+
+morgan kaufmann
+
+
+salton automatic text processing
+the transfor mation analysis and retrieval of information by computer addison wesley publishing
+
+
+lin rouge
+a package for automatic evaluation of summaries
+in proceedings of workshop on text
+summarization of acl
+
+
+duc
+document understanding conference
+zadeh fuzzy sets
+information control vol
+
+witte and bergler fuzzy coreference for summarization
+in proceedings of
+international symposium on reference resolution and its applications to question answering and summarization arqas
+venice italy universit ca foscari
+
+
+resolution
+fattah and
+fuji
+ren automatic text summarization
+in proceedings of world
+academy of science engineering and technology volume
+pp
+february
+
+arman kiani and akbarzadeh automatic text summarization
+using hybrid
+fuzzy ga gp
+in proceedings of ieee
+international conference on
+fuzzy systems sheraton
+vancouver wall center hotel vancouver bc canada
+
+
+
+lin training a selection function for extraction
+in proceedings of the eighth international conference on information and knowledge management kansas city missouri united states
+
+
+ijcsis international journal of computer science and information security vol
+no
+kupiec
+pedersen and
+chen a trainable document summarizer
+in proceedings of the eighteenth annual international acm conference on research and development in information retrieval sigir seattle wa
+
+kulkarni and cavanaugh fuzzy neural network models for classification applied intelligence
+
+morris kasper and adam the effect and limitation of automated text condensing on reading comprehension performance information system research
+
+wasson using leading text for news summaries
+evaluation results and implications for commercial summarization applications
+in proceedings of the
+international conference on computational linguistics and annual meeting of the acl
+
+
+
+yulia
+alexander and ren arnulfo garca hernndez
+terms derived from frequent
+sequences for
+extractive text summarization
+in
+gelbukh ed cicling lncs vol springer heidelberg
+
+the matworks
+
+fuzzy logic
+toolbox for use with matlab
+amy
+trappey charles
+trappey an knowledge management method for patent document summarization industrial management data systems
+
+authors profile
+ladda suanmali is a candidate in computer science in the faculty of computer science and information systems at universiti teknologi malaysia
+
+she graduated a bachelor degree in computer science from
+suan dusit
+rajabhat
+university thailand in
+
+she graduated a master degree in information technology from king mongkut s
+university of technology thonburi thailand in
+
+since she has been working as a lecturer in the
+faculty of science and technology suan dusit
+rajabhat university
+
+her current research interests include text summarization data mining and soft computing
+naomie salim is an associate professor presently working as a deputy dean of postgraduate studies in the faculty of computer science and information system in universiti teknologi malaysia
+she graduated a bachelor degree in computer
+science from universiti teknologi malaysia in
+
+she graduated a master degree in computer science from university of illinois in
+
+in she received a
+ph
+d computational informatics from university of sheffield united kingdom
+her current research interest includes information retrieval distributed database and chemoinformatic
+mohammed
+salem binwahlan is a candidate in computer science in the
+faculty of computer
+science and
+information
+systems at universiti teknologi malaysia
+he received his degree in computer science from hadhramout
+university of science and technology yemen in
+he received his master degree from universiti teknologi malaysia in
+
+he has been working as a lecturer at hadhramout university of science and technology
+his current research interest includes information retrieval text summarization and soft computing
+

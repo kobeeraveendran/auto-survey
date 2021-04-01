@@ -1,0 +1,598 @@
+deep recurrent generative decoder for abstractive text summarization piji li
+wai lam lidong bing zihao wang key laboratory on high condence software technologies sub lab cuhk ministry of education china department of systems engineering and engineering management
+the chinese university of hong kong ai
+lab tencent shenzhen china wlam g u
+a l c
+s
+c
+v
+v i x r a abstract
+we propose a new framework for stractive text summarization based on a sequence to sequence oriented decoder model equipped with a deep current generative decoder drgn
+
+tent structure information implied in the target summaries is learned based on a current latent random model for
+ing the summarization quality
+neural variational inference is employed to
+dress the intractable posterior inference for the recurrent latent variables
+abstractive summaries are generated based on both the generative latent variables and the criminative deterministic states
+extensive experiments on some benchmark datasets in different languages show that drgn achieves improvements over the state
+the art methods
+introduction automatic summarization is the process of matically generating a summary that retains the most important content of the original text ument edmundson luhn nenkova and mckeown
+different from the common extraction based and compression based methods abstraction based methods aim at constructing new sentences as summaries thus they require a deeper understanding of the text and the ity of generating new sentences which provide an obvious advantage in improving the focus of a summary reducing the redundancy and keeping a good compression rate bing et al rush al nallapati et al
+the work described in this paper is supported by a grant from the grant council of the hong kong special trative region china project code
+figure headlines of the top stories from the channel technology of cnn
+some previous research works show that human written summaries are more abstractive
+jing and mckeown
+moreover our vestigation reveals that people may naturally low some inherent structures when they write the abstractive summaries
+to illustrate this tion we show some examples in figure which are some top story summaries or headlines from the channel technology of cnn
+after ing the summaries carefully we can nd some common structures from them such as what what happened who action what
+
+the summary apple sues
+for example comm for nearly billion can be ized as who apple action sues
+what
+the summaries twitter comm
+xes botched account transfer to pay million for misleading drivers and bipartisan bill aims to reform
+visa system also follow the structure of who action what
+the summary the the cyber cold war matches with gence of the structure of what and the summary louis public library computers hacked follows
+similarly apple sues qualcomm for nearly fixes botched account transfertrack trump s day promises silicon valley emergence of the cyber cold wartesla autopilot not defective in fatal crashtwitter mostly meets modest diversity goalsuber to pay million for misleading driverstop stories the structure of what happened
+
+intuitively if we can incorporate the latent structure information of summaries into the stractive summarization model it will improve the quality of the generated summaries
+
+ever very few existing works specically consider the latent structure information of summaries in their summarization models
+although a very ular neural network based sequence to sequence framework has been proposed to tackle the abstractive summarization problem lopyrev rush et al nallapati et al the calculation of the internal decoding states is tirely deterministic
+the deterministic tions in these discriminative models lead to itations on the representation ability of the latent structure information
+miao and blunsom extended the framework and proposed a generative model to capture the latent summary formation but they did not consider the recurrent dependencies in their generative model leading to limited representation ability
+
+to tackle the above mentioned problems we design a new framework based on to sequence oriented encoder decoder model equipped with a latent structure modeling
+ponent
+we employ variational auto encoders vaes kingma and welling rezende et al as the base model for our tive framework which can handle the inference problem associated with complex generative modeling
+however the standard framework of vaes is not designed for sequence modeling
+inspired by chung et al related tasks
+we add historical dependencies on the latent variables of vaes and propose a deep recurrent generative decoder drgd for latent structure
+then the standard discriminative modeling
+deterministic decoder and the recurrent generative decoder are integrated into a unied decoding framework
+the target summaries will be decoded based on both the discriminative deterministic variables and the generative latent
+structural information
+all the neural parameters are learned by back propagation in an end to end training paradigm
+the main contributions of our framework are summarized as follows we propose a sequence to sequence oriented encoder decoder model equipped with a deep recurrent generative decoder drgd to model and learn the latent structure information implied in the target maries of the training data
+neural variational ference is employed to address the intractable terior inference for the recurrent latent variables
+
+both the generative latent structural tion and the discriminative deterministic variables are jointly considered in the generation process of the abstractive summaries
+experimental
+
+sults on some benchmark datasets in different guages show that our framework achieves better performance than the state of the art models
+related works automatic summarization is the process of matically generating a summary that retains the most important content of the original text ument nenkova and mckeown
+tionally the summarization methods can be ed into three categories extraction based ods erkan and radev goldstein et al wan et al
+min et al pati et al cheng and lapata cao al song et al compression based methods li et al wang et al li et al and abstraction based ods
+
+in fact previous investigations show that human written summaries are more abstractive
+barzilay and mckeown bing et al
+
+abstraction based approaches can generate new sentences based on the facts from different source sentences
+barzilay and mckeown
+ployed sentence fusion to generate a new sentence
+
+bing et al
+proposed a more ne grained fusion framework where new sentences are erated by selecting and merging salient phrases
+
+these methods can be regarded as a kind of direct abstractive summarization and complicated constraints are used to guarantee the linguistic quality
+recently some researchers employ neural work based framework to tackle the abstractive summarization problem
+rush al
+posed a neural network based model with local attention modeling which is trained on the word corpus but combined with an additional linear extractive summarization model with crafted features
+gu et al
+integrated a copying mechanism into a framework to improve the quality of the generated summaries
+
+chen et al
+proposed a new attention anism that not only considers the important source segments but also distracts them in the decoding step in order to better grasp the overall meaning of input documents
+nallapati al
+utilized a trick to control the vocabulary size to improve the training efciency
+the calculations in these methods are all deterministic and the tion ability is limited
+miao and blunsom extended the framework and proposed a generative model to capture the latent summary formation but they do not consider the recurrent dependencies in their generative model leading to limited representation ability
+
+some research works employ topic models to capture the latent information from source
+ments or sentences
+wang et al
+proposed a new bayesian sentence based topic model by making use of both the term document and sentence associations to improve the performance of sentence selection
+celikyilmaz and tur estimated scores for sentences based on their latent characteristics using a hierarchical topic model and trained a regression model to tract sentences
+however they only use the latent topic information to conduct the sentence salience estimation for extractive summarization
+in trast our purpose is to model and learn the latent structure information from the target summaries and use it to enhance the performance of tive summarization
+framework description overview
+the output framework for as shown in figure the basic framework of
+our approach is a neural network based decoder sequence to sequence learning
+the input is a variable length sequence x
+xm representing the source text
+the word embedding is initialized domly and learned during the optimization is also a sequence
+y
+cess
+
+
+which represents the generated abstractive summaries
+gated recurrent unit gru cho et al is employed as the sic sequence modeling component for the encoder and the decoder
+for latent structure modeling we add historical dependencies on the latent variables of variational auto encoders vaes and propose a deep recurrent generative decoder drgd to distill the complex latent structures implied in the target summaries of the training data
+finally the abstractive summaries will be decoded out based on both the discriminative deterministic variables
+h and the generative latent structural information
+recurrent generative decoder assume that we have obtained the source text resentation he rkh
+the purpose of the decoder is to translate this source code he into a series of hidden states hd n and then revert these hidden states to an actual word sequence and generate the summary
+
+
+hd hd for standard recurrent decoders at each time t rkh is calculated step t the hidden state hd ing the dependent input symbol rkw and the previous hidden state hd t hd hd where is a recurrent neural network such as vanilla rnn long short term memory lstm
+hochreiter and schmidhuber and gated recurrent unit gru cho et al
+no ter which one we use for f the common formation operation is as follows t hd
+wd hhhd bd h
+rkhkw
+and wd hh rkhkh are where wd the linear transformation matrices
+bd h is the bias
+kh is the dimension of the hidden layers and kw is the dimension of the word embeddings
+g is the non linear activation function
+from equation we can see that all the transformations are ministic which leads to a deterministic recurrent hidden state hd t
+from our investigations we nd that the representational power of such istic variables are limited
+some more complex latent structures in the target summaries such as the high level syntactic features and latent topics can not be modeled effectively by the deterministic operations and variables
+recently a generative model called variational auto encoders vaes kingma and welling rezende et al shows strong bility in modeling latent random variables and improves the performance of tasks in different elds such as sentence generation bowman et al and image generation gregor et al
+
+however the standard vaes is not designed for modeling sequence directly
+inspired by chung et al we extend the standard vaes by figure our deep recurrent generative decoder drgd for latent structure modeling
+introducing the historical latent variable dencies to make it be capable of modeling quence data
+our proposed latent structure eling framework can be viewed as a sequence generative model which can be divided into two parts inference variational encoder and ation variational decoder
+as shown in the coder component of figure the input of the inal vaes only contains the observed variable yt and the variational encoder can map it to a latent variable z rkz which can be used to reconstruct the original input
+for the task of summarization in the sequence decoder component the previous latent structure information needs to be considered for constructing more effective representations for the generation of the next state
+
+for the inference stage the variational encoder can map the observed variable t and the vious latent structure information z to the terior probability distribution of the latent ture variable t z
+
+it is obvious that this is a recurrent inference process in which zt contains the historical dynamic latent structure formation
+compared with the variational ence process of the typical vaes model the recurrent framework can extract more complex and effective latent structure features implied in the sequence data
+
+for the generation process based on the tent structure variable zt the target word yt at the time step t is drawn from a conditional ity distribution
+the target is to
+mize the probability of each generated summary y
+yt based on the generation process according to t
+
+for the purpose of solving the intractable integral of the marginal likelihood as shown in equation a recognition model t z t is introduced as an approximation to the intractable true
+rior t z
+the recognition model rameters and the generative model parameters can be learned jointly
+the aim is to reduce the kulllback leibler divergence kl between t z t and t z t t z t z t log z t z t z dz t z
+log where denotes the conditional variables y t and bayes rule is applied to t z and we can extract log from the expectation transfer the expectation term t z t back to kl divergence and rearrange all the terms
+consequently the following holds log t
+t t z
+t z
+
+t z let represent the last two terms from the right part of equation
+log t z
+t z
+
+since the rst kl divergence term of equation is non negative we have log t meaning that y is a lower bound the jective to be maximized on the marginal
+in order to differentiate and optimize the hood
+encoders encodervariational decoder lower bound y following the core idea of vaes we use a neural network framework for the probabilistic encoder t z t for ter approximation
+abstractive summary generation
+we also design a neural network based work to conduct the variational inference and eration for the recurrent generative decoder ponent similar to some design in previous works kingma and welling rezende et al gregor et al
+the encoder component and the decoder component are integrated into a
+ed abstractive summarization framework
+sidering that gru has comparable performance but with less parameters and more efcient putation we employ gru as the basic recurrent model which updates the variables according to the following operations rt br zt
+bz
+gt
+bh
+ht zt
+zt gt where rt is the reset gate zt is the update gate
+denotes the element wise multiplication
+tanh is the hyperbolic tangent activation function
+
+as shown in the left block of figure the coder is designed based on bidirectional recurrent neural networks
+let xt be the word embedding vector of the t th word in the source sequence
+
+gru maps and the previous hidden state to the current hidden state ht in feed forward rection and back forward direction respectively
+gru
+xt gru xt
+
+is
+then the nal hidden state he nated using the hidden states from the two
+tions he
+as shown in the middle block of figure the decoder consists of two nents discriminative deterministic decoding and generative latent structure modeling
+t the discriminative deterministic decoding is an improved attention modeling based recurrent quence decoder
+the rst hidden state hd is tialized using the average of all the source input t e states hd t is the source put hidden state
+t e is the input sequence length
+t where he he t e
+
+
+the deterministic decoder hidden state hd t is culated using two layers of grus
+on the rst layer the hidden state is calculated only using the current input word embedding and the ous hidden state
+where the superscript denotes the rst decoder gru layer
+then the attention weights at the time step t are calculated based on the relationship of t and all the source hidden states he
+let ai j be the attention weight between j which can be calculated using the following formulation i and he ai j e j
+ei j vt
+i we hhhe j ba hh rkhkh we hh ba
+
+where wd rkh and rkh
+the attention context is tained by the weighted linear combination of all the source hidden states ct e at the nal deterministic hidden state t is the output of the second decoder gru layer jointly considering the word the previous hidden state and the attention context ct t ct
+for the component of recurrent generative model inspired by some ideas in previous works kingma and welling rezende et al gregor et al we assume that both the prior and posterior of the latent variables are gaussian
+n i and t z
+
+n zt where and denote the tional mean and standard deviation respectively which can be calculated via a multilayer tron
+precisely given the word embedding the previous latent structure variable and the previous deterministic hidden state hd we rst project it to a new hidden space hez hhhd h rkhkw wez where wez hh rkhkh and bez h rkh
+g is the sigmoid vation function
+ex
+then the zh rkhkz wez gaussian parameters t rkz and t rkz can be obtained via a linear transformation based on hez hhez t wez t
+whhez
+the latent structure variable zt rkz can be culated using the reparameterization trick t bez t bez needs to be minimized is formulated as follows j n n t
+
+log
+t
+x n
+
+dkl
+t
+t t
+
+
+experimental setup n i zt t t datesets where rkz is an auxiliary noise variable
+the process of inference for nding zt based on neural networks can be teated as a variational encoding process
+to generate summaries precisely we rst
+tegrate the recurrent generative decoding nent with the discriminative deterministic ing component and map the latent structure able zt and the deterministic decoding hidden state t to a new hidden variable t hdy zhzt wdz t bdy h given the combined decoding state hdy t at the time t the probability of generating any target word yt is given as follows yt hyhdy t bd hy hy rkykh and bd hy rky
+is the where wd softmax function
+finally we use a beam search algorithm
+koehn for decoding and ating the best summary
+learning
+although the proposed model contains a recurrent generative decoder the whole framework is fully differentiable
+as shown in section both the recurrent deterministic decoder and the recurrent generative decoder are designed based on neural networks
+therefore all the parameters in our model can be optimized in an end to end paradigm using back propagation
+we use and y n to denote the training source and target sequence
+
+generally the objective of our framework sists of two terms
+one term is the negative
+likelihood of the generated summaries and the other one is the variational lower bound y mentioned in equation
+since the variational lower bound y also contains a likelihood term we can merge it with the likelihood term of summaries
+the nal objective function which we train and evaluate our framework on three ular datasets
+gigawords is an english sentence summarization dataset prepared based on
+tated by extracting the rst sentence from articles with the headline to form a summary pair
+we directly download the prepared dataset used in rush al
+it roughly tains m training pairs k validation pairs and test pairs
+is another glish dataset only used for testing in our ments
+it contains documents
+each document contains model summaries written by experts
+
+the length of the summary is limited to bytes
+
+lcsts is a large scale chinese short text rization dataset consisting of pairs of short text summary collected from sina
+hu et al
+we take part i as the training set part ii as the development set and part iii as the test set
+
+there is a score in range labeled by human to indicate how relevant an article and its summary is
+we only reserve those pairs with scores no less than
+the size of the three sets are m and respectively
+in our experiments we only take chinese character sequence as input without performing word segmentation
+evaluation metrics
+
+we use rouge score lin as our tion metric with standard options
+the basic idea of rouge is to count the number of overlapping units between generated summaries and the erence summaries such as overlapped n grams word sequences and word pairs
+f measures of rouge l l and rouge r are reported
+comparative methods we compare our model with some baselines and state of the art methods
+because the datasets are quite standard so we just extract the results from their papers
+therefore the baseline methods on different datasets may be slightly different
+topiary
+zajic et al is the best on for compressive text marization
+it combines a system using guistic based transformations and an pervised topic detection algorithm for pressive text summarization
+
+rush al uses a based statistical machine translation system trained on gigaword to produce summaries
+
+it also augments the phrase table with tion rulesto improve the baseline
+mance and mert is also used to improve the quality of generated summaries
+abs and rush al are both the neural network based models with local attention modeling for abstractive sentence summarization
+is trained on the gaword corpus but combined with an ditional log linear extractive summarization model with handcrafted features
+rnn and rnn context hu et al are two architectures
+rnn context tegrates attention mechanism to model the context
+
+copynet gu et al integrates a copying mechanism into the sequence sequence framework
+rnn distract chen et al uses a new attention mechanism by distracting the torical attention in the decoding steps
+ras lstm and ras elman chopra et al both consider words and word sitions as input and use convolutional
+coders to handle the source information
+for the attention based sequence decoding cess ras elman selects elman rnn man as decoder and ras lstm lects long short term memory architecture
+hochreiter and schmidhuber
+lenemb
+kikuchi al uses a anism to control the summary length by sidering the length embedding vector as the input
+miao and blunsom uses a generative model with attention mechanism to conduct the sentence compression
+lem
+the model rst draws a latent summary sentence from a background language model and then subsequently draws the observed sentence conditioned on this latent summary
+and nallapati al utilize a trick to control the vocabulary size to improve the training efciency
+experimental settings for the experiments on the english dataset words we set the dimension of word embeddings to and the dimension of hidden states and tent variables to
+the maximum length of uments and summaries is and respectively
+
+the batch size of mini batch training is
+for
+the maximum length of summaries is bytes
+for the dataset of lcsts the sion of word embeddings is
+we also set the dimension of hidden states and latent variables to
+the maximum length of documents and maries is and respectively and the batch size is also
+the beam size of the decoder was set to be
+adadelta schmidhuber with hyperparameter and
+
+is used for gradient based optimization
+our ral network based framework is implemented
+ing theano
+
+theano development team
+results and discussions
+rouge evaluation table rouge on validation sets dataset system
+stand giga drgd
+stand drgd lcsts r l
+we rst depict the performance of our model drgd by comparing to the standard decoders
+stand of our own implementation
+the son results on the validation datasets of gigawords and lcsts are shown in table
+from the
+sults we can see that our proposed generative coders drgd can obtain obvious improvements on abstractive summarization than the standard coders
+actually the performance of the standard table rouge on gigawords table rouge recall on system
+abs ras lstm ras elman asc drgd system topiary abs ras elman ras lstm lenemb drgd
+
+r l r l
+table rouge on lcsts system rnn
+rnn context
+copynet rnn distract drgd r l decoders is similar with those mentioned popular baseline methods
+
+the results on the english datasets of words and are shown in table and table respectively
+our model drgd achieves the best summarization performance on all the rouge metrics
+although also uses a generative method to model the latent summary variables the representation ability is limited and
+it can not bring in noticeable improvements
+
+it is worth noting that the methods and nallapati al utilize tic features such as parts of speech tags entity tags and tf and idf statistics of the words
+in fact as part of the document representation
+extracting all such features is a time consuming work especially on large scale datasets such as gigawords
+and are not end to end style models and are more complicated than our model in practical applications
+
+the results on the chinese dataset lcsts are shown in table
+our model drgd also achieves the best performance
+although copynet employs a copying mechanism to improve the summary quality and rnn distract considers attention formation diversity in their decoders our model is still better than those two methods demonstrating that the latent structure information learned from target summaries indeed plays a role in abstractive summarization
+we also believe that integrating the copying mechanism and coverage diversity in our framework will further improve the rization performance
+summary case analysis
+in order to analyze the reasons of improving the performance we compare the generated maries by drgd and the standard decoders stand used in some other works such as chopra et al
+the source texts golden summaries and the generated summaries are shown in table
+
+from the cases we can observe that drgd can
+deed capture some latent structures which are sistent with the golden summaries
+for example our result for wuhan wins men s soccer
+tle at chinese city games matches the who tion
+what structure
+however the standard coder stand ignores the latent structures and erates some loose sentences such as the results for results of men s volleyball at chinese city games does not catch the main points
+the reason is that the recurrent variational auto encoders used in our framework have better representation ability and can capture more effective and complicated tent structures from the sequence data
+therefore the summaries generated by drgd have
+tent latent structures with the ground truth leading to a better rouge evaluation
+conclusions
+we propose a deep recurrent generative decoder drgd to improve the abstractive tion performance
+the model is a to sequence oriented encoder decoder framework equipped with a latent structure modeling nent
+abstractive summaries are generated based on both the latent variables and the tic states
+extensive experiments on benchmark table examples of the generated summaries
+hosts wuhan won the men s soccer title by beating beijing shunyi here at the chinese city games on friday
+
+golden hosts wuhan wins men s soccer title at chinese city games
+
+stand results of men s volleyball at chinese city games
+
+drgd wuhan wins men s soccer title at chinese city games
+
+unk and the china meteorological administration tuesday signed an agreement here on long and short term cooperation in projects involving meteorological satellites and satellite meteorology
+
+golden unk china to cooperate in ogy
+
+stand weather forecast for major chinese cities
+
+drgd china to cooperate in meteorological satellites
+the rand gained ground against the dollar at the opening here wednesday to
+to the greenback from
+at the close tuesday
+
+golden rand gains ground
+
+stand rand slightly higher against dollar
+
+drgd rand gains ground against dollar
+
+new zealand women are having more children and the country s birth rate reached its highest level in years statistics new zealand said on wednesday
+
+golden new zealand birth rate reaches year high
+
+stand new zealand women are having more children birth rate hits highest level in years
+
+drgd new zealand s birth rate hits year high
+datasets show that drgd achieves improvements over the state of the art methods
+
+references samuel r bowman luke vilnis oriol vinyals drew m dai rafal jozefowicz and samy gio
+generating sentences from a continuous space
+conll pages
+ziqiang cao wenjie li sujian li furu wei and ran li
+
+attsum joint learning of focusing and summarization with neural attention
+coling pages
+
+asli celikyilmaz and dilek hakkani tur
+
+a brid hierarchical model for multi document rization
+in acl pages
+qian chen xiaodan zhu zhenhua ling si wei and hui jiang
+
+distraction based neural works for document summarization
+in ijcai pages
+jianpeng cheng and mirella lapata
+
+neural summarization by extracting sentences and words
+
+in acl pages kyunghyun cho bart van merrienboer caglar cehre dzmitry bahdanau fethi bougares holger
+learning
+schwenk and yoshua bengio
+phrase representations using rnn encoder decoder for statistical machine translation
+in emnlp pages
+sumit chopra michael auli alexander m rush and seas harvard
+
+abstractive sentence marization with attentive recurrent neural networks
+
+naacl hlt pages
+junyoung chung kyle kastner laurent dinh
+kratarth
+goel aaron c courville and yoshua bengio
+
+a recurrent latent variable model for sequential data
+in nips pages
+harold p edmundson
+
+new methods in journal of the acm jacm tomatic extracting
+
+
+jeffrey l elman
+
+finding structure in time
+
+nitive science
+gunes erkan and dragomir r radev
+
+lexrank graph based lexical centrality as salience in text
+journal of articial intelligence summarization
+
+research
+jade goldstein vibhu mittal jaime carbonell and mark kantrowitz
+
+multi document
+in marization by sentence extraction
+
+anlpworkshop pages
+regina barzilay and kathleen r mckeown
+sentence fusion for multidocument news rization
+computational linguistics
+karol gregor ivo danihelka alex graves danilo rezende and daan wierstra
+
+draw a rent neural network for image generation
+in icml pages
+lidong bing piji li yi liao wai lam weiwei guo and rebecca passonneau
+
+abstractive document summarization via phrase selection and merging
+in acl pages
+jiatao gu zhengdong lu hang li and victor ok
+incorporating copying mechanism in
+in acl pages li
+
+sequence to sequence learning
+
+sepp hochreiter and jurgen schmidhuber
+
+
+neural computation long short term memory
+
+
+baotian hu qingcai chen and fangze zhu
+
+sts a large scale chinese short text summarization dataset
+in emnlp pages hongyan jing and kathleen r mckeown
+
+cut
+in naacl and paste based text summarization
+pages
+yuta kikuchi graham neubig ryohei sasano hiroya takamura and manabu okumura
+
+
+ling output length in neural encoder decoders
+
+in emnlp pages
+
+diederik p kingma and max welling
+
+arxiv preprint encoding variational bayes
+
+
+philipp koehn
+
+pharaoh a beam search coder for phrase based statistical machine
+in conference of the association for tion models
+machine translation in the americas pages
+springer
+ramesh nallapati bowen zhou caglar gulcehre bing xiang al
+
+abstractive text rization using sequence to sequence rnns and yond
+arxiv preprint
+ani nenkova and kathleen mckeown
+
+a survey
+in mining text of text summarization techniques
+
+data pages
+springer
+danilo jimenez rezende shakir mohamed and daan wierstra
+
+stochastic backpropagation and proximate inference in deep generative models
+in icml pages
+
+alexander m rush sumit chopra and jason weston
+
+
+a neural attention model for abstractive tence summarization
+in emnlp pages
+jurgen schmidhuber
+
+deep learning in neural networks an overview
+neural networks hongya song zhaochun ren piji li shangsong
+liang jun ma and maarten de rijke
+
+summarizing answers in non factoid community question answering
+in wsdm pages
+chen li fei liu fuliang weng and yang liu
+
+
+document summarization via guided sentence pression
+in emnlp pages
+theano development team
+
+theano
+a python framework for fast computation of mathematical pressions
+arxiv e prints
+xiaojun wan
+jianwu yang and jianguo xiao
+
+
+manifold ranking based topic focused
+in ijcai volume document summarization
+pages
+dingding wang shenghuo zhu tao li and yihong
+gong
+
+multi document summarization ing sentence based topic models
+in acl ijcnlp pages
+lu wang hema raghavan vittorio castelli
+radu rian and claire cardie
+
+a sentence pression based framework to query focused
+in acl pages document summarization
+
+
+david zajic bonnie dorr and richard schwartz
+
+
+in hlt naacl bbn umd at topiary
+pages
+piji li lidong bing wai lam hang li and yi liao
+
+
+reader aware multi document tion via sparse coding
+in ijcai pages
+piji li zihao wang wai lam zhaochun ren and lidong bing
+
+salience estimation via ational auto encoders for multi document rization
+in aaai pages
+
+chin yew lin
+
+rouge
+a package for matic evaluation of summaries
+in text tion branches out proceedings of the shop volume konstantin lopyrev
+
+generating news lines with recurrent neural networks
+arxiv preprint
+
+hans peter luhn
+
+the automatic creation of erature abstracts
+ibm journal of research and velopment
+yishu miao and phil blunsom
+language as a latent variable discrete generative models for tence compression
+in emnlp pages ziheng lin min yen kan chew and lim tan
+
+
+exploiting category specic information for document summarization
+coling pages
+ramesh nallapati feifei zhai and bowen zhou
+
+
+summarunner a recurrent neural network based quence model for extractive summarization of ments
+in aaai pages
+

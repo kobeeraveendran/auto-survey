@@ -1,0 +1,639 @@
+neural text generation a practical guide ziang xie
+department of computer science stanford university november
+most recent revision at abstract deep learning methods have recently achieved great empirical success on machine
+tion dialogue response generation summarization and other text generation tasks
+at a high level the technique has been to train end to end neural network models consisting of an encoder model to produce a hidden representation of the source text followed by a decoder model to generate the target
+while such models have signicantly fewer pieces than earlier systems signicant tuning is still required to achieve good performance
+for text generation models in particular the decoder can behave in undesired ways such as by generating truncated or tive outputs outputting bland and generic responses or in some cases producing ungrammatical gibberish
+this paper is intended as a practical guide for resolving such undesired behavior in text generation models with the aim of helping enable real world applications
+v o
+
+n l c
+s
+c
+v
+v
+i x r a
+language makes innite use of nite means
+
+on language
+wilhelm von humboldt
+but noodynaady s actual ingrate tootle is of come into the garner mauve and thy nice are stores of morning and buy me a bunch of iodines
+
+finnegans wake james joyce focus of this guide
+
+limitations what will not be covered
+setting
+encoder decoder models
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+training overview
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+decoding overview
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+attention
+evaluation
+
+contents introduction background
+preprocessing training decoding diagnostics
+
+common issues
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+rare and out of vocabulary oov words
+decoded output short truncated or ignore portions of input
+decoded output repeats
+
+lack of diversity
+
+deployment
+conclusion acknowledgements
+introduction neural networks have recently attained state of the art results on many tasks in machine learning including natural language processing tasks such as sentiment understanding and machine lation
+within nlp a number of core tasks involve generating text conditioned on some input information
+prior to the last few years the predominant techniques for text generation were either based on template or rule based systems or well understood probabilistic models such as n gram or log linear models chen and goodman koehn al
+these rule based and statistical models however despite being fairly interpretable and well behaved require infeasible amounts of hand engineering to scale in the case of rule or template based models or tend to saturate in their performance with increasing training data
+jozefowicz et al
+on the other hand neural work models for text despite their sweeping empirical success are poorly understood and sometimes poorly behaved as well
+figure illustrates the trade os between these two types of systems
+figure figure illustrating the tradeos between using rule based neural text generation systems
+
+to help with the adoption of more usage of neural text generation systems we detail some practical suggestions for developing ntg systems
+we include a brief overview of both the training and decoding procedures as well as some suggestions for training ntg models
+the primary focus however is advice for diagnosing and resolving pathological behavior during decoding
+as it can take a long time to retrain models it is comparatively cheap to tune the decoding procedure hence it s worth understanding how to do this quickly before deciding whether or not to retrain
+
+figure illustrates the feedback loops when improving dierent components of the model training and decoding procedures
+
+despite a growing body of research information on best practices tends to be scattered and often depends on specic model architectures
+while some starting hyperparameters are suggested the advice in this guide is intended to be as architecture agnostic as possible and error analysis is emphasized instead
+it may be helpful to rst read the background section but the remaining sections can be read independently
+focus of this guide this guide focuses on advice for training and decoding of neural encoder decoder models with an attention mechanism for text generation tasks
+roughly speaking the source and target are assumed to be on the order of dozens of tokens
+the primary focus of the guide is on the decoding templaterule basedhybridcombinationneuralend to endflexibilityexpressivitycontrollabilitypredictability figure development cycle for ntg systems
+procedure
+besides suggestions for improving the model training and decoding algorithms we also touch briey on preprocessing section and deployment section
+
+limitations what will not be covered before continuing we describe what this guide will not cover as well as some of the current tions of neural text generation models
+this guide does not consider natural language understanding and semantics
+while impressive work has been done in learning word embeddings mikolov et al pennington et al the goal of learning thought vectors for sentences has remained more elusive kiros al
+as previously mentioned we also do not consider sequence labeling or classication tasks
+how to capture long term dependencies beyond a brief discussion of attention or maintain global coherence
+this remains a challenge due to the curse of dimensionality as well as neural networks failing to learn more abstract concepts from the predominant next step prediction training objective
+how to interface models with a knowledge base or other structured data that can not be supplied in a short piece of text
+some recent work has used pointer mechanisms towards this end vinyals et al
+
+consequently while we focus on natural language to be precise this guide does not cover natural language generation nlg which entails generating documents or longer descriptions from structured data
+the primary focus is on tasks where the target is a single sentence hence the term text generation as opposed to language generation
+
+although the eld is evolving quickly there are still many tasks where older rule or based systems are the only reasonable option
+consider for example the seminal work on eliza baum computer program intended to emulate a psychotherapist that was based on tern matching and rules for generating responses
+
+in general neural based systems are unable perform the dialogue state management required for such systems
+or consider the task of ating a summary of a large collection of documents
+with the soft attention mechanisms used in neural systems there is currently no direct way to condition on such an amount of text
+trainingruntime daystoweeksinitializationoptimizationregularizationrapidlyevolvingarchitecturesdecodingruntime minutestohoursscoringfunctionlanguagemodelspeedrelativelyunchangingprocedureiterativeimprovement
+background summary of notation symbol shape description v x y
+e d
+a h scalar
+s t
+s h
+t h
+
+t s varies scalar size of output vocabulary input source sequence
+
+xs of length s output target sequence
+yt of length t encoder hidden states where ej denotes representation at timestep
+j decoder hidden states where di denotes representation at timestep i attention matrix where aij is attention weight at ith decoder timestep on jth encoder state representation hypothesis in hypothesis set score of hypothesis h during beam search during decoding h minibatch size dimension is omitted from the shape column
+setting
+we consider modeling discrete sequences of text tokens
+given a sequence u
+us over the vocabulary v we seek to model where u t denotes
+and equality
+follows from the chain rule of probability
+depending on how we choose to tokenize the text the vocabulary can contain the set of characters pieces byte pairs words or some other unit
+for the tasks we consider in this paper we divide the sequence u into an input or source sequence x that is always provided in full and an output or target sequence y
+for example for machine translation tasks x might be a sentence in english and y the translated sentence in chinese
+in this case we model u t s x x y t t
+note that this is a generalization of we consider x from here on
+besides machine translation this also encompasses many other tasks in natural language processing see table for a summary
+beyond the tasks described in the rst half of table many of the techniques described in this paper also extend to tasks at the intersection of text and other modalities
+for example in speech recognition x may be a sequence of features computed on short snippets of audio with y being the corresponding text transcript and in image captioning x is an image which is not so straightforward to express as a sequence and y the corresponding text description
+while we could also include sequence labeling for example part of speech tagging as another task we instead task x example language modeling machine translation grammar correction summarization dialogue none empty sequence source sequence in english noisy
+ungrammatical sentence body of news article conversation history y example tokens from news corpus target sequence in french corrected sentence headline of article next response in turn related tasks may be outside scope of this guide speech transcription image captioning question answering audio speech features image supporting text knowledge base question text transcript caption describing image answer table example tasks we consider
+figure
+figure illustrating the generic encoder decoder model architecture we assume for this guide
+several choices are possible for the encoder and decoder architectures as well as for the attention mechanism
+here we show the outputs for a single timestep
+consider tasks that do not have a clear one to one correspondence or between source and target
+
+the lack of such a correspondence leads to issues in decoding which we focus on in section
+the same reasoning applies to sequence classication tasks such as sentiment analysis
+encoder decoder models encoder decoder models also referred to as sequence to sequence models were developed for chine translation and have rapidly exceeded the performance of prior systems depite having
+paratively simple architectures trained end to end to map source directly to target
+
+before neural network based approaches count based methods chen and goodman and methods involving learning phrase pair probabilities were used for language modeling and translation
+
+prior to more recent encoder decoder models feed forward fully connected neural networks were shown to work well for language modeling
+such models simply stack ane matrix transforms followed by nonlinearities to the input and each following hidden layer bengio et al
+however these networks have fallen out of favor for modeling sequence data as they require dening a xed x y t do not use parameter sharing across timesteps and have context length when modeling decodestepencoderxattentiondecodery y been surpassed in performance by subsequent architectures
+
+at the time of this writing several dierent architectures have demonstrated strong results
+recurrent neural networks rnns use shared parameter matrices across dierent time steps and combine the input at the current time step with the previous hidden state
+
+ing all previous time steps mikolov et al sutskever et al cho et al
+
+many dierent gating mechanisms have been developed for such architectures to try and ease optimization
+hochreiter and schmidhuber cho et al
+convolutional neural networks cnns
+convolutions with kernels reused across timesteps can also be used with masking to avoid peeking ahead at future inputs during training see section for an overview of the training procedure
+kalchbrenner al
+using convolutions has the benet during training of parallelizing across the time dimension instead of computing the next hidden state one step at a time
+both recurrent and convolutional networks for modeling sequences typically rely on a timestep attention mechanism bahdanau et al that acts as a shortcut connection between the target output prediction and the relevant source input hidden states
+at a level at decoder timestep i the decoder representation di is used to compute a weight ij for each encoder representation ej
+for example this could be done by using the dot product
+
+i
+ej as the logits before applying the softmax function
+hence ij i i ek
+s
+the weighted representation ijej is then fed into the decoder along with x and
+more recent models which rely purely on attention mechanisms with masking have also been shown to obtain as good or better results as rnn or cnn based models vaswani et al
+
+we describe the attention mechanism in more detail in section
+unless otherwise indicated the advice in this guide is intended to be agnostic of the model tecture as long as the following two conditions hold
+the model performs next step prediction of the next target conditioned on the source and previous predicted targets it models x y t
+
+the model uses an attention mechanism resulting in an attention matrix a which eases training is simple to implement and cheap to compute in most cases and has become a standard component of encoder decoder figure illustrates the backbone architecture we use for this guide
+recent architectures also make use of a self attention mechanism where decoder outputs are conditioned on previous decoder hidden states for simplicity we do not discuss this extension
+training overview during training we optimize over the model parameters the sequence cross entropy loss t
+
+log x y t
+thus maximizing the log likelihood of the training data
+previous ground truth inputs are given to the model when predicting the next index in the sequence a training method sometimes referred to unfortunately as teacher forcing
+due to the inability to t current datasets into memory as well as for faster convergence gradient updates are computed on minibatches of training sentences
+
+stochastic gradient descent sgd as well as optimizers such as adam kingma and ba have been shown to work well empirically
+recent reserarch has also explored other methods for training sequence models such as by using reinforcement learning or a separate adversarial loss goodfellow et al li et al bahdanau et al
+arjovsky et al
+as of this writing however the aforementioned training method is the primary workhorse for training such models
+decoding overview
+during decoding we are given the source sequence x and seek to generate the target y that maximizes some scoring function s y
+in greedy decoding we simply take the argmax over the softmax output distribution for each timestep then feed that as the input for the next timestep
+thus at any timestep we only have a single hypothesis
+although greedy decoding can work surprisingly well note that it often does not result in the most probable output hypothesis since there may be a path that is more probable overall despite including an output which was not the argmax this also holds true for most scoring functions we may choose
+since it s usually intractable to consider every possible y due to the branching factor and number of timesteps we instead perform beam search where we iteratively expand each hypotheses one
+token at a time and at the end of every search iteration we only keep the k best in terms of s hypotheses where k is the beam width or beam size
+here s the full beam search procedure in more detail
+we begin the beam procedure with the start of sequence token esis h token
+
+sos consisting of the single hypothesis h
+sos
+sos
+thus our set of a list with only the start
+repeat for t
+tmax repeat for h h x h repeat for every u in the vocabulary v with probability
+put
+add the hypothesis hnew
+sos
+u to
+
+h compute and cache
+for example if log probability of a hypothesis we have
+log put
+simply computes the cumulative scoring function may also take x or other tensors as input but for simplicity we consider just
+figure
+toy example of beam search procedure with beam width
+the search has been run yet
+edges are annotated with probabilities for steps and no hypothesis has terminated with of tokens
+only the tokens after pruning to the top k hypotheses are shown
+eos
+
+
+if any of the hypotheses end with the end of sequence token move that hypothesis to the list of terminated hypotheses nal
+keep the k best remaining hypotheses in according to s h h
+finally we return h arg maxhhfinal
+since we are now considering completed potheses we may also wish to use a modied scoring function snal eos
+
+one surprising result with neural models is that relatively small beam sizes yield good results with rapidly diminishing returns
+further larger beam sizes can even yield slightly worse results
+for example a beam size of may only work marginally better than a beam size of and a beam size of may work worse than
+koehn and knowles
+finally oftentimes incorporating a language model lm in the scoring function can help improve performance
+since lms only need to be trained on the target corpus we can train language models on much larger corpuses that do not have parallel data
+our objective in decoding is to maximize the joint probability arg max y arg max y
+p y y y
+however since we are given x and not y it s intractable to maximize over instead maximize the pseudo objective y
+in practice we if our original score is which we assume involves a x term then the lm augmented score is we can also store other information for each hypothesis such as at
+arg max p y
+y
+y
+log hsositime
+itis was
+where is a hyperparameter to balance the lm and decoder scores
+
+despite these issues this simple procedure works fairly well
+however there arise many cases where beam search with or without a language model can result in far from optimal outputs
+this is due to inherent biases in the decoding as well as the training procedure
+we describe how to diagnose and tackle these problems that can arise in section
+attention figure expected attention matrix a when source and target are monotonically aligned sized as illustrative example
+the basic attention mechanism used to attend to portions of the encoder hidden states during each decoder timestep has many extensions and applications
+attention can also be over previous decoder hidden states in what is called self attention vaswani et al or used over components separate from the encoder decoder model instead of over the encoder hidden states grave et al
+
+
+it can also be used to monitor training progress by inspecting whether a clear alignment develops between encoder and decoder hidden states as well as to inspect the correspondences between the input and output sequence that the network learns
+
+that last bit that the attention matrix a typically follows the correspondences between input and output will be useful when we discuss methods for guiding the decoding procedure in section
+
+hence we go into more detail on the attention matrix a here
+the attention matrix a has t columns and s rows where t is the number of output timesteps and s is the number of input timesteps
+every row ai is a discrete probability distribution over the encoder hidden states which in this guide we assume to be equal to the number of input timesteps
+in the case that a encoder column a has no entry over some threshold say this suggests that the corresponding encoder input was ignored by the decoder
+likewise if a j has multiple values over threshold this suggests those encoder hidden states were repeatedly used during multiple decoder timesteps
+figure shows an attention matrix we might expect for a well trained network where source and target are well aligned english french translation
+for a great overview and visualizations of of attention and rnn models also see olah and carter
+evaluation one of the key challenges for developing text generation systems is that there is no satisfying
+mated metric for evaluating the nal output of the system
+unlike classication and sequence labeling tasks we as of now can not precisely measure the output quality of text generation systems barring human evaluation
+perplexity does not always correlate well with downstream metrics chen et al
+automated or otherwise
+common metrics based on n gram overlap such as rouge
+lin and bleu
+papineni et al are only rough approximations and often do not capture linguistic uency and cohererence conroy and dang liu et al
+such metrics are especially problematic in more open ended generation tasks such as summarization and dialogue
+recent results have shown that though automated metrics are not great at distinguishing between systems once performance passes some baseline they nonetheless are useful for nding examples where performance is poor and can also be consistent for evaluating similar systems novikova al
+thus despite issues with current automated evaluation metrics we assume their use for model development however manual human evaluation should be interspersed as well
+
+preprocessing with increasingly advanced libraries for building computation graphs and performing automatic dierentiation a more signicant portion of the software development process is devoted to data broadly speaking once the raw data has been collected there remains cleaning tokenization and splitting into training and test data
+an important consideration during cleaning is setting the character encoding for example ascii or for which libraries such as python s unidecode can save a lot of time
+after cleaning comes the less easily specied tasks of splitting the text into sentences and tokenization
+at present we recommend stanford for extensive options and better handling of sentence and word boundaries than other available libraries
+an alternative to performing tokenization and later detokenization is to avoid it altogether
+
+instead of working at the word level we can instead operate at the character level or use intermediate subword units sennrich et al
+such models result in longer sequences overall but empirically subword models tend to provide a good trade o between sequence length speed and handling of rare words
+wu et al
+section discusses the benets of subword models in more detail
+ultimately if using word tokens it s important to use a consistent tokenization scheme for all inputs to the system this includes handling of contractions punctuation marks such as quotes and hyphens periods denoting abbreviations nonbreaking prexes sentence boundaries character escaping for multilingual preprocessing are welcome
+
+
+
+stanford tokenizer page has a detailed list of options
+training a few heuristics should be sucient for handling many of the issues when training such models
+
+if start by getting the model to overt on a tiny subset of the data as a quick sanity check
+the loss explodes keep reducing the learning rate until it does nt
+
+if the model overts apply dropout
+srivastava et al zaremba et al and weight decay until it does nt
+gradient clipping is often crucial to avoid the exploding gradient problem while using a reasonably large learning rate
+for sgd and its variants periodically annealing the learning rate when the validation loss fails to decrease typically helps signicantly
+
+a few useful heuristics that should be robust to the hyperparameter settings and optimization settings you use sort the next dozen or so batches of sentences by length so each batch has examples of roughly the same length thus saving computation
+sutskever et al
+if the training set is small tuning regularization will be key to performance melis et al
+
+noising or token dropout is also worth trying al
+though we only touch on this issue briey amount of training data will be in most cases the primary bottleneck in the performance of a ntg model
+measure validation loss after each epoch and anneal the learning rate when validation loss stops decreasing
+depending on how much the validation loss uctates based o of validation set size and optimizer settings you may wish to anneal with patience wait for several epochs of non decreasing learning rate before reducing the learning rate
+periodically checkpoint model parameters and measure downstream performance bleu
+using several of the last few model checkpoints
+validation cross entropy loss and nal performance may not correlate well and there can be signicant dierences in nal performance across checkpoints with similar validation losses
+
+ensembling almost always improves performance
+averaging checkpoints is a cheap way to approximate the ensembling eect huang et al
+
+for a survey of model parameters to consider as well as suggested settings of hyperparameters see
+britz et al
+or melis et al
+
+
+decoding suppose you ve trained a neural network encoder decoder model that achieves reasonable perplexity on the validation set
+you then try running decoding or generation using this model
+the simplest way is to run greedy decoding as described in section
+from there beam search decoding should yield some additional performance improvements
+however it s rare that things simply work
+this section is intended for use as a quick reference when encountering common issues during examples are purely illustrative excerpts from alice s adventures in wonderland carroll
+diagnostics
+first besides manual inspection it s helpful to create some diagnostic metrics when debugging the dierent components of a text generation system
+despite training the encoder decoder network to map source to target during the decoding procedure we introduce two additional components
+a scoring function that tells us how good a hypothesis h on the beam is
+
+optionally a language model trained on a large corpus which may or may not be similar to the target corpus
+it may not be clear which of these components we should prioritize when trying to improve the performance of the combined system hence it can be very helpful to run ablative analysis
+ng
+for the language model a few suggestions are measuring performance for and several other reasonably spaced values then plotting the performance trend measuring perplexity of the language model when trained on varying amounts of training data to see if more data would be helpful or yields diminishing returns and measuring performance when training the language model on several dierent domains news data wikipedia in cases where it s dicult to obtain data close to the target domain
+when measuring the scoring function computing metrics and inspecting the decoded outputs the gold sentences often immediately yields insights
+useful metrics include average length of decoded outputs y average length of reference targets y
+s y then inspecting the ratio s y
+if the average ratio is especially low then there may be a bug in the beam search or the beam size may need to be increased
+if the average ratio is high then the scoring function may not be appropriate
+
+for some applications computing edit distance insertions substitutions deletions between y and y may also be useful for example by looking at the most frequent edits or by examining cases where the length normalized distances are highest
+common issues rare and out of vocabulary oov words
+decoded
+and as in thought he stood
+the expected and as in ush thought he stood the jabberwock with eyes of ame eos with eyes of ame unk
+unk
+eos
+for languages with very large vocabularies especially languages with rich morphologies rare words become problematic when choosing a tokenization scheme that results in more token labels than it is feasible to model in the output softmax
+one ad approach that was rst used to deal with
+this issue is simply to truncate the softmax output size to say k then assign the remaining class
+luong et al
+the box above illustrates the resulting output token labels all to the
+after detokenization when rare words are replaced with a more elegant approach is to use character or subword preprocessing
+sennrich et al wu et al to avoid oovs entirely though this can slow down runtime for both training and decoding
+unk unk
+
+figure example of attention matrix a when decoding terminates early with the without having covered the input eos token decoded output short
+truncated or ignore portions of input decoded
+it s no use going back to yesterday
+
+expected it s no use going back to yesterday because i was a dierent person then
+eos
+
+token
+the decoder
+during the decoding search procedure hypotheses terminate with the token until the target is fully network should learn to place very low probability on the does not have suciently low probability
+this is because as the erated however sometimes length of the hypothesis grows the total log probability only decreases
+thus if we do not normalize the log probability by the length of the hypothesis shorter hypotheses will be favored
+the box above illustrates an example where the hypothesis terminates early
+this issue is exacerbated when incorporating a language model term
+two simple ways of resolving this issue are normalizing the log probability score and adding a length bonus
+eos eos eos
+
+
+length normalization replace the score s y with the score normalized by the hypothesis length s y t
+length bonus
+replace the score s y with the s y t where is a hyperparameter
+note that normalizing the total log probability by length is equivalent to maximizing the t th root of the probability while adding a length bonus is equivalent to multiplying the probability at every timestep by a baseline e
+another method for avoiding this issue is with a coverage penalty using the attention matrix
+a tu et al wu et al
+as formulated here the coverage penalty can only be applied once a hypothesis with a corresponding attention matrix has terminated hence it can only be figure example of attention matrix a when decoding exhibits repeating behavior
+incorporated into snal with attention matrix a with shape t s the coverage penalty is computed as to perform a nal re ranking of the hypotheses
+for a given hypothesis h log min aij s
+
+t
+intuitively for every source timestep if the attention matrix places full probability on that source timestep when aggregated over all decoding timesteps then the coverage penalty is zero
+otherwise a penalty is incurred for not attending to that source timestep
+
+finally when the source and target are expected to be of roughly equal lengths one last trick is to simply constrain the target length t to be within some delta of the source length s and s in the case where s is very small and and are hyperparameters
+s where we also include s s t
+decoded output repeats
+decoded i m not myself you see you see you see you see
+
+expected i m not myself you see
+
+eos
+repeating outputs are a common issue that often seem to expose neural versus template based systems
+simple measures include adding a penalty when the model reattends to previous timesteps after the attention has shifted away
+this is easily detected using the attention matrix a with some manually selected threshold
+finally a more fundamental issue to consider with repeating outputs is poor training of the model parameters
+passing in the attention vector as part of the decoder input when predicting yi is another training time method see et al
+
+lack of diversity i do nt know
+li et al
+in dialogue and qa where there are often very common responses for many dierent conversation turns generic responses such as i do nt know are a common problem
+similarly in problems where many possible source inputs map to a much smaller set of possible target outputs diversity of outputs can be an issue
+increasing the temperature of the softmax
+j is a simple method for trying to encourage more diversity in decoded outputs
+in practice however a method penalizing low ranked siblings during each step of the beam search decoding procedure has been shown to work
+well
+li et al
+another more sophisticated method is to maximize the mutual information between the source and target but is signicantly more dicult to implement and requires generating n best lists li et al
+deployment
+although speed of decoding is not a huge concern when trying to achieve state of the art results it is a concern when deploying models in production when real time decoding is often a requirement
+
+beyond gains from using highly parallelized hardware such as gpus or from using libraries with optimized matrix vector operations we now discuss some other techniques for improving the runtime of decoding
+consider the factors which determine the runtime of the decoding algorithm
+for the beam search
+algorithms we consider the runtime should scale linearly with the beam size
+although in practice batching hypotheses can lead to sublinear scaling
+the runtime will often scale approximately quadratically with the hidden size of network n and nally linearly with the number of timesteps
+thus decoding might have a complexity of t
+
+thus a jumbled collection of possible methods for speeding up decoding include developing heuristics to prune the beam nding the best trade o between size of the vocabulary softmax and decoder timesteps batching multiple examples together caching previous computations in the case of cnn models and performing as much computation as possible within the compiled computation graph
+conclusion
+we describe techniques for training and dealing with undesired behavior in natural language eration models using neural network decoders
+since training models tends to be far more consuming than decoding it is worth making sure your decoder is fully debugged before committing to training additional models
+encoder decoder models are evolving rapidly but we hope these techniques will be useful for diagnosing a variety of issues when developing your ntg system
+acknowledgements
+
+we thank arun chaganty and yingtao tian for helpful discussions and dan jurafsky for many helpful pointers
+references arjovsky chintala and bottou
+wasserstein gan
+arxiv preprint
+bahdanau cho and bengio
+neural machine translation by jointly learning to align and translate
+arxiv preprint
+bahdanau brakel xu goyal lowe pineau courville and bengio
+an actor critic algorithm for sequence prediction
+arxiv preprint
+bengio ducharme vincent and jauvin
+a neural probabilistic language model
+in journal of machine learning research
+britz goldie luong and le
+massive exploration of neural machine translation architectures
+arxiv preprint
+carroll
+alice s adventures in wonderland
+
+url
+chen and goodman
+an empirical study of smoothing techniques for language modeling
+
+in association for computational linguistics acl
+chen beeferman and rosenfeld
+evaluation metrics for language models
+
+cho van merrienboer gulcehre bahdanau bougares schwenk and bengio
+
+learning phrase representations using rnn encoder decoder for statistical machine translation
+arxiv preprint
+conroy and dang
+mind the gap dangers of divorcing evaluations of summary content from linguistic quality
+in proceedings of the international conference on computational linguistics volume
+goodfellow pouget abadie mirza xu warde farley ozair courville and bengio
+generative adversarial nets
+in advances in neural information processing systems pages
+grave joulin and usunier
+improving neural language models with a continuous cache
+arxiv preprint
+hochreiter and schmidhuber
+long short term memory
+neural computation
+huang li pleiss liu
+hopcroft and weinberger
+snapshot ensembles train get m for free
+arxiv preprint
+jozefowicz vinyals schuster shazeer and wu
+exploring the limits of language modeling
+arxiv preprint
+kalchbrenner espeholt simonyan
+oord graves and kavukcuoglu
+neural machine translation in linear time
+arxiv preprint
+kingma and ba
+adam a method for stochastic optimization
+arxiv preprint
+kiros zhu salakhutdinov zemel urtasun torralba and fidler
+thought vectors
+in advances in neural information processing systems
+koehn and knowles
+
+
+six challenges for neural machine translation
+arxiv preprint koehn och and marcu
+statistical phrase based translation
+in north american chapter of the association for computational linguistics naacl li galley brockett gao and dolan
+a diversity promoting objective function for neural conversation models
+arxiv preprint
+li monroe and jurafsky
+a simple fast diverse decoding algorithm for neural generation
+arxiv preprint
+li monroe ritter galley gao and jurafsky
+deep reinforcement learning for dialogue generation
+arxiv preprint
+li monroe shi ritter and jurafsky
+adversarial learning for neural dialogue generation
+arxiv preprint
+lin
+rouge
+a package for automatic evaluation of summaries
+in text summarization branches out proceedings of the workshop volume
+liu lowe serban noseworthy charlin and pineau
+how not to evaluate your dialogue system an empirical study of unsupervised evaluation metrics for dialogue response generation
+arxiv preprint
+luong sutskever le vinyals and zaremba
+addressing the rare word problem in neural machine translation
+arxiv preprint
+melis dyer and blunsom
+on the state of the art of evaluation in neural language models
+arxiv preprint
+
+mikolov karaat burget and khudanpur
+recurrent neural network based language model
+in interspeech pages
+mikolov sutskever chen corrado and dean
+distributed representations of words and phrases and their compositionality
+in advances in neural information processing systems
+ng
+advice for applying machine learning
+lecture notes
+novikova dusek curry and rieser
+why we need new evaluation metrics for nlg
+arxiv preprint
+olah and carter
+attention and augmented recurrent neural networks
+distill
+
+url
+papineni roukos ward and zhu
+bleu a method for automatic evaluation of machine translation
+in proceedings of the annual meeting on association for computational linguistics pages
+association for computational linguistics
+pennington socher and manning
+glove
+global vectors for word representation
+in empirical methods in natural language processing emnlp
+see liu and manning
+get to the point summarization with pointer generator networks
+arxiv preprint
+sennrich haddow and birch
+neural machine translation of rare words with subword units
+arxiv preprint
+srivastava hinton krizhevsky sutskever and salakhutdinov
+dropout a simple way to prevent neural networks from overtting
+the journal of machine learning research
+sutskever vinyals and le
+sequence to sequence learning with neural networks
+in advances in neural information processing systems pages
+tu lu liu liu and li
+modeling coverage for neural machine translation
+arxiv preprint
+vaswani shazeer parmar uszkoreit jones gomez kaiser and
+sukhin
+attention is all you need
+arxiv preprint
+vinyals fortunato and jaitly
+pointer networks
+
+in advances in neural information processing systems
+weizenbaum
+eliza a computer program for the study of natural language communication between man and machine
+communications of the acm
+wu schuster chen le norouzi macherey krikun cao gao macherey al
+google s neural machine translation system bridging the gap between human and machine translation
+arxiv preprint
+xie wang li levy nie jurafsky and ng
+data noising as smoothing in neural network language models
+arxiv preprint
+zaremba sutskever and vinyals
+recurrent neural network regularization
+arxiv preprint
+

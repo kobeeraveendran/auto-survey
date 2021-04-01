@@ -1,0 +1,3443 @@
+quelques contributions a la theorie de laction de r
+sur les espaces de modules de surfaces plates l u j s d
+
+h t a m v
+v i x r a carlos matheus to jean christophe yoccoz in memoriam table
+remerciements description du memoire liste publications lauteur
+introduction
+abelian dierentials and their moduli spaces
+translation structures
+some examples of translation surfaces
+stratication of moduli spaces of translation surfaces
+period coordinates
+connected components of strata
+r action on hg
+on hg
+teichmuller ow and kontsevich zorich cocycle
+teichmuller curves veech surfaces and ane homeomorphisms
+proof of the eskin kontsevich zorich regularity conjecture
+eskin kontsevich zorich formula
+statement of the eskin kontsevich zorich regularity conjecture
+idea of the proof of theorem
+reduction of theorem to propositions and
+proof of proposition modulo propositions and
+proof of proposition modulo proposition
+proof of proposition via rokhlin s disintegration theorem
+proof of proposition via rokhlin s disintegration theorem
+arithmetic teichmuller curves with complementary series
+exponential mixing of the ow
+teichmuller curves with complementary series date juin
+carlos matheus
+idea of proof of theorem
+
+
+quick review of representation theory of r
+
+explicit hyperbolic surfaces h with complementary series
+arithmetic teichmuller curves birational to h
+
+some niteness results for algebraically primitive teichmuller curves
+some classication results for the closures of in moduli spaces
+statement of the main results
+proof of theorem
+sketch of proof of theorem
+simplicity of lyapunov exponents of arithmetic teichmuller curves
+kontsevich zorich conjecture and veech s question
+lyapunov exponents of teichmuller curves and random products of matrices
+galois theoretical criterion for simplicity of exponents of origamis
+a counterexample to an informal conjecture of forni
+an example of quaternionic kontsevich zorich monodromy group
+filip s classication of kontsevich zorich monodromy groups
+realizability problem for kontsevich zorich monodromy groups
+a quaternionic cover of a l shaped orgami
+block decomposition of the kz cocycle over r
+some constraints on kontsevich zorich monodromy group of w
+ruling out monodromy on w
+ruling out monodromy on w references laction de r sur les espaces de modules de surfaces plates remerciements je dedie ce memoire a jean christophe yoccoz son amitie et bienveillance envers mon arrive france en ont marque ma vie mathematique personnelle a jamais et lui serai toujours reconnaissant
+
+je remercie yves benoist stefano marmi et anton zorich davoir accepte relire mon memoire et
+decrire rapports a son sujet et julien barral henry de thelin et giovanni forni pour me faire lhonneur detre membres jury dexamen ce memoire
+
+je remercie aussi mes coauteurs pour avoir partager joie decouverte nouveaux
+a aline et marie la reine princesse mon chateau a fontainebleau avon et a dominique et veronique pour toute leur amitie
+carlos matheus laction de r sur les espaces de modules de surfaces plates description memoire
+ce memoire est
+base sur certains de mes travaux autour dynamique teichmuller ou plus precisement dynamique laction r sur espaces surfaces plates
+
+le chapitre sert a introduire plusieurs aspects classiques dynamique teichmuller
+son contenu inspire par les survols de zorich
+et yoccoz ainsi que les notes dun minicours donne par forni meme en au banach center bedlewo pologne
+en particulier ce chapitre est une introduction generale a tous les chapitres posterieurs facon quon toujours supposer une certaine familiarite avec ce chapitre dans toutes les discussions dans dautres chapitres
+avoir lu premier chapitre lecteur peut choisir librement quel ordre suivre pour la lecture chapitre restants en fait resultats discutes dans les chapitres a sont independants uns autres
+
+le chapitre traite mesures sur espaces modules surfaces plates
+en general une telle mesure est dite plupart surfaces plates dans son support leurs connexions de selles plus courts entre eux
+la priete regularite a ete utilisee par eskin
+kontsevich et zorich pour justier un argument sophistique dintegration par parties intervenant dans la formule pour somme exposants de lyapunov non negatifs kontsevich zorich partie derivee de laction r sur surfaces plates
+dans ce meme article eskin kontsevich zorich ont conjecture que propriete toujours valide facon que formule pour la somme exposants de lyapunov pourrait etre appliquee sans exception a toutes les mesures de probabilite ergodiques sur espaces de modules surfaces plates
+let but du chapitre est discuter notre article avec avila et yoccoz contenant une reponse armative a conjecture regularite deskin kontsevich zorich
+
+le chapitre est consacre a letude de vitesse melange ot teichmuller
+la question des correlations pour mesures de masur veech a ete resolu dans un article de avila gouezel et yoccoz melange ot teichmuller par rapport a ces mesures est toujours exponentielle
+puis avila et gouezel ont etendu resultat davila gouezel yoccoz a toutes les mesures de probabilite ergodiques sur espaces surfaces plates
+une question naturelle motivee par les resultats davila gouezel et yoccoz est savoir la vitesse exponentielle melange ces mesures est uniforme
+
+le resultat principal chapitre un obtenu collaboration avec schmithusen
+selon lequel il ny
+a pas duniformite sur vitesse exponentielle melange de telles mesures lorsquon regarde espaces surfaces plates de genre arbitrairement grand
+
+le chapitre aborde classication adherences dans les espaces surfaces plates
+de nombreuses applications dynamique teichmuller carlos matheus a letude billards mathematiques dependent dune connaissance fermetures
+taines surfaces plates ce explique une partie en classier ces objets
+les resultats remarquables deskin mirzakhani
+eskin mirzakhani mohammadi
+
+
+filip disent que les fermetures
+surfaces plates sont anes dans les
+
+ordonnees periodes quasi projectives dans les coordonnees induites par les espaces modules de courbes et totalite est une collection denombrable particulier est raisonnable sayer classier
+les travaux de calta
+mcmullen fournissent une classication adherences surfaces plates de genre deux
+par contre tuation en genre nest toujours pas comprise malgre nombreux partiels recents
+neamoins cette situation semble samerioler un peu lorsquon concentre sur courbes teichmuller
+fermees par exemple bainbridge habegger et
+moller
+ont prouve la nitude courbes de teichmuller algebriquement primitives engendrees par des surfaces plates de genre trois
+dans le chapitre on discutera un resultat obtenu avec wright
+assurant nitude courbes de teichmuller algebriquement primitives engendrees par des surfaces plates de genre g premier ayant une seule singularite conique
+
+le chapitre examine les exposants de lyapunov du kontsevich zorich partie derivee de laction r sur surfaces plates
+les proprietes qualitatives et ou quantitatives exposants de lyapunov du kz cocycle jouent un role important dans nombreuses applications dynamique teichmuller par exemple avila
+et forni
+ont explore forni
+hyperbolicite non uniforme kz par rapport aux mesures masur veech pour montrer que les transformations dchange dintervalles typiques qui ne sont rotations sont faiblement melangeantes
+dun point vue qualitatif exposants de lyapunov du kz cocycle par rapport aux mesures masur veech sont bien compris grace a un article davila viana assurant simplicite multiplicite un ces exposants conrmant donc une conjecture kontsevich et zorich
+par contre ceci nest plus vrai pour dautres mesures forni meme par exemple avons deux exemples mesures sur espaces surfaces plates pour lequelles exposants de lyapunov du cocycle kz sont loin detre simples
+du coup il savoir general dans quelles conditions les exposants de lyapunov du cocycle kz sont simples
+
+le point depart du chapitre un resultat obtenu collaboration avec eskin assurant que les exposants de lyapunov du kz cocycle sur courbes teichmuller
+fermees peuvent etre calcules a laide produits matrices aleatoires
+ensuite ce resultat techniques davila viana
+sont exploites pour fournir un ecace
+base sur theorie galois obtenu collaboration avec moller et yoccoz
+pour simplicite exposants de lyapunov de kz cocycle sur courbes teichmuller arithmetiques
+enn ce type galois pour simplicite est utilise dans la discussion dun contre exemple du a delecroix et moi meme a une conjecture forni
+laction de r sur les espaces de modules de surfaces plates le chapitre dedie a la structure
+du groupe matrices associe au de
+zorich partie derivee de laction r dans les espaces modules surfaces plates
+les groupes par cocycle kz meritent une attention car ils ont un role cle dans letude laction r sur surfaces plates par exemple travail deskin
+mirzakhani sur classication mesures invariantes dans espaces surfaces plates est bas sur une analyse ne de ce cocycle
+
+un travail recent filip fournit une liste toutes les adherences de zariski possibles modulo facteurs compacts et a indice ni pour groupes matrices associes cocycle kz en particulier filip a conrme une conjecture forni zorich moi meme sur lorigine des exposants de lyapunov nuls pour kz
+cependant filip produite a partir considerations variations structures de hodge sur quasi projectives et par consequent une question naturelle savoir quels groupes liste apparaissent eectivement dans contexte kz
+le resultat principal chapitre un exemple filip forni moi meme montrant que lun groupes matrices quaternioniques dans la liste filip est realise dans cadre cocycle kz
+enn les limites habituelles lespace du temps mont force a laisser quelques aspects de mon travail dehors de texte
+par exemple sujets suivants mentionnes dans la publications ne seront pas discutes ici les articles my avec yoccoz fmzi fmzii et fmziii avec forni et zorich myz avec yoccoz et zmiaikou msch avec schmithusen sur dynamique teichmuller
+les articles bmmwi et bmmwii avec burns masur et wilkinson sur vitesse melange du ot weil petersson sur espaces surfaces hyperboliques les articles mmp avec moreira et pujals m cmm avec cerqueira et moreira lm avec lima sur dynamique basse dimension et les articles acm avec arbieto et corcho am avec arbieto avec linares avec corcho et amp avec angulo et pilod sur les edps dispersives
+carlos matheus liste publications lauteur articles doctorat
+acm
+rough solutions for the periodic schrodinger korteweg devries system avec arbieto et adan corcho
+journal of dierential equations
+global well posedness of nls kdv systems for periodic functions electronic journal of dierential equations vol
+
+am
+on the periodic schrodinger debye equation avec arbieto communications in pure and applied analysis vol
+
+well posedness for the zakharov rubenchik system avec felipe linares advances in dierential equations vol
+
+sharp bilinear estimates and well posedness for the schrodinger debye system avec adan corcho dierential and integral equations vol
+
+amp global well posedness and non linear stability of periodic traveling waves for a benjamin ono system avec jaime angulo et didier pilod communications in pure and applied analysis vol
+
+my
+the action of the ane dieomorphisms on the relative homology group of certain nally symmetric origamis avec jean christophe yoccoz journal of modern dynamics fmzi square tiled cyclic covers avec giovanni forni et anton zorich journal of modern vol
+
+dynamics vol
+
+
+other relevant examples annexe a larticle a geometric criterion for the non uniform hyperbolicity of the kontsevich zorich cocycle de forni journal of modern m
+some quantitative versions of ratner s mixing estimates bulletin brazilian mics vol
+tical society vol
+
+amy
+probability measures on the moduli spaces of translation surfaces are regular avec artur avila et jean christophe yoccoz geometric and functional lysis
+mmp
+axiom a versus newhouse phenomena for benedicks carleson toy models avec carlos
+tavo moreira et enrique pujals annales scientiques de lecole normale superieure vol
+
+ms explicit teichmuller curves with complementary series avec gabriela weitze schmithusen bulletin de la societe mathematique france vol
+
+fmzii
+lyapunov spectrum of invariant subbundles of the hodge bundle avec giovanni forni et anton zorich ergodic theory and dynamical systems vol
+
+laction de r sur les espaces de modules de surfaces plates fmziii
+zero lyapunov exponents of the hodge bundle avec giovanni forni et anton zorich mentarii mathematici helvetici vol
+
+myz homology of origamis with symmetries avec jean christophe yoccoz et
+david zmiaikou annales de linstitut fourier vol
+
+dm
+un contre exemple a forni pour positivite exposants de lyapunov du kontsevich zorich avec vincent delecroix mathematical research letters vol
+
+em a coding free simplicity criterion for the lyapunov exponents of teichmuller curves avec alex eskin geometriae dedicata vol
+
+mw hodge teichmuller planes and niteness results for curves avec alex wright duke mathematical journal vol
+
+msch
+some examples of isotropic subbundles of the hodge bundle avec briela weitze schmithusen international mathematics research notices vol
+mmy a criterion for the simplicity of the lyapunov spectrum of square tiled surfaces avec martin moller et jean christophe yoccoz inventiones mathematicae vol
+ffm quaternionic covers and monodromy of the kontsevich zorich cocycle in orthogonal groups avec giovanni forni et simion filip a paratre dans journal of the european
+
+matical society
+bmmwi rates of mixing for the weil petersson geodesic ow i no rapid mixing in non exceptional moduli spaces avec keith burns howard masur et amie wilkinson
+prepublication disponible sur arxiv
+cmm
+continuity of hausdor dimension across generic dynamical lagrange and markov spectra avec aline cerqueira et
+carlos gustavo moreira
+prepublication disponible sur arxiv
+
+bmmwii rates of mixing for the weil petersson geodesic ow ii exponential mixing in exceptional moduli spaces avec keith burns howard masur et amie wilkinson
+prepublication disponible sur arxiv
+amyii zorich conjecture for hyperelliptic rauzy veech groups avec artur avila et jean christophe yoccoz
+prepublication disponible sur arxiv
+lm symbolic dynamics for non uniformly hyperbolic surface maps with discontinuities avec yuri lima
+prepublication disponible sur arxiv
+articles de survol
+c density of hyperbolicity for benedicks carleson toy models avec carlos gustavo moreira et enrique pujals oberwolfach reports vol
+
+carlos matheus on the neutral oseledets bundle of kontsevich zorich cocycle over certain cyclic covers avec giovanni forni et anton zorich oberwolfach reports vol
+le ot geodesique teichmuller et
+bre de hodge actes du seminaire de spectrale et geometrie
+du
+institut fourier a grenoble vol
+
+fractal geometry of non uniformly hyperbolic horseshoes proceedings of the ergodic
+theory workshops at university of north carolina at chapel hill ed by idris assani
+a criterium for the simplicity of lyapunov exponents of origamis avec martin mller et jean christophe yoccoz oberwolfach reports vol
+
+introduction to teichmuller theory and its applications to dynamics of interval exchange transformations ows on surfaces and billiards avec giovanni forni journal of modern dynamics vol
+no
+
+lecture notes on the dynamics of the weil petersson ow notes dun minicours donne en vembre au cirm marseille a paratre dans cirm jean morlet chair subseries springer
+variations of hodge structures lyapunov exponents and kontsevichs formula annexe a la monographie gauss manin connection in disguise calabi yau modular forms de hossein movasati a paratre dans surveys of modern mathematics international press les blogs un outil dynamique communication en mathematiques gaz
+math
+no boston
+
+
+livres
+aspectos teoria dos
+ergodic aspects of number theory joint with arbieto and carlos gustavo moreira publicacoes matematicas do impa coloquio brasileiro de matematica
+the remarkable efectiveness of ergodic theory in number theory parts i and ii part i together with arbieto and carlos gustavo moreira ensaios matematicos vol
+
+
+laction de r sur les espaces de modules de surfaces plates
+introduction
+this section serves as a general purpose introduction to all other sections of this memoir
+in particular we ll always assume familiarity with the content of this section in subsequent discussions
+the basic references for this section are the survey texts of zorich yoccoz and forni and the author
+
+abelian dierentials and their moduli spaces
+let lg be the set of abelian dierentials on a riemann surface of genus
+g that is the set of pairs riemann surface structure on m where m is a compact topological surface of genus g and is a non trivial form which is holomorphic with respect to the underlying riemann surface structure
+the teichmuller space of abelian dierentials of genus g is the quotient t hg
+lg
+m and the moduli space of abelian dierentials of genus g is the quotient hg
+lg
+here
+m is the set of dieomorphisms isotopic to the identity and
+
+
+m is the mapping class group the set of isotopy classes of orientation preserving dieomorphisms and both
+m and g act on the set of riemann surface structure in the usual manner while they act on abelian dierentials by pull back
+
+before equipping t hg and hg with nice structures let us give a concrete description of abelian dierentials in terms of translation structures
+
+translation structures
+let m lg and denote by m the set of singularities of or equivalently the divisor of the nite set m
+for each p m let us select a small simply connected neighborhood up of p such that up
+in this context the period map up c given by integration along any path inside up joining p and is well dened in fact any holomorphic form is closed and thus the integral does not depend on the choice of the path inside up connecting p and furthermore since p we have that after reducing up if necessary this period map p is a biholomorphism
+in other words the collection up of all such period maps is an atlas of m which is compatible with the riemann surface structure
+by denition the local expression of abelian dierential in these coordinates is
+dz on c
+also the local equality q q c is a constant independent of moreover since is nite riemann s theorem on removable q implies that all coordinate changes are q p
+z where p
+by precomposition with coordinate charts
+carlos matheus singularities implies that this atlas of period charts on m can be extended to m in such a way that the local expression of in a chart around a zero p of of order k is the holomorphic form zkdz
+
+in the literature a maximal atlas of compatible charts on the complement m of a nite subset of a surface m whose changes of coordinates are translations z c of the complex plane is called a translation structure on m
+in this language the discussion in the previous paragraph says that m determines a translation structure on m
+on the other hand it is clear that a translation structure on m determines a riemann surface structure and an abelian dierential on m
+in summary we proved the following proposition
+proposition
+the set lg of all non trivial abelian dierentials on compact riemann surfaces of genus g is canonically identied to the set of all translation structures on the compact surfaces of genus g
+some examples of translation surfaces
+the notion of translation structures allows us to exhibit many concrete examples of abelian dierentials
+
+abelian dierentials on complex torus
+we usually learn the concept of complex torii through translation structures
+indeed a complex torus is the quotient c of the complex plane by a lattice
+these complex torii come equipped with abelian dierentials induced by dz on c and they are usually depicted as a parallelogram of sides and whose parallel sides are identied via the translations
+z and z see figure
+figure
+complex torii are translation surfaces of genus one
+
+square tiled surfaces
+we can build more translation surfaces from certain coverings of the unit square torus zi equipped with the abelian dierential induced by dz
+more precisely consider a nite collection sq of unit squares of the complex plane and let us glue by translations the leftmost resp
+bottomost side of each square q sq with the rightmost resp
+topmost side of another maybe the same square
+sq
+here we assume that after performing the identications the resulting surface is connected
+
+since translations are particular cases of biholomorphisms
+
+
+we dene by locally pulling back dz via the charts this gives a globally dened abelian dierential because the changes of coordinates are translations and hence dz is invariant under changes of coordinates
+laction de r sur les espaces de modules de surfaces plates in this way we obtain a translation surface namely a riemann surface with an abelian feretianl equal to dz on each square q sq
+for obvious reasons these translation surfaces are called square tiled surfaces origamis
+
+in figure we drew a l shaped square tiled surface built up from three unit squares by cation via translations of pairs of sides with the same markings
+figure
+a l shaped square tiled surface
+remark
+the translation surface l in figure has genus two
+in fact the corners of all squares are identied to a single point
+moreover this point is special when compared to any other point because we have a total angle of by turning around p instead of a total angle of around all other points
+in other terms a neighborhood of p looks like copies of the at complex plane stitched together that is the natural local coordinate around p is
+in particular the abelian dierential associated to this translation surface l has the form d near p has single zero of order two on by riemann hurwitz theorem this means that g where g is the genus of l that is l has genus two
+suspensions of interval exchange transformations
+we nd translation surfaces during the construction of natural extensions of one dimensional dynamical systems called interval exchange transformations
+more concretely recall that an interval exchange transformation of d intervals is a map t dt dt where dt dt
+i are subsets of an open bounded interval i with i dt
+i dt
+d and the restriction of t to each connected component of
+i dt is a translation onto a connected component of i dt see figure for some examples
+
+it is possible to suspend in several ways any given
+t to obtain translation ows on translation surfaces such that t is the rst return map to certain transversals to such ows for instance figure shows masur s suspension construction applied to an of four intervals
+
+here the idea of this procedure is that the vectors
+d have the form j j c where j are the lengths of the intervals permuted by t
+the vectors j d are organized in the plane to construct a polygon p in such a way that we meet these vectors in the usual order
+in the top part of p and we
+alternatively this fact can be derived from poincare hopf index theorem applied to the vector eld given by the vertical direction at all points of l p
+
+a translation ow is obtained by moving almost all points of a translation surface in a xed direction
+carlos matheus figure
+three examples of interval exchange transformations
+b
+c a d
+a b c d d c b a d a c b figure
+masur s suspension of an of four intervals
+meet these vectors in the order determined by t using the combinatorial receipt a permutation of d elements employed by t to permute intervals in the bottom part of p gluing by translations the pairs of sides of p with the same labels j we obtain a translation surface such that the unit speed translation ow in the vertical direction has the
+t as the rst return map to r nally the suspension data
+d can be chosen arbitrarily as long as the planar gure p is not degenerate
+j n j and j n d remark
+there is no unique procedure for suspending
+for example yoccoz s survey discusses in details the so called veech s zippered rectangles construction
+
+billiards in rational polygons
+recall that a polygon is called rational if all of its angles are rational multiples of
+consider the billiard ow on a rational polygon p the trajectory of a point laction de r sur les espaces de modules de surfaces plates in p in a certain direction is a straight line until it hits the boundary p of the polygon at this instant we prolongate the trajectory by reecting it accordingly to the usual specular law
+a classical unfolding construction due to fox keshner and katok zemlyakov relates the namics of billiard ows on rational polygons to translation ows on translation surfaces
+in a nutshell the idea is the following every time the billiard trajectory hits p we reect the table instead of reecting the trajectory so that the trajectory remains a straight line see figure
+figure
+elementary step of the unfolding construction
+
+the group g generated by the reections about the sides of p is nite when p is a rational polygon so that the natural surface obtained by iterating this unfolding procedure is a translation surface and the billiard ow becomes the tranlsation straigth line ow on this translation surface
+
+in figure we drew the translation surface obtained by applying the unfolding construction to a l shaped polygon and the triangle with angles and
+unfolding a
+a b d c c d b figure
+the triangle with angles and unfolds into a regular octagon
+
+the angle of reection equals the angle of incidence
+carlos matheus
+in general a rational polygonal p of k sides with angles mi ni
+i n has a group of reections g of order and it unfolds into a translation surface x of genus g given by the formula g
+n k ni
+n
+stratication of moduli spaces of translation surfaces
+once our understanding of abelian dierentials was improved thanks to the notion of translation surfaces let us now come back to the discussion of teichmuller and moduli spaces of abelian dierentials
+
+given a non trivial abelian dierential on a riemann surface m of genus g we can form a list
+k recording the orders of the zeroes of
+note that by riemann hurwitz theorem this list satises the constraint kl g
+
+for each list
+k with kl g let be the subset of lg consisting of all abelian dierentials whose list of orders of its zeroes coincide with
+since the actions of m and g respect the orders of zeroes of abelian dierentials we can take the quotients t
+
+m and
+
+by denition we can write
+
+
+t hg
+t and hg
+
+
+in the next subsection we will see that these decompositions of t hg and hg are tions the subsets t and decompose t hg and hg into nitely many disjoint folds orbifolds of distinct dimensions
+for this reason the subsets t and will be called strata of the teichmuller and moduli spaces of abelian dierentials translation surfaces
+
+period coordinates
+fix t a stratum with k and k g
+
+for every t one can construct an open neighborhood t such that after naturally identifying z and z for all the period map z c dened by the formula
+
+z c
+z c is a local homeomorphism
+in other words the period maps are local charts of an atlas of t
+
+it is possible to prove that is non empty whenever kl g
+
+
+
+here we use the developing map to put a natural topology on t
+more concretely given an universal cover p m and we have a developing map d c determining completely the translation structure m
+the injective map d gives a copy of inside the space c of complex valued continuous functions of
+in particular the compact open topology of c induces natural topologies on and t
+
+the so called gauss manin connection
+laction de r sur les espaces de modules de surfaces plates recall that z c
+h c is a vector space naturally is a symplectic basis of z and
+are phic to indeed if relative cycles connecting some xed to all others
+
+
+then h c
+
+
+g g is an isomorphism
+furthermore by composition period maps with these isomorphisms we see that all changes of coordinates are given by ane transformations of preserving the lebesgue measure
+in particular if we normalize the lebesgue measure so that the integral tices h z zi have covolume one in h c then we obtain a well dened lebesgue measure on t
+
+in summary t is an ane complex manifold of dimension equipped with a natural lebesgue measure thanks to the period maps
+moreover these structures are compatible with the action of the mapping class group g so that is an ane complex orbifold of dimension g equipped with a natural lebesgue measure
+
+geometrically the role of period maps is easily visualized in terms of translation structures
+for example consider the polygon q depicted in figure and denote by m the translation surface obtained by gluing by translations the pairs of parallel sides of using an argument similar to remark one can show that t and the cycles and on m the projections the sides of q form a basis of z
+hence the period map t
+takes a small neighborhood of to a small neighborhood of
+quently all are described by small arbitrary perturbations dashed red lines in figure of the sides of the original polygon q blue full lines in figure
+q
+figure
+period coordinate in t
+
+in general are not manifolds for example the moduli space of at torii is z
+carlos matheus
+connected components of strata
+it might be tempting to conjecture that it is always possible to deform a given into another
+nevertheless veech discovered that has two connected components indeed veech distinguished these connected compoents using certain combinatorial invariants called extended rauzy classes
+
+the strategy of veech was further pursued by arnoux to show that has three connected components
+however it became clear that the classication of connected components of via the analysis of extended rauzy classes is a hard combinatorial problem
+
+a complete classication of the connected components of was obtained by zorich
+with the aid of algebro geometrical invariants
+roughly speaking they showed that the connected components can be hyperelliptic even spin or odd spin
+using these invariants of connected components kontsevich and zorich proved the following result theorem
+in genus g both strata and are connected
+in genus g the strata and have both two connected components and all other strata are connected
+in genus g we have that the minimal stratum
+g has three connected components l has three connected components
+li has two connected components all other strata of hg are connected
+remark
+for later reference let us recall the notion of parity of the spin structure used by kontsevich zorich in their denition of even spin and odd spin connected components
+let m
+
+hg be a translation surface of genus g
+given a simple smooth loop in m denote by be the index of the gauss map of and let
+mod
+
+
+the quadratic form represents the symplectic intersection form on
+for all
+the arf invariant of is g
+where
+is any choice of canonical symplectic basis
+
+the quantity is the parity of the spin structure of m by denition m has even resp odd spin structure if resp
+
+r action on hg
+the correspondence between abelian dierentials and translation structures allows us to dene an action of r on lg
+indeed given m lg let us consider an atlas of charts on m whose changes of coordinates are given by translations
+a matrix a r acts on m by post composition with the charts of this
+a slight modication of the notion of rauzy classes introduced by rauzy in his study of
+
+
+rauzy classes are complicated objects the cardinalities of the largest rauzy classes associated to and are and
+
+it is possible to prove that the value independs of the choice
+laction de r sur les espaces de modules de surfaces plates atlas a m is the translation surface associated to the new atlas a
+note that
+this is well dened because all changes of coordinates of this new atlas are given by translations a a
+a
+z
+
+geometrically the action of a r on a translation surface m presented by tications by translations of pairs of parallel sides of a nite collection p of polygons in the plane is very simple we apply the matrix a to all polygons in p and we identify by translations the pairs of parallel sides as before this operation is well dened because the matrix a respects by linearity the notion of parallelism in the plane
+see figure for an illustration of the action of the matrix t on the l shaped square tiled surface from figure
+t figure
+action of a parabolic shear on a l shaped origami
+this action of r commutes with the actions of
+m and g because r acts by post composition with translation charts while
+m and g act by pre composition with such charts
+therefore the on lg descends to t hg and hg it respects the strata t and
+k k g and the subgroup r
+r preserves the natural lebesgue measures and
+
+on hg
+it is not reasonable to study directly the dynamics of r on the strata partly because they are too large for instance every strata is a ruled space foliated by the perforated complex lines c
+for this reason we shall restrict the action of r to a xed level set
+
+a a say a of the total area function
+a given by i in this way we obtain an action of r on a space
+supporting probability measures
+in fact a celebrated result obtained independently by masur and veech
+the sets are hyperboloids inside and bn anbn anbn where an n g
+
+i symplectic basis n n of r
+indeed this follows from the fact that are the periods of with respect to a canonical carlos matheus
+says that the disintegration of the on its normalization measure in the literature
+has nite mass and hence is a probability measure on called masur veech
+teichmuller ow and kontsevich zorich cocycle
+in this setting the ow is simply the action of the diagonal subgroup gt et r of r on the strata of the moduli space of abelian dierentials of genus g with unit total area
+g an important aspect of the teichmuller ow is its role as a renormalization dynamics for lation ows on translation surfaces
+in particular it is often the case that the dynamical features of this ow has profound consequences in the theory of interval exchange transformations billiards in rational polygons and translation ows see section of and the references therein for more explanations
+for example masur and veech exploited the recurrence of almost all orbits of the teichmuller ow with the masur veech probability measure to independently conrm a conjecture of keane on the unique ergodicity of almost every interval exchange transformations
+
+in this memoir we will be mostly interested in the teichmuller ow in itself even though we will occasionally mention its applications to interval exchange transformations and translation ows
+an important point in the analysis of the ow gt is the study of its derivative dgt in period coordinates
+in the sequel we will introduce the so called kontsevich zorich kz cocycle and we will see that the relevant part of the dgt is encoded by this cocycle
+we start with the trivial bundle g
+t h r and the trivial dynamical cocycle over the teichmuller ow
+gkz t g g
+gkz t c c now we note that the mapping class group g acts on both factors of h are well dened
+in the literature h bundle over
+gkz t is called kontsevich zorich cocycle
+and gkz g and gkz g t g t g so that the quotients g is called the real hodge remark
+strictly speaking the kz cocycle is not a linear cocycle in the usual sense of dynamical systems because the real hodge bundle is an orbifold bundle
+in fact one might have ambiguities in the denition of gkz
+of automorphisms
+in concrete terms the ber h of h
+m might not be a vector space so that the linear maps on h r induced by gkz
+well dened only up to the cohomological action of
+fortunately this ambiguity is along gt orbits of translation surfaces m with a non trivial group g over such is t t not a serious problem as far as lyapunov exponents are concerned
+indeed it is well known
+that
+lyapunov exponents are not aected under nite covers so that we can safely replace gkz lift to a nite cover of h g g i d on
+g obtained by taking a nite index torsion free subgroup by its g of g t
+coming from poincare recurrence theorem
+
+
+a similar denition can be performed over the action of r and by a slight abuse of notation we shall also call kontsevich zorich cocycle the resulting object
+laction de r sur les espaces de modules de surfaces plates
+gkz t t the kz gkz contrary to its parent is far from trivial since c is identied with for all g in the construction of h g over and are identied in a non trivial way if g acts non trivially on h r
+alternatively if we x a fundamental domain d of the action of g on t hg and we start with a generic and a cohomology class c h r then after running the teichmuller ow for some long
+we eventually hit d while pointing towards the exterior of
+at this moment since d is a fundamental domain we have the option of applying an element to replace by a point owing towards at the cost of replacing c by see figure
+g the bers of ct t figure
+kontsevich zorich cocycle on h g
+
+t also gkz is symplectic cocycle because the action of g on h r preserves the symplectic intersection form c
+m c
+this fact has the following consequence for the lyapunov exponents of the kz cocycle
+given an ergodic teichmuller ow invariant probability measure on
+t for all t the multiplicative g ergodic theorem of oseledets guarantees the existence of real numbers lyapunov exponents
+measurable decomposition
+h r at and a gkz every such that and any choice of norm with log t lim t t t
+i v
+
+for example we can take to be the so called hodge norm see
+carlos matheus
+in general we will write the lyapunov exponent a list of g dimh r
+lyapunov exponents i with multiplicity in order to obtain in our setting the symplecticity of gkz around the origin t implies that its lyapunov exponents are symmetric g i
+i g t by denition gkz acts on the tautological plane h
+
+h r
+by the matrix gt et after identifying
+r
+this means that are lyapunov exponents of any teichmuller invariant and h probability measure
+
+in fact it is possible to prove that see
+now let us relate the kz gkz to the derivative dgt of the teichmuller ow
+by writing dgt in period coordinates and by writing h c
+h z we have that dgt acts by the matrix gt the rst factor and by the natural of the kz cocycle on the second factor h z
+in particular the generalization t
+gkz t
+lyapunov exponents of dgt have the form where are lyapunov exponents of next we observe that the relative part of h z does not contribute with esting lyapunov exponents
+more precisely the fact that two relative cycles in z
+
+gkz with the same boundaries always dier by an absolute cycle can be exploited to prove that t acts trivially on the relative part the kernel of the natural map h r
+
+and a fortiori the
+
+hence the relative part provides zero lyapunov exponents of teresting part is the restriction gkz exciting part of dgt
+to h r
+in summary gkz captures the most
+gkz t
+gkz t of t t the relationship between gkz and dgt described above allows us to recover the lyapunov exponents of the teichmuller ow from the lyapunov exponents of the kz cocycle if is an ergodic gt invariant probability measure supported on
+k k g then the lyapunov exponents of gt with respect to are t
+
+gkz t
+
+
+
+g g
+
+
+
+
+g where g are the non negative exponents of gkz t with respect to
+
+
+teichmuller curves veech surfaces and ane homeomorphisms
+the ow and the kz cocycle take a particularly explicit description in the case of teichmuller curves
+
+this reects the fact that the eigenvalues of a symplectic matrix comes in pairs of the form and
+laction de r sur les espaces de modules de surfaces plates by denition a teichmuller curve is a closed in g
+by a result of smillie see the of a translation surface x is a teichmuller curve if and only if the stabilizer of x in r is a lattice
+
+the group is called veech group of the translation surface
+we say that a translation surface x whose veech group is a lattice in r is called veech surface
+in this language smillie s result says that teichmuller curves are precisely the of veech surfaces
+
+the teichmuller curve generated by a veech surface x is isomorphic to the unit cotangent of the nite area hyperbolic surface h
+in particular the teichmuller ow gt on teichmuller curves is simply the geodesic ow on certain nite area hyperbolic surfaces
+
+at rst sight it is not obvious that veech surfaces exist
+nevertheless a dense set of veech surfaces in any stratum
+can be constructed as follows
+the set s of translation surfaces m
+whose image under period maps belong to q qi is dense because q qi is dense in c
+it was shown by gutkin and judge that a translation surface x belongs to s if and only if its veech group is commensurable to z or equivalently x is a square tiled surface a translation surface obtained by nite cover of a at square torus
+since z is a lattice of r we have that any square tiled surfaces is a veech surface so that s is the desired dense set of veech surfaces
+an alternative characterization of square tiled surfaces is provided by the so called trace eld of the corresponding veech groups
+more precisely if x is a veech surface of genus g then its trace eld obtained by adjoining to q all traces of elements in can be shown to be a nite extension of q of degree
+
+in this setting x is a square tiled surface if and only if its trace eld is
+for this reason the teichmuller curves generated by square tiled surfaces are called arithmetic teichmuller curves
+remark
+a square tiled surface x is combinatorially described by a pair of permutations h and modulo simultaneous conjugations after numbering the squares used to build up x from to n we dene resp
+as the square to the right resp
+on the top of since our choice of numbering is arbitrary and h v determine the same square tiled surface
+moreover all square tiled surfaces in a given teichmuller curve can be found by the following gorithm
+we x a pair of permutations h v associated to a square tiled surface x in our preferred teichmuller curve
+all square tiled surfaces in the of x belong to the
+of since z is generated by the parabolic matrices t and s
+we can algorithmatically compute of square tiled surfaces by determining how the matrices t and s act on pairs h v of permutations
+as it turns out a direct inspection shows that t h v
+h and
+v
+the kz cocycle over a teichmuller curve is described by the cohomological action of ane homeomorphisms of a veech surface
+carlos matheus
+more concretely an ane homeomorphism of a translation surface m is an preserving homeomorphism of m preserving whose local expressions in translation charts of m are ane transformations of the plane
+any ane homeomorphism has a well dened linear part df r because the change of coordinates in m are translations
+therefore we have a natural homomorphism d r from the group of ane homeomorphisms to r
+by denition the kernel of d is the group of automorphisms of m
+also it is not hard to check that the image of d coincides with the veech group of m
+in particular we have a short exact sequence the stabilizer of the of m t hg in g is precisely the group of its ane homeomorphisms
+in particular the kz cocycle over the of m is the quotient of the trivial cocycle gt i h r h r by the natural action of on both factors
+this interpretation of the kz cocycle in terms of ane homeomorphisms is useful to produce concrete matrices of this cocycle
+for example let us consider the l shaped square tiled surface m from figure
+this translation surface decomposes into two horizontal cylinders two maximal collections of closed geodesics parallel to the horizontal direction see figure
+figure
+horizontal cylinders of m and their waist curves and
+this collection of horizontal cylinders can be used to dene a special type of ane phism of m called dehn multitwist
+suppose that c is a maximal horizontal cylinders of height h and widths by denition we w h n n of the parabolic can cut and paste by translation the image of c under any power t n laction de r sur les espaces de modules de surfaces plates
+w h matrix tw h in order to recover c in other words t n w h stabilizes also t n w h xes the waist curve of c while adding n times the waist curve of c to any cycle crossing c upwards
+the matrices t n w h are a particular example of a dehn multitwist
+
+in the case of the l shaped square tiled surface m we have two horizontal cylinders and whose waist curves and are depicted in figure
+note that has width two has width one and both ci i have height one
+thus the parabolic matrix stabilize both and and a fortiori denes an ane homeomorphism of m
+furthermore our description of the eect of dehn multitwists on the waist curves and cycles crossing cylinders says that acts on the basis of r in figure via
+
+
+
+
+figure
+a choice of basis of homology of a l shaped origami
+
+hence the kz cocycle matrix corresponding to the action of on the basis is remark
+strictly speaking we compute a matrix of the dual of the kz cocycle indeed this cocycle was dened in terms of the action on cohomology groups h r but our calculations were in homology groups r the duals of h r by poincare duality
+of course this is a minor detail that is usually not very important
+carlos matheus laction de r sur les espaces de modules de surfaces plates
+proof of the eskin kontsevich zorich regularity conjecture in the physicists hardy and weber conjectured that the diusion rate of typical trajectories in periodic ehrenfest wind tree models of lorenz gases is abnormal more precisely t is the billiard ow in direction in the billiard table t a a obtained if by putting rectangular obstacles of dimensions a b at each m n then
+hardy weber conjecture predicts that for lebesgue almost every and t a b
+
+in a recent work delecroix hubert and conrmed this conjecture by proving the following stronger result the rate of diusion of a typical trajectory in t a b is lim sup t log log t lim sup t log log t
+eskin kontsevich zorich formula
+among several important ingredients used by hubert we nd a remarkable formula of eskin kontsevich zorich
+for the sum of non negative lyapunov exponents of the kz cocycle with respect to probability measures
+in fact the diusion rate in delecroix hubert theorem is a lyapunov exponent of the kz cocycle with respect to a certain probability measure on the moduli space of abelian dierentials of genus ve and its explicit value was computed thanks to eskin kontsevich zorich formula
+
+in a nutshell eskin kontsevich zorich formula relates sums of lyapunov of the kz cocycle to the at geometry of translation surfaces in the following way
+given an ergodic probability measure m on the moduli space of abelian dierentials of genus g with total area one kontsevich and forni proved that the sum of the non negative lyapunov g exponents of m can be expressed in terms of the integral of the curvature of the determinant of the hodge bundle with respect to
+in general it is not always easy to work directly with the curvature of the hodge bundle and for this reason eskin kontsevich zorich used the roch hirzebruch grothendieck theorem to convert the integral of into the sum of a combinatorial term depending on the orders
+k of the zeroes of and a certain integral expression i depending on the at geometry of the translation surfaces in
+finally
+eskin kontsevich zorich derive their formula by relating i to the so called siegel veech constants associated to counting problems of at cylinders in translation surfaces in
+
+for lebesgue almost every and carlos matheus an important point in eskin kontsevich zorich s proof of their formula is the fact that most arguments use only the of m indeed there is just a single place in their paper namely section where a certain regularity assumption on m is required in order to justify an integration by parts argument
+
+the regularity condition on m is dened in as follows
+recall that a cylinder c in a lation surface m is a maximal collection of parallel closed geodesic in m and the modulus of a cylinder is the quotient
+where is the height of c and is the width of a probability measure m on exists a constant k such that is regular if there g
+g k
+
+lim
+
+k
+g
+k is the set of abelian dierentials m where hcyl cylinders and with moduli
+k and widths for i
+g possessing two non parallel
+statement of the eskin kontsevich zorich regularity conjecture
+by the time that eskin kontsevich zorich wrote their paper the regularity of all known examples of invariant probability measures on moduli spaces of translation surfaces was established by ad methods in particular eskin kontsevich zorich formula could be applied in many contexts
+
+nevertheless it is natural to ask what is the exact range of applicability of eskin zorich formula
+in this direction eskin kontsevich zorich made the conjecture that all invariant probability measures in moduli spaces of translation surfaces are regular
+
+in our joint work with avila and yoccoz we conrmed eskin kontsevich zorich regularity conjecture by showing the following slightly stronger result
+theorem
+let m be an ergodic probability measure on a connected component c of a stratum of the moduli space of unit area translation surfaces of genus g
+denote by
+the set of translation surfaces m c possessing two non parallel saddle connections of lengths
+then
+remark
+recall that a saddle connection of a translation surface m is a geodesic segment m such that and since the boundary of cylinder c is the union of nitely many saddle connections the existence of a cylinder c of width implies the existence of a saddle connection of length
+in particular this justies our claim that theorem is a slightly stronger conclusion than the statement predicted in eskin kontsevich zorich regularity conjecture
+
+intuitively theorem says that if is small then occupies a small fraction of the set m c of translation surfaces m c whose the length of the shortest saddle connections of m is at most
+in fact our theorem asserts that laction de r sur les espaces de modules de surfaces plates while the following lemma of veech and eskin masur ensures that the set m c has m mass of order lemma
+let m be an ergodic probability measure on a connected component c of a stratum of the moduli space of unit area translation surfaces of genus g
+then c
+
+sketch of proof
+the key idea in the proof of this lemma is the so called siegel veech formula
+
+by following eskin masur let us rst discuss the general version of the siegel veech formula which has little to do with moduli spaces but rather the action of r on
+suppose that r acts on a space let us x a probability measure on x and a function v assigning a subset v
+of non zero vectors in with weights multiplicities to each
+later in the proof of this lemma x c and v is the discrete subset of holonomy vectors of saddle connections in
+m
+in general the siegel veech formula concerns functions v with the following properties v is v gx
+for all x and g r there exists a constant for each x such that nv r
+v r is at most for all r
+where r is the euclidean ball of radius r centered at the origin moreover can be chosen uniformly on compact subsets of x there are r and such that nv r
+the non trivial fact that these conditions hold for the particular case x c of the moduli space of unit area translation surfaces and v is the function assigning the set of holonomies of saddle connections was proved by eskin masur
+
+coming back to the general setting let f c
+be a real valued function with compact support
+we dene its siegel veech transform x r as v vv
+in this language the siegel veech formula asserts that f v x where
+cv is the so called siegel veech constant of with respect to v
+at rst sight the siegel veech formula looks tricky to prove because and v are arbitrary
+nevertheless this formula becomes easy to derive if we notice that c
+
+x a measure on indeed this linear functional is a non negative linear functional on c is well dened because is nite bounded on compact sets and
+by our assumptions on v
+furthermore the of v implies that this measure on is
+since the sole measures on are linear combinations of carlos matheus the dirac measure at the origin
+and the lebesgue measure it follows that this measure has the form
+af
+
+x
+finally since v it is possible to check that a so that the siegel veech formula holds with cv
+once we know the siegel veech formula we can deduce that
+by applying this formula to a smooth versionf of the characteristic function of the ball d f
+
+this proves the lemma
+
+
+the remainder of this section is devoted to the proof of eskin kontsevich zorich regularity conjecture or more precisely theorem
+
+idea of the proof of theorem
+the basic idea behind the proof of theorem is to use a conditional measure argument to reduce the global estimate on m to an orbit by orbit estimates saying that the measures of the intersections of with certain pieces of are
+more precisely given let
+m c
+inside the level of the systole function sys we consider the subsets x
+m all non vertical saddle connections have length and x where r r denotes the rotation by
+starting from x
+we can access deeper levels of the systole function via the set y
+log cot
+indeed the choice of and t is guided by the fact that the vector is shorter than the unit vector for log cot so that the systole of is smaller than the systole of x
+
+
+furthermore y is an interesting way to access m c because the sets
+for and log cot form a measurable partition in rokhlin s sense of y
+in particular by the of m we will be able to compute the m measure of subsets of y in terms of the lebesgue measure dt on r the lebesgue measure cos on the circle and a certain ux measure on x
+
+using this disintegration we can transfer mass from x
+to deep levels m c t as follows
+first we will show that for sin t there is an open interval of whose length is explicitly computable such that laction de r sur les espaces de modules de surfaces plates for all x
+sin t t correspond to the pieces of hyperbolas below the threshold
+secondly we use
+
+geometrically the set y t of for x the disintegration results to show that the m measure of m c is at least m
+sin t cos
+
+
+at this point the idea to derive theorem is very simple
+we will show that there is a positive constant such that as s the m measure of m c s is
+and there exists a sequence with n as n such that the densities mn
+x are
+
+intuitively this says that the ux through x is almost maximal
+in any case putting these facts together we deduce that n t c n t
+
+
+x
+
+from this we get that the set y n t of translation surfaces with systole n
+occupies most of m c n in the sense that its accessed from x complement has m measure
+for all t
+finally once we know that most translation surfaces with systole n come from x
+we complete the proof of theorem by showing that the translation surfaces x leading to translation surfaces m y t
+are essentially those with two non parallel saddle connections of lengths comparable to n making a very small angle
+then since the mn n for small t large we can use again that m disintegrates as dt cos mn to conclude that the
+m measure of y t is
+for t large as desired
+of the set of those is small say of course there are plenty of details to check in this scheme and the next subsections serve to formalize the ideas above
+
+reduction of theorem to propositions and
+given a connected component c of a stratum of the moduli space of unit area translation surfaces of genus g let us denote by
+at rst sight the factor of might seem strange but as we will show in general the ux through x
+equals f where f
+c
+in particular by lhopital rule we expect that lim sup f f
+if lim
+here very small angle means that becomes close to zero for t is suciently large depending on n
+carlos matheus the subset of m c with a minimizing length saddle connection of size and another saddle connection of length
+a which is not parallel to
+lemma
+suppose that for each a one has
+then
+proof
+by lemma we know that c s
+for some constant and for all s
+
+given it follows from that c a for a and for all
+on the other hand our hypothesis imply the existence of
+
+
+such that since
+m c a for any a we deduce from the previous for all
+two estimates that for all
+
+because was arbitrary the proof of the lemma is complete
+
+this lemma reduces the proof of theorem to the following result theorem
+for each xed a one has
+our proof of theorem is naturally divided into two statements
+first we will show that a large portion of m c t can be captured with the aid of the
+r by pushing certain translation surfaces with for an adequate choice of the level of the systole function
+proposition
+given there exists with the following property
+let x
+be the set of translation surfaces m c with
+whose non vertical saddle connections have lengths and for each t and b x a borel subset denote by y t b m c b sin sin then for all t the subset y t x m measure of m c has almost full c y t x
+t laction de r sur les espaces de modules de surfaces plates
+secondly for each xed a we will exploit the geometry of saddle connections of for t suciently large to prove that the m measure of lation surfaces m y
+t x y t x is small
+proposition
+given a and there exists such that t x t for all t
+of course these propositions imply theorem
+proof of theorem
+fix a
+given we choose as in proposition and as in proposition
+by writing the conclusions of propositions and tell us that
+c y t x
+t x t t
+for all
+since was arbitrary the proof is complete
+
+in the sequel we shall reduce propositions and to the following facts about the measure m whose proofs are postponed to subsections and
+first the of m
+rokhlin disintegration theorem and the features of the haar measure of r will be exploited to show the following result
+proposition
+given
+such that m c has positive m measure denote by x
+the set of m c with
+such that all non vertical saddle connections of m have length
+then the set y m c m x has positive m measure and the restriction of m to y has the form
+where is a nite measure on x
+
+in particular for each t b x
+borel the m measure of the set y t b m c b sin t sin equals to
+t b t log cos cos cos d also we will show that the total mass of the measure introduced above can be interpreted as a ux of the measure m through the level set m c of the systole function
+carlos matheus
+proposition
+for any with c one has lim
+c
+proof of proposition modulo propositions and
+denote by f
+c
+note that f is a non decreasing function of
+lemma
+the function f is continuous c
+for all
+proof
+fix
+by fubini s theorem c r c where l is the normalized restriction of the haar measure on r to the compact subset
+l r
+on the other hand by a result of masur see the number of length minimizing connections on a translation surface x c with is uniformly bounded in terms of a constant depending only on and the genus g of
+it follows that for each c the l measure of r is zero and a c
+
+
+by proposition the function f has a left derivative f at every with f and
+
+by proposition and the elementary fact that log cos d we deduce that f
+
+
+t x
+t
+for all t and
+with f
+lemma
+the function f is absolutely continuous and its left derivative veries
+moreover the constant satises f sup f f lim f
+lim sup f
+the change of variables u gives that
+
+
+
+cos d because log that cos d log u
+and du
+it follows cf
+lemma in
+
+laction de r sur les espaces de modules de surfaces plates proof
+by lemma we know that f
+
+hence f f thanks to
+in particular f is bounded
+we arm that f is absolutely continuous
+actually this follows immediately from the general claim if a continuous function on an interval whose left derivative is bounded by c then the proof of this claim is not dicult
+for each c c denote by
+
+
+c note that is not empty because
+
+is closed by continuity of f and is open to the left because the left derivative of f is bounded by c c
+by connectedness it follows that
+
+since c c was arbitrary the claim is proved
+the absolute continuity of f implies that f is the integral of its almost everywhere derivative f f
+ds f s s ds
+therefore lim sup f
+lim sup f sup f f
+moreover the estimate says that lim inf f
+sup f f
+it follows from these inequalities that lim inf f
+lim sup f
+lim sup f
+this completes the proof of the lemma
+
+at this point we are ready to prove proposition
+indeed given we use lemma to select
+with f such that and f
+
+f
+for all
+this means that if then there exists such that
+carlos matheus
+by plugging these estimates into and by writing t we deduce that f
+t x
+f f
+
+
+
+f t x since c y t x proposition is complete
+the proof of
+proof of proposition modulo proposition
+the basic idea behind the proof of proposition is very simple given a and m y
+t x m with sin t x we will show that m can not have saddle connections with length
+a which are not parallel to length minimizing ones unless and satisfy some severe constraints by proposition these constraints imply that the m measure of y t x must be small
+
+more precisely we start with the following result saying that if is not too small then the long can not give rise to a saddle connection of m of length saddle connections of x a
+has the following property
+
+lemma
+given the constant k
+for all t t sin t and r with one has in particular for such t and t we have k
+ak
+
+for all vector v with ak
+thus in this setting a saddle connection of m of length
+a does not come from a saddle connection of x of length proof
+by denition t t
+moreover the fact that implies that t t it follows from these estimates that t t on the other hand the hypothesis t t t becomes t
+laction de r sur les espaces de modules de surfaces plates after the change of variables since the largest root of this second degree inequality is t t
+
+we deduce that t t t
+t cos after the change of variables t sin
+with cos
+because
+thanks to our assumption that t sin t we deduce from this last inequality that t t t sin by combining and we obtain that t
+
+this completes the proof of the lemma
+
+next we show that given a all saddle connections of m y t x length a comes exclusively from saddle connections of x making a small angle with the vertical direction whenever t is suciently large of of length
+a lemma
+given a and there exists such that for all t sin t and
+
+in particular in this setting a saddle connection of m y t x
+a does not come from a saddle connection of x vertical direction
+of length making an angle with the proof
+since t by hypothesis we have for all t suciently large depending on say t
+hence t
+t
+t
+on the other hand our assumption that t t t implies that t solves the second degree inequality t
+whose smallest root is t
+x t
+
+t cos carlos matheus where sin t sin and cos
+thus t t cos
+it follows from this discussion that t cos cos for all t
+t
+hence next we notice cos whenever t is larger than an absolute constant because cos t
+t by combining the previous two inequalities
+we conclude that t for all t
+this proves the lemma
+
+these lemmas have the following consequence for the study of y t x corollary
+fix a and
+with c
+given let k denote by the minimal angle between a non vertical saddle connection of of length and the vertical direction with the convention that whenever such saddle connections do not exist
+and for each x then for each and one has y t x
+y t x y t
+t where is the constant provided by lemma and x
+proof
+let m y t x then m
+
+our task is to show that if m y t x y t for this sake we note that if m y t x y t then m with sin t
+sin t and t
+
+it follows from lemmas and that no saddle connection of of length gives rise to a saddle connection of m of length
+a all non vertical saddle connections of of length make an angle with the vertical direction and thus they do not give rise to saddle connections of m of length
+a
+
+this means that all saddle connections of m of length a are parallel to the length minimizing ones m
+this proves the corollary
+laction de r sur les espaces de modules de surfaces plates
+at this point it is fairly easy to complete the proof of proposition
+indeed the previous corollary says that t x t x
+t
+for all and t
+also the proposition tells us that t x
+t log cos cos cos d and
+t t
+log cos cos cos d therefore given if we choose small so that and small so that log cos cos cos d
+
+log cos cos cos d it follows from this discussion that t x t and t t for all t
+by plugging these inequalities into we obtain
+t x t for all t
+this proves proposition modulo proposition
+
+proof of proposition via rokhlin s disintegration theorem
+fix with c
+denote by x
+the set of m c with
+such that all non vertical saddle connections of m have length
+
+
+
+note that and
+
+for let x
+x
+in particular x
+by denition x and x are submanifolds of c of codimensions one and two
+observe
+that t t for log cot and
+thus such t and
+this means that is disjoint from m c
+for y m c m x
+
+
+log cot carlos matheus is a disjoint union of certain pieces of
+in particular we can identify y t m r
+x log cot
+we want to use this information to study the restriction of m to y
+in this direction the rst step is the following lemma lemma
+the m measure of y is positive
+
+the proof of this lemma goes along the following lines
+by fubini s theorem and the invariance of m we have
+r
+x y c where is any borel probability measure on r
+since c this reduces our task to show that given c with the set of r such that x y has non empty interior and hence positive
+haar measure
+let be an angle such that rx has a length minimizing saddle connection in the vertical direction
+by denition the quantity s has the property that gsrx x x where
+r
+observe that nu xes the basis vector x whenever is suciently small say
+thus y for small and log cot
+therefore our proof of lemma is reduced to prove that the set of
+r with and log cot has non empty interior in r
+as it turns out this is an immediate consequence of the following elementary fact about r lemma
+the map t u is a dieomorphism from r r to w a
+r proof
+the matrix nu xes and the vector
+d satises d and
+
+conversely given b d with d and there exists an unique t r depending smoothly on d such that b d
+in fact this happens because gt moves a non zero vector along the hyperbola y
+and r moves along the arc of unit circle sin cos located between the hyperbolas y
+and y see figure below
+this proves the lemma
+
+the second step is the study of via rokhlin s disintegration theorem lemma
+there exists a nite measure on x such that
+under the identication y t m r
+x log cot in
+laction de r sur les espaces de modules de surfaces plates y i figure
+the region b d and proof
+we dene the measure on x n generating nu is tangent to x at any of its points
+as follows
+since nu xes the vector eld given a small smooth codimension one submanifold of x which is transverse to n we can for all and
+for all
+in this nd such that x setting the map m num is a smooth dieomorphism from onto an open subset b x
+furthermore x has a locally nite covering by such subsets b so that it suces to dene the measure on x by its restrictions to such subsets
+for this sake given b consider u gtrnu log cot w where w r is the set from lemma
+the map a d m
+gm is a smooth dieomorphism from u onto an open subset v
+if then u is disjoint from the support of
+
+carlos matheus
+if we note that the borel probability measure on u is invariant that is for any measurable subset
+z u and for any h r such that hz hg m
+g m z
+u we have hz
+z
+indeed this is a direct consequence of the of in this context an elementary variant of rokhlin s disintegration theorem says that where p u is the natural projection and is the normalized restriction to u of the haar measure of r
+
+in terms of the dieomorphism u gtrnu from lemma the restriction of the
+haar measure to w has the form for some positive function on r
+
+since the haar measure of r is left invariant and right invariant u
+
+therefore du
+since u w it follows from this discussion that if we dene then the corresponding nite measure on x satises
+dt
+in other words it remains only to show that to complete the proof of the lemma
+
+for this sake x and consider tiny open sets around the origin t u
+and their respective images under
+in terms of matrices this amounts to consider the equation for t u close to and t t u u u u
+for sake of simplicity since is xed we will omit the dependence of the functions t u on in what follows
+from
+the of haar measure and the change of variables formula
+one has gtrnu gt rnu
+where is the determinant of the jacobian matrix u u
+u at the origin
+so our task is to show that cos
+keeping this goal in mind note that t implies that t and u u in
+thus at the origin one has u u t
+u t
+u t and
+in particular u
+u and a fortiori t
+t t u t
+t t
+the one page proof of this statement can be found in proposition of
+laction de r sur les espaces de modules de surfaces plates t we apply both matrices in to the vertical basis vector to et sin et cos sin et sin cos
+in order to compute t get the equations and et cos et sin sin et cos cos by taking the partial derivative with respect to t in we get t t
+t et cos et sin et sin sin et cos cos because t u
+we obtain that t t t cos sin
+cos on the other hand by multiplying together and we get the relation sin sin cos et cos sin et sin cos sin sin et cos cos by taking the partial derivative with respect to t we deduce that t cos
+et cos sin et sin cos sin sin et cos cos et cos sin et sin cos sin sin et cos cos since t u
+
+we have cos t sin cos t
+tan
+by combining and we conclude that
+tan tan sin cos sin cos cos sin sin cos cos cos t t cos cos by and this means that
+
+the proof of the lemma is now complete
+cos remark
+we computed all entries of the jacobian matrix u
+u at the origin except for u t
+even though this particular entry plays no role in our calculation of above the curious reader is invited to compute this entry along the following lines
+by applying both matrices in to the horizontal basis vector one gets two relations et cos u et sin et cos cos et sin sin cos sin et sin cos and et sin u et cos et sin cos et cos sin sin sin et cos cos carlos matheus
+by taking the partial derivative of the second relation above with respect to t at the origin and by plugging the values t cos just computed one has t
+tan and t
+sin cos cos tan cos sin u t u t
+tan tan sin cos sin cos cos cos tan sin cos sin cos cos cos tan tan at this stage the proof of proposition is almost complete thanks to lemmas and we just need to show the following result
+lemma
+for any t and b a borel subset of x the set y t b gtrm sin t sin
+m b has m measure proof
+denote by
+t b t log cos cos cos d r from lemma one has that the m measure of the subset y t b y equals to
+t b
+
+
+
+cos
+sin t sin
+let us compute the length of the interval
+for this sake we observe that the condition t t t is equivalent to the requirement that t solves the second degree inequality t
+hence t
+if and only if x
+where t x t
+
+in other terms
+using the change of variables sin t sin with cos we have that x t
+
+this means that the length of is
+
+dt log log x log
+
+x log cos cos laction de r sur les espaces de modules de surfaces plates by plugging this formula in while keeping the change of variables sin t sin in mind we deduce that t b log cos cos cos d this proves the lemma
+
+this ends our discussion of proposition
+
+proof of proposition via rokhlin s disintegration theorem
+we want to interpret the total mass of the measure constructed above as a ux of the measure m through m c
+for this sake we will follow the same strategy used in the proof of theorem namely we will use pieces of to capture a portion called regular part of the slice m c whose m measure is not hard to compute and we will prove that the portion of the slice that was not captured by this procedure called singular part has negligible m measure
+let us start by formalizing the rst item
+given m x and t we
+dene the following pseudo teichmuller ow when m
+the systole of is
+also for m all length minimizing connections of make angle with the vertical direction
+therefore t is injective and for t
+
+given we say that the regular part of the slice m c is the set
+
+
+
+the m measure of is provided by the following lemma lemma
+let m be the measure on x given by b m for b x a borel subset
+then m is independent of and m d
+in particular
+and lim
+carlos matheus proof
+by denition is invariant under the group r of rotations
+thus by an elementary variant of rokhlin s disintegration theorem one has d m
+
+this reduces our task to show that m for all
+in this direction consider a small which is transverse to the innitesimal generator n of nu and codimension one submanifold of x take so that x for all and
+
+for all
+note that
+rgtnum for any m and t
+also observe that the set w from lemma contains rgt w for and t so that et cos et sin et cos et sin
+rgt gt
+rnu et cos u sin et sin et
+cos et sin u cos for some smooth functions t t t u u t
+it follows that t t t
+u t for close to zero
+this information can be combined with the expression for in gt rnu in lemma in order to compute m in the following way
+if b is a borel subset of then d b for close to zero
+this implies that m so that the proof of the lemma is complete
+
+next we will study the m measure of the singular part of the slice
+lemma
+for small the m measure of is lim
+
+we introduce the set of translation surfaces m possessing a saddle connection of length which is not parallel to a minimizing one
+by denition so that proof of lemma is reduced to prove that
+
+the proof of this fact is divided into two parts depending on the size of the angle between short saddle connections of m
+more concretely for m denote by the smallest angle between two connections of lengths which are not parallel with the convention that
+when such connections do not exist
+
+cf
+proposition of
+laction de r sur les espaces de modules de surfaces plates we begin by estimating the m measure of the subset of consisting of translation surfaces m with small
+lemma
+given there exists such that for all small enough
+proof
+let be the subset of m
+possessing a length minimizing saddle connection making an angle with the vertical direction
+
+the of m tells us that for any subset
+s
+in particular for any one has
+
+
+in order to estimate the right hand side of this inequality we claim that for any m and j n with cot the systole of m is m
+indeed this happens whenever the estimate
+holds for all
+since this second degree inequality on is satised when
+for all and
+for all the proof of our claim is reduced to check that
+
+this last inequality follows easily from our assumption that fact this is an immediate consequence of the fact that the inequality in is equivalent to that is and this estimate is true for any and small enough because the derivative at of the function is
+
+
+carlos matheus
+now we observe that implies the disjointness of and for all
+log
+in particular m
+m log because the number of j n with log is
+on the other hand if log is
+
+and m has a pair of saddle connections of lengths
+therefore for each the set
+
+
+contains then for any m the systole of m
+
+m with angle
+consisting of translation surfaces m with with angle and a pair of non parallel saddle connections of lengths
+m
+
+it follows from and that log
+this completes the proof of the lemma indeed given if we take small then
+
+enough
+so that
+next we estimate the m measure of the subset of consisting of translation surfaces m with large
+lemma
+for any one has
+
+where the implied constant depends on and the genus g of the translation surfaces in proof
+by fubini s theorem and the of m we have
+
+r x where l is the normalized restriction of the haar measure of r to the compact subset c l r
+
+this reduces our task to prove the following claim for each c one has r x
+
+fix
+if the set l x is empty we are done
+so we can assume that this set is not empty
+this imposes a constraint on the systole of indeed if then one has
+for some r with
+
+since
+
+we have
+
+laction de r sur les espaces de modules de surfaces plates
+moreover the matrices satisfy some severe restrictions
+in fact given there are non parallel holonomy vectors v
+of saddle connections of such
+that the angle between v and is and and
+
+in other words e v
+where l since
+we have that the angle between v and is and for small enough
+in particular the quantity
+is uniformly bounded away from zero by a constant c
+
+in summary if we denote by
+vn the holonomy vectors of saddle connections of of length v c
+
+
+
+
+
+then r x
+
+e
+vi vj vi vj by a result of masur see the number n of saddle connections of lengths on the translation surface with
+is bounded by a constant n g
+also an elementary computation with the iwasawa decomposition of r says that where the implied constant depends only on
+in other terms given a pair of non collinear vectors w the haar probability that a matrix r with takes both of them to vectors w inside a annulus v e e around the unit circle has order
+
+by combining the information in the previous paragraph with we conclude that r x where the implied constant depends only on and this proves our claim
+
+at this point the proof of proposition is complete
+indeed lemmas and imply lemma saying that
+
+
+by combining this fact with lemma we conclude the desired formula
+
+
+
+for the m measure of the slices
+
+cf
+proposition in for a one page proof of this fact
+carlos matheus laction de r sur les espaces de modules de surfaces plates
+arithmetic teichmuller curves with complementary series let c be a connected component of a stratum of the moduli space of unit area translation surfaces of genus
+g
+
+it is well known that the theory of unitary representations of r and the fact that the ow gt is part of an action of r on c can be used to prove that any ergodic
+probability measure on c is actually mixing for all u v the correlation function g
+c vd decays to zero v
+lim t c ud
+v
+in general the speed of decay of correlation functions of a mixing measure depends on the features of the dynamics at hand for example the presence of hyperbolicity usually tends to accelerate the rate of convergence of v to zero for signicant classes of observables u and
+in particular the non uniform hyperbolicity properties of teichmuller ow established by veech
+and forni indicate that probability measures on c exhibit a fast decay of correlations
+
+exponential mixing of the teichmuller ow
+the rate of mixing of the masur veech measure c of c was computed in the celebrated work of avila gouezel and yoccoz theorem
+the teichmuller ow gt is exponentially mixing with respect to c v verges exponentially fast to zero as t for all suciently smooth observables u v c
+the proof of theorem is based on the mostly combinatorial analysis of a symbolic model of gt c called rauzy veech induction and a criterion based on dolgopyat like estimates for the exponential mixing of certain suspension ows
+the strategy outline above is hard to extend to arbitrary probability measures on c indeed the symbolic models provided by the rauzy veech induction are somehow tailor made for the masur veech measures
+nevertheless avila and gouezel managed to compute the rate of mixing of an arbitrary probability measure on c theorem
+the teichmuller ow gt is exponentially mixing with respect to any invariant probability measure on in particular there exists such that for all observables u v
+
+see subsection
+carlos matheus
+the proof of theorem is based on the delicate construction of anisotropic banach spaces adapted to the spectral analysis of certain transfer operators
+
+teichmuller curves with complementary series
+the particularly nice features of the on moduli spaces of translation surfaces led avila and gouezel
+to ask if there can be some sort of uniformity in the way that the ow mixes the phase space for instance is it possible to take the constant
+in the statement of theorem uniformly bounded away from zero as varies
+this question is still open to the best of our knowledge if the probability measures are only allowed to vary within a xed connected component c of a stratum of the moduli space of translation surfaces of genus g
+
+also it was conjectured by yoccoz that can be taken arbitrarily close to one when c is a masur veech measure
+bound on is possible
+on the other hand if we allow the support of to vary among all strata of moduli spaces of translation surfaces then it was proved by schmithusen and the author that no uniform lower theorem
+for each there exists an explicit square tiled surface of genus tiled by squares generating an arithmetic teichmuller curve such that there is no uniform lower bound on the exponential rate of mixing of the probability supported on
+where is the best constant in the statement of theorem
+lim
+we devote the rest of this section to discuss this theorem
+
+idea of proof of theorem
+from the abstract point of view an old procedure due to selberg allows one to build a sequence h
+z of arithmetic nite area hyperbolic surface such that there is no uniform lower bound on the exponential rate of mixing of the lebesgue measures k of h by taking appropriate cyclic covers of a xed nite area hyperbolic surface of positive genus see figure
+on the other hand it is not obvious at all that the lattices
+z provided by selberg s procedure are useful for our purposes of proving theorem in fact there is no reason for to correspond to veech groups of origamis or equivalently it is not clear that is realizable as an arithmetic teichmuller curve
+
+nevertheless avila yoccoz and the author noticed during some conversations that the results of ellenberg and mcreynolds on the realizability of certain lattices z as veech
+in the language of unitary see subsection the precise statement of yoccoz s conjecture is the regular r representation c has no complementary series whenever c is a veech measure
+so far the validity of this conjecture is known only for the moduli space of unit area at torii c z thanks to a classical theorem of selberg
+
+selberg used cyclic covers to show that there is no uniform spectral gap for the laplacian of h where z is a lattice
+as it turns out this is equivalent to our assertion on rates of mixing see subsection
+laction de r sur les espaces de modules de surfaces plates groups of origamis could be combined with selberg s argument to show the existence of a sequence of square tiled surfaces satisfying the conclusions of theorem
+
+in principle it is not easy to build the explicit examples of origamis in theorem directly from the arguments of avila yoccoz and the author mentionned in the previous paragraph but schmithusen and the author were able to adapt them to obtain theorem
+
+quick review of representation theory of r
+before starting the proof of theorem it is useful to recall the relationship between the spectral properties of the regular representation and the exponential rate of mixing of the teichmuller ow with respect to an ergodic probability measure supported on teichmuller curves
+for this reason we shall review in this subsection some basic aspects of the theory of unitary representation and the results of ratner on rates of mixing
+
+spectrum of unitary
+let r u h be a unitary resentation of r is a homomorphism from r into the group u h of unitary transformations of the complex separable hilbert space
+we say that a vector v h is a c vector of if g is a c
+k function on r
+recall that the subset of is dense in
+the lie algebra r of r is the set of all matrices with zero trace
+given a c vector v of the representation and x r the lie derivative lx v is lx v lim v v t where is the exponential map of matrices
+an important basis of r is w q v
+
+these vectors are the innitesimal generators of the following subgroups of r cos t sin t sin t cos t cosh t sinh t sinh t cosh t the casimir operator is
+furthermore q w q v w v where is the lie bracket of r
+w on the dense subspace of c vectors of q
+
+it is known that is symmetric its closure is a self adjoint operator and it commutes with lx on c vectors and with on c vectors for all x r and g r
+v in addition when the representation is irreducible is a scalar multiple of the identity operator v for some r and for all c vectors v h of
+in general as we re going to see below the spectrum of the casimir operator is a fundamental object
+
+
+et
+the tangent space of r at the identity
+
+a b
+ab ba is the commutator
+
+
+that is
+for any vectors v h carlos matheus
+bargmann s classication
+we introduce the following notation if if if note that satises the quadratic equation
+when
+bargmann s classication of irreducible unitary r says that the eigenvalue of the casimir operator has the form
+where s c falls into one of the following three categories principal series s is purely imaginary s ri complementary series and is isomorphic to the representation
+s a b d
+cx ax cx where f belongs to the hilbert space hs discrete series n
+
+r c
+y in other words belongs to the principal series when belongs to the complementary series when and belongs to the discrete series when
+for some natural number n
+note that when belongs to the complementary series we have
+
+
+hyperbolic surfaces and examples of regular unitary
+recall that
+r is naturally identied with the unit cotangent bundle of the upper half plane
+indeed the quotient r is dieomorphic to h via a
+r ai ci let be a lattice of r and denote by the probability measure on r induced from the haar measure of r
+note that in this situation m
+r is naturally identied with the unit cotangent bundle of the hyperbolic surface
+s r
+of nite area with respect to the natural measure
+since the actions of r on m r and s
+preserve and we obtain the following regular unitary r representations z
+z g and r z r
+
+observe that s is a subrepresentation of m because the space can be identied with the subspace
+is constant along r orbits
+nevertheless it is possible laction de r sur les espaces de modules de surfaces plates to show that the casimir operator m restricted to c vectors of h coincides with the laplacian s on
+also we have that a number belongs to the spectrum of the casimir operator m on
+if and only if belongs to the spectrum of the laplacian on
+
+rates of mixing and spectral gap
+recall that the action of the parameter subgroup
+
+et r of diagonal matrices of r on m r is identied with the geodesic ow on a hyperbolic surface of nite area s
+ratner
+showed that the bargmann s series of the irreducible factors of the regular representation on can be deduced from the rates of mixing of the geodesic along a certain class of observables
+more concretely let be the intersection of the spectrum of the laplacian s with the open interval
+we denote
+sup with the convention when
+and
+
+
+
+observe that the subset detects the presence of complementary series in the decomposition of into irreducible representations
+also since is a lattice it is possible to show that is nite and a fortiori
+since essentially measures the distance between zero and the rst eigenvalue of s on h it is natural to call the spectral gap
+theorem ratner
+for any u v h and we have when et when
+
+
+and is not an eigenvalue of the casimir operator t t et otherwise when
+and either or is an eigenvalue of the casimir operator
+
+the above constants c are uniformly bounded when varies on compact subsets of
+in other words ratner s theorem relates the exponential rate of mixing of the geodesic ow with the spectral gap indeed the quantity roughly measures how fast the geodesic mixes dierent places of phase space so that ratner s result says that the exponential rate of mixing of is an explicit function of the spectral gap of
+the original arguments of ratner allow one to explicitly these constants see our paper for more details
+
+this is more clearly seen when and g are characteristic functions of borelian sets
+carlos matheus
+explicit hyperbolic surfaces h with complementary series
+after this brief revision of ratner s work let us discuss now one of the key ingredients in the proof of theorem namely selberg s construction of cyclic covers with arbitrarily small spectral gap
+we want to dene a sequence of lattices
+z in such a way that h is a family of cyclic covers of a xed genus one nite area hyperbolic surface
+evidently the rst step is to nd an appropriate genus one hyperbolic surface serving as base surface of the cyclic cover construction
+for this sake we denote by
+
+
+n z a
+c
+mod n a d the principal congruence subgroup of level n n of z and we observe that h can be used as the base surface in the cyclic cover construction thanks to the following classical fact proposition
+h is a genus one hyperbolic surface with cusps
+moreover
+
+
+represents a non peripheral homotopically non trivial closed geodesic of h
+proof
+a complete proof of this proposition can be found in subsection
+for the sake of convenience of the reader let us give a brief sketch of the argument
+
+the group p is a normal subgroup of index of p this is so because the exact sequence restricts to the exact sequence p p z p
+p
+p p p p so that the quotient p
+p is isomorphic to the nite group p of order
+moreover the matrices
+i d
+
+y yx form a system of representatives of the cosets of p p
+the group p is isomorphic to the free group on and and a fundamental domain for the action of p on h is given by h
+
+this proposition fails for n indeed h n has genus for
+laction de r sur les espaces de modules de surfaces plates
+
+where i d and
+note that is an ideal quadrilateral in h whose edges are paired so that h p is a genus curve with three cusps
+
+it follows from this discussion that the cover h p h p has a tesselation into laterals whose dual graph is p p am p m
+with respect to the generators and see figure
+figure
+cayley graph of p p
+
+in figure the edges labelled by the same letter are identied and thus we have that h p has genus
+moreover all vertices of the quadrilaterals are cusps so that h p has cusps
+finally the fundamental group p of h p is generated by the paths a
+g and the small loops around the cusps
+indicated in figure
+
+in particular the path connecting b sides in figure is a homotopically non trivial non peripheral closed curve whose geodesic representative corresponds to the matrix
+this completes the proof of the proposition
+carlos matheus figure
+generators of
+using this proposition we construct a family h of cyclic covers of h as follows
+we slit h along we take copies of the resulting slitted surface and we glue them in a cyclic order as in figure below
+
+algebraically we can describe the cyclic covers h in the following way
+consider the generators a
+g
+in figure of the fundamental group p of h p
+the homomorphism m p z dened on the generators a
+g
+of given by n
+is precisely the homomorphism assigning to elements of the fundamental group of h p their oriented intersection numbers with
+for each n the kernel of the composition of m with the reduction modulo is denoted p and its inverse image in z is
+
+the presence of complementary series for h is easily detectable thanks to the so called buser s inequality proposition
+for every the rst eigenvalue of hyperbolic laplacian of h satises in particular h exhibits complementary series for all because
+proof
+given a hyperbolic surface h of nite area buser s inequality cf
+buser and lubotzky
+says that the rst eigenvalue of the hyperbolic laplacian of h veries the laction de r sur les espaces de modules de surfaces plates by letting act cyclically cusps c
+k figure
+selberg s cyclic cover construction
+following estimate where
+min multicurve of h separating it into two connected components a b is the cheeger constant of h in the case of h we can bound its cheeger constant as follows
+
+consider the multicurve in h consisting of the disjoint union of the copies of as indicated in figure
+by denition this multicurve separates h into two connected components each of them formed of k copies of h
+thus and since is represented by the matrix cf
+proposition we have arc cosh arc
+
+carlos matheus
+also the area of h is
+by plugging this into the previous inequality we deduce that
+by buser s inequality this means that the rst eigenvalue of the hyperbolic laplacian of arc
+h satises arc
+arc
+since arc it follows that arc
+for all
+this proves the proposition
+remark
+in general the rst eigenvalue of the laplacian of h does not increase under nite covers if is a nite index subgroup of then
+therefore k for any nite index subgroup of
+remark k is not a congruence subgroup of z
+indeed selberg s theorem says that the rst eigenvalue of the laplacian of h satises
+when is congruence but we know from proposition that
+for all
+
+arithmetic teichmuller curves birational to h
+in view of remark and ratner s theorem the proof of theorem is reduced to the following statement
+theorem
+for each there exists an explicit square tiled surface of genus tiled by unit squares whose veech group is contained in
+in particular the hyperbolic surface h is nitely covered by the arithmetic teichmuller curve generated by the
+of
+the construction of is based on the ideas of ellenberg mcreynolds and schmithusen
+
+unfortunately the implementation of these ideas is somewhat technical and for this reason we ll just give a sketch of the construction of while referring to sections and of for more details
+we build with the aid of ramied covers of translation surfaces
+for this sake let us recall that if is a nite covering of riemann surfaces then the ramication data h of a point p consists of the ramication indices of all preimages of p counted with multiplicities
+
+this notion is important for our purposes because any ane homeomorphism f on descending to an ane homeomorphism of under a translation covering h must respect
+because has index in z and the fundamental domain h of h z has hyperbolic area dxdy
+z is a congruence subgroup if contains the principal congruence subgroup n for some n laction de r sur les espaces de modules de surfaces plates the ramication data p h h
+in particular we can force such an ane homeomorphism to respect certain partitions of the branch points of h by prescribing distinct ramication data to them and as it turns out this information can be used to put constraints on the linear part df of f that is on the element df of the veech group of
+the simplest example illustrating the ideas in the previous paragraph is the translation covering from to e
+zi given by the natural isogeny
+indeed the ane homeomorphisms of e xing the origin p correspond to z and the ane homeomorphisms of xing the torsion points p q
+s correspond to the principal congruence subgroup of level
+
+next for each n one builds a translation covering of degree such that is ramied precisely over p q and s all ane homeomorphisms of xing p q and s lift to ane homeomorphisms of of such lifts under the derivative in particular the image of the group homomorphism d is the ber r of the torsion point r is bijectively mapped to by a map which is equivariant with respect to the derivative homomorphism d df
+ri for all ri r and
+the veech group of is z
+
+finally the square tiled surface is obtained from a double cover such that the ramication data of p q and s with respect to are pairwise distinct and the ramication data of the point rid
+
+r is dierent from the ramication data of all points in r
+in this way we have that any ane homeomorphism f of descending to an ane morphism of has linear part d f
+indeed our condition on the ramication data forces f to x rid
+in particular df
+df
+rid
+i that is d f
+df
+
+therefore the proof of theorem will be complete if we have that all ane homeomorphisms of descend to
+here one exploits the action of on p q r s in order to detect a partition of p q r s with the following property if the ramication data of r on the atoms of this partition are distinct then all ane homeomorphisms of descend to
+
+since it is not hard to produce a branched cover r with this feature for any given partition of p q r s this nishes our sketch of proof of theorem
+remark
+the rst member of the family k is a square tiled surface associated to the following pair of permutations h and v on unit squares
+h carlos matheus
+
+
+v
+laction de r sur les espaces de modules de surfaces plates
+
+carlos matheus laction de r sur les espaces de modules de surfaces plates
+some finiteness results for algebraically primitive teichmuller curves many applications of the dynamics of r on moduli spaces of translation surfaces to the investigation of translation ows and billiards rely on the features of the closure of certain orbits
+for example delecroix hubert exploited the properties of the closure of certain
+of translation surfaces of genus ve in order to conrm a conjecture of hardy and
+weber on the abnormal rate of diusion of trajectories in periodic ehrenfest wind tree models
+
+partly motivated by potential further applications the problem of classifying closures of orbits in moduli spaces of translation surfaces received a considerable attention in recent years
+
+some classication results for the closures of in moduli spaces
+
+the quest of listing all closures in moduli spaces of translation surfaces became a reasonable goal after the groundbreaking works of eskin and mirzakhani eskin mirzakhani and mohammadi and filip
+indeed these results say that such closures have many good properties including they are ane in period coordinates there are only countably many of them and they are quasi projective varieties with respect to the natural algebraic structure on moduli spaces
+
+despite the absence of a complete classication of closures of translation surfaces the current literature on the subject contains many papers
+for this reason instead of trying to give an exhaustive list of articles on this topic we shall restrict ourselves to the discussion of the smallest possible closures namely teichmuller curves while refereeing to the introduction of the paper of apisa
+and the references therein for more details on dimensional closures
+arithmetic teichmuller curves are always abundant they form a dense subset in any connected component of any stratum of the moduli space of translation surfaces
+this indicates that a plete classication of these objects is a challenging task and indeed we are able to list all arithmetic curves only in the case of the minimal stratum thanks to the works of hubert and and mcmullen
+non arithmetic teichmuller curves seem less abundant and we dispose of many partial results towards their classication
+in fact calta and mcmullen obtained a complete sication of all closures of translation surfaces of genus two it follows from their results that the minimal stratum contains innitely many non arithmetic teichmuller curves but the principal stratum contains just one non arithmetic teichmuller curve generated by a regular decagon
+in higher genera g we have many results establishing the niteness carlos matheus of algebraically primitive teichmuller curves teichmuller curves whose trace eld has the largest possible degree g over
+for example moller showed that contains only nitely many algebraically primitive bainbridge and moller
+established the niteness of algebraically primitive teichmuller curves and curves in
+the main theorem of this section namely theorem is a result due to wright and the author showing the niteness of algebraically primitive teichmuller curves in the minimal stratum
+g when g is a prime number
+
+before giving the precise statement of the main result of and sketching its proof let us mention that a recent work of bainbridge habbeger and moller proved the niteness of algebraically primitive teichmuller curves in all strata of the moduli space of translation surfaces of genus three similarly to the work of bainbridge and moller
+mentionned above bainbridge habegger and moller rely mostly on algebro geometrical arguments even though their treatment of the particular of the case build upon the techniques of our joint work with wright
+
+statement of the main results
+the main result of our paper with wright is theorem
+let c be a connected component of a stratum
+k of the moduli space of translation surfaces of genus g
+
+
+
+if g then the countable union a ci of all algebraically primitive teichmuller curves ci contained in c is not dense a
+if g is prime and c is a connected component of the minimal stratum g then there are only nitely many algebraically primitive teichmuller curves contained in remark
+apisa
+recently improved item for the hyperelliptic component c
+g of the minimal stratum by removing the constraint g is prime
+remark
+the technique of proof of this theorem is exible for example it was used beyond the context of algebraic primitivity by nguyen wright and the author cf
+theorem to show that the hyperelliptic component of the minimal stratum in genus contains only nitely many non arithmetic teichmuller curves
+a key idea in the proof of theorem is the study of hodge teichmuller planes
+see subsection above
+
+
+in fact it was conjectured by bainbridge moller that it contains exactly two non arithmetic teichmuller curves namely the algebraically primitive closed
+generated by the regular gon and the algebraically primitive closed generated by the gon
+laction de r sur les espaces de modules de surfaces plates denition
+let m be a translation surface
+we say that p h r is a hodge teichmuller plane if the gauss manin parallel transport of p along the of m respect the hodge decomposition for all
+h r
+
+c h
+example
+any translation surface m x possesses a canonical hodge teichmuller plane namely its tautological plane
+h r
+example
+let m be a veech surface whose trace eld associated to its veech group has degree k over
+the k embeddings of can be used to construct k planes
+lk h r obtained from the tautological plane by galois conjugation
+as it was observed by moller proposition we have a decomposition h r
+lk m of variation of hodge structures whose summands are symplectically orthogonal
+by denition this means that
+lk are symplectically orthogonal hodge teichmuller planes
+
+in fact these planes are important for our purposes because of the following features highlighted in the next two theorems compare with theorems and in
+theorem
+suppose that m is an ane invariant submanifold in the moduli space of genus g translation surfaces containing a dense set of algebraically primitive teichmuller curves
+then every translation surface in m has g symplectically orthogonal hodge teichmuller planes
+theorem
+let c be a connected component of a stratum of translation surfaces of genus g
+
+then there exists a translation surface mc c which does not have g symplectically orthogonal hodge teichmuller planes
+in other words theorem says that algebraically primitive teichmuller curves support many hodge teichmuller planes and moreover these planes pass to the closure of any sequence of gebraically primitive teichmuller curves
+on the other hand theorem says that the presence of many symplectically orthogonal hodge teichmuller planes is not satised by all translation surfaces in any given stratum
+
+technically speaking this parallel transport might be well dened only on an adequate nite cover of c getting rid of all ambiguities coming from eventual automorphisms of m see remark
+of course this minor point does not aect the arguments in this section and for this reason we will skip in all subsequent discussion
+
+recall that hodge s decomposition theorem says that h c
+h h where h resp
+
+h is the space of holomorphic resp
+anti holomorphic forms
+
+this is a decomposition such that the complexication of each lj is the sum of its and parts lj c
+lj c equals j j where la j lj c h a
+carlos matheus note that theorems and trivially imply the item a of theorem
+furthermore these two theorems also imply immediately the item b of theorem when they are combined with the following result of wright cf
+corollary theorem wright
+let m be a prime number
+denote by m an ane invariant manifold of a connected component c the minimal stratum m
+if m properly contains an algebraically primitive teichmuller curve then m sketch of proof of theorem
+denote by the eld of denition of m the smallest extension of q containing the coecients of all ane equations in period coordinates dening
+the eld of denition has the following three general properties the eld of denition of a teichmuller curve coincides with its trace eld it has a hereditary property if n and m are ane invariant submanifolds and n m then
+
+m whenever m is an ane invariant submanifold in a stratum of genus m translation surfaces whose tangent space t m h c at a point
+m m projects to a subspace m
+h c under the natural projection p h c h c
+let m be an ane invariant submanifold of a connected component c of
+m
+suppose that m is a prime number and m properly contains an algebraically primitive teichmuller curve then the rst two properties above of the eld of denition imply that the degree divides the degree of the trace eld of c divides
+since m is a prime number this means that equals or we arm that
+indeed if
+m then the third property of the eld of denition would imply that m a contradiction with the fact that m properly contains a teichmuller curve
+once we know that q it is not hard to see that the tangent space to m has complex dimension at least m in fact since m is dened over q the space m at any point m c contains the tangent space tautological plane to the algebraically primitive teichmuller curve c and all of its m galois conjugates
+because m m and the minimal stratum m has complex dimension m m it follows that m is an open subset of
+m
+by the ergodicity theorem of masur and veech this implies that m is a connected component of the stratum m
+in the sequel we will discuss the proofs of theorems and
+more precisely we will establish theorem in subsection below by studying some continuity properties of hodge teichmuller planes and we will provide a sketch of proof of theorem together with an elementary proof of a particular case of this theorem in subsection below
+
+proof of theorem
+recall that the most basic example of hodge teichmuller plane ciated to any given translation surface m is the tautological plane
+
+h r cf
+example
+laction de r sur les espaces de modules de surfaces plates
+if the of a translation surface x m of genus g generates an algebraically teichmuller curve c then we have g symplectically orthogonal hodge teichmuller planes
+lg cf
+example
+
+therefore the proof of theorem is reduced to the following continuity property of planes proposition
+let c be a connected component of a stratum of the moduli space of translation surfaces
+suppose that xn c is a sequence of translation surfaces converging to x c such that for some xed n each xn possesses symplectically orthogonal hodge teichmuller planes say
+p n
+p k
+n
+then x possesses symplectically orthogonal hodge teichmuller planes
+proof
+by denition xn mn n converges to x m whenever we can nd phisms fn
+mn m such that
+by extracting an appropriate subsequence if necessary we can assume that for each j k j n converges to a plane p j in the grassmanian of planes of h r
+we claim that p j is a hodge teichmuller plane for each j
+in fact given any r we have that where h is the ane homeomorphism induced by
+on the other hand we know that h fn
+j n hp j hp j n c h for each n n and j
+
+because p j are hodge teichmuller planes and in general h varies continuously with n see chapitre
+thus it follows from
+that
+hp j c h p j is a hodge teichmuller plane
+n
+finally we arm that p j are k pairwise distinct symplectically orthogonal planes
+indeed the continuity of the symplectic intersection form implies that p j are mutually symplectically orthogonal
+nevertheless this is not sucient to obtain that p j are pairwise distinct
+for this sake we observe that by denition a hodge teichmuller plane is hodge star invariant because its complexication is the sum of its and parts
+hence the symplectic orthogonal of a hodge teichmuller plane coincides with its orthogonal for the hodge inner product and a fortiori p j are mutually orthogonal with respect to the hodge inner product
+in particular p j are pairwise distinct as it was claimed
+
+sketch of proof of theorem
+let x m be a translation surface
+the group of ane homeomorphisms of x acts on h r via symplectic matrices
+let be the image of the natural representation r and denote by the zariski closure of
+
+recall that the hodge star operator h r h r is dened by the fact that the form c is holomorphic for all c h r
+
+see lemma of for more details
+
+
+the hodge norm is
+m c
+carlos matheus
+the proof of theorem starts with the following fact proposition
+the set of hodge teichmuller planes of x is
+proof
+for each h r let h
+h
+p h r is hodge teichmuller
+if and only if pc
+p c intersects h r
+
+
+h c
+by denition a plane h non trivially for all given h r the condition that pc intersects h non trivially corresponds to a nite number of polynomial equations on the grassmanian of planes in h r indeed if we form a matrix mp by listing a basis of p next to a basis of h is equivalent to g
+all g
+g minors of mp vanish
+here g is the genus of
+h then pc h h
+in particular the set p of hodge teichmuller planes is a subvariety of the grassmanian of planes in h r
+it follows that the stabilizer of p contains the zariski closure because p is clearly
+this proves the proposition
+
+given a translation surface x m of genus g let h be the symplectic orthogonal of the tautological plane
+denote by the tion of to h and let its zariski closure
+we use proposition to show that a translation surface has few hodge teichmuller planes when is large proposition
+let x m be a translation surface of genus
+g such that
+
+then the sole hodge teichmuller plane of x is its tautological plane
+proof
+by contradiction suppose that x has a hodge teichmuller plane which is not the tautological plane
+since the tautological plane is precisely the kernel of the natural projection h r h we have that p is dimension and moreover the complexication pc
+p c intersects h or h
+because the complexication of respects h and h
+
+taking into account that p is a real subspace and h is the complex conjugate of h we have that pc intersects both h and h and hence p has dimension two
+note that the same argument applies to hp for all h r
+this means that p is a teichmuller plane whenever is a non tautological hodge teichmuller plane
+
+by proposition our hypothesis implies that is a teichmuller plane for all
+this is a contradiction because acts transitively on the set of symplectic planes in h but there are symplectic planes which are not hodge teichmuller when g
+
+this proposition allows us to establish some low genus cases of theorem
+for instance the set of symplectic planes is open in the grassmannian of planes while the set of planes whose complexication intersects h has positive codimension when g
+laction de r sur les espaces de modules de surfaces plates proposition
+let c be a connected component of
+then there exists a square tiled surface mc c such that r
+in particular mc has only one hodge teichmuller plane
+proof
+the minimal stratum of the moduli space of translation surfaces of genus has two connected components and
+as it is explained in these connected components are distinguished by the parity of the spin structure m resp
+if and only if resp
+where
+is the so called arf invariant parity of spin structure
+
+from a direct inspection of the denitions one can check that the square tiled surface m associated to the permutations h v the square tiled surface m associated to the permutations v belongs to and belongs to
+
+we arm that r
+for the sake of exposition we treat only the case of m while referring to lemmas and for the case of m
+
+by poincare duality our task is equivalent to show that acts on the annihilator
+m r
+r of the tautological plane in h r through a zariski dense subgroup m r
+in this direction we shall compute the action of some elements of and h of
+we will prove that they generate a zariski dense group
+note that m decomposes into three horizontal resp
+vertical cylinders whose waist curves resp
+have lengths and
+also m decomposes into two cylinders in the slope direction whose waist curves and are given by the property that intersects and intersects
+see figure
+figure
+the geometry of the translation surface
+recall that if i i
+g is a canonical symplectic basis on a genus g translation surface m then where is the degree of the gauss map associated to the g tangents of a curve not intersecting the set of zeroes of
+carlos matheus let us consider dehn multitwists a b c in the horizontal vertical and slope directions with linear parts
+
+
+
+da db dc
+it is not hard to see that the actions of a b and c on r are given by
+i i
+
+
+
+
+
+
+i
+
+
+
+
+thus we can get matrices for the actions of a b and c on h m r after we x a basis
+m r is the subspace of r of this vector space
+in this direction we observe that h consisting of cycles with trivial intersection with and
+in particular the cycles
+
+form a basis of m r has dimension g and h m has genus g m r because these cycles are linearly independent h since and we conclude that the matrices a b c of a b c with respect to the basis of h m r are a b
+
+c
+once we computed these matrices it suces to check the zariski closure g of the group b is r
+as it turns out this fact can be proved as follows
+the lie algebra g of g contains log a g and a fortiori g also contains the nine conjugates of log a by the matrices b ab b bab c c ac bc
+on the other hand a direct computation reveals that log a and these nine conjugates are linearly independent
+since r has dimension this shows that g r
+in summary we showed that
+
+r
+in particular m has only one hodge teichmuller plane by proposition
+this completes the proof of the proposition
+laction de r sur les espaces de modules de surfaces plates
+at this point the idea of the proof of theorem can be explained as follows
+if c were a connected component of a stratum of the moduli space of translation surfaces of genus g such that all m c has hodge teichmuller planes then all translation surfaces in all adjacent strata to c would have many hodge teichmuller planes thanks to a continuity argument
+however this is impossible because c is adjacent to a connected component of but proposition says that all connected components of contain some translation surfaces with few hodge teichmuller planes
+
+more concretely we formalize this idea in in two steps
+first we use an elementary continuity argument similar to proposition and the notion of adjacency of strata from to establish the following result cf
+proposition proposition
+let c be a connected component of
+ks s kl g
+pose that all translation surfaces in c possess m symplectically orthogonal hodge teichmuller planes
+then there exists a connected component of the minimal stratum
+g such that all translation surfaces in also possess m symplectically orthogonal hodge teichmuller planes
+s
+
+
+secondly we use a sophisticated version of the previous continuity argument to move planes across minimal strata cf
+proposition proposition
+let c be a connected component of
+g
+suppose that every translation surface in c has m symplectically orthogonal hodge teichmuller planes
+then there exists a connected component of g such that every translation surface in has m symplectically orthogonal hodge teichmuller planes
+the basic idea behind the proof of this proposition is not dicult but a complete argument provided in sections and of is somewhat technical partly because it requires a discussion of the so called deligne mumford compactication
+for this reason we will content ourselves with the outline of proof of this proposition
+sketch of proof of proposition
+in their study of connected components of strata of the moduli space of translation surfaces kontsevich and zorich introduced a local surgery of abelian dierentials called bubbling a handle
+this surgery increases the genus by one and it is dened in two steps namely splitting a zero and gluing a torus
+
+roughly speaking one splits a zero of order m by a certain local cutting and pasting operation which produces a pair of zeroes of orders and with m joined by a saddle connection with holonomy v
+after splitting a zero one can cut the saddle connection to obtain a slit
+
+then one can bubble a handle by gluing a cylinder torus handle into this slit
+in what follows we will be interested in gluing a square torus handle to the slit
+see figures and for an illustration of these procedures
+
+more precisely we need the fact stated in corollary that the boundary of any connected component c of any stratum of the moduli space hg of translation surfaces of genus g contains a connected component of the minimal stratum
+g
+carlos matheus figure
+splitting a zero of an abelian dierential after eskin masur zorich
+figure
+bubbling a square handle
+the operation of bubbling a handle allows to understand the adjacencies of strata
+for example we claim that if c is a connected component of g then there exists a connected component
+
+
+g such that we can bubble a handle on every translation surface in in order to obtain a translation surface in c compare with lemma
+laction de r sur les espaces de modules de surfaces plates in fact lemma in says that c contains a translation surface x given by the suspension of an interval exchange transformation associated to a good standard permutation a mutation of the form such that the permutation derived from a
+z t z
+
+a t b by erasing the letters a and z is irreducible
+concretely the irreducibility of means that we can use it to build through suspension a translation surface x belonging to
+g in this context
+see figure for an illustration of x together with a copy of x inside it
+
+a z z a
+t x
+figure
+the surface x and the subsurface x
+denote by the connected component of g containing x
+observe that by denition x c is obtained from x by bubbling a square handle
+since the operation of bubbling a handle can be performed in a continuous way cf
+lemma we obtain the desired claim that one can bubble a square handle in any m
+to obtain a translation surface in m by exploiting this relation between c
+g and
+
+g through the operation of bubbling a square handle one can complete the proof of the proposition along the following lines
+propositions and in
+suppose that every m c has m symplectically orthogonal hodge teichmuller planes
+given m let us bubble a square handle to obtain m by degenerating the square handle by letting the length of the sizes of the square tend to zero in m to reach m we have that m converges to a stable nodal curve of the form depicted in figure
+
+in this process one of the m hodge teichmuller planes of m might be lost in case it converges to the plane h r associated to the degenerating square handle but at least m
+teichmuller planes of m will converge to m symplectically orthogonal hodge teichmuller planes of m
+this completes our sketch of proof of the proposition
+
+at this point theorem is a simple consequence of the following argument by contradiction suppose that c is a connected component of stratum of the moduli space of translation surfaces of
+here the fact that the angles of the torus do not degenerate because it is always a square is crucial
+
+a point in the boundary of deligne mumford compactication of the moduli space of curves
+carlos matheus figure
+the surface m on the left is attached to a torus on the right at a node
+genus g such that every m c has symplectically orthogonal hodge teichmuller planes
+
+by proposition there would be a connected component of
+g such that every m would also possess g symplectically orthogonal hodge teichmuller planes
+by applying times proposition we would nd a connected component of such that every m would have hodge teichmuller planes a contradiction with proposition
+closing this subsection let us give an elementary proof of the following particular cases of theorem proposition
+for each d odd there exists a translation surface in the odd connected component
+of the minimal stratum which does not possess symplectically orthogonal hodge teichmuller planes
+proof
+we arm that a square tiled surface n of genus g covering the square tiled surface m constructed in the proof of proposition can not have symplectically orthogonal planes
+in fact if we denote by p n m the translation covering dening the translation structure of n then h r
+e h where consists of all cycles projecting to zero under p and e r is the symplectic orthogonal of
+
+by appplying an argument similar to the proof of proposition one can check that if n had g symplectically orthogonal hodge teichmuller planes then two of them would be contained in e
+h r and a fortiori m would have two hodge teichmuller planes a contradiction with proposition
+
+in view of the discussion in the previous paragraph the proof of the proposition will be complete once we construct a degree branched cover of for technical reasons it is desirable to simplify the geometry of m before studying its covers
+
+in this direction let us replace m by the square tiled surface m associated to the permutations h
+v there is no harm in doing so because m belongs to the of m indeed m j t where j and t
+
+
+here by elementary we mean that instead of proving the existence of mc by indirect methods including the use of deligne mumford compactication we will build mc directly for certain c s
+
+our discussion of these particular cases follows an argument described in a blog post entitled planes and niteness results for curves in my mathematical blog
+laction de r sur les espaces de modules de surfaces plates
+a d c b e c e b a d figure
+the one cylinder surface m in z
+given d an odd integer let m be the square tiled surface associated to the pair of permutations
+
+
+
+
+
+by denition m is a degree d cover of m belonging to the stratum
+therefore it remains only to verify that m in order to complete the proof of the proposition
+
+since m is not hyperelliptic we have that m if and only if
+where the parity
+of the spin structure of m is dened as follows see for more details
+let
+ag bg where g be a canonical symplectic basis of
+then where satises the following properties whenever is a simple smooth closed curve in m not passing through singular points whose gauss map has degree is a quadratic form representing the intersection form
+in the sense that
+in other words we need to build a canonical symplectic basis of r in order to compute
+for this sake we begin by xing a basis of r
+we think of it as d horizontal cylinders determined by the permutation whose top and bottom boundaries are glued accordingly to the permutation
+using this geometrical representation we dene the following cycles in z see figure
+
+the shape of the covering m was guessed with the help of the computer program sage
+in fact i tried a few simple minded nite coverings of m including m for d
+and i asked sage to determine their connected components
+then once we got the correct connected components in minimal strata i looked at the permutations corresponding to these square tiled surfaces and i found the partner leading to the expressions for the permutations and
+carlos matheus for each i
+let be the homology classes of the vertical cycles within the horizontal cylinders connecting the middle of the bottom side of the squares and resp to the top side of the squares and resp
+and for each j l
+let be the homology classes of the vertical cycles within the horizontal cylinders connecting the middles of the bottom side of the square to the top side of the squares let be the homology class of the concatenation of the vertical cycles within the horizontal cylinders connecting the middles of the bottom side of the square to the top side of the square for l
+the bottom side of the square to the left side of the square and the right side of the square to the top side of the square is the horizontal cycle connecting the left vertical side of the square to the right vertical side of the square and for j l
+j is the horizontal cycle connecting the left vertical side of the square to the right vertical side of the square
+
+a d c b e c e b d
+a h g k n m l o f m l k n
+o g f h
+p r i j s t j i t s
+r q u y x v z d
+p q x z v y
+u figure
+some homology cycles in m laction de r sur les espaces de modules de surfaces plates
+it is not hard to check that these cycles form a basis of z
+from this basis we can produce a canonical basis of homology cycles of m using the orthogonalization procedure described in appendix c
+more precisely we start with the cycles and
+
+then by induction we use the cycles ai bi to successively render the cycles
+
+into a canonical basis
+ag bg where g
+using these cycles we are ready to compute inductively
+more concretely we arm that
+for each d odd
+indeed we note that the cycles of m do not intersect the other cycles of m dened above except for and moreover they have trivial intersection with the cycle
+
+
+
+satisfying
+and by applying the tion procedure to these two sets of and cycles in an independent way we deduce that
+thus by replacing
+diers from by a term of the form
+
+i
+i where
+i
+i i
+is an orthogonalization of the cycles
+
+
+by on the other hand by a direct computation one can check that
+
+
+
+
+is an orthogonalization of the cycles
+for i and
+
+j j i for j
+
+moreover
+
+hence i
+
+i
+i
+
+a gram schmidt orthogonalization process to produce canonical basis of homology modulo
+carlos matheus as it was claimed
+therefore
+laction de r sur les espaces de modules de surfaces plates
+simplicity of lyapunov exponents of arithmetic teichmuller curves the circle of ideas developed for the study of lyapunov exponents of the kontsevich zorich cocycle over the on moduli spaces of translation surfaces was fruitfully used in many contexts zorich and forni related the lyapunov exponents of the kz cocycle with respect to masur veech measures to obtain a complete description of the deviations of ergodic averages of typical interval exchange transformations and translation ows avila and forni used the positivity of the second largest lyapunov exponent of the kz cocycle with respect to masur veech measures to establish the weak mixing property for typical interval exchange transformations not of rotation type and translation ows on higher genus surfaces delecroix hubert and exploited the precise values of the lyapunov exponents of the kz cocycle over a certain closed locus of translation surfaces of genus ve to conrm a conjecture of hardy and weber on the abnormal rate of diusion of typical trajectories in periodic ehrenfest wind tree models of lorenz gases kappes and moller employed some invariants inspired of the lyapunov exponents of the kz cocycle the exact number nine of commensurability classes of the non arithmetic lattices of p u n constructed by deligne and mostow
+
+kontsevich zorich conjecture and veech s question
+in some applications of the punov exponents of the kz cocycles it is important to know whether they have a qualitative property called simplicity that is if all of them appear with multiplicity one
+for instance the most complete picture for the deviations of ergodic averages of typical interval exchange formations and translation ows depends on the simplicity of the lyapunov exponents of the kz cocycle with respect to masur veech measures see and
+in the case of masur veech measures the simplicity of the lyapunov exponents of the kz cocycle was conjectured by kontsevich and zorich after several numerical experiments
+this conjecture was fully conrmed in a celebrated work of avila and viana after an important partial result of forni
+
+
+in the case of other probability measures on moduli spaces of translation surfaces veech asked if the lyapunov exponents of the kz cocycle are always non zero simple
+this question was negatively answered by forni and the author with two examples called
+veech knew that the analog of his question for arbitrary teichmuller ow invariant probability measures was false for example thekz cocycle might have zero lyapunov exponents along certain periodic orbits of the ow in see appendix b
+carlos matheus eierlegende wollmilchsau and ornithorynque see loosely speaking these are examples of arithmetic teichmuller curves such that the kz cocycle over them has many zero lyapunov exponents
+of course this answer to veech s question motivates the problem of nding criteria for the plicity of the lyapunov exponents of the kz cocycle with respect to probability measures in moduli spaces of translation surfaces
+
+in the remainder of this section we shall oer an answer to this problem in the context of the kz cocycle over curves
+
+lyapunov exponents of teichmuller curves and random products of matrices
+in this subsection we will show that the lyapunov exponents of the kz cocycle with respect to probability measures supported on teichmuller curves can be computed via random products of matrices
+the relevance of this fact for our purposes is explained by the vast literature cf
+furstenberg guivarch raugi goldsheid margulis avila viana on the simplicity of lyapunov exponents of random products of matrices
+remark
+the analog of this statement for masur veech measures is discussed in avila viana paper in their reduction of the kontsevich zorich conjecture to the study of random products of matrices in rauzy veech monoids
+
+more concretely let x m be a translation surface whose is closed in the moduli space of translation surfaces
+recall that by a result of smillie see is closed if and only if x is a veech surface the stabilizer of x is a lattice of r
+
+we have a short exact sequence where is the group of automorphisms of x and is the group of ane homeomorphisms of for the sake of exposition we will assume that the group of automorphisms of x is trivial
+i d
+in this case the groups and are isomorphic
+since the kz gkz t over the teichmuller ow gt et
+
+r is the quotient of the trivial cocycle r r
+by the diagonal action of the mapping class group and the stabilizer of in the mapping class group is precisely we have that the kz cocycle is given by the actions on homology of the elements of appearing along the orbits of gt
+
+in this setting eskin and the author proved that the lyapunov exponents of the kz cocycle are seen by random products of the matrices of actions on homology of ane homeomorphisms
+the elements n used to bring close to
+laction de r sur les espaces de modules de surfaces plates theorem
+let x be a veech surface of genus g
+denote by g g the lyapunov exponents of the kz cocycle with respect to the unique
+probability measure on
+then there exists a probability measure on the countable group assigning non zero mass to every element and a constant such that the lyapunov exponents of random ucts of matrices in g z with respect to the law where g z is the representation induced by the action of ane homeomorphisms on z are precisely
+g g proof
+before discussing lyapunov exponents we need to replace the typical orbits of the desic ow gt on the hyperbolic plane h by certain random walks in
+in general the random walk on i with a law of full support on is tracked by a geodesic ray in h up to a sublinear error for some and for n almost all sequences
+there exists a unit speed geodesic ray
+r h such that
+i
+as n
+indeed this is a direct consequence of oseledets theorem saying that the random product n
+in r is close to the matrix where is the top lyapunov exponent associated to and
+is an angle depending on
+
+see lemma of for more details
+
+the distribution of the angles depend on
+in particular it is far from obvious that one can choose in such a way that a typical geodesic rays in h are tracked by random walks with law up to sublinear error in concrete terms this basically amounts to choose so that the distribution of angles
+is given by the lebesgue measure
+
+fortunately a profound theorem of furstenberg ensures the existence of a probability sure on the lattice with full support and the desired lebesgue distribution of angles
+
+once we know that a typical orbit of the geodesic ow is tracked by a random walk with sublinear error let us come back to the discussion of lyapunov exponents
+consider a typical geodesic ray tracked by a random walk n
+with sublinear error
+
+forni proved that the following general growth estimate for the kz cocycle dt log t for all translation surface where denotes the hodge norm
+from this estimate we deduce log
+
+gkz
+i
+
+actually furstenberg proves that the so called poisson boundary of is r lebesgue hence carlos matheus lim n n log
+n
+for any vector w r
+by denition of lyapunov exponents this equality means that where resp
+is the lyapunov exponent of w with respect to random products of matrices in g z with law resp
+kz gkz
+this proves the theorem
+t
+this theorem together with avila viana criterion for the simplicity of lyapunov exponents of random products of matrices
+yield the following statement cf
+theorem corollary
+let x m be a veech surface of genus
+g
+suppose that contains two elements and whose actions on the annihilator h x r of the tautological plane r
+r
+h r are given by two matrices a and b in x r
+
+g r such that i
+a is pinching all eigenvalues of a are real simple and their moduli are distinct b is twisting with respect to a for any k
+g any isotropic a invariant k plane f and any coisotropic a invariant g f we have f
+
+then the lyapunov exponents of the kz cocycle with respect to the lebesgue measure on are simple the lyapunov spectrum has the form g g proof
+by theorem our task is equivalent to establish the simplicity of the lyapunov spectra of the random products with law of matrices in
+x r where h x r is the natural representation
+
+by the simplicity criterion of avila viana a random product with law of matrices in r has simple lyapunov spectrum whenever the support of contains pinching and twisting matrices in the sense of items i and above
+since gives positive mass to a and b because assigns positive masses to and the proof of the corollary is complete
+remark
+theorem corollary and its variants were applied by eskin and the author to study the lyapunov spectra of certain teichmuller curves in genus four of prym type and certain variations of hodge structures of weight three associated to families of calabi yau threefolds including mirror quintics
+see sections and of for more explanations
+
+see also theorem in
+laction de r sur les espaces de modules de surfaces plates
+galois theoretical criterion for simplicity of exponents of origamis
+from the tical point of view corollary is not quite easy to apply
+indeed the verication of the pinching and twisting properties might be tricky for example avila viana performed a somewhat long inductive procedure in order to establish the pinching and twisting properties in their context of rauzy veech monoids
+as it turns out moller yoccoz and the author found an eective version of corollary in the case of square tiled surfaces thanks to some combinatorial arguments involving galois theory
+in the sequel we will state and prove a galois theoretical simplicity criteria and we will discuss its applications to square tiled surfaces of genus three
+
+galois pinching matrices
+let a r be a symplectic matrix
+the teristic polynomial of a is a monic reciprocal polynomial p of degree
+denote by i i p the set of roots of p and let r p where
+
+i
+we say that a matrix a z is galois pinching if its characteristic polynomial p is irreducible over q its eigenvalues are real r and the galois group gal of p is the largest possible gal
+sd acts by the full permutation group on r p and the subgroup xing r pointwise acts by independent transpositions of each of the d pairs i i
+
+for each let us choose an eigenvector v of a associated to with coordinates in the eld in such a way that
+
+for all g gal
+
+the nomenclature galois pinching is justied by the following proposition proposition
+a galois pinching matrix is pinching
+proof
+by denition all eigenvalues of a galois pinching matrix a are real and simple
+hence our task is to show these eigenvalues have distinct moduli
+suppose that and are eigenvalues of an element of the galois group gal xing must also a contradiction with the fact that gal is the largest possible
+an important point about galois pinching matrices is the fact that they can be detected in an eective way
+
+in order to illustrate this let us consider the prototype p of characteristic polynomial of a matrix in z p
+ax is a monic reciprocal integral polynomial of degree four
+the following elementary proposition characterizes the polynomials p with real simple and positive roots and a fortiori of distinct moduli
+proposition
+the polynomial p
+ax has real simple and positive roots if and only if t a and carlos matheus proof
+a simple calculation shows that is a root of p if and only if is a root of the quadratic polynomial
+
+ty of discriminant
+
+since the roots of p are real simple and positive if and only if the roots of q have the same properties the desired proposition follows
+the next two propositions provide a criterion for the irreducibility of p over proposition
+the polynomial p
+ax is a product of two reciprocal quadratic rational polynomials if and only if proof
+the quadratic polynomial
+ty with roots related to the roots of p via the formula is reducible over q if and only if
+proposition
+let p
+ax be a monic reciprocal integral polynomial z and p is reducible of degree four
+suppose that is not a square over
+then is a square proof
+since is not a square p has no rational root
+because p is reducible over q by tion the previous proposition implies that p p where p p are monic irreducible quadratic polynomials which are not reciprocal
+thus we can relabel the roots of p in such a way that p
+p
+note that p implies that q and a fortiori
+
+therefore it follows that
+is a square
+
+q
+
+furthermore it is not hard to decide whether an irreducible monic reciprocal integral polynomial of degree four has the largest possible galois group proposition
+let p
+ax be irreducible over
+the galois group gal of p is the largest possible gal
+has order eight if and only if
+z where and
+moreover in this case we have that the splitting eld of p contains exactly three quadratic subelds namely q q q
+
+laction de r sur les espaces de modules de surfaces plates proof
+the solution of this elementary exercise in galois theory is explained in lemmas and of
+for the sake of completeness let us sketch the proof of this proposition
+
+since p is irreducible gal acts transitively on the roots of p
+thus if gal can independently for i then gal has order eight and a fortiori gal is the permute i and largest possible
+i i i
+
+this reduces our task to show that if gal can not permute i and independently for i then either or is an integer
+
+for this sake we observe that if if gal does nt permute i and independently for i then gal permutes simultaneously and
+in this case there are two possibilities and either gal is generated by the permutations b or gal is generated by the four cycle
+
+these cases can be distinguished as follows
+the expression is invariant in case gal
+is a klein group but not in case gal is a cyclic group
+similarly the expression is invariant in case but not in case a
+therefore a occurs if and only if b occurs if and only if
+since
+
+we conclude that and q
+
+
+
+
+a occurs if and only if b occurs if and only if in any case we show that either
+i z or independently for i
+this completes our sketch of proof
+is an integer when gal can not permute i and in summary the previous four propositions allow us to test whether a matrix a z is galois pinching by studying three discriminants and naturally attached to its characteristic polynomial
+
+twisting with respect to galois pinching matrices i statements of results
+after discussing the galois pinching property let us study the twisting property with respect to galois pinching matrices
+our main result in this direction is theorem
+let a z be a galois pinching matrix
+suppose that b z has the property that a and share no common proper invariant subspace
+then there exists m and for any there are integers
+i m such that the product
+is twisting with respect to a for all k d for any a invariant isotropic subspace f of dimension and for any a invariant coisotropic subspace f of dimension k we have
+f
+carlos matheus
+this theorem constitutes the main ingredient in the simplicity criteria in
+before starting its somewhat long proof let us make some comments on its statement and applicability
+
+first we observe that theorem becomes false if is replaced by b in the hypothesis a and share no common proper invariant subspace for example a z is
+galois pinching b z has no invariant subspaces but
+is never twisting with respect to a because b permutes the eigenspaces of a
+
+second the condition a and have no common proper invariant subspace might not be easy to check in general
+for this reason the following two propositions cf
+proposition lemma and lemma in are useful in certain applications of theorem
+proposition
+let a z be a galois pinching matrix
+suppose that b z is unipotent and b
+if a and share a common proper invariant subspace then b is a lagrangian subspace of
+proof
+we begin by noticing that our assumptions imply that any subspace which is invariant under bm for some m is also invariant under indeed if we write b and bm then the binomial formula says that n is nilpotent whenever n is nilpotent
+hence b i d n m can be calculated by truncating the binomial series and therefore b is a polynomial function of n
+bm
+in particular any subspace invariant under bm is also invariant under in particular our assumption that a and share a common proper invariant subspace imply in our current setting that a and b share a common proper invariant subspace
+
+since a is galois pinching any a invariant subspace is spanned by eigenvectors
+denote by p the characteristic polynomial of a let p and for each take v an eigenvector of
+a with eigenvalue whose coordinates belong to in such a way that for all g in the galois group gal of p
+
+next let us x rb
+a proper subset of minimal cardinality such that the subspace
+spanned by the vectors v rb is b invariant
+because b has integral entries for all gal the subspaces are also b invariant
+thus the minimality of the cardinality of rb implies that for each gal either rb or rb
+this property together with the fact that gal is the largest possible is a severe constraint on the proper subset rb either rb has cardinality one or rb has the form rb
+logically there is no contradiction to theorem here a and b do nt t the assumptions of this theorem since a and id share two common proper invariant subspaces namely the eigenspaces of
+since n is nilpotent the formal binomial series i n
+
+
+
+a k can be interpreted as a polynomial function of n
+where a c and laction de r sur les espaces de modules de surfaces plates
+the rst possibility does not occur in our context if cv then because b is unipotent hence using the action of gal we would deduce that b xes all eigenvectors of a so that b i d a contradiction
+therefore b preserves some subspace of the form
+rv
+using again the action of gal we deduce that b preserves all subspaces and the restrictions of b to such planes are galois conjugates
+as b i d is unipotent b is an one dimensional subspace of for all since the planes are mutually
+symplectically orthogonal
+it follows that b is a lagrangian subspace
+proposition
+let a z be a galois pinching matrix
+suppose that b z has minimal polynomial of degree with no irreducible factor of even degree and a splitting eld disjoint from the splitting eld of the characteristic polynomial of then a and do not share a common proper invariant subspace
+proof
+we arm that a invariant subspace is also b invariant
+in fact b and have the same characteristic subspaces because and ca nt be both eigenvalues of b thanks to our assumption that the minimal polynomial of b has no irreducible factor of even degree
+since an invariant subspace is the sum of its intersections with characteristic subspaces it suces to check that a invariant subspace contained in a characteristic subspace of b is also b invariant
+since b is unipotent up to scalar factors in its characteristic subspaces the desired fact follows from the argument used in the beginning of the proof of proposition
+let us now assume by contradiction that a and share a common proper invariant subspace
+
+from the discussion of the previous paragraph this means that a and b share a common proper invariant subspace
+by repeating the analysis in the proof of proposition we have that all planes
+rv
+are invariant under a and observe that is dened over and the trace and determinant of
+
+from our hypothesis of disjointness of the splitting elds of a and b the trace and determinant of are rational
+thus the minimal polynomial of b has degree a contradiction with our hypotheses
+
+after these comments on the statement of theorem let us now prove this result
+
+twisting with respect to galois pinching matrices ii proof of theorem
+consider the galois pinching matrix a and denote by the set of its eigenvalues
+for each we select eigenvectors v of a associated to with coordinates in the eld behaving coherently with respect to the galois group gal of the characteristic polynomial of a vg gv for all g gal
+the twisting propertyfor a matrix c with respect to a can be translated in terms of torial properties of certain graphs naturally attached to its exterior powers more concretely for each k d let be the collection of all subsets of with cardinality note that for each k
+we can associated a multivector v carlos matheus vk
+by denition the set
+is a basis of diagonalizing a indeed
+
+n where n
+
+i i
+
+in this setting the a invariant isotropic subspaces are easy to characterize
+if
+and is the collection of such that is injective
+then the subspace generated by
+vk is isotropic if and only if
+k
+using this fact and an elementary linear algebra computation cf
+lemma it is not hard to check that lemma
+a matrix c is twisting with respect to a if and only if for every k
+d the coecients c k of the matrix c in the basis v satisfy the condition c k
+
+
+in other words if is oriented graph with set of vertices
+and set of arrows c k
+then c is twisting with respect to a if and only if is a complete graph for each k in general it is not easy to apply this lemma because the verication of the completeness of might be tricky
+for this reason we introduce the following classical notion denition
+the graph is mixing if there exists m such that for all we can nd an oriented path in of length m going from to
+remark
+in this denition it is important to connect two arbitrary vertices by a path of length exactly m and not only of length m
+for instance the graph in figure is not mixing because all paths connecting a to b have odd length while all paths connecting a to c have even length
+figure
+a non mixing oriented graph the relevance of this notion is explained by the following proposition saying that if is mixing then is complete for certain products d of the matrices c and a
+proposition
+let us assume that the graph is mixing with respect to an integer m
+
+then there exists a nite family of hyperplanes
+vt of such that the following holds
+
+for any
+
+the graph associated to the matrix is complete for all suciently large n
+laction de r sur les espaces de modules de surfaces plates proof
+let us denote d
+by denition c k n k
+n k
+path of length m in from to m consider the linear forms our assumption on c ensures that there are coecients c
+such that i log
+
+
+c
+we want to prove that coecients our task is to show that can be taken so that potential cancelations among these is a sum of exponentials with non vanishing
+since terms can be avoided
+here the key idea is to prove that for the linear forms l and are distinct
+indeed suppose that this is the case and let us dene v
+
+
+
+by hypothesis each v is a hyperplane
+since there are only nitely many paths of length m on the collection of v corresponds to a nite family of hyperplanes
+vt
+hence if we take vt then c
+for n suciently large because the coecients are mutually distinct
+let us now complete the proof of the proposition by showing that l for
+given and
+we claim that the following coecients of l and dier
+in fact an equality between these coecients would imply a relation log log
+
+
+
+
+on the other hand if then
+
+since
+so if we take
+
+and g gal with
+and
+otherwise then g
+if otherwise
+
+thus or a contradiction in any case because a galois pinching implies
+that r
+this proposition suggests the following strategy of proof of theorem step
+show that the graphs are always non trivial there is at least one arrow starting at each of its vertices
+carlos matheus step starting from a and b in the statement of theorem we will show that is mixing
+by proposition there is a product c of powers of a and b such that is complete
+in particular this settles the case of theorem let us now consider the cases of theorem
+unfortunately there is no unied argument to deal with all cases and we are obliged to separate the case
+from d step in the case d we will show that with c as in step is mixing for all
+by proposition there is a product d of powers of a and c such that is complete for all
+using this information we will prove that is mixing
+
+by proposition a certain product e of powers of a and d is twisting with respect to a so that this completes the argument in this case
+step in the special case d we will show that either or a closely related graph is mixing and we will see that this is sucient to construct d such that is complete
+
+during the implementation of this strategy the following easy remarks will be repeatedly used remark
+if c z then is invariant under the action of galois group gal on the set parametrizing all possible arrows of
+in particular since the galois group gal is the largest possible whenever an arrow belongs to the inverse arrow also belongs to
+consequently always contains loop of even length
+remark
+a connected graph is not mixing if and only if there exists an integer m such that the lengths of all of its loops are multiples of
+the next lemma deals with step of the strategy of proof of theorem lemma
+let c r
+then each is the start of at least one arrow of
+remark
+the symplecticity of c is really used in this lemma the analogous statement for general invertible gl matrices is false
+proof
+every dimensional subspace is isotropic
+hence and the lemma follows in the case from the invertibility of
+so we can assume that
+the invertibility of c ensures that for each there exists
+if we are done
+if
+k our task
+for this sake it suces to prove that if with c k
+is to convert into some
+with c k
+
+
+k and c k then there exists with c k
+also c k keeping this goal in mind note that if
+then we can write
+with if and only if the k k minor of c associated to and is invertible
+
+hence we can choose bases to convert invertible minors of c into the k k identity
+trix if
+k then we can nd
+such that
+
+wk
+vk and
+and
+
+
+
+
+i c iv
+laction de r sur les espaces de modules de surfaces plates denote by the symplectic form
+observe that because and belong to the span vi an isotropic subspace as
+thus the simplecticity of c implies that c
+
+
+
+and c since
+as it follows that c
+for some
+
+
+this allows us to dene
+
+note that
+
+and the minor of c associated to and is obtained from the minor by replacing the with the line associated to
+in the basis wk the minor line associated to diers from the identity minor precisely by the replacement of the line associated to by the line associated to that is one of the entries of was replaced by the coecient
+thus the determinant c k c of the the minor is c k
+
+c
+therefore has the desired properties
+this completes the proof of the lemma
+let us now discuss step in the strategy of proof of theorem
+lemma
+let a z be a galois pinching matrix
+suppose that b z has the property that a and share no common proper invariant subspace
+then is mixing
+proof
+in the sequel our gures are drawn with the convention that two points inside the same ellipse represent a pair of eigenvalues of a of the form
+
+for the set consists of exactly one pair
+hence all possible galois invariant graphs are described in figure
+figure
+all galois invariant graphs in the case k
+
+in the rst situation by denition we have that
+rv and
+
+thus b and a share a common invariant subspace a contradiction with our assumptions
+
+in the second situation by denition we have that
+and
+rv
+so
+rv and thus and a share a common invariant subspace a contradiction with our standing hypothesis
+carlos matheus
+in the third situation we have that the graph is complete and a fortiori mixing
+this establishes the case of the lemma
+after this warm up let us investigate the general case d
+
+first let us assume that all arrows in have the form
+then
+rv and since d the subspace rv is non trivial
+thus in this case b and a share a common non trivial subspace a contradiction with our assumptions
+
+therefore we can assume without loss of generality that contains an arrow with
+by remarks and this implies that all arrows of this type belong to and moreover is mixing whenever it contains a loop of odd length
+hence our task is reduced to exhibit loops of odd length in
+it is not hard to construct a loop of length in when indeed this follows diately from the presence of all arrows with in cf
+figure
+figure
+a loop of length three in in the case d
+
+on the other hand for we need a dierent argument
+if were the non mixing
+
+so and a would share a common invariant subspace a graph galois invariant depicted in figure we would have and contradiction with our hypothesis
+
+
+thus must contain the graph of figure and an extra arrow
+in this situation it is not hard to build up loops of lenght
+
+in any case we proved that under our assumptions contains a loop of length whenever
+
+this completes the proof of the lemma
+we are now ready to implement step of the strategy of proof of theorem
+the rst part of this step is implemented by the following lemma
+of course this arguments breaks up for d and this is why we had a separate argument for this case
+laction de r sur les espaces de modules de surfaces plates
+figure
+non mixing galois invariant graph in the case
+lemma
+let a z be a galois pinching matrix
+suppose that and c z is a matrix such that is complete
+then is mixing for all proof
+since is invariant under the galois group gal see remark it consists of a certain number of orbits of the action of gal on
+as it turns out it is not hard to check that all gal orbits on have the form o
+
+
+
+
+where
+k and
+
+
+in particular the gal orbits on are naturally parametrized by the set k and
+d
+
+it follows that
+k for some where k is the graph whose vertices are and whose arrows are o
+
+we arm that k is not mixing if and only if either and k
+k or k and k k
+
+indeed suppose that k k for k or k k for k
+then since k d one can show that k is not mixing simply because it is not connected
+for the reciprocal statement one proceeds as follows cf
+proposition for more details rst one converts pairs into a single point
+so that k becomes a new graph k one proves that k is connected whenever k
+k from the connectedness of k one can prove that k is connected since the connectedness of k allows us to construct loops of odd length one obtains from remarks and that k is mixing whenever k
+k and this concludes the argument
+once we dispose of this characterization of the mixing property for we can complete the proof of the lemma as follows
+suppose that is complete but is not mixing for some carlos matheus where
+the discussion of the previous paragraph implies that
+k for some k k for k or k k for k
+
+for the sake of concreteness we shall discuss only the case k
+
+k
+in of with
+this situation there is an arrow
+k
+this means that c k
+and hence we can nd
+wk such that
+wk
+vk and
+i c iv
+
+in other words as we also did in step cf
+the proof of lemma we can use
+to convert the minor of c associated to into the identity
+
+we claim that if then c minors and replacement of lines yield that if this were not true say c arrow from to
+
+
+and thus k
+k k for some a contradiction proving the claim
+i for all i
+
+indeed the same arguments with then there would be an i
+since we would have
+
+k this claim permits to complete the proof of the lemma in fact it implies that is a linear i
+d a contradiction with the completeness hypothesis on
+combination of i
+the second part of step of the strategy of proof of theorem is the following lemma lemma
+let a z be a galois pinching matrix
+suppose that and d z is a matrix such that is complete for all
+then is mixing
+proof
+recall that the gal orbits on are o
+
+
+
+
+with k and
+
+hence in the case d these orbits are parametrized by the set i
+for the sake of simplicity let us denote the gal orbits on by and let us write
+
+
+
+where j
+i d
+it is possible to show that if is complete for each then j contains two consecutive integers say and
+see for more details
+
+thus our task is reduced to prove that is mixing when j
+
+the particular case when k is left as an exercise to the reader see also
+
+
+again by the arguments with minors described above
+laction de r sur les espaces de modules de surfaces plates
+in this direction we establish rst the connectedness of
+for this sake note that it
+ces to connect two vertices and with
+
+given such and let us select
+with
+and let us consider obtained from by replacing the elements of by their inverses
+since
+
+we have
+and
+
+
+from our assumption j we infer the presence of the arrows and in
+this proves the connectedness of
+next we show that is mixing
+the galois invariance of guarantees that it contains loops of length see remark
+so it suces to exhibit some loop of odd length in
+see remark
+for this sake let us x an arrow of
+the construction for
+performed in the previous paragraph allows us to connect to by a path of length in
+in this way we get a loop based on in of length
+
+this proves the lemma
+
+finally let us comment on step of the strategy of proof of theorem the special case of this theorem
+consider a symplectic form since has dimension and is non degenerate k
+ker has dimension
+
+by denoting by the eigenvalues of a galois pinching matrix a we have the following basis of k v v v
+in general given c z we can use to construct a graph where i vi
+
+i whose vertices and v and whose arrows connect vertices associated to are
+non zero entries of remark
+by denition v so that is an eigenvalue of
+in principle this poses a problem to derive the analog of proposition with replaced by
+but as it turns out the simplicity of the eigenvalue of can be exploited to rework the proof of proposition to check that if is mixing then there are adequate products d of c and powers of a such that is complete cf
+proposition in
+in this setting the third step of our strategy of proof of theorem amounts to show that lemma
+let a z be a galois pinching matrix
+suppose that c z is a matrix such that is complete
+then either or is mixing
+proof
+we write with j
+if j contains two consecutive integers then the arguments from the proof of lemma can be used to show that is mixing
+
+the general case of two general vertices and follows by producing a series of vertices
+a with i
+for i
+a
+carlos matheus
+hence we can assume without loss of generality that j does not contain two consecutive integers
+since j
+see lemma step this means that j or
+as it turns out the cases j are symmetric as well as the cases j
+
+for the sake of exposition we will deal only with the cases j and j
+we will show that j is impossible while j implies that is mixing
+we begin by j
+this means that we have an arrow with
+so we can nd with and c c c and c
+c c
+on the other hand because c is symplectic since j the arrows do not belong
+
+thus c
+with
+it follows that c ij for all i that is c preserves the a invariant subspace
+by exploiting this fact one reaches a contradiction with our assumption of completeness of
+thus j is impossible
+
+suppose now that j and let us show that is mixing
+for this sake we claim that in this situation it suces to construct arrows from the vertex v to and vice versa
+assuming
+the claim we can use the galois action to see that once contains some arrows from v and some arrows to v it contains all such arrows
+in other words if the claim is true we have the situation depicted in figure
+thus we have loops of length in and also loops of length figure
+the graph when j based on v so that is mixing cf
+remark
+hence it remains only to show the claim
+
+the symmetric cases are left as an exercise for the reader
+
+as explained in the proof of proposition in
+
+
+notice that the action of the galois group can not be used to revert arrows of involving the vertex v so that the two previous statements are independent
+laction de r sur les espaces de modules de surfaces plates
+the existence of arrows from to v follows from the same kind of arguments involving minors above selecting as above and we will not repeat it here
+
+instead we focus on showing that there are arrows from v to
+the proof is by contradiction otherwise one would have
+
+we want to use this information to determine the image of under here the following elementary linear algebra fact is useful
+given h is a symplectic plane on equipped with the standard symplectic form let v h e g h
+where e is a basis of h and g h is a basis of the symplectic orthogonal h such that e h
+then v h is well dened independently on the choices and v h is collinear to v h
+if and only if h
+h or h see proposition for a proof of this fact
+since v v the fact stated above says that if rv then or
+once again an argument using minors says that this is a contradiction with our assumption that is complete
+this completes the proof of the lemma
+at this point the proof of theorem is complete compare with steps and of the strategy of proof outlined above
+indeed the case follows from lemma and proposition
+the generic case d follows from lemmas and proposition
+finally the special case follows from lemmas proposition and remark
+
+two simplicity criteria for the lyapunov exponents of origamis
+we are now in position to discuss the simplicity of lyapunov exponents of square tiled surfaces
+let x m dz be a reduced square tiled surface of genus
+g with a trivial group i d of automorphisms
+in this case the group of ane homeomorphisms of x is naturally isomorphic to a nite index subgroup of z namely the veech group of x the stabilizer of x in r
+the action of on r respects the decomposition r
+h st x r
+h x r x r is the annihilator of
+h r and h st where h
+the symplectic orthogonal of h
+x is a square tiled surface and hence the elements of act on h matrices in x r is x r
+note that this decomposition is dened over q because x r via symplectic x z
+
+g z
+our discussion of the galois pinching and twisting properties give the following two simplicity criteria for the lyapunov exponents of square tiled surfaces cf
+theorems and in
+
+this means that the group of relative periods of x is z carlos matheus theorem
+let x m be a reduced square tiled surface of genus
+g with trivial group of automorphisms
+suppose that and are ane homeomorphisms of x whose actions on h x r are given by matrices a and b in g z such that a is galois pinching and b i d is unipotent and b x r is not a lagrangian subspace
+then the lyapunov exponents of the kz cocycle with respect to the unique probability measure support on are simple
+proof
+by proposition the matrix a there is a product of powers of and such that the matrix c with respect to
+therefore the desired theorem follows from corollary
+x r is pinching
+by proposition and theorem x r is twisting theorem
+let x m be a reduced square tiled surface of genus
+g with trivial group of automorphisms
+suppose that and are ane homeomorphisms of x whose actions on h x r are given by matrices a and b in g z such that a is galois pinching and the minimal polynomial of b has degree with no irreducible factor of even degree and a splitting eld disjoint from the splitting eld of the characteristic polynomial of then the lyapunov exponents of the kz cocycle with respect to the unique probability measure support on are simple
+proof
+by propositions and theorem we can apply corollary to get the result
+from the practical point of view it is sometimes more convenient to apply the following corollary of theorem
+corollary
+let x m be a reduced square tiled surface of genus
+g with trivial group of automorphisms
+suppose that acts on h
+x r by a galois pinching matrix a in
+g z and there exists a rational direction such that x decomposes into a nite union of cylinders whose waist curves generate a subspace e of q of dimension then the lyapunov exponents of the kz cocycle with respect to the unique probability measure support on are simple
+proof
+in view of theorem it suces to construct acting on h unipotent matrix b i d such that b x r is not lagrangian
+x r by an we may assume that x decomposes into a collection c of horizontal cylinders c whose waist curves c generate an isotropic subspace e of q of dimension
+note that x q is one dimensiona because e is the image of e under r r h st isotropic so that h x q
+laction de r sur les espaces de modules de surfaces plates let k
+n be an integer such that d and the ane homeomorphism
+with linear part d xes all horizontal separatrices at all points of the set of conical k singularities of m
+we arm that is the desired ane homeomorphism
+indeed for each horizontal cylinder c of x let us x z a relative cycle crossing c upwards
+by denition the matrix b of the action of on z satises vc mcc for some mc
+since b xes each c we have that b i d is a nilpotent operator of degree two on z
+the image of h x r under b i d is contained in e h x r so that x r h x q in particular b x r is not lagrangian
+it remains only to prove that whose vertices are the connected components of m
+cc the component of m
+cc of m
+c containing the top boundary of cc note that for each vertex v of we have the relation x r
+for this sake consider the oriented graph c and whose edges ec c c go from c containing the bottom boundary of c to the component
+c c because these are the homology classes of the two components of a small neighborhood of v in m
+
+the orbit of the vertical ow on x through a generic point of c provides a way to construct a simple oriented loop in containing the edge on the other hand contains two distinct simple oriented loops at least otherwise would consist of a single loop so that the previous relations would say that all classes c are equal a contradiction with our assumption that the span e of the classes c has dimension
+
+let us x two distinct simple oriented loops and in by denition there is an edge of i not contained in for i
+consider a loop i on x obtained by concatenation of with ec i and some horizontal saddle connections
+observe that
+i mcc ec i because b xes horizontal saddle connections
+denote by iij
+the homological intersection between
+i and j
+by denition since mc for all c c and we can nd edges in i not contained in j for i j we get that
+iii mc and mc ec ec carlos matheus
+thus b intersects non trivially some j for all
+
+
+
+in particular if we choose and e such that h
+
+x r then we obtain a cycle whose image under b i d is not zero
+hence x r this completes the proof of the corollary
+
+
+the simplicity criteria in corollary was originally applied in our joint paper with moller and yoccoz to study the lyapunov exponents of square tiled surfaces in the minimal stratum of the moduli space of translation surfaces of genus
+
+more precisely we exhibited many innite families of square tiled surfaces in both connected components of tting the assumptions of corollary cf
+theorem in and ditionally on a conjecture of delecroix and on the classication of of square tiled surfaces in we showed that all but nitely many square tiled surfaces in have simple lyapunov spectrum
+
+xn r and denote by
+in a nutshell the idea of the proof of these facts goes as follows
+given a family xn
+mn n n n of square tiled surfaces and a family of ane homeomorphisms n let an z be the matrices of
+n anx the characteristic polynomial of an
+in our paper we identify several such families with the property that is irreducible and the discriminants and introduced in proposition are polynomial functions of high reduced degree of the parameter n
+
+by siegel s theorem on integral points in algebraic curves of positive genus we have that the discriminants and are not squares for all n suciently large for all n where is an eective but doubly exponential function of the coecients of and
+by proposition it follows that an is galois pinching for all n
+since these families xn are built in such a way that the cylinders in some rational direction span a subspace of dimension two in homology we can conclude thanks to corollary
+remark
+after the publication of bonatti eskin and wilkinson announced an ditional proof of the simplicity of the lyapunov exponents of all but nitely many square tiled surfaces in
+their arguments are based on the continuity of the lyapunov spectra of invariant probability measures in moduli spaces of translation surfaces and for this reason the conclusions of bonatti eskin and wilkinson are not eective in the sense explained above
+for the sake of brevity we shall not detail here the application of corollary metionned above
+
+instead we oer in the next subsection an application due to delecroix and the author of this corollary to the construction of a counterexample to the converse of a theorem of forni
+
+a counterexample to an informal conjecture of forni
+in his paper forni obtained a geometrical criterion for the non uniform hyperbolicity of the kz cocycle with respect to a given
+because b
+b intersects some j in a non trivial way
+
+
+if the conjecture of delecroix is true then the families described in include all but nitely many of square tiled surfaces in
+laction de r sur les espaces de modules de surfaces plates probability measure on the moduli space of translation surfaces
+in particular forni showed that if the support of contains a translation surface x m decomposing completely into parallel cylinders whose waist curves generate a lagrangian subspace of r then all lyapunov exponents of the kz cocycle with respect to are non zero
+
+during some informal conversations with the author forni conjectured that the converse ment to his theorem could be true if the lyapunov exponents of the kz cocycle with respect to are all non zero then the support of contains a translation surface completely decomposing into parallel cylinders whose waist curves generate a lagrangian subspace in homology
+
+in our joint work with delecroix we found two counterexamples to this informal conjecture
+
+for the sake of exposition we present only one of them
+theorem
+the of the square tiled surface x of genus associated to the pair of permutations and v supports an unique invariant probability measure such that all lyapunov exponents of the kz cocycle with respect to are non zero but the subspaces generated by complete decompositions in parallel cylinders of surfaces in are never lagrangian
+proof
+an elementary calculation shows that of x has exactly three square tiled surfaces x and cf
+proposition of
+a direct inspection of these square tiled surfaces reveals that the subspace ei generated by the waists curves of the horizontal cylinders of xi has dimension for all i cf
+proposition of
+in particular this means that the subspaces generated by complete decompositions in parallel cylinders of surfaces in are never lagrangian because x has genus
+
+therefore the proof of the theorem will be complete once we show that the lyapunov nents of the kz cocycle with respect to are all non zero
+in this direction we will actually use corollary to prove a stronger property namely the simplicity of these lyapunov exponents
+
+more concretely the discussion of the previous paragraph about the subspaces generated by waist curves of cylinders says that we can apply corollary once we exhibit an ane homeomorphism acting on h
+x r through a galois pinching matrix
+fortunately this goal is not hard to accomplish rst one shows that the ane homeomorphisms l and r of x with linear parts dl and dr act on h x r equipped with a certain basis
+
+
+via the matrices x r and x r
+carlos matheus cf
+lemma in
+a straightforward computation reveals that the ane homeomorphism acts on h x r via a matrix with characteristic polynomial p
+
+
+in particular
+
+p is an irreducible polynomial such that the discriminants x r is galois pinching indeed this is a consequence of proposition because
+
+
+and are not perfect squares
+this proves the desired theorem
+laction de r sur les espaces de modules de surfaces plates
+an example of quaternionic kontsevich zorich monodromy group the features of the on the moduli spaces of translation surfaces and its plications to the study of interval exchange transformations translation ows and billiards are intimately related to the properties of the so called kontsevich zorich kz cocycle
+
+in particular it is not surprising that the kz cocycle is one of the main actors in the recent groundbreaking work of eskin and mirzakhani
+towards the classication of measures on moduli spaces of translation surfaces
+partly motivated by this scenario some authors decided to investigate the possible monodromies of the kz cocycle the potential zariski closures of the corresponding groups of matrices
+
+filip s classication of kontsevich zorich monodromy groups
+by extending a ous work of moller
+on the kz cocycle over teichmuller curves filip showed that a version of the so called deligne s semisimplicity theorem holds for the kz cocycle in general
+
+in plain terms this means that the kz cocycle can be completely decomposed into irreducible pieces and furthermore each piece respects the hodge structure coming from the hodge bundle
+equivalently the kontsevich zorich cocycle is always diagonalizable by blocks and its restriction to each block is related to a variation of hodge structures of weight
+the previous paragraph seems abstract at rst sight but as it turns out it gives geometrical constraints on the possible groups of matrices obtained from the kz cocycle
+
+more precisely by exploiting the known tables for monodromy representations coming from variations of hodge structures of weight over quasiprojective varieties filip classied up to compact and nite index factors the possible zariski closures of the groups of matrices associated to restrictions of the kz cocycle to an irreducible piece
+in particular there are at most ve types of possible zariski closures for blocks of the kz cocycle cf
+theorems and in i the symplectic group r in its standard representation ii the generalized unitary group q in its standard representation in an exterior power representation iv the quaternionic orthogonal group sometimes called u su or of matrices on respecting a quaternionic structure and an hermitian complex form of signature n n in its standard representation v the indenite orthogonal group in a spin representation
+
+see
+
+
+in concrete terms is the group of n n matrices a with coecients in the quaternions h such that i d where a is the transpose of and bi cj a bi cj dk is a reversion on carlos matheus
+moreover it is not hard to check that each of these items can be realized as an abstract variation of hodge structures of weight over abstract curves abelian varieties
+remark
+this classication of kontsevich zorich monodromy groups allowed filip to conrm a conjecture of forni zorich and the author saying that all zero lyapunov exponents of the kz cocycle are explained by its monodromy see for more details
+
+realizability problem for kontsevich zorich monodromy groups
+it is worth to stress out that filip s classication of the possible blocks of the kz cocycle comes from a general study of variations of hodge structures of weight
+thus it is not clear whether all items above can actually be realized as a block of the kz cocycle over the closure of some in the moduli spaces of translations surfaces
+in fact it was previously known in the literature that all groups listed in items i and appear as blocks of the kz cocycle over closures of of translation surfaces given by certain cyclic cover constructions
+on the other hand it is not obvious that the other items occur in the context of the kz cocycle indeed this realizability question was explicitly posed by filip in question see also in appendix b of delecroix zorich paper
+filip forni and myself gave a partial answer to this question by showing that the case of item iv is realizable as a block of the kz cocycle theorem
+there exists a square tiled surface of genus such that the restriction of the kz cocycle over r to a certain piece acts through a zariski dense subgroup of in its standard representation modulo nite index subgroups
+remark
+thanks to an exceptional isomorphism between the real lie algebra in its dard representation and the second exterior power representation of the real lie algebra this theorem also says that the case of of item iii is realized
+remark
+the examples constructed by yoccoz zmiaikou and myself of regular origamis associated to the groups fp of lie type might lead to the realizability of all groups in item iv
+in fact what prevents us to show that this is the case is the absence of a systematic method to prove that the natural candidates to blocks of the kz cocycle over these examples are actually irreducible pieces
+remark
+the realizability of some all groups in items iii and v might be a delicate problem indeed contrary to our previous remark about the realization of all groups in item iv we are not aware of examples of translation surfaces which could solve this question
+
+the remainder of this section is dedicated to the proof of theorem
+
+a quaternionic cover of a l shaped orgami
+the starting point of the square tiled surface in theorem is the following observation
+the group is related to quaternionic laction de r sur les espaces de modules de surfaces plates structures on vector spaces
+in particular it is natural to look for translation surfaces possessing an automorphism group admitting representations of quaternionic type
+note that automorphism groups of translation surfaces of genus are always nite and the simplest nite group with representations of quaternionic type is the quaternion group q i i j j k k where ij k jk
+i and ki
+
+this indicates that we should look for translation surfaces whose group of automorphisms is isomorphic to
+a concrete way of building such translation surfaces s is to consider ramied covers s c of simple translation surfaces c such that the group of deck transformations of s c is isomorphic to
+the rst natural attempt is to take c the at torus and dene s as the translation surface obtained as follows
+we let cg g q be copies of the at torus
+then we glue by translation the rightmost vertical resp
+topmost horizontal side of cg with the leftmost vertical resp
+bottommost horizontal side of cgi resp
+cgj for each g
+in this way we obtain a translation surface s tiled by eight squares cg g q such that the natural projection s c is a ramied cover branched only at the origin of c whose group of automorphisms is isomorphic to q namely an element h q acts by translating cg to chg for all g q
+the translation surface s constructed above is a well known square tiled surface it is the
+called eierlegende wollmilchsau in the literature see and
+
+unfortunately the eierlegende wollmilchsau is not a good example for our current purposes
+indeed it is known that the kz cocycle over the of the eierlegende wollmilchsau acts through a nite group of matrices see the work of yoccoz and the author
+in particular this provides no meaningful information towards realizing monodromy groups because in filip s list one always ignores compact nite index factors
+
+after this frustrated attempt we are led to look at other translation surfaces distinct from the at torus
+in this direction it is natural to consider the simplest l shaped square tiled surface l in genus described in figure above
+
+next we build a ramied cover of l in a similar way to the construction of the eierlegende wollmilchsau we take copies lg g q of this l shaped square tiled surface and we glue by translations the corresponding vertical resp
+horizontal sides of lg and lgi resp
+lgj
+equivalently we label the sides of lg as indicated in figure and we glue by translations the pairs of sides with the same labels
+the natural projection l is a ramied cover branched only at the unique conical singularity of also the automorphism group of is isomorphic to q and each h q acts on by translating each lg to lhg for all g
+by hurwitzs theorem saying that a riemann surface of genus g has automorphisms at most carlos matheus gj lg g gi gj gi g g figure
+construction of a direct inspection reveals that has four conical singularities at the points labelled i j and in figure whose cone angles are
+in particular is a genus surface
+
+in this setting the kz cocycle over is simply the action on r of the group of ane homeomorphisms of
+block decomposition of the kz cocycle over r
+similarly to the so called wind tree models studied by delecroix hubert and ref the translation surface has a rich group of symmetries allowing us to decompose the kz cocycle into blocks
+
+more precisely by taking the quotient of by the center z of its automorphism group q we obtain a translation surface m z of genus with four conical singularities whose cone angles are
+moreover by taking the quotient of s by the subgroups z i i z j j and z k k of its automorphism group q we obtain three genus surfaces ni nj and nk each having two conical singularities whose cone angles are
+in summary we have intermediate covers
+m l and m n l for i j k such that m and n
+these intermediate covers lead us towards a natural candidate for blocks of the kz cocycle over more concretely a translation cover p s c induces a decomposition r where r is the symplectic orthogonal of the vector space of cycles on s projecting to zero under
+thus if we take an adequate nite index subgroup of whose elements commute with the automorphisms of then we obtain that the action of
+up to nite index the kz cocycle commutes with the action of q on r
+laction de r sur les espaces de modules de surfaces plates can be virtually diagonalized by symplectically orthogonal blocks r
+h st
+ei ej ek w where h st is the subspace generated by g g and g gq gq r is induced by the cover l e r is induced by the cover n for each
+i j and h st h st w is the symplectic orthogonal of the direct sum of the other subspaces
+see subsection of for more details
+these subspaces have the structure of q modules and by a quick comparison with the ter table of q one can show that ei ej ek and w resp are the isotypical components of the trivial i kernel j kernel k kernel and the unique four dimensional faithful irreducible sentation of q resp for example w is the isotypical component of because q acts as id on w and the sole character of q to take a negative value at is precisely
+furthermore w is dimensional because and m have genera and so that r and r have dimensions and and w is the symplectic orthogonal of the symplectic subspace h st
+ei ej ek r
+hence w as a q module
+
+some constraints on kontsevich zorich monodromy group of w
+note that acts via symplectic automorphisms of the q module w because the actions of and the automorphism group q on r commute and w carries a quaternionic structure
+in particular we are almost in position to apply filip s classication results to determine the group of matrices through which acts on w
+indeed if we have that acts irreducibly on w then filip s list of possible monodromy groups says that acts through a virtually zariski dense subgroup of because preserves a quaternionic structure on w
+
+however there is no reason for the action of the ane homeomorphisms on an isotypical ponent of the automorphism group to be irreducible in general as far as we know
+nevertheless the semi simplicity theorems of moller
+and filip mentioned above tells us that w can split into irreducible pieces in one of the following three ways w is irreducible it does not decompose further w u v where u and v are irreducible pieces c w v v
+v where v v v are irreducible pieces isomorphic to
+
+by applying filip s classication to each of these items we nd that up to compact and index factors there are just three possibilities a if w is then acts through a zariski dense subgroup of b if w u v with u and v irreducible pieces then acts through a subgroup of carlos matheus c if w v v
+v with v v v irreducible pieces isomorphic to then acts through a subgroup of
+at this point we reduced the proof of theorem to show that we are in situation a or equivalently the situations b and c ca nt occur
+in the next two subsections we shall rule out c and respectively
+
+ruling out monodromy on w
+suppose that acts on w as described in item c
+in this situation the nature of would force all lyapunov exponents of the restriction of the kz cocycle to w to vanish
+therefore we can rule out this situation by showing the following proposition proposition
+some lyapunov exponents of kz cocycle on w are not zero
+
+the proof of this proposition relies crucially on the formulas of bainbridge chen and moller and eskin kontsevich zorich for the sum of non negative lyapunov exponents for the square tiled surfaces
+more concretely we can derive this proposition as follows
+
+first since l bainbridge work ensures that the non negative lyapunov exponents associated to h st r are and
+
+secondly since n i j k the work of chen and moller says that the e is
+since we already are and we conclude that the sum of non negative lyapunov exponents associated to h st
+know that the non negative lyapunov exponents of h st non negative lyapunov exponents associated to h st
+ei ej ek r are with multiplicity one and with multiplicity four
+
+thirdly the fact that w has quaternionic nature forces each of its lyapunov exponent to appear with multiplicity four at least
+since w is dimensional the lyapunov exponents associated to w have the form
+it follows that the sum of the non negative lyapunov exponents of is at this point we will prove that is not zero by using eskin kontsevich zorich formula saying that the sum of the non negative lyapunov exponents g of a square tiled surface x
+ks of genus g is given by the following expression g s kl length of c y
+c cycle of hy where hy vy is a pair of permutations associated to y
+
+a product of three copies of the compact group
+laction de r sur les espaces de modules de surfaces plates
+in our case and its z contains twelve square tiled surfaces whose at geometries are explicitely described in subsection
+from this we can show that length of c y
+c cycle of hy
+this means that and thus the proof of proposition is complete
+remark
+we have just proved that we are in situation a or
+hence we already know that the kz cocycle over acts on a irreducible piece w through a zariski dense subgroup of or modulo compact nite index factors
+of course this suces to deduce that we can realize a non trivial case n or of item iv in filip s list but for the sake of completeness we will show in the next subsection how to rule out the situation b
+
+ruling out monodromy on w
+suppose that acts on w as described in item we have a decomposition w u v with u and v
+
+in this case the sole possibility for the subspace v is to be the central subspace of any matrix of any element of acting on w with simple spectrum in the quaternionic sense
+therefore we can contradict the existence of v by exhibiting two matrices of the action of on w with simple spectrum whose central spaces are distinct
+
+unfortunately we do not have an abstract method to produce two matrices with the properties above compare with remark above
+thus we are obliged to compute by hands the action of some elements of
+in this direction we observe that q acts on w via id
+from this it is not hard to check that a basis b of w is given by the following twelve absolute cycles where
+g g g g
+g g
+g g and g g g and are the relative cycles in figure
+
+next we consider the ane homeomorphisms a b c with linear parts da db dc
+z and xing pointwise the conical singularities of geometrically a b c are dehn multitwists of along the cylinders in directions
+a straightforward calculation shows that the actions of a b c on w with respect to the basis b are given by the following matrices a b c
+the matrix has an unstable eigenvalue a central modulus eigenvalue and an stable modulus eigenvalue all of them with multiplicity four
+carlos matheus
+
+a b
+
+and laction de r sur les espaces de modules de surfaces plates c
+see subsections and of for more details
+
+from these formulas we can exhibit two elements of acting on w through matrices with simple spectrum and distinct central subspaces
+in fact let us x k l n such that a and c belong to this is possible because has nite index in
+note that these elements act on w by matrices with simple spectrum indeed a computation reveals that and have characteristic polynomials
+
+
+
+and
+
+and in particular has three eigenvalues each of them with multiplicity four namely and has three eigenvalues each of them with multiplicity four namely and so that and have simple spectrum
+
+furthermore it is not hard to see that the central eigenspace vab of associated to the eigenvalue is spanned by the following four vectors
+ab
+
+ab
+
+ab
+ab carlos matheus and the central eigenspace vcb of associated to the eigenvalue is spanned by the following four vectors
+cb
+cb
+cb
+cb
+
+thus vab and vcb are distinct
+since vab resp
+vcb is also the central space of resp
+this means that we are not in situation b so that the proof of theorem is complete
+references
+apisa r orbit closures in hyperelliptic components of strata available at
+
+avila and forni weak mixing for interval exchange transformations and translations ows annals preprint
+of math
+
+
+avila and gouezel small eigenvalues of the laplacian for algebraic measures in moduli space and mixing properties of the teichmuller ow ann of math
+
+
+avila gouezel and yoccoz exponential mixing for the teichmuller ow pub
+math
+ihes
+
+
+avila matheus and yoccoz probability measures on the moduli spaces of translation surfaces are regular geom
+funct
+anal
+
+
+avila and viana simplicity of lyapunov spectra proof of zorich kontsevich conjecture acta math
+
+
+bainbridge euler characteristics of teichmuller curves in genus two geom
+topol
+
+bainbridge and moller the deligne mumford compactication of the real multiplication locus and curves in genus acta math
+
+
+bainbridge habegger and moller teichmuller curves in genus three and just likely intersections in gn m gn a available at to appear in publ
+math
+inst
+hautes etudes sci
+
+
+buser a note on the isoperimetric constant ann
+sci
+ecole norm
+sup
+
+
+calta veech surfaces and complete periodicity in genus two amer
+math
+soc
+
+
+chaika and eskin every at surface is birkho and oseledets generic in almost every direction
+chen and moller nonvarying sums of lyapunov exponents of abelian dierentials in low genus
+delecroix hubert and diusion for the periodic wind tree model ann
+sci
+ec
+norm
+
+mod
+dyn
+
+geom
+topol
+
+
+supr
+
+
+
+delecroix and matheus un contre exemple a forni pour positivite exposants de lyapunov du kontsevich zorich math
+res
+lett
+
+
+actually ab
+cb span a dimensional vector space laction de r sur les espaces de modules de surfaces plates
+delecroix and zorich cries and whispers in wind tree forests available at preprint
+disquisitiones mathematicae
+ellenberg and mcreynolds arithmetic veech sublattices of z duke math
+eskin kontsevich and zorich sum of lyapunov exponents of the hodge bundle with respect to the teichmuller geodesic ow publ
+math
+inst
+hautes etudes sci
+
+eskin and masur asymptotic formulas on at surfaces ergodic theory dynam
+systems
+
+
+
+eskin and matheus a coding free simplicity criterion for the lyapunov exponents of teichmuller curves geom
+dedicata
+
+eskin and mirzakhani invariant and stationary measures for the r action on moduli space available at preprint
+
+eskin mirzakhani and mohammadi isolation equidistribution and orbit closures for the r action on moduli space ann of math
+
+
+filip splitting mixed hodge structures over ane invariant manifolds ann of math
+
+filip semisimplicity and rigidity of the kontsevich zorich cocycle invent
+math
+
+
+filip zero lyapunov exponents and monodromy of the kontsevich zorich cocycle available at to appear in duke math
+
+filip forni and matheus quaternionic covers and monodromy of the kontsevich zorich cocycle in orthogonal groups available at to appear in eur
+math
+soc
+jems
+
+
+forni deviations of ergodic averages for area preserving ows on surfaces of higher genus annals of math
+
+
+forni on the lyapunov exponents of the kontsevich zorich cocycle handbook of dynamical systems
+vol
+elsevier amsterdam
+
+forni a geometric criterion for the nonuniform hyperbolicity of the kontsevich zorich cocycle with an appendix by carlos matheus
+mod
+dyn
+
+
+forni and matheus introduction to teichmuller theory and its applications to dynamics of interval exchange transformations ows on surfaces and billiards mod
+dyn
+no
+
+
+forni matheus and zorich lyapunov spectrum of invariant subbundles of the hodge bundle ergodic theory dynam
+systems
+
+forni matheus and zorich zero lyapunov exponents of the hodge bundle comment
+math
+helv
+
+
+furstenberg noncommuting random products trans
+amer
+math
+soc
+
+
+furstenberg random walks and discrete subgroups of lie groups advances in probability and related topics vol
+pp
+dekker new york
+
+goldsheid and margulis lyapunov exponents of a product of random matrices uspekhi mat
+nauk russian english translation in russian math
+surveys
+carlos matheus
+guivarch and raugi products of random matrices convergence theorems in random matrices and their applications brunswick me contemp
+math pp
+
+amer
+math
+soc
+providence ri
+
+guivarch and raugi proprietes de contraction dun semi groupe matrices inversibles
+coecients liapuno dun matrices aleatoires independantes israel math
+
+
+gutkin and judge ane mappings of translation surfaces geometry and arithmetic duke math
+
+
+herrlich and schmithusen an extraordinary origami curve math
+nachr
+
+
+hubert and prime arithmetic teichmller discs in israel math
+
+kappes and moller lyapunov spectrum of ball quotients with applications to commensurability questions duke math
+
+
+kontsevich lyapunov exponents and hodge theory the mathematical beauty of physics saclay adv
+ser
+math
+phys world sci
+publ river edge nj
+
+kontsevich and zorich connected components of the moduli spaces of abelian dierentials tiones math
+
+
+lubotzky discrete groups expanding graphs and invariant measures with an appendix by jonathan rogawski
+progress in mathematics
+birkhauser verlag basel
+pp
+isbn x
+masur interval exchange transformations and measured foliations annals of math
+
+
+masur the growth rate of trajectories of a quadratic dierential ergodic theory dynam
+systems
+matheus some quantitative versions of ratner s mixing estimates bull
+braz
+math
+soc
+
+matheus and weitze schmithusen explicit teichmuller curves with complementary series bull
+soc
+math
+france
+
+matheus moller and yoccoz a criterion for the simplicity of the lyapunov spectrum of square tiled surfaces invent
+math
+
+matheus and wright hodge teichmuller planes and niteness results for curves duke math
+
+matheus and yoccoz the action of the ane dieomorphisms on the relative homology group of certain exceptionally symmetric origamis mod
+dyn
+
+
+matheus yoccoz and zmiaikou homology of origamis with symmetries ann
+inst
+fourier grenoble
+
+mcmullen billiards and teichmuller curves on hilbert modular surfaces amer
+math
+soc
+
+mcmullen teichmuller curves in genus two discriminant and spin math
+ann
+
+
+mcmullen teichmuller curves in genus two torsion divisors and ratios of sines invent
+math
+
+moller variations of hodge structures of a teichmuller curve amer
+math
+soc
+
+
+
+
+moller finiteness results for curves ann
+inst
+fourier grenoble
+
+laction de r sur les espaces de modules de surfaces plates
+ratner the rate of mixing for geodesic and horocycle ows ergodic theory dynam
+systems
+rauzy echanges dintervalles et transformations induites acta arith
+
+
+schmithusen an algorithm for nding the veech group of an origami experiment
+math
+
+smillie and weiss characterizations of lattice surfaces invent
+math
+
+
+veech gauss measures for transformations on the space of interval exchange maps annals of math
+
+
+
+
+veech geodesic ow annals of math
+
+
+veech moduli spaces of quadratic dierentials anal
+math
+
+
+veech siegel measures ann of math
+
+
+voisin hodge et geometrie algebrique complexe cours specialises
+societe mathematique france paris
+pp
+isbn
+wright the eld of denition of ane invariant submanifolds of the moduli space of abelian dierentials geom
+topol
+
+
+yoccoz interval exchange maps and translation surfaces homogeneous ows moduli spaces and metic clay math
+proc amer
+math
+soc
+providence ri
+
+zorich deviation for interval exchange transformations ergodic theory dynam
+systems
+zorich flat surfaces frontiers in number theory physics and geometry
+i springer berlin
+
+zorich explicit jenkins strebel representatives of all strata of abelian and quadratic dierentials mod
+
+dyn
+
+e mail address universite paris sorbonne paris cite laga cnrs umr villetaneuse france

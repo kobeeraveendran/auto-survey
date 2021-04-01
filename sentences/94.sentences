@@ -1,0 +1,518 @@
+r
+a l c
+s
+c
+v
+v
+i x r a extractive summarization limits compression generalized model and
+rakesh verma and daniel lee computer science department
+university of houston houston tx usa abstract
+due to its promise to alleviate information overload text
+tion has attracted the attention of many researchers
+however it has remained a serious challenge
+here we rst prove empirical limits on the recall and scores of extractive summarizers on the duc datasets under rouge evaluation for both the single document and multi document summarization tasks
+next we dene the concept of compressibility of a document and present a new model of summarization which generalizes existing models in the literature and integrates several dimensions of the summarization viz abstractive versus extractive gle versus multi document and syntactic versus semantic
+finally we examine
+some new and existing single document summarization algorithms in a single framework and compare with state of the art summarizers on duc data
+introduction automatic text summarization is the holy grail for people battling information overload which becomes more and more acute over time
+hence it has attracted many researchers from diverse elds since the
+however it has remained a serious challenge especially in the case of single news articles
+the single document summarization competition at document understanding conferences
+duc was abandoned after only two years since many automatic summarizers could not outperform a baseline summary consisting of the rst words of a news article
+those that did outperform the baseline could not do so in a statistically signicant way
+summarization can be extractive or abstractive in extractive summarization sentences are chosen from the given as input whereas in abstractive summarization sentences may be generated or a new representation of the may be output
+extractive summarization is popular so we explore whether there are herent limits on the performance of such we then generalize existing research supported in part by nsf grants due cns and dge
+surprisingly despite all the attention extractive summarization has received to our knowledge no one has explored this question before
+models for summarization and dene compressibility of a document
+we
+plore this concept for documents from three genres and then unify new and existing heuristics for summarization in a single framework
+our contributions
+we show the limitations of single and multi document extractive rization when the comparison is with respect to gold standard human constructed abstractive summaries on duc data section
+
+specically we show that when the documents themselves from the duc datasets are compared using rouge
+to tive summaries the average unigram recall is around
+
+on rouge evaluations no extractive summarizer can do better than just returning the document itself in practice it will do much worse
+cause of the size constraint on summaries
+for multi document summarization we show limits in two ways we concatenate the documents in each set and examine how this ument performs as a summary with respect to the manual abstractive summaries and we study how each document measures up against the manual summaries and then average the performance of all the uments in each set
+
+inspired by this view of documents as summaries we introduce and
+plore a generalized model of summarization section that unies the three different dimensions abstractive versus extractive single document and syntactic versus semantic
+
+we prove in appendix that constructing certain extractive summaries is isomorphic to the min cover problem for sets which shows that not only is the optimal summary problem np complete but it has a greedy heuristic that gives a multiplicative logarithmic approximation
+based on our model we can dene the compressibility of a document
+
+we study this notion for different genres of articles including news ticles scientic articles and short stories
+we present new and existing heuristics for single document tion which represent different time and compressibility trade offs
+we compare them against existing summarizers proven on duc datasets
+
+although many metrics have been proposed more in section we use rouge because of its popularity ease of use and correlation with human evaluations
+related work
+most of the summarization literature focuses on single document and document summarization algorithms and frameworks rather than limits on the performance of summarization systems
+as pointed out by competitive marization systems are typically extractive selecting representative sentences concatenating them and often compressing them to squeeze in more sentences within the constraint
+the summarization literature is vast so we refer the reader to the recent survey which is fairly comprehensive for summarization search until
+here we give a sampling of the literature and focus more on recent research evaluation work
+single document extractive summarization
+for single document marization explicitly model extraction and compression but their results showed a wide variation on a subset of documents from the duc dataset and focused on topic coherence with a graphical structure with separate importance coherence and topic coverage functions
+in the thors present results for single document summarization on a subset of plos medicine articles and duc dataset without mentioning the number of articles used
+an algorithm combining syntactic and semantic features was sented by and graph based summarization methods in
+several systems were compared against a newly devised supervised method on a dataset from yahoo in
+multi document extractive summarization
+for multi document rization extraction and redundancy compression of sentences have been eled by integer linear programming and approximation algorithms
+
+supervised and semi supervised learning based extractive summarization was studied in
+of course single document summarization can be considered as a special case but no experimental results are presented for this important special case in the papers cited in this paragraph
+abstractive summarization
+abstractive summarization systems include
+frameworks
+frameworks for single document summarization were sented in and some multi document summarization frameworks are in
+metrics and evaluation
+of course rouge is not the only metric for uating summaries
+human evaluators were used at nist for scoring summaries on seven different metrics such as linguistic quality
+there is also the mid approach and be for example
+our choice of rouge is based on its popularity ease of use and correlation with human assessment
+our choice of rouge congurations includes the one that was found to be best according to the paper
+
+
+limits on extractive summarization
+in all instances the rouge evaluations include the best schemes as shown by
+which are usually bigram and trigram with stemming and stopword elimination
+we also include the results without stopword nation
+the only modication was if the original parameters limited the size of the generated summary we removed that option
+single document summarization
+to study limits on extractive summarization we will pretend that the document is itself a summary that needs to be evaluated against the human abstractive summaries created by nist experts
+of course the precision of such a mary will be very low so we focus on recall and f score by letting the ment get all its recall from the same size as the human summary words
+table shows that for the duc dataset when the document themselves are considered as summaries and evaluated against a set of word human stractive summaries the average unigram score is approximately
+tables through and figures and use the following abbreviations
+r n means rouge metric using n gram matching and lowercase s denotes the use of stopword removal option
+metric
+
+
+range metric
+
+
+
+
+range table rouge recall on duc document as summary
+table rouge recall on duc document as summary
+
+this means that on the average about of the words in the human stractive summaries do not appear in the documents
+since extractive automatic summarizers extract all the sentences from the documents given to them for summarization clearly no extractive summarizer can have recall score was the last year in which the single document summarization competition was held by nist
+higher than the documents themselves on any dataset and in general the recall score will be lower since the summaries are limited to words whereas the documents themselves can be arbitrarily long
+thus we establish a limit on the rouge recall scores for extractive summarizers on the duc datasets
+the duc dataset has unique documents and most include two word human abstractive summaries
+we note that if extractive summaries are also exactly words each then the precision can also be no higher than recall score
+in tion since the score is upper bounded by the highest possible recall score
+therefore in the single document summarization no extractive summarizer can have an average score better than about
+when considered in this light the best current extractive single document summarizers achieve about of this limit on duc datasets see
+
+rouge insights in table comparing and we can see an increase in the lower range of recall values with stopword removal
+this occurred with document app
+c
+upon deeper analysis of rouge we found that it does not remove numbers under stopword removal option
+document had a table with several numbers
+in addition rouge treats numbers with the comma character and also decimals such as as two different numbers become and
+this boosted the recall because after stopword removal the summaries signicantly decreased in unigram count whereas the overlapping unigrams between document and summary did not drop as much
+another discovery is that documents with long descriptive explanations end up with lower recall values with stopword removal
+tabel shows a steep drop on the lower range values from to
+when looking at the lower scoring documents the documents usually had explanations about events whereas the summary skipped these explanations
+multi document extractive summarization for multi document summarization there are at least two different scenarios in which to explore limits on extractive summarization
+the rst is where ments belonging to the same topic are concatenated together into one
+document
+and then it is treated as a summary
+in the second we compare each document as a summary with respect to the model summaries and then average the results for documents belonging to the same topic
+
+for multi document summarization experiments were done on data from duc datasets for and
+the data was grouped into document clusters
+
+each cluster held documents that were about a single topic
+for the petition duc we focused on the english document clusters
+there were a total of document clusters and each document cluster had an average of documents
+duc also had documents clusters however there were a minimum of documents for each set
+please note that since the scores for and were quite low best being these scores are not reported here
+
+super document approach now we consider the overlap between the ments of a cluster with the human summaries of those clusters
+so for this limit on recall we create super documents
+each super document is the
+tion of all the documents for a given document set
+these super documents are then evaluated with rouge against the model human summaries
+any tive summary is limited to only these words so the recall of a perfect extractive system can only reach this limit
+the results can be seen in table and table
+metric
+
+
+
+range table
+rouge recall on duc super document as summary
+metric
+
+
+range table rouge recall on duc super document as summary
+
+averaging results of individual documents here we show a different
+spective on the upper limit of extractive systems
+we treat each document as a summary to compare against the human summaries
+since all the documents are articles related to a specic topic these documents can be viewed as a dalone perspective
+for this experiment we obtained the rouge recall of each document and then averaged them for each cluster
+the distribution of the ages are presented in figure and figure
+here the best distribution average is only about and for duc and duc respectively
+the best system did approximated in duc and in duc a general model for summarization
+now we introduce our model and study its implications
+consider the process of human summarization
+the starting point is a document which contains a fig
+distribution of avg for duc fig
+distribution of avg for duc sequence of sentences that in turn are sequences of words
+however when a human is given a document to summarize the human does not choose full tences to extract from the document like extractive summarizers
+rather the human rst tries to understand the document builds an abstract mental
+resentation of it and then writes a summary of the document based on this
+therefore we formulate a model for semantic summarization in the abstract world of thought which can be specialized to syntactic summarization by using words in place of thought units
+we hypothesize that a document is a collection of thought units some of which are more important than others with a mapping of sentences to thought units
+the natural mapping is that of implication or inclusion but this could be partial implication not necessarily full implication
+that is the mapping could associate a degree to represent that the sentence only includes the thought unit partially
+a summary must be structed from sentences not necessarily in the document that cover as many of the important thought units as possible maximize the importance score of the thought units selected within a given size constraint
+we now dene it mally for single and multi document summarization
+our model can naturally represent abstractive versus extractive dimension of summarization
+let s denote an innite set of sentences t an innite set of thought units and i
+s
+t r be a mapping that associates a non negative real number for each sentence s and thought unit t that measures the degree to which the thought unit is implied by the sentence given a document d which is a nite sequence of sentences from s let
+s be the nite set of sentences in d and t d
+t be the nite set of thought units of once thoughts are assembled into sentences in a document with its sequencing a train of thought we prefer thought units because a sentence is dened as a complete thought and this imposes a certain of importance on these thought units which is denoted by a scoring function wd t
+the size of a document is denoted by which could be for example the total number of words or sentences in the document
+a size constraint c for the summary is a function of a percentage of or a xed number of words or sentences in which case it is a constant function
+a summary of d denoted by
+s is a nite sequence of sentences that attempts to represent the thought units of d as best as possible within the constraint
+the size of a summary is measured using the same procedure for measuring
+with these notations for each thought unit t t d we dene the score assigned to for expressing thought unit t as t
+
+t s
+formally the summarization problem is then select to maximize u tt d t
+subject to the constraint note that our model can represent some aspects of summary coherence as
+well by imposing the constraint that the sequencing of thought units in the mary be consistent with the ordering of thought units in the document
+
+for the multi document case we are given a corpus
+dn each di has its own sequencing of sentences and thought units which could conict with other documents
+one must resolve the conicts somehow when constructing a single summary of the corpus
+thus for multi document marization we hypothesize that wcorpus is a total ordering that is maximally consistent with the wdi by which we mean that if two thought units are signed the same relative importance by every document in the collection that includes them then the same relative order is imposed by w as well wise w chooses a relative order that is best represented by the collection and
+this could be based on a majority of the documents or in other ways
+with this our previous denition extends to multi document summarization as well but we replace by wd by wcorpus and t d by t corpus
+in the multi document case the summary coherence can be ned as the constraint that the sequencing of thought units in a summary be maximally consistent with the sequencing of thought units in the documents and in conicting cases makes the same choices as implied by wcorpus
+
+the function w is a crucial ingredient that allows us to capture the ing chosen by the of the without w we would get the
+since some thought units in the same sentence bag of words models popular in previous work
+we note that w does need to respect the sequencing in the sense that it is not required to be a decreasing or even non increasing function with sequence position
+this exibility is needed since w must t the document structure
+as dened our model covers abstractive summarization directly since it is based on sentences that are not restricted to those within for extractive marization we need to impose the additional constraint for single document and where for multi document summarization
+some other important special cases of our model as as follows
+restricting t to a boolean valued function
+this gives rise to the bership model and avoids partial membership
+
+restricting to a constant function
+this would give rise to a bag of thought units model and it would treat all thought units the same
+
+further if thought units are limited to be all words or all words minus stopwords or key phrases of the document and under extractive constraint we get previous models of
+this also means that the optimization problem of our model is np hard at least and np complete when is a constant function and t is boolean valued
+theorem
+the optimization problem of the model is at least np hard
+it is np complete when t is boolean valued is a constant function and thought units are words or all words minus stopwords or key phrases of the document with sentence size and summary size constraint being measured in these same syntactic units
+we call these np complete cases extractive coverage summarization collectively
+proof reduction from the set cover problem proof in appendix
+
+based on this generalized model we can dene denition
+the extractive compressibility of a document is the smallest size collection of sentences from the document that cover its thought units
+if the thought units are words we call it the word extractive compressibility
+denition
+the abstractive compressibility of a document is the smallest size collection of arbitrary sentences that cover its thought units
+if the thought units are words we call it the word abstractive compressibility
+denition
+the compression rate or incompressibility of a document is ned as n where is the size of the compressibility of the document and n is the original size of the document
+similarly we can dene corresponding compressibility notions for key phrases words minus stopwords and thought units
+we investigate compressibility of three different genres news articles entic papers and short studies
+for this purpose news articles scientic papers and short stories were collected
+the news articles were randomly selected from several sources and covered disasters disaster recovery tion and critical infrastructures
+five scientic papers on each of the following ve topics cancer research nanotechnology physics nlp and security were chosen at random
+five short stories each by cather crane chekhov kate chopin and ohenry were randomly selected
+experiments showed that large sentence counts lead to decrease imcompressibility
+figure shows a direct lationship between document size and incompressibility
+fig
+imcompressibility sentence count algorithms for single document summarization
+we have implemented several new and existing heuristcs in a tool called
+summ written in python
+many of our heuristics revolve around the tf idf ranking which has been shown to do well in tasks involving summarization
+tf idf ranks the importance of words across a corpus
+this ranking tem was compared to other popular keyword identication algorithms and was found to be quite competitive in results
+in this paper the authors compared textrank singlerank expandrank keycluster latent semantics analysis latent dirichlet analysis and tf idf
+n keywords where n varied from to in steps of from the duc documents were extracted using each gorithm and the score was calculated using human summaries as models
+
+the experiments showed that tf idf consistently performs as well if not better than other algorithms
+to apply to the domain of single document tion we dene a corpus as the document itself
+the documents referred to in inverse document frequency are the individual sentences and the terms remain the same words
+the value of a sentence is then the sum of the tf idf scores of the words in the sentence
+docsumm includes both greedy and dynamic programming based rithms
+the greedy algorithms use the chosen scoring metric to evaluate every sentence of a document
+it then simply selects the highest scoring sentence til either a given threshold of words are met or every word is covered in the document
+besides the choices for the scoring metrics there are several other options normalization of weights stemming
+that can be toggled for uation
+appendix b gives a brief description of those options
+docsumm includes two dynamic programming algorithms
+one provides an optimal solution the minimum number sentences necessary to cover all words of the document
+this can be viewed as the bound on maximum pression of a document for extractive summary
+this algorithm is a bottom up approach that builds set covers of all subsets of the original document s thought units words for our experiments beginning with the smallest unit a gle word
+we did implement a top down version based on recursion but this algorithm quickly runs out of time space because of repeated computations
+in addition to this optimal algorithm docsumm also implements a version of the algorithm presented in
+mcdonald frames the problem of document summarization as the maximization of a scoring function that is based on vance and redundancy
+in essence selected sentences are scored higher for vance and scored lower for redundancy
+if the sentences of a document are sidered on a inclusion exclusion basis then the problem of document
+
+rization reduces to the knapsack problem
+however mcdonald s algorithm is approximate because the inclusion exclusion of the algorithm inuences the score of other sentences
+a couple of greedy algorithms and a dynamic gramming algorithm of docsumm appeared in the rest are new
+results
+our results include experiments on running time comparisons of docsumm s algorithms
+in addition we compare the performance measures of docsumm on duc and duc datasets
+run times
+the dataset for running times is created by sampling sentences from the book of genesis
+we created documents of increasing lengths where length is measured in verses
+the verse count ranged from to
+however for uments greater than sentences the top down dynamic algorithm runs out of memory
+so there are no results on the top down exhaustive algorithm
+table shows slight increases in time as the document size increase
+for both tdf and bottom up there is a signicant increase in running time
+verse count
+greedy size greedy greedy tdf up table running times of algorithms in milliseconds
+summarization we now compare the heuristics for single document rization on duc and duc dataset
+for the unique documents of the duc dataset we compared the summaries of docsumm algorithms
+
+the results were in line with the analysis of the three domains
+
+for each algorithm we truncated the solution set as soon as a threshold of words was covered
+the rouge scores of the algorithms were in line with the compressibility performances
+the size algorithms performed similarly and the best was the bottom up algorithm with rouge scores of and for and rouge lcs respectively
+the tdf algorithm performance was not signicantly different
+
+comparison
+on the unique articles in the duc dataset we now compare our greedy and dynamic solutions against the following classes of tems two top of the line single document summarizers synsem and the best extractive summarizer from which we call kkv ii top ve out of systems from duc competition iii
+
+trank iv mead mcdonald algorithm and vi the duc baseline summaries consisting of the rst words of news articles
+the baseline did algorithm
+rouge lcs size tdf bottom up mcdonald mead
+textrank synsem kkv baseline
+n a
+
+
+
+
+
+
+
+n a n a table scores on word summaries for duc documents very well in the duc competition only two out of systems and managed to get a higher score than the baseline
+for this comparison all manual abstracts and system summaries are truncated to exactly words whenever they exceed this limit
+note that the results for synsem are from who also used only the unique articles in the duc dataset
+unfortunately the authors did not
+port the rouge bigram and rouge lcs rouge l scores in
+
+kkv s results are from who did not remove the duplicate articles in the duc dataset which is why we agged those entries in table with
+hence their results are not comparable to ours
+in addition kkv did not report rouge lcs scores
+we observe that for rouge unigram scores the dynamic optimal algorithm performs the best amongst the rithms of docsumm
+however it still falls behind the baseline
+when we sider rouge bigram scores dynamic and greedy outperform the rest of the eld surprisingly even
+the margin of out performance is even more pronounced in rouge lcs scores
+conclusions and future work
+we have shown limits on the recall of automatic extractive summarization on duc datasets under rouge evaluations
+our limits show that the current of the art systems evaluated on duc data are achieving about of this limit recall for single document summarization and the best tems for multi document summarization are achieving only about a third of their limit
+this is encouraging news but at the same time there is much work
+ing to be done on summarization
+we also explored compressibility a ized model and new and existing heuristics for single document summarization
+
+to our knowledge compressibility the way we have dened and studied it is a new concept and we plan to investigate it further in future work
+we believe that compressibility could prove to be a useful measure to study the performance of automatic summarization systems and also perhaps for authorship detection if for instance authors are shown to be consistently compressible
+we thank the reviewers of cicling for their constructive comments
+acknowledgments references
+almeida martins
+fast and robust compressive summarization with dual position and multi task learning
+in acl
+pp
+
+barrera verma
+combining syntax and semantics for automatic extractive document summarization
+in cicling vol
+lncs pp
+
+berg kirkpatrick gillick klein jointly learning to extract and compress
+in proceedings of the annual meeting of the association for computational linguistics human language technologies volume pp
+
+association for computational guistics
+boudin mougard favre concept based summarization using integer linear gramming from concept pruning to multiple optimal solutions
+in proceedings of the conference on empirical methods in natural language processing
+pp
+
+
+association for computational linguistics lisbon portugal september anthology
+carenini cheung
+extractive nlg based abstractive summarization of ative text the effect of controversiality
+in proceedings of the fifth international natural language generation conference
+pp
+
+association for computational guistics
+cheung penn unsupervised sentence enhancement for automatic tion
+in emnlp
+pp
+
+chopra auli rush harvard abstractive sentence summarization with attentive recurrent neural networks
+proceedings of naacl pp
+
+dang owczarzak overview of the tac update summarization task
+in ceedings of text analysis conference
+pp
+
+erkan radev
+lexrank graph based lexical centrality as salience in text rization
+journal of articial intelligence research pp
+
+filatova hatzivassiloglou a formal model for information selection in sentence text extraction
+in proceedings of the international conference on tational linguistics
+
+association for computational linguistics
+gambhir gupta
+recent automatic text summarization techniques a survey
+artif
+
+intell
+
+ganesan zhai han opinosis a graph based approach to abstractive tion of highly redundant opinions
+in proceedings of the international conference on computational linguistics
+pp
+
+association for computational linguistics
+gillick favre a scalable global model for summarization
+in proceedings of the workshop on integer linear programming for natural langauge processing
+pp
+
+sociation for computational linguistics
+graham re evaluating automatic summarization with bleu and shades of rouge
+
+in proceedings of the conference on empirical methods in natural language ing emnlp lisbon portugal september
+pp
+
+hirao yoshida nishino yasuda nagata single document summarization as a tree knapsack problem
+in proceedings of the conference on empirical methods in natural language processing
+pp
+
+association for computational linguistics seattle washington usa october
+hochbaum
+approximation algorithms for np hard problems
+pws publishing
+kumar srinathan varma
+a knowledge induced graph theoretical model for tract and abstract single document summarization
+in computational linguistics and ligent text processing pp
+
+springer
+li liu liu zhao weng improving multi documents summarization by sentence compression based on expanded constituent parse trees
+in emnlp
+pp
+
+
+citeseer
+lin hovy automatic evaluation of summaries using n gram co occurrence tics
+htl naacl
+liu liu
+towards abstractive speech summarization
+exploring unsupervised and pervised approaches for spoken utterance compression
+audio speech and language cessing ieee transactions on
+mani maybury advances in automatic summarization
+mit press cambridge massachusetts
+martins smith
+summarization with a joint model for sentence extraction and compression
+in proceedings of the workshop on integer linear programming for natural langauge processing
+pp
+
+association for computational linguistics
+mcdonald a study of global inference algorithms in multi document summarization
+
+in proc of the ecir
+springer
+mehdad stent thadani radev billawala buchner
+extractive rization under strict length constraints
+in proceedings of the tenth international conference on language resources and evaluation lrec may
+meseure ranking systems evaluation for keywords and keyphrases detection
+tech
+
+rep department of computer science university of houston houston tx usa november
+mihalcea tarau textrank bringing order into text
+in proceedings of the ference on empirical methods in natural language processing emnlp a ing of sigdat a special interest group of the acl held in conjunction with acl july barcelona spain
+pp
+
+
+anthology
+nenkova automatic text summarization of newswire lessons learned from the ument understanding conference
+in aaai
+pp
+
+parveen ramsl strube topical coherence for graph based extractive rization
+in proceedings of the conference on empirical methods in natural language processing emnlp lisbon portugal september
+pp
+
+passonneau chen guo perin automated pyramid scoring of summaries using distributional semantics
+in proceedings of the annual meeting of the tion for computational linguistics acl august soa bulgaria volume short papers
+pp
+
+rush chopra weston
+a neural attention model for abstractive sentence marization
+in proceedings of the conference on empirical methods in natural guage processing emnlp lisbon portugal september
+pp
+
+
+
+takamura okumura text summarization model based on maximum coverage
+lem and its variant
+in proceedings of the conference of the european chapter of the association for computational linguistics
+pp
+
+association for computational
+linguistics
+tratz hovy summarization evaluation using transformed basic elements
+in ceedings of the first text analysis conference tac gaithersburg maryland usa november
+vanderwende banko menezes event centric summary generation
+working notes of duc pp
+
+wong wu li extractive summarization using supervised and semi supervised learning
+in coling international conference on computational linguistics proceedings of the conference august manchester uk
+pp
+
+yogatama liu smith
+extractive summarization by maximizing semantic ume
+in proceedings of the conference on empirical methods in natural language processing emnlp lisbon portugal september
+pp
+
+
+yoshida suzuki hirao nagata dependency based discourse parser for document summarization
+in proceedings of the conference on empirical methods in natural language processing emnlp
+pp
+
+association for computational linguistics doha qatar october
+a appendix proof of theorem reduction from the set cover problem for np hardness
+given a universe u and a family of s of subsets of u a cover is a subfamily c of s whose union is
+
+in the set cover problem the input is a pair u s and a number k the question is whether there is a cover of size at most we reduce set cover to summarization as follows
+for each member u of u we select a thought unit t from t and a clause c that expresses for each set s in the family we construct a sentence s that consists of the clauses corresponding to the members of s i is boolean valued
+we assemble all the sentences into a document
+the capacity constraint c k and represents the number of sentences that we can select for the summary
+it is easy to see that a cover corresponds to a summary that maximizes the utility and satises the capacity constraint and vice versa
+of course the document constructed above could be somewhat repetitive but even real single documents do have some redundancy
+connectivity of clauses appearing in the same sentence can be ensured by choosing them to be facts about a person s life for example
+we call the np complete cases of the theorem extractive coverage summarization collectively
+for this case it is easy to design a greedy strategy that gives a logarithmic approximation ratio and an optimal dynamic programming one that is exponential in the worst case
+b appendix docsumm tool option size tdf
+
+
+
+
+
+
+description scoring based on lenght of sentence tf based on whole document idf based on whole document removes stopwords applies stemming to words removes duplicate words per sentence normalizes scores by sentence word count updates scores after each greedy selection enables summary mode sets the number of words in summary table options for docsumm tool
+c appendix document from duc fig
+original document fig
+
+model summary fig
+
+model summary

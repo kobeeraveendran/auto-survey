@@ -1,0 +1,693 @@
+using generic summarization to improve music information retrieval tasks francisco raposo ricardo ribeiro david martins matos member ieee r a m r i
+s
+c
+v
+v i x r a abstract in order to satisfy processing time constraints many music information retrieval mir tasks process only a segment of the whole music signal
+this may lead to decreasing mance as the most important information for the tasks may not be in the processed segments
+we leverage generic summarization algorithms previously applied to text and speech to summarize items in music datasets
+these algorithms build summaries both concise and diverse by selecting appropriate segments from the input signal also making them good candidates to summarize music
+we evaluate the summarization process on binary and multiclass music genre classication tasks by comparing the accuracy when using summarized datasets against the accuracy when using human oriented summaries continuous segments the traditional method used for addressing the previously mentioned time constraints and full songs of the original dataset
+we show that grasshopper lexrank lsa mmr and a support sets based centrality model improve classication performance when compared to selected baselines
+we also show that marized datasets lead to a classication performance whose difference is not statistically signicant from using full songs
+
+furthermore we make an argument stating the advantages of sharing summarized datasets for future mir research
+introduction music summarization has been the subject of research for at least a decade and many algorithms that address this problem mainly for popular music have been published in the past
+
+however those algorithms focus on producing human consumption oriented summaries summaries that will be listened to by people motivated by the need to quickly get the gist of the whole song without having to listen to all of it
+
+this type of summarization entails extra requirements besides conciseness and diversity non redundancy such as clarity and coherence so that people can enjoy listening to them
+generic summarization algorithms however focus on tracting concise and diverse summaries and have been cessfully applied in text and speech summarization
+
+their application in music for human consumption oriented purposes is not ideal for they will select and concatenate the most relevant and diverse information according to each gorithm s denition of relevance and diversity without taking into account whether the output is enjoyable for people or not
+
+this is usually reected for instance on discontinuities or regularities in beat synchronization in the resulting summaries
+raposo and martins de matos
+are with instituto superior tecnico universidade de lisboa av
+rovisco pais lisboa portugal
+
+ribeiro is with instituto universitario de lisboa iscte iul
+av
+das
+forcas
+armadas lisboa portugal
+raposo ribeiro and martins de matos are with inesc id lisboa alves redol lisboa portugal
+this work was supported by national funds through fundac ao
+para a ciencia e a tecnologia fct with reference uid
+we focus on improving the performance of tasks recognized as important by the mir community music genre sication through summarization as opposed to considering music summaries as the product to be consumed by people
+thus we can ignore some of the requirements of previous music summarization efforts which usually try to model the musical structure of the pieces being summarized possibly using musical knowledge
+although human related aspects of music summarization are important in general they are beyond the focus of this paper
+we claim that for mir tasks beneting from summaries it is sufcient to consider the most relevant parts of the signal according to its features
+in particular summarizers do not need to take into account song structure or human perception of music
+our rationale is that summaries contain more relevant and less redundant information thus improving the performance of tasks that rely on processing just a portion of the whole signal leading to faster processing less space usage and efcient use of bandwidth
+we use grasshopper lexrank lsa
+mmr and support sets to summarize music for automatic instead of human consumption
+to evaluate the effects of summarization we assess the performance of binary and class music genre classication when considering song summaries against continuous clips taken from the beginning middle and end of the songs and against the whole songs
+we show that all of these algorithms improve classication formance and are statistically not signicantly different from using the whole songs
+these results complement and solidify
+previous work evaluated on a binary fado classier
+the article is organized as follows section ii reviews related work on music specic summarization
+section iii reviews the generic summarization algorithms we experimented with grasshopper section iii a lexrank section iii b lsa section iii c mmr section iii d and support based centrality section iii e
+section iv details the iments we performed for each algorithm and introduces the classier
+sections v and vi report our classication results for the binary and multiclass classication scenarios respectively
+
+section vii discusses the results and section viii concludes this paper with some remarks and future work
+ii
+music summarization
+current algorithms for music summarization were
+oped to extract an enjoyable summary so that people can listen to it clearly and coherently
+in contrast our approach considers summaries exclusively for automatic consumption
+human oriented music summarization starts by structurally segmenting songs and selecting meaningful segments to clude in the summary
+the assumption is that songs are represented as label sequences where each label represents a different part of the song ababca where a is the chorus b the verse and c the bridge
+in segmentation is achieved by using a hidden markov model hmm to detect key changes between frames and dynamic time warping
+dtw
+to detect repeating structure
+in a tempered checkerboard kernel is correlated along the main diagonal of the song s self similarity matrix outputting ment boundaries
+then a segment indexed matrix containing the similarity between detected segments is built
+singular value decomposition svd is applied to nd its rank k proximation
+segments are then clustered to output the song s structure
+in a similarity matrix is built and analyzed for fast changes outputting segment boundaries segments are clustered to output the middle states an hmm is applied to these states producing the nal segmentation
+then various strategies are considered to select the appropriate segments
+
+in a modication of the kullback leibler kl gence is used to group and label similar segments
+the mary consists of the longest sequence of segments belonging to the same cluster
+in and average similarity is used to extract a thumbnail l seconds long that is the most similar to the whole piece
+it starts by calculating a similarity matrix through computing frame wise similarities
+then it calculates an aggregated similarity measure for each possible starting frame of the l second segment with the whole song and picks the one that maximizes it as the summary
+another method for this task maximum filtered correlation starts by building a similarity matrix and then a ltered time lag matrix embedding the similarity between extended segments separated by a constant lag
+the starting frame of the summary corresponds to the index that maximizes the ltered time lag matrix
+in music is classied as pure or vocal in order to perform type specic feature extraction
+the summary created from three to ve seconds subsummaries built from frame clusters takes into account musicological and psychological aspects by differentiating between types of music based on feature selection and specic duration
+this promotes human enjoyment when listening to the summary
+since these maries were targeted to people they were evaluated by people
+
+in music datasets are summarized into a based audio feature representation to efciently retrieve songs in a query by tag and query by example fashion
+an initial dataset is discretized creating a dictionary of k basis vectors
+
+then for each query song the audio signal is quantized according to the pre computed dictionary mapping the audio signal into a histogram of basis vectors
+these histograms are used to compute music similarity
+this type of summarization allows for efcient retrieval of music but is limited to the features which are initially chosen
+our focus is on audio signal summaries which are suitable for any audio feature extraction instead of proxy representations for audio features
+iii
+generic summarization applying generic summarization to music implies song mentation into musical words and sentences
+since we do not take into account human related aspects of music perception we can segment songs according to an arbitrarily xed size
+
+this differs from structural segmentation in that it does not take into account human perception of musical structure and does not create meaningful segments
+nevertheless it still allows us to look at the variability and repetition of the signal and use them to nd its most important parts
+furthermore since it is not aimed at human consumption the generated summaries are less liable to violate the copyrights of the original songs
+this facilitates the sharing of datasets using the signal itself instead of specic features extracted from it for mir research efforts
+in the following sections we review the generic summarization algorithms we evaluated
+grasshopper the graph random walk with absorbing states
+that hops among peaks for ranking grasshopper was plied to text summarization and social network analysis focusing on improving ranking diversity
+it takes an nn matrix w representing a graph where each sentence is a vertex and each edge has weight wij corresponding to the similarity between sentences i and j and a probability bution r encoding prior ranking
+first w is row normalized
+oij wik
+then p is built corporating the user supplied prior ranking r is an vector is the outer product and is a balancing factor
+
+the rst ranking state argmaxn
+i is found by taking the state with the largest stationary probability
+p t is the stationary distribution of p
+each time a state is extracted it is converted into an absorbing state to penalize states similar to it
+the rest of the states are iteratively selected according to the expected number of visits to each state instead of considering the stationary probability
+if g is the set of items ranked so far states are turned into absorbing states by setting and
+if items are arranged so that ranked ones are listed before unranked ones p can be written as follows
+g r q p
+i g is the identity matrix on r and q are rows of unranked items
+n
+is the expected number of visits to state
+j starting from state i nij
+the expected number of visits to state j vj is given by t and the next item is argmaxn vi where is the size of lexrank lexrank relies on the similarity cosine between tf idf vectors
+first all sentences sentence pairs usually are compared to each other
+then a graph is built where each sentence is a vertex and edges are created between every sentence according to their pairwise similarity above a threshold
+lexrank can be used with both weighted eq and unweighted eq edges
+then each vertex score is iteratively computed
+in eq through d is a damping factor to guarantee convergence n is the number of vertices s vi is the score of vertex i and d vi is the degree of
+summaries are built by taking the highest ranked sentences
+
+in lexrank sentences recommend each other sentences similar to many others will get high scores
+scores are also determined by the score of the recommending sentences
+
+s
+vi vi d
+n vi
+
+vj sim vi vj
+
+sim vj vk s
+vj
+s vi d
+n
+s
+vj
+d vj vj latent semantic analysis lsa lsa was rst applied in text summarization in
+svd is used to reduce the dimensionality of an original matrix sentation of the text
+lsa based summarizers start by building a t terms by n sentences matrix
+each element of a aij lijgi has a local lij and a global gi weight
+lij is a function of term frequency in a specic sentence and gi is a function of the number of sentences that contain a specic term
+usually aij are tf idf scores
+the result of applying the svd to a is a
+u v t where u t n matrix are the left singular vectors n n diagonal matrix contains the singular values in descending order and v t
+n n matrix are the right singular vectors
+singular values determine topic relevance each latent dimension corresponds to a topic
+the rank k approximation considers the rst k columns of u the kk sub matrix of and the rst k rows of v t
+relevant sentences are the ones corresponding to the indices of the highest values for each right singular vector
+this approach has two limitations by selecting k sentences for the summary less signicant sentences tend to be extracted when k increases and sentences with high values in several topics but never the highest will never be included in the summary
+to account for these effects a sentence score was introduced and k is chosen so that the k singular value does not fall under half of the highest singular value score j
+i
+maximal marginal relevance mmr sentence selection in mmr is done according to their relevance and diversity against previously selected sentences in order to output low redundancy summaries
+mmr is a query based method that has been used in speech
+tion
+it is also possible to produce generic summaries by taking the centroid vector of all the sentences as the query
+
+mmr uses si q
+maxsj
+si sj
+to select sentences
+and are similarity metrics cosine
+si and sj are unselected and previously selected tences respectively q is the query and balances relevance and diversity
+sentences can be represented as tf idf vectors
+sim s pi
+support sets are estimated for every sentence
+sentences frequent in most support sets are selected
+this is similar to unweighted
+argmaxsn
+lexrank section iii b except that support sets allow a different threshold for each sentence and their underlying representation is directed each sentence only recommends its most semantically related sentences
+the thresholds can be heuristically determined
+among others uses a passage order heuristic which clusters all passages into two clusters according to their distance to each cluster s centroid
+the rst and second clusters are initialized with the rst and second passages respectively and sentences are assigned to clusters one by one according to their original order
+the cluster that contains the most similar passage to the passage associated with the support set under construction is selected as the support set
+several metrics were tested for dening semantic relatedness minkowski distance cosine
+iv
+experiments we evaluated generic summarization by assessing its impact on binary and multiclass music genre classication
+these tasks consist of classifying songs based on a scheme artist genre or mood
+classication is deemed important by the mir community and annual conferences addressing
+it are held such as international society for music tion retrieval ismir which comprises music information retrieval evaluation exchange mirex
+for comparing state of the art algorithms in a standardized setting
+the best mirex system for the audio mixed popular genre
+classication task uses support vector machines svms for classifying music genre based on spectral features
+we follow the same approach and our classication is also performed using svms
+note that there are two different feature extraction steps
+the rst is done by the summarizers every time a song is summarized
+the summarizers output dio signal corresponding to the selected parts to be used in the second step when doing classication where features are extracted from the full segmented and summarized datasets
+classication features the features used by the svm consist of a dimensional vector per song a concatenation of several statistics on features used in describing the timbral texture of a music piece
+it consists of the average of the rst mel frequency cepstral coefcients mfccs concatenated with statistics mean and variance of spectral features centroid spread skewness kurtosis ux rolloff brightness entropy and atness
+these are computed over feature vectors extracted from frames without overlap
+this set of features and a smaller set solely composed of mfcc averages were tested in the classication task
+all music genres in our dataset are timbrically different from each other making these sets good descriptors for classication
+support sets based centrality
+this method was rst applied in text and speech rization
+centrality is based on sets of sentences that are similar to a given sentence support sets datasets our experimental datasets consist of a total of songs from different genres
+bass fado hip hop trance and indie rock
+bass music is a generic term referring to several specic styles of electronic music such as dubstep drum and bass electro and more
+although these differ in tempo they share similar timbral characteristics such as deep basslines and the wobble bass effect
+fado is a portuguese music genre whose instrumentation consists of stringed instruments such as the classical and the portuguese guitars
+hip hop consists of drum rhythms usually built with samples the use of turntables and spoken lyrics
+indie rock usually consists of guitar drums keyboard and vocal sounds and was inuenced by punk psychedelia post punk and country
+trance is an electronic music genre characterized by repeating melodic phrases and a musical form that builds up and down throughout a track
+
+each class is represented by songs from several artists
+
+the multiclass dataset contains all songs
+two binary datasets were also built from this data in order to test our hypothesis on a wider range of classication setups bass fado and bass trance each containing the corresponding songs
+setup fold cross validation was used in all classication tasks
+
+first as baselines we performed classication experiments using segments from the beginning middle and end of each song
+then we obtained another baseline by
+ing the whole songs
+the baselines were compared with the classication results from using summaries for each parameter combination and algorithm
+we did this for both binary datasets and then for the multiclass dataset
+applying generic summarization algorithms to music
+quires additional steps
+since these algorithms operate on the discrete concepts of word and sentence some preprocessing must be done to map the continuous frame representation obtained after feature extraction to a word sentence tion
+for each song being summarized a vocabulary is created through clustering the frames feature vectors
+mlpack
+implementation of the k means algorithm was used for this step we experiment with some values for k and assess their impact on the results
+after clustering a vocabulary of musical words is obtained each word is a frame cluster s centroid and each frame is assigned its own cluster centroid effectively mapping the frame feature vectors to vocabulary words
+this transforms the real continuous nature of each frame when represented by a feature vector to a discrete nature when represented as a word from a vocabulary
+then the song is segmented into xed size sentences word sentences
+since every sentence contains discrete words from a vocabulary it is possible to represent each one as a vector of word occurrences frequencies depending on the weighting scheme which is the exact representation used by generic summarization algorithms
+sentences were compared using the cosine distance
+the parameters of all of these algorithms include features framing vocabulary size nal number of clusters of the k means algorithm weighting tf idf and sentence size number of words per sentence
+
+for the multiclass dataset we also ran experiments paring human oriented summarization against generic marization
+this translates into comparing average similarity summaries for several durations against second generic summaries as well as comparing structural against xed size sentences
+we also compared the performance of generic maries against the baselines for smaller summary durations
+
+every algorithm was implemented in
+we used
+mile for feature extraction armadillo for matrix operations marsyas for synthesizing the summaries and the segmenter used in for structural segmentation
+instead of takes logarithm of tf our experiments covered the following parameter values
+varying between algorithms frame and hop size tions of and in seconds vocabulary sizes of and words sentence sizes of and words dampened tf idf itself and nary weighting schemes
+as summarization features we used mfcc vectors of sizes and
+these features used in several previous research efforts on music summarization in describe the timbre of an acoustic signal
+we also used a concatenation of mfcc vectors with the spectral features enumerated in section iv for mmr we tried values of and
+our lsa implementation also makes use of the sentence score and
+the topics cardinality selection heuristic described in section iii results binary tasks
+first we analyze results on the binary datasets bass
+fado and bass trance
+the reason we chose these pairs was because we wanted to see summarization s impact on an easy to classify dataset bass and fado are timbrically very ferent and a more difcult one bass and trance share many timbrical similarities due to their electronic and oriented nature
+for all experiments classifying using the dimensional features vector produced better results than using only mfccs so we only present those results here
+the best results are summarized in tables ia ib and ic
+table
+i binary classication results baselines setup full songs
+beginning s middle s
+end s bass fado bass trance bass fado summaries algorithm grasshopper lexrank lsa mmr
+support sets framing
+
+
+
+
+
+sent
+weight
+binary damptf binary damptf
+damptf accuracy bass trance summaries algorithm grasshopper lexrank lsa mmr
+support sets framing
+
+
+
+
+
+sent
+weight
+binary binary binary binary damptf accuracy voc
+voc
+
+the rst thing we notice on the bass fado task is that the middle sections are the best continuous sections and they do a good job at distinguishing fado from other genres
+accuracy dropped just percentage points pp against using full songs
+however the beginning sections accuracy dropped by
+
+all summarization algorithms fully recovered the accuracy lost by any continuous sections against using full songs achieving the full songs baseline
+in this case summarization helps classication in an already easy task
+the value in mmr s setup was and the passage order heuristic using the cosine similarity was used for calculating the support sets
+
+in the bass trance task the middle sections do a very poor job at describing and distinguishing these genres they actually perform worse than the beginning or end sections
+
+actually the worst sections in the bass fado task were the best in this one and vice versa
+this means that choosing a continuous segment to extract features for classication purposes can not be assumed to work equally well for every genre and dataset
+all summarization algorithms while not reaching the same performance as when using full songs succeeded in improving classication performance against the continuous second baselines
+in this case summarization is helping classication in a more difcult task
+again mmr s value was set to and the passage order heuristic using the cosine similarity was used for calculating the support sets
+vi
+results
+multiclass tasks since we are extrinsically evaluating summarization ing its impact on music classication must go beyond simply comparing nal classication accuracy for each scenario as was done for binary classication
+here we also look at the confusion matrices obtained from the classication scenarios so that we can carefully look at the data in this case listen to the data to understand what is happening when summarizing music this way and why it is improving the classication task s performance
+since our dataset consists of songs per class each confusion matrix row must sum to
+classes are identically sorted both in rows and columns which means the ideal case is where we have a diagonal confusion matrix all zeros except for the diagonal elements which should all be
+class name initials are shown to the left of the matrix and individual class accuracies are shown to the right
+full songs
+first we look at the confusion matrix resulting from sifying full songs table ii
+we can see that fado although there is some confusion between it and indie rock is the most distinguishable genre within this group of genres which makes sense since timbrically it is very different from every other genre present in the dataset
+trance and bass also achieve accuracies over although they also share some confusion which is explained by the fact that they both are electronic music styles thus sharing many timbral characteristics derived from the virtual instruments used to produce them
+the er performs worse when classifying hip hop and indie rock achieving accuracies around and confusing both genres in approximately of the tracks
+this can also be explained by the fact that both of those genres have strong vocals presence
+in contrast with bass and trance
+although fado also has an important vocal component its instrumentation is very different from hip hop and indie rock explaining why fado did not get confused as much as they were with each other
+
+the overall accuracy of this classication scenario is
+
+we can think of these accuracies as how well these sication features and svm can perform on these genres given all the possible information about the tracks
+intuitively removing information by for instance only extracting features from the beginning seconds of the songs will worsen the performance of the classier because it will have incomplete data about each song and thus also incomplete data for modeling each class
+tables iiia iiib and iiic show that to be true when using such a blind approach to summarize music since extracting second contiguous segments can also be interpreted as a naive summarization method
+this process of extracting features from a dataset of segments is what is usually done when classifying music since processing seconds instead of the whole song saves processing time
+table ii
+full songs b f h
+i
+t
+baseline segments table iiia shows classication results when using only the seconds from the beginning of the songs
+table iiid shows the comparison of the beginning sections against full songs
+
+the classication accuracy is a drop when compared to using full songs
+bass accuracy dropped due to increased confusion with both hip hop and indie rock
+trance was also more confused with indie rock
+
+this is easily explained by the fact that the rst seconds of most bass or trance songs correspond to the intro part
+these intros are lower energy parts which may contain a relatively strong vocal presence and much fewer instrumentation than other more characteristic parts of the genres
+these intros are much more similar to hip hop and indie rock intros than when considering the whole songs explaining why the classier is confusing these classes more in this scenario
+thus taking the beginning of the songs for classication is in general not a good summarization strategy
+tables iiib and iiie show classication results when using the middle seconds of the songs and the comparison of those segments against full songs respectively
+the overall accuracy was an drop against the full songs baseline
+this time both bass and trance accuracies dropped and respectively getting confused with each other by the classier
+having listened to the tracks that got confused this way the conclusion is as expected these middle segments correspond to what is called a breakdown section of the songs
+these sections correspond to lower
+beginning sections middle sections end sections table iii baseline confusion matrices b
+f h
+i
+t b f
+h
+i
+t b f h
+i
+
+t beginning vs full
+middle vs full end vs full
+b f h
+i t
+
+b f
+h
+i t
+
+
+
+
+
+b f h
+i
+t
+
+
+
+energy segments though not as low as an intro of the tracks which again are not the most characteristic parts of both these genres and in the particular case of bass trance they are timbrically very similar due to their electronic nature
+a human listener would probably also be unable to distinguish between these two genres if listening only to these segments
+
+although for of the genres classication performance did not drop pronouncedly it did so for of them which means that in general taking the middle sections of the songs for classication is also not a good segment selection strategy
+tables iiic and iiif show classication results when using the last seconds of the songs and the comparison of those segments versus full songs respectively
+the end sections obtained an accuracy of a decrease when compared against full songs
+again bass was mainly misclassied as hip hop and indie rock and trance was mainly misclassied as bass
+this is mostly due to the fact that the last seconds correspond to the outro section of the songs which shares many similarities with the intro section
+
+when considering trance and bass the outro also shares characteristics with the breakdown sections
+the fade repeat effect present in many songs endings also increases this confusion
+this means that taking the last seconds of a song is also not a good segment selection strategy
+baseline assessment
+although from the above experiments it seems that taking the middle sections of the songs is better than taking the beginning or end it is still not good enough at least not for all of the considered genres
+the features used by the classier are statistics means and variances of features extracted along the whole signal
+those features perform well when taking the whole signal as input which means that in order to obtain a similar performance those statistics should be similar
+that can not be guaranteed when taking second continuous clips because those seconds may happen to belong to a single and not distinctive enough structural part of the song such as breakdown and outro
+if that is the case then there is not sufcient diversity in the segment summary to accurately represent the whole song
+moreover some music genres can only be accurately distinguished by some of those structural parts the best examples in this dataset are the bass and trance classes which are much more accurately distinguished and represented by their drop sections
+therefore we need to make better choices regarding what parts of the song should be included in the second summaries to be classied
+grasshopper generic summarization algorithms dene and detect vance and diversity of the input signal satisfying our need for a more informed way of selecting the most important parts to t in second summaries
+the following tables show results demonstrating this claim
+tables iva and ivb show tion results when using summaries extracted by per
+the specic parameter values used in this experiment were seconds framing word vocabulary word sentences and binary weighting
+the overall accuracy was
+as can be seen grasshopper recovered most of what was lost by the middle sections in terms of classication accuracy for each class
+since the middle sections performed so badly when distinguishing bass and trance naturally these summaries improved accuracies mostly for both these classes with and increases respectively
+when listening to some of these summaries the diversity included in them is clear the algorithm is selecting sentences from several different structural parts of the songs
+an overall improvement of was obtained this way
+note that remarkably these summaries did a better job than full songs at classifying
+hip hop by
+this means that for some tasks well summarized data can be even more discriminative of a topic genre than the original full data
+lexrank tables va and vb present the lexrank confusion matrix and its difference against the middle sections
+the parameter values in this experiment were seconds framing word vocabulary word sentences and dampened tf idf weighting
+
+the overall accuracy was
+lexrank also greatly improved classication accuracy when compared against the middle sections overall namely for bass and trance with and increases respectively
+lexrank is clearly selecting diverse parts to include in the second table iv grasshopper summaries b f h
+i
+
+t summaries middle sections
+b f h
+i t
+
+
+
+table v lexrank summaries b f h
+i t summaries middle sections b f
+h
+i
+t
+
+
+
+
+
+summaries as we were able to conclude when listening to them
+it is also interesting that the classier performed better than with full songs individually for another class indie rock s accuracy increased
+lsa tables via and vib show the lsa confusion matrix of and the corresponding difference against the middle sections
+the following parameter combination was used seconds framing word vocabulary word sentences and binary weighting
+note that using a term frequency based weighting on lsa when applied to music markedly worsens its mance
+this is because noisy sentences in the songs tend to get a very high score on some latent topic causing lsa to include them in the summaries
+moreover when also considering verse document frequency the results are even worse because those noisy terms usually appear in very few sentences
+that is highly undesirable since those sections do a very bad job at describing that song in any aspect
+using a binary weighting scheme alleviates that problem because all those noisy frames will get clustered into very few clusters terms and only that term s presence instead of frequency gets counted into the sentences vector representation
+the overall accuracy for this combination was an improvement of against the middle sections
+bass and trance were also the genres which beneted the most from this summarization with accuracy increases of and respectively which can also be explained by the diversity present in the summaries
+indie rock s individual accuracy improved once again against full songs with an improvement of
+table vi lsa summaries b f h
+
+
+i t
+summaries middle sections
+b f
+h
+i t
+
+
+
+mmr tables viia and viib represent the confusion matrix for an mmr summarization setup and its difference against the dle sections
+seconds framing was used along with a word vocabulary word sentences value and dampened tf idf weighting
+note that even though every other parameter setup for the other algorithms shown here uses mfccs as features this one uses those same mfccs nated with the spectral features also used for classication described in section iv a
+this is because mmr unlike every other summarization algorithm performed better using this set instead of only using mfccs as features
+the overall accuracy was corresponding to an improvement of over the middle sections
+bass and trance beneted the most from the summarization process in classication performance achieving improvements of and respectively
+this is also explained by the diversity produced by the summarizer
+table vii mmr summaries
+b
+f
+h
+i t
+summaries middle sections b f
+h
+i
+t
+
+
+support sets tables viiia and viiib show results obtained when fying the dataset using summaries extracted by the support sets based algorithm
+the specic parameter setup of this experiment was seconds framing word
+
+ulary word sentences dampened tf idf weighting and the passage order based heuristic for creating the support sets using the cosine similarity
+the overall accuracy was
+
+again summarization recovered most of what was lost by the middle sections in terms of classication accuracy for each individual class greatly inuencing bass and trance with and pp increases respectively
+listening to some of these summaries we conrmed the diversity included in them that was clearly lacking in the middle sections
+
+an overall improvement of was obtained this way
+remarkably there were also improvements against full songs namely a improvement in indie rock
+table viii support sets summaries
+b
+f
+h
+i
+t summaries middle sections b f h
+i t
+
+
+
+
+
+summary size experiments to better evaluate the robustness of these methods we ran experiments using decreasing summary sizes
+for these experiments no search for optimal parameter combinations was done we used the ones that maximized classication accuracy for second summaries
+these are not necessarily the best parameters for smaller summary sizes but allow using the second summaries as baselines
+we ran these experiments for summary sizes of to seconds and report the results in table ix and figure
+table ix
+
+summary size experiments grassh
+lexrank lsa mmr support sets s s s s s fig
+accuracy vs summary size s
+baselines cies are and for the beginning middle and end sections respectively
+full songs achieve
+average similarity to obtain a human oriented baseline we summarized the dataset with average similarity section ii
+this can be seen as an informed human relevant way of selecting the best starting position of a contiguous segment
+the parameter values used in this experiment were seconds framing and the rst mfccs as features
+since this algorithm does not explicitly account for diversity we summarized using several durations to assess the required summary length for this type of summarization to achieve the same classication performance of full songs or generic summarization
+we report these results in table x and figure
+table x
+average similarity summaries dur
+s
+acc
+
+dur
+s
+acc
+
+fig
+average similarity accuracy vs summary size s
+
+considering classication accuracy every algorithm except for mmr outperforms the best second baseline with just second summaries
+lsa and support sets in particular pass the accuracy mark using just second summaries
+note that these experiments were not ne tuned
+we can see that this type of summarization reaches the performance of generic summaries seconds and full songs when the summary duration reaches seconds accuracy
+this means that for a human oriented summary to be as descriptive and discriminative as a generic summary an additional seconds times the length of the original are needed
+even though the starting point of this contiguous summary is carefully selected by this algorithm it still lacks diversity because of its contiguous nature hindering cation accuracy for this summarizer
+naturally by extending summary duration summaries include more diverse tion eventually achieving the accuracy of full songs
+structurally segmented sentences another form of human oriented summarization is achieved by using generic summarization operating on structurally segmented sentences done according to what humans might consider to be structurally meaningful segments
+after tural segmentation we fed each of the generic algorithms with the resulting sentences instead of xed size ones and truncated the summary at seconds when necessary
+the parameterization used for these experiments was the one that yielded the best results in the previous experiments for each algorithm
+the accuracy results for grasshopper lexrank lsa mmr and support sets were respectively and
+even though structurally mented sentences slightly improve performance when sidering classication accuracy they are still outperformed by xed size segmentation
+the best algorithm can only achieve accuracy
+this is because these sentences are much longer therefore harming diversity in summaries
+furthermore important content in structural sentences can always be
+
+tracted when using smaller xed size sentences
+thus using smaller sentences prevents the selection of redundant content
+vii
+discussion
+we ran the wilcoxon signed ranked test on all of the confusion matrices presented above against the full songs scenario
+the continuous sections p values were and for the second beginning middle and end sections of the songs respectively which means that they differ markedly from using full songs as can also be seen by the accuracy drops they cause
+the summaries however were very close to full songs in terms of accuracy
+the p values for grasshopper lexrank lsa mmr and support sets were and respectively
+thus statistically speaking using any of these second summaries does not signicantly differ from using full songs for classication considering condence intervals
+furthermore the p values for second lsa summaries and for second support sets summaries were and respectively with the remaining p values of increasing summary sizes also being superior to
+thus statistically speaking generic summarization in some cases does not signicantly differ from using full songs for cation for summaries as short as seconds considering a condence interval
+this is noteworthy considering that the average song duration in this dataset is seconds which means that we achieve similar levels of classication performance using around of the data
+human oriented summarization is able to achieve these performance levels but only at second summaries and with a value of barely over the threshold
+however the second maries produced by this algorithm can not reach that threshold
+
+only at seconds is a comfortable p value for the condence interval attained
+
+although every algorithm creates summaries in a different way they all tend to include relevant and diverse sentences
+
+this compensates their reduced lengths up to seconds of audio allowing those clips to be representative of the whole musical pieces from an automatic consumption view as demonstrated by our experiments
+moreover choosing the best second contiguous segments is highly dependent on the genres in the dataset and tasks it will be used for which is another reason for preferring summaries over those segments
+
+the more varied the dataset the less likely a xed continuous section extraction method is to produce representative enough clips
+bass and trance were the most inuenced genres by summarization in these experiments
+these are styles with very well dened structural borders and a very descriptive structural element the drop
+the lack of that same element in a segment markedly hinders classication performance suggesting that any genre with similar characteristics may also benet from this type of summarization
+it is also worth restating that hip hop and indie rock were very positively inuenced by summarization regarding classication mance improvements over using full songs
+this shows that sometimes classication on summarized music can even perform using the whole data from the original signal
+we also demonstrated that generic summarization using xed size tences that is summarization not specically oriented towards human consumption greatly outperforms human oriented marization approaches for the classication task
+
+summarizing music prior to the classication task also takes time but we do not claim it is worth doing it every time we are about do perform a mir task
+the idea is to compute summarized datasets ofine for future use in any task that can benet from them music classication
+currently ing music datasets for mir research purposes is very limited in many aspects due to copyright issues
+usually datasets are shared through features extracted from second continuous clips
+that practice has drawbacks such as those seconds may not contain the most relevant information and may even be highly redundant and the features provided may not be the ones a researcher needs for his her experiments
+summarizing datasets this way also helps avoiding copyright issues because summaries are not created in a way enjoyable by humans and still provide researchers with the most descriptive parts
+according to each summarizer of the signal itself so that many different kinds of features can be extracted from them
+viii
+conclusions and future work
+we showed that generic summarization algorithms perform
+well when summarizing music datasets about to be classied
+
+the resulting summaries are remarkably more descriptive of the whole songs than their continuous segments of the same duration counterparts
+sometimes these summaries are even more discriminative than the full songs
+we also presented an argument stating some advantages in sharing summarized datasets within the mir community
+an interesting research direction would be to automatically determine the best vocabulary size for each song
+testing marization s performance on different classication tasks with more classes is also necessary to further strengthen our conclusions
+more comparisons with non contiguous oriented summaries should also be done
+more experimenting should be done in other mir tasks that also make use of only a portion of the whole signal
+references
+chai semantic segmentation and summarization of music
+ods
+based on tonality and recurrent structure ieee signal processing magazine vol
+no pp
+
+cooper and foote summarizing popular music via structural similarity analysis in proc of the ieee workshop on applications of signal processing to audio and acoustics pp
+
+
+peeters la burthe and rodet toward automatic music audio summary generation from signal analysis in proc of the ismir conf pp
+
+
+peeters and rodet signal based music structure discovery for music audio summary generation in proc of the intl
+computer music conf pp
+
+
+chu and logan music summary using key phrases packard cambridge research laboratory tech
+
+cooper and foote automatic music summarization via similarity analysis in proc of the ismir conf pp
+
+glaczynski and lukasik automatic music summarization
+a thumbnail approach archives of acoustics vol
+no pp
+
+bartsch and wakeeld audio thumbnailing of popular music using chroma based representations ieee trans on dia vol
+no pp
+
+
+carbonell and goldstein the use of mmr diversity based reranking for reordering documents and producing summaries in proc of the annual intl
+acm sigir conf
+on research and development in information retrieval pp
+
+erkan and radev lexrank graph based lexical centrality as salience in text summarization journal of articial intelligence
+research vol
+pp
+
+
+landauer and dutnais a solution to plato s problem the latent semantic analysis theory of acquisition induction and tion of knowledge psychological review vol
+no pp
+
+zhu goldberg gael and andrzejewski improving diversity in ranking using absorbing random walks in proc of the north american chapter of the association for computational
+linguistics human language technologies conf pp
+
+ribeiro and de matos revisiting centrality as relevance
+support sets and similarity as geometric proximity journal of cial intelligence research vol
+pp
+
+
+raposo ribeiro and de matos on the application of generic summarization algorithms to music ieee signal processing letters vol
+no pp
+
+xu maddage and shao automatic music tion and summarization ieee trans on speech and audio processing vol
+no pp
+
+vaizman mcfee and lanckriet codebook based audio feature representation for music information retrieval ieee acm trans on audio speech and language processing vol
+pp
+
+
+gong and liu generic text summarization using relevance measure and latent semantic analysis in proc of the annual intl
+acm sigir conf
+on research and development in information retrieval pp
+
+
+steinberger and jezek using latent semantic analysis in text summarization and summary evaluation in proc of isim pp
+
+
+zechner and waibel minimizing word error rate in textual
+summaries of spoken language in proc of the north american chapter of the association for computational linguistics conf pp
+
+
+murray renals and carletta extractive summarization of meeting recordings in proc of the european conf
+on speech communication and technology pp
+
+music information retrieval evaluation exchange home
+wu and jang combining acoustic and multilevel visual
+features for music genre classication acm trans on multimedia
+computing communications and applications vol
+no pp
+
+
+chang and lin libsvm a library for support vector machines acm trans on intelligent systems and technology vol
+
+no pp
+
+
+leon and martinez using timbre models for audio sication in submission to audio classication train test tasks of mirex
+
+curtin cline slagle march ram
+mehta and gray mlpack a scalable machine learning library journal of machine learning research vol
+no pp
+
+
+eyben weninger gross and schuller recent developments in opensmile the munich open source multimedia feature extractor in proc of the acm intl
+conf
+on multimedia pp
+
+
+sanderson armadillo an open source linear algebra
+
+brary for fast prototyping and computationally intensive experiments nicta tech
+
+
+tzanetakis and cook marsyas a framework for audio analysis organised sound vol
+no pp
+
+weiss and bello identifying repeated patterns in music using sparse convolutive non negative matrix factorization in proc of the ismir conf pp
+
+francisco raposo graduated in information tems and computer engineering from tuto superior tecnico ist lisbon
+he received a masters degree in information systems and puter engineering ist on automatic sic summarization
+he s currently pursuing a phd course on information systems and computer neering
+his research interests focus on music mation retrieval mir music emotion recognition and creative mir applications
+ricardo ribeiro has a phd in information systems and computer engineering and an msc in electrical and computer engineering both from instituto superior tecnico and a graduation degree in mathematics computer science from universidade da beira interior
+his current research interests focus on high level information extraction from unrestricted text or speech and
+proving machine learning techniques using related information
+david martins de matos graduated in electrical and computer engineering from instituto
+superior tecnico ist lisbon
+he received a ters degree in electrical and computer engineering ist
+he received a doctor of engineering degree in systems and computer science
+ist
+his current research interests focus on putational music processing automatic tion and natural language generation human robot interaction and natural language semantics
+

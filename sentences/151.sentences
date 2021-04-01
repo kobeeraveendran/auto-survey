@@ -1,0 +1,561 @@
+neural network interpretation via fine grained textual summarization pei guo connor anderson kolton pearson ryan farrell brigham young university p e s v c
+s
+c
+v
+v
+i x r a abstract recent visualization based neural network interpretation
+
+zhou et al selvaraju et al algorithms suffer from lacking semantic level information hindering their plication for tasks like ne grained recognition
+in this per we introduce the novel task of interpreting classication models using textual summarization
+our explanation tence consists image level visual attributes most important for the decision making found by a bayesian inference gorithm
+this process amounts to mimicking humans ligence to summarize the content of an image
+central to our algorithm is the lter level attribute probability density tion learned as a posterior probability with the input images as latent variables
+we generate textual explanation for the dataset with visual attributes extracted from image captions
+to demonstrate the accuracy of proposed gorithm we devise two experiments attribute grounding and attribute based image retrieval and provide qualitative and quantitative analysis
+we further show that our textual marization can help in understanding network failure terns and can provide clues for further improvements for grained recognition
+code will be available upon acceptance
+introduction
+given a convolutional network we re interested in knowing
+what features it has learned for making classication sions
+despite their tremendous success on various computer vision krizhevsky sutskever and hinton simonyan and zisserman he et al tasks deep neural work models are still commonly viewed as black boxes
+the difculty for neural network understanding mainly lies in the end to end learning of the feature extractor sub network and the classier sub network which often contain millions of parameters
+debugging an over condent network which assigns the wrong class label to an image with high bility can be extremely difcult
+this is also true when versarial noise goodfellow shlens and szegedy is added to deliberately guide the network to a wrong sion
+it is therefore desirable to have some textual output
+plaining which features were responsible for triggering the error just like an intelligent compiler does for a grammar bug in code
+network interpretation is also crucial for tasks copyright association for the advancement of articial intelligence
+all rights reserved
+figure comparison of visualization based tion zhou et al
+and interpretation by summarization the proposed approach
+the latter has more semantic details useful for analyzing incorrect predictions
+involving humans like autonomous driving and medical age analysis
+it is therefore important to distill the edge learned by deep models and represent it in an easy understand way
+fine grained recognition concerns the problem of criminating between visually similar sub categories like ferent species of gulls or different versions of bmw cars
+
+humans are usually good at tasks like attribute prediction keypoint annotation and image captioning but we usually nd ne grained recognition to be extremely hard without proper training
+network interpretation is therefore useful for ne grained recognition to nd the network s failure terns and to educate humans about what the network thinks as informative features
+it is worth noting that the proposed algorithm is not constrained to ne grained recognition
+it is equally effective to be applied to general image dataset given accurate image level attribute annotations
+current network interpretation are largely
+based
+algorithms like cam zhou et al and cam selvaraju et al work by highlighting a region in the image that s important for decision making
+however we show in figure that visualization is often inefcient in localizing discriminative parts or providing semantic formation for tasks like ne grained recognition
+humans on the other hand can justify their conclusions using ural language
+for instance a knowledgeable person ing at a photograph of a bird might say i think this is a anna s hummingbird because it has a straight bill a rose pink throat and crown
+it s not a broad tailed bird because the later lacks the red crown
+this kind of prediction carolina wrenground truth house wrencam visualizationthis is a carolina wren because it has brown and black crown white breast white eyebrow and short beakthis is a house wren because it has brown crown white eyebrow long tail and pointy and long
+beaktextual summarization textual description carries rich semantic information and is easily understandable
+natural language is a logical medium in which to ground the interpretation of deep convolutional models
+
+in this paper we propose the novel task of summarizing the decision making process of deep convolutional models using ne grained textual descriptions
+see figure for an example
+to be specic we aim to nd a list of visual tributes that the network bases its decision on
+our algorithm is dependent only on image level visual attributes which can be obtained through ground truth annotation or image tion decomposition
+central to our algorithm is a method to associate the nal convolutional layer lter with visual tributes that represents its activating patterns
+we discover that in our experiment the model lters do nt necessarily activate on a narrow beam of patterns
+we therefore mulate the relationship of the filter attribute pair as conditional multinomial probability distribution
+an tribute is more likely to represent a lter if images with this attribute better activate this lter
+attributes are not directly involved in the network so we introduce images as hidden variables
+based on the lter attribute probability density function we rank the attributes by re weighting each lter attribute
+with class specic weights a step
+lar to cam zhou et al or grad et al
+
+our nal textual explanation is a template sentence with top attributes as supportive evidence
+
+in order to demonstrate the accuracy of the proposed gorithm we devise two by product tasks as sanity checks
+
+the rst task is visual attribute grounding
+specically we localize the sub region in an image that is related to a query attribute
+note this task is weakly supervised only by gory labels
+this is achieved by the linear combination of the nal layer feature map according to the lter attribute
+the second experiment is visual attribute based age retrieval
+for a query attribute we obtain a list of date images containing this attribute
+decent results on these two tasks serve as a strong indicator that the core algorithm works properly
+a direct application of the proposed textual explanation algorithm is to work as a network debugger and ate error messages when the network prediction is wrong
+
+we summarize the three major failure patterns for the grained dataset
+the rst and most common failure pattern is the network fails to identify true native features
+the network is confused by small inter class variation and large intra class variation
+the second failure pattern is the network is not robust to image perturbations such as color distortion and low image quality
+the last ure pattern is caused by incorrect human labels
+there re roughly annotation errors in cub
+our main contributions in this paper can be summarized as follows
+we propose the novel task of network interpretation using textual summarization
+we identify lter attribute
+
+as our core problem and propose a bayesian inference framework to learn it
+
+we devise two tasks for automatic quantitative evaluation figure a
+the lter attribute association is to nd a ping from the abstract functional space to the semantic tribute space
+b the composite lter function can be dinate transformed to be dened on the attribute space
+c
+top activation images of a lter a yellow head detector
+of the learned demonstrating the accuracy of the proposed algorithm
+
+we employ the proposed framework for network ging in ne grained recognition and unveil common ure patterns useful for further improvement
+
+related works network interpretation there are two main approaches to network interpretation in the literature lter level pretation erhan et al
+szegedy et al
+
+dran and vedaldi nguyen yosinski and clune google nguyen et al
+
+bau et al zhou al
+
+yosinski et al springenberg et al zeiler and fergus and holistic level interpretation monyan vedaldi and zisserman zhou et al
+
+selvaraju et al
+the goal of lter level interpretation is to understand and visualize the features that specic rons learn
+while it s easy to directly visualize the rst volutional layer lter weight to get a sense of the patterns they detect it makes little sense to directly visualize deeper layer lter weights because they act as complex ite functions of lower layers operations
+early examples of lter level understanding include nding the maximally tivated input patches zeiler and fergus and ing the guided back propagation gradients
+springenberg et
+al
+some works nguyen yosinski and clune try to synthesize visually pleasant preferred input image of each neuron through back propagation into the image space
+
+nguyen et al applies a generator network to ate images conditioned on maximally activating certain layer neurons
+the plug and play paper nguyen et al further extends nguyen et al to introduce a ized adversarial learning framework for lter guided image generation
+network dissection bau al measures the interpretability of each neuron by annotating them with predened attributes like color texture part
+zhang et
+al proposes represent the image content and structure by knowledge graph
+attempts at holistic summarization
+mainly focus on sualizing important image subregions by re weighting nal convolutional layer feature maps
+examples include cam zhou et al and grad cam selvaraju et al
+
+however the visualization based method only
+red faceyellow bellyabstract functional spaceattribute spaceyellow crownyellow headorange
+crowninput imageactivation
+functiontop activation images figure textual explanations generated by our method vides coarse level information and it remains hard to
+itively know what feature or pattern the network has learned to detect
+more importantly the holistic heat map tation is sometimes insufcient to justify why the network favors certain classes over others when the attentional maps for different classes overlap heavily
+see figure for ple
+vqa and image caption other tasks that combine text generation and visual explanation include image captioning and visual question answering vqa
+although it sounds like a similar task image captioning farhadi al is fundamentally different from ours
+image captioning is usually done in a fully supervised manner with the goal of generating a caption that describes the general content of an image
+our textual interpretation task aims to loyally reects the knowledge learned by a classication model in an pervised way
+visual question answering antol et al
+is a task that requires understanding the image and ing textual questions
+our task can be viewed as a special case of unsupervised vqa that focuses more specically on questions such as why does the model think the image
+
+longs to class text grounding rohrbach et al
+is a language to vision task that tries to locate the object in an image referred to by a given text phrase
+we note that dricks al denes a task similar to ours to explain and justify a classication model
+their model is learned in a supervised manner with explanations generated from an lstm network which only implicitly depends on the nal feature maps
+it is essentially an image captioning task that generates captions with more class discriminative mation
+our method is unsupervised and does not rely on another black box network to generate descriptions
+fine grained recognition fine grained recognition aims to discriminate between subcategories like species of birds dogs and different make and model of cars aircrafts
+
+the difculty of ne grained recognition lies in the tremely large intra class variance and small inter class ance
+representative works include bilinear pooling lin roychowdhury and maji which computes the outer product of the nal layer feature maps
+attention based els sermanet frome and real works by focusing tention to discriminative parts of an image object
+part based models zhang et al works by decomposing the age into part features to be readily compared
+fine grained recognition is special because it usually performs better than non expert humans
+it s therefore interesting to unveil the knowledge it learns towards decision making
+bayesian inference framework as a fundamental step toward network interpretation we re interested in representing network lter with its representing activation patterns in terms of visual attributes
+constructing a paired filter attribute dataset is unrealistic
+cause the lter as a composite function is not a well dened concept with concrete examples
+instead we propose aging off the shelf image attribute annotations because they contain rich textual references to visual concepts
+the tuition behind our lter attribute association is simple the model lters can be represented by the images that strongly activate them
+the corresponding image attributes should have a high probability of representing an activated lter
+
+the joint consensus of all textual attributes from the whole dataset can serve as a good indicator of the lter pattern provided the network is properly trained
+
+more formally the composite lter function takes an age as input and produces a feature map whose strength dicates the existence of certain patterns
+the lter tation task aims to nd a mapping from the abstract tional space to the semantic visual attribute space figure
+
+with the help of image level attributes we consider a ordinate transformation operation that transforms the input of lter function from image to image attributes
+the attribute probability distribution obeys multinomial tion and can be approximated by the attribute probability density function which is a key component of the proposed algorithm
+is a american pipit because it has short beak yellow and white breast brown crown and yellow throat
+is a eared grebe because it has black crown long neck black head red eye and white throat
+is a groove billed ani because it has black head thick and pointy and black beak and black crown
+is a parakeet auklet because it has black and red crown black head white breast and black throat
+is a philadelphia vireo because it has yellow breast grey head yellow throat short beak and white eyebrow
+is a great grey shrike because it has white breast black crown white throat black beak and black cheek
+filter attribute probability density function
+we note f as the group of model lters
+in this paper we are only interested in the nal convolutional layer lters as they are the input to the fully connected layer
+
+we denote x m as the set of input ages
+the lter s output is naturally written as f which we call a feature map or lter activation
+we consider els
+he et al huang et al with a global pooling layer and one fully connected layer
+the fully connected layer produces class label predictions c o with the weight matrix w on
+a list of textual attributes t l is attached to each image
+we loosely ti
+if ti is contained in image s attribute list
+we propose a bayesian inference framework to learn the probability of visual attributes that can represent lter terns
+we call as the lter attribute probability sity function and it can be formulated as a posterior probability is the prior probability for visual attribute tj
+we consider the relative importance of attributes because they carry different information entropy
+for example small bird has less information than orange beak because the latter appears less in the text corpora and corresponds to a more important image feature
+we employ the normalized tf idf feature as the attribute prior
+measures the likelihood of attribute tj activating lter fi
+as attributes are not directly involved in the neural network we introduce input images as latent variables
+measures the likelihood of the image xk and the attribute tj is the reason for lter fi s activation
+we assume fi is conditionally independent to tj given xk
+
+where is the normalization function and is the global pooling layer output
+the strength of the feature map measures how likely an image can activate a lter
+this
+proximation neglects the fact that when an image activates a lter the feature map favors certain attributes than ers
+for example if the highlights the head area of a bird attributes related to head beak or eyes should be assigned with higher probabilities than attributes related to wings and feet
+this naive approximation though
+signs equal probability to every visual attribute
+this imation actually works decently as the joint consensus of all input images highlights the true attributes and suppresses false ones
+one way to associate the spatial distribution of the feature map with corresponding visual attribute is to ploit other forms of annotations like keypoints or part mentation
+if the feature map overlaps highly with certain part segmentation higher probability will assigned to the corresponding visual attributes
+this approach is dependent on additional forms of human annotations and hinders the generalization of the proposed algorithm so it s not used in this paper
+measures the likelihood that tj is an attribute of image xk
+it takes when tj is in the attribute list of and otherwise
+tj xk otherwise
+
+aggregating filter attribute for holistic tion with the help of lter attribute
+we can gure out what features the network has learned for image cation
+this problem can be formulated as the probability of visual attributes given the fact that the network produces certain class label for certain input image
+we introduce nal convolutional layer lters as hidden variables here cm
+xi cm cm cm where cm is the probability that tj is the reason that the network predicts xi as class cm
+we assume tj is tionally independent to and cm given f
+is the lter attribute
+cm measures the importance of a lter fk in the decision making process cm wm k where is the normalization function wm
+k is the weight from the classier weight matrix connecting lter fk to class prediction cm and is the global pooling layer
+put
+we call c the image class attribute
+we generate a natural sentence to describe the network decision making process using the image class attribute
+although it s popular to employ a recurrent model for sentence generation our task is to faithfully reect the internal features learned by the network and introducing other network could result in more uncertainty
+we instead propose a simple template based method which has the lowing form this is a class name because it has attribute attribute and attribute n
+we consider only the top attributes to make the sentence shorter and more precise
+steps are taken to merge adjectives related to the same nouns
+another important aspect of model interpretation is to compare the reasons behind certain choices as opposed to others why the network thinks the input belongs to class ci instead of cj
+we can easily summarize the relation and the difference between two predictions by comparing their image class attribute
+for example while both birds have long beaks the class ci favors a green crown while the class cj tends to have a blue crown
+an example is shown in figure
+
+explain away mechanism
+the lter attribute
+obeys a multinomial distribution
+it does not necessarily tivate on only one narrow beam of features
+instead it may behaves like a multi modal gaussian distribution that
+vates on several totally different features
+for example the lter fi is likely to detect both blue head and black head with high probability
+the interpretability of the lter could suffer from this multi modal characteristic
+this is
+cially true for the image description task because it becomes hard to know exactly which feature activates the lter
+tasks with experiments and provide qualitative and tive analysis in the experiment section
+other potential plications are left to future work
+figure example of caption annotations on cub
+the tracted visual attributes are highlighted
+however we observe that other lters can act in a plimentary way to help explain away the probability of related patterns
+for instance there could be another lter fk activates for blue head but not for black head
+if both lters activate then the probability of blue head is high
+if only the fi activates then black head is the more ble pattern
+the joint consensus of all the lters makes the generated explanation reasonable
+class level description
+given the lter attribute we are interested in knowing which features are important for each class
+this task can be formulated as the probability of visual attributes given the fact the network predicting an image as class cm
+cm
+where is the lter attribute
+and we again sume tj is conditionally independent to cm given f
+
+measure the importance of a lter for class ci and is simply
+k where is the normalization function and wm k is the weight from the classier weight matrix connecting lter fk to class prediction cm
+different from the image class attribute
+
+class level description weights attributes based only on the classier weight and the lter attribute
+for difcult tasks like ne grained recognition deep models often perform better than non expert users
+the knowledge distilled from class level description could potentially be used to teach users how to discriminate in challenging domains
+applications for textual summarization
+in order to demonstrate the accuracy of the learned we devise two by product tasks namely visual attribute grounding and attribute based image retrieval as sanity checks
+success in these tasks would serve as a strong dicator of the effectiveness of our method
+one direct cation of the proposed textual summarization algorithm is to understand the network s failure patterns and provide gestions for future improvement
+we validate the proposed figure unnormalized lter attribute along with the top activation images
+visual attribute grounding
+given a query visual tribute we would like to know which image region it refers to
+we show how the lter attribute
+can help with this task
+suppose ti is a visual attribute associated with image xj we formulate the image region of interests roi y as a linear combination of nal convolutional layer feature maps y k
+n where is the normalization function and k
+
+tuitively we re weight the lter responses according to lter attribute
+this task is weakly supervised by image bels with no ground truth roi phrase pairs to learn from
+
+if the algorithm fails to learn accurate lter attribute
+we would expect the grounded region to be less accurate
+
+attribute based image retrieval we would like to be able to search a database of images using textual attribute queries and return images that match
+for example we would like to nd all images of birds with white head and black throat
+the image class attribute provides a simple method to rank images based on the probability of containing the desired attributes
+given a query visual tribute we simply return all the images that contains the query in the generated textual explanation sentence
+
+network debugging when the network produces a wrong prediction we would like to understand the reason
+
+for the ne grained dataset we generate textural summarization for all failure cases to explain why the network favors the wrong prediction instead of ground truth prediction
+we unveil common failure patterns of the network that are helpful for network improvement
+experiments
+
+we demonstrate the effectiveness of our algorithm on the ne grained dataset wah al with training images and testing images
+image level visual attributes can be obtained directly from binary tribute annotation or by image caption reed al this bird has a long black bill red cheek patches grey head and black spotted bird has a red cheek patch brown and grey head grey neck black throat and light brown coverts with black multicolored bird with black spots a red malar strip and a long pointed orange billlong white necklong neckblack crownwhite necklarge orange beaklong billlong orange beakwhite throatlong yellow breastred chestbright red breastblack headred throatblack crownred crownblack beakwhite beakwhite bill decomposition
+we choose the second route because the age captions contain rich and diverse visual attributes better suited for our purpose
+one example is shown in figure
+
+we use as our convolutional model a which is trained on imagenet deng et al and ne tuned on cub
+we use bounding box cropped images to reduce ground noise
+figure attribute based image retrieval
+each row shows an attribute query on the left followed by the ranked results in terms of probability that the image tains the query attributes
+visual attribute extraction
+we rst extract visual tributes from the image captions
+we follow the pipeline of word tokenization part of speech tagging and noun phrase chunking
+for simplicity we only consider adjective noun type attributes with no recursion
+we end up with dependent attributes
+the term frequency tf of phrase t is computed as the number of occurrences of t in the same captioning le
+for cub each image has a caption le with different captions
+the inverse document frequency idf is d where n is the the total number of les and d in the number of les containing phrase t
+
+filter attribute and textual summarization
+we show examples of lter attribute in figure
+we see a clear connection between the top activated images an the top ranked attributes
+this validates our idea of using tual visual attributes to represent the lter pattern
+we show examples of generated textual explanations for image sication in figure
+we can see that the generated nations capture the class discriminative information present in the images
+visual attribute grounding
+in figure we show
+amples of query attributes and the generated raw heatmaps indicating what part of the image the visual attribute refers to
+each column denotes a different visual attribute and the heatmap shown as a transparency map indicates the region of highest activation within the image
+we can see tively that the proposed approach is reasonably good at lighting region of interests
+as the visual attributes are highly correlated with points to quantitatively measure the performance of the posed visual attribute grounding algorithm we compare the generated heatmap max value location with ground truth keypoint locations
+we present the pck percentage of rect keypoints score for the top most frequent visual attributes with corresponding keypoint annotations
+in means the predicted location is within the distance of object size from the ground truth keypoint
+note that visual attribute grounding is neither supervised by keypoints nor optimized for keypoint detection
+we compare with two baseline methods
+one is to randomly assign a location for the attribute
+the other baseline is similar to the proposed method except that the lter attribute is constant for all attributes
+we show in table that our learned
+forms better than both baseline methods demonstrating the accuracy of the proposed algorithm
+table for attribute grounding random
+constant
+
+proposed attribute based image retrieval
+in figure three amples of attribute based image search using text based tributes are shown
+images are ranked from high to low using the probability that the image contains the query attributes
+
+the results are very encouraging each image clearly tains the query attributes
+
+we measure the performance of attribute based image trieval by comparing it with the ground truth caption based retrieval for the top attributes as seen in table
+note
+these numbers are only approximations as the ground truth caption does nt necessarily contain every true attribute in the image
+the fact our method performs better than random trieval demonstrates the accuracy of the underlying class attribute
+figure examples of text grounding
+each column resents a different attribute
+and
+examples are shown as heatmaps indicating the region where the attribute is most present
+table image retrieval measurements
+recall true negative accuracy
+network debugging
+in gure we show three major patterns of network failure through textual summarization
+
+in the rst example a tree sparrow is incorrectly nized as a chipping sparrow because the network
+enly thinks long tail is a discriminative feature
+failing to identify effective features for discrimination is the most common source of errors across the dataset
+in ne grained classication the main challenge is to identify white eyebrowwhite headblack breastyellow headyellow breast figure analysis of network failures for network debugging
+each row represents a network failure an incorrectly predicted class label
+from left to right each row shows the query image canonical images for the ground truth and incorrectly predicted classes and explanations for each of these classes
+the box below the rst row provides background on differences between tree sparrows and chipping sparrows
+tive features for visually similar classes differences which are often subtle and localized to small parts
+pect the explanations for incorrectly classied images tain noisy features and thus less accurate
+the second example shows a seaside sparrow that has mistakenly been recognized as a blue grosbeak
+from the textual explanations we ascertain that the low image quality mistakenly activates lters that correspond to blue head and blue crown
+the underlying source of this error is complex the generalization ability of the network is limited such that small perturbations in the image can result in unwanted lter responses
+such failures imply the critical importance of improving network robustness
+
+in the third case the network predicts the image as a yellow warbler however the ground truth label is bellied flycatcher
+according to a bird expert the network got this correct the ground truth label is an error
+the work correctly identies the yellow crown and yellow head both obvious features of the yellow warbler
+errors like this are not surprising because according to van horn et al
+
+roughly of the class labels in the cub dataset are incorrect
+the mistake shown in figure could also be a false negative and it indicates the classier may not learn to assign correct weights to discriminative features
+to quantitatively measure the accuracy of generated planations we compute their sentence bleu scores which measure the similarity of the generated sentence with ground truth caption annotations
+we show in table that erally explanations are more accurate for correctly ed images
+our textual explanation is nt directly optimized to mimic the image caption annotations but we would table blue score
+correct wrong overall
+conclusion
+in this paper we propose a novel task for network tion that generates textual summarization justifying the work decision
+we use publicly available captioning tions to learn the filter attribute relationships in an unsupervised manner
+the approach builds on the intuition that lter responses are strongly correlated with specic mantic patterns
+leveraging a joint consensus of attributes across the top activated images we can generate the level attribute
+this further enables holistic level planations by combining visual attributes into a natural tence
+we demonstrate the accuracy of the proposed
+rithm by visual attribute grounding and attribute based age retrieval
+we employ the textual explanation as network debugging tool and summarize common failure patterns for ne grained recognition
+future work includes experiments on additional models and datasets
+the algorithm can also be generalized to
+ing from weaker class level caption annotations
+word bedding methods such as mikolov et al
+
+american tree sparrows left have a rufous stripe through the eye on chipping sparrows right it black
+tree sparrows also have a spot in the middle of the breast and a bicolored bill that chipping sparrows do have
+this is a chipping sparrow because it has long tail white breast short beak and brown and red crown
+this is a tree sparrow because it has black throat white breast short beak and brown and red crown
+this is a seaside sparrow because it has brown and yellow crown black throat yellow eyebrow and short beakthis is a blue grosbeak because it has brown and blue crown black throat short beak and blue headthis is a yellow bellied flycatcher because it has bright yellow breast red crown and gray headthis is a yellow warbler because it has red and yellow body yellow crown yellow head and yellow breast
+query ground truth class predicted class rationale for ground truth rationale for predicted figure top most frequent noun phrases
+can be utilized for learning to embed and group semantically similar words together
+keypoint based annotations can be used to assign different weights for attributes according to the spatial distribution of the feature map
+potential tions include explaining adversarial examples and based zero shot learning
+references antol agrawal lu mitchell batra lawrence zitnick and parikh
+vqa visual question answering
+in the ieee international conference on computer vision iccv
+
+bau zhou khosla oliva and torralba
+network dissection quantifying interpretability of deep visual representations
+in computer vision and pattern recognition
+
+deng dong socher li li and
+imagenet
+a large scale hierarchical fei
+age database
+in computer vision and pattern recognition
+cvpr
+ieee conference on
+ieee
+
+erhan bengio courville and vincent
+
+visualizing higher layer features of a deep network
+nical report university of montreal
+farhadi hejrati sadeghi young
+rashtchian hockenmaier forsyth david
+maragos and paragios
+every picture tells
+in computer a story
+generating sentences from images
+
+vision eccv
+berlin heidelberg springer berlin heidelberg
+
+goodfellow shlens and szegedy
+
+
+ing and harnessing adversarial examples
+arxiv e prints
+google
+
+inceptionism going deeper into neural works
+inceptionism going deeper into neural
+
+html
+
+he zhang ren and sun
+deep residual learning for image recognition
+in cvpr
+
+he gkioxari dollar and girshick
+
+mask r cnn
+in the ieee international conference on puter vision iccv
+hendricks akata rohrbach donahue
+schiele and darrell
+generating visual
+in european conference on computer vision planations
+
+
+springer
+
+huang liu van der maaten and weinberger
+densely connected convolutional networks
+
+in the ieee conference on computer vision and pattern recognition cvpr
+
+krizhevsky sutskever and hinton
+agenet classication with deep convolutional neural works
+in nips
+
+lin roychowdhury and maji
+
+ear cnn models for fine grained visual recognition
+in iccv
+
+mahendran and vedaldi
+understanding deep image representations by inverting them
+in the ieee conference on computer vision and pattern recognition cvpr
+
+mikolov chen corrado and dean
+
+cient estimation of word representations in vector space
+arxiv preprint
+
+nguyen dosovitskiy yosinski brox and clune
+synthesizing the preferred inputs for rons in neural networks via deep generator networks
+in vances in neural information processing systems
+
+nguyen clune bengio dosovitskiy and
+yosinski
+plug play generative networks
+tional iterative generation of images in latent space
+in the ieee conference on computer vision and pattern tion cvpr
+
+nguyen yosinski and clune
+deep neural networks are easily fooled high condence predictions for unrecognizable images
+in the ieee conference on puter vision and pattern recognition cvpr
+
+reed akata yan logeswaran schiele and lee
+generative adversarial text to image thesis
+arxiv preprint
+
+rohrbach rohrbach hu darrell and schiele
+grounding of textual phrases in images by reconstruction
+arxiv e prints
+black crownshort beakwhite breastpointy beakblack beakblack headwhite throatblack billbrown crownsmall beakyellow breastwhite bodyblack eyesmall billlong billlong tailpointed billred crownlong neckyellow billshort billsmall headshort pointy billwhite headyellow beakblack eyeringblack throatwhite crownlong beakyellow crowngrey crowngrey headblue crownbrown headyellow bodyblue headblack bodyyellow throatblack cheek patchwhite chestpointed beakblack taillong black billbrown beakgray crownblack wingred headwhite eyebrowyellow headsharp beakbrown breastblack breastwhite eyeringsmall black billwhite neckbrown bodyblack tarsuslight browndark brownred breastlong black beakcheek patchwhite wingblack backthick billsharp billsmall black beaklarge beakgray headwhite napeshort black billdark greywhite eyelarge headwhite beakshort pointed billbrown eyered eyeblack napegreen crownred beakgreen headsmall brownshort black beakwhite billlarge billbright orangesharp black beakgray bodyyellow chestbright yellowred throatwhite stripeblack faceblack stripeshort tailwhite eye ringgray beakflat billgrey selvaraju cogswell das vedantam parikh and batra
+grad cam visual nations from deep networks via gradient based localization
+
+in the ieee international conference on computer vision
+iccv
+sermanet frome and real
+attention for fine grained categorization
+in iclr
+
+simonyan and zisserman
+very deep volutional networks for large scale image recognition
+in iclr
+simonyan vedaldi and zisserman
+deep inside convolutional networks
+visualising image cation models and saliency maps
+arxiv e prints
+
+springenberg dosovitskiy brox and
+striving for simplicity the all lutional net
+arxiv e prints
+
+szegedy zaremba sutskever bruna erhan goodfellow and fergus
+intriguing ties of neural networks
+arxiv e prints
+van horn branson farrell haber barry ipeirotis perona and belongie
+building a bird recognition app and large scale dataset with citizen scientists the ne print in ne grained dataset collection
+
+in proceedings of the ieee conference on computer vision and pattern recognition
+
+wah branson welinder perona and belongie
+the caltech ucsd dataset
+technical report cns
+
+yosinski clune nguyen fuchs and lipson
+understanding neural networks through deep visualization
+arxiv e prints
+zeiler and fergus
+visualizing and standing convolutional networks
+eccv
+
+zhang donahue girshick and darrell
+
+part based r cnns for fine grained category detection
+
+in eccv
+
+zhang cao shi nian wu and zhu interpreting cnn knowledge via an explanatory
+
+graph
+aaai
+
+zhou khosla lapedriza oliva and torralba
+object detectors emerge in deep scene cnns
+iclr
+
+zhou khosla lapedriza oliva and torralba
+learning deep features for discriminative ization
+in the ieee conference on computer vision and pattern recognition cvpr
+

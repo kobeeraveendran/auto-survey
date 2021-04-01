@@ -1,0 +1,497 @@
+automatic summarization of online debates nattapong sanchan ahmet aker and kalina bontcheva natural language processing group department of computer science
+the university of shefeld portobello shefeld united kingdom g u
+a l c
+s
+c
+v
+v i x r a abstract debate summarization is one of the novel and challenging research areas in matic text summarization which has been largely unexplored
+in this paper we velop a debate summarization pipeline to summarize key topics which are discussed or argued in the two opposing sides of line debates
+we view that the generation of debate summaries can be achieved by clustering cluster labeling and tion
+in our work we investigate two ferent clustering approaches for the eration of the summaries
+in the rst
+proach we generate the summaries by plying purely term based clustering and cluster labeling
+the second approach makes use of x means for clustering and mutual information for labeling the ters
+both approaches are driven by tologies
+we visualize the results using bar charts
+we think that our results are a smooth entry for users aiming to ceive the rst impression about what is discussed within a debate topic containing waste number of argumentations
+introduction
+as the number of internet users has been growing signicantly information is published and stored digitally in textual forms
+online debate is one example of the information which has been sively published
+as more and more debate tent increases it becomes a difcult task to easily and quickly discover key arguments that are pressed in the vast amount of debate data
+
+matic text summarization can help users to tract or summarize those key arguments more ciently and reduce the reading time
+online debate forums normally contain two sides of debates proponent and opponent
+this structure gives opportunities for users to choose a stance side for a debate topic expresses their opinions to support their propositions and poses other propositions
+in this paper we explore online debates which are related to the existence of global warming
+a side of proponents believes in the existence of global warming and the other side the opponents says that global warming is not true
+when the proponents and the opponents express their sentiments opinions and pieces of evidence to support their propositions arguments between them arise
+in this paper we aim to summarize online bates about global warming
+in our approach we rst extract salient sentences from the two
+ing sides of debates arguments published by users
+next we cluster them by some sort of ilarity
+for clustering we investigate two ent approaches
+our rst approach is a term based clustering approach
+
+the second approach is based on at clustering namely x means which can automatically determine the number of ters
+ontologies are used as the backbone for both approaches
+ontologies have been used broadly in automatic text summarization studies
+ever to the best of our knowledge this approach has not yet been applied for summarizing online
+debates especially when our purpose is to ture arguments conversed in both opposing sides
+
+once clusters are generated labels representing the clusters are extracted
+again we follow two approaches
+the rst approach is a simple one and selects as a label an ontological term that is shared by all salient sentences within the cluster
+the ond labeling approach extracts such a term based on mutual information mi
+the resulting ters along with their labels are visualized using bar charts
+our results show that clustering with x means and label generation using mi is a better choice for the purpose of online debates rization
+
+the rest of the paper is organized as follows
+
+section discusses about related work in online debate summarization
+the online debate data lated to the existence of global warming are rated in section
+section illustrates the system structure for developing our debate summarization system
+within the same section we also present our evaluation results
+we conclude in
+related work debate summarization is one of the novel research areas in automatic text summarization which has been largely unexplored ranade et al
+
+amples of related work in debate summarization includes contrastive summarization tive summarization and debate stance tion
+contrastive summarization is the study of generating summary for two entities and nding the difference in sentiments among them man and mcdonald
+this kind of marization requires the classication of polarity in order to contrast opinions expressed in different sentiments campr and jezek paul et al
+kim and zhai summarized trastive pairs of sentences by aligning positive and negative opinions on the same aspect
+in this work contrastive sentence pairs were constructed based on two criteria choose sentences that represent a major sentiment orientation and the two
+
+tences should have opposite opinions on the same aspect
+similarity functions were used for mining contrastive sentence pairs
+then sentence pairs were used as input for generating the nal summary
+the summary was aimed to help
+ers compare the pros and cons of mixed opinions
+
+comparative summarization aims to nd the difference between two comparable entities so that sentiment classication may not be required
+campr and jezek
+zhai et al
+worked on comparative text mining problem which aimed to discover common topics in news articles and laptop reviews and to summarize monalities and differences in a given set of parable text collections
+a probabilistic mixture model was proposed
+it generates clusters of ics across all collections and in each collection of document
+the model generates k collections of specic topics for each collection and k common topics across all collections
+each topic is
+acterized by multinomial word distribution also called a unigram language model
+high bility words were used as representatives of each cluster and are also included in the summary
+
+debate stance recognition aims to detect stance of an opinion s holder in text
+daran and wiebe noticed that in online bate posts people debate issues express their vorites oppose other stances and argue why their thoughts are correct
+to determine positive timent about one target expressing negative timent about the other side is a key target
+for instance in a debate which mobile phone is ter iphone vs blackberry
+people supporting
+iphone may give reasons to afrm why iphone is better
+in addition they also express why berry is not
+on the blackberry side people may also nd reasons to support their opinions and
+gue why the phone is unfavorable
+therefore to identify stance it is important to not only consider positive and negative sentiment but also consider which target an opinion refers to
+
+unlike these the study of ranade et al
+
+
+directly tackled debate summarization problem
+and it is the one which is closest to our work
+in that work system summaries are extracted by ranking the smallest units of debates called
+alogue acts das
+the ranking of sentences is based on features including words in das that is co occurring in debate topic topics with ions expressed on it sentence position and tence length features
+however this work does not explicitly highlight what is the key content to be summarized and how the debate summary is sented
+this is different to our work
+on the other hand in our work we highlight the summarization of key content in debates and visualize them to be easily accessed by users
+online debate data
+in our earlier work we created freely available debate dataset on climate change also referred as
+salient sentence selection dataset sssd
+each debate consists of two opposing sides agree and disagree
+whereas the opinion on the agree side believes that global warming ists the disagree side opposes this opinion
+in this dataset each debate comment was manually dataset can be downloaded at
+
+tated by judgments
+the aim of the annotation was to select from each comment sentences that were salient and worth for inclusion in a mary
+for instance for a comment containing sentences sentences were extracted by each notator
+the dataset contains debate topics with comments in total
+average number of ments for a topic is comments with the imum and maximum of and comments spectively
+framework to generate a bar chart representing a summary of an online debate topic we proposed a pipeline with two branches where each branch presents either a term based clustering and the term based ing method or x means based clustering and the mi labeling strategy
+the ow of the pipeline is shown in figure
+the system assumes an input of n comments from the agree and disagree sides
+
+each comment consists of several sentences
+we aim to select the most salient sentences from each comment cluster the salient sentences according to their content similarity generate clusters senting labels and nally visualize the results ing a bar chart summary
+in the following sections we introduce each of the components and provide evaluation results
+automatic salient sentence selection
+for the shown pipeline in figure we used an tractive automatic summarization system reported in our earlier there are main features dened in this system
+those features include sentence position sp sentence length sl title words tt the presence of conjunctive adverbs cj cosine similarity of topic and sentences cos tps cosine similarity of climate change and sentences cos ccts cosine similarity of sentence and title words cos tts and the semantic similarity of sentence and title words cos stt using
+additionally we also investigated the combination of features
+cb in the salient sentence selection
+for a given comment the system extracts sentences from it that are deemed as salient
+
+used an approach described by lin and hovy to obtain a list of topic signatures
+we extract the topic tures from our dataset which is related to climate change
+terms are obtained by aggregating document
+words from online news media coverage on climate change
+
+evaluation
+we used and
+evaluation metrics to evaluate the quality of the system summaries the selection of salient sentences
+as reference summaries we used the manually generated summaries from the freely available dataset sssd
+our results revealed that sentence position outperforms other features cating that the most salient sentences are always
+
+in addition other useful key features are debate
+tle words feature and cosine similarity of debate title words and sentences feature
+the complete set of results are shown in table
+term based clustering
+to perform clustering we used terms extracted through ontologies
+we employed the glish climapinion from the decarbonet as the background knowledge to ture climate change topics and extract from each salient sentence topical terms
+to obtain clusters we grouped sentences containing the same label within the same cluster
+if a sentence contained more than one term then it was assigned to several groups allowing the sentence to be soft
+also note terms with the same semantic meaning can be expressed differently
+to address this for each label we obtained a list of its synonyms from wordnet miller
+if the labels shared
+mon synonyms we considered they are the same labels
+consequentially the sentences cally annotated with such labels were merged to the same clusters
+evaluation the evaluation of the ontology based term tion has been evaluated somewhere else
+by sisting of two environmental ontologies gemet
+general multilingual environmental thesaurus and reegle the climapinion yields great results in recognizing environmental terms in text with the precision recall and measure of and respectively maynard and bontcheva
+
+the results derived from the term based tering approach are evaluated with the silhouette index rousseeuw
+silhouette evaluates
+
+a cluster all sentences must share one particular term but each sentence may contain other terms that are not shared by other sentences within the same cluster
+figure the framework for generating the chart summary for online debate summarization rouge n r cb cj
+cos cct cos tts cos tps sl sp
+cos stt
+
+tt
+table rouge scores derived from each feature in the salient sentence selection task table average silhouette scores derived from the term based clustering approach number of clusters average silhouette score the clustering performance by determining the propriateness of documents assigned to a cluster rather than the other clusters
+these documents are represented as coordinates
+silhouette lates the pairwise difference in both inter cluster and intra cluster distance
+we calculated an age silhouette score and reported it in table
+as shown in the table the system generated ters based on the climate change terms annotated by the climapinion service
+
+it achieved the houette score around zero similar to the work sented by wang and koopman
+the pretation based on the score is the data points are assigned nearly to the decision boundaries of the clusters
+especially when salient sentences tain multiple climate change topics clear ing boundaries are difcult to achieve
+this cumstance indicates that such a simple clustering approach is less applicable for grouping
+cally similar sentences together and that the task asks for more sophisticated ways for achieving a better performance
+we will discuss an alternative solution in section
+term based label extraction after grouping salient sentences together the groups or clusters should be given labels which clearly reect the content in the clusters aker et al
+similar to the clustering approach where we grouped salient sentences by the logical term they share we used the sharing term as the label to represent the cluster
+this is based on the assumption that the climate change terms which are annotated in the sentences do already elaborate the central meaning of the clusters
+
+evaluation
+in the labeling evaluation we compared the tem labels against the baseline labels
+we ated the baseline labels by applying
+
+it is a common approach in most information retrieval systems ponte and croft which consists of two main components tf and idf
+
+in our iment tf indicates the frequency of terms occurs in a
+idf presents the number clusters in which the term occurs
+these components allow us to reduce common terms in the clusters and cover more discriminative terms having fairly low term frequency in the clusters
+to determine the candidate labels we calculated the score for each term by the multiplication of tf and idf
+the term with the top score was chosen as the cluster label
+
+in the evaluation of cluster labels we followed the manual evaluation method presented by aker et al
+
+we invited three participants two phd candidates and one researcher having ground in computer science to evaluate the bels
+the evaluation was presented as an online form
+the participants were asked to read the sentences in the given clusters and score the bels
+the baseline and system labels were shown in random order
+the pants were asked to answer ve point likert scale questions ranking from strongly disagree to strongly agree
+the questions include i
+tion by reading the label i can understand it
+question this label is a complete phrase and question this label precisely reects the content of the sentences in cluster
+along with the three questions we presented clusters with a maximum of salient sentences so that the ticipants are able to read the content prior to the labeling evaluation and a minimum of salient sentences
+figure illustrates the results of the labeling evaluation
+
+for each label as we can see from the gure in overall the quality of system labels outperforms the baseline labels
+in the system labels compared to the baseline labels are more understandable with the average score of and respectively
+wise in the system labels are more completed phrases than the baseline with the mean ence of
+lastly with the average preference figure the labeling evaluation performed on the term based clustering approach
+the average preference scores generated by participants on a scale strongly disagree to strongly agree scores of in the system labels are more ecting the quality of content in the clusters than those generated by the baseline having the score of
+additionally the quality of the system labels is further conrmed by a statistical icance analysis with mann whitney u test
+the test reveals that signicance difference is found in the system labels m and the baseline labels m m m p
+we also sured the inter annotator agreement using pendorffs alpha
+the agreement in and are and tively
+x means clustering in section
+we have shown that the idea of forming clustering based on shared terms results in poor clustering performance
+the approach leads to too many clusters which are very close to each other
+in this section we aim to overcome the problem of poor performance of the term based clustering approach and use x means pelleg and moore an extended version of k means to cluster the salient sentences selected by the summarization system
+one of the benets of means is that it is able to automatically detect the number of clusters
+by computing the bayesian information criterion bic scores x means cides if cluster centroids should be split
+we plied ontology based vector space model approach sentences can carry more than a term it is likely measurement is performed using nltk metrics that a cluster has several climate change terms
+
+to create vectors as the similarity inputs for means
+have strong clustering structure and is more priate for the task of summarizing debate data
+table average silhouette scores derived from x means clustering results number of clusters average silhouette score label generation with mutual information to generate labels from the x means clusters we could have followed the same approach as scribed in section namely picking up a term that is shared by all or majority of the salient tences within a cluster
+we tried this however to our surprise the performance was very low pared to what we achieved in section
+
+
+ertheless this helped us to draw two conclusions
+
+first the performance in section is high
+
+cause the labels were so selected that all salient sentences within a group shared that label
+second the size of the clusters was not big so that the label had high chance to be representative of the ter
+this pictures changed once the cluster size increased and also the salient sentences covered several different climate change terms
+because of this selecting a label was not about just simply selecting the term that appears in all or majority of the salient sentences
+we used mutual information
+mi to make this decision for us
+mi is a prevalent feature selection approach that involves in the calculation of a utility
+sure c
+mi quanties how much information that term t contributing to the correct tion judgment on class c manning al
+
+the mi formula is shown in equation where u is a random variable that holds the value et
+if a sentence contains term t the value of et is
+
+erwise the et is
+c is a random variable that holds the value ec
+the value of ec is indicating that a sentence is in class c and it is if it is not
+similarity measurement
+to enable x means to process the clustering a similarity needs to be dened to determine which sentences are close to each other
+
+in the nition of our similarity measurement the matic selected salient sentences are transformed into vectors using the vector space model vsm
+
+in the document indexing stage we employed the ontologies to automatically annotate key climate change terms in the sssd
+the employment of ontology based approach benets the tion of words to vectors by help capturing vance of specic topics
+we derived ca nt climate change topics
+term frequency was counted for each term to generate vectors for each sentence
+to generate a similarity matrix cosine similarity measure was used to calculate cosine similarity scores among the vectors
+after the ilarity matrix was constructed we applied a cipal component analysis for the sionality reduction
+evaluation
+similar to the ontology term based clustering we evaluated the results of the x means clustering
+ing silhouette index
+results are reported in table
+
+as shown in the table the average silhouette score is derived from the calculation based on the similarity denition obtained by the based vector space model
+we achieved a high houette score of with the total number of generated clusters
+a silhouette close to dicates good cohesion and separation of the tering results meaning that the average distance from a coordinate in a cluster to the other nates within its own cluster is less than the average distance to all coordinate in the nearest cluster
+in addition when the score is close to the nates in the clusters are nearly close or on the cision boundary between two neighbouring ters
+a negative silhouette score is obtained when coordinates might be assigned to wrong clusters
+
+in other words the coordinates are very close to the neighbouring cluster rather than the nates in their own clusters rousseeuw
+in our experiment we concluded that the clustering results obtained by x means clustering algorithm
+pca c
+p u et c ec p u et c ec
+p u c c
+n n
+
+n n
+
+n n
+
+n n
+to calculate the mutual information scores for candidate terms we applied the maximum hood estimation of probability as shown in tion manning al
+from the equation n refers to the counts of sentences in which its subscripts take the values of et and ec
+for stance refers to the number of sentences that do not containing term t et but in class c ec
+
+is derived from the addition of and
+n refers to the total number of sentences
+
+in each cluster we calculated the score of each candidate term
+the term with the higher mi score was selected as the cluster label for that cluster
+labeling evaluation
+in order to evaluate the system labels generated by the results derived from x means clustering
+proach we applied the same evaluation procedure as well the baseline discussed in section
+
+the results are illustrated in figure
+as can be seen from the gure the average preference scores of the system outperform the baseline
+in the system labels are more understandable than the baseline with the mean difference of
+in the system labels more completed phrases than the baseline labels with a higher mean score of
+lastly in the system labels are still ter than the baseline labels with the mean ence of
+the system labels are more ingful for presenting the central meaning of the content in the clusters
+however as there is a slight difference between the results of the system labels and baseline labels mann whitney u test reveals that no signicant difference with the z values of and with the nicance levels of and
+
+spectively
+the values of krippendorff s alpha by another three participants for and are and respectively
+visualization sanchan et al
+have manually investigated various representation models for displaying or figure the labeling evaluation performed on the x means clustering approach
+the average preference scores generated by participants on a scale strongly disagree to strongly agree sualizing summaries of online debates
+unlike ditional summaries the debates extracts have to capture main concepts discussed in both sides and enable the reader to look at those concepts from both proponent and opponent sites
+the authors proposed the chart summary which presents the clusters by bars
+each bar is marked with the cluster label
+
+in this work we adopt the chart
+summary for visualization purposes
+an example chart summary is shown in figure
+
+in the generation of the bars in chart summary the bars are the clusters that express related tent in both opposing sides
+therefore it is
+portant to match clusters from the two opposing sides which express the related content
+we call this approach as alignment
+from the two
+ing sides we align the clusters based on the ter labels
+the clusters sharing mutual labels are aligned
+for alignment we used cosine
+ity over vector spaces representing the labels
+the vector also contains semantically related words enriched from wordnet
+clusters which have no pair will not be aligned and thus will not be sented in the chart summary
+once the pairs of aligned clusters are derived we count the number of salient sentences in those clusters separately in each opposing side
+those numbers represent the frequencies of the bars
+
+after all components of a chart summary are completely generated they are exported to java for the purpose of visualizing the chart summary
+figure illustrates a chart mary for the online debates data which runs on a web
+figure chart summary for debate data
+conclusion
+in this paper we investigated one of the novel and challenging problems in automatic text rization of online debates and proposed a work to tackle this problem
+we aimed to erate chart summaries which represent the level topics of online debates
+the chart summary is composed of three main components including the bars labels and frequencies of the bars
+we proposed an ontological term based driven tering and cluster labeling pipeline to guide the debate summary generation
+in our approach we used an online service to automatically annotate climate change terms in salient sentences and to group related salient sentences into the same ter
+for clustering we investigated two variants both making use of ontological terms
+the rst a simply approach groups salient sentences by shared terms
+the second approach applies means clustering
+the evaluation has shown that the x means approach is a better choice for tering
+we create labels to represent each ter
+again here we investigated two different
+
+proaches both making use of ontological terms
+
+the rst approach again a simply one labels each full version of chart summary can be accessed via cluster with the term shared by all members within the cluster
+the second approach picks up the best term according to mutual information
+the ual evaluation showed that the simple approach achieves higher results than the mi one
+
+ever as discussed the simply approach achieved high results because of the size of the clusters and led to poor results when the size of the cluster grew which is the case with the x means
+ing
+once the clusters and labels are generated with align the pro and contra parts and visualize the results using
+in future work we plan to enrich the chart mary with additional details such as enabling the users to see example debates for each pair of ters
+
+references ahmet aker monica lestari paramita emina tic adam funk emma barker mark hepple and robert gaizauskas
+
+automatic bel generation for news comment clusters
+
+in inlg proceedings of the ninth national natural language generation
+
+ence september edinburgh uk
+pages
+
+
+
+michal campr and karel jezek
+
+ative summarization via latent semantic
+in lastest trends in information sis
+
+of the wseas international conference on information technology and puter networks itcn proceedings of the wseas international conference on cloud computing clc proceedings of the
+wseas international conference on programming languages and compilers prlc
+wseas press stroudsburg pa usa recent advances in computer engineering series pages
+
+summaries comparative hyun duk kim and chengxiang zhai
+
+of
+in david
+
+il yeol song wesley chu editors and generating tradictory opinions in text
+
+lok cheung xiaohua hu cikm
+acm pages
+
+lin jimmy kevin lerman and ryan mcdonald
+
+
+an experiment with trastive summarization
+in proceedings of human consumer reviews
+
+
+annual language technologies the north american chapter of
+conference of the association for computational linguistics short papers
+association companion volume stroudsburg linguistics for computational the nattapong sanchan kalina bontcheva and ahmet
+aker
+understanding human preferences for summary designs in online debates domain
+polibits
+
+swapna somasundaran and janyce wiebe
+
+
+in
+
+recognizing stances in one debates
+the ceedings of the joint conference of annual meeting of the acl and the national joint conference on natural language the afnlp
+volume volume processing of
+association for computational linguistics stroudsburg pa usa acl pages
+
+and rob koopman
+shenghui wang
+clustering scientometrics ilarity
+
+
+
+
+
+semantic articles based on chengxiang zhai atulya velivelli and bei yu
+
+
+a cross collection mixture model for the parative text mining
+tenth acm sigkdd international conference on knowledge discovery and data mining
+acm new york ny usa kdd pages
+
+
+in proceedings of pa usa naacl short pages
+
+
+
+chin yew lin and eduard hovy
+the mated acquisition of topic signatures for text
+in proceedings of the marization
+ence on computational linguistics volume
+sociation for computational linguistics burg pa usa coling pages
+
+manning raghavan and schtze
+
+introduction to information retrieval
+
+hinrich information
+
+cambridge university press
+
+
+diana maynard and kalina bontcheva
+
+
+derstanding climate change tweets an open source toolkit for social media analysis
+in volker muth chris preist elina eriksson vivian kvist hannsen stefan jensen editor atlantis press
+
+gan kaufmann publishers atlantis press pages
+
+george a miller
+wordnet a lexical database for english
+communications of the acm
+michael j paul chengxiang zhai and roxana girju
+
+
+summarizing contrastive viewpoints in ionated text
+in proceedings of the conference on empirical methods in natural language cessing
+association for computational linguistics pages
+dan pelleg and andrew moore
+
+x means
+extending k means with efcient estimation of
+in proceedings of the
+the number of clusters
+seventeenth international conference on machine learning
+morgan kaufmann publishers san francisco ca usa icml pages
+
+jay ponte and bruce croft
+
+a language modeling approach to information
+in proceedings of the annual trieval
+ternational acm sigir conference on research and development in information retrieval
+acm new york ny usa sigir pages
+
+sarvesh ranade jayant gupta vasudeva varma and radhika mamidi
+
+online debate
+tion using topic directed sentiment analysis
+in ceedings of the second international workshop on issues of sentiment discovery and opinion mining
+
+acm new york ny usa wisdom pages
+
+peter rousseeuw
+
+silhouettes a graphical aid to the interpretation and validation of cluster comput
+appl
+math
+
+analysis
+
+
+

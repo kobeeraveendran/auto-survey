@@ -1,0 +1,756 @@
+citation issa atoum ahmed otoom and narayanan kulathuramaiyer
+article a comprehensive comparative study of word and sentence similarity measures
+international journal of computer
+applications february
+published by foundation of computer science fcs ny usa
+author issa atoum and ahmed otoom and narayanan kulathuramaiyer title article a comprehensive comparative study of word and sentence journal international journal of computer applications year volume number pages month february note published by foundation of computer science fcs ny usa article similarity measures
+a comprehensive comparative study of word and sentence similarity measures issa atoum
+faculty of computer information
+the world islamic sciences education university amman jordan
+ahmed otoom
+royal jordanian air forces amman jordan narayanan kulathuramaiyer
+faculty of computer science and information technology universiti malaysia sarawak
+kota samarahan sarawak malaysia tasks such as
+abstract
+sentence similarity is considered the basis of many natural language information retrieval question answering and text summarization
+
+the semantic meaning between compared text fragments is based on the words semantic features and their relationships
+this article reviews a set of word and
+sentence similarity measures and compares them on benchmark datasets
+
+on the studied datasets results showed that hybrid semantic measures perform better than both knowledge and corpus based measures
+general terms semantic computational linguistics text similarity similarity natural language processing keywords
+word similarity sentence similarity corpus measures knowledge measures hybrid measures text similarity
+introduction
+semantic similarity finds a resemblance between the related textual terms
+
+words are considered semantically similar or related if they have common relationships
+for example food and salad are semantically similar obviously salad is a type of food
+also fork and food are related undoubtedly a fork is used to take food
+resnik illustrated that word similarity is a subcase of word
+
+the word similarity is the foundation of the sentence similarity measures
+a sentence similarity method measures the semantics of group of terms in the text fragments
+
+it has an important role in many applications such as machine translation
+information retrieval word sense disambiguation spell checking thesauri generation synonymy detection
+and question answering
+
+furthermore semantic similarity is also used in other domains in medical domain to extract protein functions from biomedical literature
+and in software to find common software attributes
+generally sentence similarity methods can be classified as based knowledge based and hybrid methods
+
+corpus based methods depend on building word frequencies from specific corpus
+in this category latent semantic analysis
+lsa
+and latent dirichlet allocation lda
+have shown positive outcomes however they are rather domain dependent
+
+in other words if the model model was built for news text it usually performs poorly in another domain such computer science text
+
+the knowledge based methods usually employ dictionary information such as path depth lengths between compared words to signify relatedness
+these methods suffer from the limited number of general dictionary words that might not suit specific domains
+
+most knowledge based measures depend on
+
+wordnet is a hand crafted lexical knowledge of english that contains more than words organized into a taxonomic ontology of related terms known as synsets
+each synset a concept is linked to different synsets via a defined relationship between concepts
+the most common relationships in wordnet are the is a and part of relationships
+hybrid methods combine the based methods with knowledge based methods and they generally perform better
+
+to the best of authors knowledge there are a few works that compares sentences
+
+this article compares state of the art word and sentence measures on benchmark datasets
+it is found that hybrid measures are generally better than knowledge and corpus based measures
+
+related work
+word similarity methods corpus based methods
+these methods depend on word features extracted from a corpus
+the first category of these methods is based on the information content ic of the least common subsumer lcs of compared term synsets
+
+
+the second category a group known as distributional methods depends on distribution of words within a text context
+
+words co occurrences are represented as vectors of grammatical dependencies
+
+the distributional method lsa similarity transforms text to low dimensional matrix and it finds the most common words that can appear together in the processed text
+corpus based methods are domain dependent because they are limited to their base corpora
+knowledge based methods knowledge based methods use information from dictionaries
+such as wordnet to get similarity scores
+
+classical knowledge based methods use the shortest path measure while others extend the path measure with depth of the lcs of compared words
+
+leacock chodorow proposed a similarity measure based on number of nodes in a taxonomy and shortest path between compared terms
+hirst and st onge considered all types of wordnet relations the path length and its change in direction
+some methods have the ability to use intrinsic information rather than information content
+
+knowledge based methods suffer from limited hand crafted ontologies
+hybrid methods hybrid based methods associate functions from and knowledge based methods
+zhou al
+proposed a similarity measure as a function of the ic and the path length of compared words
+rodriguez and egenhofer
+used the weighted sum between synsets paths neighboring concepts and their features in a knowledge fusion model
+dong et al
+proposed a weighted edge approach to give different weights of words that share the same lcs and have the same graph distance words with lower edge weights are more similar than words with higher edge weights
+
+atoum and
+bong proposed a hybrid measure of distance based knowledge based and information content method
+they called their model
+joint distance and information content
+word similarity measure jdic
+called point wise
+mutual in this category also web based methods depend on the web resources to calculate the similarity
+turney et al
+used a and measure information retrieval pmi ir
+that is based on the number of hits returned by a web search engine
+bollegala et al
+used a
+wordnet metric and
+support vector machines on text snippets returned by a web search engine to learn semantically related and unrelated words
+
+information sentence similarity methods
+corpus based methods
+these methods are based on a features
+
+the first category traditional information retrieval methods term frequency inverse
+document frequency tf idf methods
+assume that documents have common words
+
+however these methods are not valid for sentences because sentences may have null common
+
+for example the sentences my boy went to school and kids learn math do not have any common word although they are semantically related to education
+
+based on the tf idf idea the second category word occurrence methods are proposed
+
+they model words occurrences as vectors of semantic features hyperspace analogues to language hal
+and lda
+
+
+after these vectors are processed a similarity measure such as the cosine measure is used to calculate the final similarity between compared text fragments
+the third category string similarity methods based methods depend on strings edit distance and the word order in a sentence fourth category the gigantic methods
+they use the internet resources as their baseline wikipedia google tri and search engine documents
+
+these methods are more practical to text rather than sentences
+
+corpus based methods second and fourth category suffer from these problems once the vector space model is built for a domain it can be hardly used in another domain
+
+
+in addition adding new instance of existing model becomes infeasible as it requires rebuilding the whole model computationally costly
+
+they also have the problem of high sparse vectors especially for short sentences and generally they are not practical
+knowledge based methods knowledge based methods use semantic dictionary information such word relationships information content
+to get word semantic features
+
+li et al
+proposed a sentence similarity based on the aspects that a human interprets sentences objects the sentence describes properties of these objects and behaviors of these objects
+
+tian et al
+proposed sentence similarity based on wordnet
+ic and part of speech tree kernels
+
+huang and sheng
+proposed
+a sentence similarity measure for paraphrase recognition and text entailment based on wordnet ic and string edit distance
+
+lee
+built semantic vectors from wordnet information and part of speech tags
+abdalgader and
+skabar proposed a sentence similarity measure based on word sense disambiguation and the wordnet synonym expansion
+
+tsatsaronis al
+measured
+the semantic relatedness between compared texts based on their implicit semantic links extracted from a thesaurus
+li al
+proposed a sentence similarity measure based on word and verb vectors and the words order
+
+generally the knowledge based methods are limited to the human crafted dictionaries
+
+due to this not all words are available in the dictionary and even if a few words exits they usually do not have the required semantic information
+as an example wordnet has a limited number of verbs and adverbs synsets compared to the list of available nouns synsets in the same ontology
+hybrid methods hybrid methods are a combinations of the previous mentioned methods
+croft et al
+applied their measure on photographic description data based semantic vectors of path and term frequency
+li et al
+proposed a sentence similarity based on wordnet information ic of brown corpus and sentence words orders
+later proposed a word similarity based on a new formula and
+lin word
+information content
+ho al
+incorporated a modified version of word sense disambiguation of in their similarity measure
+feng et al
+used direct words relationships and indirect reasoning relevance between sentences to estimate sentence similarity
+
+liu et al
+proposed a sentence similarity based on dynamic
+time
+wrapping dtw approach
+they calculated the similarity between sentences by aligning sentences parts of speech using dtw distance measure
+ho et al
+showed that dtw is computationally costly and time proportionately with the sentence s length
+a combination of eight knowledge base measures and three corpus based measures is proposed in
+the final word similarity measure is the average of all eight measures
+the sentence similarity measure is derived using word overlapping over an idf function of words in related segments
+hybrid approaches shows promising results on standard benchmark datasets
+table shows the summary of different word and sentence similarity measures
+table
+summary of word and sentence similarity approaches similarity method corpus based methods approach advantages use a corpus to get probability or frequency of a word in a corpus preprocessed corpus to reduce computations knowledge based methods adoptions of human crafted ontology can increase accuracy use dictionary information such as wordnet to get similarity for example path and depth word relationships
+
+use both corpus and a dictionary information
+hybrid methods usually performs better disadvantages
+corpus is domain dependent
+
+
+some words might get same similarity
+
+
+semantic vectors are sparse
+
+
+limited words
+
+some words can get same similarity if they have the same path and depth
+additional computations
+experimental evaluation
+word similarity methods to evaluate the performance of word similarity methods
+the
+rubenstein and
+miller word pairs benchmark datasets are selected
+
+rubenstein and
+goodenough investigated synonymy judgements of noun pairs categorized by human experts on the scale from to
+miller and charles selected word pairs out of the pairs of nouns and organized them under three similarity levels
+
+the experiments were run with wordnet for knowledge based measures and
+brown dictionary
+for based measures
+the similarity measures are implemented using python custom code
+figure and figure respectively summarizes the pearson correlation of different similarity measures against human means on the miller and goodenough datasets
+results
+showed it can not be argued what is the best word method unless the method is used in real application or tested on a benchmark dataset
+however hybrid methods jdic perform better than other and knowledge based methods n o
+
+i a l e r r o c n o s r a e p jcn
+hso rada lch
+wup res li res lin jdic word similarity measure fig pearson correlation versus word similarity measures on miller dataset
+sentence similarity methods to evaluate the performance of the sentence similarity methods the dataset constructed by the is
+it consists of sentences pairs that were originally constructed manually to evaluate a short similarity measure
+named stasis
+in dataset the corresponding words in are replaced with the words definitions from the collins
+cobuild dictionary
+instead of keeping all the pairs li al
+decided to keep only the most accurate annotated and balanced sentence pairs
+note that in this dataset the pair number has been used with different human scores namely in different research works
+
+
+the human score was first used in the main work of
+but later published the dataset on with the figure from
+the figure is used in this article as first used by the original work of
+n o
+
+i a l e r r o c n o s r a e p jcn
+hso rada lch
+wup res li res lin jdic word similarity measure
+fig pearson correlation versus word similarity measures on rubenstein goodenough dataset for all experiments wordnet version is used
+for mihalcea
+measure the pmi ir measure is replaced with normalized search engine index distance nsid
+as turner pmi is not available
+also wikipedia dataset of december were used for lsa measure and open america national corpus
+oanc to replace bnc corpus
+table shows the pearson correlation and spearman s
+rank coefficient between different measures and human participants ratings
+on the first hand the pearson correlation is either calculated or taken from respected works
+on the other hand the spearman s rank figure is calculated using published similarity figures of the respected works
+
+the computed similarity scores are sorted in an ascending order and the ranking of similarities is compared against the benchmark dataset using spearman s rank correlation
+table
+pearson and spearman correlations with respect to human ratings on dataset pearson correlation spearman correlation n a similarity measure worst human participant ming che lee mihalcea et al
+feng al
+
+croft et al
+lss
+
+li et al
+
+mean of all human participants
+oshea et al
+
+liu et al
+
+islam et al
+
+tsatsaronis et al
+ho et al
+
+islam et al
+grams
+
+n a table shows that ming and mihalcea measures have the lowest pearson and spearman coefficients
+to investigate this result mihalcea is taken as an example
+each of the different measures of mihalcea has its strengths and weakness
+
+one of them wikipedia measure has relatively high similarity while the path measure has relatively low similarity
+therefore once the average all the measures is computed the final similarity score will be no longer be near the human similarity rating score
+
+more precisely from mihalcea s study got score values in range for all compared benchmark sentence pairs
+
+the authors findings resemble
+ho al
+findings
+
+they showed that simple average similarity can never be a good similarity measure
+many sentence similarity approaches have been proposed but many of them might be difficult to
+or has poor
+for example the works of are based on different knowledge based measures and based measures which makes their implementation difficult
+further difficulties in other works includes the need of processing gigantic data processing
+pearson correlation islam et al
+
+
+ho et al
+
+tsatsaronis et al
+
+islam et al
+
+
+liu et al
+
+oshea et al
+human participants means
+li et al
+
+croft et al
+lss
+
+feng et al
+
+
+mihalcea et al
+
+ming che lee
+worst human participant fig pearson correlation versus sentence similarity measures on dataset used the web t gram dataset a compressed text file of approximately gb compressed composed of more than million tri grams extracted from trillion tokens
+nevertheless are considered comprehensive datasets and can be accessed easily once indexed
+
+figure shows the similarity measure versus pearson correlation over the dataset
+table shows that hybrid methods
+perform better than knowledge based and corpus based methods
+islam et
+al
+tri gram measure
+is an exception
+this finding is explained by studying details in table
+table shows the benchmark dataset word pairs second column that correspond to the list of sentences sentences used in similarity measures
+
+the human mean score rating third column in the range of represent dissimilar to very similar sentences
+it is found that overestimates the human the dissimilar sentence pairs
+rating scores especially conversely this finding was not clear at the pearson correlation level shown in table
+figure shows the dataset human scores versus the scores of
+and
+
+
+it is clear that
+overestimates sentence pairs of the original dataset
+however the same method works well for pairs that are semantically similar as per human scores
+on the other hand although has less
+pearson correlation as shown in figure it is relatively better than in sentence pairs
+therefore the pearson correlation in this case is not a good measure to compare sentence measures that are relatively dissimilar
+it is concluded that another measure should take into consideration this case instead of using an average as in the case of pearson correlation
+e r o
+c s s n a e m n a m u h sentence pairs numbers of
+corresponding sentence pairs fig pearson correlation versus sentence similarity measures on dataset
+conclusion
+this article studies a set of word and sentence similarity measures
+the study showed that word similarity is not enough to select a good sentence similarity measure
+hybrid sentence methods are generally better than and knowledge based methods
+in the future it is planned to test more word and sentence methods on other datasets
+furthermore more work will concentrate on an approach to choose between spearman and pearson correlations
+table
+dataset results mean li tsatsaronis islam ho islam croft
+corresponding word pairs cord smile autograph shores asylum fruit boy rooster coast forest boy sage forest graveyard woodland bird woodland hill magician ancient sage ancient stove furnace magician legends mound hill cord string tumbler glass grin smile slave former voyage make autograph signature no
+no corresponding word pairs coast shores woodland forest implement tool cock rooster boy lad pillow cushion cemetery graveyard automobile car midday noon gem jewel mean li tsatsaronis islam ho islam croft
+references
+resnik using information content to evaluate semantic similarity in a taxonomy in
+proceedings of the international joint conference on artificial intelligence vol pp
+
+
+
+islam and inkpen unsupervised near synonym
+choice using the google web t acm trans
+knowl
+
+discov
+data vol
+v no
+june pp
+
+
+chen latent topic modelling of word co occurence information for spoken document retrieval in ieee
+international conference on acoustics speech and signal
+processing icassp no pp
+
+croft coupland shell and brown a fast and efficient semantic short in computational intelligence ukci
+uk workshop on pp
+
+text similarity metric memar affendey mustapha doraisamy and ektefa an integrated semantic based approach in concept based video retrieval multimed
+tools appl vol
+
+no pp
+
+ho murad kadir and doraisamy word sense disambiguation based sentence similarity in proceedings of the
+international conference on computational linguistics posters no
+august pp
+
+
+
+islam and inkpen real word spelling correction
+using
+google web it grams in
+proceedings of the conference on empirical
+methods in natural language
+processing
+volume volume pp
+
+
+
+jarmasz and szpakowicz roget
+thesaurus and semantic similarity recent adv
+nat
+lang
+process
+iii
+sel
+pap from ranlp vol
+
+turney mining the web for synonyms pmi ir versus lsa on toefl in proceedings of the
+
+european conference on machine learning pp
+
+
+oshea bandar crockett and
+mclean a comparative study of two short text semantic similarity measures and multi agent systems technologies and applications vol
+nguyen jo
+howlett and
+jain eds
+springer berlin heidelberg pp
+
+in agent chiang and
+yu literature extraction of protein functions using sentence pattern mining
+ieee
+trans knowl
+
+data eng vol
+no pp
+
+atoum and bong measuring software quality in
+use
+state of the art and research challenges qual
+vol
+no pp
+
+wendy
+how and atoum using latent semantic analysis to identify quality in use qu
+indicators from user reviews in
+the international conference on artificial intelligence and pattern recognition pp
+
+
+atoum bong and kulathuramaiyer building a pilot software quality in use benchmark dataset in international conference on it in asia
+
+deerwester dumais landauer furnas and harshman indexing by latent semantic analysis am
+
+soc
+inf
+sci vol
+no pp
+
+
+
+landauer
+
+foltz and laham an latent semantic analysis discourse introduction process vol
+no
+pp
+
+to
+
+guo and diab
+a
+simple
+unsupervised latent semantics based
+approach for sentence similarity in proceedings of the first joint conference on lexical and computational semantics volume proceedings of the main conference and the shared task and volume
+proceedings of the sixth
+international workshop on semantic evaluation pp
+
+xu liu wu sun xu and hao a fast matching method based on semantic similarity for short texts in
+natural
+language processing and chinese computing zhou
+guodong and li juanzi and zhao dongyan and feng ed
+chongqing china springer berlin heidelberg pp
+
+tian li
+cai and zhao
+measuring the similarity of short texts by word similarity and tree kernels in ieee youth conference on information
+computing and telecommunications yc ict pp
+
+
+
+zhou wang and gu a new model of information content for semantic similarity in wordnet in second international conference on future generation communication and networking symposia vol
+pp
+
+
+
+li hu hu wang and
+zhou measuring sentence similarity from different aspects in international conference on machine
+learning and cybernetics vol
+pp
+
+
+
+rodriguez and egenhofer determining semantic similarity among entity classes from different ontologies ieee trans
+knowl
+data eng vol
+no pp
+
+fellbaum wordnet
+an electronic lexical database
+
+wordnet is available from
+
+princeton
+edu wn no pp
+
+
+achananuparp hu and shen the evaluation of sentence similarity measures in data warehousing and knowledge discovery vol
+song eder and nguyen
+eds
+springer berlin heidelberg pp
+
+
+lin an information theoretic definition of similarity in
+proceedings of the international conference on machine learning vol pp
+
+
+resnik disambiguating noun groupings with respect to wordnet senses in natural
+language processing
+using very large corpora se vol
+pp
+
+
+jiang and conrath semantic similarity based on corpus statistics and lexical taxonomy in proceedings of the
+research on computational linguistics international conference rocling x pp
+
+
+deerwester and dumais
+indexing by latent semantic analysis am
+soc
+inf
+sci vol
+no pp
+
+
+rada mili bicknell and blettner development and application of a metric on semantic nets ieee trans
+syst
+man cybern vol
+no pp
+
+
+
+
+wu and palmer
+verbs semantics and lexical selection in proceedings of the annual meeting on association for computational linguistics pp
+
+
+li mclean bandar
+oshea and crockett sentence similarity based on semantic nets and statistics ieee trans
+knowl
+data eng vol
+
+no pp
+
+leacock and chodorow combining local context and wordnet similarity for word sense identification wordnet
+an electron
+
+lex database vol
+no pp
+
+
+
+hirst and
+st onge lexical chains as representations of context for the detection and correction of malapropisms in wordnet
+an electronic lexical database vol
+fellbaum ed
+cambridge ma the mit press pp
+
+
+dong srimani and
+
+wang west weighted edge
+based
+similarity measurement tools for
+word semantics in ieee wic acm
+international conference on web intelligence and intelligent agent technology wi iat vol
+pp
+
+atoum and bong joint distance and information
+content
+word similarity measure in soft computing applications and intelligent systems se vol
+noah abdullah arshad abu bakar othman sahran omar and othman eds
+kuala lumpur springer berlin heidelberg pp
+
+bollegala matsuo ishizuka thiyagarajan and navaneethakrishnanc a web search based approach to measure semantic similarity between words ieee trans
+knowl
+data eng vol
+no pp
+
+
+
+allan wade and bolivar retrieval and novelty
+detection at the sentence level in
+proceedings of the
+annual international acm sigir conference on research and development in informaion retrieval pp
+
+
+hoad and zobel
+methods for identifying versioned and plagiarized documents am
+soc
+inf
+sci
+technol vol
+no pp
+
+akkaya wiebe and mihalcea subjectivity word sense disambiguation in
+proceedings of the conference on empirical
+methods in natural language
+processing volume pp
+
+
+tsatsaronis varlamis and vazirgiannis text relatedness based on a word thesaurus
+artif
+
+intell
+
+res vol
+pp
+
+burgess
+livesay and lund explorations in context space words sentences discourse
+discourse process vol
+no
+pp
+
+blei ng and jordan latent dirichlet allocation
+mach
+learn
+
+res vol
+pp
+
+
+islam and inkpen semantic text similarity using based word similarity and string similarity acm
+trans
+knowl
+discov
+from data vol
+no pp
+
+mandreoli martoglia and tiberio a syntactic approach for searching similarities within sentences in
+proceedings of the eleventh international conference on information and knowledge management pp
+
+huang and sheng
+measuring similarity between sentence fragments in
+international conference on intelligent human machine systems and cybernetics pp
+
+
+
+wee and hassan
+exploiting wikipedia for directional in fifth inferential text similarity international conference on information technology new generations pp
+
+
+islam milios and keelj text similarity using google tri grams in advances in artificial intelligence vol
+
+kosseim and inkpen eds
+springer pp
+
+malandrakis iosif and potamianos deeppurple
+estimating sentence semantic similarity
+using n gram regression models and web snippets in proceedings of the first joint conference on lexical and computational semantics volume proceedings of the main conference and the shared task and volume
+proceedings of the sixth
+international workshop on semantic evaluation pp
+
+seco veale and hayes an intrinsic information content metric for semantic similarity in wordnet in proceedings of the european conference on artificial intelligence no
+ic pp
+
+
+lee a novel sentence similarity measure for semantic based expert systems expert syst
+
+appl vol
+
+no pp
+
+
+abdalgader and skabar
+short text similarity measurement using word sense disambiguation and synonym expansion in ai advances in artificial intelligence springer berlin heidelberg pp
+
+
+li li
+cai and han a novel semantic similarity measure within sentences in
+proceedings of
+international conference on computer science and network technology pp
+
+
+yang and
+
+powers
+measuring semantic similarity in the taxonomy of wordnet in proceedings of the twenty eighth
+australasian conference on computer
+science volume pp
+
+
+
+feng zhou and
+martin sentence similarity based on relevance in
+proceedings of ipmu pp
+
+
+
+liu zhou and zheng sentence similarity based on dynamic time warping in international conference on semantic computing icsc pp
+
+
+
+mihalcea corley and strapparava based and knowledge based measures of text semantic similarity assoc
+adv
+artif
+intell vol
+pp
+
+
+
+rubenstein and goodenough contextual correlates of synonymy commun
+acm vol
+no pp
+
+
+miller and charles contextual correlates of semantic similarity lang
+cogn
+process vol
+no
+pp
+
+university about wordnet princeton university
+
+available
+
+francis and kucera
+brown manual lett to ed vol
+no
+sinclair collins cobuild english dictionary for advanced learners
+harpercollins
+oshea bandar crockett and mclean pilot short text semantic similarity benchmark data set
+full
+listing and description
+cilibrasi and vitnyi the google similarity distance corr vol
+abs
+mohler and
+mihalcea text to text semantic similarity for automatic short
+answer grading in
+proceedings of the conference of the european chapter of the association for computational linguistics pp
+
+
