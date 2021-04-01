@@ -439,7 +439,7 @@ instead of being deterministic it is stochastic
 but still it shares with the pwi many common features
 in particular in a state like the particle is in one place at a time if we choose to favor i i the representation
 if we take as preferred basis the momentum representation then the system will not have position at all but rather a jumping momentum k in the distribution
-this ji could also be used to explain the epr paradox by including entanglement and by generalizing it to any possible hilbert space for example to k h i include spin or polarization variables
+this ji could also be used to explain the epr paradox by including entanglement and by generalizing it to any possible hilbert space for example to k i h include spin or polarization variables
 consider for example a perfectly entangled photon pair state like h i h v v i i i where h v denote horizontal and vertical polarization for photons and
 we require a preferred basis for describing the stochastic dynamics let say h i and i v i i but the choice could be dierent from pair to pair
 when the pair of photons is produced by the source it jumps randomly from time to time into the states h h or v

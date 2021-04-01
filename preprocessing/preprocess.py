@@ -32,7 +32,8 @@ def clean_text(id, path, spacy_model):
             t = t.lower()
 
             if t.isalpha() and token.pos_ not in ['X', 'SYM', 'PUNCT']:
-                token_list.append(t)
+                if t not in spacy_model.Defaults.stop_words:
+                    token_list.append(t)
                 curr_sent.append(t)
 
         sentences.append(' '.join(curr_sent) + '\n')
