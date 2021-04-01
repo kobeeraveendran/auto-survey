@@ -1,0 +1,444 @@
+mast multimodal abstractive summarization with trimodal hierarchical attention aman khullar iiit hyderabad hyderabad india aman
+
+ac
+in udit arora new york university new york ny usa
+edu t c o l c
+s c v
+v i x r a abstract this paper presents mast a new model for multimodal abstractive text tion that utilizes information from all three modalities text audio and video in a timodal video
+prior work on multimodal stractive text summarization only utilized formation from the text and video modalities
+we examine the usefulness and challenges of deriving information from the audio modality and present a sequence to sequence trimodal hierarchical attention based model that comes these challenges by letting the model pay more attention to the text modality
+mast outperforms the current state of the art model video text by
+points in terms of content score and
+points in terms of rouge l score on the dataset for multimodal guage understanding
+introduction in recent years there has been a dramatic rise in information access through videos facilitated by a proportional increase in the number of sharing platforms
+this has led to an enormous amount of information accessible to help with our day to day activities
+the accompanying scripts or the automatic speech to text transcripts for these videos present the same information in the textual modality
+however all this information is often lengthy and sometimes incomprehensible because of verbosity
+these limitations in user experience and information access are improved upon by the recent advancements in the eld of multimodal text summarization
+multimodal text summarization is the task of condensing this information from the interacting indicates equal contribution aman khullar is presently at gram vaani this paper will appear at the rst emnlp workshop on nlp beyond text modalities into an output summary
+this ated output summary may be unimodal or modal zhu et al
+
+the textual summary may in turn be extractive or abstractive
+the task of extractive multimodal text summarization volves selection and concatenation of the most portant sentences in the input text without altering the sentences or their sequence in any way
+li et al
+made the selection of these tant sentences using visual and acoustic cues from the corresponding visual and auditory modalities
+on the other hand the task of abstractive modal text summarization involves identication of the theme of the input data and the generation of words based on the deeper understanding of the material
+this is a tougher problem to solve which has been alleviated with the advancements in the abstractive text summarization techniques rush et al
+see et al
+and liu and ata
+sanabria et al
+introduced the dataset for large scale multimodal language understanding and palaskar et al
+were able to produce state of the art results for multimodal abstractive text summarization on the dataset
+they utilized a sequence to sequence hierarchical tion based technique and helcl for combining textual and image features to duce the textual summary from the multimodal input
+moreover they used speech for generating the speech to text transcriptions using pre trained speech recognizers however it did not supplement the other modalities
+though the previous work in abstractive timodal text summarization has been promising it has not yet been able to capture the effects of combining the audio features
+our work improves upon this shortcoming by examining the benets and challenges of introducing the audio modality as part of our solution
+we hypothesize that the audio modality can impart additional useful information original text let s talk now about how to bait a tip up hook with a maggot
+typically you re going to be using this for pan
+not a real well known or common nique but on a given day it could be the difference between not catching sh and catching
+all you do you take your maggot you can use meal worms as well which are much bigger which are probably more well suited for this because this is a rather large hook
+you would just again put that hook right through the maggot
+with a big hook like this i would probably put ten of these on it just line the whole thing
+this is going to be more of a technique for pan such as perch and sunsh some of your smaller sh but if you had maggots like this or a meal worm or two on a hook like this this would be a fantastic setup for trout as well
+text only ice shing is used for ice shing
+learn about ice shing bait with tips from an experienced sherman artist in this free shing video
+video text learn about the ice shing bait in this ice shing lesson from an experienced sherman
+mast maggots are good for catching perch
+learn more about ice shing bait in this ice shing lesson from an experienced sherman
+table comparison of outputs by using different modality congurations for a test video example
+quently occurring words are highlighted in red which are easier for a simpler model to predict but do not tribute much in terms of useful content
+the summary generated by the mast model contains more content words as compared to the baselines
+for the text summarization task by letting the model pay more attention to words that are spoken with a certain tone or level of emphasis
+through our experiments we were able to prove that not all modalities contribute equally to the output
+we found a higher contribution of text followed by video and then by audio
+this formed the vation for our mast model which places higher importance on text input while generating the put summary
+mast is able to produce a more illustrative summary of the original text see table and achieves state of the art results
+in summary our primary contributions are introduction of audio modality for abstractive multimodal text summarization
+examining the challenges of utilizing audio formation and understanding its contribution in the generated summary
+proposition of a novel state of the art model mast for the task of multimodal abstractive text summarization
+methodology in this section we describe the dataset used the modalities and our mast model s ture
+the code for our model is available
+
+dataset we use the version of the sanabria et al
+of open domain videos
+the dataset consists of about hours of short tional videos spanning different domains such as cooking sports indoor outdoor activities music and more
+a human generated transcript panies each video and a to sentence summary is available for every video written to generate interest in a potential viewer
+the version is used instead of the version because the audio modality information is only available for the subset
+the dataset is divided into the training tion and test sets
+the training set consists of videos totaling
+hours
+the tion set consists of videos totaling
+hours and the test set consists of videos totaling
+hours
+a more detailed description of the dataset has been given by sanabria et al
+
+for our experiments we took videos for the ing set videos for the validation set and videos for the test set
+
+modalities we use the following three inputs corresponding to the three different modalities used audio we use the concatenation of dimensional kaldi povey et al
+lter bank features from raw audio using a time window of with frame shift and the dimensional pitch features extracted from the dataset to obtain the nal sequence of dimensional audio features
+text we use the transcripts corresponding to each video
+all texts are normalized and lower cased
+video we use a dimensional feature vector per group of frames which is tracted from the videos using a cnn trained to recognize different actions hara et al
+
+this results in a sequence of feature vectors per video
+
+multimodal abstractive summarization with trimodal hierarchical attention figure shows the architecture of our multimodal abstractive summarization with trimodal
+com amankhullar mast dently as in bahdanau et al
+ij a j att a a u k k ij ij ij j i text video j where si is the decoder hidden state at i decoder timestep is the encoder hidden state at j th encoder timestep nk is the number of encoder timesteps for the k th modality and is attention ij energy corresponding to them
+wa and ua are trainable projection matrices va is a weight vector and batt is the bias term
+we now look at two different strategies of bining information from the modalities
+the rst is a simple extension of the hierarchical attention combination
+the second is the strategy used in mast which combines modalities using three els of hierarchical attention
+
+to obtain our rst baseline model with level attention chy the context vectors for all three modalities are combined using a second layer of attention nism and its context vector is computed separately by using hierarchical attention combination as in and helcl u k b vt i i c i u k ci i i text video where is the hierarchical attention distribution over the modalities is the context vector of the k th modality encoder vb and wb are shared and u k parameters across modalities and u k are modality specic projection matrices
+i figure multimodal abstractive summarization with trimodal hierarchical attention mast architecture mast is a sequence to sequence model that uses mation from all three modalities audio text and video
+the modality information is encoded using modality encoders followed by a trimodal hierarchical tion layer which combines this information using a three level hierarchical attention approach
+it attends to two pairs of modalities audio text and text followed by the modality in each pair and followed by the individual features within each ity
+the decoder utilizes this combination of ities to generate the output over the vocabulary
+chical attention mast model
+the model sists of three components modality encoders modal hierarchical attention layer and the modal decoder
+
+
+modality encoders the text is embedded with an embedding layer and encoded using a bidirectional gru encoder
+the audio and video features are encoded using bidirectional lstm encoders
+this gives us the individual output encoding corresponding to all modalities at each encoder timestep
+the tokens corresponding to modality k are encoded using i the corresponding modality encoders and produce a sequence of hidden states for each encoder time step i
+i
+
+trimodal hierarchical attention layer we build upon the hierarchical attention approach proposed by and helcl to bine the modalities
+on each decoder timestep i the attention distribution and the context vector for the k th modality is rst computed
+mast to obtain our mast model the text vectors for audio text and text video are bined using a second layer of hierarchical attention mechanisms and and their context vectors are computed separately
+these context vectors are then combined using the third hierarchical attention mechanism
+
+audio text u k d vt i i e i u k i text i i
+video text u k vt i i g i u k i text i i where l audio text video text is the i text vector obtained for the corresponding pair wise modality combination
+finally these audio text and video text context vectors are combined using the third and nal tion layer
+with this trimodal hierarchical tion architecture we combine the textual modality twice with the other two modalities in a pair wise manner and this allows the model to pay more tention to the textual modality while incorporating the benets of the other two modalities
+h i u l vt i m cf i u l i text video text i where cf timestep
+i is the nal context vector at i decoder
+
+trimodal decoder we use a gru based conditional decoder firat and cho to generate the nal vocabulary distribution at each timestep
+at each timestep the decoder has the aggregate information from all the modalities
+the trimodal decoder focuses on the modality combination followed by the individual modality then focuses on the particular tion inside that modality
+finally it uses this formation along with information from previous timesteps which is passed on to two linear layers to generate the next word from the vocabulary
+experiments we train trimodal hierarchical attention mast and models on the version of the dataset using all three modalities
+we also train hierarchical attention models considering audio text and video text modalities as well as simple models with attention for each modality individually as baselines
+as observed by palaskar et al
+the pointer generator model see et al
+does not perform as well as models on this dataset hence we do not use that as a baseline in our experiments
+we consider another transformer based baseline for the text modality bertsumabs liu and lapata
+for all our experiments except for the abs baseline we use the nmtpytorch toolkit caglayan et al
+
+the source and the target vocabulary consists of words on which we train our word embeddings
+we use the nll loss and the adam optimizer kingma and ba with learning rate
+and trained the models for epochs
+we generate our summaries using beam search with a beam size of and then ate them using the rouge metric lin and the content metric palaskar et al
+
+in our experiments the text is embedded with an embedding layer of size and then encoded ing a bidirectional gru encoder cho et al
+with a hidden layer of size which gives us a dimensional output encoding corresponding to the text at each timestep
+the audio and video frames are encoded using bidirectional lstm coders hochreiter and schmidhuber with a hidden layer of size which gives a dimensional output encoding corresponding to the audio and video features at each timestep
+finally the gru based conditional decoder uses a hidden layer of size followed by two linear layers which transform the decoder output to generate the nal output vocabulary distribution
+to improve generalization of our model we use two dropout layers within the text encoder and one dropout layer on the output of the conditional decoder all with a probability of
+
+we also use implicit regularization by using early stopping mechanism on the validation loss with a patience of epochs
+
+challenges of using audio modality the rst challenge comes with obtaining a good representation of the audio modality that adds value beyond the text modality for the task of text summarization
+as found by mohamed dnn acoustic models prefer features that smoothly change both in time and frequency like the log mel frequency spectral coefcients mfsc to the decorrelated mel frequency cepstral coefcients mfcc
+mfsc features make it easier for dnns to discover linear relations as well as higher order causes of the input data leading to better overall system performance
+hence we do not consider mfcc features in our experiments and use the ter bank features instead
+the second challenge arises due to the larger number of parameters that a model needs when handling the audio information
+the number of parameters in the video text baseline is
+lion as compared to
+million when we add audio
+this is because of the high number of put timesteps in the audio modality encoder which makes learning trickier and more time consuming
+to demonstrate these challenges as an iment we group the audio features across input timesteps into bins with an average of utive timesteps and train our mast model
+this makes the number of audio timesteps comparable to the number of video and text timesteps
+while we observe an improvement in computational ciency it achieves a lower performance than the baseline video text model as described in table mast binned
+we also train audio only and audio text models which fail to beat the text only baseline
+we observe that the generated summaries of the audio only model are similar and repetitive indicating that the model failed to learn useful mation relevant to the task of text summarization
+results and discussion model name text only bertsumabs video only audio only audio text video text mast binned mast rouge
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+l
+
+
+
+
+
+
+
+
+content
+
+
+
+
+
+
+
+
+table results for different congurations
+mast outperforms all baseline models in terms of rouge scores and obtains a higher content score than all baselines while obtaining a score close to the model
+
+preliminaries our results are given in table
+to demonstrate the contribution of various modalities towards the output summary we experiment with the three modalities taken individually as well as in tion
+text only video only and the audio only are attention based models bahdanau et al
+with their respective modality features taken as coder inputs
+to situate the efcacy of the decoder architecture for our task we use the sumabs liu and lapata as a bert based baseline for abstractive text summarization
+text and the video text are models with archical attention layer
+the video text model as presented by palaskar et al
+has been pared on the version instead of the version of the dataset because the audio modality is only available in the former
+model adds the audio modality in the second level of archical attention
+mast binned model groups the features of the audio modality for computational efciency
+these models show alternative methods for utilizing audio modality information
+we evaluate our models with the rouge metric lin and the content metric palaskar et al
+
+the content metric is the score of the content words in the summaries based on a monolingual alignment
+it is calculated ing the meteor toolkit denkowski and lavie by setting zero weight to function words equal weights to precision and recall and no cross over penalty for generated words
+tionally a set of catchphrases like the words in this free video learn how tips expert which appear in most summaries and act like function words instead of content words are removed from the reference and hypothesis summaries as a processing step
+it ignores the uency of the put but gives an estimate of the amount of useful content words the model is able to capture in the output
+
+discussion as observed from the scores for the text only model the text modality contains the most amount of information relevant to the nal summary lowed by the video and the audio modalities
+the scores obtained by combining the audio text and video text modalities also indicate the same
+the transformer based model bertsumabs fails to form well because of the smaller amount of text figure distribution of the duration of videos in onds in the test set
+data available to ne tune the model
+we also observe that combining the text and dio modalities leads to a lower rouge score than the text only model which indicates that the plain hierarchical attention model fails to learn well over the audio modality by itself
+this observation is in line with the result obtained by the model where we simply extend the hierarchical attention approach to three modalities
+
+
+usefulness of audio modality the mast and the models achieve a higher content score than the video text line indicating that the model learns to extract more useful content by utilizing information from the audio modality corresponding to the istics of speech in line with our initial hypothesis as illustrated in table however the model which simply adds the audio modality in the second level of erarchical attention fails to outperform the text baseline in terms of rouge scores
+our tecture lets the mast model choose between ing attention to a different combination of ties with the text modality
+this forces the model to pay more attention to the text modality thereby overcoming the shortcoming of the model and achieving better rouge scores while maintaining a similar content score when pared to
+
+
+attention distribution across modalities to understand the importance of individual ities and their combinations we plot their tion distribution at different levels of attention erarchy across the decoder timesteps
+figure corresponds to attention weights as calculated in figure distribution of rouge l scores of summaries produced for different video durations in seconds for mast and video text baseline
+the videos are binned into groups of seconds by duration and the tion of rouge l scores within each group is shown ing density plots
+the dotted lines inside each group show the quartile distribution
+equation while gures and correspond to the product of attention weights between equations and corresponding weight in equation for each decoder timestep
+the nal attention within each individual modality at each decoder timestep is calculated by multiplying the corresponding mulative attention weights obtained at level of attention hierarchy with the attention weights tained in equation gures to
+the attention weights assigned to the audio modality have been added across input timesteps group size of in order to obtain a more interpretable visualization
+through these visualizations we observe that the text modality dominates the generation of the output summary while giving lesser attention to the audio and video modalities the latter being more important
+these ndings support the extra importance being given to the text modality in the mast model during its interaction with the other modalities
+figures and highlight the modest gains through the audio modality and the challenge in its appropriate usage
+
+
+performance across video durations we also look at how our model performs for ent video durations in our test set
+figure shows the variation in the rouge l scores across different videos for mast and the video text baseline
+the gure shows videos binned into seven groups of seconds by duration
+we can observe from the quartile distribution that mast outperforms the baseline in ve out of the seven groups gives lar performance for videos with a duration between seconds and underperforms for videos with a duration between seconds
+however overall by looking at the distribution of the tion of videos in our test set figure we can observe that mast outperforms the baseline for a vast majority of videos across durations
+new ne tuning schedule for abstractive rization which adopted different optimizers for the encoder and the decoder to alleviate the mismatch between the two
+bert models typically require large amounts of annotated data to produce state the art results
+recent works like gan bert by croce et al
+focus on solving this problem
+related work
+abstractive text summarization abstractive summarization of documents was ditionally achieved by paraphrasing and fusing multiple sentences along with their grammatical rewriting woodsend and lapata
+this was later improved by taking inspiration from human comprehension capabilities when fang and teufel implemented the model of human hension and summarization proposed by kintsch and van dijk
+they did this by identifying these concepts in text through the application of co reference resolution named entity recognition and semantic similarity detection implemented as a two step competition
+the real stimulus to the eld of abstractive marization was provided by the application of neural encoder decoder architectures
+rush et al
+were among the rst to achieve state of art results on gigaword graff et al
+and the over et al
+datasets and lished the importance of end to end deep learning models for abstractive summarization
+their work was later improved upon by see et al
+where they used copying from the source text to remove the problem of incorrect generation of facts in the summary as well as a coverage mechanism to curb the problem of repetition of words in the generated summary
+
+pretrained language models another breakthrough for the eld of natural guage processing came with the use of pre trained language models for carrying out various language downstream tasks
+pre trained language models like bert devlin et al
+introduced masked language modelling which allowed models to learn interactions between left and right context words
+these models have signicantly changed the way word embeddings are generated by training textual embeddings rather than static embeddings
+liu and lapata presented how bert could be used for text summarization and proposed a
+advancements in speech recognition and computer vision parallel advancements in the eld of speech nition and computer vision have been able to give us successful methods to extract useful features of speech and images
+peddinti et al
+built a robust acoustic model for speech recognition using a time delay neural network
+they were able to achieve state of the art results in the iarpa pire challenge
+similarly with the advancements of convolutional neural networks the eld of puter vision has progressed signicantly
+he et al
+demonstrated the strength of deep residual networks which learned residual functions with erence to the layers and were able to achieve of the art results on the imagenet dataset
+hara et al
+showed that simple convolutional neural network cnn architectures outperform complex architectures and trained a cnn to recognize different human actions on the kinetics dataset kay et al
+
+
+summarization beyond text the advancements in these elds have in turn also facilitated text summarization
+rott and cerva used only the input audio to generate tual summaries while sah et al
+were among the rst to show the possibility of summarizing long videos and then annotating the summarized video to obtain a textual summary
+these els however were not able to capture the mation of other modalities to obtain the output textual summary and hence their limitations led to the increasing use of multimodal data
+a major drance in the eld of multimodal text tion was the lack of datasets
+li et al
+created an asynchronous benchmark dataset with annotated summaries for videos
+sanabria et al
+then released a large scale dataset for structional videos
+jn et al
+and zhu et al
+presented multimodal text summarization models using textual and visual modalities as input and multimodal outputs of summarized text and video
+palaskar et al
+used dataset c d e figure visualization of attention weights in the trimodal hierarchical attention layer for a sample video in the test set
+figures to show the varying attention distribution on different combinations of modalities across the decoder timesteps
+figures to show the attention distribution on the encoder timesteps for each modality across the decoder timesteps
+this shows the usefulness of each modality for the generation of the summary
+to present an abstractive summary of open domain videos
+these models however are not completely multimodal since they do not utilise the audio mation
+a major focus of our work is to highlight the importance of using audio data as input and incorporate it in a truly multimodal manner
+conclusion in this we presented mast a state of the art sequence to sequence based model that uses information from all three modalities audio text and video to generate abstractive multimodal text summaries
+it uses a trimodal hierarchical tion layer to utilize information from all modalities
+we explored the role played by adding the audio modality and compared mast with several line models demonstrating the effectiveness of our approach
+in the future we would like to extend this work by looking at alternate audio modality tations including using neural networks for audio feature extraction and also explore the use of formers for an end to end attention based learning
+we also aim to explore the application of mast to
+com amankhullar mast other multimodal tasks like translation
+references dzmitry bahdanau kyunghyun cho and yoshua gio
+
+neural machine translation by jointly arxiv preprint learning to align and translate
+
+
+ozan caglayan mercedes garca martnez adrien bardet walid aransa fethi bougares and loc rault
+
+nmtpy a exible toolkit for advanced neural machine translation systems
+the prague bulletin of mathematical linguistics
+kyunghyun cho bart van merrienboer caglar cehre dzmitry bahdanau fethi bougares holger schwenk and yoshua bengio
+
+learning phrase representations using rnn encoder decoder for statistical machine translation
+arxiv preprint
+
+danilo croce giuseppe castellucci and roberto basili
+
+gan bert generative adversarial ing for robust text classication with a bunch of beled examples
+in proceedings of the annual meeting of the association for computational guistics pages
+michael denkowski and alon lavie
+
+meteor
+automatic metric for reliable optimization and uation of machine translation systems
+in ings of the sixth workshop on statistical machine translation pages
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language ing
+arxiv preprint
+
+yimai fang and simone teufel
+
+a summariser based on human memory limitations and lexical competition
+in proceedings of the conference of the european chapter of the association for putational linguistics pages
+orhan firat and kyunghyn cho
+
+gated ditional mechanism
+tutorial blob master docs cgru
+pdf
+recurrent attention unit with
+com nyu dl david graff junbo kong ke chen and kazuaki maeda
+
+english gigaword
+linguistic data consortium philadelphia
+kensho hara hirokatsu kataoka and yutaka satoh
+
+can spatiotemporal cnns retrace the in proceedings of tory of cnns and imagenet the ieee conference on computer vision and tern recognition pages
+kaiming he xiangyu zhang shaoqing ren and jian sun
+
+deep residual learning for image in proceedings of the ieee conference on nition
+computer vision and pattern recognition pages
+sepp hochreiter and jurgen schmidhuber
+
+neural computation long short term memory
+
+chin yew lin
+
+rouge a package for automatic in text summarization evaluation of summaries
+branches out pages
+yang liu and mirella lapata
+
+text in proceedings of tion with pretrained encoders
+the conference on empirical methods in ural language processing and the international joint conference on natural language processing emnlp ijcnlp pages
+abdel rahman mohamed
+
+deep neural network acoustic models for asr
+paul over hoa dang and donna harman
+
+duc in context
+information processing management
+shruti palaskar jindrich spandana gella and florian metze
+
+multimodal abstractive arxiv preprint summarization for videos
+
+
+vijayaditya peddinti guoguo chen vimal manohar tom ko daniel povey and sanjeev khudanpur
+
+jhu aspire system robust lvcsr with tdnns ivector adaptation and rnn lms
+in ieee shop on automatic speech recognition and standing asru pages
+ieee
+daniel povey arnab ghoshal gilles boulianne lukas burget ondrej glembek nagendra goel mirko hannemann petr motlicek yanmin qian petr schwarz et al
+
+the kaldi speech tion toolkit
+in ieee workshop on automatic speech recognition and understanding conf
+ieee signal processing society
+zhu jn zhang jj li hr zong cq al
+
+modal summarization with guidance of multimodal reference
+association for computational tics
+michal rott and petr cerva
+
+speech to text marization using automatic phrase extraction from recognized text
+in international conference on text speech and dialogue pages
+springer
+chloe hillier will kay joao carreira karen simonyan brian sudheendra zhang narasimhan fabio viola tim green trevor back paul natsev al
+
+the kinetics human action video dataset
+arxiv preprint
+
+diederik p kingma and jimmy ba
+
+adam a method for stochastic optimization
+arxiv preprint
+
+walter kintsch and teun a van dijk
+
+toward a model of text comprehension and production
+chological review
+haoran li junnan zhu cong ma jiajun zhang chengqing zong al
+
+multi modal rization for asynchronous collection of text image audio and video
+jindrich and jindrich helcl
+
+attention strategies for multi source sequence to sequence learning
+in proceedings of the annual ing of the association for computational linguistics volume short papers pages
+alexander m rush sumit chopra and jason weston
+
+a neural attention model for abstractive in proceedings of the tence summarization
+conference on empirical methods in natural guage processing pages
+shagan sah sourabh kulhare allison gray hashini venugopalan emily prudhommeaux and raymond ptucha
+
+semantic text in ieee winter tion of long videos
+ence on applications of computer vision wacv pages
+ieee
+ramon sanabria ozan caglayan shruti palaskar desmond elliott loc barrault lucia specia and florian metze
+
+a large scale dataset arxiv for multimodal preprint
+
+language understanding
+abigail see peter j liu and christopher d to the point summarization arxiv preprint ning
+
+get with pointer generator networks
+
+
+kristian woodsend and mirella lapata
+
+multiple aspect summarization using integer linear ming
+in proceedings of the joint conference on empirical methods in natural language ing and computational natural language learning pages
+association for computational guistics
+junnan zhu haoran li tianshang liu yu zhou ajun zhang chengqing zong al
+
+msmo multimodal summarization with multimodal output
+

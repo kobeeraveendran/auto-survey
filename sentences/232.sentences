@@ -1,0 +1,684 @@
+t c o l c
+s c v
+v i x r a abstractive dialog summarization with semantic scaffolds lin yuan zhejiang university
+com zhou yu university of california davis
+edu abstract the demand for abstractive dialog summary is growing in real world applications
+for example customer service center or hospitals would like to summarize tomer service interaction and doctor patient interaction
+however few researchers explored abstractive summarization on dialogs due to the lack of suitable datasets
+we propose an abstractive dialog summarization dataset based on multiwoz budzianowski et al
+
+if we directly apply previous state of the art ument summarization methods on dialogs there are two signicant drawbacks the informative entities such as restaurant names are difcult to preserve and the contents from different dialog domains are sometimes mismatched
+to address these two drawbacks we propose scaffold pointer network spnet to utilize the existing annotation on speaker role semantic slot and dialog domain
+spnet incorporates these semantic scaffolds for dialog summarization
+since rouge can not capture the two drawbacks mentioned we also propose a new evaluation metric that considers critical informative entities in the text
+on multiwoz our proposed spnet outperforms state of the art abstractive summarization methods on all the automatic and human evaluation metrics
+introduction summarization aims to condense a piece of text to a shorter version retaining the critical tion
+on dialogs summarization has various promising applications in the real world
+for instance the automatic doctor patient interaction summary can save doctors massive amount of time used for lling medical records
+there is also a general demand for summarizing meetings in order to track project progress in the industry
+generally multi party conversations with interactive tion are more difcult to summarize than single speaker documents
+hence dialog summarization will be a potential eld in summarization track
+there are two types of summarization extractive and abstractive
+extractive summarization selects sentences or phrases directly from the source text and merges them to a summary while abstractive summarization attempts to generate novel expressions to condense information
+previous dialog summarization research mostly study extractive summarization murray et al
+maskey hirschberg
+extractive methods merge selected important utterances from a dialog to form summary
+because dialogs are highly dependant on their histories it is difcult to produce coherent discourses with a set of non consecutive conversation turns
+therefore extractive summarization is not the best approach to summarize dialogs
+however most modern abstractive methods focus on single speaker documents rather than dialogs due to the lack of dialog summarization corpora
+popular abstractive summarization dataset like cnn daily mail hermann et al
+is on news documents
+ami meeting corpus mccowan et al
+is the common benchmark but it only has extractive summary
+in this work we introduce a dataset for abstractive dialog summarization based on multiwoz budzianowski et al
+
+models such as pointer generator see et al
+have achieved high quality summaries of news document
+however directly applying a news summarizer to dialog results in two drawbacks informative entities such as place name are difcult to capture precisely and contents in different domains are summarized unequally
+to address these problems we propose scaffold pointer network spnet
+spnet incorporates three types of semantic scaffolds in dialog speaker role semantic slot and dialog domain
+firstly spnet adapts separate encoder to attentional framework producing distinct semantic representations for different speaker roles
+then our method inputs delexicalized utterances for producing delexicalized summary and lls in slot values to generate complete summary
+finally we incorporate dialog domain scaffold by jointly optimizing dialog domain classication task along with the summarization task
+we uate spnet with both automatic and human evaluation metrics on multiwoz
+spnet outperforms pointer generator see et al
+and transformer vaswani et al
+on all the metrics
+related work rush et al
+rst applied modern neural models to abstractive summarization
+their approach is based on framework sutskever et al
+and attention mechanism bahdanau et al
+achieving state of the art results on gigaword and dataset
+gu et al
+posed copy mechanism in summarization demonstrating its effectiveness by combining the tages of extractive and abstractive approach
+see et al
+applied pointing vinyals et al
+as copy mechanism and use coverage mechanism tu et al
+to discourage repetition
+most recently reinforcement learning rl has been employed in abstractive summarization
+rl based approaches directly optimize the objectives of summarization ranzato et al
+celikyilmaz et al
+
+however deep reinforcement learning approaches are difcult to train and more prone to exposure bias bahdanau et al
+
+recently pre training methods are popular in nlp applications
+bert devlin et al
+and gpt radford et al
+have achieved state of the art performance in many tasks including marization
+for instance zhang et al
+proposed a method to pre train hierarchical document encoder for extractive summarization
+hoang et al
+proposed two strategies to incorporate a pre trained model gpt to perform the abstractive summarizer and achieved a better performance
+however there has not been much research on adapting pre trained models to dialog summarization
+dialog summarization specically meeting summarization has been studied extensively
+previous work generally focused on statistical machine learning methods in extractive dialog summarization galley used skip chain conditional random elds crfs lafferty et al
+as a ing method in extractive meeting summarization
+wang cardie compared support vector machines svms cortes vapnik with lda based topic models blei et al
+for producing decision summaries
+however abstractive dialog summarization was less explored due to the lack of a suitable benchmark
+recent work wang cardie goo chen pan et al
+created abstractive dialog summary benchmarks with existing dialog corpus
+goo chen annotated topic descriptions in ami meeting corpus as the summary
+however topics they dened are coarse such as industrial designer presentation
+they also proposed a model with a sentence gated mechanism incorporating dialog acts to perform abstractive summarization
+over li et al
+rst built a model to summarize audio visual meeting data with an abstractive method
+however previous work has not investigated the utilization of semantic patterns in dialog so we explore it in depth in our work
+proposed method as discussed above state of the art document summarizers are not applicable in conversation tings
+we propose scaffold pointer network spnet based on pointer generator see et al
+
+spnet incorporates three types of semantic scaffolds to improve abstractive dialog summarization speaker role semantic slot and dialog domain
+
+background we rst introduce pointer generator see et al
+
+it is a hybrid model of the typical tention model nallapati et al
+and pointer network vinyals et al
+
+framework encodes source sequence and generates the target sequence with the decoder
+the input sequence is fed into the encoder token by token producing the encoder hidden states hi in each encoding step
+the decoder receives word embedding of the previous word and generates a distribution to decide the target element in this step retaining decoder hidden states st
+in pointer generator attention distribution at is computed as in bahdanau et al
+i vt tanh whhi wsst battn at softmax where wh ws v and battn are all learnable parameters
+with the attention distribution at context vector h hidden states
+context vector is regarded as the attentional information in the source text t is computed as the weighted sum of encoder s h t at ihi i pointer generator differs from typical attention model in the generation process
+the ing mechanism combines copying words directly from the source text with generating words from a xed vocabulary
+generation probability pgen is calculated as a soft switch to choose from copy and generation t wt where xt is the decoder input wh ws wx and bptr are all learnable parameters
+is sigmoid function so the generation probability pgen has a range of
+s st wt xt bptr h h pgen the ability to select from copy and generation corresponds to a dynamic vocabulary
+pointer work forms an extended vocabulary for the copied tokens including all the out of words appeared in the source text
+the nal probability distribution p w on extended vocabulary is computed as follows pvocab softmax v v st h p w pgen at i i wi w where pvocab is the distribution on the original vocabulary v v b and are learnable parameters used to calculate such distribution
+
+scaffold pointer network spnet our scaffold pointer network depicted in figure is based on pointer generator see et al
+
+the contribution of spnet is three fold separate encoding for different roles incorporating semantic slot scaffold and dialog domain scaffold
+
+
+speaker role scaffold our encoder decoder framework employs separate encoding for different speakers in the dialog
+and system utterances xsys user utterances xusr are fed into a user encoder and a system encoder t and hsys separately to obtain encoder hidden states husr
+the attention distributions and context vectors are calculated as described in section
+
+in order to merge these two encoders in our framework the decoder s hidden state is initialized as t i i the pointing mechanism in our model follows the equation and we obtain the context vector h t t hsys t h t concat ausrt i husr i asyst i hsys i i i
+
+semantic slot scaffold we integrate semantic slot scaffold by performing delexicalization on original dialogs
+tion is a common pre processing step in dialog modeling
+specically delexicalization replaces the slot values with its semantic slot
+
+replace with time
+it is easier for the language modeling to process delexicalized texts as they have a reduced vocabulary size
+but these generated sentences lack the semantic information due to the delexicalization
+some previous dialog system figure spnet overview
+the blue and yellow box is the user and system encoder respectively
+the encoders take the delexicalized conversation as input
+the slots values are aligned with their slots position
+pointing mechanism merges attention distribution and vocabulary distribution to obtain the nal distribution
+we then ll the slots values into the slot tokens to convert the template to a complete summary
+spnet also performs domain classication to improve encoder representation
+research ignored this issue wen et al
+or completed single delexicalized utterance sharma et al
+as generated response
+we propose to perform delexicalization in dialog summary since delexicalized utterances can simplify dialog modeling
+we ll the generated templates with slots with the copy and pointing mechanism
+we rst train the model with the delexicalized utterance
+attention distribution at over the source tokens instructs the decoder to ll up the slots with lexicalized values max at i note that wslot species the tokens that represents the slot name e
+
+hotel place time
+decoder directly copies lexicalized value conditioned on attention distribution at i
+if w is not a slot token then the probability p w is calculated as equation
+
+
+dialog domain scaffold we integrate dialog domain scaffold through a multi task framework
+dialog domain indicates different conversation task content for example booking hotel restaurant and taxi in multiwoz dataset
+generally the content in different domains varies so multi domain task summarization is more difcult than single domain
+we include domain classication as the auxiliary task to rate the prior that different domains have different content
+feedback from the domain classication task provides domain specic information for the encoder to learn better representations
+for main classication we feed the concatenated encoder hidden state through a binary classier with two linear layers producing domain probability
+the ith element di in d represents the probability of the ith domain u husr t hsys t bd d where u u bd and d are all trainable parameters in the classier
+we denote the loss function of summarization as and domain classication as
+assume target word at timestep t is w t is the arithmetic mean of the negative log likelihood of w t over the generated sequence log p w t t t the domain classication task is a multi label binary classication problem
+we use binary cross entropy loss between the ith domain label di and predict probability for this task di log di log di where is the number of domains
+finally we reweight the classication loss with ter and the objective function is loss experimental settings
+dataset we validate spnet on
+dataset budzianowski et al
+
+multiwoz consists of multi domain conversations between a tourist and a information center clerk on varies booking tasks or domains such as booking restaurants hotels taxis
+there are dialogs spanning over seven domains
+of them are single domain
+turns on average and are domain
+turns on average
+during multiwoz data collection instruction is provided for crowd workers to perform the task
+we use the instructions as the dialog summary and an example data is shown in table
+dialog domain label is extracted from existing multiwoz annotation
+in the experiment we split the dataset into training validation and testing
+
+evaluation metrics rouge lin is a standard metric for summarization designed to measure the surface word alignment between a generated summary and a human written summary
+we evaluate our model with and rouge l
+they measure the word overlap bigram overlap and longest common sequence between the reference summary and the generated summary respectively
+we obtain rouge scores using the
+however rouge is insufcient to measure summarization performance
+the following example shows its limitations reference you are going to restaurant name at time
+summary you are going to restaurant name at
+in this case the summary has a high rouge score as it has a considerable proportion of word overlap with the reference summary
+however it still has poor relevance and readability for leaving out one of the most critical information time
+rouge treats each word equally in computing n gram overlap while the informativeness actually varies common words or phrases e
+
+you are going to signicantly contribute to the rouge score and readability but they are almost irrelevant to essential contents
+the semantic slot values e
+
+restaurant name time are more essential compared to other words in the summary
+however rouge did not take this into consideration
+to address this drawback in rouge we propose a new evaluation metric critical information completeness cic
+formally cic is a recall of semantic slot information between a candidate summary and a reference summary
+cic is dened as follows vv cic m
+com models base pointer gen see et al
+transformer vaswani et al
+base speaker role base speaker role semantic slot spnet base speaker role semantic slot dialog domain rouge l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cic
+
+
+
+
+table automatic evaluation results on multiwoz
+we use pointer generator as the base model and gradually add different semantic scaffolds
+where v stands for a set of delexicalized values in the reference summary is the number of values co occurring in the candidate summary and reference summary and m is the number of values in set v
+in our experiments cic is computed as the arithmetic mean over all the dialog domains to retain the overall performance
+cic is a suitable complementary metric to rouge because it accounts for the most important mation within each dialog domain
+cic can be applied to any summarization task with predened essential entities
+for example in news summarization the proper nouns are the critical information to retain
+
+implementation details we implemented our baselines with opennmt framework klein et al
+
+we delexicalize utterances according to the belief span annotation
+to maintain the generalizability of spnet we combine the slots that refer to the same information from different dialog domains into one slot e
+
+time
+instead of using pre trained word embeddings like glove pennington et al
+we train word embeddings from scratch with a dimension embedding layer
+we set the hidden states of the bidirectional lstm encoders to dimensions and the unidirectional lstm decoder to dimension
+our model is optimized using adam kingma ba with a learning rate of
+
+
+
+we reduce the learning rate to half to avoid overtting when the validation loss increases
+we set the hyperparameter to
+in the objective function and the batch size to eight
+we use beam search with a beam size of three during decoding
+we use the validation set to select the model parameter
+our model with and without multi task takes about epochs and seven epochs to converge respectively
+results and discussions
+automatic evaluation results to demonstrate spnet s effectiveness we compare it with two state of the art methods generator see et al
+and transformer vaswani et al
+
+pointer generator is the of the art method in abstractive document summarization
+in inference we use length penalty and coverage penalty mentioned in gehrmann et al
+
+the hyperparameters in the original mentation see et al
+were used
+transformer uses attention mechanisms to replace recurrence for sequence transduction
+transformer generalizes well to many sequence to sequence problems so we adapt it to our task following the implementation in the ofcial opennmt py documentation
+we show all the models results in table
+we observe that spnet reaches the highest score in both rouge and cic
+both pointer generator and transformer achieve high rouge scores but a ative low cic scores
+it suggests that the baselines have more room for improvement on preserving critical slot information
+all the scaffolds we propose can be applied to different neural network models
+in this work we select pointer generator as our base model in spnet because we observe that transformer only has a small improvement over pointer generator but is having a higher cost on training time and computing resources
+we observe that spnet outperforms other methods in all the automatic evaluation metrics with a big margin as it incorporates all the three semantic scaffolds
+semantic slot contributes the most to spnet s increased performance bringing the largest increase on all automatic evaluation metrics
+conversation i just need it booked for people for a total of nights starting from sunday
+client i m looking for a place to stay
+it needs to be a guesthouse and include free wi
+help desk there are hotels that meet your needs
+would you like to narrow your search by area price range client i would like for it to be cheap and include free parking
+help desk there are nine guesthouse hotels in various areas
+what part of town are you hoping for client nothing in particular
+reference number please
+help desk sure we will book you in a hotel with stars
+the reservation will be for people for nights
+how many rooms would you like to reserve client well for six people i suppose i will be needing three rooms for four nights starting sunday
+help desk you re booked at the alexander bed and breakfast coldham lane for people for four nights starting sunday
+your reference number is
+client thank you i m also looking for a restaurant
+ideally an italian place in the same price range in the centre
+help desk i found ask restaurant would you like to book that client is the name of the restaurant ask restaurant help desk yes the restaurant is called ask restaurant
+would you like to book a table there client yes
+book it for the same group of people on the same day at
+can i get the reference number please help desk great your booking for people at the restaurant ask on sunday at was successful your reference number is
+client i am all set
+thank you
+help desk thank you for using the cambridge towneinfo help desk i d also like the summaries pointer generator you are traveling to cambridge and looking forward to try local restaurants
+you are looking for a place to stay
+the hotel should include free wi and should be in the type of guesthouse
+the hotel does nt need to include internet
+if there is no such hotel how about one that has free wi
+once you nd the hotel you want to book it for people and nights starting from sunday
+if the booking fails how about nights
+make sure you get the reference number
+you are also looking for information particular restaurant
+its name is called ask restaurant restaurant
+make you you the price range and postcode
+spnet you are looking for information in cambridge
+you are looking for a place to stay
+the hotel should be in the type of guest house and should include free wi
+the hotel should be in the cheap price range
+once you nd the hotel you want to book it for people and nights starting from sunday
+make sure you get the reference number
+you are also looking for a restaurant
+the restaurant should be in the same price range as the hotel and should serve italian food
+the restaurant should be in the same area as the hotel
+once you nd the restaurant you want to book a table for the same group of people at on the same day
+make sure you get the reference number
+ground truth you are planning your trip in cambridge
+you are looking for a place to stay
+the hotel should include free wi and should be in the type of guest house
+the hotel should be in the cheap price range and should include free parking
+once you nd the hotel you want to book it for people and nights starting from sunday
+make sure you get the reference number
+you are also looking for a restaurant
+the restaurant should be in the same price range as the hotel and should be in the centre
+the restaurant should serve italian food
+once you nd the restaurant you want to book a table for the same group of people at on the same day
+make sure you get the reference number
+table an example dialog and pointer generator spnet and ground truth summaries
+we derline semantic slots in the conversation
+red denotes incorrect slot values and green denotes the correct ones
+
+human evaluation results we also perform human evaluation to verify if our method s increased performance on automatic evaluation metrics entails better human perceived quality
+we randomly select test samples from multiwoz test set for evaluation
+we recruit crowd workers from amazon mechanical turk
+for each sample we show the conversation reference summary as well as summaries generated by pointer generator and spnet to three different participants
+the participants are asked to score each summary on three indicators relevance conciseness and readability on a to scale and rank the summary pair tie allowed
+we present human evaluation results in table
+in the scoring part our model outperforms generator in all three evaluation metrics
+spnet scored better than pointer generator on relevance and readability
+all generated summaries are relatively concise therefore they score very similar in conciseness
+ground truth is still perceived as more relevant and readable than spnet results
+however ground truth does not get a high absolute score
+from the feedback of the evaluators we found that they think that the ground truth has not covered all the necessary information in the versation and the description is not so natural
+this motivates us to collect a dialog summarization dataset with high quality human written summaries in the future
+results in the ranking evaluation show more differences between different summaries
+spnet outperforms pointer generator with a large margin
+its performance is relatively close to the ground truth summary
+summary ground truth pointer et al
+spnet rank pair spnet vs
+pointer gen spnet vs
+ground truth relevance conciseness readability
+
+
+lose
+
+
+
+
+win
+
+
+
+
+tie
+
+table the upper is the scoring part and the lower is the the ranking part
+spnet outperforms pointer generator in all three human evaluation metrics and the differences are signicant with the condence over
+in student t test
+in the ranking part the percentage of each choice is shown in decimal
+win lose and tie refer to the state of the former summary in ranking
+
+case study table shows an example summary from all models along with ground truth summary
+we observe that pointer generator ignores some essential fragments such as the restaurant booking information people sunday
+missing information always belongs to the last several domains rant in this case in a multi domain dialog
+we also observe that separately encoding two speakers reduces repetition and inconsistency
+for instance pointer generator s summary mentions free wi several times and has conicting requirements on wi
+this is because dialogs has tion redundancy but single speaker model ignores such dialog property
+our method has limitations
+in the example shown in table our summary does not mention the hotel name alexander bed and breakfast and its address coldham lane referred in the source
+it occurs because the ground truth summary doe not cover it in the training data
+as a supervised method spnet is hard to generate a summary containing additional information beyond the ground truth
+however in some cases spnet can also correctly summarize the content not covered in the reference summary see table in appendix
+furthermore although our spnet achieves a much improved performance the application of spnet still needs extra annotations for semantic scaffolds
+for a dialog dataset speaker role scaffold is a natural pattern for modeling
+most multi domain dialog corpus has the domain annotation
+while for texts for example news its topic categorization such as sports or entertainment can be used as domain annotation
+we nd that semantic slot scaffold brings the most signicant improvement but it is seldom explicitly annotated
+however the semantic slot scaffold can be relaxed to any critical entities in the corpus such as team name in sports news or professional terminology in a technical meeting
+conclusion and future work we adapt a dialog generation dataset multiwoz to an abstractive dialog summarization dataset
+we propose spnet an end to end model that incorporates the speaker role semantic slot and dialog domain as the semantic scaffolds to improve abstractive summary quality
+we also propose an automatic evaluation metric cic that considers semantic slot relevance to serve as a complementary metric to rouge
+spnet outperforms baseline methods in both automatic and human evaluation metrics
+it suggests that involving semantic scaffolds efciently improves abstractive summarization quality in the dialog scene
+moreover we can easily extend spnet to other summarization tasks
+we plan to apply semantic slot scaffold to news summarization
+specically we can annotate the critical entities such as person names or location names to ensure that they are captured correctly in the generated summary
+we also plan to collect a human human dialog dataset with more diverse human written summaries
+references dzmitry bahdanau kyunghyun cho and yoshua bengio
+neural machine translation by jointly learning to align and translate
+in iclr international conference on learning tations
+dzmitry bahdanau philemon brakel kelvin xu anirudh goyal ryan lowe joelle pineau aaron c
+courville and yoshua bengio
+an actor critic algorithm for sequence prediction
+in iclr international conference on learning representations
+david m
+blei andrew y
+ng and michael i
+jordan
+latent dirichlet allocation
+journal of machine learning research
+pawe budzianowski tsung hsien wen bo hsiang tseng iigo casanueva stefan ultes osman ramadan and milica gai
+multiwoz a large scale multi domain wizard of oz dataset for oriented dialogue modelling
+arxiv preprint
+
+asli celikyilmaz antoine bosselut xiaodong he and yejin choi
+deep communicating agents for abstractive summarization
+in naacl hlt annual conference of the north can chapter of the association for computational linguistics human language technologies volume pp
+
+corinna cortes and vladimir vapnik
+support vector networks
+machine learning
+jacob devlin ming wei chang kenton lee and kristina toutanova
+bert pre training of deep bidirectional transformers for language understanding
+arxiv preprint
+
+michel galley
+a skip chain conditional random eld for ranking meeting utterances by importance
+in proceedings of the conference on empirical methods in natural language processing pp
+
+sebastian gehrmann yuntian deng and alexander m
+rush
+bottom up abstractive summarization
+in emnlp conference on empirical methods in natural language processing pp
+
+chih wen goo and yun nung chen
+abstractive dialogue summarization with sentence gated eling optimized by dialogue acts
+arxiv preprint
+
+jiatao gu zhengdong lu hang li and victor o
+k
+li
+incorporating copying mechanism in sequence to sequence learning
+in proceedings of the annual meeting of the association for computational linguistics volume long papers volume pp
+
+karl moritz hermann tom koisk edward grefenstette lasse espeholt will kay mustafa man and phil blunsom
+teaching machines to read and comprehend
+in proceedings of the international conference on neural information processing systems volume pp
+
+andrew hoang antoine bosselut asli celikyilmaz and yejin choi
+efcient adaptation of trained transformers for abstractive summarization
+arxiv preprint
+
+diederik p
+kingma and jimmy ba
+adam a method for stochastic optimization
+arxiv preprint
+
+guillaume klein yoon kim yuntian deng jean senellart and alexander m
+rush
+opennmt open source toolkit for neural machine translation
+in proceedings of acl system strations pp
+
+john d
+lafferty andrew mccallum and fernando c
+n
+pereira
+conditional random elds probabilistic models for segmenting and labeling sequence data
+in icml proceedings of the eighteenth international conference on machine learning pp
+
+manling li lingyu zhang heng ji and richard j
+radke
+keep meeting summaries on topic abstractive multi modal meeting summarization
+in acl the annual meeting of the association for computational linguistics pp
+
+chin yew lin
+rouge a package for automatic evaluation of summaries
+in text summarization branches out proceedings of the workshop pp
+
+sameer maskey and julia hirschberg
+comparing lexical acoustic prosodic structural and course features for speech summarization
+in interspeech pp
+
+i
+mccowan j
+carletta w
+kraaij s
+ashby s
+bourban m
+flynn m
+guillemot t
+hain j
+kadlec v
+karaiskos m
+kronenthal g
+lathoud m
+lincoln a
+lisowska w
+post reidsma p
+wellner l
+p
+j
+j
+noldus f grieco l
+w
+s
+loijens and p
+h
+zimmerman
+the ami meeting corpus
+symposium on annotating and measuring meeting behavior pp
+
+gabriel murray steve renals and jean carletta
+extractive summarization of meeting recordings
+in interspeech pp
+
+ramesh nallapati bowen zhou ccero nogueira dos santos aglar glehre and bing xiang
+stractive text summarization using sequence to sequence rnns and beyond
+in proceedings of the signll conference on computational natural language learning pp
+
+haojie pan junpei zhou zhou zhao yan liu deng cai and min yang
+end to end dialogue description generation
+arxiv preprint
+
+jeffrey pennington richard socher and christopher d
+manning
+glove global vectors for word representation
+in proceedings of the conference on empirical methods in natural guage processing emnlp pp
+
+alec radford karthik narasimhan tim salimans and ilya sutskever
+improving language derstanding by generative pre training
+url us
+amazonaws
+com assets researchcovers languageunsupervised language understanding paper
+pdf
+marcaurelio ranzato sumit chopra michael auli and wojciech zaremba
+sequence level ing with recurrent neural networks
+in iclr international conference on learning resentations
+alexander m
+rush sumit chopra and jason weston
+a neural attention model for abstractive sentence summarization
+arxiv preprint
+
+abigail see peter j
+liu and christopher d
+manning
+get to the point summarization with pointer generator networks
+in proceedings of the annual meeting of the association for computational linguistics volume long papers volume pp
+
+shikhar sharma jing he kaheer suleman hannes schulz and philip bachman
+natural language generation in dialogue using lexicalized and delexicalized data
+in international conference on learning representations iclr workshop
+ilya sutskever oriol vinyals and quoc v
+le
+sequence to sequence learning with neural networks
+in advances in neural information processing systems pp
+
+zhaopeng tu zhengdong lu yang liu xiaohua liu and hang li
+modeling coverage for neural machine translation
+arxiv preprint
+
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n
+gomez lukasz kaiser and illia polosukhin
+attention is all you need
+in advances in neural information processing systems pp
+
+oriol vinyals meire fortunato and navdeep jaitly
+pointer networks
+in proceedings of the international conference on neural information processing systems volume pp
+
+lu wang and claire cardie
+domain independent abstract generation for focused meeting in proceedings of the annual meeting of the association for computational marization
+linguistics volume long papers pp
+
+lu wang and claire cardie
+
+
+summarizing decisions in spoken meetings
+arxiv preprint tsung hsien wen milica gasic dongho kim nikola mrksic pei hao su david vandyke and steve j
+young
+stochastic language generation in dialogue using recurrent neural networks with in proceedings of the annual meeting of the special convolutional sentence reranking
+interest group on discourse and dialogue pp
+
+xingxing zhang furu wei and ming zhou
+hibert document level pre training of hierarchical bidirectional transformers for document summarization
+in acl the annual meeting of the association for computational linguistics pp
+
+a supplement to case study supplement summary transformer you are planning your trip in cambridge
+you are looking for a place to stay
+the hotel does nt need to include internet and should include free parking
+the hotel should be in the type of house
+if there is no such hotel how about one that is in the moderate price range once you nd the hotel you want to book it for people and nights starting from sunday
+make sure you get the reference number
+you are also looking forward to dine
+the restaurant should be in the centre
+make sure you get the reference number
+human evaluation which one is better in your opinion summary pointer generator or summary spnet or tie evaluator summary spnet what is the reason for your rank we recommend you to talk about it from relevance conciseness and readability
+evaluator summary is more coherent and relevant
+it is just as concise but more readable
+which one is better in your opinion summary spnet or summary ground truth or tie evaluator tie what is the reason for your rank we recommend you to talk about it from relevance conciseness and readability
+evaluator summary and are almost identical
+they are equally coherent relevant and readable
+table supplement to the case in table
+the summary generated by transformer is shown in supplement summary
+red denotes incorrect slot values and green denotes the correct ones
+human evaluation part provides the evaluator s choice and feedback in ranking summary pairs
+content in the brackets is not shown to the evaluators
+b dialog summarization cases conversation client i m looking for a moderately priced place to eat that in the centre of town
+help desk what type of cuisine are you looking for there are restaurants in that area
+client i do nt have a preference
+help desk out of the restaurant choices one is the yippee noodle bar which is moderately priced in the centre of town
+would you like to make a reservation client that sounds great what is the postcode help desk their postcode is and if you want a reservation just let me know the time party size and day and i ll make it for you
+client not now thanks
+here s a weird one though are there any expensive star hotels in the center of town help desk i m sorry but there are no expensive star hotels in the area
+can i help you nd something else client do you have a hotel in the moderate price range help desk the cityroomz hotel is moderatly priced and has free internet and parking
+would you like to make a reservation now client that sounds nice yes please book a room for guests staying for nights starting on sunday
+help desk i m sorry those particular dates are lled if you d like i could try to make the trip shorter or maybe change days client how about just for the one night help desk alright i was able to book your hotel room at the cityroomz for people for one night
+your reference number is
+is there anything else i can do client i will also need a taxi to go from the restaurant to the hotel i want to leave the restaurant at
+help desk i have booked your taxi
+it will be a blue volvo and the contact number is
+client great
+thanks
+that s all i need today
+help desk you re welcome
+have a wonderful visit
+summaries pointer generator you are traveling to cambridge
+you are looking for a restaurant
+the restaurant should serve food and should be in the moderate price range
+make sure you get postcode and address
+you are also looking for information in the centre
+the hotel should have a star of and should include free wi
+the hotel does nt need to include internet
+if there is no such hotel how about one that does nt have free parking once you nd the hotel you want to book it for people and nights starting from sunday
+if the booking fails how about night make sure you get the reference number
+spnet you are traveling to cambridge and looking forward to try local restaurants
+you are looking for a place to dine
+the restaurant should be in the moderate price range and should be in the centre
+make sure you get postcode
+you are also looking for a place to stay
+the hotel should be in the type of hotel and should have star
+the hotel should be in the same area as the restaurant and should be in the same price range as the restaurant
+once you nd the hotel you want to book it for people and nights starting from sunday
+if the booking fails how about night make sure you get the reference number
+you also want to book a taxi to commute between the places
+you want to leave the restaurant by
+make sure you get contact number and car type
+ground truth you are traveling to cambridge and looking forward to try local restaurants
+the restaurant should be in the centre and should be in the moderate price range
+make sure you get postcode
+you are also looking for a place to stay
+the hotel should be in the expensive price range and should have a star of
+the hotel should be in the same area as the restaurant
+if there is no such hotel how about one that is in the moderate price range once you nd the hotel you want to book it for people and nights starting from sunday
+if the booking fails how about night
+make sure you get the reference number
+you also want to book a taxi to commute between the places
+you want to leave the restaurant by
+make sure you get contact number and car type
+table an example dialog and pointer generator spnet and ground truth summaries
+the dialog spans over three domains restaurant hotel and taxi
+we underline semantic slots in the conversation
+red denotes incorrect slot values and green denotes the correct ones
+conversation client i would like a british food restaurant in the centre
+help desk sure there are restaurants that meet your needs
+are moderate and are expensive
+do you have a preference client only the best for my family
+
+we ll take the expensive one
+book us a table for at on thursday
+help desk i m sorry i am having difculty making a reservation for you
+shall we try another time or restaurant type client let s try italian instead
+help desk caffe uno is a very nice expensive italian restaurant in the center of town
+would you like a table there client actually i change my mind
+i think i want to stick with british food after all
+can you suggest any one that s in the centre of town help desk fitzbillies restaurant the cambridge chop house and midsummer house are all centrally located british and very expensive but none have a table for available on thursday at
+client can you try the cambridge chop house for thursday for people at instead help desk your reservation at the cambridge chop house for people at on thursday was ful
+your reference number is
+is there anything else i can help you with today client no that s all i need
+thanks for your help help desk you re welcome thank you for using our system
+client you re welcome it was great help desk have a good day pointer generator you are looking for a restaurant
+the restaurant should serve british food and should be in the centre
+once you nd the restaurant you want to book a table for people at on thursday
+make sure you get the reference number
+summaries spnet you are looking for a place to dine
+the restaurant should serve british food and should be in the centre
+the restaurant should be in the expensive price range
+if there is no such restaurant how about one that serves british food once you nd the restaurant you want to book a table for people at on thursday
+if the booking fails how about different restaurant in the same area and price range make sure you get the reference number
+ground truth you are looking for a restaurant
+the restaurant should serve british food and should be in the centre
+once you nd the restaurant you want to book a table for people at on thursday
+if the booking fails how about make sure you get the reference number
+table an example dialog and pointer generator spnet and ground truth summaries
+the dialog spans over one domain restaurant
+we underline semantic slots in the conversation
+red denotes incorrect slot values and green denotes the correct ones
+blue denotes the content not covered by ground truth in spnet s summary
+

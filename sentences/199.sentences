@@ -1,0 +1,409 @@
+econtechmod
+an international quarterly journal
+vol
+
+no
+
+the method of automatic summarization from different sources n
+shakhovska t
+cherna information systems and networks department lviv polytechnic national university s
+bandery str
+lviv ukraine e mail
+com received october
+accepted january
+abstract
+in this article is analyzed technology of automatic text abstracting and annotation
+the role of annotation in automatic search and classification for different scientific articles is described
+the algorithm of summarization of natural language documents using the concept of importance coefficients is developed
+such concept allows considering the peculiarity of subject areas and topics that could be found in different kinds of documents
+method for generating abstracts of single document based on frequency analysis is developed
+the recognition elements for unstructured text analysis are given
+the method of pre processing analysis of several documents is developed
+this technique simultaneously considers both statistical approaches to abstracting and the importance of terms in a particular subject domain
+the quality of generated abstract is evaluated
+for the developed system there was conducted experts evaluation
+it was held only for texts in ukrainian
+the developed system concluding essay has higher aggregate score on all criteria
+the summarization system architecture is building
+to build an information system model there is used case tool allfusion erwin data modeler
+the database scheme for information saving was built
+the system is designed to work primarily with ukrainian texts which gives a significant advantage since most modern systems still oriented to english texts
+key words annotation abstracting national system of abstracting heterogeneous data analysis
+introduction automatic abstracting came from automatic text summarization is a creation of summaries of materials summaries or digests that is getting of the most important data from one or from several documents and generation on their basis laconic and informal sated reports
+there are two directions of automatic summarization maintenance summary
+quasi summarization and a the analysis of recent researches and publications as a branch of practical activities summarization was generated in depths of library bibliographic and journalistic practice
+in the beginning of xx century the basic task of summarization is full reflection of the maintenance of the primary source on what the attention of experts experts has been concentrated
+activation of development of theoretical questions of annotation was promoted by introduction of system of the annotated printing card in
+during this period appears a lot of works where the concept of summary was considered classification of summaries and general provisions concerning their drawing up was directed
+very fruitful was a worked out the scheme of the summary offered by o
+g
+fomin
+he opened about information elements which are used in texts of summaries having allocated among them the main things homogeneous behind a design and the form
+with formation and development of computer science a new stages in development summarization were based on the agenda the attention to the question of algorithmization and automation of this process was brought
+problems of summarization which gets an interdisciplinary character are studied by bibliographers linguists philosophers experts in branch of computer science computer facilities and cybernetics
+in n
+shakhovska t
+cherna researches of years the attention was concentrated on principles of manual summarization and possibilities of formalization of the given process with computer facilities use
+the great value is got by problems of automation of semantic processes which developed behind three basic directions
+the first has been connected with introduction of inquiries to system
+this process requires the previous semantic transformation of inquiry that is construction on demand of the search instruction which is already entered to the information retrieval system
+the second direction covered the search processes connected with comparison behind certain rules of search images of inquiries which have arrived to system and to a documents which remain there
+the third direction pursued the aim of automation to input documents to the information retrieval system
+among its processes the central place is occupied with questions of automation of indexing annotation and summarization
+more details about problem automatic summarization you can see on viniti analytical review
+statistical methods are based on the american scientific g
+lun workings out which the first in has received the machine abstract
+he has suggested to carry out selection of offers on the basis of frequency of the use of words in the offer this is more often there is a word in it the above its semantic weight and also in view of the location of significant words in the offer
+in selection of offers to the abstract for each of them the semantic weight is defined
+than more words which often meet appear nearly the more especially essential information is contained by the offer as should join in the abstract
+g
+lun ideas stimulated the subsequent workings out from automation summarization based on the statistical analysis of texts
+techniques of russians v
+agraev b
+borodin and v
+purto became the most known
+first two have offered a technique agree with which offers chosen from the text appear connected among themselves
+the most connected that is why such which are subject to inclusion to the abstract offers which contain the greatest quantity of identical significant words are considered
+v
+purto v
+gorkov has developed a method of an estimation and selection of offers behind quantity of the information which they contain
+in this case texts are subject to the statistical analysis for revealing of frequency of the use of words
+words which are used in the scientific and technical literature more often terms are
+the researcher confirms the more important term the more often it meets in the text and offers will contain a maximum quantity of these terms are selected
+the volume of the abstract received in such a way makes as a rule no more than three offers irrespective of volume of the primary document
+in case of use of a statistical method of summarization the volume and quality of abstracts completely depend on statistical characteristics of the text therefore offers which contain the major information for example conclusions in scientific articles patent formulas in descriptions of inventions can be not allocated absolutely not and not enter to the abstract
+however lacks are defined to a certain extent are compensated thanks to simplicity of the analysis and uniformity of abstracts which were prepared by means of the computer
+it stimulates works in such direction in many countries
+item methods are based on the direction of better work the most significant offers aimed at perfection in texts with attraction of a difficult mathematical apparatus
+selection is carried out on principles of four interconnection methods a hint keywords the title localization
+the essence of a method of a hint consists in use during selection of offers of the list of words in which words with positive negative semantic weight and zero neutral are preliminary allocated
+at selection words which transfer a positive and negative estimation are considered only
+in case of use of a method of keywords the words selected by a frequency principle and to this sign defined key there are considered in similar to the offered g
+lun to the approach
+in a method of the title the leading role is taken away to the dictionary of the terms selected from the title and subtitle which have big weight than words from other offers of the text
+to the abstract offers where there are terms which are in the dictionary are selected
+the localization method is based on the assumption that the most essential information concentrates in the beginning or in the end of a certain fragment or the text paragraph
+comparison of all has shown four methods that the method of keywords provides completeness of reflection of the maintenance of the primary document on a title method on and general use of methods of a hint the title and localization on
+this approach has got the subsequent development during working out of indicative methods of summarization compared with which statistical and item methods play an auxiliary role
+indicative methods give the chance to formalize on the basis of parse a statement of the basic maintenance of the primary document in the abstract of cable style
+to parse can be subject both all text and its separate fragments which contain typical markers
+in the early eighties science officers of moscow and leningrad had been offered a technique formalized summarization with use of markers for texts from electronics
+according to with this technique process automatic summarization is shown to two procedures the method of automatic summarization from different sources own extracting that is recognition in the text of the primary document of the marked offers and their deliveries on the printer post editing during it there is an elimination of logic and semantic repetitions superfluous turns and also inclusions of necessary semantic sheaves between phrases
+in this technique that post editing is carried out is positive is formalized and can be carried out not only experts in certain branch of knowledge but also librarians bibliographers who own bases of summarization
+in the long term authors intended to realize the given technique so that the user independently defined a priority and made a choice of the aspects of the maintenance necessary to it individual summarization and at necessity a smog receive the corresponding abstract review of a file of primary sources
+the question of automation of semantic processes is considered and on pages of the ukrainian professional editions
+as a whole generalization of domestic and foreign experience testifies that the main aspects of research of problems of summarization are the history the theory and a technique and also the organization of processes of analytic synthetic processing of the information
+sj summarization journal were one of the very first forms scientifically information publications and within last century have gained the greatest distribution among the given kind of editions
+and the abstract and the summary is one of the major means of scientific communications who function independently in separate systems the scientific and technical information libraries publishing houses and simultaneously carry out function of communication during an information transfer from one system to another
+theoretical and methodical aspects of analytic synthetic processing of documents always were and remain in the centre of attention of experts in library business and scientifically to an information work
+recently release of scientific and other editions not only in printing but also the electronic form quickly extends
+possibilities of carrying out of contextual search directly behind texts of publications have appeared and develop that apparently does sj superfluous
+but such conclusion is erroneous
+information search behind abstracts which are collected in one file and in which in the compact form the basic maintenance of publications is stated provides high revelation the received results while navigation behind full texts of publications in which there are almost all words of a natural language causes considerable search noise
+therefore the subsequent development of computer technologies will lead not to dying off of the abstract information in the printing or electronic form and to growth of its role including as to navigation means in electronic libraries
+almost for years of the existence the abstract information was well entered in system of scientific communications which has developed and for which for today there is no adequate replacement
+in view of continuous and fast growth of quantity of the printing and neo published information in the modern world and increases of the prices for a subscription one of the most real and its valid means full coverage in the course of formation of an information db are close cooperation of libraries and information centers from creation of the distributed information resources for mutual use
+to solve these questions probably by creation of the big information systems for the purpose of fuller coverage subjects and a timely information transfer elimination of unjustified duplication the account of economic advantages from cooperation of libraries and information centers participants of systems for analytic synthetic processing and indexing of documents and so forth are created
+integration of information systems promotes increase of efficiency of an information work its faster development and perfection
+objectives purpose of this paper is to improve the efficiency and quality of summarization method in text by the use of the combined algorithm and create own measure
+this measure we can use for the sentence ordering method
+this is the problem of taking several sentences such as those deemed to be important by an extractive summarizer and presenting them in the most coherent order
+after that we will use text revision method
+sentence revision involves re using text collected from the input to the summarizer but parts of the final summary are automatically modified by substituting some expressions with other more appropriate expressions given the context of the new summary
+and the last method is sentence fusion
+sentence fusion is the task of taking two sentences that contain some overlapping information but that also have fragments that are different
+the goal is to produce a sentence that conveys the information that is common between the two sentences or a single sentence that contains all information in the two sentences but without redundancy
+the main results of the research we will analyze the document d lmaktd where is name is the set of keywords is the set of authors is main part l is literature
+defining elements of the document is based on the allocation of such text features n
+shakhovska t
+cherna location in the document location of a paragraph left right centered type of writing bold italic underline normal character recognition
+based on these characteristics formed the basis of the rules of recognition elements of the document table
+table
+the rules of recognition elements of the document type title author i d place begin begin keyword begin paragraph center left alpha bold symbols by keyword keywords main literature center end typical italic to form essay there is stand out from the main part of the sentence
+bulk in turn is divided into fragments by divisions and sections introduced by the authors
+it is believed that the sentences that appear in the introduction and conclusion with higher informative value than a sentence with the middle of text
+the sentence ordering method first of all we introduce the concept of weight sentence
+the coefficient is defined as the location location n m
+
+
+
+m n the place calls to the main where part and paragraph respectively
+begin and end of text or paragraph estimated value of the middle is as
+coefficient key phrase is determined by entering the sentence u of elements of a set of significant sentences from a membership function m where in the end by the way
+index of statistical significance is formed on the basis of visiting sentence keywords specified by the author of the article cuephrase u a k the value added is defined as the presence of terms u
+statterm m related words sentences that appear in the article headline to the total number of words in a sentence words except for words whose length is less than characters addterm
+word words the weight of text block u is
+the text revision method so after studding all the documents it is necessary to accomplish the following to exclude a statement with hit the consolidated data repository and to perform the final sorting sentences
+for the bringing task of the final ranking factor information novelty there is used the following method
+let we have two sets of sentences n
+
+
+n is count of sentences in text
+b aai i ia the usefulness
+for every sentence n
+
+
+i piqi i
+the sentences from set
+descending ip i
+if ia has the biggest usefulness for sentences in i a set s we take it in b
+the i ip i set iq a sort where
+factor clipping similar sentences
+is a empty if not go to
+the sentence fusion method the next problem is information estimating from different sources
+for semi structured data type text file with a known format dictionary data types defined formatting released the text of the formatting copying its contents firmattypeobject p objectfinddic s for each object selection paragraphformat
+alignment left mattype font
+type mid formattype font
+caps right formattype instr
+text right formattype copy
+selection
+sentence fusion is the method fro semantic network building
+the algorithm of semantic network building consists of such steps find subject par find constants in dictionary k pars text selection par
+selection words selections situated constants s right
+text find behind subject
+create gcpar insert sgc
+the method of automatic summarization from different sources the information system building to build an information system model there is used case tool allfusion erwin data modeler which enables model based infological model of information system build its datalogical model and create a database in any database management system
+the development of the summarization system provides in the notation
+the projected information system contains the following information objects entities ie fig
+
+sentence contains information about all the sentences in the text
+the given entity has the following attributes sentenceid serial number sentence wordsweight weight of words is value of the sum of weights of all the words that make up sentences format is the sentence weight based on its place is the sentence weight based on its location format in the text sum is the sum of weights of the previous attribute that determines the total weight of the sentence
+keywords contain information about all the key words in the text
+the given entity has the following attributes wordid contains the serial number of words word contains the word frequency is the weight of words depending on the frequency of its appearance in the text place is the weight words depending on its location in the text sentenceid is the order number sentence
+format is the weight words depending on its format text information data that entered the system after decoding information from external format subprocess implementation are converted to the corresponding data format for the system in which they is ready for further processing
+due to performance wrapping text structural branches subprocess text information is divided into parts of a sentence
+this subprocess occurs following the developed method
+the result of this is a set of subprocess proposals submitted for subprocess entrance formation keywords for further processing and for entrance assigning weights subprocess
+these subprocess are governed by rules of evaluation of proposals and it uses a knowledge base
+the result of assigning weights subprocess is evaluated sentence
+they arrive at the entrance to conclusions subprocess given the results obtained as a result of the implementation of all previous subprocesses forms the abstract as the final result
+for the developed system there was conducted experts evaluation
+it was held only for texts in ukrainian
+method of estimation was as follows
+five experts were presented document the source and received on the basis of his essay
+experts answered the following questions by selecting the response under such scale evaluation to what extent abstract reflects the content of the documents does not reflect not quite complete satisfactory
+is there redundancy in the abstract way too much so not too much no
+satisfies the abstract properties of connectivity text or there are no related sentences true
+estimate the length of the essay very long userweight is the weight of words defined by the very short the best
+user the results of expert assessments are shown in sum is the sum of the weights of previous table
+attributes so that the total weight of the word
+words sentence contains information about the relationship between words and sentences in the text
+the given entity has the following attributes id is the serial number of communication wordid is the serial number of words the main process in projected system the abstract forming divided into subprocesses decode information from external format wrapping text structural branches formation keywords assigning weights conclusions
+these subprocesses performed in the system sequentially one after the other
+to perform decoding information from external format subprocess on the entrance to it submitted data which can change in the course of work
+such data are publication the results of scientific research scientific article
+they enter the system as a result of user actions
+the result of this execution and the input data according to wrapping text structural branches subprocess is a most part of experts lowered estimates because there are sentences which violate the connectivity pattern of the text
+the developed system concluding essay has higher aggregate score on all criteria
+highest rated experts put in the assessment of completeness which means that the system is fairly accurate translation of the original document
+developed automated system concluding essay can significantly reduce the time spent on drafting an essay in comparison with other systems summarization
+its algorithm is simple enough but it has several advantages
+the use of weighting coefficients significantly improves the quality of the essay
+the user can determine the weight of certain terms depending on what topic focused essay he wants to
+the system is designed to work primarily with ukrainian texts which gives a significant advantage since most modern systems still oriented to english texts
+n
+shakhovska t
+cherna fig
+
+entity relation diagram
+the attribute level
+table
+expert marks of essay quality the method expert number completeness redundancy projected system avg avg connectivity evaluation length evaluation autosummarize in microsoft office conclusions
+the method of generating abstracts based on the developed models and methods of frequency analysis of terms in sentences and determining the weight of sentences was invented
+
+summarizing of documents is an urgent and important task which is very difficult for modern system of abstracting
+resources for referencing could have varied nature so traditionally they required different pre processing but using weights theory increases the quality of the resulting abstract
+methods of abstracting which are considered in this thesis can be successfully applied in modern information systems
+references
+brandow r
+mitze k
+and rau l
+f
+
+automatic condensation of electronic publications by sentence selection
+in information processing and management
+
+solton j
+
+dynamic library information systems
+the world
+
+
+shakhovska n
+and stakhiv z
+
+automated system for laying essay proceedings of the international conference
+kyiv ukraine
+
+in ukrainian
+
+hahn u
+
+the challenges of automatic u
+hahn i
+mani computer
+vol
+
+
+
+
+document understanding conferences duc web site
+nist
+gov
+
+
+
+
+yang ch
+c
+
+fractal summarization for mobile devices to access large documents on the ch
+c
+yang f
+l
+wang proc
+of the budapest hungary
+
+
+gorkovoy v
+
+automate indexing and abstracting documents
+results of science and technology
+ser
+informatics
+v
+
+moscow viniti
+
+
+soroka m
+b
+
+the national system of abstracting
+kupiec j
+ukrainian scientific literature nas ukraine nat
+library of ukraine named after vi vernadsky
+k
+vernadsky national library
+in ukrainian
+a trainable document summarizer
+proc
+intl acm sigir conf
+research and development in information retrieval e
+a
+fox p
+ingwersen and r
+fidel eds
+acm press new york
+
+the method of automatic summarization from different sources
+krajovskyj v
+lytvyn v
+and shakhovska n
+
+basic approaches to the development of software system for automatic summarization of text documents
+collected works of nas ukraine institute for modelling in energy
+
+kyiv
+in ukrainian
+
+park s
+
+
+analysis of lexical signatures for finding lost or related documents s
+
+park d
+pennock c
+lee giles r
+krovetz
+finland
+
+
+kolcz a
+
+improved robustness of based near replica detection via lexicon randomization a
+kolcz a
+chowdhury j
+alspector
+kdd
+
+andrei z
+and broder
+
+identifying and filtering near duplicate documents
+proceedings of the annual symposium on combinatorial pattern matching
+
+berson thomas a
+differential cryptanalysis mod with applications to
+eurocrypt
+
+acm
+org citation
+
+
+hahn u
+
+the challenges of automatic u
+hahn i
+mani computer
+
+vol
+
+
+
+
+document understanding conferences duc
+
+nist
+gov
+
+alyguliev r
+
+automatic document summarization with extracting informative sentences computational technologies
+
+
+
+
+in russian
+
+yang ch
+c
+
+fractal summarization for mobile devices to access large documents on the ch
+c
+yang f
+l
+wang proc
+of the budapest hungary
+
+
+stupin v
+
+the automatic summarization method of symmetric summarization computational linguistics and technologies
+proceedings of the international conference
+upper volga june
+m
+nauka
+
+in russian
+
+gasfild d
+
+rows trees and sequences in intelligent algorytms
+s
+pt
+nevskyj dialect
+in russian and golovkova
+
+
+kalyuzhna n
+structural contradictions in control system by enterprise as function of associate administrative decisions
+econtechmod n international quarterly journal
+lublin rzeszow vol
+
+no
+
+
+n
+shakhovska t
+cherna

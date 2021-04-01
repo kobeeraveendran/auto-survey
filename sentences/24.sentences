@@ -1,492 +1,405 @@
-arabic text summarization based on latent semantic analysis to enhance arabic documents clustering hanane
-abdelmonaime and said alaoui university sidi mohamed ben abdellah morocco faculty of science dhar el mahraz morocco
-abstract arabic documents
-clustering is an important task for obtaining good results with the traditional information retrieval ir systems especially with the rapid growth of the number of online documents present in arabic language
+arabic text summarization based on latent semantic analysis to enhance arabic documents clustering hanane abdelmonaime and said alaoui l
+s
+i
+s e
+n
+s
+a university sidi mohamed ben abdellah morocco
+fr
+fr l
+i
+m faculty of science dhar el mahraz morocco
+com abstract arabic documents clustering is an important task for obtaining good results with the traditional information retrieval ir systems especially with the rapid growth of the number of online documents present in arabic language
 documents clustering aim to automatically group similar documents in one cluster using different similarity distance measures
 this task is often affected by the documents length useful information on the documents is often accompanied by a large amount of noise and therefore it is necessary to eliminate this noise while keeping useful information to boost the performance of documents clustering
-in this paper we propose to evaluate the impact of text summarization using the latent semantic analysis model on arabic documents clustering in order to solve problems cited above using five similarity distance measures euclidean distance cosine similarity jaccard coefficient pearson correlation
-coefficient and averaged kullback leibler divergence for two times without and with stemming
+in this paper we propose to evaluate the impact of text summarization using the latent semantic analysis model on arabic documents clustering in order to solve problems cited above using five similarity distance measures euclidean distance cosine similarity jaccard coefficient pearson correlation coefficient and averaged kullback leibler divergence for two times without and with stemming
 our experimental results indicate that our proposed approach effectively solves the problems of noisy information and documents length and thus significantly improve the clustering performance
-
-information retrieval systems arabic language
-arabic text
-clustering arabic text summarization similarity measures latent semantic analysis root and light stemmers
-
+information retrieval systems arabic language arabic text clustering arabic text summarization similarity measures latent semantic analysis root and light stemmers
 keywords
-introduction there are several research projects investigating and exploring the techniques in traditional information retrieval
-ir systems for the english and european languages such as french
-german and spanish and in asian languages such as chinese and japanese
+introduction there are several research projects investigating and exploring the techniques in traditional information retrieval ir systems for the english and european languages such as french german and spanish and in asian languages such as chinese and japanese
 however in arabic language there is little ongoing research in arabic traditional information retrieval ir systems
-
 moreover the traditional information retrieval ir systems without documents clustering are becoming more and more insufficient for handling huge volumes of relevant texts documents because to retrieve the documents of interest the user must formulate the query using the keywords that appear in the documents
 this is a difficult task for ordinary people who are not familiar with the vocabulary of the data corpus
-documents clustering may be useful as a complement to these traditional
-information retrieval ir systems by organizing these documents by topics clusters in the documents feature space
-it has been proved by bellot
-el bze in that document clustering increase the precision in information retrieval ir systems for french language
-
-on the other hand for the arabic
-language
-sameh ghwanmeh in presented a comparison study between
-the traditional
-information retrieval system and the clustered one
-
+documents clustering may be useful as a complement to these traditional information retrieval ir systems by organizing these documents by topics clusters in the documents feature space
+it has been proved by bellot el bze in that document clustering increase the precision in information retrieval ir systems for french language
+on the other hand for the arabic language sameh h
+ghwanmeh in presented a comparison study between the traditional information retrieval system and the clustered one
 the concept of clustering documents has shown significant results on precision compared with traditional information retrieval systems without clustering
-
 these results assure the results obtained by bellot el bze during their test on corpora for french language
 traditional documents clustering algorithms use the full text in the documents to generate feature vectors
 such methods often produce unsatisfactory results because there is much noisy information in documents
-
 the varying length problem of the documents is also a significant negative factor affecting the performance
 in this paper we propose to investigate the use of summarization techniques to tackle these issues when clustering documents
 the goal of a summary is to produce a short representation of a long document
 this problem can be solved by building an abstract representation of the whole document and then generating a shorter text or by selecting a few relevant sentences of the original text
-
-with a large volume of text documents presenting the user with a summary of each document greatly facilitates the task of finding the desired documents so
-text summarization can be used to save time
-
-text
-summarization can speed up other information retrieval and text mining processes
-
+with a large volume of text documents presenting the user with a summary of each document greatly facilitates the task of finding the desired documents so text summarization can be used to save time
+text summarization can speed up other information retrieval and text mining processes
 in this paper we propose to use the latent semantic analysis to produce the arabic summaries that we utilize to represent the documents in the vector space model vsm and cluster them in order to enhance the arabic documents clustering
-
-latent semantics analysis lsa has been successfully applied to information retrieval
-
-as well as many other related domains
+latent semantics analysis lsa has been successfully applied to information retrieval as well as many other related domains
 it is based on singular value decomposition svd a mathematical matrix decomposition technique closely akin to factor analysis that is applicable to text corpora
 recently lsa has been introduced into generic text summarization by
 this paper is organized as follows
-the next section describes the arabic summarization based
-latent semantic analysis model
-
+the next section describes the arabic summarization based latent semantic analysis model
 section and discuss respectively the arabic text preprocessing document representation used in the experiments and the similarity measures
-
 section explains experiment settings dataset evaluation approaches results and analysis
-
 concludes and discusses future work
 
-arabic text summarization based on
-latent semantic analysis model
-lsa summarization in this work we propose to apply
-the
-latent semantic analysis
-model in order to generic arabic text summarization
+arabic text summarization based on latent semantic analysis model
+
+lsa summarization in this work we propose to apply the latent semantic analysis model in order to generic arabic text summarization
 the process starts with the creation of terms by sentences matrix a
 
-an with each column vector
-ai representing the weighted term frequency vector of sentence i in the document under consideration
+
+an with each column vector ai representing the weighted term frequency vector of sentence i in the document under consideration
 the weighted frequency vector ai
+
+
 of sentence i is defined as a ij l t g t
-
-ij ij where is the local weighting for term j in sentence i where is the number of times term j occurs in the sentence
-
-a u v t is the global weighting for term j in the whole document
-where n is the total number of sentences in the document and is the number of sentences that contain term n n t log g t ij ij
-if there are a total of m terms and n sentences in the document then we will have an m n matrix a for the document
-
+ij ij where
+is the local weighting for term j in sentence i where is the number of times term j occurs in the sentence
+a u v t
+is the global weighting for term j in the whole document where n is the total number of sentences in the document and is the number of sentences that contain term j
+n n t log g t ij ij if there are a total of m terms and n sentences in the document then we will have an m n matrix a for the document
 given an m n matrix a such as mn the svd of a is defined as where u is an m n column orthonormal matrix whose columns are called left singular vectors n is an n n diagonal matrix whose diagonal elements are non negative singular values sorted in descending order and v vij is an n n orthonormal matrix whose columns are called right singular vectors
 if r then satisfies s s s
+
+
 s r
-r n
 
-the interpretation of applying the svd to the terms by sentences matrix a can be made from two different viewpoints
 
+r n the interpretation of applying the svd to the terms by sentences matrix a can be made from two different viewpoints
 from transformation point of view the svd derives a mapping between the m dimensional space spawned by the weighted term frequency vectors and the dimensional singular vector space
-
-from semantic point of view the svd derives the latent semantic structure from the document represented by matrix
+from semantic point of view the svd derives the latent semantic structure from the document represented by matrix a
 this operation reflects a breakdown of the original document into r linearly independent base vectors or concepts
 each term and sentence from the document is jointly indexed by these base vectors concepts
 a unique svd feature is that it is capable of capturing and modeling interrelationships among terms so that it can semantically cluster terms and sentences
-further more as demonstrated in
-if a word combination pattern is salient and recurring in document this pattern will be captured and represented by one of the singular vectors
-
+further more as demonstrated in if a word combination pattern is salient and recurring in document this pattern will be captured and represented by one of the singular vectors
 the magnitude of the corresponding singular value indicates the importance degree of this pattern within the document
-
 any sentences containing this word combination pattern will be projected along this singular vector and the sentence that best represents this pattern will have the largest index value with this vector
-
 as each particular word combination pattern describes a certain topic concept in the document the facts described above naturally lead to the hypothesis that each singular vector represents a salient topic concept of the document and the magnitude of its corresponding singular value represents the degree of importance of the salient topic concept
-
 based on the above discussion authors proposed a summarization method which uses the matrix vt
 this matrix describes an importance degree of each topic in each sentence
-
 the summarization process chooses the most informative sentence for each topic
 it means that the kth sentence we choose has the largest index value in kth right singular vector in matrix vt
 the proposed method in is as follows
 decompose the document d into individual sentences and use these sentences to form the candidate sentence set s and set k
 
-
-construct the terms by sentences matrix a for the document
+construct the terms by sentences matrix a for the document d
 
 perform the svd on a to obtain the singular value matrix and the right singular vector matrix vt
-in the singular vector space each sentence i is represented by the column vector y
-i of vt
+in the singular vector space each sentence i is represented by the column vector y i of vt
 u
-i u u i ir t
 
+
+i u u i ir t
 select the kth right singular vector from matrix vt
 
-
 select the sentence which has the largest index value with the kth right singular vector and
-
-if k reaches the predefined number terminate the operation otherwise increment k by one include it in the summary and go to step
-
+if k reaches the predefined number terminate the operation otherwise increment k by one include it in the summary
+and go to step
 in step of the above operation finding the sentence that has the largest index value with the kth right singular vector is equivalent to finding the column vector is the largest
 whose kth element u ik i
+
 arabic summarization in this paper we propose to use the above method to identify semantically important sentences for arabic summary creations figure in order to enhance the arabic documents clustering task
-
-input data document
-
-
-
-
-decomposition sample
-decomposition using
-
-
+input data document decomposition sample decomposition using table
 sentences words
 
 
 
+sentences words the weighted term frequency vector ai
 
-sentences words
 
-
-the weighted term frequency vector ai
 of sentence i building the terms by sentences matrix a
 
-an apply lsa model extracting the relevant sentences
-document summary figure
+
+an apply lsa model extracting the relevant sentences document summary figure
 arabic text summarization based on latent semantic analysis model after building the test corpus we decompose each document into individual sentences this decomposition is a source of ambiguity because on the one hand punctuation is rarely used in arabic texts and other punctuation that when it exists is not always critical to y guide the decomposition
-
 in addition some words can mark the beginning of a new sentence or proposition
-
-for text decomposition uses
-a morphological decomposition based on punctuation
-decomposition based on the recognition of markers morphosyntactic or functional words such as or and but when
+for text decomposition uses a morphological decomposition based on punctuation decomposition based on the recognition of markers morphosyntactic or functional words such as
+or and but when
 however these particles may play a role other than to separate phrases
-in our experiments we use the morphosyntactic markers or functional words cited in to decompose
-the document into individual sentences in the following table we present some examples of these markers or functional words table
+in our experiments we use the morphosyntactic markers or functional words cited in to decompose the document into individual sentences in the following table we present some examples of these markers or functional words table
 samples of arabic morphosyntactic markers and functional words the arabic morphosyntactic markers and functional words
-
 in and then or but when
 also after although as before but this not
 arabic text preprocessing
+
 arabic language structure the arabic language is the language of the holy quran
 it is one of the six official languages of the united nations and the mother tongue of approximately million people
 it is a semitic language with alphabet letters
 his writing orientation is from right to left
-it can be classified into three types
-classical arabic modern standard arabic
-and colloquial arabic dialects
-
+it can be classified into three types classical arabic modern standard arabic and colloquial arabic dialects
 classical arabic is fully vowelized and it is the language of the holy quran
 modern standard arabic is the official language throughout the arab world
 it is used in official documents newspapers and magazines in educational fields and for communication between arabs of different nationalities
 colloquial arabic dialects on the other hand are the languages spoken in the different arab countries the spoken forms of arabic vary widely and each arab country has its own dialect
-
 modern standard arabic has a rich morphology based on consonantal roots which depends on vowel changes and in some cases consonantal insertions and deletions to create inflections and derivations which make morphological analysis a very complex task
-
 there is no capitalization in arabic which makes it hard to identify proper names acronyms and abbreviations
 
-stemming arabic word
-stemming is a technique that aim to find the lexical root or stem figure for words in natural language by removing affixes attached to its root because an arabic word can have a more complicated form with those affixes
-an
-arabic word can represent a phrase in english for example
-the word
-speak with them is decomposed as follows
-table table
+
+stemming arabic word stemming is a technique that aim to find the lexical root or stem figure for words in natural language by removing affixes attached to its root because an arabic word can have a more complicated form with those affixes
+an arabic word can represent a phrase in english for example the word speak with them is decomposed as follows table table
 arabic word decomposition antefix preposition meaning to prefix a letter meaning the tense and the person of conjugation root
-speak suffix postfix termination of conjugation a pronoun
-meaning them figure
+speak suffix postfix termination of conjugation a pronoun meaning them figure
 stem figure
 root figure
 inheritance figure
 an example of root stem preprocessing
 
+
 root based versus stem based approaches arabic stemming algorithms can be classified according to the desired level of analysis as root based approach khoja and stem based approach larkey
 in this section a brief review on the two stemming approaches for stemming arabic text is presented
 
+input data document removing stop word document processor and feature selection stemming term weighting nave baysian text mining application classifier training data classified results document
 
-
-input data document removing stop
-word document processor and feature selection
-stemming term weighting nave baysian text mining application classifier training data
-classified
-results document
-
-
-
-preprocess
-root based
-approach term
-weighting figure
+preprocess root based approach term weighting
+figure
 example of preprocessing with khoja stemmer algorithm root based approach uses morphological analysis to extract the root of a given arabic word
-
 many algorithms have been developed for this approach
-
 al fedaghi and al anzi algorithms try to find the root of the word by matching the word with all possible patterns with all possible affixes attached to it
-
 the algorithms do not remove any prefixes or suffixes
 al shalabi morphology system uses different algorithms to find the roots and patterns
 this algorithm removes the longest possible prefix and then extracts the root by checking the first five letters of the word
 this algorithm is based on an assumption that the root must appear in the first five letters of the word
-khoja has developed an algorithm that removes prefixes and suffixes all the time checking that
-it s not removing part of the root and then matches the remaining word against the patterns of the same length to extract the root
+khoja has developed an algorithm that removes prefixes and suffixes all the time checking that it s not removing part of the root and then matches the remaining word against the patterns of the same length to extract the root
 the aim of the stem based approach or light stemmer approach is not to produce the root of a given arabic word rather is to remove the most frequent suffixes and prefixes
 light stemmer is mentioned by some authors but till now there is almost no standard algorithm for arabic light stemming all trials in this field were a set of rules to strip off a small set of suffixes and prefixes also there is no definite list of these strippable affixes
-
 in our work we believe that the preprocessing of arabic documents is challenge and crucial stage
 it may impact positively or negatively on the accuracy of any text mining tasks therefore the choice of the preprocessing approaches will lead by necessity to the improvement of any text mining tasks very greatly
-
 to illustrate this in figure we show an example using khoja and light stemmers
 it produces different results root and stem level related to the original word
-
 on the other hand khoja stemmer can produce wrong results for example the word which means organizations is stemmed to which means he was thirsty instead of the correct root
-
 prior to applying document clustering techniques to an arabic document the latter is typically preprocessed it is parsed in order to remove stop words and then words are stemmed using tow famous stemming algorithms the morphological analyzer from khoja and garside and the light stemmer developed by larkey
 in addition at this stage in this work we computed the term document using tfidf weighting scheme
 
+
 document representation there are several ways to model a text document
-for example it can be represented as a bag of words where words are assumed to appear independently and
-the order is immaterial
+for example it can be represented as a bag of words where words are assumed to appear independently and the order is immaterial
 this model is widely used in information retrieval and text mining
-
 each word corresponds to a dimension in the resulting data space and each document then becomes a vector consisting of non negative values on each dimension
-let be a set t t tm of documents and represented as an m dimensional vector td document t d
-then the vector representation of a document d is the set of distinct terms occurring in
+let be a set t
 
+
+t tm of documents and represented as an m dimensional vector td document t d
+then the vector representation of a document d is the set of distinct terms occurring in d
 a document is then
-let tf
-t
-the frequency of term t in
+let tf t the frequency of term t in d
 
-d d dn t d
-tf d t tf
-d tm
 
-although more frequent words are assumed to be more important this is not usually the case in practice in the arabic language words like that means to and that means in
+d dn t d tf d t
 
+
+tf d tm although more frequent words are assumed to be more important this is not usually the case in practice in the arabic language words like that means to and that means in
 in fact more complicated strategies such as the tfidf weighting scheme as described below is normally used instead
-
 so we choose in this work to produce the tfidf weighting for each term for the document representation
-
 in the practice terms those appear frequently in a small number of documents but rarely in the other documents tend to be more relevant and specific for that particular group of documents and therefore more useful for finding similar documents
-in order to capture these terms and tf d t into the tfidf term reflect their importance
-we transform the basic term frequencies frequency and inversed document frequency weighting scheme
-tfidf weights the frequency of a term t in a document d with a factor that discounts its importance with its appearances in the whole document collection which is defined as tfidf d t
-tf
-log
-d df t
-
-here df t is the number of documents in which term t appears is the numbers of wt d to
-the weight of term in document
-d in the documents in the dataset
-
+in order to capture these terms and tf d t into the tfidf term reflect their importance we transform the basic term frequencies frequency and inversed document frequency weighting scheme
+tfidf weights the frequency of a term t in a document d with a factor that discounts its importance with its appearances in the whole document collection which is defined as tfidf d t tf log d df t here df t is the number of documents in which term t appears is the numbers of wt d to the weight of term in document d in the documents in the dataset
 we use following sections
 
 similarity measures in this section we discuss the five similarity measures that were tested in and we include these five measures in our work to effect the arabic text document clustering
 
-metric not every distance
-measure is a metric
-to qualify as a metric a measure
-must satisfy the y be the distance following four conditions
-let and y be any two objects in a set and between and
-the distance between any two points must be non negative that is y
 
+metric not every distance measure is a metric
+to qualify as a metric a measure must satisfy the y be the distance following four conditions
+let and y be any two objects in a set and between and
+
+the distance between any two points must be non negative that is y
 
 the distance between two objects must be zero if and only if the two objects are identical that is y if and only if
 
-distance must be symmetric that is distance from to y is the same as the distance from y to x
+distance must be symmetric that is distance from to y is the same as the distance from y to x i
+e
 y
+d
+the measure must satisfy the triangle inequality which is y z
 
-
-the measure must satisfy the triangle inequality which is
-
-y z
 
 euclidean distance euclidean distance is widely used in clustering problems including clustering text
 it satisfies all the above four conditions and therefore is a true metric
 it is also the default distance measure used with the k means algorithm
+measuring distance between text documents given two documents and db represented by and respectively the euclidean distance of the two documents is ta their term vectors defined as t a d t e m t w t a w t b t
 
-measuring distance between text documents given two documents and db represented by and respectively the euclidean distance of the two documents is ta their term vectors defined as
-t a d t e m t w t a w t b t t tm where the term set is weights that is w t a tfidf d ta
+
+t tm where the term set is weights that is w t a tfidf d ta
+
 
 cosine similarity
-as mentioned previously we use the tfidf value as term cosine similarity is one of the most popular similarity measure applied to text documents such as in numerous information retrieval applications
-and clustering too
+as mentioned previously we use the tfidf value as term cosine similarity is one of the most popular similarity measure applied to text documents such as in numerous information retrieval applications and clustering too
+given two ta documents and their cosine similarity is tac t b s im
+ta t t t a b ta t
 
 
-given two ta tb documents and their cosine similarity is tac t b s im
-ta t
-t t a b
-ta t t tm where
+t tm where
 each dimension represents a term with its weight in the document which is non negative
 as a result the cosine are m dimensional vectors over the term set and
-
 an important property of the cosine similarity is non negative and bounded between similarity is its independence of document length
 for example combining two identical copies of a document to get a new pseudo document which means that these two documents are regarded to be identical
 the cosine similarity between d and is
+
 jaccard coefficient the jaccard coefficient which is sometimes referred to as the tanimoto coefficient measures similarity as the intersection divided by the union of the objects
 for text document the jaccard coefficient compares the sum weight of shared terms to the sum weight of terms that are present in either of the two documents but are not the shared terms
 the formal definition is ta t b s im j
-ta t
-t t a t t
-a
-the jaccard coefficient is a similarity measure and ranges between and
-it is when the
-t a are disjoint
-the corresponding distance measure and when t b ta and is
-d j s im j
-and we will use
-d j instead in subsequent experiments
+ta t t t a t t
+a the jaccard coefficient is a similarity measure and ranges between and
+it is when the t a are disjoint
+the corresponding distance measure and when t b ta and is d j s im j and we will use d j instead in subsequent experiments
+
 
 pearson correlation coefficient pearson s correlation coefficient is another measure of the extent to which two vectors are related
 there are different forms of the pearson correlation coefficient formula
-given the term t t tm set a commonly used form is
-tap sim t b
-mm t t a m
-t w w t a w t b
-tf a m tf a tf m m t w t b
-tf b tf a m t w t a tf m wt t b and where this is also a similarity measure
-however unlike the other measures it ranges from to
-and it is when t a
-in subsequent experiments we use the corresponding distance measure
-t sim sim
-d
-d p when sim p and p
-p when sim p
-which is p
-averaged kullback leibler divergence in information theory based clustering a document is considered as a probability distribution of terms
+given the term t
 
+
+t tm set a commonly used form is tap sim t b mm t t a m t w w t a w t b tf a m tf a tf m m t w t b tf b tf a m t w t a tf m wt t b and where this is also a similarity measure
+however unlike the other measures it ranges from to and it is when t a
+in subsequent experiments we use the corresponding distance measure t sim sim d d p when sim p and p p when sim p
+which is p
+
+averaged kullback leibler divergence in information theory based clustering a document is considered as a probability distribution of terms
 the similarity of two documents is measured as the distance between the two corresponding probability distributions
 the kullback leibler divergence kl divergence also called the relative entropy is a widely applied measure for evaluating the differences between two probability distributions
-
-given two distributions
-p and q the kl divergence from distribution
-p to distribution q is defined as in the document scenario the divergence between two distributions of words is
-d kl p q
-p log p q
-
-t a
-t
-d kl m t w t a log w t a wt b
-
-however unlike p q d d the previous measures the kl divergence q p
-k l k l
+given two distributions p and q the kl divergence from distribution p to distribution q is defined as in the document scenario the divergence between two distributions of words is d kl p q p log p q t a t d kl m t w t a log w t a wt b
+however unlike p q d d the previous measures the kl divergence q p k l k l
 therefore it is not a true metric
-as a result we use the averaged kl is not symmetric divergence instead which is defined as
-d avgkl p q p d kl p m d kl q m p p p q q p q where be computed with the following formula and p m p p q for documents the averaged kl divergence can d avgkl
-t t a b m t p d w t a w t p d w t b w t p w t a w w t a t p w t b w w t a where t b and w t
-p p w t a w t
-the average weighting between two vectors ensures symmetry that is the divergence from document i to document
-j is the same as the divergence from document j to document
+as a result we use the averaged kl is not symmetric i
+e
+divergence instead which is defined as d avgkl p q p d kl p m d kl q m p p p q q p q where be computed with the following formula and p m p p q for documents the averaged kl divergence can d avgkl t t a b m t p d w t a w t p d w t b w t p w t a w w t a t p w t b w w t a where t b and w t p p w t a w t the average weighting between two vectors ensures symmetry that is the divergence from document i to document j is the same as the divergence from document j to document i
 the averaged kl divergence has recently been applied to clustering text documents such as in the family of the information bottleneck clustering algorithms to good effect
 
 experiments and results in our experiments figure we used the k means algorithm as document clustering method
-
 it works with distance measures which basically aim to minimize the within cluster distances
 therefore similarity measures do not directly fit into the algorithm because smaller values input data test corpus heterogeneous dataset categories economics politics ect
-
 without stemming with summarization using lsa model without summarization with stemming removing stop word
 
-apply the stemming approachs root based approach khoja stemmer stem based approach
-light stemmer vector space model k means clustering compute similarity
-euclidean distance cosine
-similarity jaccard
-coefficient pearson correlation kdl clustered documents figure
-description of our experiments indicate dissimilarity
 
+apply the stemming approachs root based approach khoja stemmer stem based approach light stemmer vector space model k means clustering compute similarity euclidean distance cosine similarity jaccard coefficient pearson correlation kdl clustered documents figure
+description of our experiments indicate dissimilarity
 the euclidean distance and the averaged kl divergence are distance measures while the cosine similarity jaccard coefficient and pearson coefficient are similarity measures
 applies a simple transformation to convert the similarity measure to distance sim values
-
 because both cosine similarity and jaccard coefficient are bounded in monotonic we take and as the corresponding distance value
-
 for pearson coefficient sim
-sim which ranges from to we take
-for the testing dataset we experimented with different similarity measures for three times without stemming and with stemming using the morphological analyzer from khoja and garside and the light stemmer in two case in the first one we apply the proposed method above to summarize for the all documents in and then cluster them
+sim which ranges from to we take for the testing dataset we experimented with different similarity measures for three times without stemming and with stemming using the morphological analyzer from khoja and garside and the light stemmer in two case in the first one we apply the proposed method above to summarize for the all documents in and then cluster them
 in the second case we cluster the original documents without summarization
 moreover each experiment was run times and the results are the averaged value over runs
 each run has different initial seed sets
-
 d when when sim and
-dataset
-the testing dataset
-corpus of contemporary
-arabic cca is composed of several categories each latter contains documents from websites and from radio qatar
-a summary of
-the testing dataset is shown in table
 
+dataset the testing dataset corpus of contemporary arabic cca is composed of several categories each latter contains documents from websites and from radio qatar
+a summary of the testing dataset is shown in table
 as mentioned previously the baseline method is the full text representation for each document we removed stop words and stem the remaining words by using khoja stemmer s and larkey stemmer s
-
 then to illustrate the benefits of our proposed approach we use document summaries to cluster our dataset
 table
-
 number of texts and number of terms in each category of the testing dataset text categories economics education health and medicine interviews politics recipes religion science sociology spoken sports tourist and travel number of texts number of terms
+
 results the quality of the clustering result was evaluated using two evaluation measures purity and entropy which are widely used to evaluate the performance of unsupervised learning algorithms
-
-
 the purity measure evaluates the coherence of a cluster that is the degree to which a cluster contains documents from a single category
-given a particular cluster ci of size ni the purity of ci is formally defined as p c i n i n
-h
-i max h where max h n
-h
-
-i h in is the number of documents that are from the dominant category in cluster ci represents the number of documents from cluster ci assigned to category
+given a particular cluster ci of size ni the purity of ci is formally defined as p c i n i n h i max h where max h n h i h in is the number of documents that are from the dominant category in cluster ci represents the number of documents from cluster ci assigned to category h
 in general and the higher the purity value the better the quality of the cluster is
 the entropy measure evaluates the distribution of categories in a given cluster
-the entropy of a cluster ci with size ni is defined to be e c i log
-c h h n i n i log
-h n
-i n i h in where c is the total number of categories in the data set and from the hth class that were assigned to cluster ci
-is the number of documents
-the entropy measure is more comprehensive than purity because rather than just considering the number of objects in and not in the dominant category it considers the overall distribution of all the categories in a given cluster
-
+the entropy of a cluster ci with size ni is defined to be e c i log c h h n i n i log h n i n i h in where c is the total number of categories in the data set and from the hth class that were assigned to cluster ci
+is the number of documents the entropy measure is more comprehensive than purity because rather than just considering the number of objects in and not in the dominant category it considers the overall distribution of all the categories in a given cluster
 contrary to the purity measure for an ideal cluster with documents from only a single category the entropy of the cluster will be
 in general the smaller the entropy value the better the quality of the cluster is
-moreover the averaged entropy of the overall solution is defined to be the weighted sum of the individual entropy value of each cluster that is entropy e c
-i n i i where n is the number of documents in our dataset
-
+moreover the averaged entropy of the overall solution is defined to be the weighted sum of the individual entropy value of each cluster that is entropy e c i n i i where n is the number of documents in our dataset
 in the following the table and the table show the average purity and entropy results for each similarity distance measure with the morphological analyzer from khoja and garside the larkey s stemmer and without stemming using the text representation
 on the other hand the table and the table illustrate the results using document summaries with the same stemmers and similarity distance measures
 
 
+
 results using full text representation
 
+
+a
 results with stemming in table with khoja s stemmer the overall purity values for the euclidean distance the cosine similarity and the averaged kl divergence are quite similar and perform bad relatively to the other measures
 meanwhile the jaccard measure is the better in generating more coherent clusters with a considerable purity score
-
 in this context using the larkey s stemmer the purity value of the averaged kl divergence measure is the best one with only difference relatively to the other four measures
 table
-purity and entropy results with khoja s stemmer and larkey s stemmer using
-full text representation khoja s stemmer larkey s stemmer entropy
-purity entropy purity euclidean
+purity and entropy results with khoja s stemmer and larkey s stemmer using full text representation khoja s stemmer larkey s stemmer entropy purity entropy purity euclidean
+
+
+
 cosine
+
+
+
 jaccard
+
+
+
 pearson
+
+
+
 kld
 
-results without stemming the table shows the higher purity scores than those shown in the table for the euclidean distance the cosine similarity and the jaccard measures
+
+
+
+
+
+
+results without stemming the table shows the higher purity scores
+than those shown in the table for the euclidean distance the cosine similarity and the jaccard measures
 in the other hand the pearson correlation and averaged kl divergence are quite similar but still better than purity values for these measures in the table
 the overall entropy value for each measure is shown in the two tables
 again the best results are there in the table that shows the better and similar entropy values for the euclidean distance the cosine similarity and the jaccard measures
-however the averaged kl
-divergence performs worst than the other measures but better than the other one in the other table table
+however the averaged kl divergence performs worst than the other measures but better than the other one in the other table table
 table
-purity and entropy results without stemming using full text representation entropy purity euclidean cosine jaccard
-pearson kld
+purity and entropy results without stemming using full text representation entropy purity euclidean
+
+cosine
+
+jaccard
+
+pearson
+
+kld
+
+
+
 
 results using document summaries
 
-results with stemming table presents the average purity and entropy results for each similarity distance measures using document summaries instead the full text representation with khoja s stemmer and
-larkey s stemmer
 
+a
+results with stemming table presents the average purity and entropy results for each similarity distance measures using document summaries instead the full text representation with khoja s stemmer and larkey s stemmer
 as shown in table for the two stemmers euclidean distance cosine similarity and jaccard measures are slightly better in generating more coherent clusters which means the clusters have higher purity and lower entropy scores
 on the other hand pearson and kld measures perform worst relatively to the other measures
 comparing these results with those obtained in table we can conclude that the obtained scores was improved specially the overall entropy values
 table
-purity and entropy results with khoja s stemmer and larkey s stemmer using documents summaries khoja s stemmer larkey s stemmer entropy
+purity and entropy results with khoja s stemmer and larkey s stemmer using documents summaries khoja s stemmer larkey s stemmer entropy purity entropy purity euclidean
 
-purity entropy purity euclidean
+
+
+cosine
+
+
+
+jaccard
+
+
+
+pearson
+
+
+
+kld
+
+
+
+
+
+
+
+results without stemming a closer look at tables and shows that in this latter the overall entropy values of euclidean distance cosine similarity jaccard and pearson measures are nearly similar and proves their ability to produce coherent clusters
+on the one side in the table we can remark that the purity scores
+khoja s stemmer
+larkey s stemmer are generally higher than those shown in the table for the all similarity distance measures on the other side the overall entropy values in this table for the euclidean distance the cosine similarity and the jaccard measures with khoja s stemmer performs bad than those in the table
+however with larkey s stemmer the overall entropy values for each measure performs contrary to their exiting in table
+table
+purity and entropy results without stemming using documents summaries entropy purity euclidean
+
 cosine
 
 jaccard
@@ -495,209 +408,186 @@ pearson
 
 kld
 
-results without stemming a closer look at tables and shows that in this latter the overall entropy values of euclidean distance cosine similarity jaccard and pearson measures are nearly similar and proves their ability to produce coherent clusters
-
-on the one side in the table we can remark that the purity scores khoja s stemmer
-larkey s stemmer are generally higher than those shown in the table for the all similarity distance measures on the other side the overall entropy values in this table for the euclidean distance the cosine similarity and the jaccard measures with khoja s stemmer performs bad than those in the table
-however with larkey s stemmer the overall entropy values for each measure performs contrary to their exiting in table
-table
-purity and entropy results without stemming using documents summaries entropy purity euclidean
-cosine jaccard
-pearson kld
 the above results lead as to conclude that first the tables and show that the use of stemming affects negatively the clustering this is mainly due to the ambiguity created when we applied the stemming for example we can obtain two roots that made of the same letters but semantically different
-
-our observation broadly agrees with kourdi and
-in and with our works in
-
-second the obtained overall entropy values shown in tables and proves that the summarizing documents can make their topics salient and improve the clustering performance
-for two times with and without stemming
+our observation broadly agrees with m
+el kourdi a
+bensaid and t
+rachidi in and with our works in
+second the obtained overall entropy values shown in tables and proves that the summarizing documents can make their topics salient and improve the clustering performance for two times with and without stemming
 however the obtained purity values seem not promising to improve the clustering task this is can be due to the bad choice of the number of sentences in summaries because this latter has great impact on the quality of summaries thus could lead to different clustering results
 too few sentences will result in mach sparse vector representation and are not enough to represent the document fully
-
 too many sentences may introduce noise and degrade the benefits of the summarization
 
-conclusion
-in this paper we have proposed to illustrate the benefits of the summarization using the latent semantic analysis model by comparing the clustering results based on summarization with the full text baseline on the arabic documents clustering for five similarity distance measures for three times without stemming and with stemming using khoja s stemmer and the larkey s stemmer
-
+conclusion in this paper we have proposed to illustrate the benefits of the summarization using the latent semantic analysis model by comparing the clustering results based on summarization with the full text baseline on the arabic documents clustering for five similarity distance measures for three times without stemming and with stemming using khoja s stemmer and the larkey s stemmer
 we found that the euclidean distance the cosine similarity and the jaccard measures have comparable effectiveness for the partitional arabic documents clustering task for finding more coherent clusters in case we did nt use the stemming for the full text representation
-
 on the other hand the pearson correlation and averaged kl divergence are quite similar in theirs results but there are not better than the other measures in the same case
 instead of using full text as the representation for document clustering we use lsa model as summarization techniques to eliminate the noise on the documents and select the most salient sentences to represent the original documents
 furthermore summarization can help overcome the varying length problem of the diverse documents
 in our experiments using document summaries we remark that again the euclidean distance the cosine similarity and the jaccard measures have comparable effectiveness to produce more coherent clusters than the pearson correlation and averaged kl divergence in the two times with and without stemming
-references
-bellot and el bze clustering by means of unsupervised decision trees or hierarchical and k means like algorithm in proc of riao pp
+references p
+bellot and m
+el bze clustering by means of unsupervised decision trees or hierarchical and k means like algorithm in proc
+of riao pp
 
-sameh ghwanmeh applying clustering of hierarchical k means like algorithm on arabic language
-international journal of information technology ijit
-volume number p
-
-similarity measures for
-text document clustering
-nzcsrsc april christchurch new zealand
-
-
-khoja and garside stemming arabic text
+sameh h
+ghwanmeh applying clustering of hierarchical k means like algorithm on arabic language international journal of information technology ijit volume number p
+a
+huang similarity measures for text document clustering nzcsrsc april christchurch new zealand
+khoja s
+and garside r
+stemming arabic text
 computing department lancaster university lancaster
 
-larkey
-leah ballesteros lisa and connell margaret
-
-improving stemming for arabic information retrieval
-light
-stemming and co occurrence analysis
-
+comp
+lancs
+ac
+computing users khoja stemmer
+ps larkey leah s
+ballesteros lisa and connell margaret
+improving stemming for arabic information retrieval light stemming and co occurrence analysis
 in proceedings of the annual international conference on research and development in information retrieval sigir tampere finland august pp
 
-
-
-yates and neto
-
-
-information retrieval
+r
+b
+yates and b
+r
+neto
+modern information retrieval
 addison wesley new york
-
-larsen and aone
+b
+larsen and c
+aone
 fast and effective text mining using linear time document clustering
-
 in proceedings of the fifth acm sigkdd international conference on knowledge discovery and data mining
-
-tishby pereira and bialek
+n
+z
+tishby f
+pereira and w
+bialek
 the information bottleneck method
 in proceedings of the allerton conference on communication control and computing
-
-al sulaiti the design of a corpus of contemporary arabic university of leeds
-
-
-zhao and karypis
-of hierarchical
-clustering
-algorithms for
-document datasets
-
+l
+al sulaiti e
+atwell the design of a corpus of contemporary arabic university of leeds
+y
+zhao and g
+karypis
+evaluation of hierarchical clustering algorithms for document datasets
 in proceedings of the international conference on information and knowledge management
-zhao and karypis
+y
+zhao and g
+karypis
 empirical and theoretical comparisons of selected criterion functions for document clustering
 machine learning
-
-
-kourdi and
+m
+el kourdi a
+bensaid and t
+rachidi
 automatic arabic document categorization based on the nave bayes algorithm
 school of science engineering alakhawayn university
-
 xuanhui wang dou shen hua jun zeng zheng chen and wei ying ma
 web page clustering enhanced by summarization
 proceedings of the acm cikm international conference on information and knowledge management washington dc usa november
-
-ouatik and
+h
+froud a
+lachkar s
+ouatik and r
+benslimane
 stemming and similarity measures for arabic documents clustering
 international symposium on i v communications and mobile networks isivc ieee xplore
+s
+deerwester s
+dumais g
+furnas t
+landauer and r
+harshman indexing by latent semantic analysis journal of the american society for information science vol
+pp
 
-deerwester dumais furnas landauer and harshman indexing by latent semantic analysis journal of the american society for information science vol
-
-
-froud lachkar
-alaoui
-ouatik stemming versus
-light
-stemming for
-measuring the simitilarity between arabic words with latent semantic analysis model
-international colloquium in information science and technology cist october
+h
+froud a
+lachkar s
+alaoui ouatik stemming versus light stemming for measuring the simitilarity between arabic words with latent semantic analysis model international colloquium in information science and technology cist october
 ieee xplore
-
-froud lachkar alaoui ouatik a comparative study of root based and stem based
-approaches for
-measuring
-the similarity between arabic words for arabic text mining applications published in advanced computing an international journal acij
-
-gong and liu generic text summarization using relevance measure and latent semantic analysis proc
+h
+froud a
+lachkar s
+alaoui ouatik a comparative study of root based and stem based approaches for measuring the similarity between arabic words for arabic text mining applications published in advanced computing an international journal acij
+y
+h
+gong and x
+liu generic text summarization using relevance measure and latent semantic analysis proc
 the annual international acm sigir pp
 
-
-steinberger jezek using latent semantic analysis in text summarization and summary evaluation
+steinberger j
+jezek k
+using latent semantic analysis in text summarization and summary evaluation
 in proceedings of isim
-
-press and
-al numerical recipes in c
-the art of scientific computing
+w
+press and al
+numerical recipes in c the art of scientific computing
 cambridge england cambridge university press ed
-berry
-dumais w obrien using
-linear algebra for intelligent information retrieval
+
+m
+w
+berry s
+t
+dumais g
+w obrien using linear algebra for intelligent information retrieval
 siam review
+ouersighni r
 
-
-ouersighni
-a major offshoot of the diinar mbc project araparse a morphosyntactic analyzer for unvowelled
-arabic texts acl eacl
-workshop on arabic language
-processing toulouse july pp
-
-
+a major offshoot of the diinar mbc project araparse a morphosyntactic analyzer for unvowelled arabic texts acl eacl workshop on arabic language processing toulouse july pp
 
 r
 
-
 u
+abu hamdiyyah mohammad
 
-
-abu hamdiyyah
-the an introduction
-
-al fedaghi and
+the an introduction al fedaghi s
+and f
 al anzi
 a new to generate arabic root pattern forms
-
 in proceedings of the national computer conference and exhibition
 pp
 march
-
-al shalabi and evens
+al shalabi r
+and m
+evens
 a computational morphology system for arabic
 in workshop on computational approaches to semitic languages coling
 august
-
-aljlayl and
+aljlayl m
+and o
 frieder
-
 on arabic search improving the retrieval effectiveness via a light temming approach
-
-in acm cikm
-international conference on information and knowledge management mclean va usa
+in acm cikm international conference on information and knowledge management mclean va usa
 pp
 
-
-larkey and connell
+larkey l
+and m
+e
+connell
 arabic information retrieval at umass in
 proceedings of trec gaithersburg nist
 
-chen and gey
+chen a
+and f
+gey
 building an arabic stemmer for information retrieval
 in proceedings of the text retrieval conference trec national institute of standards and technology
 
-
-authors
-hanane
-froud
-phd student in laboratory of information science and systems ecole nationale des sciences appliques university sidi mohamed ben abdellah usmba fez morocco
+authors miss
+hanane froud phd student in laboratory of information science and systems ecole nationale des sciences appliques university sidi mohamed ben abdellah usmba fez morocco
 she has also presented different papers at different national and international conferences
 pr
-abdelmonaime lachkar received his phd degree from the usmba morocco in in computer science he is working as a
-professor and
-head of computer
-science and engineering
-in university
-sidi mohamed
-ben abdellah usmba fez morocco
+abdelmonaime lachkar received his phd degree from the usmba morocco in in computer science he is working as a professor and head of computer science and engineering e
+n
+s
+a in university sidi mohamed ben abdellah usmba fez morocco
 his current research interests include arabic text mining applications arabic web document clustering and categorization
 arabic information and retrieval systems arabic text summarization image indexing and retrieval shape indexing and retrieval in large objects databases color image segmentation unsupervised clustering cluster validity index on line and off line arabic and latin handwritten recognition and medical image applications
-
 pr
-said
-alaoui
-ouatik is working as a
-professor in department of computer science faculty of science dhar el mahraz fsdm fez morocco
-his research interests include high dimensional indexing and content based retrieval arabic
-document categorization
+said alaoui ouatik is working as a professor in department of computer science faculty of science dhar el mahraz fsdm fez morocco
+his research interests include high dimensional indexing and content based retrieval arabic document categorization
 shapes indexing and retrieval in large objects database
 

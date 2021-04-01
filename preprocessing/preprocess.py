@@ -14,15 +14,20 @@ def clean_text(id, path, spacy_model):
     except:
         return None
 
-    doc = spacy_model(text)
+    #doc = spacy_model(text)
     token_list = []
     sentences = []
 
-    for sent in doc.sents:
+    # for sent in doc.sents:
+
+    #     curr_sent = []
+
+    for sent in text.split('.'):
+        doc = spacy_model(sent)
 
         curr_sent = []
 
-        for token in sent:
+        for token in doc:
             t = token.text.encode(encoding = "ascii", errors = "ignore").decode()
             t = t.lower()
 
@@ -35,7 +40,7 @@ def clean_text(id, path, spacy_model):
     text = ' '.join(token_list)
 
     with open("ids.txt", 'a', encoding = 'utf-8') as file:
-        file.write("{}\n".format(path.split('/')[-1]))
+        file.write("{}:{}\n".format(id, path.split('/')[-1]))
 
     with open('../bags/{}.bow'.format(id), 'w', encoding = 'utf-8') as file:
         file.write(text + '\n')

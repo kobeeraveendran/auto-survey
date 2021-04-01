@@ -1,0 +1,967 @@
+e f v c
+s c v
+v i x r a prism a unified framework of parameterized submodular information measures for targeted data subset selection and summarization a preprint vishal kaushal department of computer science indian institute of technology bombay
+iitb
+ac
+in suraj kothawade department of computer engineering university of texas at dallas suraj
+
+edu ganesh ramakrishnan department of computer science indian institute of technology bombay
+iitb
+ac
+in jeff bilmes department of electrical and computer engineering university of washington seattle
+edu rishabh iyer department of computer science university of texas at dallas rishabh
+
+edu march abstract with increasing data techniques for nding smaller yet effective subsets with specic characteristics become important
+motivated by this we present prism a rich class of parameterized submodular information measures that can be used in applications where such targeted subsets are desired
+we demonstrate the utility of prism in two such applications
+first we apply prism to improve a supervised model s performance at a given additional labeling cost by targeted subset selection prism tss where a subset of unlabeled points matching a target set are added to the training set
+we show that prism tss generalizes and is connected to several existing approaches to targeted data subset selection
+second we apply prism to a more nuanced targeted summarization prism tsum where data e
+
+image collections text or videos is summarized for quicker human consumption with additional user intent
+prism tsum handles multiple avors of targeted summarization such as focused topic irrelevant privacy preserving and update summarization in a unied way
+we show that prism tsum also generalizes and unies several existing past work on targeted summarization
+through extensive experiments on image classication and image collection summarization we empirically verify the superiority of prism tss and prism tsum over the state of the art
+introduction recent times have seen unprecedented growth in data across modalities such as text images and videos
+this has naturally given rise to techniques for nding effective smaller subsets of the data for a variety of end tasks
+one example of this is data subset selection for efcient cost effective training of machine learning models wherein we need to select samples which are most informative for training a model
+training on such smaller subsets of data often entails signicant speedups and reduction in labeling time cost without sacricing much on accuracy
+another example is summarization where an image collection a video or a text document is summarized for quicker human consumption equal contribution
+authors ordered alphabetically
+a preprint march by eliminating redundancy and yet preserving the main content
+quite often in these end tasks we want to be able to select subsets that align well with a certain target set
+we present two such motivating applications in fig
+
+
+motivating applications targeted data subset selection in real world settings there is often a distribution shift between training data and test data
+in such cases a model s performance can be improved at a given additional labeling cost by augmenting the training data with some most informative samples matching the target distribution hence called targeted subset from a large pool of unlabeled data
+one way of achieving this is by assuming access to a clean validation set matching the target set distribution and using it as target
+another example is where the target set is a critical slice of the data e
+
+indoor images of people in a dark background or example images from specic classes that the user might care about and we want to improve the model s performance on the target without sacricing the overall accuracy and with minimum additional labeling costs fig
+
+figure motivating applications example of targeted data subset selection the night images target are under represented in train example of targeted summarization with query set or private set as target targeted summarization while a number of applications require generic summarization i
+e
+simply picking a representative and diverse subset of the massive dataset it is often important to capture certain user intent in summarization fig
+
+the user intent could be somewhat nuanced and could be modeled through i query focused summarization where a small and representative set of points relevant to a specic query are selected or irrelevant and privacy preserving summarization where a small and representative set of points is desired which are irrelevant to a given topic or completely different from a given private set of data points or update summarization where a subset is selected conditioned on a summary already seen by the user
+in the rest of this paper we collectively refer to these different avors as targeted summarization the target assuming different semantics as per the case
+
+our contributions motivated by these applications we present prism a rich class of parameterized submodular information measures
+specically we summarize our key contributions as follows prism we build upon the submodular mutual information functions mi and conditional gain functions cg recently introduced in iyer et al
+
+our unique and novel extension described in section comes from the ability to consider the query set for mi or the conditioning set for cg to be from a different auxiliary set compared to the ground set this is a requirement in both targeted data subset selection and targeted summarization where the target is different from the ground set whose subset is desired extension to restricted submodularity which enables a potentially richer class of mi and cg functions and c novel parameterization of these functions to help model aspects such as the trade offs across query relevance diversity hardness of the privacy constraints
+we study the rich modeling capabilities of different functions in prism and state some specic results in lemmas through
+prism tss for targeted data subset selection we apply prism to targeted data subset selection prism tss in section and demonstrate empirically in section
+that it signicantly outperforms other techniques in improving the accuracy of image classication on and mnist on classes of interest gain over the model s performance before re training with added targeted subset more than other methods at a given tional labeling cost and with increase in overall accuracy as well
+we show that prism tss also generalizes and has interesting connections to a number of existing approaches for targeted data subset selection c
+
+lemma
+prism tsum for targeted summarization we apply prism to targeted summarization prism tsum in tion and show that prism tsum offers a unied approach to the different semantics of target in query focused targeteddata subsetselectionaugment with ttargeted subset tlabelled training datatargetsunlabelled datasetretrain modelaugmented training datageneric summarizationquery focusedprivacy collection a preprint march summarization topic irrelevant or privacy preserving summarization and update summarization
+we also show that prism tsum generalizes a number of past approaches to query focused and update summarization and demonstrate in section
+that it outperforms other methods on a real world image collections dataset owing to a richer learning of parameters
+
+related work submodularity and submodular information measures submodularity fujishige is a rich yet tractable of non linear combinatorial optimization which ensures tractable algorithms krause and golovin and nice connections to convexity and concavity bach lovsz iyer and bilmes
+our work builds upon and provides a unique and novel extension to the recently introduced class of submodular information measures gupta and levin iyer et al
+
+data subset selection a number of papers have studied data subset selection in different applications
+one set of past works explores supervised data subset selection for reducing training time
+examples of approaches include using submodular functions for selection kaushal et al
+wei et al
+liu et al
+using coresets to nd effective weighted subsets of training data craig mirzasoleiman et al
+or using discrete bi level optimization to optimize a held out validation set performance glister killamsetty et al
+
+others explore unsupervised subset selection where an optimal subset of unlabeled set is selected and labeled to minimize labelling costs kaushal et al
+
+when done iteratively this is called active learning and a number of techniques such as uncertainty sampling and query by committee settles have been studied
+more recently batch active learning has become prominent and many recent techniques combine diversity and uncertainty wei et al
+sener and savarese ash et al
+
+one such state of the art approach is badge ash et al
+which samples points that have a diverse hypothesized gradients
+we apply prism tss to nd a targeted subset of unlabeled data for improving a model s performance on the target of interest at a given additional labeling cost and demonstrate superior performance as compared to others
+summarization a number of instances of summarization have been studied in the past including image tion summarization celis and keswani ozkose et al
+singh et al
+tschiatschek et al
+text document summarization lin and bilmes chali et al
+yao et al
+bairi et al
+video summarization kaushal et al
+a gygli et al
+ji et al
+
+while most of these works have focused on generic summarization some works have also studied query focused video summarization sharghi et al
+vasudevan et al
+xiao et al
+jiang and han query focused document summarization lin and bilmes li et al
+and update summarization of documents dang and owczarzak delort and alfonseca li et al
+
+to the best of our knowledge prism tsum is a rst attempt to offer a unied treatment to the different avors of summarization
+preliminaries submodular functions we let v denote the ground set of n data points v
+
+
+n and a set function
+the function is submodular fujishige if it satises the diminishing marginal returns namely for all x y v j y
+facility location set cover log determinants
+are some examples iyer
+due to close connections between submodularity and entropy submodular functions can also be viewed as information functions zhang and yeung
+submodularity ensures that a greedy algorithm achieves bounded approximation factor when maximized nemhauser et al
+
+conditional gain cg given a set of items a b v the conditional gain is the gain in function value by adding a to b
+thus a b b
+intuitively measures how different a is from b and we refer to b as the conditioning set or the private set
+submodular conditional mutual information mi and cmi given a set of items a b v the submodular mutual information mi gupta and levin iyer et al
+is dened as if a b a b a b
+intuitively this measures the similarity between b and a and we refer to b as the query set
+conditional submodular mutual information cmi is then dened using cg and mi as if a c
+intuitively cmi jointly models the mutual similarity between a and b and their dissimilarity with c
+properties of cg mi and cmi cg mi and cmi are non negative and monotone in one argument with the other xed gupta and levin iyer et al
+
+cmi and mi are not necessarily submodular in one argument with the others xed krause et al
+iyer et al
+
+however several of the instantiations we dene below turn out to be submodular
+a preprint march prism we now introduce prism
+first we extend cg mi and cmi to handle the case when the target can come from an auxiliary set v different from the ground set v
+for targeted data subset selection v is the source set of data instances and the target is a subset of data points validation set or the specic set of examples of interest
+in the case of targeted summarization v is the set of data points that the user wants to summarize say images or video frames or video shots or sentences and target is the query set for query focused summarization private set for topic irrelevant or privacy preserving summarization or conditioning set for update summarization
+let v v
+we dene a set function
+although f is dened on the discrete optimization problem will only be dened on subsets a v
+to nd an optimal subset given i a query set q v we can dene if a q a v and maximize the same a private set p v or conditioning set or a set of topics we want the subset to be irrelevant to we can dene hp a a v as the function to be maximized
+as we shall see below these offer a rich class of models for both motivating applications
+we further extend this by dening generalized submodular mutual information functions
+restricted submodularity and generalized submodular mutual information gmi while submodular tions are expressive many natural choices are not submodular everywhere
+we do not need to be submodular everywhere on since the sets we are optimizing on are subsets of v
+instead of requiring the submodular inequality to hold for all pairs of sets x y in particular dene a subset c
+then restricted submodularity on c satises x y x y x y y c
+instances of restricted submodularity in the form of intersecting and crossing submodular functions have been considered in the past fujishige
+we consider the following form of restricted submodularity to dene gmi
+given sets v and v as above dene v to be such that the sets x y v satisfy the following conditions x v or x v and y is any set or x is any set and y v or y v
+we use this notion of gmi to dene concave over modular com and query saturation q sat functions which have interesting connections with past work section
+
+we state the properties of gmi in the following lemma and defer the proof to appendix b
+
+lemma
+given a restricted submodular function on v if a b for a v b v
+also if a b is monotone in a v for xed b v equivalently if a b is monotone in b v for xed a v
+
+instantiations of prism name f sc psc gc wi iu ia jv sij sij i ja i a q wi iu ia jq sij i a iu wi sij ia jp wi iu ia jq sij logdet log fl iv max ja sij fl i max ja sij log log ja iv a q sij max jq q st sij log p a p sij p st ja sij iv max jp not useful log sp q s sap q s p ap q q st p q st ap q ja sij max jp iv max jq not useful sij sij com equation not useful not useful q sat ic v v ic ic table instantiations and parameterizations of prism section
+
+some are not particularly useful c
+
+lemma
+next we present the expressions for different instantiations of prism in table and discuss them below
+we introduce new instantiations for log determinant com and q sat
+we borrow the basic instantiations for set cover sc probabilistic set cover psc graph cut gc and facility location fl from iyer et al
+and adapt them to our setting of distinct summary space v and auxiliary space v
+we derive an alternative expression for flmi which has interesting characteristics
+as different submodular functions model different characteristics the instantiations differ in their treatment of the interplay between those characteristics and the alignment with the target
+it is important to note that most of the instantiations considered in table are parameterized models with internal parameters represented as and which can be jointly learned along with other model parameters section
+
+our functions thus let us address a broad spectrum of semantics
+max ja sij iq ia max jq sij ia jq ic jq sij ia sij a preprint march log determinant logdet we refer to mi cg and cmi applied to the logdet function as logdetmi logdetcg and logdetcmi respectively and present their expressions in the fourth row of table
+we denote sa b as the similarity matrix between the items in sets a and b
+also denote sab sab
+we construct a similarity matrix in such a way that the cross similarity between a and q is multiplied by to control the trade off between query relevance and diversity and the cross similarity between a and p by to control the hardness of privacy constraints
+higher values of ensure stricter privacy constraints transitioning from topic irrelevant to privacy preserving summarization
+for simplicity of notation we provide the cmi expression with and defer the general expression and proof of the lemma below to appendix b
+
+lemma
+using a similarity matrix dened above and with f a log we have if a q log log q st a p
+similarly p q ap q a q and log p p sp ap sap if a log q st q st p st facility location fl we present two versions of mi functions for fl
+the rst one is similar to what was derived in iyer et al
+and presented in the fth row of table
+below we instantiate another variant which considers only cross similarities between data points and target and note that its mi expression has interesting characteristics different from those of
+in particular while gets saturated just models the pairwise similarities of target to data points and vice versa
+we state the lemma below and defer the proof to appendix b
+
+lemma
+given a similarity kernel s such that sij j if both i j v or both i j v and the facility location function f a i maxja sij a we obtain the expression for mi as if a q ia maxjq sij
+the cg and cmi expressions are not particularly useful in this case
+iq maxja sij finally note that similar to log determinant we have and parameters for the mi and cg functions
+we get these by appropriately multiplying the cross similarities between a and q see appendix b
+for details
+concave over modular com the notion of generalized submodular mutual information functions presented earlier allows us to characterize a rich class of concave over modular functions as gmi functions
+dene a set function as sij n sij iv iv jav jav sij n sij jav jav ia jq sij is restricted submodular and we state the expression for its gmi function in the following lemma proof in appendix b
+
+lemma
+the function is a restricted submodular function on v
+furthermore the gmi with f is exactly if a q jq ia sij given a kernel matrix which satises sij j for i j v or i j v
+the cg and cmi expressions are not particularly useful in this case
+query saturation q sat dene a set function a ic v v a
+we rst show that is a restricted submodular function
+next we provide the expression of gmi in the result below
+we defer the expressions of the cg and conditional gmi variants and the proofs to appendix b
+
+lemma
+the function dened above is restricted submodular
+if a q furthermore ic
+this expression is very interesting and in fact generalizes rouge lin which is a common evaluation metric for summarization more details in section
+
+graph cut gc gc is dened as fgc sij where sij measures similarity between elements sij ia jv i ja i and j
+the parameter captures the trade off between diversity and representativeness
+we reproduce the expressions for gcmi and gccg from iyer et al
+in the third row of table
+note that the cmi expression for gc does not involve the private set and is exactly the same as the mi version proof in appendix b
+
+like in logdet we introduce an additional parameter in gccg to control the sensitivity to privacy
+again this can be modeled easily in the gc objective by multiplying the cross similarity between data points and the private instances by
+set cover sc and probabilistic set cover psc let denote the concepts covered by a set a where a
+the sc and psc functions are dened as f w iu iu wi where w is the weights over concepts u is the set of concepts and is probability that a does nt cover concept i
+we reproduce the expressions for sc and psc functions from iyer et al
+in the rst two rows of table
+and w p a preprint march figure behavior of different functions in prism and effect of parameters
+all plots share the legend
+representational power of prism to empirically verify the intuitive understanding of the expressions on a synthetically created dataset we maximize the different functions in prism with different parameters and study the characteristics of the subsets qualitatively and quantitatively
+we dene query coverage to be the fraction of queries covered by the subset query relevance to be the fraction of the subset pertaining to the queries diversity to measure how diverse are the points within the selected subset and privacy irrelevance to be the fraction of the subset not matching the private instances
+we present representative results in fig
+and provide detailed results in appendix c
+for mi functions we verify that increasing tends to increase query relevance while reducing query coverage and diversity top left fig
+
+also while gcmi lies at one end of the spectrum favoring query relevance lies at the other end favoring diversity and query coverage and logdetmi and com lie somewhere in between top right fig
+
+as expected for cg functions increasing increases privacy irrelevance
+we also see that logdetcg outperforms flcg and gccg both in terms of diversity and privacy irrelevance bottom left fig
+
+for cmi functions we see that flcmi tends to favor query coverage and diversity in contrast to query relevance and privacy irrelevance while logdetcmi favors query relevance and privacy irrelevance over query coverage and diversity bottom right fig
+
+prism tss setting we rst apply prism to a simple setting of targeted data subset selection for improving a model s accuracy on some target classes instances at a given additional labeling cost k instances and without compromising on the overall accuracy as follows let e be an initial training set of labeled instances and t be the set of examples that the user cares about and desires better performance on
+let u be a large unlabeled dataset
+we maximize a mi function if a t to compute an optimal subset a u of size k given t as query target set
+we then augment e with labeled a and re train the model to achieve better accuracy without compromising on the accuracy of other classes instances
+through instantiating a rich class of mi functions including gcmi com and logdetmi prism tss offers a rich treatment to targeted subset selection
+our framework allows for adding an explicit diversity term helpful in cases such as gcmi that do not model diversity
+the algorithm is summarized in algorithm
+algorithm prism tss require initial labeled set of examples e large unlabeled dataset u a target subset slice where we want to improve accuracy t loss function l for learning train model with loss l on labeled set e and obtain parameters e compute the gradients e yi i u using hypothesized labels and e yi i t
+compute the similarity kernels s this includes kernel of the elements within u within t and between u and t and dene a submodular function and diversity function g a maxau if a t obtain the labels of the elements in a l a train a model on the combined labeled set e l a a preprint march next we show that i algorithm generalizes and has interesting connections to a number of recently proposed subset selection approaches and a special case of prism tss can be viewed as approximating the target set gradients
+connections to glister the closest setting is glister killamsetty et al
+which selects a subset by optimizing a validation set target in our setting
+the authors also study an active learning variant called active
+in the glister framework the authors solve the discrete bi level problem via an online meta learning based approach where they essentially take one gradient step instead of completely solving the inner optimization problem
+the authors show that this approach results in a submodular optimization problem for a number of loss functions including hinge loss logistic loss square loss and the perceptron loss
+the lemma below shows that glister when applied to targeted data selection see appendix d
+for details is in fact a special case of algorithm
+we defer its proof to appendix d
+
+we call this glister tss
+lemma
+glister tss with hinge loss logistic loss and the perceptron loss is a special case of algorithm when if is com and
+connections to badge and craig two recently proposed data selection and active learning algorithms are craig mirzasoleiman et al
+and badge ash et al
+
+craig is applied to supervised data selection and proceeds by selecting a subset which maximizes the facility location objective a iv maxja sij where the similarity sij is computed between the gradients of the ith and jth data point
+badge studies an active learning based setting and is again gradient based but instead considers hypothesized labels while computing the gradients on the unlabeled set similar to what is done in algorithm
+badge uses k to select a diverse subset of data points instead of maximizing the facility location function but its easy to consider an extension of badge where fl is used
+next note that we can easily extend craig and badge to the targeted scenario where we optimize the function a it maxja sij where sij is the gradient similarity between points i and with hypothesized labels on the unlabeled set
+this function is exactly with
+prism tss and approximating target set gradients
+a natural formulation of targeted data subset selection is to select a subset a such that the average gradient difference with the target set t is minimized
+in particular dene e where ix and li is the loss at the ith data point
+denote lu as the loss on the unlabeled set and lt as the loss on the target set
+the following lemma proof in appendix d
+shows that minimizing the gradient difference is a special case of algorithm
+lemma
+minimizing the gradient difference eq
+can be rewritten as a special case of algorithm when if a t j j is gcmi and ia jt i e lu i e lt i i is a diversity function and
+prism tsum in this setting we are given a set v of data points images sentences of a document or frames shots in a setting video and the goal is to nd a summary a v with some desired characteristics
+the target now assumes different semantics for different avors of summarization query set q for query focused summarization and private set or topics p for topic irrelevant privacy preserving summarization
+in context of update summarization the target is the summary the user has already seen and the goal is to nd a summary different from
+
+unied framework of prism tsum given sets b and t and a restricted submodular function consider the following master optimization problem if a
+we discuss how the different avors of summarization can be seen as special cases of this master optimization problem
+setting b v and t yields generic summarization
+similarly setting b q and t yields query focused summarization with a query set q
+setting b v and t p gives us privacy preserving summarization for update summarization we set t b v
+this framework allows us to address yet another avor joint query focused and privacy preserving marization where we set b q and t p
+another possible avor query focused update summarization where we want a summary similar to q but different from is achieved by setting s q and t
+a preprint march
+parameter learning in prism tsum since there are multiple instantiations of the submodular information functions each imparting certain characteristics to the summaries we propose learning a mixture model supervised by the human summaries
+we build on prior work that learns mixtures of submodular functions in applications such as document summarization lin and bilmes video summarization gygli et al
+kaushal et al
+a and image collection summarization tschiatschek et al
+and extend it to joint learning of the internal parameters along with the weights w of individual components in the mixture
+we denote our parameter vector as w and our prism tsum mixture model as f i with fis being the instantiations of prism and diversity and representation terms
+then given n training examples v n y we learn the parameters by optimizing the following where is the generalized hinge loss of training example margin formulation min n f y f y n
+here y is a human summary for the n max y v nth ground set video or image collection or text document v n with features
+the parameters are then learnt using gradient descent
+the specic objective functions and gradient computations in case of query focused privacy preserving and joint query focused and privacy preserving summarizations are presented in appendix e
+for generic summarization we add the standard submodular functions modeling representation diversity coverage
+in the mixture while for query focused summarization and privacy preserving summarization we use the mi and cmi of the functions respectively as dened above
+similar to tschiatschek et al
+once the parameters are learnt we instantiate the model with the learnt parameters and maximize it to get the desired automatic summaries
+
+prism tsum generalizes existing approaches the proposed prism tsum framework generalizes and also unies several past work in this area some of which have inadvertently used submodular information measures as their models
+here we mention such past works and defer details to appendix f
+the query dpp considered in sharghi et al
+is a special case of logdetmi
+similarly the graph cut based query relevance term in vasudevan et al
+lin and in li et al
+is actually gcmi while the submodular function used by li et al
+in update summarization is gccg
+furthermore the joint diversity and query relevance term in lin and bilmes is an instance of com with the square root as the concave function
+finally query specic rouge lin a common evaluation metric in document and image summarization lin and bilmes tschiatschek et al
+is an example of the query saturation q sat function
+these connections demonstrate that prism tsum is a rich and effective model for several instances of summarization
+experiments and results
+effectiveness of prism tss dataset baselines and implementation details we demonstrate the effectiveness of prism tss in obtaining a targeted subset for improving image classication accuracy for some target classes on and mnist datasets
+to simulate a real world setting we split the available train set further into train validate and a data lake such that the train set has few labeled instances and poorly represents two randomly picked classes target and data lake is a large set whose labels we do not use resembling a large pool of unlabeled data in real world
+the poorly represented classes do not perform well on the validation set and hold clue to picking up the target of interest
+performance is measured on the test set from the respective datasets
+we then apply prism tss algorithm comparing mi functions with other existing approaches
+specically for mi functions we use logdetmi gcmi and gcmi diversity equivalent to an intuitive approach of minimizing average gradient difference with the target see eq
+and lemma
+for existing approaches we compare with three active learning baselines uncertainty sampling us badge and glister active glister running them only once as per our setting i
+e
+we select the unlabeled subset only once
+since these active learning baselines do not explicitly have information of the target set to further strengthen them we also compare against two variants which are target aware
+the rst is targeted uncertainty sampling tus where a product of the uncertainty and the similarity with the target is used to identify the subset and second is glister tss lemma where the target set is used in the bi level optimization
+finally we also compare with pure diversity representation functions fl gc logdet disparity sum dsum and random sampling
+we train the model he et al
+for lenet lecun et al
+for mnist using cross entropy loss and sgd optimizer until training accuracy exceeds base model
+after augmenting the train set with the labeled version of the selected subset and re training the model we report the average gain in accuracy for the target classes and overall gain in accuracy across all classes averaged across runs of randomly picking any two classes as target
+query focused case and privacy preserving case cmi degenerates to mi and cg respectively a preprint march figure comparison of different methods for targeted subset selection for different budgets on and mnist
+x axis budgets y axis gain in model accuracy for target classes
+mi based approaches lines in red signicantly outperform others across all subset sizes
+section
+
+c figure targeted summarization results for image collection summarization
+because of the joint learning of the parameters the proposed model prism tsum outperforms others in all settings of the target section
+
+we run prism tss for different budgets and also study the effect of budget on the performance
+wherever applicable we keep the internal parameters at their default values of
+results in table we report the results for a budget of for and for mnist
+to keep the setting as realistic as possible we set the target set to be much smaller than the budget around of the budget for and for mnist
+we report the effect of budget on the gain in accuracy of the target classes in fig
+
+on both datasets mi functions yield the best improvement in accuracy on the target classes gain over the model s performance before re training with added targeted subset more than other methods while also simultaneously increasing the overall accuracy by
+they consistently outperform badge glister tss us and tus across all budgets
+further recall the discussion on behavior of different functions in section
+as expected logdetmi and modeling both query relevance and diversity perform better than both a functions which tend to prefer relevance gcmi tus and functions which tend to prefer diversity representation badge fl gc dsum logdet
+also we observe that as the budget is increased the mi functions outperform other methods by greater margins on the target class accuracy fig
+
+this is expected as other methods are not effective in considering the target
+for more details on the experimental setup and additional discussion on these results please see appendix g
+
+effectiveness of prism tsum dataset and implementation details we use the image collections dataset of tschiatschek et al
+
+the dataset has image collections with images each and provides human summaries per collection
+we extend it by acquiring dense noun concept annotations for every image and query focused privacy preserving and joint query focused and privacy preserving human summaries for every image collection to make it suitable for targeted summarization
+we extract concepts from images using pre trained off the shelf networks and represent them as a preprint march mnist overall target method base random badge ash et al
+glister killamsetty et al
+glister tss us settles tus logdet fl gc dsum logdetmi gcmi target
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+overall
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table comparison of prism tss mi functions with other methods for a budget of and mnist
+the numbers are the gain in accuracy of the target classes target and all classes overall over the base model after re training the model see text
+best among existing approaches is indicated with highest in blue and highest in red and green respectively
+well as the concept queries as a vector where c is the universe of concepts
+we defer further dataset and implementation details to appendix h
+in prism tsum the mixture model has six components which are the appropriate instantiations mi cg cmi of six functions gc logdet fl com sc and psc and both the mixture weights and internal parameters are learnt
+following tschiatschek et al
+we perform leave one out cross validation and report average v rouge across runs
+we also normalize v rouge s
+t
+human average is and random average is
+results we present the targeted summarization results in fig
+
+as discussed in section
+some of the individual components of our mixture model have been used as models for document and video summarization
+hence to compare with other approaches since there is no explicit past work on targeted summarization for image collection we contrast with the performance of the individual components
+also to verify the effect of joint learning of parameters we compare prism tsum with a mixture model mixture with exactly the same components as prism tsum but with only the model weights being learnt internal parameters are set to xed default values of
+we see that prism tsum outperforms other techniques including mixture hence conrming the effectiveness of proposed framework especially of the joint learning of the parameters
+conclusion we presented prism a novel and rich framework using parameterized submodular information measures
+the instantiations of prism allow to model a broad spectrum of semantics and we demonstrated its effectiveness on targeted data subset selection for improving a model s accuracy prism tss and on targeted summarization prism tsum
+we showed how prism tsum and prism tss unify and generalize several past works in these areas
+through experiments on mnist and an image collections dataset we empirically verify the superiority of prism over existing methods
+references
+jordan t ash chicheng zhang akshay krishnamurthy john langford and alekh agarwal
+deep batch active learning by diverse uncertain gradient lower bounds
+in iclr
+francis bach
+learning with submodular functions a convex optimization perspective
+arxiv preprint
+ramakrishna bairi rishabh iyer ganesh ramakrishnan and jeff bilmes
+summarization of multi document topic hierarchies using submodular mixtures
+in proceedings of the annual meeting of the association for tational linguistics and the international joint conference on natural language processing volume long papers pages
+a preprint march l elisa celis and vijay keswani
+implicit diversity in image summarization
+proceedings of the acm on computer interaction
+yllias chali moin tanvee and mir tafseer nayeem
+towards abstractive multi document summarization using submodular function based framework sentence compression and merging
+in proceedings of the eighth international joint conference on natural language processing volume short papers pages
+hoa trang dang and karolina owczarzak
+overview of the tac update summarization task
+in tac
+jean yves delort and enrique alfonseca
+dualsum a topic model based approach for update summarization
+in proceedings of the conference of the european chapter of the association for computational linguistics pages
+satoru fujishige
+submodular functions and optimization
+elsevier
+anupam gupta and roie levin
+the online submodular cover problem
+in acm siam symposium on discrete algorithms
+michael gygli h
+grabner and l
+gool
+video summarization by learning submodular mixtures of objectives
+ieee conference on computer vision and pattern recognition cvpr pages
+kaiming he xiangyu zhang shaoqing ren and jian sun
+deep residual learning for image recognition
+in proceedings of the ieee conference on computer vision and pattern recognition pages
+rishabh iyer and jeff bilmes
+polyhedral aspects of submodularity convexity and concavity
+arxiv preprint
+
+rishabh iyer ninad khargoankar jeff bilmes and himanshu asnani
+submodular combinatorial information measures with applications in machine learning
+arxiv preprint
+
+rishabh krishnan iyer
+submodular optimization and machine learning theoretical results unifying and scalable algorithms and applications
+phd thesis
+zhong ji kailin xiong yanwei pang and xuelong li
+video summarization with attention based encoder decoder networks
+ieee transactions on circuits and systems for video technology
+pin jiang and yahong han
+hierarchical variational network for user diversied query focused video summarization
+in proceedings of the on international conference on multimedia retrieval pages
+vishal kaushal r
+iyer s
+kothawade sandeep subramanian and ganesh ramakrishnan
+a framework towards domain specic video summarization
+ieee winter conference on applications of computer vision wacv pages
+vishal kaushal rishabh iyer suraj kothawade rohan mahadev khoshrav doctor and ganesh ramakrishnan
+learning from less data a unied data subset selection and active learning framework for computer vision
+in ieee winter conference on applications of computer vision wacv pages
+ieee
+vishal kaushal rishabh k
+iyer khoshrav doctor anurag sahoo p
+dubal s
+kothawade rohan mahadev kunal dargan and ganesh ramakrishnan
+demystifying multi faceted video summarization tradeoff between diversity representation coverage and importance
+ieee winter conference on applications of computer vision wacv pages
+krishnateja killamsetty durga sivasubramanian ganesh ramakrishnan and rishabh iyer
+glister generalization based data subset selection for efcient and robust learning
+arxiv preprint
+
+andreas krause and daniel golovin
+submodular function maximization
+
+andreas krause ajit singh and carlos guestrin
+near optimal sensor placements in gaussian processes theory efcient algorithms and empirical studies
+journal of machine learning research
+alina kuznetsova hassan rom neil alldrin jasper uijlings ivan krasin jordi pont tuset shahab kamali stefan popov matteo malloci tom duerig al
+the open images dataset unied image classication object detection and visual relationship detection at scale
+arxiv preprint
+
+yann lecun bernhard boser john s denker donnie henderson richard e howard wayne hubbard and lawrence d jackel
+backpropagation applied to handwritten zip code recognition
+neural computation
+chen li yang liu and lin zhao
+improving update summarization via supervised ilp and sentence reranking
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies pages
+jingxuan li lei li and tao li
+multi document summarization via submodularity
+applied intelligence chin yew lin
+rouge a package for automatic evaluation of summaries
+in text summarization branches out pages
+
+a preprint march hui lin
+submodularity in natural language processing algorithms and applications
+phd thesis
+hui lin and jeff bilmes
+a class of submodular functions for document summarization
+in proceedings of the annual meeting of the association for computational linguistics human language technologies pages
+hui lin and jeff a bilmes
+learning mixtures of submodular shells with application to document summarization
+arxiv preprint
+
+yuzong liu rishabh iyer katrin kirchhoff and jeff bilmes
+svitchboard ii and sver i high quality complexity corpora of conversational english speech
+in sixteenth annual conference of the international speech communication association
+lszl lovsz
+submodular functions and convexity
+in mathematical programming the state of the art pages
+springer
+baharan mirzasoleiman jeff bilmes and jure leskovec
+coresets for data efcient training of machine learning models
+in international conference on machine learning pages
+pmlr
+george l nemhauser laurence a wolsey and marshall l fisher
+an analysis of approximations for maximizing submodular set functions i
+mathematical programming
+yunus emre ozkose bora celikkale erkut erdem and aykut erdem
+diverse neural photo album summarization
+in ninth international conference on image processing theory tools and applications ipta pages
+ieee
+joseph redmon and ali farhadi
+an incremental improvement
+arxiv preprint
+
+ozan sener and silvio savarese
+active learning for convolutional neural networks a core set approach
+in international conference on learning representations
+burr settles
+active learning literature survey
+technical report university of wisconsin madison department of computer sciences
+aidean sharghi boqing gong and mubarak shah
+query focused extractive video summarization
+in european conference on computer vision pages
+springer
+aidean sharghi jacob s laurel and boqing gong
+query focused video summarization dataset evaluation and a memory network based approach
+in proceedings of the ieee conference on computer vision and pattern recognition pages
+anurag singh lakshay virmani and av subramanyam
+image representative summarization
+in ieee fifth international conference on multimedia big data bigmm pages
+ieee
+sebastian tschiatschek rishabh k iyer haochen wei and jeff a bilmes
+learning mixtures of submodular functions for image collection summarization
+in advances in neural information processing systems pages
+arun balajee vasudevan michael gygli anna volokitin and luc van gool
+query adaptive video summarization via quality aware relevance estimation
+in proceedings of the acm international conference on multimedia pages
+kai wei rishabh iyer and jeff bilmes
+submodularity in data subset selection and active learning
+in international conference on machine learning pages
+pmlr
+shuwen xiao zhou zhao zijian zhang xiaohui yan and min yang
+convolutional hierarchical attention network for query focused video summarization
+in aaai pages
+jin ge yao xiaojun wan and jianguo xiao
+recent advances in document summarization
+knowledge and information systems
+zhen zhang and raymond w yeung
+on characterization of entropy function via information inequalities
+information theory ieee transactions on
+bolei zhou agata lapedriza jianxiong xiao antonio torralba and aude oliva
+learning deep features for scene recognition using places database
+in advances in neural information processing systems pages
+bolei zhou agata lapedriza aditya khosla aude oliva and antonio torralba
+places a million image database for scene recognition
+ieee transactions on pattern analysis and machine intelligence
+a preprint march appendix a summary of notations topic prism notation v v a sa b sab e u explanation ground set of n instances auxiliary set containing private set or query set v v a subset of v cross similarity matrix between the items in sets a and b similarity matrix for items in a b parameter governing trade off between representation and diversity in gc parameter governing trade off between query relevance and diversity in mi and cmi functions parameter governing hardness of privacy constraints in cg and cmi functions initial set of labeled instances set of instances in unlabeled data set t set of instances in the target query set diversity function that can be added to mi function in rithm with weight private set or conditioning set for targeted summarization p as t q as t query set for targeted summarization mixture model in prism tsum with parameters generalized hinge loss of training example n with ter w table summary of notations used throughout this paper targeted data subset selection prism tss targeted tion prism tsum appendix b proofs of results from section b
+properties of generalized submodular mutual information functions restating lemma
+given a restricted submodular function on v if a b for a v b v
+also if a b is monotone in a v for xed b v equivalently if a b is monotone in b v for xed a v
+proof
+the non negativity of the generalized submodular mutual information follows from the denition
+in particular since a v and b v it holds that if a b a b a b because f is restricted submodular on v
+next we prove the monotonicity
+we have if a j b if a b b j given that f is restricted submodular on v it holds that b since a j a b a a b j which follows since the submodularity inequality holds as long as one of the sets is a subset of either v or v i
+e
+both subsets do not non empty intersection with v and v
+thus and hence monotone
+if a j b if a b a preprint march b
+log determinant based information measures logdetmi logdetcg and logdetcmi restating lemma
+setting f a log we have a q p sp ap sap and log p q st q st p q ap q q st log if a q log log p st if a similarly a p
+proof
+given a positive semi denite matrix s the log determinant function is f a log where sa is a sub matrix comprising of the rows and columns indexed by a
+the following expressions follow directly from the denitions
+the mi is if a q log and cmi is if a log
+cg is log next note that using the schur s complement where sb st a sab where sab is a matrix and includes the cross similarities between the items in sets a and b
+similarly sa b st ab as a result the mutual information becomes if a q q st a log log q st a q st aq aq a for the cg a if a p log log log log aq q st q st aq similarly the proof of the conditional submodular mutual information follows from the simple observation that if a if a p q if q p if a p q log if q p log plugging in the expressions of the mutual information of the log determinant function from above we have ap q st q sqp p st qp p sp q st p sp ap sap p q log q st q st if a log p q ap q ap sap ap q apq q st log the proof for cmi implicitly assumes
+a simple way to solve this is as follows
+denote sap as the similarity matrix obtained by multiplying to the cross similarity entries
+similarly denote sap q as the cross similarity obtained by multiplying to the cross similarity between a and p and to the cross similarity between a and q
+the cmi function with this choice of a similarity matrix is if a log p sp apsap q st q st p q ap q b
+facility location based information measures flcg theorem
+given a similarity kernel s a set u and the facility location fl a written as if a function iu maxja sij a the mutual information for fl can be written as if a q iu sij maxjq sij
+the cg for facility location can be written as f iu sij maxjp sij and the expression for conditional submodular mutual information can be iu sij maxjq sij maxjp sij
+similarly proof
+here we have the facility location set function a u
+then iu maxja sij where s is similarity kernel and a preprint march if a q a q a q max ja sij max jq sij max jaq sij iu iu iu max ja sij max jq sij ja sij max jq sij ja sij max jq sij ja sij max jp sij max jp sij max ja sij max jp sij iu iu for the conditional gain we have finally we can get the expression for if a as if a a iinu iu ja sij max jq sij max jp sij jina sij max jinp sij jq sij max jp sij max max jaq sij max jp sij the last step follows from the observation that in c c c the last term is either the rst term or the second term hence cancelling that out depending on whether a b or not
+now we can obtain the expression of flcg and flcmi as special cases
+corollary
+setting u v in the expression of mi cg and cmi in theorem we obtain the expression for as if a q iv sij maxjp sij and flcmi as if a iv sij maxjq sij flcg as f iv sij maxjq sij maxjp sij this corollary follows directly from theorem
+we can similarly also obtain the expression for
+restating lemma
+given a similarity kernel s such that sij j if both i j v or both i j v and the facility location fl function a i maxja sij a we obtain the expression for mi as if a q ia maxjq sij
+the cg and cmi expressions are not particularly useful in this case
+iq maxja sij proof
+assuming sii is the maximum similarity score in the kernel for the alternative formulation under the assumption that u we can break down the sum over elements in ground set as follows
+for any i a maxja sij and hence the minimum over sets a and q will just be the term corresponding to q and a similar argument follows for terms in q
+then we have if a b ja sij max jq sij max jq sij max ja sij ja sij max jq sij ja sij max jq sij max jq sij max ja sij iv iaq ia iq this follows because a q
+finally note that ja sij max jq sij ja sij max jq sij iv since i v a j a sij and similarly i v q j q sij
+this leaves us with if a q iq maxja sij ia maxjq sij the expressions for cg and cmi do nt make sense in fl since they require computing terms over v which we do not have access to
+a preprint march b
+concave over modular as gmi restating lemma
+the function is a restricted submodular function on v
+furthermore the gmi with f is exactly if a q ia sij given a kernel matrix which satises sij j for i j v or i j v
+the cg and cmi expressions are not particularly useful in this case
+jq sij jq ia proof
+assume that the kernel matrix sij i j
+also we are given that sij j for i j v or i j v
+next notice that this holds because the s kernel is an identity kernel within v and v and only has terms in the cross between the two sets
+similarly a iv ja sij n ia q iv jq sij n iq finally we obtain f a q a q sij n sij n iv ja jq ia iq combining all the three terms together we obtain f a q a q jq ia sij q
+ia jq sij finally to show that is restricted submodular notice that a is submodular if a is restricted to either v or v
+similarly given sets a v b v it holds that a b a b if a b which implies the restricted submodularity of
+like fl the expressions for cg and cmi do nt make sense in com since they require computing terms over v which we do not have access to
+b
+expressions for query saturation function restating lemma
+the function dened as f a submodular
+furthermore if a q ic
+ic v v a is restricted proof
+we rst expand out the expression for if a q
+note that a a and hence f a ic and f q ic
+hence ic v v for if a q a q a q ic ic ic ic finally note that for any set a b v or v it holds that a b a b a b
+similarly for any sets a v and b v a b a b and hence the dened here is restricted submodular on v
+in a very similar manner we can also obtain the expressions for conditional gain cg and conditional gmi cgsmi for the query saturation function and we skip the proof here in the interest of brevity
+b
+expression for gccmi is not useful lemma
+when is the graph cut function if a if a q
+in other words the cmi function does not depend on the private set p
+a preprint march proof
+for deriving the expression for conditional submodular mutual information we proceed as follows let then a sij ia jp if a q if a q sij iaq jp since a q are disjoint the second term is and the rst term does nt have any effect of p
+thus the conditional submodular mutual information for graph cut is nt useful
+appendix c representational power of prism section
+c
+experimental setup we create a synthetic dataset to understand the behaviour of the different functions in prism and the corresponding control parameters
+we generate different collections of points in a space that emulates the space of images and queries private instances
+in each collection there are points representing images points representing queries and points representing the private instances
+these points in each set are distributed in clusters with different number of points in each cluster
+the standard deviation is varied from one set to another and the query points and private instances for each set are randomly sampled without replacement one each from randomly selected clusters
+for different functions in prism and for different settings of the internal parameters we maximize the function to produce a summary and compute the relevant measures averaged across different budgets in intervals of and different collections
+scoring functions
+to characterize query focused and privacy preserving summaries we dene the following
+saturation is a phenomenon where the function does nt see any gains in picking more query relevant items after having picked a few
+query coverage is calculated as the fraction of query points covered by the summary and measures if a summary does nt starve any query by always picking elements matching some other queries
+a query point is said to be covered by a summary if there exists a selection in the summary which belongs to the same cluster as the query point
+we quantify the diversity of a summary by calculating the fraction of unique clusters covered by the summary
+next we dene query relevance to be the fraction of points selected which match some query point and we dene privacy irrelevance as the fraction of points selected which do not match any private instance
+figure comparison of different functions in prism and effect of parameters
+all plots share the legend
+c
+additional quantitative results in fig
+top left also in the main paper we presented the behavior of the rst variant of flmi as we change the internal parameter
+here fig
+a we present similar observations for other functions like and logdetmi
+a preprint march logdetmi figure effect of on and and the effect of on different cg functions c in fig
+top right we compare query coverage diversity and query relevance for gcmi flmi and loddetmi and com xing the value of wherever applicable
+in each case we also compare a version which adds a very small diversity term to these functions to measure the effect of saturation of the mi functions fig
+
+we make the following observations
+gcmi logdetmi and com favor query relevance over diversity and query coverage while favors diversity and query coverage over query relevance
+furthermore we also observe that com does not change as much with the addition of diversity which suggests that it is not saturated while logdetmi signicantly changes its behaviour with the addition of diversity
+in almost all cases we see that adding a small diversity term reduces query relevance in favor of query coverage and diversity which is also something we expect
+next we report the results for privacy preserving summarization
+fig
+shows the effect of on the irrelevance term in gccg flcg and logdetcg
+as we expect increasing increases the privacy irrelevance score thereby ensuring a stricter privacy irrelevance constraint
+fig
+compares the diversity and privacy irrelevance score with different choices of functions gc fl and logdet for a xed value
+again we also compare these to their variants where we add a small amount of diversity and unlike the mi case we see that the cg functions do not saturate and adding a small diversity does not change the selection
+finally we see the trend here that log det outperforms fl and gc both in terms of diversity and privacy irrelevance
+in fig
+we report the results for joint summarization
+we show the comparison for different functions flcmi flcmi div and logdetcmi
+similar to the private and query versions we observe that flcmi tends to favor query coverage and diversity in contrast to query relevance and privacy irrelevance while logdetcmi favors query relevance and privacy irrelevance over query coverage and diversity
+c
+qualitative analysis in fig
+we show the visualization of the image points black and query points green of collection number in our synthetic dataset along with the selected summary points blue selected by at
+and
+labeled as per the order of their selection
+f r d i stand for query coverage query relevance diversity and privacy irrelevance respectively
+as discussed above we can see that as soon as is increased the summary produced by becomes more query relevant and less diverse
+c a preprint march figure behavior of different functions in prism and effect of parameters
+different from fig
+we also add a version which adds a very small diversity term to these functions to measure the effect of saturation of the mi functions
+see text for details
+
+
+figure visualization of behavior with varying on collection number of the synthetic dataset appendix d more details and proofs related to prism tss section d
+applying glister to targeted subset selection in this subsection we rst study the application of glister to targeted data selection
+in particular we can formulate glister killamsetty et al
+as t min where a min a recall that given a set a the loss a examples we use hypothesized labeles similar to glister active killamsetty et al
+
+ia yi
+furthermore if the set a consists of unlabeled in a manner similar to glister active we can apply the targeted setting as follows
+given the current model parameters obtained by training the model on the labeled set we can apply a one step gradient approximation to c a preprint march and we obtain min t ia we can then directly adapt theorem from killamsetty et al
+and obtain the following
+lemma
+when the loss function l is either the hinge loss logistic loss square loss of the perceptron loss eq
+can be written as a constrained submodular maximization problem
+this means that we can obtain the solution using a simple greedy algorithm
+d
+glister tss is a special case of prism tss in certain cases restating lemma
+glister tss with hinge loss logistic loss and the perceptron loss is a special case of algorithm when if is com and
+proof
+the proof of this follows almost directly from appendix d
+and from killamsetty et al
+
+in particular eq
+is of the form a jt when l is the hinge loss or perceptron loss
+similarly eq
+is of the form a jt c when l is the logistic loss
+both these functions are concave over modular functions and hence glister tss is a special case of algorithm when using com as the gmi function
+d
+minimizing gradient difference with target is a special case of prism tss restating lemma
+minimizing the gradient difference eq
+can be rewritten as a special case of algorithm when if a t j j is gcmi and ia jt i e lu i e lt i i is a diversity function and
+proof
+to prove this result we expand the gradient difference expression e note that since we are minimizing the gradient difference and hence h dene
+then we immediately see that the rst term is independent of a and is a constant
+similarly the third term is an instance of gcmi
+we now expand the second term
+e ia i ja expanding this out we get that minimizing the gradient difference can be rewritten as maximizing the sum of gcmi and a diversity term
+appendix e learning parameterized submodular information measures section
+below we present the specic forms of the mixture model and the objective function and computation of gradients in the different cases of generic query focused privacy preserving and joint summarization e
+generic summarization we denote our dataset of n training examples as y n v n where n
+
+
+n y is a human summary for the nth ground set image collection v n with features
+we denote our mixture model in case of generic summarization as f y w i m a preprint march where
+
+
+fm are the instantiations of different submodular functions wi their weights and
+
+
+m are their internal parameters respectively for example the in case of graph cut function dened above
+so the parameters vector in case of generic summarization becomes
+
+
+wm
+
+
+m then max y v m i i m for the purpose of learning the parameters wi and i we compute the gradients as wi fi yn i n i i wi fi yn i i wi i i yn argmax f y w y v f y i jy ij for the gradients with respect to the respective internal parameters of individual function components fi i generalized graphcut y ij as an example
+we compute its gradient as iv jy ij i jy consider the e
+query focused summarization we denote our dataset of n training examples as y n v n where n
+
+
+n y is a human query summary for the query on the nth ground set image collection v n with features
+we denote our mixture model in case of query summarization as f y w i i m where
+
+
+fm are the instantiations of different submodular mutual information functions wi their weights
+
+
+m are their internal parameters respectively and
+
+
+m are their query relevance diversity tradeoff parameters
+so the parameters vector in case of query focused summarization becomes
+
+
+wm
+
+
+m
+
+
+m then max y v m i i wiifi y n i i m for the purpose of learning the parameters wi i and i we compute the gradients as wi i i ifi yn i i ifi y n i i wi ifi yn i i i wi n i i i wi ifi yn i i i wi n i i i yn argmax f y w y v and where and where a preprint march for the gradients of individual function components trade off parameters i we show computation for some functions as follows if y ij ij iv ifi i with respect to the respective query relevance diversity if y iv max ij ij maxjy ij if y maxjy ij iy ij if y iy max ij logdetmi if y log y sy st y we have log
+hence with x i y sy st y we have y sy y y sy y and x if y e
+privacy preserving summarization we denote our dataset of n training examples as y n v n p n where n
+
+
+n y is a human privacy summary for the privacy set p n on the nth ground set image collection v n with features
+we denote our mixture model in case of privacy preserving summarization as f y p n w p n i i m where
+
+
+fm are the instantiations of different conditional gain functions wi their weights
+
+
+m are their internal parameters respectively and
+
+
+are their privacy sensitivity parameters
+so the parameters vector in case of privacy preserving summarization becomes
+
+
+wm
+
+
+m
+
+
+m then max y v m m p n i i p n i i for the purpose of learning the parameters wi i and i we compute the gradients as and where wi i i fi yn p n i i n p n i i wi fi yn p n i i i wi p n i i i wi fi yn p n i i i wi p n i i i yn argmax f y p n w y v a preprint march for the gradients of individual function components fi i we show computation for some functions as follows flcondgain y p n iv ij maxjp n ij with respect to the respective privacy sensitivity parameters i f y p n iv max jp ij ij max ij logdetcondgain y p n log p p y p n we have log and we have x hence with x i y sy p p y p f y p n p p y p p p n st y p n e
+joint summarization we denote our dataset of n training examples as y n v n p n where n
+
+
+n y is a human query privacy summary for the query set and privacy set p n on the nth ground set image collection v n with features
+we denote our mixture model in case of joint query focused and privacy preserving summarization as f y p n w p n i i i where
+
+
+fm are the instantiations of different conditional submodular mutual information functions wi their weights
+
+
+m are their internal parameters respectively i are their query relevance vs diversity trade off parameters and
+
+
+are their privacy sensitivity parameters
+so the parameters vector in case of joint summarization becomes
+
+
+wm
+
+
+m
+
+
+m
+
+
+m then max y v m m p n i i p n i i i for the purpose of learning the parameters in we compute the gradients as wi i i i fi yn p n i i i n p n i i i wi fi yn p n i i i i wi p n i i i i wi fi yn p n i i i i wi p n i i i i wi fi yn p n i i i i wi p n i i i i where yn argmax f y p n w y v m a preprint march appendix f prism tsum generalizes several past work section
+in this section we discuss how several past works have unknowingly in fact used instances of various mi functions
+gcmi several query focused summarization works for document summarization lin li et al
+and video summarization vasudevan et al
+use gcmi
+all these papers study a simple graph cut based query relevance term which is a special case of our submodular mutual information framework with a single query point a ia
+gcmi seamlessly extends this to consider a query set
+gccg and gccmi the graph cut conditional gain function was used in update summarization li et al
+see table in their paper
+furthermore the authors also consider query focused update summarization in which case they use a gccmi expression a if a where is an existing summary and the goal is to select a summary relevant to a query q and yet different from
+the same authors also study graph cut for query based summarization and in both cases observe the utility of this class of functions
+logdetmi the query focused summarization model used in sharghi et al
+is very similar to our logdetmi if we do not consider the sequential dpp model structure
+in particular if we assume sa i sq i i
+e
+the elements within v and v are independent then if a q log saqst aq which is then similar to the query term in sharghi et al
+e
+
+equation in their paper with w i
+this shows that logdetmi as a model makes sense for query focused summarization
+com lin and bilmes propose a combination of query relevance and diversity term for document summarization
+the expression they propose is very similar to com if we ignore the diversity term
+this has achieved state of the art results for query focused document summarization
+rouge rouge is a very common evaluation metric for document summarization lin lin and bilmes
+as shown in lin and bilmes rouge metric is actually submodular
+we actually observe that rouge is in fact exactly the query saturation q sat function and hence is also subsumed in our framework through gmi
+our framework signicantly extends these and also provides a rich class of functions for query focused preserving and irrelevance and update summarization
+appendix g additional details for experimental setup and discussion of results for prism tss experiments section
+classes scarce classes mnist train per class valid per class target total lake per class train per class valid per class target total lake per class table number of datapoints for each partition in each dataset here we provide details on our experimental setup for targeted subset selection
+for both the datasets below we simulate a real world scenario by creating a class imbalance between the classes
+for the training and unlabeled dataset we do so by creating a ratio between eight classes and two scarce classes i
+e each of the eight classes have times the datapoints than each of the other two classes
+in particular for the training set and for the eight classes we have examples per class in and examples per class in mnist and for the two scarce classes we have examples per class for and examples per class for mnist
+in both and mnist the lake unlabeled set contains examples per class for the eight classes and examples per class for the scarce one
+as is evident the goal here is to be able nd a good representation of the scarce slices in this case slices to obtain good results on these slices
+also though in this case the scarcity is done on classes this could be any slice of the data and does not need to be correlated with the class
+hence as such both the mi functions and the baselines do not use any class information
+we also use the validation set with about examples per class to pick a small targeted set consisting of the under performing slices
+in this case we observe that the slices with the highest error corresponds to the data with the scarce classes
+we pick examples total as the target set in and examples total as the target set in mnist
+we pick this target set as the mis classied examples
+we average our results across multiple such settings where the scarce classes i
+e
+with very less datapoints are randomly selected
+for the validation set we keep a small and equal number datapoints in each class
+next we discuss the exact number of datapoints see table and hyperparamters used during training for each dataset
+a preprint march optimization algorithm sgd with momentum learning rate
+with cosine annealing momentum
+weight decay number of epochs for mnist and
+we got these numbers by taking the stopping condition to be the training accuracy more than and also the training loss
+figure comparison of different methods for targeted subset selection for different budgets on and mnist
+x axis budgets y axis gain in model accuracy for target classes
+mi based approaches lines in red signicantly outperform others across all subset sizes
+section
+we report a better resolution image presenting the effect of budget size on the performance of various methods fig
+
+we also make following additional observations about the results
+pure retrieval function gcmi works better than pure diversity function dsum
+this is as expected because for the task at hand i
+e
+targeted subset selection relevance with target plays an important role
+
+accordingly which tends to model more of diversity than query relevance performs worse than gcmi
+
+it appears counter intuitive that the targeted version of tss performs better than glister on cifar as expected but worse than glister on mnist
+we think this is the case because glister tss depends heavily on the target set optimizing its performance and thus tends to overt when the target has very few instances in case of mnist vs in case of
+in contrast our mi functions work well even when the target set is very small
+we also note that glister tss used in this setting is not a special case of algorithm since we used the cross entropy loss
+appendix h additional details for prism tsum experiments we use the image collection dataset of tschiatschek et al
+
+the dataset has image collections with images each and provides many human summaries per collection
+we extend it by creating dense noun concept annotations for every image to make it suitable for our task
+we start by designing the universe of concepts based on the object classes in kuznetsova et al
+and scenes in zhou et al
+
+we eliminate concepts common to both for example closet to get a unied list of concepts
+to ease the annotation process we adopt pseudo labelling followed by human correction
+specically for every image we get the concept labels from a model pre trained on for object concepts and a model pre trained on for scene concepts
+we then ask human annotators to separately and individually correct the automatically generated labels pseudo labels
+this is followed by nding a consensus over the set of concepts for each image a preprint march to arrive at the nal annotation concept vectors for each image
+we have developed a python gui tool to ease this pseudo label correction process which we plan to release
+in addition to the already available generic human summaries we augment the dataset with query focused preserving and joint query focused and privacy preserving summaries for each image collection
+specically we design uni concept and bi concept queries private sets for each image collection to cover different cases like a both concepts belonging to same image b both concepts belonging to different images only one concept in the image collection
+this is similar in spirit to sharghi et al
+
+we ask a group of human annotators different from those who annotated for concepts to create a human summary of images for each image collection and query private pair
+to ensure gold standard summaries we followed this by a verication round
+specically we asked at least three annotators to accept reject the summaries thus produced and we discarded those human summaries which were rejected by two or more such human annotators
+to instantiate prism tsum we represent images using the probabilistic feature vector taken from the output layer of model redmon and farhadi pre trained on the open images dataset kuznetsova et al
+and concatenate it with the probability vector of scenes from the output layer of zhou et al
+trained on the dataset zhou et al
+
+the queries which are sets of concepts are mapped to a similar feature space as k hot vectors being the number of concepts in a query to facilitate image query similarity
+thus both images and queries elements in private set are represented using a vector where c is the universe of concepts
+while more complex queries and methods of learning joint embedding between text and images could be employed we chose simpler alternatives to stick to the main focus area of this work
+we initialize the parameters randomly and train the mixture model for epochs
+as in tschiatschek et al
+we use v rouge in the max margin learning discussed in section
+and update parameters using nesterov s accelerated gradient descent
+

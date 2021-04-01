@@ -1,83 +1,74 @@
-an anthological review of research utilizing montylingua a
-python based end to end text processor maurice ht ling department of zoology the university of melbourne australia correspondence abstract montylingua an integral part of conceptnet which is currently the largest commonsense knowledge base is an
-english text processor developed using python programming language in mit media lab
-the main feature of
-montylingua
-is the coverage for all aspects of english text processing from raw input text to semantic meanings and summary generation yet each component in montylingua is loosely coupled to each other at the architectural and code level which enabled individual components to be used independently or substituted
+an anthological review of research utilizing montylingua a python based end to end text processor maurice ht ling department of zoology the university of melbourne australia correspondence
+org abstract montylingua an integral part of conceptnet which is currently the largest commonsense knowledge base is an english text processor developed using python programming language in mit media lab
+the main feature of montylingua is the coverage for all aspects of english text processing from raw input text to semantic meanings and summary generation yet each component in montylingua is loosely coupled to each other at the architectural and code level which enabled individual components to be used independently or substituted
 however there has been no review exploring the role of montylingua in recent research work utilizing it
 this paper aims to review the use of and roles played by montylingua and its components in research work published in articles between october and august
 we had observed a diversified use of montylingua in many different areas both generic and specific
 although the use of text summarizing component had not been observe we are optimistic that it will have a crucial role in managing the current trend of information overload in future research
-categories and subject descriptors
+categories and subject descriptors h
 
-user interfaces natural language
+user interfaces natural language i
 
-natural language processing
-language parsing introduction
-
-montylingua is a natural language processing engine primarily developed by hugo liu in mit media labs using the python programming language which is entitled as an end to end natural language processor with common sense liu
+natural language processing language parsing introduction
+montylingua web
+media
+mit
+is a natural language processing engine primarily developed by hugo liu in mit media labs using the python programming language which is entitled as an end to end natural language processor with common sense liu
 it is an entire suite of individual tools catering to all aspects of english text processing ranging from raw text to the extraction of semantic meanings and summary generation thus end to end
-
 commonsense is incorporated into montylingua part of speech pos tagger montytagger as contextual rules
-montytagger was previously released by hugo liu as a standalone brill styled brill
-pos tagger in but is now packaged with other components forming montylingua
+montytagger was previously released by hugo liu as a standalone brill styled brill pos tagger in but is now packaged with other components forming montylingua
 a java version of montylingua built using jython had also been released
 montylingua is also an integral part of conceptnet liu and singh presently the largest commonsense knowledge base hsu and chen as a text processor and understander as well as forming an application programming interface api to conceptnet
-at the same time it had also been incorporated into minorthird a collection of java
-classes for storing text annotating text and learning to extract entities and categorize text written by william cohen in carnegie mellon university cohen
-
+at the same time it had also been incorporated into minorthird a collection of java classes for storing text annotating text and learning to extract entities and categorize text written by william w
+cohen in carnegie mellon university cohen
 to date there were only modules specifically written to process english text using python montylingua and nltk loper and bird
 nltk natural language toolkit was developed by edward loper university of pennsylvania and steven bird the university of melbourne with the main purpose of teaching computational linguistics to computer science students loper and bird
 thus nltk is more of a text processing library from which text processing engines such as montylingua could be developed from rather than a suite of usable tools
 this implied that montylingua could be re implemented using nltk but had not been done
-another popular text processor is gate
-cunningham which was developed in java
+another popular text processor is gate cunningham which was developed in java
 the main difference between gate and montylingua is that gate is a template processing engine rather than natural language processing
 conceptnet and montylingua as well as applications of conceptnet had been previously been described liu and singh
 however there has not been any review since october updating the state of the art use of either conceptnet or montylingua
 at the same time there has not been any review examining the roles played by montylingua and its components in recent research work especially post october
 this paper aims to review the use of and roles played by montylingua and its components in research work published between october and august
-
 the rest of this paper is organized as follows section describes the distinctive feature and main components of montylingua
 in section we review research publications that were published between october and august for the role played by montylingua and its component in these research
 section discusses some trends observed in these research
 however it is not the aim of this paper to describe montylingua itself or the works using it at the source code level
 distinctive feature of montylingua
-
-the distinctive feature of montylingua is the coverage for all aspects of english text processing from raw input text to semantic meanings and summary generation yet each component in
-montylingua is loosely coupled to each other at the architectural and code level
-this had enabled
-montylingua to be used in different contexts as a suite of tools for processing text to semantic meaning and summary generation
-decouple each component of montylingua for individual use using montylingua as a baseline system and substituting components to cater to specific applications
+the distinctive feature of montylingua is the coverage for all aspects of english text processing from raw input text to semantic meanings and summary generation yet each component in montylingua is loosely coupled to each other at the architectural and code level
+this had enabled montylingua to be used in different contexts as a suite of tools for processing text to semantic meaning and summary generation decouple each component of montylingua for individual use using montylingua as a baseline system and substituting components to cater to specific applications
 the end result of and may be the same but the approaches are philosophically different
 the rest of this section will focus on the individual components making up montylingua and how and can be fulfilled
 montylingua consists of six components montytokenizer montytagger montylemmatiser montyrechunker montyextractor and montynlgenerator
 montytokenizer which is sensitive to common abbreviations separates the input english text into constituent words and punctuations
-
 common contractions are resolved into their un contracted form
 for example you is resolved to you are
-montytagger is a penn treebank tag set marcus et al part of speech pos tagger based on brill tagger brill and enriched with commonsense in the form of contextual rules
+montytagger is a penn treebank tag set marcus et al
+part of speech pos tagger based on brill tagger brill and enriched with commonsense in the form of contextual rules
 montylemmatiser strips any inflectional morphology from each word
 that is verbs are reduced to infinite form and nouns to singular form
 montyrechunker reads the pos sequence and identifies semantic phrases adjective noun verb prepositional using a series of regular expressions
-
 montyextractor extracts phrases and subject verb object triplets from the chunked text
 lastly montynlgenerator uses the output of montyextractor to generate text summaries
-
 at code level each component resides in a file and is standalone
 this feature enables each of the six components to be used individually
 in some of the research articles reviewed in section below montytagger was used on its own
 on the other hand it also means that each of the six components can be easily substituted to cater to specific applications
-the simplest way to do this is to modify the jist method in the class montylingua file as follows the jist method illustrates the end to end process of montylingua
-def text sentences tokenized sentences tagged tokenized chunked tagged
-print chunked extracted chunked return extracted
-the input text is tokenized tagged chunked by montytokenizer montytagger and montyrechunker respectively before phrase and subject verb object triplets are extracted by montyextractor
+the simplest way to do this is to modify the jist method in the class montylingua file montylingua
+py as follows the jist method illustrates the end to end process of montylingua
+def text sentences self
+tokenized
+tokenize sentences tagged
+tokenized chunked
+tagged print chunked string
+extracted
+chunked return extracted the input text is tokenized tagged chunked by montytokenizer montytagger and montyrechunker respectively before phrase and subject verb object triplets are extracted by montyextractor
 substituting each of these component is little more than re directing the execution to the substituted component and back
 anthology of applications utilizing montylingua
-
 six research articles were retrieved from acm digital library using montylingua as the search term
-
-a search using google search term montylingua added another to the list consisting of doctoral dissertation masters dissertation technical reports and articles
+a search using google search term montylingua
+pdf added another to the list consisting of doctoral dissertation masters dissertation technical reports and articles
 this section will briefly describe the role of montylingua in each of these publications published between october and august in chronological order
 chandrasekaran adaptive multimodal language acquisition
 
@@ -85,27 +76,29 @@ chandrasekaran attempted to develop a language acquisition system through multim
 the system tries to initiate a dialog with the users to learn nouns verbs or adjectives
 text input were pos tagged by montytagger to identify nouns verbs or adjectives
 athens
+
 athens system skillicorn and vats developed in queen university canada is a mining tool for information discovery
 a case study on extracting knowledge on terrorism was presented
+the authors extracted clusters of information which summarized the events as of september using the search terms al qaeda and bin laden
+after retrieving a list of web pages through google webapi montytagger was used to generate a list of nouns which was then filtered for a list of discriminatory nouns by comparison to the relative frequency in british national corpus www
+natcorp
+ox
+ac
 
-the authors extracted clusters of information which summarized
-the events as of september using the search terms al qaeda and bin laden
-after retrieving a list of web pages through google webapi montytagger was used to generate a list of nouns which was then filtered for a list of discriminatory nouns by comparison to the relative frequency in british
-national corpus
-
-a page page jaccard similarity matrix bradeen and
-havey was computed using the frequencies of discriminatory nouns on each page which considered multiple search terms search terms in this case
+a page page jaccard similarity matrix bradeen and havey was computed using the frequencies of discriminatory nouns on each page which considered multiple search terms search terms in this case
 finally a pass clustering was performed first on the entire set of retrieved web pages followed by clustering within each of the top level clusters
 a list of descriptive nouns were generated for each cluster
 iterative search can be done using the list of descriptors for each cluster
 
+
 hyperpipes eisenstein and davis attempted to develop a human gesture classifier hyperpipes into categories deictic action other unknown using only linguistics information
 a set of manually classified gestures with the corresponding transcribed speech were extracted from persons not physics or mechanically trained describing objects a latchbox a piston and a pinball machine
-
 montylingua was used for pos tagging and stemming of the transcribed speech
 a number of features were extracted from montylingua processed text including unigrams bigrams and trigrams
-comparing a baseline classification where all gestures are deictic accurate hyperpipes achieved an accuracy of
-this was compared to nave bayes and svm
+comparing a baseline classification where all gestures are deictic
+accurate hyperpipes achieved an accuracy of
+this was compared to nave bayes
+and svm
 this was also compared to manual classification with only audio information that is humans listening to the speech without watching the video footage which only achieved accuracy
 udani et
 al
@@ -116,367 +109,440 @@ udani et
 al
 attempted to advance this field by bootstrapping on the the large body of contextual information available online for sense induction of nouns
 montylingua was used to tag and stem the first research result titles and snippets from google for clustering
-the system was evaluated on terms and demonstrated accuracy in noun sense induction as compared to the random chance of accuracy
+the system was evaluated on terms and demonstrated
+accuracy in noun sense induction as compared to the random chance of
+accuracy
+
 
 montytagger as a teaching tool light et
 al
 observed increasing numbers of non computer science student interested in learning about natural language processing
 however these students had difficulty in understanding programming and unix to use computational linguistics tools effectively
-
-light et
+light
 al
 constructed a web based interface to nine computational linguistic tools including montytagger
 
-text processing of economics literature
-nee jan van eck masters dissertation at the econometric institute of erasmus
-university
-rotterdam focused on text processing of economics literature for the purpose of extracting economics relevant terms and presenting it as a concept map linking these terms van eck van eck and van den
-berg
+
+text processing of economics literature nee jan van eck masters dissertation at the econometric institute of erasmus university rotterdam focused on text processing of economics literature for the purpose of extracting economics relevant terms and presenting it as a concept map linking these terms van eck van eck and van den berg
 montylingua was used to tokenize pos tag and stem economics literature prior to linguistics and statistical filtering for relevant terms
 
-metafor
-metafor was developed as a structure generation tool to convert everyday english language into python codes liu and lieberman which is a common task for programmers who need to implement requirements into systems
+
+metafor metafor was developed as a structure generation tool to convert everyday english language into python codes liu and lieberman which is a common task for programmers who need to implement requirements into systems
 montylingua was used to process input text into verb triplets which were anaphorically dereferenced using conceptnet liu and singh
 programmatic entities forming the core generated codes were performed in three parts
 firstly a set of semantic recognizers were used over the subject verb triplets to identify code structures such as lists quotes and if else structures
 secondly actions or changes to the extracted code structures were identified which would be used to form the class functions
 lastly the context of the actions were identified
-
 that is which actions affect which objects
-
 these programmatic entities were then used to generate python codes
 although it is not likely that the generated python code is executable metafor is likely to be adopted as a brainstorming tool according to a case study done by the authors liu and lieberman
 richardson and fox concept map based cross language resource learning
+
 concept map was described by joseph novak as graphical representations of knowledge that are comprised of concepts and the relationships between them novak and gowin which had been shown to facilitate a student learning process mcnaught and kennedy
 richardson and fox examined the role of concept maps as a cross language learning resource by giving a set of articles written in spanish and their english translations to a control group of student whereas the experimental group received the same materials as the control group supplemented with concept maps produced by domain experts
 the experimental group performed significantly better than the control suggesting the advantage of having a concept map
 montytagger was used to extract nouns which were subsequently used to form the nodes on the concept automatically in further experiments but the authors did not evaluate the differences in the nodes of the concept maps produced by domain experts and that of montytagger
 
-qable qable question answering behavior learner used prior learning and problem solving strategies
-tadepalli and natarajan in text understanding for question and answer grois and wilkins grois and wilkins
-montytagger was used for both processing of text which was to be understood and the questions
 
-a prior system deep read hirschman et al was evaluated using remedia corpus a collection of children stories provided by remedia publications
+qable qable question answering behavior learner used prior learning and problem solving strategies tadepalli and natarajan in text understanding for question and answer grois and wilkins grois and wilkins
+montytagger was used for both processing of text which was to be understood and the questions
+a prior system deep read hirschman et al
+was evaluated using remedia corpus a collection of children stories provided by remedia publications
 using the same corpus qable achieved accuracy compared to by deep read grois and wilkins grois and wilkins
 
-arizona state university bioai group in trec
-the text retrieval conference trec
-genomic track is an ad document retrieval task in different areas of instances each
-the arizona state university bioai group yu et al chose to use apache lucene to retrieve abstracts from pubmed which were pos tagged using montytagger and anaphorically resolved
+
+arizona state university bioai group in trec the text retrieval conference trec genomic track is an ad document retrieval task in different areas of instances each
+the arizona state university bioai group yu et al
+chose to use apache lucene lucene
+apache
+org to retrieve abstracts from pubmed which were pos tagged using montytagger and anaphorically resolved
 facts from the processed abstracts were extracted by template matching
 evaluations by trec were based on the top and retrieved abstracts respectively
-
 yu et
 al
-
-yu et
-al
+yu et al
 achieved precision and precision on the top and abstracts respectively
 
-skillsum reiter and dale said that the goal of many nlg natural language generation systems is to produce documents which are as similar as possible to documents produced by human experts
-reiter and dale
+
+skillsum reiter and dale said that the goal of many nlg natural language generation systems is to produce documents which are as similar as possible to documents produced by human experts reiter and dale
 one of the difficulties is to decide what goes into the generated document the context selection rules and it is also known that corpora of expert written text may not form the gold standards as expert may disagree or vary in opinions reiter and sripada
-from a set of skills test results and authored evaluations skillsum attempted to derive context rules
-williams and reiter
-montylingua was used to parse authored evaluations to identify message types
-geldof followed by rhetorical structure theory analysis
+from a set of skills test results and authored evaluations skillsum attempted to derive context rules williams and reiter
+montylingua was used to parse authored evaluations to identify message types geldof followed by rhetorical structure theory analysis
 a trial by the authors suggested that users preferred skillsum report over basic numerical test scores reiter and dale
 
-kennedy natsev and chang query class induction for multimodal video search
-one of the more sophisticated forms of search techniques is multimodal search which assumes the set of items to be searched takes on different roles and specific search techniques when applied could improve overall retrieval performance
-for example a video clip in a collection could be searched by title and subject classification metadata qualities of image or contents of image
-visual cues dialogue or speech audio cues and subtitles text
 
-in multimodal search an important aspect is to be able to classify the search queries and studies in multimodal video retrieval had used pre defined classes
-chua et al yan et al
-kennedy natsev and chang proposed a framework for multimodal search without prior need to define query classes by semantic analysis of the input query
-kennedy et al
+kennedy natsev and chang query class induction for multimodal video search one of the more sophisticated forms of search techniques is multimodal search which assumes the set of items to be searched takes on different roles and specific search techniques when applied could improve overall retrieval performance
+for example a video clip in a collection could be searched by title and subject classification metadata qualities of image or contents of image visual cues dialogue or speech audio cues and subtitles text
+in multimodal search an important aspect is to be able to classify the search queries and studies in multimodal video retrieval had used pre defined classes chua et al
+yan et al
+
+kennedy natsev and chang proposed a framework for multimodal search without prior need to define query classes by semantic analysis of the input query kennedy et al
+
 montylingua was used for pos tagging and stemming of the input query before constructing it into an okapi query robertson et al
 
-an improvement of was realized over using pre defined query classes chua et al yan et al by evaluating using trecvid robertson et al
+an improvement of was realized over using pre defined query classes chua et al
+yan et al
+by evaluating using trecvid robertson et al
 
-memsworldonline
-memsworldonline zhang et al was developed for information retrieval in domain specific digital libraries on microelectromechanical systems by using a combination of formal concept analysis priss and information anchors
-information anchors are common concepts in the field which allowed for examination into community dynamics troy et al or emerging trends kontostathis al
-for example this paper is an information anchor for montylingua
-topic area
+
+
+memsworldonline memsworldonline zhang et al
+was developed for information retrieval in domain specific digital libraries on microelectromechanical systems by using a combination of formal concept analysis priss and information anchors
+information anchors are common concepts in the field which allowed for examination into community dynamics troy et al
+or emerging trends kontostathis et al
+
+for example this paper is an information anchor for montylingua topic area
 other possible anchors are authors related areas of expertise and institutions research directions
 information anchors essentially consists of keywords key phrases metadata and document relationships
 montylingua was used in memsworldonline to extract nouns noun phrases and sub phrases in documents as one of the means to derive information anchors
 these information anchors formed an ontology to classify documents
 
-pepurs
-with increasing use of digital libraries comes the problem of author ambiguity torvik al as author names could be written in various forms of initials and more than one published authors may share the same initial
+
+pepurs with increasing use of digital libraries comes the problem of author ambiguity torvik et al
+as author names could be written in various forms of initials and more than one published authors may share the same initial
 pepurs attempted to advance the field of author name clarification by analyzing author websites for publication records and segmenting these records into appropriate data fields zhang et al
+
 each publication record is tagged twice once by a purpose built tagger and by montytagger
-these were then used as input for b classifier and p classifier running in parallel to segment the publication records before merging the results from the classifiers using a decision tree
-mitchell
+these were then used as input for b classifier and p classifier running in parallel to segment the publication records before merging the results from the classifiers using a decision tree mitchell
 the three classifiers ran as a stacked generalization procedure wolpert
 
-automatic construction of domain specific concept structures
-libo chen doctoral dissertation at technischen universitat darmstadt focused on automatic construction of domain specific concept structures
-chen in response to the problem of vocabulary mismatch in web search blair furnas et al by constructing specific concepts and linking these terms
+
+automatic construction of domain specific concept structures libo chen doctoral dissertation at technischen universitat darmstadt focused on automatic construction of domain specific concept structures chen in response to the problem of vocabulary mismatch in web search blair furnas et al
+by constructing specific concepts and linking these terms
 montytagger was used to pos tag web pages prior to concept extraction
 
-red opal
-feature selection of online product reviews is an important aspect of online shopping liu et al
+
+red opal feature selection of online product reviews is an important aspect of online shopping liu et al
+
 red opal scaffidi used a probability based algorithm in feature selection and comparing that to a support based algorithm liu et al
+
 montylingua was used for pos tagging and stemming of online product reviews before processing by each of the two algorithms for feature selection
-the speed of montylingua pos tagging and stemming averaged at milliseconds per review with the fastest being milliseconds on a single pentium processor with gb of ram running windows xp professional sp and sun with mb heap size
+the speed of montylingua pos tagging and stemming averaged at milliseconds per review with the fastest being milliseconds on a single pentium processor with gb of ram running windows xp professional sp and sun
+
+with mb heap size
+
 
 hsu and chen commonsense query expansion for image retrieval hsu and chen investigated the usefulness of commonsense knowledge in image retrieval which had been used previously in query expansion liu and lieberman
 montylingua was used for pos tagging and stemming of the initial query before commonsense query expansion by conceptnet liu and singh
-from the evaluation results using the imageclef test collection
-clough al the authors concluded that introducing commonsense knowledge into the retrieval task is suitable for precision oriented tasks hsu and chen
+from the evaluation results using the imageclef test collection clough et al
+the authors concluded that introducing commonsense knowledge into the retrieval task is suitable for precision oriented tasks hsu and chen
 discussion
-
-montylingua was released in liu
-and was described in october with conceptnet liu and singh
+montylingua was released in liu and was described in october with conceptnet liu and singh
 in the same paper applications of conceptnet were featured
-
 since then the state of the art use of either conceptnet or montylingua and roles played by montylingua and its components in recent research work had not been reviewed
 this paper aims to review the use of and roles played by montylingua and its components in research work published between october to august
-of the research reports reviewed all had used montytagger for pos tagging of them had used
-montylemmatiser for stemming and only metafor and memsworldonline had used montyrechunker and montyextractor
-
+of the research reports reviewed all had used montytagger for pos tagging of them had used montylemmatiser for stemming and only metafor and memsworldonline had used montyrechunker and montyextractor
 none of the reviewed work seems to have used montynlgenerator for text summarization
-an interesting observation is the use of montytagger in a wide context such as web pages
-skillicorn and vats udani et al transcribed human speech eisenstein and davis economics papers van eck van eck and van den berg and biomedical papers
-yu et al despite the fact that montytagger was generically trained using
-wall street journal corpus
+an interesting observation is the use of montytagger in a wide context such as web pages skillicorn and vats udani et al
+transcribed human speech eisenstein and davis economics papers van eck van eck and van den berg and biomedical papers yu et al
+despite the fact that montytagger was generically trained using wall street journal corpus
 this might suggest that montytagger could be used in various context which is reflected in daily life where a non legally trained person might still be able to read legal text intelligently despite some inability to grasp the total meaning as appear to a legally trained person
 however it had been shown that a generically trained pos tagger will perform inadequately on domain specialized text such as biomedical literature tateisi and tsuji
-in spite of this montytagger had been used in specialized sitting van eck van eck and van den berg yu et al which might suggest that the numerical measurement of pos tagging accuracy may not correlate with the functional
-pos tagging accuracy
+in spite of this montytagger had been used in specialized sitting van eck van eck and van den berg yu et al
+which might suggest that the numerical measurement of pos tagging accuracy may not correlate with the functional pos tagging accuracy
 for example the word book can be tagged as noun base form nn or noun singular form nns but may be treated as an error when calculating pos tagging accuracy as the quotient between the number of correctly tagged tokens and the total number of tokens
 only of the systems had used montyrechunker and montyextractor
 metafor had used them to gain semantic understanding of daily written language while memsworldonline used them to process domain specific text
 despite a small sample size of a supportive case could be made for the use of montyrechunker and montyextractor in both generic text liu and lieberman and domain specific text zhang et al
+
 in this review we did not observe any applications of montynlgenerator
 however it is likely that text summary may have a role in future in managing the current trend of information overload
-it is plausible that future research will place greater emphasis on summary
-generation of specific libraries as a whole or in a time striated fashion as an extension of memsworldonline
-web search could use natural language generation
-techniques
-to summarize the results on the fly
-
+it is plausible that future research will place greater emphasis on summary generation of specific libraries as a whole or in a time striated fashion as an extension of memsworldonline
+web search could use natural language generation techniques to summarize the results on the fly
 natural language generation could extend metafor liu and lieberman to include automated generation source code documentation
-this could then be used to identify code architectures and algorithms which is one of the problems in program optimization by algorithm replacement
-metzger and wen
+this could then be used to identify code architectures and algorithms which is one of the problems in program optimization by algorithm replacement metzger and wen
 in summary we had reviewed articles published between october and august for the roles played by montylingua or its components in these studies thereby updating the state of art utility of montylingua
 we had observed a diversified use of montylingua in many different areas both generic and domain specific
 although the use of the text summarizing component had not been observed we are optimistic that it will have a crucial role in managing the current trend of information overload in future research
 acknowledgement
-
 the author will like to thank the reviewers for their invaluable comments
 references
-blair indetermincy in the subject access to documents
+blair d
+c
+indetermincy in the subject access to documents
 information processing and management
-bradeen havey
-restriction fragment length polymorphisms reveal
-considerable nuclear
-divergence within a
-well supported maternal clade in allium section cepa alliaceae
+bradeen j
+m
+havey m
+j
+restriction fragment length polymorphisms reveal considerable nuclear divergence within a well supported maternal clade in allium section cepa alliaceae
 american journal of botany
-brill
+brill e
 transformation based error driven learning and natural language processing a case study in part of speech tagging
 computational linguistics
-chandrasekaran
-
+chandrasekaran r
 using language structure for adaptive multimodal language acquisition
-
 sixth international conference on multimodal interfaces
-
 state college pennsylvania usa acm press
-chen
+chen l
 automatic construction of domain specific concept structures
 technischen universitat darmstadt
-chua neo wang shi zhao xu trecvid search and feature extraction task by nus pris
+chua t
+s
+neo s
+y
+wang k
+y
+shi r
+zhao m
+xu h
+trecvid search and feature extraction task by nus pris
 trecvid workshop
-clough muller deselaers grubinger lehmann jensen hersh
+clough p
+muller h
+deselaers t
+grubinger m
+lehmann t
+m
+jensen j
+hersh w
 the clef cross language image retrieval track
-
 cross language evaluation forum
-cohen
-minorthird methods for identifying names and ontological relations in text using heuristics for inducing regularities from data cunningham software architecture for language engineering
-
+cohen w
+w
+minorthird methods for identifying names and ontological relations in text using heuristics for inducing regularities from data
+sourceforge
+net cunningham h
+software architecture for language engineering
 department of computer science
 university of sheffield
-eisenstein davis visual and linguistic information in gesture classification
+eisenstein j
+davis r
+visual and linguistic information in gesture classification
 international conference on multimodal interfaces
 state college pa usa acm press
-
-furnas landauer gomez dumais
+furnas g
+w
+landauer t
+k
+gomez l
+m
+dumais s
+t
 the vocabulary problem in human system communication
 communications of the acm
-
-geldof
+geldof s
 corpus analysis for nlg
-in reiter horacek deemter eds
+in reiter e
+horacek h
+deemter k
+v
+eds
 european workshop on nlg
-grois wilkins
+grois e
+wilkins d
 learning strategies for story comprehension a reinforcement learning approach
-
 international conference on machine learning
 bonn germany
-grois wilkins
-learning strategies for open domain natural language
-question answering
-
+grois e
+wilkins d
+c
+learning strategies for open domain natural language question answering
 international joint conference on artificial intelligence
-
-hirschman light burger
-
-deep
-read
-a reading comprehension system
+hirschman l
+light m
+burger j
+deep read a reading comprehension system
 annual meeting of the association of computational linguistics
-hsu chen information retrieval with commonsense knowledge
+hsu m
+
+chen h
+
+information retrieval with commonsense knowledge
 annual international acm sigir conference on research and development in information retrieval
 seattle washington usa acm press
-kennedy natsey chang
+kennedy l
+s
+natsey a
+chang s
+
 automatic discovery of query dependent models for multimodal search
 annual acm international conference on multimedia
 singapore acm press
-kontostathis galitsky
-
-pottenger roy phelps
-
-
+kontostathis a
+galitsky l
+m
+pottenger w
+m
+roy s
+phelps d
+j
 a survey of emerging trend detection in textual data mining
-in berry
+in berry m
 ed
 a comprehensive survey of text mining
 springer verlag
-light arens lu web based interfaces for natural language processing tools
-
+light m
+arens r
+lu x
+web based interfaces for natural language processing tools
 annual meeting of the association for computational linguistics effective tools and methodologies for teaching natural language processing and computational linguistics workshop
-liu hu cheng
-opinion observer
-analyzing and comparing opinions on the web
+liu b
+hu m
+cheng j
+opinion observer analyzing and comparing opinions on the web
 international conference on world wide web
 acm press
-liu montylingua
-an end to end natural language processor with common sense
-
-liu lieberman
+liu h
+montylingua an end to end natural language processor with common sense
+liu h
+lieberman h
 robust photo retrieval using world semantics
-
-lrec
-workshop on creating and using semantics for information retrieval and filtering
-canary islands liu lieberman
+lrec workshop on creating and using semantics for information retrieval and filtering
+canary islands
+liu h
+lieberman h
 metafor visualizing stories as code
 international conference on intelligent user interfaces
-san diego california usa liu singh conceptnet
-a practical commonsense
-reasoning toolkit
+san diego california usa
+liu h
+singh p
+conceptnet a practical commonsense reasoning toolkit
 bt technology journal
-loper bird nltk
-the natural language toolkit
-acl workshop on effective tools and methodologies for teaching natural language processing and computational
-linguistics
+loper e
+bird s
+nltk the natural language toolkit
+acl workshop on effective tools and methodologies for teaching natural language processing and computational linguistics
 philadelphia association for computational linguistics
-marcus santorini marcinkiewicz
+marcus m
+p
+santorini b
+marcinkiewicz m
+a
 building a large annotated corpus of english the penn treebank
 computational linguistics
-mcnaught kennedy
+mcnaught c
+kennedy d
 use of concept mapping in the design of learning tools for interactive multimedia
 journal of interactive learning research
-metzger wen
-automatic algorithm recognition and replacement
-
-a new approach to program optimization the mit press
-
-mitchell machine learning mcgraw hill
-novak gowin
-
-learning how to learn cambridge uk cambridge priss
+metzger r
+wen z
+automatic algorithm recognition and replacement a new approach to program optimization the mit press
+mitchell t
+machine learning mcgraw hill
+novak j
+d
+gowin d
+b
+learning how to learn cambridge uk cambridge priss u
 formal concept analysis in information science
-
-annual review of information reiter dale
-
-building natural language generation systems cambridge reiter sripada should corpora text be gold standards for nlg
-international conference of natural language generation
-richardson fox
+annual review of information reiter e
+dale r
+building natural language generation systems cambridge reiter e
+sripada s
+should corpora text be gold standards for nlg international conference of natural language generation
+richardson r
+fox e
+a
 using concept maps in digital libraries as a language resource discovery tool
 acm ieee cs joint conference on digital libraries
-
 denver co usa acm press
-robertson walker hancock beaulieu gull lau
+robertson s
+e
+walker s
+hancock beaulieu m
+gull a
+lau m
 okapi at
 text retrieval conference
 university press
 science and technology
 cambridge university press
-scaffidi application of a probability based algorithm to extraction of product features from online reviews
+scaffidi c
+application of a probability based algorithm to extraction of product features from online reviews
 pittsburg pa usa carnegie mellon university
-skillicorn
-
-vats
+skillicorn d
+b
+vats n
 novel information discovery for intelligence and counterterrorism
 kingston ontario canada school of computing queen university
-
-tadepalli natarajan
-
+tadepalli p
+natarajan b
 a formal framweork for speedup learning from problems and solutions
 journal of artificial intelligence research
-tateisi tsuji part of speech annotation of biology research abstracts
+tateisi y
+tsuji j
+i
+part of speech annotation of biology research abstracts
 international conference on language resource and evaluation
-torvik weeber swanson smalheiser
+torvik v
+i
+weeber m
+swanson d
+r
+smalheiser n
+r
 a probabilistic similarty metric for medline records a model for author name disambiguation
 journal of the american society for information science and technology
-troy zhang
-mehregany
-evolution of the hilton head
-workshop research community
-
+troy a
+d
+zhang g
+q
+mehregany m
+evolution of the hilton head workshop research community
 education digest of the solid state sensor and actuator workshop
-udani dave davis sibley
+udani g
+dave s
+davis a
+sibley t
 noun sense induction using web search results
 annual international acm sigir conference on research and development in information retrieval
 acm press
-van eck
-
+van eck n
+j
 towards automatic knowledge discovery from scientific literature
 econometric institute faculty of economics
 rotterdam erasmus university
-van eck van den berg
-
+van eck n
+j
+van den berg j
 a novel algorithm for visualizing concept associations
-
-
-international workshop on database and expert system
-applications
-
-williams reiter
-deriving content selection rules from a corpus of
-naturally occurring documents for a novel nlg application
-in belz varges
+international workshop on database and expert system applications
+williams s
+reiter e
+deriving content selection rules from a corpus of naturally occurring documents for a novel nlg application
+in belz a
+varges s
 eds
-
 corpus linguistics workshop on using corpora for natural language generation
 birmingham uk
-wolpert
+wolpert d
 stacked generalization
 neural networks
-
-yan yang hauptmann
+yan r
+yang j
+hauptmann a
+g
 learning query class dependent weights in automatic video retrieval
 acm multimedia
 acm press
-yu
-ahmed
-gonzalez logsdon nakamura nikkila shah tari wendt zeigler baral genomic information retrieval through selective extraction and tagging by the asu bioai group
-
+yu l
+ahmed s
+t
+gonzalez g
+logsdon b
+nakamura m
+nikkila s
+shah k
+tari l
+wendt r
+zeigler a
+baral c
+genomic information retrieval through selective extraction and tagging by the asu bioai group
 text retrieval conference
-zhang troy bourgoin
-bootstrapping ontology learning for information retrieval using formal concept analysis and information anchors
+zhang g
 
+troy a
+d
+bourgoin k
+bootstrapping ontology learning for information retrieval using formal concept analysis and information anchors
 international conference on conceptual structures
 aalborg denmark
-zhang yu smalheiser torvik segmentation of publication records of authors from the web
-
+zhang w
+yu c
+smalheiser n
+torvik v
+segmentation of publication records of authors from the web
 ieee international conference on data engineering
-
 atlanta georgia ieee press
 

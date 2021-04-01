@@ -1,0 +1,190 @@
+experiments with lvt and fre for transformer model ilshat gibadullin i
+
+ru aidar valeev ai
+
+ru r a l c
+s c v
+v i x r a abstract in this paper we experiment with large cabulary trick and feature rich encoding plied to transformer model for text rization
+we could not achieve better results than the analogous rnn based sequence sequence model so we tried more models to nd out what improves the results and what deteriorates them
+introduction there are quite a lot of researches of additional busting for rnn based sequence to sequence models but due to the novelty there is a lack of them for transformer model
+former model is becoming the state of the art in machine translation task showing signicant provements over the models but the performance of transformer model in summarization task is not explicitly investigated
+that motivated us to try to apply a couple of architecture independent methods to transformer model large vocabulary trick and feature rich encoding which gave improvements with models and compare the obtained results with the base transformer model results and the ones tained and evaluated in nallapati et al
+
+the paper is laid out as follows section gives a short review of related work section describes the approaches we applied section describes the data and the system section reports the results and their analysis and nally section sums it all up
+related work currently there are several fundamental neural machine translation models competing to be the state of the art which are also applicable for text summarization recurrent and convolutional ral networks bahdanau et al
+gehring et al
+and more recent attention based former model vaswani et al
+
+all els consist of encoder decoder parts but in the rst one both encoder and decoder are lstm ers with an attention layer between them ond one is based on convolutions while in former encoder stack consists of a number of ers composed of a multi head self attention layer and a feed forward neural network and decoder stack same but each layer has an ate attention layer with encoder stack input
+fault transformer model uses byte pair encoding bpe sennrich et al
+to encode the text data
+motivated by nallapati et al
+we cided to apply large vocabulary trick lvt jean et al
+and feature rich encoding fre to transformer model
+the main idea of lvt is to only work with a subset of the ulary which is relevant to the current processing batch the words from the batch and most frequent words to ll up till the limit
+lvt allows to erably lower the training time when the vocabulary is very large
+fre encodes additional tion to the input for each word there are parts speech pos and named entity tags ner term frequency tf and inverse document frequency idf statistics
+models
+bpe based transformer model for comparison purposes we used transformer with default settings as was described in vaswani et al
+
+the byte pair encoding bpe nrich et al
+was used to encode the input sequence where the size of sub words lary was set to k
+the embedding layer was shared between the encoder and decoder parts of the model and was initialized randomly
+
+baseline as a baseline model we took transformer model based on words vocabulary instead of bpe
+the size of the vocabulary obtained from dataset is k
+the embedding layer was separated for the encoder and decoder parts of the model
+tion of the weights for these layers was also formed randomly
+
+fre t to hidden fre this model uses feature reach encoding technique to extend the words embedding vector of former encoder part s input so the output of coder embedding layer is the vector which is a concatenation of the following sub vectors the word embedding vector pos of the word tf and idf of the word
+pos vectors are represented by one hot encoding
+continuous features such as tf and idf were converted into categorical values by discretizing them into a xed number of bins and one hot encode to indicate the bin number they fall into
+word embedding weights were initialized randomly
+the embedding layer of the decoder part of transformer was the same as in baseline model described in the previous subsection
+the vectors obtained by the encoder and decoder embedding layers should have mensions equal to the hidden size of transformer model
+thus we should limit the dimension of the sub vectors dimensions in the encoder embedding layer so the dimension of obtained vectors should the hidden size of the model
+
+fre linear map to hidden fre the difference from previous described model is that here we use an additional linear layer without bias in the encoder embedding layer to map the vector obtained by the concatenation of sub vectors to hidden size of transformer model
+thus the dimension of the vector obtained by catenation of sub vectors does not have to t the hidden size of the model
+
+fre lvt in this model we change the embedding layer of decoder part of transformer model by large cabulary trick approach
+for each training batch we build new batch vocabulary by words from all texts in this batch
+required decoder vocabulary size is set to k so in case of a lack of words in vocabulary obtained from the batch texts we tend it by the most frequent words
+the weights of decoder embedding layer is the same as in ous models but during training we use and modify only weights of those words which are in the rent batch vocabulary
+during inference we use whole vocabulary
+the encoder embedding layer is the same as in the previous model
+experimental setup
+data we used gigaword for training the els it consists of
+million article title pairs
+we could not acquire the annotated version of it so we annotated it by ourselves but we did not add named entity tags because named entity nition tools we tried stanfordnertagger nanertagger performed poorly since the corpus was lower cased and it was the only version we could nd
+we deduplicate and divide the data into parts validation set of sentences and the training one
+validation les were used to monitor the convergence of the training
+we used duc corpus for testing the els so that we could also compare our results with the results in the paper nallapati et al
+
+
+system setup transformer model vaswani et al
+with base setting from tensorow ofcial was used in the experiments
+to evaluate the ity of the summarization recall oriented derstudy for gisting evaluation rouge metric lin was used
+
+hardware since most of the operations inside the model were numeric and easily parallelizable nvidia gtx ti with gpu memory gb was used to speed up the process
+results firstly we trained the bpe based transformer model for epochs each epoch took hours minutes
+we got good results
+and
+rouge l table
+secondly we trained baseline model also for epochs each one took hours minutes
+the
+com alesee abstractive summarization
+com tensorow models model bpe based baseline fre fre topiary abs ras elman words words rougel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table
+duc test scores
+there are our models scores in the upper part and the scores from the paper pati et al
+in the lower part
+figure
+validation scores
+figure
+rouge l validation scores
+results got worse
+and
+l table
+thirdly fre t to hidden was trained also for epochs each took
+the results got worse again
+and
+rouge l table
+fourthly we tried fre linear map to hidden also for epochs each epoch took
+the sults on duc got worse again
+and
+rouge l table but validation scores with fre are very close and rouge l formed it on the epoch as can be seen in ure
+finally we trained for epochs each took
+the results plummeted
+and
+rouge l table
+most ably epochs were not enough for embeddings to train since only k of them were updating each batch
+in the figure we can see that the cross entropy loss blue of is imately the same as in the figure with based model but the evaluation line red is much higher meaning worse
+this is because the latter is computed using the whole vocabulary while the former using k vocabulary which is unique for figure
+cross entropy loss during training of model
+each batch
+conclusion in this work we evaluated default bpe based transformer model transformer with words cabulary as baseline and tried to apply fre and lvt approaches over it
+validation scores showed that these approaches do not give improvements and even worsen the quality against baseline
+we found out that the default bpe based transformer model gives the best result among all evaluated models
+we used duc dataset as a test set to then compare our models with the models ated in nallapati et al
+
+bpe based former model outperforms topiary and abs models but performs worse than the models posed by authors of nallapati et al
+
+fre and lvt approaches also performs worse than the baseline while it performs worse than the based model
+answering and summarization national center of sciences tokyo japan june
+ramesh nallapati bowen zhou ccero nogueira dos santos c aglar gulcehre and bing xiang
+
+abstractive text summarization using sequence in proceedings of the sequence rnns and beyond
+signll conference on computational natural language learning conll berlin germany august pages
+acl
+rico sennrich barry haddow and alexandra birch
+
+neural machine translation of rare words with subword units
+in proceedings of the annual meeting of the association for computational guistics acl august berlin many volume long papers
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n
+gomez lukasz kaiser and illia polosukhin
+
+attention is all you need
+corr
+
+figure
+cross entropy loss during training of bpe based transformer model
+we think that fre does nt give improvements over baseline because the quality of gigaword notated by ourselves is worse than original tated gigaword dataset
+the lvt requires more iterations to converge but the convergence is too slow so we not sure that it will increase even till baseline results
+thus application of lvt to transformer does nt make any sense in the form in which we described it because even if it shorten the training time of one epoch it does nt improve the overall result
+also we did not try any model with the trained word embeddings references dzmitry bahdanau kyunghyun cho and yoshua gio
+
+neural machine translation by jointly in learning to align and translate
+national conference on learning representations iclr san diego ca usa may conference track proceedings
+jonas gehring michael auli david grangier nis yarats and yann n
+dauphin
+
+volutional sequence to sequence learning
+corr
+
+sebastien jean kyunghyun cho roland memisevic and yoshua bengio
+
+on using very large target vocabulary for neural machine translation
+in proceedings of the annual meeting of the association for computational linguistics and the international joint conference on natural guage processing of the asian federation of natural language processing acl july beijing china volume long papers pages
+chin yew lin
+
+looking for a few good metrics automatic summarization evaluation how many samples are enough in proceedings of the fourth ntcir workshop on research in information cess technologies information retrieval question source document schizophrenia patients whose medication could nt stop the imaginary voices in their heads gained some relief after researchers repeatedly sent a magnetic eld into a small area of their brains
+ground truth summary magnetic pulse series sent through brain may ease schizophrenic voices bpe based schizophrenia patients gain some relief baseline study shows link between schizophrenia patients fre study links schizophrenia to schizophrenia fre researchers say they can t stop some people from schizophrenia lvt fre nasal implants pose dilemma source document china was evacuating people friday from land along the raging yangtze river that ofcials were preparing to sacrice to ooding to safeguard cities downstream
+ground truth summary chinese military personnel conducting extensive ood control efforts along yangtze
+bpe based china orders soldiers to ght to the death baseline china orders soldiers to ght yangtze oods fre china orders soldiers to ght oods fre china orders soldiers to ght oods lvt fre china mobilizes soldiers to safeguard potable reservoirs source document the czech republic and hungary will not compete with each other in their bids to join nato and the european union eu the hungarian telegraph agency reported today
+ground truth summary czech republic hungary vow not to compete for nato bid
+bpe based czech republic hungary not to compete in nato baseline czech hungary not to compete for nato eu membership fre czech republic hungary to compete in nato fre hungary czech republic not to compete in nato bids lvt fre prague czechs not intend to participate in joining nato table
+examples
+

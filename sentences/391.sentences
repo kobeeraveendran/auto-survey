@@ -1,0 +1,1947 @@
+r a m l c
+s c v
+v i x r a improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks sansiri tarnpradab university of central florida fereshteh jafariakinabad university of central florida kien a
+hua university of central florida online discussion forums are prevalent and easily accessible thus allowing people to share ideas and opinions by posting messages in the discussion threads
+forum threads that significantly grow in length can become difficult for participants both newcomers and existing to grasp main ideas
+this study aims to create an automatic text summarizer for online forums to mitigate this problem
+we present a framework based on hierarchical attention networks unifying bidirectional long short term memory bi lstm and convolutional neural network cnn to build sentence and thread representations for the forum summarization
+in this scheme bi lstm derives a representation that comprises information of the whole sentence and whole thread whereas cnn recognizes high level patterns of dominant units with respect to the sentence and thread context
+the attention mechanism is applied on top of cnn to further highlight the high level representations that capture any important units contributing to a desirable summary
+extensive performance evaluation based on three datasets two of which are real life online forums and one is news dataset reveals that the proposed model outperforms several competitive
+ccs concepts computing methodologies natural language processing neural networks information systems additional key words and phrases multi document summarization extractive summarization hierarchical attention networks sansiri tarnpradab fereshteh jafariakinabad and kien a
+hua
+
+improving online forums summarization via unifying chical attention networks with convolutional neural networks
+march pages
+
+
+
+online discussion forums embody a plethora of information exchanged among people with a common interest
+typically a discussion thread is initiated by a user posting a message e
+
+question suggestion narrative then other users who are interested in the topic will join the discussion also by posting their own messages e
+
+answer relevant experience new question
+the thread that gains popularity can span hundreds of messages putting burden on both newcomers and current participants as they have to spend extra time to understand or simply to catch up with the code and data are available at
+com
+git authors addresses sansiri tarnpradab university of central florida
+ucf
+edu fereshteh jafariakinabad university of central florida fereshteh
+
+ucf
+edu kien a
+hua university of central florida
+ucf
+edu
+permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page
+copyrights for components of this work owned by others than acm must be honored
+abstracting with credit is permitted
+to copy otherwise or republish to post on servers or to redistribute to lists requires prior specific permission a fee
+request permissions from
+org
+association for computing machinery
+manuscript submitted to acm manuscript submitted to acm marization data mining
+representation learning acm reference format introduction tarnpradab et al
+desirable
+discussion so far
+an automatic forum summarization method that generates a concise summary is therefore highly one simple way to produce a summary is to identify salient sentences and aggregate them
+this method naturally aligns with the concept of extractive summarization which likewise involves selecting representative units and nating them according to their chronological order
+in order to determine saliency of each unit the context must be taken into account
+this factor is critical to any summarization process whether it be an automatic system or a human tasked with selecting sentences from a document to form a summary
+as an illustration if a human is given a thread to extract key sentences from he she would first read the thread to grasp contextual information then select sentences based on that context to compose a summary
+on the other hand if an arbitrary sentence is shown to a human without supplying context of the thread from which that sentence belongs to there would be no clear way of deciding if the sentence should belong in the summary
+previous works have shown that the performance of a summarizer can be improved with the context information from the document structure
+the model can utilize such knowledge to generate more effective representations
+similar to documents forum threads also possess a hierarchical structure in which words constitute a sentence sentences constitute a post and posts constitute a thread
+in this work we propose a data driven approach based on hierarchical attention networks to summarize online forums
+in order to utilize knowledge of the forum structure the method hierarchically encodes sentences and threads to obtain sentence and thread representations
+meanwhile an attention mechanism is applied to further place emphasis on salient units
+drawing our inspiration from how humans read comprehend and then summarize a document it led us to a network design that unifies bidirectional long short term memory bi lstm and convolutional neural network cnn
+in this scheme bi lstm derives a representation that comprises information of the whole sentence and whole thread long term dependencies whereas cnn recognizes high level patterns of dominant units words and sentences with respect to the context from sentence and thread
+all in all both networks are combined with an aim to leverage their individual strength to achieve effective representations compared to when either one is used
+our extensive experimental results verifies this effectiveness
+the contributions of this study are as follows we propose a hierarchical attention networks which unifies bi lstm and cnn to obtain representations for the extractive summarization of online forums
+the attention mechanism is employed to put weight on important units
+different from previous studies that apply attention directly to individual words and sentences our findings suggest that applying attention to the high level features extracted and compressed by cnn contributes to improvements in the performance
+to demonstrate the advantage of the proposed hybrid model we perform comprehensive empirical study
+the result shows that the proposed approach significantly outperforms a range of competitive baselines as well as the initial study with respect to both sentence level scores and rouge evaluation
+this encourages further investigation into the use of the proposed hybrid network for text summarization
+we conduct an extensive experiment using different pretrained embeddings static and contextual to investigate their effectiveness towards improving the summarization performance
+moreover since the proposed approach can be framed as multi document summarization we evaluate the performance on three datasets two of which from online forums domain whereas the other from news domain
+the remainder of this paper is organized as follows
+we review the literature related to automatic summarization in section
+the proposed framework is introduced in section
+in section we provide details on the dataset and the manuscript submitted to acm improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks experimental configurations for the performance studies and explain the baselines used in the comparative study to assess the effectiveness of our proposed model
+the performance results are analyzed in section
+finally we draw our conclusions in section
+related work summarization and representation learning
+
+extractive summarization in this study we address the problem of online forums summarization
+therefore described herein this section are three major strands of research related to this study including extractive summarization neural network based text there are mainly two kinds of methods used in text summarization namely extractive summarization and abstractive summarization
+owing to its effectiveness and simplicity the extractive summarization approach has been used extensively
+the technique involves segmenting text into units e
+
+sentences phrases paragraphs then nating a key subset of these units to derive a final summary
+in contrast the abstractive approach functions similarly to paraphrasing by which the original units are hardly preserved in the output summary
+in this study we consider the extractive summarization approach and design a deep classifier to recognize key sentences for the summary
+the extractive approach has been applied to data from various domains such as forum threads online reviews emails group chats meetings microblogs and news just to name a few
+in the news domain articles typically follow a clear pattern where the most important point is at the top of the article followed by the secondary point and so forth
+we generally do not observe a clear pattern in other domains such as the aforementioned examples
+in particular forum content is created by multiple users thus the gist may be contained across different posts not necessarily at the first sentence or paragraph
+furthermore these user generated content ugc generally contains noise misspellings and informal abbreviations which make choosing sentences for summarization much more challenging
+in our work we focus on summarizing content in the forum thread
+given the nature of forum data it can be framed as a multi document summarization where these documents are created and posted by different authors
+
+neural network based text summarization a large body of research applies neural networks involving rnn cnn along with a combination of both to develop and improve text summarization
+for example nallapati et al
+have proposed an rnn based sequence model entitled summarunner to produce extractive summaries
+a two layer bidirectional gated recurrent unit gru is applied to derive document representations
+the first layer runs at the word level to derive hidden representation of each word in both forward and backward directions
+the second layer runs at the sentence level to encode the representations of sentences in the document
+cao et al
+have proposed a cnn based summarization system entitled tcsum to perform multi document summarization
+adopting transfer learning concept tcsum demonstrated that the distributed representation projected from text classification model can be shared with the summarization model
+the model can achieve state of the art performance without handcrafted features needed
+a unified architecture that combines rnn and cnn for summarization task has shown success in several works
+for instance singh et al
+have proposed hybrid memnet a data driven end to end network for a single document summarization where cnn is applied to capture latent semantic features and lstm is applied thereafter to capture an overall representation of the document
+the final document representation is generated by concatenating two document embeddings one from manuscript submitted to acm tarnpradab et al
+cnn lstm and the other from the memory network
+narayan et al
+also proposed a unified architecture which frames an extractive summarization problem with a reinforcement learning objective
+the architecture involves lstm and cnn to encode sentences and documents successively
+the model learns to rank sentences by training the network in a reinforcement learning framework while optimizing rouge evaluation metric
+several lines of research have taken into account the hierarchical structure of the document
+cheng and lapata have developed a framework containing a hierarchical document encoder and an attention based extractor for single document summarization
+the hierarchical information has shown to help derive a meaningful representation of a document
+zhou et al
+have proposed an end to end neural network framework to generate extractive document summaries
+essentially the authors have developed a hierarchical encoder via bidirectional gated recurrent unit bigru which integrates sentence selection strategy into the scoring model so that the model can jointly learn to score and select sentences
+the usage of an attention mechanism has also proven successful in many applications
+for example wang and ling have introduced an attention based encoder decoder concept to summarize opinions
+the authors have applied lstm network to generate abstracts given as input a latent representation computed from the attention based encoder
+cao et al
+have applied the attention concept to simulate human attentive reading behavior for extractive query focused summarization
+the system called attsum is proposed and demonstrated to be capable of jointly handling the tasks of query relevance ranking and sentence saliency ranking
+more recent works have applied the attention mechanism to facilitate the sentence extraction process to form a summary
+narayan et al
+have proposed a hierarchical document encoder with attention based extractor to generate extractive summaries
+their results have shown that with attention the model can successfully guide the representation learning of the document
+feng et al
+have presented a model entitled aes attention encoder based summarization to summarize articles
+this architecture comprises an attention based document encoder and an attention based sentence extractor
+the authors consider both unidirectional and bidirectional rnn in the experiment
+the results have shown that better performance can be obtained via bidirectional rnn since the network reads a sequence in both original and reverse orders which helps to derive better document representation
+
+representation learning representation learning which aims to acquire representations automatically from the data plays a crucial role in many natural language understanding nlu and natural language processing nlp models
+particularly pre trained word representations are the building blocks of any nlp and nlu models that have shown to improve downstream tasks in many domains such as text classification machine translation machine comprehension among others
+learning high quality word representations is challenging and many approaches have been developed to produce pre trained word embeddings which differ on how they model the semantics and context of the words
+a based model and glove global vectors for word representation a count based model rely on distributional language hypothesis in order to capture the semantics
+fasttext is a character based word representation in which a word is represented as a bag of character n grams and the final word vector is the sum of these representations
+one of the advantages of fasttext is the capability of handling out of vocabulary words oov unlike and glove
+although the classical word embeddings can capture semantic and syntactic characteristics of words to some extent they fail to capture polysemy and disregard the context in which the word appears
+to address the polysemous and context dependent nature of words the contextualized word embeddings are proposed
+elmo embeddings from language models proposes a deep contextualized word representation in which each representation is a function of manuscript submitted to acm improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks the input sentence where the objective function is a bidirectional language model
+the representations are a linear combination of all of the internal layers of the bilm where the weights are learnable for a specific task
+bert bidirectional encoder representations from transformers is another contextualized word representation which is trained on bidirectional transformers by jointly conditioning on both left and right context in all layers
+the objective function in bert is a masked language model where some of the words in the input sentence are randomly masked
+flair is contextualized character level word embedding which models words and context as sequences of characters and is trained on a character level language model objective
+in summary there are several approaches adopted to learn the word representation in literature which differ in the ways they model meaning and context
+the choice of word embeddings for particular nlp tasks is still a matter of experimentation and evaluation
+in this study we experimented with fasttext elmo and bert embeddings by integrating them in an embedding layer of the model
+these embeddings initialize vectors of words sentences present in the forum data as a substitute to the random initialization
+summarization model our system is tasked with extracting representative sentences from a thread to form a summary which is naturally well suited to be formulated as a supervised learning task
+we consider a sentence as an extraction unit due to its succinctness
+let be the sentences in a thread and be the corresponding labels where indicates that the sentence is part of the summary and otherwise
+our goal is to find the most probable tag sequence given the thread sentences arg max t where t is the set of all possible tag sequences and independently
+where the tag of each sentence is determined in this section we elaborate our hierarchical based framework for multi document summarization
+the proposed model is based on hierarchical attention networks han to construct sentence and thread representations
+two types of neural networks namely bi directional recurrent neural network and convolutional neural network are combined into a unified framework to maximize the capability of the summarizer
+in a nutshell the model is comprised of hierarchical encoders a neural attention component and a sentence extractor
+the encoders generate the representations based on words and sentences in the forum
+the neural attention mechanism pinpoints any meaningful units in the process
+finally the sentence extractor selects and puts together all the key sentences to produce a summary
+in the following the boldface letters represent vectors and matrices
+words and sentences are denoted by their indices
+
+sentence encoder the sentence encoder reads an input sentence as a sequence of word embeddings then returns a sentence vector as an output
+adopting the pipeline architecture to process data in a streaming manner a bi directional recurrent neural network is followed by a convolutional neural network to constitute the sentence encoder
+furthermore the attention mechanism is employed while generating the sentence vector to give more emphasis on units that contribute more to the meaning of the sentence
+this strategy to sentence encoding is illustrated in figure
+we elaborate the different network components in the following subsections
+manuscript submitted to acm tarnpradab et al
+fig
+illustration of the sentence encoder
+input layer
+given that each thread is a sequence of sentences and each sentence is a sequence of words let
+
+denote the sentence and the words are indexed by where denotes the number of words in the sentence
+each word is converted to its corresponding pretrained embedding figure and subsequently fed into the bidirectional recurrent neural network
+
+
+bidirectional recurrent neural network layer
+we opt for bidirectional long short term memory bi lstm due to its effectiveness as evidenced in previous studies
+lstm contains an input gate a forget gate and an output gate to control the amount of information coming from the previous time step as well as flowing out in the next time step
+this gating mechanism accommodates long term dependencies by allowing the information flow to hidden representation sustain for a long period of time
+our bi lstm model contains forward pass and backward pass eq
+
+the forward comprises semantic information from the beginning of the sentence to the current time step on the contrary comprises semantic information from the current time step to the end of the sentence
+both vectors are of dimension r where is the dimensionality of the hidden state in the word level bi lstm
+finally and produces a word representation that carries contextual concatenating the two vectors in particular information of the whole sentence the word being a part of
+
+
+convolutional layer
+the convolutional layer is primarily used to extract high level features from the hidden representation obtained from the preceding layer
+of every word in the sentence are compiled to form a matrix which is used as an input to the cnn
+concretely where r
+the convolutional layer is composed of a set of filters where each filter is applied to a window of words and denotes index of each filter
+each filter slides across the input to form a feature map r
+each feature map is obtained as manuscript submitted to acm improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks where denotes a submatrix of comprised of row to row r is an additive bias
+a rectified linear unit relu is applied element wise as a nonlinear activation function in this study
+one dimensional max pooling operation is then performed to obtain a fixed length vector
+a total of max pooled vectors are generated one for each
+given that each feature is of length through a max pooling window of size is transformed into a vector of half the length
+in other words only meaningful features per bigram are extracted
+thus each is transformed into a vector which is constituted of the max pooled values concatenated together eq
+
+all resultant feature maps are combined into a final representation r eq
+
+
+
+attention layer
+in this section we describe the attention mechanism employed to attend to important units in the sentence
+we note that the units here refer to latent semantic features of bigrams as they are a unit of compression max pooling in the prior layer
+we introduce a trainable vector for all the bigrams to capture global bigram saliency
+each vector of denoted as is selected through a multiplication operation where is a standard basis vector containing all zeros except for a one in the position
+every vector is projected to a transformed space to generate eq
+
+the inner product signals the importance of the bigram
+we convert it to a normalized weight using a softmax function eq
+
+finally a weighted sum of bigram representation is computed to obtain a sentence vector where is a scalar value indicating the bigram importance eq
+
+fig
+complete framework of the proposed summarization model
+manuscript submitted to acm
+thread encoder tarnpradab et al
+and the thread encoder takes as input a sequence of sentence vectors previously encoded through the sentence encoder as illustrated in figure
+we choose to index sentences by
+the thread encoder has a similar network are of dimension r where architecture as the sentence encoder summarized by eq
+
+note that vectors is the dimensionality of the hidden state in the sentence level bi lstm eq
+
+of every sentence in the thread is compiled to form a matrix r eq
+
+each feature map is represented by r where is an index of each cnn filter is total number of sentences in the thread and is the filter height eq
+
+is constituted of the max pooled values of concatenated together into a vector eq
+
+the max pooling window size is representing a pair of consecutive sentences
+all resultant max pooled vectors are combined into a final representation r eq
+
+each vector of is denoted by eq
+
+the sentence level attention mechanism introduces a trainable vector that encodes salient sentence level content
+the thread vector is a weighted sum of sentence pairs where is a normalized scalar value indicating important sentence pairs of the thread eq
+
+
+output layer the vector representation of each sentence is concatenated with its corresponding thread representation to construct the final sentence representation
+with this both sentence level and thread level context are taken into account when classifying whether or not the sentence is part of the final summary
+the learned vector representations are fed into a dense layer of which sigmoid is used as an activation function
+cross entropy is used to measure the network loss
+
+sentence extraction we impose a limit to the number of words in the final summary at most of total words in the original thread are allowed
+in order to extract salient sentences all sentences are sorted based on saliency scores outputted from the dense layer
+sorted sentences are then iteratively added to the final summary until the compression limit is reached
+at last all the sentences in the final summary are chronologically ordered according to their appearance in the original manuscript submitted to acm improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks thread
+since sentences selected by supervised summarization models tend to be redundant as in we apply an additional constraint to include a sentence in the summary only if it contains at least new bigrams in comparison to all existing bigrams in the final summary
+henceforth we refer to our approach as hierarchical hybrid deep neural network or the hybrid network for short
+a complete framework of the hybrid network is illustrated in figure
+in this section we first give a description of the datasets used for experiments followed by details of how the training set is created
+then we present experiment configurations along with a list of hyperparameters explored to achieve the best performing model
+next we provide a brief description of baselines used in our performance study and subsequently we give an introduction to the metrics for evaluating performance of the summarization system
+experiment
+dataset since the proposed approach is applicable for multi document summarization besides using only an online forums dataset we also perform experiments on news data
+three datasets namely trip advisor reddit and newsroom are used in our study the former two were crawled from online forums while the other is news articles from major publications
+statistics of all datasets is provided in table and a brief description of each is as follows
+trip advisor
+the trip forum data were collected bhatia et al
+
+in our study there are a total of tripadvisor threads of which were originally annotated with human summaries by and the additional threads were annotated later by tarnpradab et al
+
+we held out threads as a development set and reported the performance results on the remaining threads
+the development set is mainly used for hyperparameter tuning purposes as described in section
+
+the reference summaries were prepared by having two human annotators generate a summary for each thread
+both annotators were instructed to read a thread then write a corresponding summary with the length limited within to of the original thread length
+the annotators were also encouraged to pick sentences directly from the data
+reddit
+reddit forum were prepared by wubben et al
+
+it contains threads in subreddits
+the size of threads ranges from sentences with a few words per line to over sentences
+in our study we utilize threads with a length of at least sentences since any threads of size smaller than that are not necessary to be summarized
+the training and test sets contain and threads respectively while the development set contains threads for hyperparameter tuning
+the reference summaries were prepared by using the number of votes as a factor to select sentences
+that is all sentences are first ranked based on their final votes upvotes downvotes then the ranked sentences are iteratively added into the output list until total words reach the compression ratio of original total words finally the selected sentences are ordered according to their chronological order
+newsroom
+summarization dataset contains
+million articles and summaries written by authors and editors in the newsrooms of major publications
+it is used for training and evaluating summarization systems
+the dataset provides training development and test sets
+each set comprises summary objects where each individual one includes information of article text its corresponding summary date density bin just to name a few
+density bin denotes summarization strategies of the reference summary which involves extractive abstractive and a mix of both
+in our study we use only articles of which the reference summary was generated via extractive approach
+similar to
+tripadvisor
+
+reddit
+
+ruhosting
+nl wordpress project
+nlp
+cornell
+edu newsroom manuscript submitted to acm tarnpradab et al
+reddit dataset some news articles are too short and thus a summary is not necessary
+we filter out any articles with number of sentences lower than
+as a result training and test sets contain a total of and articles respectively while a development set contains articles for exploring the best set of hyperparameters
+table data statistics trip advisor reddit newsroom vocabulary threads avg sentences max sentences avg words max words avg words per sentence
+
+
+
+
+
+
+
+
+
+training set creation in this study every sentence requires a label to train the deep neural network therefore we create a training set where each sentence will be marked as true to indicate a part of summary unit or false to indicate otherwise
+first of all an empty set s is initialized per thread or per news article
+for each sentence that is not a member of the set add the sentence to the set then measure score between the set and the gold summaries thereafter the sentence is removed from the set
+once all sentences had their score measured the candidate sentences that increased the score the most are permanently added to the set
+this process is repeated until one of the following conditions is achieved the total number of words in the selected sentences has hit the desired compression ratio of or the rouge score of summary can not be improved any further
+finally those sentences that are a member of the set are labeled true while others are labeled false
+we utilized the rouge
+java to evaluate the rouge scores that presents the unigram overlap between the selected sentences and the gold summaries
+
+model configuration the optimum parameters for the hybrid model were explored through experimentation
+six fold cross validation was used for both tuning and training process
+we performed a random search by sampling without replacement over of all possible configurations since the whole configuration space is too large
+all hyperparameters are listed in table some of which are based on the recommendation of
+we found the best configuration for the number of bi lstm neurons at sentence encoder to be and at thread encoder to be respectively
+for cnn hyperparameters the best explored number of convolutional layers at sentence and thread levels is and the best number of filters at both levels is where each filter has the size as well as a stride length of
+the best explored dropout rate is
+with learning rate of
+and a batch size of
+lastly rmsprop optimizer has shown to best optimize binary cross entropy loss function in our model
+the training validation test split was set to
+
+
+of all threads
+we kept this split ratio fixed in all the experiments and for all datasets
+to prevent the model from overfitting we applied early stopping during the training process
+this was done by computing an error value of the model on a validation dataset for every epoch and terminating the training if the error value monotonically increased
+after obtaining the best configuration we retrained the model on ganesan
+com content
+manuscript submitted to acm improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks the union of training and development sets and evaluated it on the test set
+all the training forum threads or news articles are iterated at each epoch
+the training process continues until loss value converges or the maximum epoch number of is met
+regarding the pretrained vectors we apply fasttext and as word level embedding vectors
+for however we apply it as sentence level embedding vectors as sentence vectors trained by bert have shown to give better performances
+table hyperparameter values evaluated in the proposed model
+hyperparameter range number of bi lstm hidden layer neurons number of convolutional layers number of cnn filters cnn receptive field size dropout rate learning rate batch size optimizer
+
+
+
+
+
+
+
+baselines the baselines are as follows
+we compare the proposed model against both unsupervised and supervised methods
+the more detailed descriptions of
+
+unsupervised learning baselines
+the unsupervised learning baselines below are used for our comparative study ilp a baseline integer linear programming framework implemented by
+sumbasic an approach that assumes words occurring frequently in a document cluster have a higher chance of being included in the summary
+kl sum a method that adds sentences to the summary so long as it decreases the kl divergence
+lsa the latent semantic analysis technique to identify semantically important sentences
+lexrank a graph based summarization approach based on eigenvector centrality
+mead a centroid based summarization system that scores sentences based on sentence length centroid and position
+redundant text
+opinosis a graph based algorithm for generating abstractive summaries from large amounts of highly textrank a graph based extractive summarization algorithm which computes similarity among sentences
+supervised learning baselines
+we include also traditional supervised learning methods namely support vector
+
+machine svm and liblinear in our study
+both of which employ the following features cosine similarity of current sentence to thread centroid relative sentence position within the thread the number of words in the
+google
+com archive p
+cc docs en english vectors
+html
+org elmo
+com google research bert option for svm and
+for logreg manuscript submitted to acm tarnpradab et al
+sentence excluding stopwords and max avg total tf idf scores of the consisting words
+the features were designed such that they carry similar information as our proposed model
+
+
+deep learning baseline
+neural network methods including lstm and cnn have been used as a deep learning baseline in our study
+for lstm we implemented a neural network containing a single layer of lstm to classify sentences in each input thread news article
+for cnn the cnn model for sentence classification proposed by kim is applied
+the input layer was initialized with pre trained static word embeddings
+the network uses features extracted from the convolutional layer to perform classification
+in addition we also implemented a variant of han namely hierarchical convolutional neural network which simply replaces lstm with cnn
+this allows us to examine the effectiveness of each individual network versus the unified network
+
+evaluation methods we report and rouge l scores along with sentence level scores for the evaluation
+in particular the quantitative values for each method are computed as precision recall and measure
+note that we will also refer to rouge metrics as and r l for short
+and are metrics commonly used in the duc and tac competitions
+and precision scores are computed as the number of n grams the system summary has in common with its corresponding human reference summaries divided by total n grams in the system summary where and set and respectively
+and recall scores are calculated the same way except that the number of overlapping n grams are divided by the total n grams in the human reference summary
+finally the score for and is the harmonic mean of precision and recall
+we use and as a means to assess informativeness
+rouge l measures the longest common subsequence of words between the sentences in the system summary and the reference summary
+the higher the r l the more likely that the output summary has n grams in the same order as the reference summary
+this would better preserve the semantic meaning of the reference summary
+the sentence level score is based on labels which means that each sentence can have a true or false value indicating if the sentence is to be part of the summary
+when the summarizer labels sentences as true in both the reference set actual class and the system set predicted class those sentences are regarded as true positives
+sentences labelled true in the reference set yet false in the system set are false negatives
+sentences labelled true in the system set yet false in the reference set are false positives
+finally sentences labelled false in both the system set and the reference set are true negatives
+table presents the confusion matrix
+table confusion matrix
+predicted class true false actual class true false true positives tp false positives fp false negatives fn true negatives tn sentence level precision is the number of true positives divided by the sum of true positives and false positives
+sentence level recall is the number of true positives divided by the sum of true positives and false negatives
+lastly manuscript submitted to acm improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks sentence level is the harmonic mean of recall and precision
+sentence level scores basically report the classification performance of the model
+performance evaluation results and discussions our hybrid network is compared against a set of unsupervised and supervised approaches along with variants of hierarchical methods
+in this section we first discuss the performance of different methods which involve traditional machine learning baselines non hierarchical and hierarchical deep learning methods
+then we explain comparisons observations and provide our detailed analysis
+after that extensive ablation studies are presented
+
+comparison with traditional machine learning baselines among the unsupervised learning baselines in table the sentence classification results from mead demonstrate good performance
+mead has also been shown to perform well in previous studies such as
+in this study mead and lexrank are centroid based meaning that sentences that contain more words from the cluster centroid are considered to be holding key information thereby increasing the likelihood of being included in the final summary
+a similar pattern in results appears in kl sum and lsa
+nonetheless in terms of rouge evaluation as shown in table they were all outperformed by hierarchical based approaches
+opinosis has poor performance since it relies heavily on the redundancy of the data to generate a graph with meaningful paths
+to this end the hierarchical approaches appear to achieve better performance without the need for sophisticated constraint optimization such as in ilp
+regarding the supervised learning baselines according to table a pattern of high precision and low recall can generally be observed for both svm and logreg
+the results reflect that among the sentences classified as true there are several unigrams overlapping with the reference summaries
+however when evaluating with higher n grams the results show that only a few matches exist between the system and the references
+considering the sentence level scores of the trip advisor dataset as an example it can be seen that logreg has failed to extract representative sentences as evidenced from the
+precision and
+recall which are the lowest
+comparing the traditional models against hierarchical based models has shown that the hierarchical models have shown better potential in classifying and selecting salient sentences to form a summary
+furthermore both traditional baselines possess one disadvantage which is their reliance on a set of features from the feature engineering process
+these handcrafted features usually obtained from studying signals observable from the data might not be able to capture all the traits necessary for the models to learn and differentiate between classes
+
+comparison to non hierarchical deep learning methods in general lstm outperforms cnn in terms of sentence classification as well as rouge evaluation
+particularly for the sentence classification task lstm has shown to achieve high precision scores across all datasets
+this indicates the importance of the learning of sequential information towards obtaining an effective representation
+cnn although proven to be efficient in previous studies as shown in table the results have evidenced that omitting sequential information essentially results in an inferior performance
+in terms of rouge evaluation according to table and of both lstm and cnn baselines are quite competitive compared to the hierarchical based methods
+however with respect to r l scores hierarchical based models generally have better performance by a significant margin
+we observe that hierarchical models have an advantage over the non hierarchical deep learning methods in a sense that they also explore hierarchical structure on top of sequential information learned via lstm and feature extraction via cnn
+manuscript submitted to acm tarnpradab et al
+trip advisor reddit newsroom fig
+comparison of scores among hierarchical methods based on sentence level scores
+axis denotes types of embeddings fasttext elmo bert
+y axis denotes scores normalized between
+the bar color blue presents han orange presents hcnn and gray presents hybrid model
+
+comparison with another hierarchical attention based deep network of all the hierarchical based models we compare the proposed model against the state of the art han model to examine whether the hybrid architecture contributes to performance gain loss
+we hypothesize that unifying lstm and cnn encourages the leverage of both short term and long term dependencies which are keys to learning and generating effective representation for the summarizer
+we also make a comparison with the hierarchical convolutional neural network hcnn to observe the effect of excluding long term dependencies captured by lstm
+according to table the sentence level score shows that on average the performance of hybrid network is comparative to other hierarchical methods regardless of the choice of embedding
+hcnn is generally the most inferior among the three hierarchical models
+this demonstrates that lstm layers play a key role in capturing sequential information which is essential for the system to understand input documents
+without lstm layers the system only obtains high level representation through cnn which captures only important n grams sentences independent of their position in the sentence thread
+this has been shown to be insufficient to generate an effective representation
+using both lstm and cnn has shown a promising avenue for improving summarization
+it is important to note that when the contextual representation is employed especially for reddit and newsroom datasets their results have shown high precision yet low recall
+this indicates that few sentences are predicted as a part of summary sentence however most of its predicted labels are correct
+figure illustrates a comparison among hierarchical methods with respect to sentence level scores with respect to rouge evaluation table shows that rouge scores for the hierarchical model are promising
+among the hierarchical models the hybrid methods outperform others in all datasets as displayed in figure i
+we present example summaries generated by the hierarchical models in figure
+the results indicate that for the hybrid model among all its true labeled sentences
+were labeled correctly which is higher than the rest of the across all datasets
+hierarchical models
+we also observed the behavior of each hierarchical model in terms of loss that is minimized
+figure illustrate the training loss of each hierarchical model per fold
+we note that for every fold of every model the objective loss continuously decreases and begins to converge very early on
+the average losses across all epochs of han hcnn and hybrid model are approximately
+
+and
+respectively
+more fluctuations also appear in the hcnn curve
+the hybrid model converges faster due to the larger model complexity
+manuscript submitted to acm improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks table variance of scores across all threads news articles are also presented
+sentence level classification results from all models
+precision p recall r and scores f are reported in percentage
+embedding method p r f p f p r f trip advisor newsroom reddit r ilp sum basic kl sum lsa lexrank mead svm logreg lstm cnn han hcnn hybrid han hcnn hybrid han hcnn hybrid han hcnn hybrid han hcnn hybrid han hcnn hybrid han hcnn hybrid han hcnn hybrid
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+hierarchical static embedding hierarchical elmo baselines
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+hierarchical bert
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fasttext fasttext fasttext manuscript submitted to acm tarnpradab et al
+table summarization results from all models
+scores are reported in percentage for and rouge l respectively
+embedding method trip advisor reddit r l newsroom r l ilp sum basic kl sum lsa lexrank mead opinosis textrank svm logreg lstm cnn han hcnn hybrid han hcnn hybrid han hcnn hybrid han hcnn hybrid han hcnn hybrid han hcnn hybrid han hcnn hybrid han hcnn hybrid
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+r l baselines
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+hierarchical static embedding
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+hierarchical elmo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+hierarchical bert
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fasttext fasttext fasttext manuscript submitted to acm improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks a trip advisor reddit c newsroom trip advisor e reddit newsroom g r l trip advisor h r l reddit fig
+comparison of scores among hierarchical methods based on rouge scores
+axis denotes types of embeddings fasttext elmo bert
+y axis denotes scores normalized between
+the bar color blue presents han orange presents hcnn and gray presents hybrid model
+fig
+are scores fig
+are scores and fig
+are r l scores
+r l newsroom manuscript submitted to acm tarnpradab et al
+fig
+accuracy value is computed as a ratio of number of correctly labelled sentences out of total sentences selected by the model
+example of output summaries generated by each hierarchical model
+presented in bold are correctly labelled sentences
+manuscript submitted to acm improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks fold fold fold fold fold fold fig
+shown to plateau from this point forward
+plots showing the convergence of training loss per fold
+the results from first epochs are displayed since all models have manuscript submitted to acm tarnpradab et al
+
+ablation study our model from various aspects
+in this subsection we discuss our observations from extensive ablation experiments conducted to better understand
+
+model component analysis
+comprehensive component analysis is performed by adding different components on top of baseline methods as presented in table
+the results reveal that using a model equipped with either cnn or lstm alone performs poorly across all datasets
+this indicates that leveraging the hierarchical structure of an input document to generate a document representation has helped boost the performance
+specifically the hierarchical structure captures information at both word and sentence levels word level representation is learned and subsequently aggregated to form a sentence likewise sentence level representation is learned and subsequently aggregated to form document representation
+among all hierarchical based models the rouge l scores of han and hcnn are comparative whereas the union of both has illustrated an evident performance gain
+the shift in improvement is also noticeable for reddit and newsroom datasets both of which are larger in size than trip advisor
+according to table when comparing results from the proposed hybrid model against those from baseline cnn and baseline lstm the overall improvement is
+for trip advisor dataset
+and
+for reddit dataset and
+and
+for newsroom dataset respectively
+table ablation study to investigate the effect of each component in the hierarchical based models
+scores of rouge l are compared unit in percentage
+the component available in the model
+the overall improvement in red and blue are the hybrid model performance gain compared to baseline lstm and baseline cnn respectivey
+model component hierarchical attention lstm cnn trip advisor reddit newsroom data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+baseline lstm baseline cnn han hcnn hybrid overall improvement
+
+effect of cnn configurations
+table and show the model performance on different receptive field sizes and different number of convolutional layers while other parameters remain fixed
+it is important to note that when multiple receptive field sizes are used such as an output obtained from each local feature needs to be concatenated first to yield a representation that will be used by a layer following cnn
+we observe that the receptive field size of outperforms others across all datasets in both sentence classification and rouge evaluation
+for reddit dataset in particular the decrease in performance is notable
+regarding the number of convolutional layers we observe that increasing convolutional layers leads to a drop in overall performance
+with the number of layers of highest the classification performance as well as the output summary quality are the lowest
+the cnn part of our hybrid model therefore applies a receptive field size of and a single convolutional layer
+manuscript submitted to acm improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks table ablation study to investigate the effect of receptive field size towards the overall performance improvement
+scores are reported for both sentence level classification sl and rouge evaluation r l
+shaded in gray are best values in
+non shaded values presents loss compared to the best values also in
+size sl
+
+
+
+trip advisor
+
+
+
+
+
+
+
+r l
+
+
+
+reddit sl r l sl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+newsroom
+
+
+
+
+
+
+
+r l
+
+
+
+table ablation study to investigate the effect of number of convolutional towards the overall performance improvement
+scores are reported for both sentence level classification sl and rouge evaluation r l
+shaded in gray are best values in
+non shaded values presents loss compared to the best values also in
+depth sl trip advisor
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+reddit r l
+
+
+
+
+
+sl r l sl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+newsroom
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+representation learning
+in this section we discuss the impact of different embeddings on the hierarchical models
+we report the effect of using static word embeddings versus contextual embeddings
+we also concatenate static and contextual embeddings to examine their joint effect on the performance
+we investigate the outputs from the model initialized with only static word embeddings
+the results for all datasets in table show that using mostly is superior to fasttext in classifying sentence labels as well as in terms of rouge evaluation
+with respect to contextual representations for trip advisor dataset the results show that bert embeddings yield better classification performance in terms of sentence level scores than elmo
+for the remaining datasets however the sentence level results mostly reveal a significant drop in the recall and thus a drop in scores as a consequence
+as aforementioned in section
+this indicates that the system determines few sentences as worthy yet most of these sentences are correctly labelled
+from table the rouge evaluation shows that in general using static word embeddings achieves better performance
+in addition inspired by the study of we concatenated both static and contextual representations at the level encoders
+in terms of sentence level scores in general the results show that the concatenation does not significantly affect the performance except for and in reddit dataset of which a significant improvement can be noticed in han and hybrid models
+with respect to rouge evaluation the results obtained from concatenated representation also do not reflect a significant improvement
+
+
+effect of attention mechanism on selecting salient units
+we investigate the attention layer to validate whether the attention mechanism aids in selecting representative units
+table shows that with respect to rouge evaluation when the attention mechanism is incorporated in the model the performance is improved across all datasets
+in particular for the larger dataset reddit and newsroom the difference of results between with and without attention is manuscript submitted to acm tarnpradab et al
+the performance
+nontrivial
+in terms of sentence level classification incorporating the attention mechanism does not significantly affect it is important to note that the proposed hybrid model attends to important bigrams at the word level and contiguous sentence pairs at the sentence level
+at the word level the attention value of each bigram influences the sentence vector to which the bigram belongs
+the attention weight is computed according to the relevance of each bigram given the sentence context
+if a sentence contains many bigrams with high attention values its corresponding sentence vector will potentially contain information about these prominent bigrams
+in the sentence level likewise the attention values of the sentence pairs influence the resulting thread vector
+a high attention value of a sentence pair indicates its importance and relevance towards the thread key concept
+this attention weighted sentence pair goes through softmax normalization from which the output indicates how likely a sentence pair is a key unit for the summary
+figure illustrates a visualization of words in the example summary
+the bigram with high attention weight will be highlighted with a darker shade compared to other bigrams with lower attention
+the sentence i am glad you are so mellow and think that it might be difficult filling up the morning before you get married at noon contains two bigrams namely glad you and are so which have attention weights of
+and
+respectively
+the sentence encoder outputs a weighted sum of the bigrams using normalized attention as weight and the two aforementioned bigrams are represented the most in the encoded sentence
+later in the thread encoder this sentence has also shown to be in one of the highest sentence pairs ranked by attention weights
+finally in the final summary it can be noticed that the majority of sentences italicized are those belonging to the example sentence pairs with high ranked weights
+nevertheless we emphasize that it is not necessarily the case that if a sentence is in a sentence pair with high attention it will be selected into the final summary
+high attention weights only indicate the significance of the constituent unit
+in other words whether or not a sentence is chosen into the summary is determined by the output layer which considers both sentence and thread representations concatenated together
+however it is observed that when sentences belong to sentence pairs with high attention weights they have a higher chance of being selected into the final thread summary
+table ablation study to investigate the effect of attention mechanism
+the results are obtained from hybrid model
+the attention mechanism is applied in the model whereas the opposite case
+data sentence level r l trip advisor reddit newsroom
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+manuscript submitted to acm improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks fig
+visualization of the generated summary for a forum thread
+top relative attention weights for each bigram by the hybrid model over an entire thread
+bigrams with a darker highlight present higher importance
+the attention values of all bigrams were obtained from word level attention layer
+bottom the first row presents a list of top bigrams that are ranked according to their attention values formatted as a bigram attention weights tuple
+the second row presents a list of sentence pairs ranked by attention weights where the highest weight is
+
+the bigrams in bold and underlined are those with highest attention weights
+the third row presents the final summary which lists all chronologically ordered extracted sentences
+the sentences in italic are those in the top sentence pairs with highest attention weights
+manuscript submitted to acm conclusions tarnpradab et al
+in this study we present a framework based on hierarchical attention networks to extractively summarize online forum threads
+our proposed networks unify two deep neural networks namely bi lstm and cnn to obtain representations that are used to classify whether or not the sentence is summary worthy
+since the proposed approach can be framed as multi document summarization we also evaluate the proposed approach on news domain dataset in addition to online forums
+the experimental results on three real life datasets have demonstrated that the proposed model outperforms the majority of baseline methods
+our findings confirm the initial hypothesis that the capability of encoders can be enhanced through the unified architecture
+in essence bi lstm serves a role to capture contextual information whereas cnn helps to signify prominent units that are keys pertaining to a summary
+together the strength of both deep neural networks have been leveraged to achieve effective representations
+finally we have conducted extensive experiments to investigate the effect of attention mechanism and pretrained embeddings
+the results show that applying attention to the high level features extracted and compressed by cnn together with the contextual embeddings provide a promising avenue towards improving an extractive summarization performance
+acknowledgements references this work was supported by crystal photonics inc
+grant
+alan akbik duncan blythe and roland vollgraf
+
+contextual string embeddings for sequence labeling
+in proceedings of the international conference on computational linguistics
+association for computational linguistics santa fe new mexico usa
+
+aclweb
+org anthology federico barrios federico lpez luis argerich and rosa wachenchauzer
+
+variations of the similarity function of textrank for automated summarization
+arxiv preprint
+
+taylor berg kirkpatrick dan gillick and dan klein
+
+jointly learning to extract and compress
+in proceedings of the annual meeting of the association for computational linguistics human language technologies
+association for computational linguistics portland oregon usa
+
+aclweb
+org anthology sumit bhatia prakhar biyani and prasenjit mitra
+
+summarizing online forum discussions can dialog acts of individual messages help
+in proceedings of the conference on empirical methods in natural language processing emnlp
+association for computational linguistics doha qatar
+
+
+piotr bojanowski edouard grave armand joulin and tomas mikolov
+
+enriching word vectors with subword information
+transactions of the association for computational linguistics
+florian boudin hugo mougard and benoit favre
+
+concept based summarization using integer linear programming from concept pruning to multiple optimal solutions
+in proceedings of the conference on empirical methods in natural language processing
+association for computational linguistics lisbon portugal
+
+
+jose camacho collados and mohammad taher pilehvar
+
+from word to sense embeddings a survey on vector representations of meaning
+journal of artificial intelligence research
+ziqiang cao wenjie li sujian li and furu wei
+
+improving multi document summarization via text classification
+in proceedings of the thirty first aaai conference on artificial intelligence san francisco california usa
+aaai press
+ziqiang cao wenjie li sujian li furu wei and yanran li
+
+attsum joint learning of focusing and summarization with neural attention
+in proceedings of coling the international conference on computational linguistics technical papers
+the coling organizing committee osaka japan
+
+aclweb
+org anthology giuseppe carenini raymond t
+ng and xiaodong zhou
+
+summarizing emails with conversational cohesion and subjectivity
+in proceedings of hlt
+association for computational linguistics columbus ohio
+
+aclweb
+org anthology jianpeng cheng and mirella lapata
+
+neural summarization by extracting sentences and words
+in proceedings of the annual meeting of the association for computational linguistics volume long papers
+association for computational linguistics berlin germany
+
+
+manuscript submitted to acm improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks andr ferreira cruz gil rocha and henrique lopes cardoso
+
+on document representations for detection of biased news articles
+in proceedings of the annual acm symposium on applied computing brno czech republic sac
+association for computing machinery new york ny usa
+
+
+
+hoa trang dang and karolina owczarzak
+
+overview of the tac update summarization task
+in proceedings of text analysis conference tac
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language understanding
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies volume long and short papers
+association for computational linguistics minneapolis minnesota
+https
+
+yijun duan and adam jatowt
+
+across time comparative summarization of news articles
+in proceedings of the twelfth acm international conference on web search and data mining melbourne vic australia wsdm
+association for computing machinery new york ny usa
+
+
+
+john duchi elad hazan and yoram singer
+
+adaptive subgradient methods for online learning and stochastic optimization
+journal of machine gnes erkan and dragomir r
+radev
+
+lexrank graph based lexical centrality as salience in text summarization
+j
+artif
+int
+res
+dec
+learning research jul
+
+rong en fan kai wei chang cho jui hsieh xiang rui wang and chih jen lin
+
+liblinear a library for large linear classification
+journal of machine learning research
+chong feng fei cai honghui chen and maarten de rijke
+
+attentive encoder based extractive text summarization
+in proceedings of the acm international conference on information and knowledge management torino italy cikm
+association for computing machinery new york ny usa
+
+
+
+kavita ganesan
+
+rouge
+updated and improved measures for evaluation of summarization tasks
+
+kavita ganesan chengxiang zhai and jiawei han
+
+opinosis a graph based approach to abstractive summarization of highly redundant opinions
+in proceedings of the international conference on computational linguistics
+association for computational linguistics
+max grusky mor naaman and yoav artzi
+
+newsroom a dataset of
+million summaries with diverse extractive strategies
+arxiv preprint aria haghighi and lucy vanderwende
+
+exploring content models for multi document summarization
+in proceedings of human language technologies the annual conference of the north american chapter of the association for computational linguistics
+association for computational linguistics boulder colorado
+
+aclweb
+org anthology udo hahn and inderjeet mani
+
+the challenges of automatic summarization
+computer
+geoffrey hinton nitish srivastava and kevin swersky
+
+
+
+neural networks for machine learning lecture overview of mini batch gradient
+
+descent
+
+d
+
+sepp hochreiter and jrgen schmidhuber
+
+long short term memory
+neural computation
+ya han hu yen liang chen and hui ling chou
+
+opinion mining from online hotel reviews a text summarization approach
+information processing management
+jyun yu jiang mingyang zhang cheng li michael bendersky nadav golbandi and marc najork
+
+semantic text matching for long form documents
+in the world wide web conference san francisco ca usa www
+association for computing machinery new york ny usa
+
+
+
+yoon kim
+
+convolutional neural networks for sentence classification
+in proceedings of the conference on empirical methods in natural language processing emnlp
+association for computational linguistics doha qatar
+
+
+diederik p kingma and jimmy ba
+
+adam a method for stochastic optimization
+arxiv preprint
+
+hyunsoo lee yunseok choi and jee hyong lee
+
+attention history based attention for abstractive text summarization
+in proceedings of the annual acm symposium on applied computing brno czech republic sac
+association for computing machinery new york ny usa
+
+
+
+chin yew lin
+
+rouge a package for automatic evaluation of summaries
+in text summarization branches out
+association for computational linguistics barcelona spain
+
+aclweb
+org anthology hui liu and xiaojun wan
+
+neural review summarization leveraging user and product information
+in proceedings of the acm international conference on information and knowledge management beijing china cikm
+association for computing machinery new york ny usa
+
+
+
+shih hung liu kuan yu chen and berlin chen
+
+enhanced language modeling with proximity and sentence relatedness information for extractive broadcast news summarization
+acm trans
+asian low resour
+lang
+inf
+process
+article feb
+pages
+https
+
+wencan luo fei liu zitao liu and diane litman
+
+automatic summarization of student course feedback
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies
+association for computational linguistics san diego california
+
+
+manuscript submitted to acm tarnpradab et al
+tomas mikolov edouard grave piotr bojanowski christian puhrsch and armand joulin
+
+advances in pre training distributed word representations
+in proceedings of the international conference on language resources and evaluation lrec
+tomas mikolov ilya sutskever kai chen greg corrado and jeffrey dean
+
+distributed representations of words and phrases and their compositionality
+in proceedings of the international conference on neural information processing systems volume lake tahoe nevada
+curran associates inc
+red hook ny usa
+ramesh nallapati feifei zhai and bowen zhou
+
+summarunner a recurrent neural network based sequence model for extractive summarization of documents
+in proceedings of the thirty first aaai conference on artificial intelligence san francisco california usa
+aaai press
+shashi narayan ronald cardenas nikos papasarantopoulos shay b
+cohen mirella lapata jiangsheng yu and yi chang
+
+document modeling with external attention for sentence extraction
+in proceedings of the annual meeting of the association for computational linguistics volume long papers
+association for computational linguistics melbourne australia
+
+
+shashi narayan shay b
+cohen and mirella lapata
+
+ranking sentences for extractive summarization with reinforcement learning
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies volume long papers
+association for computational linguistics new orleans louisiana
+
+
+preksha nema mitesh khapra anirban laha and balaraman ravindran
+
+diversity driven attention model for query based abstractive summarization
+arxiv preprint
+
+minh tien nguyen tran viet cuong and nguyen xuan hoai
+
+exploiting user comments for document summarization with matrix factorization
+in proceedings of the tenth international symposium on information and communication technology hanoi ha long bay viet nam soict
+association for computing machinery new york ny usa
+
+
+
+fumio nihei yukiko i
+nakano and yutaka takase
+
+meeting extracts for discussion summarization based on multimodal nonverbal information
+in proceedings of the acm international conference on multimodal interaction tokyo japan icmi
+association for computing machinery new york ny usa
+
+
+
+fumio nihei yukiko i
+nakano and yutaka takase
+
+fusing verbal and nonverbal information for extractive meeting summarization
+in proceedings of the group interaction frontiers in technology boulder co usa
+association for computing machinery new york ny usa article pages
+
+
+
+jeffrey pennington richard socher and christopher manning
+
+glove global vectors for word representation
+in proceedings of the conference on empirical methods in natural language processing emnlp
+association for computational linguistics doha qatar
+
+
+matthew peters mark neumann mohit iyyer matt gardner christopher clark kenton lee and luke zettlemoyer
+
+deep contextualized word representations
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies volume long papers
+association for computational linguistics new orleans louisiana
+https
+
+dragomir r
+radev hongyan jing magorzata sty and daniel tam
+
+centroid based summarization of multiple documents
+information processing and management
+sebastian ruder
+
+an overview of gradient descent optimization algorithms
+arxiv preprint
+
+koustav rudra niloy ganguly pawan goyal and saptarshi ghosh
+
+extracting and summarizing situational information from the twitter social media during disasters
+acm trans
+web article july pages
+
+
+koustav rudra pawan goyal niloy ganguly prasenjit mitra and muhammad imran
+
+identifying sub events and summarizing disaster related information from microblogs
+in the international acm sigir conference on research development in information retrieval
+
+alexander m
+rush sumit chopra and jason weston
+
+a neural attention model for abstractive sentence summarization
+in proceedings of the conference on empirical methods in natural language processing
+association for computational linguistics lisbon portugal
+
+
+ashish sharma koustav rudra and niloy ganguly
+
+going beyond content richness verified information aware summarization of related microblogs
+in proceedings of the acm international conference on information and knowledge management beijing china cikm
+association for computing machinery new york ny usa
+
+
+
+abhishek kumar singh manish gupta and vasudeva varma
+
+hybrid memnet for extractive summarization
+in proceedings of the acm on conference on information and knowledge management singapore singapore cikm
+association for computing machinery new york ny usa
+
+
+
+josef steinberger et al
+
+
+
+using latent semantic analysis in text summarization and summary evaluation
+
+d
+
+sansiri tarnpradab fei liu and kien a hua
+
+toward extractive summarization of online forum discussions via hierarchical attention networks
+in the thirtieth international flairs conference
+naama tepper anat hashavit maya barnea inbal ronen and lior leiba
+
+collabot personalized group chat summarization
+in proceedings of the eleventh acm international conference on web search and data mining marina del rey ca usa wsdm
+association for computing machinery new york ny usa
+
+
+
+justine raju thomas santosh kumar bharti and korra sathya babu
+
+automatic keyword extraction for text summarization in e newspapers
+in proceedings of the international conference on informatics and analytics pondicherry india
+association for computing machinery manuscript submitted to acm improving online forums summarization via unifying hierarchical attention networks with convolutional neural networks new york ny usa article pages
+
+
+
+lucy vanderwende hisami suzuki chris brockett and ani nenkova
+
+beyond sumbasic task focused summarization with sentence simplification and lexical expansion
+information processing and management
+lu wang and wang ling
+
+neural network based abstract generation for opinions and arguments
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies
+association for computational linguistics san diego california
+
+
+sander wubben suzan verberne ej krahmer and apj van den bosch
+
+facilitating online discussions by automatic summarization
+
+zichao yang diyi yang chris dyer xiaodong he alex smola and eduard hovy
+
+hierarchical attention networks for document classification
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies
+association for computational linguistics san diego california
+
+
+matthew d
+zeiler
+
+adadelta an adaptive learning rate method
+corr
+
+
+
+org
+amy x
+zhang and justin cranshaw
+
+making sense of group chat through collaborative tagging and summarization
+proc
+acm hum
+
+interact
+cscw article nov
+pages
+
+
+ye zhang and byron wallace
+
+a sensitivity analysis of and practitioners guide to convolutional neural networks for sentence classification
+in proceedings of the eighth international joint conference on natural language processing volume long papers
+asian federation of natural language processing taipei taiwan
+
+aclweb
+org anthology zhou zhao haojie pan changjie fan yan liu linlin li min yang and deng cai
+
+abstractive meeting summarization via hierarchical adaptive segmental network learning
+in the world wide web conference san francisco ca usa www
+association for computing machinery new york ny usa
+
+
+
+qingyu zhou nan yang furu wei shaohan huang ming zhou and tiejun zhao
+
+neural document summarization by jointly learning to score and select sentences
+in proceedings of the annual meeting of the association for computational linguistics volume long papers
+association for computational linguistics melbourne australia
+
+
+manuscript submitted to acm

@@ -1,16 +1,13 @@
 n u j r i
-s
-c
-v
-v
-i x r a submitted to ieee signal processing letters vol
+s c v
+v i x r a submitted to ieee signal processing letters vol
 x no
 x on the application of generic summarization algorithms to music francisco raposo ricardo ribeiro david martins matos member ieee abstract several generic summarization algorithms were developed in the past and successfully applied in elds such as text and speech summarization
 in this paper we review and apply these algorithms to music
 to evaluate this summarization s performance we adopt an extrinsic approach we compare a fado genre classier s performance using truncated contiguous clips against the summaries extracted with those algorithms on different datasets
 we show that maximal marginal relevance mmr lexrank and latent semantic analysis lsa all improve classication performance in both datasets used for testing
-introduction
-several algorithms to summarize music have been published mainly for popular music songs whose structure is repetitive enough
+i
+introduction several algorithms to summarize music have been published mainly for popular music songs whose structure is repetitive enough
 however those algorithms were devised with the goal of producing a thumbnail of a song as its summary the same way an image s thumbnail is that image s summary
 therefore the goal is to output a shorter version of the original song so that people can quickly get the gist of the whole piece without listening to all of it
 these algorithms usually extract continuous segments because of their human consumption oriented purpose
@@ -30,23 +27,24 @@ we evaluate the summarization s contribution by comparing the performance of a p
 we summarize music using mmr lexrank lsa and also with a method for music summarization called average similarity for comparison purposes
 we present results on datasets showing that mmr lexrank and lsa improve classication performance under certain parameter combinations
 section ii reviews related work on summarization
-specically the following algorithms are reviewed average similarity in section ii a mmr in section ii b lexrank in section ii c and lsa in section ii section iii describes the details of the experiments we performed for each algorithm and introduces the fado classier
+specically the following algorithms are reviewed average similarity in section ii a mmr in section ii b lexrank in section ii c and lsa in section ii d
+section iii describes the details of the experiments we performed for each algorithm and introduces the fado classier
 section iv reports and discusses our classication results and section v concludes this paper with some remarks and future work
 ii
 summarization several algorithms for both generic and music summarization have been proposed
 however music summarization algorithms were developed to extract an audible summary so that any person can listen to it coherently
 our focus is on automatic consumption so coherence and clarity are not mandatory requirements for our summaries
-
 lexrank and textrank are centrality based methods that rely on the similarity between every sentence
 these are based on google s pagerank algorithm for ranking web pages and are successfully applied in text summarization
 grasshopper is another method applied in text summarization as well as social network analysis focusing on improving diversity in ranking sentences
-mmr
-applied in speech summarization is a query specic method that selects sentences according to their similarity to the query and to the sentences previously selected
+mmr applied in speech summarization is a query specic method that selects sentences according to their similarity to the query and to the sentences previously selected
 lsa is another november draft submitted to ieee signal processing letters vol
 x no
 x method used in text summarization based on the mathematical technique singular value decomposition svd
 music specic summarization structurally segments songs and then selects which segments to include in the summary
-this segmentation aims to extract meaningful segments chorus bridge
+this segmentation aims to extract meaningful segments e
+
+chorus bridge
 presents two approaches for segmentation using a hidden markov model hmm to detect key changes between frames and dynamic time warping dtw to detect repeating structure
 in segmentation is achieved by correlating a gaussian tempered checkerboard kernel along the main diagonal of the similarity matrix of the song outputting segment boundaries
 then a segment indexed similarity matrix is built containing the similarity between every detected segment
@@ -68,151 +66,145 @@ it simply allows us to look at the variability and repetition of the signal and 
 structural segmentation aims to nd meaningful segments to people of the song so that we can later select those segments to include in the summary
 this type of segmentation often leads to audible summaries which violate copyrights of the original songs
 fixed segmentation combined with generic summarization algorithms may help evade those issues
-
 in the following sections we review the algorithms we chose to evaluate average similarity mmr lexrank and lsa
 november draft submitted to ieee signal processing letters vol
 x no
-x average similarity research efforts such as
+x a
+average similarity research efforts such as
 this approach to summarization has the purpose of nding a xed length continuous music segment of duration l most similar to the entire song
 this method was introduced in and later used in other the method consists of building a similarity matrix for the song and calculating an aggregated measure of similarity between the whole song and every l seconds long segment
-
 in mel frequency cepstral coefcient are computed but only the with highest variance are kept
 the cosine distance is used to calculate pairwise similarities
-
 in the rst mfccs and the spectral centre of gravity sound brightness are used
 the tchebychev distance was selected for building the similarity matrix
-once the similarity between every frame is calculated we build a similarity matrix s and embed the similarity values between feature vectors vi and vj in it
-s i j s
-vi vj
+once the similarity between every frame is calculated we build a similarity matrix s and embed the similarity values between feature vectors vi and vj in it s i j s vi vj
 the average similarity measure can be calculated by summing up columns or rows since the similarity matrix is symmetric of the similarity matrix according to the desired summary length l starting from different initial frames
 the maximum score will correspond to the segment that is most similar to the whole song
-to nd the best summary of length l we must compute the score ql i ql
-i
-s i i l n l n x m i x s m n n is the number of frames in the entire piece
+to nd the best summary of length l we must compute the score ql i ql i s i i l n l n x m i x s m n n is the number of frames in the entire piece
 the index i n l of the best summary starting frame is the one that maximizes ql i
 the evaluations of this method in the literature are subjective human evaluations that take into account whether the generated summaries include the most memorable of the song
 other evaluations are averages of scores given by test subjects regarding specic qualities of the summary such as clarity conciseness and coherence
-
-maximal marginal relevance mmr
-selects sentences from the signal according to their relevance and to their diversity against the already selected sentences in order to output low redundancy summaries
+b
+maximal marginal relevance mmr selects sentences from the signal according to their relevance and to their diversity against the already selected sentences in order to output low redundancy summaries
 this approach has been used in speech summarization
 it is a query specic summarization method though it is possible to produce generic summaries by taking the centroid vector of all the sentences as in as the query
-mmr iteratively selects the sentence
-si that maximizes the following mathematical model november draft submitted to ieee signal processing letters vol
+mmr iteratively selects the sentence si that maximizes the following mathematical model november draft submitted to ieee signal processing letters vol
 x no
-x si q
-max
-sj
-si sj and are the possibly different similarity metrics si are the unselected sentences and
-sj are the previously selected ones q is the query and is a congurable parameter that allows the selection of the next sentence to be based on its relevance its diversity or a linear combination of both
+x si q max sj si sj and are the possibly different similarity metrics si are the unselected sentences and sj are the previously selected ones q is the query and is a congurable parameter that allows the selection of the next sentence to be based on its relevance its diversity or a linear combination of both
 usually sentences are represented as term frequency inverse document frequency tf idf scores vectors
 the cosine similarity is frequently used as and
+c
 lexrank lexrank is a centrality based method that relies on the similarity for each sentence pair
-this centrality based method is based on google s pagerank
-algorithm for ranking web pages
+this centrality based method is based on google s pagerank algorithm for ranking web pages
 the output is a list of ranked sentences from which we can extract the most central ones to produce a summary
-
 first we compare all sentences normally represented as tf idf scores vectors to each other using a similarity measure
 lexrank uses the cosine similarity
 after this step we build a graph where each sentence is a vertex and edges are created between every sentence according to their pairwise similarity
 usually the similarity score must be higher than some threshold to create an edge
 lexrank can be used with both weighted and unweighted edges
-then we perform the following calculation iteratively for each vertex until convergence is achieved when the error rate of two successive iterations is below a certain threshold for every vertex s vi vi d
-n vi
-x sim vi vj
-
-sim vj vk
-s vj is a damping factor to guarantee the convergence of the method n is the total number of vertices and s vi is the score of vertex
+then we perform the following calculation iteratively for each vertex until convergence is achieved when the error rate of two successive iterations is below a certain threshold for every vertex s vi vi d n vi x sim vi vj sim vj vk s vj is a damping factor to guarantee the convergence of the method n is the total number of vertices and s vi is the score of vertex i
 this is the case where edges are weighted
-when using unweighted edges the equation is simpler s vi d
-n
-s
-vj
-d vj x
-vj d vi is the degree number of edges of vertex we can construct a summary by taking the highest ranked sentences until a certain summary length is reached
+when using unweighted edges the equation is simpler s vi d n s vj d vj x vj d vi is the degree i
+e
+number of edges of vertex i
+we can construct a summary by taking the highest ranked sentences until a certain summary length is reached
 november draft submitted to ieee signal processing letters vol
 x no
 x this method is based on the fact that sentences recommend each other
 a sentence very similar to many other sentences will get a high score
 sentence score is also determined by the score of the sentences recommending it
+d
 latent semantic analysis lsa is based on the mathematical technique svd that was rst used for text summarization in
 svd is used to reduce the dimensionality of an original matrix representation of the text
-to perform lsa based text summarization we start by building a t terms by n sentences matrix each element of a aij lijgi has two weight components a local weight and a global weight
+to perform lsa based text summarization we start by building a t terms by n sentences matrix a
+each element of a aij lijgi has two weight components a local weight and a global weight
 the local weight is a function of the number of times a term occurs in a specic sentence and the global weight is a function of the number of sentences that contain a specic term
-applying svd to matrix a
-will result in a decomposition formed by three matrices u a t n matrix of left singular vectors its columns a n n diagonal matrix of singular values and v t a n n matrix of right singular vectors its rows a u v t
-
+applying svd to matrix a will result in a decomposition formed by three matrices u a t n matrix of left singular vectors its columns a n n diagonal matrix of singular values and v t a n n matrix of right singular vectors its rows a u v t
 singular values are sorted by descending order in matrix and are used to determine topic relevance
-
 each latent dimension corresponds to a topic
 we calculate the rank k approximation by taking the rst k columns of u the k k sub matrix of and the rst k rows of v t
 we can extract the most relevant sentences by iteratively selecting sentences corresponding to the indices of the highest values for each most relevant right singular vector
-
 in two limitations of this approach are discussed the fact that k is equal to the number of sentences in the summary which as it increases tends to include less signicant sentences and that sentences with high values in several dimensions topics but never the highest will never be included in the summary
-to compensate for these problems a sentence score was introduced and k is chosen so that the k singular value does not fall under half of the highest singular value score j
-qp i
+to compensate for these problems a sentence score was introduced and k is chosen so that the k singular value does not fall under half of the highest singular value score j qp i
 iii
 experiments to evaluate these algorithms on music we tested their impact on a fado classier
 this classier simply classies a song as fado or non fado
 fado is a portuguese music genre whose instrumentation usually consists solely of stringed instruments such as the classical guitar and the portuguese guitar
 the classier is a support vector machine svm
-
-
 the features used by the svm consist of a dimensional vector per song which is a concatenation of features average vector of the rst mfccs of the song root mean square rms energy high frequencies dimensional rhythmic features and low frequencies dimensional rhythmic features
 november draft submitted to ieee signal processing letters vol
 x no
-x these rhythmic features are computed based on the fast fourier transform fft coefcients on the hz to
-hz range low frequencies and on the hz to hz range high frequencies
+x these rhythmic features are computed based on the fast fourier transform fft coefcients on the hz to hz range low frequencies and on the hz to hz range high frequencies
 assuming v is a matrix of fft coefcients with frequency varying through columns and time through lines each component of the dimensional vector is maxamp max of the average v along time minamp min of the average v along time number of v values above of maxamp number of v values above of maxamp number of v values above maxamp number of v values below minamp mean distance between peaks standard deviation of distance between peaks max distance between peaks
-
 these features capture rhythmic information in both low and high frequencies
 fado does not have much information in the low frequencies as it does not contain for example drum kicks
 however due to the string instruments used fado information content is higher in the high frequencies making these features good for distinguishing it from other genres
 we used datasets in our experiments which consist of songs from which half of them are fado songs and the other half are not
 the fado songs are the same in both datasets
-the datasets are encoded in mono bit
-hz microsoft wav les
+the datasets are encoded in mono bit hz microsoft wav les
 we will make the post summarization datasets available upon request
 we used fold cross validation when calculating classication performance
 the classication formance was calculated rst for the beginning middle and end sections of of the songs to get a baseline and then we compared it with the classication using the summaries also for each parameter combination and algorithm
-
 for feature extraction we used opensmile s implementation namely to extract mfcc feature vectors
 we also used the armadillo library for matrix operations and the marsyas library for synthesizing the summaries
+for average similarity we experimented with different frame sizes
 
-for average similarity we experimented with different frame sizes and s with both and no overlap
+and s with both and no overlap
 we also experimented with mfcc vector sizes of and
 to use the generic summarization algorithms however we need additional processing steps
 we adapted those algorithms to the music domain by mapping the audio signal frames represented as mfcc vectors to a discrete representation of words and sentences
-for each piece being summarized we cluster all of its frames using the mlpack k means algorithm implementation which calculates the vocabulary for that song each frame is now a word from that vocabulary
-then we segment the whole piece into xed size sentences word sentences
+for each piece being summarized we cluster all of its frames using the mlpack k means algorithm implementation which calculates the vocabulary for that song i
+e
+each frame is now a word from that vocabulary
+then we segment the whole piece into xed size sentences e
+
+word sentences
 this allows us to represent each sentence as a vector of word occurrences frequencies depending on the type of weighting chosen which lets us compare sentences with each other using the cosine distance
 november draft submitted to ieee signal processing letters vol
 x no
 x in our implementation of mmr we calculate the similarity between every sentence only once and then apply the algorithm until the desired summary length is reached
-we experimented using different values for and and different weighting types raw counting of the term binary presence of the term tf idf and dampened tf idf same as tf idf but takes logarithm of tf instead of tf itself
-the damping factor used in lexrank was and the convergence threshold was set to
+we experimented using different values for
+
+and
+and different weighting types raw counting of the term binary presence of the term tf idf and dampened tf idf same as tf idf but takes logarithm of tf instead of tf itself
+the damping factor used in lexrank was
+and the convergence threshold was set to
+
 we also calculated the similarity between every sentence only once applying the iterative algorithm and picking sentences until the desired summary length is reached
 we also tested lexrank using the same weighting types as for mmr
-we used armadillo s
-implementation of the svd operation to implement lsa
+we used armadillo s implementation of the svd operation to implement lsa
 after sentence word segmentation we apply svd to the term by sentences matrix column wise concatenation of all sentence vectors
 we then take the rank k approximation of the decomposition where the kth singular value is not smaller than half of the k singular value
 then we calculate the sentence score as explained in section ii d for each sentence and pick sentences according to that ranking until the desired summary length is reached
 we tested lsa with both raw and binary weighting
-we tested mmr lexrank and lsa with all combinations of the following parameter values frame size of with no overlap and with hops overlap vocabulary size of and words and sentence size of and words
+we tested mmr lexrank and lsa with all combinations of the following parameter values frame size of
+with no overlap and with
+hops overlap vocabulary size of and words and sentence size of and words
 we used mfcc vectors of size as features for these experiments they are widely used in many mir tasks including music summarization in
 iv
-results
-we present only the most interesting results since we tried many different parameter combinations for each algorithm
-the frame hop size columns indicate the frame hop sizes in seconds which can be interpreted as overlap the pair stands for frames of duration with a hop size of which corresponds to a overlap between frames
-the classication accuracy results for the contiguous segments which constitute the baseline are and for the beginning middle and end sections respectively on dataset and and on dataset
+results we present only the most interesting results since we tried many different parameter combinations for each algorithm
+the frame hop size columns indicate the frame hop sizes in seconds which can be interpreted as overlap e
 
-the average similarity algorithm was successful in improving classication performance on dataset as maximum accuracy obtained with frame size of s no overlap mfccs but not on dataset maximum accuracy with frame size of s no overlap mfccs
+the pair
 
+stands for frames of
+duration with a hop size of
+which corresponds to a overlap between frames
+the classication accuracy results for the contiguous segments which constitute the baseline are
+
+and for the beginning middle and end sections respectively on dataset and
+and
+on dataset
+the average similarity algorithm was successful in improving classication performance on dataset
+as maximum accuracy obtained with frame size of
+s no overlap mfccs but not on dataset
+maximum accuracy with frame size of
+s no overlap mfccs
 in table i we can see that although not all parameter combinations for mmr yielded an increase in classication performance on both datasets some combinations did do that
 for example the best november draft submitted to ieee signal processing letters vol
 x no
-x combination on the dataset yielded accuracy but on dataset it yielded only which is lower than the baseline
+x combination on the dataset yielded accuracy but on dataset it yielded only
+which is lower than the baseline
 however all other parameter combination presented in those tables yield a better result than the baseline for both datasets
 we also noticed that smaller values of would result in worse accuracy scores
 we can also see that the best parameter combination for lexrank on dataset was also the best on dataset
@@ -223,91 +215,215 @@ moreover those terms might not even appear anywhere else in the song which will 
 these issues are detected when lsa chooses those unwanted sentences because they will have a high score on a certain latent topic
 the binary weighting alleviates these problems because we only check for the presence of a term not its frequency and the document frequency of that term is not taken into account
 lsa also achieved results above the baseline table i
-conclusions and future work
-we evaluated summarization through classication for mmr lexrank and lsa in the music domain
-
+v
+conclusions and future work we evaluated summarization through classication for mmr lexrank and lsa in the music domain
 more experimenting should be done to nd a set of parameter combinations that will work for most music contexts
 future work includes testing other summarization algorithms other similarity metrics other types of features and other types of classiers
 the use of gaussian mixture models may also help in nding more natural vocabularies and beat detection might be used to nd better values for xed segmentation
 november draft submitted to ieee signal processing letters vol
 x no
-x table
-i mmr lexrank and lsa mfcc frame
-size hop size vocab
-sentence
-size size weighting accuracy mmr on dataset damptf mmr on dataset damptf
-binary binary damptf binary binary damptf damptf binary damptf
-raw damptf binary damptf
-raw binary binary binary binary binary binary
-binary binary lexrank on dataset lexrank on dataset lsa on dataset lsa on dataset november draft submitted to ieee signal processing letters vol
+x table i mmr lexrank and lsa mfcc frame size hop size vocab
+sentence size size weighting accuracy mmr on dataset
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+damptf mmr on dataset damptf binary binary damptf binary binary damptf damptf binary damptf raw damptf binary damptf raw binary binary binary binary binary binary binary binary
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+lexrank on dataset lexrank on dataset lsa on dataset lsa on dataset november draft submitted to ieee signal processing letters vol
 x no
-x references
+x references w
 chai semantic segmentation and summarization of music methods based on tonality and recurrent structure signal processing magazine ieee vol
-no pp
+no
+pp
 march
-cooper and foote summarizing popular music via structural similarity analysis in applications of signal processing to audio and acoustics ieee workshop on
+m
+cooper and j
+foote summarizing popular music via structural similarity analysis in applications of signal processing to audio and acoustics ieee workshop on
 oct pp
 
-
-peeters burthe and rodet toward automatic music audio summary generation from signal analysis in proc
+g
+peeters a
+l
+burthe and x
+rodet toward automatic music audio summary generation from signal analysis in proc
 intl
 conf
 on music information retrieval pp
 
-
-peeters and rodet signal based music structure discovery for music audio summary generation in proc of the intl
+g
+peeters and x
+rodet signal based music structure discovery for music audio summary generation in proc
+of the intl
 computer music conf
 icmc pp
 
-
-chu and logan music summary using key phrases hewlett packard cambridge research laboratory cambridge cooper and foote automatic music summarization via similarity analysis in proc
+s
+chu and b
+logan music summary using key phrases hewlett packard cambridge research laboratory cambridge m
+cooper and j
+foote automatic music summarization via similarity analysis in proc
 int
 conf
 music information ma tech
+rep
 crl april
-retrieval fingerhut ed pp
+retrieval m
+fingerhut ed
+pp
 
-no pp
+no
+pp
+jan
 
-glaczynski and lukasik automatic music summarization a thumbnail approach archives of acoustics vol
-bartsch and wakeeld audio thumbnailing of popular music using chroma based representations ieee transactions on multimedia vol
-no pp
+j
+glaczynski and e
+lukasik automatic music summarization a thumbnail approach archives of acoustics vol
+m
+a
+bartsch and g
+h
+wakeeld audio thumbnailing of popular music using chroma based representations ieee transactions on multimedia vol
+no
+pp
 
-antunes de matos ribeiro and trancoso automatic fado music classication corr
+p
+g
+antunes d
+m
+matos r
+ribeiro and i
+trancoso automatic fado music classication corr
 
-erkan and radev lexrank graph based lexical centrality as salience in text summarization journal of articial intelligence research vol
-no pp
+g
+erkan and d
+r
+radev lexrank graph based lexical centrality as salience in text summarization journal of articial intelligence research vol
+no
+pp
+dec
 
-mihalcea and tarau textrank bringing order into texts in proc of emnlp
+r
+mihalcea and p
+tarau textrank bringing order into texts in proc
+of emnlp
 barcelona spain association for computational linguistics july pp
 
-
-brin and page the anatomy of a large scale hypertextual web search engine in seventh intl
+s
+brin and l
+page the anatomy of a large scale hypertextual web search engine in seventh intl
 world wide web conf
 www
 november draft submitted to ieee signal processing letters vol
 x no
-x zhu goldberg gael and andrzejewski improving diversity in ranking using absorbing random walks proc of naacl hlt pp
+x x
+zhu a
+b
+goldberg j
+v
+gael and d
+andrzejewski improving diversity in ranking using absorbing random walks proc
+of naacl hlt pp
 
-
-zechner and waibel minimizing word error rate in textual summaries of spoken language in proc of the north american chapter of the association for computational linguistics conference
+k
+zechner and a
+waibel minimizing word error rate in textual summaries of spoken language in proc
+of the north american chapter of the association for computational linguistics conference
 stroudsburg pa usa association for computational linguistics pp
 
-murray renals and carletta extractive summarization of meeting recordings in proc of the european conf
+g
+murray s
+renals and j
+carletta extractive summarization of meeting recordings in proc
+of the european conf
 on speech communication and technology pp
 
-
-gong and liu generic text summarization using relevance measure and latent semantic analysis in proc of the annual intl
+y
+gong and x
+liu generic text summarization using relevance measure and latent semantic analysis in proc
+of the annual intl
 acm sigir conf
 on research and development in information retrieval
 new york ny usa acm pp
 
-
-carbonell and goldstein the use of mmr diversity based reranking for reordering documents and producing summaries in proc of the annual intl
+j
+carbonell and j
+goldstein the use of mmr diversity based reranking for reordering documents and producing summaries in proc
+of the annual intl
 acm sigir conf
 on research and development in information retrieval
-
-steinberger and jezek using latent semantic analysis in text summarization and summary evaluation in proc
+j
+steinberger and k
+jezek using latent semantic analysis in text summarization and summary evaluation in proc
 new york ny usa acm pp
 
 of isim pp
@@ -315,18 +431,44 @@ of isim pp
 and technology vol
 pp
 
-chang and lin libsvm a library for support vector machines acm transactions on intelligent systems eyben weninger gross and schuller recent developments in opensmile the munich open source multimedia feature extractor in proc of the acm intl
+c
+
+chang and c
+
+lin libsvm a library for support vector machines acm transactions on intelligent systems f
+eyben f
+weninger f
+gross and b
+schuller recent developments in opensmile the munich open source multimedia feature extractor in proc
+of the acm intl
 conf
 on multimedia pp
 
+c
 sanderson armadillo an open source linear algebra library for fast prototyping and computationally intensive experiments nicta australia tech
+rep
 october
+g
+tzanetakis and p
+cook marsyas a framework for audio analysis organised sound vol
+no
+pp
+dec
 
-tzanetakis and cook marsyas a framework for audio analysis organised sound vol
-no pp
-
-
-curtin cline slagle march ram mehta and gray mlpack a scalable machine learning library journal of machine learning research vol
+r
+r
+curtin j
+r
+cline n
+p
+slagle w
+b
+march p
+ram n
+a
+mehta and a
+g
+gray mlpack a scalable machine learning library journal of machine learning research vol
 pp
 
 november draft

@@ -1,0 +1,238 @@
+journal of the physical society of japan letters r a m l c
+s c v
+v i x r a belief propagation for maximum coverage on weighted bipartite graph and application to text summarization hiroki kitano and koujin of mechanical systems engineering graduate school of science and engineering ibaraki university nakanarusawa hitachi ibaraki japan we study text summarization from the viewpoint of maximum coverage problem
+in graph theory the task of text summarization is regarded as maximum coverage problem on bipartite graph with weighted nodes
+in recent study belief propagation based algorithm for maximum coverage on unweighted graph was proposed using the idea of tical mechanics
+we generalize it to weighted graph for text summarization
+then we apply our algorithm to weighted biregular random graph for verication of maximum coverage performance
+we also apply it to bipartite graph senting real document in open text dataset and check the performance of text summarization
+as a result our algorithm exhibits better performance than greedy type algorithm in some setting of text summarization
+text summarization ts is one of the important tasks in natural language processing and many ts methods have been proposed
+among them we focus on the tion method to exclude as many redundant sentences in the document as possible
+in such method ts is regarded as an optimization problem
+for example ts is reformulated as knapsack problem in the past where global optimal solution or approximation solution is discussed
+ts can also be viewed as maximum coverage mc problem of nodes in graph theory as rst discussed in ref
+
+in their work ple greedy algorithm is used to nd approximate solution of mc because mc is np hard
+hence there may exist more appropriate algorithm for mc than simple greedy algorithm
+actually several mc algorithms are compared in the previous work
+in statistical mechanics optimization such as mc is garded as the problem to nd ground state of system
+in ref
+they proposed a novel mc algorithm based on belief gation bp where additional physical parameters i
+e
+perature and chemical potential are introduced to control timization
+as a result they could nd better solution than greedy algorithm by tuning physical parameters
+however their algorithm is for unweighted bipartite graph
+in order to apply this algorithm to ts generalization to weighted graph is necessary
+from such background we consider mc on weighted partite graph for ts
+first we give bp based mc algorithm for weighted bipartite graph
+then we conduct mc ment on biregular random graph in order to compare with an improved greedy algorithm for weighted graph
+next we ply our algorithm to real document and evaluate the performance of ts quantitatively
+here we formulate mc on weighted bipartite graph
+we separate the nodes into two groups x y on bipartite graph where the nodes in dierent groups are not directly connected
+the numbers of elements are n and m tively where means cardinality
+the set of edges between x y is denoted by e
+the binary variable xi is ned on the ith node in x and ya on the ath node in y
+we also dene weight for each nodes ci in x and wa in y
+koujin
+takeda
+
+ibaraki
+ac
+jp x y fig
+
+mc on weighted bipartite graph and ts the left node xi x is a sentence while the right node ya y is a word
+the weight of the left node ci is the number of words in the sentence while the one of the right node describes importance of a word
+sentences are selected to cover as much weight in connected nodes words as possible shaded nodes in the gure with the upper bound for the number of words
+our objective is to solve the integer programming for mc as maximize waya xa s
+t
+cixi k ya xi a xi where k is parameter for upper bound of constraint
+the last inequality for ya means that ya if xi i a where represents neighborhood
+the value xi means the ith node is selected for covering connected nodes in y while ya represents at least one of a s connected nodes is selected for coverage
+if ci wa i a this integer programming is reduced to unweighted mc
+in this case k nodes in x are selected to cover as many connected nodes in y as possible a ya
+see and the performance of coverage is measured by also fig
+
+in the context of ts each node in x is taken as a sentence in the document and each node in y corresponds to a word
+the weight ci means how many words the ith sentence p j
+phys
+soc
+jpn
+letters cludes and the weight w describes the importance of the th word
+using the integer programming in eq
+we want to cover as much weight of words as possible by selecting nicant sentences in the document under the condition that the number of total words in the selected sentences is smaller than k
+the problem in the current ts framework is that the teger programming in eq
+is np hard
+hence we need an algorithm for good approximate solution
+in ref
+the integer programming is solved approximately by greedy algorithm with performance guarantee in algorithm called g greedy hereafter
+this was applied to ts and found to show good performance in comparison with other algorithms
+in this algorithm we select the additional node i in x
+
+
+n to maximize the weight sum of connected i and ered xcov nodes in y
+
+
+m divided by its weight ci i
+e
+xcov wa ci
+in contrast the rithm without the weight ci in the third line in algorithm i
+e
+p k argmaxi x xcov wa is called simple greedy algorithm in this letter
+p algorithm greedy algorithm initialize two sets x
+
+
+n xcov while x do xcov ci k then p argmaxi x if ck i xcov add k to xcov p end if delete k from x end while output xcov selected nodes in x output xcov wa weight sum of covered nodes in y p for better solution of eq
+than g greedy algorithm we construct bp algorithm
+the original idea to apply bp to mc is proposed in ref
+where weight on the graph is not taken into consideration
+hence we must generalize bp to weighted model in order to apply their idea to the current problem
+following ref
+we dene the partition function for mc on weighted bipartite graph from eq
+
+
+
+xn
+
+
+ym exp m m waya n cixi xi ya where is inverse temperature is chemical potential and is heaviside function
+as commented in ref
+the constraint i cixi k is not directly incorporated because it will make the algorithm infeasible
+instead is introduced as an p tional control parameter which also serves as lagrange tiplier
+in the limit of greedy algorithm is duced
+another parameter serves as the relaxation ter of optimization
+from this partition function we want to calculate the marginal probabilities exp hixi exp aya to know which node in x should be selected for mc
+the variables hi a are local elds in physical meaning and bp is used to calculate these elds
+the generalization of algorithm in ref
+to our weighted case is straightforward and the nal update algorithm of beliefs is obtained as hia ci hbi hai ln ewa ja where means the nodes in the neighbourhood of i ing a
+q we explain how to derive bp equations briey
+from tion function bp rules are written as xi xx j xya xka xk ya ewaya j where are beliefs in the original equations
+let us redene the beliefs by the exponential form ehia xi ehai xi
+by computing the ratio of beliefs between xi e p which gives eq
+
+similarly from the ratio of ewa q ewa ja ewa ja
+this yields eq
+after taking logarithm
+q after having beliefs we calculate the local elds from liefs hi ci hbi xbi a ln ewa ja q and the probability is calculated by these elds
+ingly we can select nodes in x from the values of these elds
+the bp based algorithm for mc is summarized in rithm
+in this algorithm the node of the largest hi ci is lected from the remaining ones like g greedy algorithm
+note i cixi k is not directly considered in bp that the constraint formulation
+therefore we introduce this constraint by bining bp with algorithm
+p we apply our algorithm to mc on weighted biregular dom graph for verication of mc performance
+in this periment we use random graph we randomly assign edges for the nodes in x and edges in y
+we set the number of nodes as n and m
+for weight ci and wa we assign random integer number from to uniformly
+for bp parameters are xed as and k and is varied
+bp iteration in algorithm is performed times
+we checked the convergence of beliefs after iterations
+letters j
+phys
+soc
+jpn
+algorithm bp based mc algorithm initialize beliefs hia i e initialize two sets x
+
+
+n xcov repeat update hia e by eq
+update hai e by eq
+until it reaches maximum number of bp iteration calculate hi i by eq
+while x do argmaxi ci if ck i xcov ci k then add k to xcov p end if delete k from x end while output xcov output a xcov wa p fig
+
+the result of mc on biregular random graph
+the mc results by greedy algorithm and bp algorithm are shown in fig
+where the results are averaged over random graphs
+as indicated in the case of unweighted graph the maximal weight sum exceeds the result of g greedy rithm near
+in the present case the peak of the weight sum is
+next we apply our algorithm to ts problem by ing mc for weight of word
+in our experiment we use in dataset
+the dataset consists of clusters of news articles from associated press and the new york times where each cluster has documents
+our task is to make summarization text from multiple documents in each cluster
+as references summarization texts written by human are attached to each cluster
+the weight of word is assigned by term frequency inverse document frequency tf idf
+tf idf is the product of two factors tf and idf a word has high tf idf when it appears very frequently tf and in very specic sentences in the documents idf
+we assign
+times tf idf weight to the words in the rst sentence of the document because the rst sentence has signicant meaning in the document
+for computing weights by tf idf we also use dataset in addition to
+as preprocessing of documents we use stemming deletion of exclamation mark and parenthesis and conversion of letters to lowercase
+fig
+
+the result of ts for dataset with removal of stop words
+top weight sum of covered nodes
+bottom
+ts performance is evaluated by comparing summarization with the attached reference
+quantitatively the performance is measured by more precisely
+is computed by in summarization words in in
+namely it measures how many words appear commonly both in summarization and reference
+in this experiment we take average of over clusters and attached ences for each cluster
+for evaluation of we use the tool sumeval
+we show two results
+in our experiment k
+bp tion is performed times and we checked the convergence of beliefs after iterations
+the rst result is depicted in fig
+where
+in this result we remove stop words from documents by natural language stop words are prepositions and articles such as a the
+there is a peak of weight sum at
+and shows the peak at almost the same
+however our algorithm does not form greedy in terms of
+the second result is in fig
+where and stop words are not removed
+in this result the maximal exceeds the value of g greedy around the peak
+
+we also change the value of within the range and the best is used in figs
+
+in this dataset typical value of the weight is small wa
+then the appropriate value of should be large for satisfying a waya in eq
+
+p as a consequence maximal is larger than the one of g greedy when stop words are not removed while the result is worse by removal of stop words
+we expect the reason is that the inclusion of stop words aects the weight j
+phys
+soc
+jpn
+letters words
+however we should also keep in mind that stop words are often excluded in natural language processing
+to summarize we generalized bp based mc algorithm for weighted graph
+then we applied our algorithm to mc on weighted random graph and had better performance than greedy
+we also applied it to ts whose result indicates that the advantage over g greedy depends on the weight of words
+as future work we should investigate in what cases it exhibits better performance than g greedy in further detail
+acknowledgment we are thankful to satoshi takabe for discussion and helpful comments
+this work is supported by kakenhi nos
+
+r
+mcdonald proc
+of the european conference on information retrieval
+e
+filatova and v
+hatzivassiloglou proc
+of the international ference on computational linguistics
+h
+takamura and m
+okumura proc
+of the conference of the ropean chapter of the acl
+s
+takabe t
+maehara and k
+hukushima phys rev
+e s
+khuller a
+moss and j
+s
+naor information processing letters
+
+s
+gerard automatic text processing addison wesley reading
+c
+
+lin and e
+hovy proc
+of the meeting of the naacl hlt
+
+com chakki works sumeval
+nltk
+fig
+
+the result of ts for dataset without removal of stop words
+top weight sum of covered nodes
+bottom
+summarization
+document understanding conference naacl hlt workshop on text of word
+by including stop words the precision of tf idf weight might be statistically improved by larger number of

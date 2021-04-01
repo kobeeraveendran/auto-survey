@@ -1,0 +1,777 @@
+l u j l c
+s c v
+v i x r a macnet transferring knowledge from machine comprehension to sequence to sequence models boyuan pan yazheng yang hao li zhou zhao yueting zhuang deng xiaofei state key lab of zhejiang university college of computer science zhejiang university zhejiang university joint institute of frontier technologies inc
+hangzhou china panby haolics zhaozhou yzhuang
+edu
+cn
+ai abstract machine comprehension mc is one of the core problems in natural language cessing requiring both understanding of the natural language and knowledge about the world
+rapid progress has been made since the release of several benchmark datasets and recently the state of the art models even surpass human performance on the well known squad evaluation
+in this paper we transfer knowledge learned from machine comprehension to the sequence to sequence tasks to deepen the understanding of the text
+we propose macnet a novel encoder decoder plementary architecture to the widely used attention based sequence to sequence models
+experiments on neural machine translation nmt and abstractive text summarization show that our proposed framework can signicantly improve the performance of the baseline models and our method for the abstractive text marization achieves the state of the art results on the gigaword dataset
+introduction machine comprehension mc has gained signicant popularity over the past few years and it is a coveted goal in the eld of natural language understanding
+its task is to teach the machine to understand the content of a given passage and then answer a related question which requires deep comprehension and accurate information extraction towards the text
+with the release of several high quality benchmark datasets hermann et al
+rajpurkar et al
+joshi et al
+end to end neural networks wang et al
+xiong et al
+cui et al
+have achieved promising results on the mc tasks and some even outperform humans on the squad rajpurkar et al
+which is one of the most popular machine comprehension tests
+table shows a simple example from the squad dataset
+sequence to sequence models sutskever et al
+with attention mechanism bahdanau et al
+in which an encoder compresses the source text and a decoder with an attention nism generates target words have shown great capability to handle many natural language generation tasks such as machine translation luong et al
+xia et al
+text summarization rush et al
+nallapati et al
+and dialogue systems williams et al
+
+however these encoder decoder networks directly map the source input to a xed target sentence to learn the relationship between the natural language texts which makes them hard to capture a lot of deep intrinsic details and understand the potential implication of them li et al
+shi et al
+
+corresponding author conference on neural information processing systems neurips montral canada
+passage this was the rst super bowl to feature a quarterback on both teams who was the pick in their draft classes
+manning was the selection of the nfl draft while newton was picked rst in
+the matchup also pits the top two picks of the draft against each other newton for carolina and von miller for denver
+question who was considered to be the rst choice in the nfl draft of answer manning table an example from the squad dataset
+inspired by the recent success of the approaches for the machine comprehension tasks we focus on exploring whether mc knowledge can further help the attention based models deeply comprehend the text
+machine comprehension requires to encode words from the passage and the question rstly then many methods seo et al
+wang et al
+xiong et al
+employ attention mechanism with an rnn based modeling layer to capture the interaction among the passage words conditioned on the question and nally use an mlp classier or pointer networks vinyals et al
+to predict the answer span
+the mc encoder mentioned above is a common component in the models while the rnn based modeling layer whose input is the attention vectors is also supposed to augment the performance of the outputs of the models
+intuitively mc knowledge could improve models through measuring the relevance between the generated sentence and the input source
+moreover while quesiton answering and text generation have different training data distributions they can still benet from sharing their model s high level semantic components guo pasunuru and bansal
+in this paper we propose macnet a machine comprehension augmented encoder decoder mentary architecture that can be applied to a variety of sequence generation tasks
+we begin by pre training an mc model that contains both the rnn based encoding layer and modeling layer as the transferring source
+in the sequence to sequence model for encoding we concatenate the outputs of the original encoder and the transferred mc encoder for decoding we rst input the attentional vectors from the model into the transferred mc modeling layer and then combine its outputs with the attentional vectors to formulate the predictive vectors
+moreover to solve the class imbalance resulted by the high frequency phrases we adopt the focal loss lin et al
+which reshapes the standard cross entropy to improve the weights of the loss distribution
+to verify the effectiveness of our approach we conduct experiments on two representative sequence generation tasks
+neural machine translation
+we transfer the knowledge from the machine comprehension model to the attention based neural machine translation nmt model
+experimental results show that our method signicantly improves the performance on several large scale mt datasets
+abstractive text summarization
+we modify the pointer generator networks recently proposed by see et al
+
+we evaluate this model on the cnn daily mail hermann et al
+and gigaword rush et al
+datasets
+our model obtains
+
+and
+rouge l scores on the english gigaword dataset which is an improvement over previous state of the art results in the literature
+related work
+machine comprehension teaching machines to read process and comprehend text and then answer questions which is called machine comprehension is one of the key problems in articial intelligence
+recently rajpurkar et al
+released the stanford question answering dataset squad which is a high quality and large scale benchmark thus inspired many signicant works xiong et al
+pan et al
+cui et al
+seo et al
+wang et al
+xiong et al
+shen et al
+wang et al
+
+most of the state of the art works are attention based neural network models
+seo et al
+propose a bi directional attention ow to achieve a query aware context representation
+wang et al
+employ gated self matching attention to obtain the relation between the question and passage and their model is the rst one to surpass the human performance on the squad
+in this paper we show that the pre trained mc architecture can be transferred well to other nlp tasks
+
+sequence to sequence model existing sequence to sequence models with attention have focused on generating the target sequence by aligning each generated output token to another token in the input sequence
+this approach has proven successful in many nlp tasks such as neural machine translation bahdanau et al
+text summarization rush et al
+and dialogue systems williams et al
+and has also been adapted to other applications including speech recognition chan et al
+and image caption generation xu et al
+
+in general these models encode the input sequence as a set of vector representations using a recurrent neural network rnn
+a second rnn then decodes the output sequence step by step conditioned on the encodings
+in this work we augment the natural language understanding of this encoder decoder framework via transferring knowledge from another supervised task
+
+transfer learning in nlp transfer learning which aims to build learning machines that generalize across different domains following different probability distributions has been widely applied in natural language processing tasks collobert et al
+glorot et al
+min seo and hajishirzi mccann et al
+pan et al
+
+collobert et al
+propose a unied neural network architecture and learned from unsupervised learning that can be applied to various natural language processing tasks including part of speech tagging chunking named entity recognition and semantic role labelling
+glorot et al
+propose a deep learning approach which learns to extract a meaningful representation for each review in an unsupervised fashion
+mccann et al
+propose to transfer the pre trained encoder from the neural machine translation nmt to the text classication and question answering tasks
+pan et al
+propose to transfer the encoder of a pre trained discourse marker prediction model to the natural language inference model
+unlike previous works that only focus on the encoding part or unsupervised knowledge source we extract multiple layers of the neural networks from the machine comprehension model and insert them into the sequence to sequence model
+our approach not only makes the transfer more directly compatible with subsequent rnns but also augments the text understanding of the attention mechanism
+machine comprehension model
+task description in the machine comprehension task we are given a question q
+
+
+qm and a passage p
+
+
+pn where m and n are the length of the question and the passage
+the goal is to predict the correct answer ac which is a subspan of p
+
+framework the state of the art mc models are various in structures but many popular works are essentially the combination of the encoding layer the attention mechanism with and an rnn based modeling layer and the output et al
+seo et al
+pan et al
+xiong et al
+
+now we describe our mc model as follows
+encoding layer we use pre trained word vectors glove pennington et al
+and character level embeddings to transfer the words into vectors where the latter one applies cnn over the characters of each word and is proved to be helpful in handling out of vocab words kim
+we then use a bi directional lstm on top of the concatenation of them to model the temporal interactions between words ui
+
+
+m hj j
+
+
+n where genc is the bi directional lstm is the concatenation of the word and character embedding vectors of the word are the contextual and figure overview of our macnet framework comprising the part of machine comprehension upper for pre training and sequence to sequence model bottom to which the learned knowledge will be transferred
+representations of the question q and the passage p
+attention layer attention mechanisms are commonly used in machine comprehenion to model the document so that its representation can emphasize the key information and capture long distance dependencies g here the attention function fatt represents a series of normalized linear and logical operations
+we follow seo et al
+to use a bi directional attention ow bidaf where the passage and the question are interacted each other with an alignment matrix g is the query aware context representation
+modeling layer in this step we use the stacking lstm on g to further capture the interaction among the passage words conditioned on the question mj j
+
+
+n where gmodel is two layers of uni directional lstm each mj is expected to represent the contexual information of the j th word in the passage to the whole question
+we use a simple mlp classier on the combination of and g to locate the start and end positions of the answer
+for training we dene the training loss as the sum of the negative log probability of the true positions by the predicted distributions
+macnet architecture in this section as shown in the figure we introduce how our macnet transfers the knowledge from the mc model to the model
+the sequence to sequence models are typically implemented with a recurrent neural network encoder decoder framework
+such a framework directly models the probability p of a target sentence y
+
+
+yty conditioned on the source sentence
+
+
+where tx and ty are the length of the sentence and
+
+encoder for the model the encoder reads the source sentence word by word and generates a hidden representation of each word xs attention mechanismembeddingencoding layerpredicted answermodeling layerpassagequestiontransferringembeddingpqaembeddingsource sentencexintegrationdecoder attentionmechanismytarget sentenceencoderbilstmtransferringlstmmachine comprehensionsequence to sequencemodellstmbilstmbilstm where fenc is the recurrent unit such as long short term memory lstm sutskever et al
+unit or gated recurrent unit gru cho et al
+is the embedding vector of xs hs is the hidden state
+in this paper we use the bi directional lstm as the recurrent unit to be consistent with the encoding layer of the mc model described in section
+
+to augment the performance of the encoding part we use a simple method to exploit the word representations that learned from the mc task
+for the source sentence we use the bi directional lstm of the equation as another encoder and obtain where es is the hidden state which represents the word xs from the perspective of the mc model
+instead of the conventional models that directly send the results of the equation to the decoder we concatenate es and hs and feed them into an integration layer hs where fint is a uni directional lstm means concatenation
+are the contextual tations of the sentence which contain the information of the machine comprehension knowledge as well
+
+decoder attention mechanism initialized by the representations obtained from the encoder the decoder with an attention mechanism receives the word embedding of the previous word while training it is the previous word of the reference sentence while testing it is the previous generated word at each step and generates next word
+the decoder states are computed via where fdec is a unidirectional lstm is the t th generated word hs is the hidden state
+for most attentional models the attention steps can be summarized by the equations below ts ct ts s at ht ba here ct is the source side context vector the attention vector at is used to derive the softmax logit and loss wa and ba are trainable parameters the function ga can also take other forms
+score is referred as a content based function usually implemented as a feed forward network with one hidden layer
+for the common models the attention vector at is then fed through the softmax layer to produce the predictive distribution formulated as p t bp in our macnet however we additionally send the attention vector at into the modeling layer of the pre trained mc model in the equation to deeply capture the interaction of the source and the target states rt where rt is another attention state with the augmentation of machine comprehension knowledge
+we combine the results of the two attention vectors and the equation becomes p t wqrt bp where wp wq and bp are all trainable parameters
+the modeling layer helps deeply understand the interaction of the contextual information of the output sequence which is different from the encoding layer whose inputs are independent source sentences
+
+training denote as all the parameters to be learned in the framework d as the training dataset that contains source target sequence pairs
+the training process aims at seeking the optimal paramaters that encodes the source sequence and provides an output sentence as close as the target sentence
+for the formula form the most popular objective is the maximum log likelihood estimation bahdanau et al
+xia et al
+arg max p ty arg max logp t however this results in the high frequency of some commonly used expressions such as i do nt know in the output sentences because of the nature of the class imbalance in the corpus
+inspired by the focal loss lin et al
+which is recently proposed to solve the foreground background class imbalance in the task of object detection we add a modulating factor to the above cross entropy loss
+simplifying p t as pt we modify the equation as arg max ty where is a tunable focusing parameter
+in this case the focusing parameter smoothly adjusts the rate at which high frequency phrases are down weighted
+experiments
+machine comprehension we use the stanford question answering dataset et al
+as our training which has questions posed by crowd workers on wikipedia articles
+the hidden state size of the lstm is set as and we select the glove as the word embeddings
+we use one dimensional lters for cnn in the character level embedding with width of for each one
+the dropout ratio is
+
+we use the adadelta zeiler optimizer with an initial learning rate as
+
+our mc model achieves
+of exact match em and
+of score on the squad development dataset
+
+application to neural machine translation we rst evaluate our method on the neural machine translation nmt task which requires to encode a source language sentence and predict a target language sentence
+we use the architecture from luong et al
+as our baseline framework with the gnmt wu et al
+attention to parallelize the decoder s computation
+the datasets for our evaluation are the wmt translation tasks between english and german in both directions
+translation performances are reported in case sensitive bleu papineni et al
+on and
+implementation details when training our nmt systems we split the data into subword units using bpe sennrich et al
+
+we train layer lstms of units with bidirectional encoder embedding dimension is
+we use a fully connected layer to transform the input vector size for the transferred neural networks
+the model is trained with stochastic gradient descent with a learning rate that began at
+we train for k steps after k steps we start halving learning rate every k step
+our batch size is set as the dropout rate is
+
+for the focal loss the is set to be
+squad dataset is referred at
+github
+io squad
+statmt
+org translation task
+html
+statmt
+org translation task
+html nmt systems ende deen ende deen baseline baseline encoding layer baseline modeling layer baseline encoding layer modeling layer baseline random initalized framework baseline macnet
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table bleu scores on ofcial test sets wmt english german for and
+in the top part we show the performance of our baseline model in the medium part we present the ablation experiments in the bottom part we show the effectiveness of our macnet
+em bleu mc attention
+
+
+
+
+
+
+
+
+
+context to query attention query to context attention bidaf bidaf self attention bidaf memory network results as shown in the table the line nmt model on all of the datasets performs much better with the help of our macnet work
+in the medium part we conduct an tion experiment to evaluate the individual tribution of each component of our model
+both of the encoding layer and the modeling layer demonstrates their effectiveness when we ablate other modules
+when we add both of them still without the focal loss the bleu scores on all the test sets rise at least point which shows the signicance of the transferred knowledge
+finally we add the architecture of the ing layer and the modeling layer to the baseline model but initialize them randomly as its other rnn layers
+we observe that the performance drops around
+which indicates that the machine comprehension knowledge has deep connections with the machine translation tasks
+from the ablation experiments we found that the improvement of the modeling layer in our architecture is a bit modest but we believe transferring high level networks e
+
+the modeling layer can help a lot with a more suitable structure because those networks contains deeper semantic knowledge and more abstractive information compared with the lower level layers e
+
+encoding layer
+table performance with different pre trained chine comprehension models for our nmt model on deen of
+em means the exact match score which represents the performance of the mc model on the squad dev set bleu is the results of our nmt model
+in the table we explore how different choices of the attention architectures fatt in the equation which is usually the discrimination of different mc models of the mc models impact the performance of our method
+we rst follow seo et al
+to rate the two directions of the attention in bidaf and use them to take place of the original attention nism respectively
+their performance on the machine comprehension task drops a lot and it seems to fect the results of the nmt models as well
+we then add the self attention which is proposed to fuse the context into itself is widely used by many mc ods wang et al
+weissenborn et al
+
+fortunately the result of the nmt model fails to keep pace with the performance of its pre train mc model
+finally we apply memory network which is also very popular among mc models pan et al
+hu et al
+the performance on the squad rises a lot but the nmt result is similar to the original model
+this series of experiments denote that the model s performance with our macnet is not always in positive correlation to the improvement of the figure performance on the with different values
+summarization models words et al
+et al
+et al
+et al
+rl with intra et al
+pointer et al
+pointer generator encoding layer pointer generator modeing layer pointer generator macnet cnn daily mail
+
+
+
+
+
+
+rg l
+
+
+
+
+
+
+
+
+
+
+
+
+
+gigaword
+
+
+
+
+
+
+rg l
+
+
+
+
+
+
+
+
+
+
+
+
+
+table rouge evaluation results on the cnn daily mail test set and the english gigaword test set
+rg in the table denotes rouge
+results with mark are taken from the corresponding papers
+the bottom part of the table shows the performance of our macnet and the ablation results
+mc architecture
+we conjecture that it might depend on many potential factors such as the complexity of the extracted parts the heterogeneity of different tasks
+in the figure we present the models on the with different to show how the focal loss affects the performance
+as we can see the models increase as the enlarges until it arrives or
+afterwards the performance gets worse when we raise the which means the modulating factor is close to zero so that its benet is limited
+
+application to text summarization we then verify the effectiveness of our macnet on the abstractive text summarization which is also a typical application of the sequence to sequence model
+we use the pointer generator et al
+as our baseline model which applies the encoder decoder architecture and is one of the state of the art models for the text summarization
+the evaluation metric is reported with the scores for and rouge l lin
+we evaluate our method on two high quality datasets cnn daily mail hermann et al
+and gigaword rush et al
+
+for the cnn daily mail dataset we use supplied by see et al
+to pre process the data which contains training pairs validation pairs and test pairs
+for the english gigaword dataset we use the released by rush et al
+to pre process and obtain
+m training pairs development set for testing
+implementation details our training hyperparameters are similar to the pointer generator networks experiments while some important details are as follows
+the input and output vocabulary size is the hidden state size is
+the word embedding size is and we use a fully connected layer to transform the input vector size for the transferred neural networks
+we train using adagrad duchi et al
+with learning rate
+and an initial accumulator value of
+
+the is set as
+results table shows the performance of our methods and the competing approaches on both datasets
+compared to the original pointer generator model the results with our macnet architecture outperform around
+
+on all kinds of the rouge scores
+especially our approach achieves the state of the art results on all the metrics on gigaword and the on cnn daily mail dataset
+similar to the nmt task the encoding layer contributes most of the improvement while the modeling layer also has stable gains in each evaluations
+in the table we present some summaries produced by our model and the original pointer generator model
+in the rst example the summary given by the pointer generator model does nt make sense from the perspective of logic while our model accurately summarizes the article and even provides
+com abisee cnn dailymail
+com facebook namas article israeli warplanes raided hezbollah targets in south lebanon after guerrillas killed two militiamen and wounded seven other troops on wednesday police said
+reference israeli warplanes raid south lebanon
+pg macnet israeli warplanes attack hezbollah targets in south lebanon
+pg hezbollah targets hezbollah targets in south lebanon
+article the dollar racked up some clear gains on wednesday on the london forex market as operators waited for the outcome of talks between the white house and congress on raising the national debt ceiling and on cutting the american budget decit
+reference dollar gains as market eyes us debt and budget talks
+pg macnet dollar racked up some clear gains
+pg london forex market racked gains
+table examples of summaries on english gigaword pg denotes the pointer generator model
+with more details
+in the second example although the original pg model produces a logical sentence the output sentence expresses completely different meanings from the information in the article
+our method however correctly comprehends the article and provides with a high quality summary sentence
+in this paper we propose macnet which is a supplementary framework for the sequence to sequence tasks
+we transfer the knowledge from the machine comprehension task to a variety of tasks to augment the text understanding of the models
+the experimental evaluation shows that our method signicantly improves the performance of the baseline models on several benchmark datasets for different nlp tasks
+we hope this work can encourage further research into the transfer learning of multi layer neural networks and the future works involve the choice of other transfer learning sources and the transfer learning between different domains such as nlp cv
+this work was supported in part by the national nature science foundation of china grant nos and and in part by the national youth top notch talent support program
+the experiments are supported by chengwei yao in the experiment center of the college of computer science and technology zhejiang university
+conclusion acknowledgments references translate
+in iclr
+bahdanau d
+cho k
+bengio y
+et al
+
+neural machine translation by jointly learning to align and chan w
+jaitly n
+le q
+and vinyals o
+
+listen attend and spell a neural network for large vocabulary conversational speech recognition
+in acoustics speech and signal processing icassp ieee international conference on
+cho k
+van merrienboer b
+gulcehre c
+bahdanau d
+bougares f
+schwenk h
+and bengio y
+
+learning phrase representations using rnn encoder decoder for statistical machine translation
+in emnlp
+collobert r
+weston j
+bottou l
+karlen m
+kavukcuoglu k
+and kuksa p
+
+natural language processing almost from scratch
+journal of machine learning research
+cui y
+chen z
+wei s
+wang s
+liu t
+and hu g
+
+attention over attention neural networks for reading comprehension
+in acl volume
+duchi j
+hazan e
+singer y
+et al
+
+adaptive subgradient methods for online learning and stochastic optimization
+journal of machine learning research
+gehring j
+auli m
+grangier d
+yarats d
+and dauphin y
+n
+
+convolutional sequence to sequence learning
+arxiv preprint
+
+glorot x
+bordes a
+bengio y
+et al
+
+domain adaptation for large scale sentiment classication a deep learning approach
+in icml
+guo h
+pasunuru r
+and bansal m
+
+soft layer specic multi task summarization with entailment and question generation
+arxiv preprint
+
+hermann k
+m
+kocisky t
+grefenstette e
+espeholt l
+kay w
+suleyman m
+and blunsom p
+
+teaching machines to read and comprehend
+in nips
+hu m
+peng y
+qiu x
+et al
+
+reinforced mnemonic reader for machine comprehension
+corr
+
+joshi m
+choi e
+weld d
+and zettlemoyer l
+
+triviaqa a large scale distantly supervised challenge dataset for reading comprehension
+in acl
+kim y
+
+convolutional neural networks for sentence classication
+in emnlp
+li j
+xiong d
+tu z
+zhu m
+zhang m
+and zhou g
+
+modeling source syntax for neural machine translation
+in acl volume
+lin t
+
+goyal p
+girshick r
+he k
+and dollar p
+
+focal loss for dense object detection
+in iccv
+lin c
+
+
+rouge a package for automatic evaluation of summaries
+text summarization branches out
+luong t
+pham h
+manning c
+d
+et al
+
+effective approaches to attention based neural machine translation
+in emnlp
+mccann b
+bradbury j
+xiong c
+and socher r
+
+learned in translation contextualized word vectors
+in nips
+supervision data
+in acl
+min s
+seo m
+and hajishirzi h
+
+question answering through transfer learning from large ne grained nallapati r
+zhou b
+dos santos c
+gulcehre c
+and xiang b
+
+abstractive text summarization using sequence to sequence rnns and beyond
+in proceedings of the signll conference on computational natural language learning
+nallapati r
+zhai f
+zhou b
+et al
+
+summarunner a recurrent neural network based sequence model for extractive summarization of documents
+in aaai
+pan b
+li h
+zhao z
+cao b
+cai d
+and he x
+
+memen multi layer embedding with memory networks for machine comprehension
+arxiv preprint
+
+pan b
+yang y
+zhao z
+zhuang y
+cai d
+and he x
+
+discourse marker augmented network with reinforcement learning for natural language inference
+in proceedings of the annual meeting of the association for computational linguistics volume long papers volume
+papineni k
+roukos s
+ward t
+and zhu w
+
+
+bleu a method for automatic evaluation of machine translation
+in acl
+association for computational linguistics
+paulus r
+c
+socher r
+et al
+
+a deep reinforced model for abstractive summarization
+arxiv preprint
+
+emnlp
+of text
+in emnlp
+in emnlp
+in acl volume
+in acl
+pennington j
+socher r
+manning c
+d
+et al
+
+glove global vectors for word representation
+in rajpurkar p
+zhang j
+lopyrev k
+and liang p
+
+squad questions for machine comprehension rush a
+m
+chopra s
+weston j
+et al
+
+a neural attention model for abstractive sentence summarization
+see a
+liu p
+j
+manning c
+d
+et al
+
+get to the point summarization with pointer generator networks
+sennrich r
+haddow b
+birch a
+et al
+
+neural machine translation of rare words with subword units
+seo m
+kembhavi a
+farhadi a
+and hajishirzi h
+
+bidirectional attention ow for machine comprehension
+in iclr
+sion
+in kdd
+acm
+shen y
+huang p
+
+gao j
+and chen w
+
+reasonet learning to stop reading in machine shi x
+padhi i
+knight k
+et al
+
+does string based neural mt learn source syntax in acl
+sutskever i
+vinyals o
+le q
+v
+et al
+
+sequence to sequence learning with neural networks
+in nips
+vinyals o
+fortunato m
+jaitly n
+et al
+
+pointer networks
+in nips
+wang z
+mi h
+hamza w
+and florian r
+
+multi perspective context matching for machine comprehension
+arxiv preprint
+
+wang w
+yang n
+wei f
+chang b
+and zhou m
+
+gated self matching networks for reading comprehension and question answering
+in acl
+weissenborn d
+wiese g
+seiffe l
+et al
+
+making neural qa as simple as possible but not simpler
+in conll
+williams j
+d
+asadi k
+zweig g
+et al
+
+hybrid code networks practical and efcient end to end dialog control with supervised and reinforcement learning
+in acl volume
+wu y
+schuster m
+chen z
+le q
+v
+norouzi m
+macherey w
+krikun m
+cao y
+gao q
+macherey k
+klingner j
+shah a
+johnson m
+liu x
+ukasz kaiser gouws s
+kato y
+kudo t
+kazawa h
+stevens k
+kurian g
+patil n
+wang w
+young c
+smith j
+riesa j
+rudnick a
+vinyals o
+corrado g
+hughes m
+and dean j
+
+google s neural machine translation system bridging the gap between human and machine translation
+corr
+
+xia y
+tian f
+wu l
+lin j
+qin t
+yu n
+and liu t
+
+
+deliberation networks sequence generation beyond one pass decoding
+in nips
+xiong c
+zhong v
+socher r
+et al
+
+dynamic coattention networks for question answering
+iclr
+answering
+in iclr
+xiong c
+zhong v
+socher r
+et al
+
+mixed objective and deep residual coattention for question xu k
+ba j
+kiros r
+cho k
+courville a
+salakhudinov r
+zemel r
+and bengio y
+
+show attend and tell neural image caption generation with visual attention
+in international conference on machine learning
+zeiler m
+d
+
+adadelta an adaptive learning rate method
+arxiv preprint
+
+zhou q
+yang n
+wei f
+and zhou m
+
+selective encoding for abstractive sentence summarization
+in acl
+

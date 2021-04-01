@@ -1,0 +1,1150 @@
+go figure a meta evaluation of factuality in summarization saadia gabriel asli celikyilmaz rahul jha yejin choi jianfeng gao paul g
+allen school of computer science engineering university of washington microsoft research allen institute for articial intelligence skgabrie
+washington
+edu aslicel rajh
+com t c o l c
+s c v
+v i x r a abstract text generation models can generate factually inconsistent text containing distorted or cated facts about the source text
+recent work has focused on building evaluation models to verify the factual correctness of semantically constrained text generation tasks such as ment summarization
+while the eld of ality evaluation is growing fast we do nt have well dened criteria for measuring the tiveness generalizability reliability or tivity of the factuality metrics
+focusing on these aspects in this paper we introduce a meta evaluation framework for evaluating tual consistency metrics
+we introduce ve necessary common sense conditions for fective factuality metrics and experiment with nine recent factuality metrics using synthetic and human labeled factuality data from short news long news and dialogue summarization domains
+our framework enables assessing the efciency of any new factual consistency metric on a variety of dimensions over tiple summarization domains and can be ily extended with new meta evaluation criteria
+we also present our conclusions towards dardizing the factuality evaluation metrics
+introduction the goal of text generation systems is to produce text that is uent coherent relevant as well as factually correct
+recent progress in neural proaches to building semantically constraint text generation systems has shown tremendous ments in this direction liu and lapata guo et al
+durmus et al
+wang et al
+
+however an important issue in text generation tems is that they can yield factually inconsistent text caused by somewhat distorted or fabricated facts about the source text
+especially in document summarization tasks the models that abstract away salient aspects have been shown to generate text figure example of a ground truth cnn dailymail mary and transformed summary where key spans of the ground truth summary highlighted in green contain factual errors highlighted in red
+even though the transformed summary is less factual the commonly used rouge rization metric assigns higher values to that summary over the ground truth summary when we compare against the original article as a reference
+with up to factual inconsistencies kryscinski et al
+falke et al
+zhu et al
+
+commonly used metrics for measuring quality of generated text fail to capture structural aspects of language and poorly correlate with human ments hashimoto et al
+clark et al
+
+as shown by figure simple transformations like copying ller terms from the source text and ducing logical negations to transform a factually grounded summary into a factually inconsistent summary can lead to a higher rouge score for the less factual summary when we compare the candidate summaries against the original source document
+the last few years has observed an increase in research papers on factual consistency evaluation metrics due to these reasons
+a number of metrics have been proposed for measuring factuality via proxy objectives like question answering qa and facet overlap scialom et al
+durmus et al
+mao et al
+raising a number of new research questions including do these metrics capture multiple aspects and dimensions of ality in summarization and do these metrics capture factuality across a broader spectrum of domains it is unclear which of these metrics are suitable for evaluating the types of text generation methods
+we think that answering these questions is key to determining the usability and effectiveness of recent factuality metrics especially when sidering previously under explored summarization domains like dialogue summarization
+in this work we propose the rst tion framework go a meta evaluation framework for assessing the effectiveness of tuality metrics across multiple dimensions and domains extreme news summarization sentence news summarization and dialogue marization
+while most of the prior work in tual consistency concentrated on one dataset and domain our framework allows us to test the bustness and accuracy of proposed metrics for uating factual consistency across domains to termine if metrics truly generalize
+we primarily focus on summarization rather than open ended generation since the source document provides a natural grounding for factuality
+our contributions are as follows i a set of agnostics for measuring sensitivity of metrics to different levels of factual inconsistency i
+e
+are there statistically signicant differences between metric results for less factual generations vs
+more factual generations as well as sensitivity of rics to types of factual errors i
+e
+which lexical and semantic changes do metrics better capture a synthetic evaluation dataset of context summary pairs from three summarization domains for suring effectiveness of new factuality metrics
+the evaluation dataset contains different levels of jected factual errors to simulate errors made by generation models and nally an evaluation dataset of summaries generated by based models raffel et al
+rothe et al
+annotated with types of factual errors
+this provides a test bed capturing the real distribution of errors made by generation models
+outline understanding evaluation
+for factuality in generative will publicly release code for our evaluation work and diagnostic datasets soon
+factuality metric meta evaluation since reference summaries may be an incomplete representation of the salient in a source ument or unavailable we consider factuality in terms of how well candidate summaries are ally grounded with respect to the source document rather than reference summaries
+we also assume that source documents are factually valid without the use of external sources or databases for fact ication
+we dene a summary as having factual inconsistency level i if there are i errors present i
+e
+a summary with no errors will have a factual sistency level a summary with error will have an inconsistency level
+in section
+we propose a set of necessary conditions for dening an effective factuality metric including theoretical constraints on metric values and commonsense ditions
+in sections
+
+and
+
+we describe the construction of diagnostic datasets to test these ditions in both a simulated and generated setting
+in section
+we elaborate on how the conditions dened by our framework can be practically plied to measure sensitivity of metrics to changes in factuality
+
+how do we dene a good factuality metric we dene a set of ve conditions for a text tion metric m d si that can effectively measure factual consistency of a summary si with respect to a source document d boundedness condition i
+we dene this mally such that if sf is a completely factual mary and sr is a completely factually inconsistent we expect that m d sr m d si m d sf
+in other words the metric values should be reasonably bounded and these bounds should relate to the factuality of candidate summaries
+kryscinski et al
+we dene facts as salient spans in a source document i
+e
+spans of text lighting key information pertaining to entities in the source documents actions that were performed statistical reporting
+these spans either support or refute claims in summaries
+the simulated data it is not always possible to duce i errors see section
+
+
+in this case i is the maximum number of errors
+dene a summary that is completely factually sistent as a summary that contains no facts that overlap with the facts in the source document
+stat xsum cnndm samsumm avg words summ source avg entities summ source avg pronoun words summ source avg verbs summ source avg adjectives summ source
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table dataset statistics for summaries summ and source documents source in the evaluation sets
+corresponding values for summaries are given on the left and values for source documents are given on the right
+sensitivity condition ii
+we dene tual inconsistency level as a measure that indicate the differences between metric results e
+
+between less factual generations vs
+more factual generations
+we calculate the sensitivity score for a given metric based on the magnitude of the slope of the line between the factual inconsistency level and average metric values i
+e
+the estimated rate at which metric values change with the level of factual inconsistency sensitivity l mi m in eq
+l is the maximum error level l is the average error level mi is the average value for the metric at error level i and m is the average value for the metric across all error levels
+if a metric is sensitive to changes in factuality it should hold that there is a statistically signicant difference between mi and
+robustness condition iii
+the metric should be robust to types of factual errors i
+e
+it should be able to capture both intrinsic entity errors and other types of factual errors like pronoun errors
+see table for a list of some factual error types we consider
+generality condition iv
+the metric should be generalizable across domains i
+e
+if it satises the previously dened conditions on a domain a it is expected that it also satises these conditions on a domain b
+we acknowledge there will likely be corner cases for which this is not true for any metric as well as domains for which factuality itself is difcult to dene story generation for example so we only consider the domains for which factual consistency evaluation is most obviously applicable
+commonsense condition v
+annotators judge a summary si if human to be more factually consistent than a summary sj then we expect that si sj
+where h is the human judgement score on ality
+in other words the metric should correlate with human judgements of factuality
+
+testing factuality metric validity for the purposes of testing boundedness condition i we dene the lower bound for a metric m as m d sr where d is the source document and sr is a randomly sampled summary from the pus
+we dene the upper bound for the metric as m d sf where sf is the reference ground truth summary
+to test sensitivity condition ii we report sitivity score eq
+and measure whether the differences between metric results are different for various levels of factual inconsistency and whether these differences are statistically signicant
+for this test we measure the correlation pearson s r between the factual inconsistency level of the maries i
+e
+the number of injected errors and the average metric score
+then we measure statistical signicance using the p value from a two tailed hypothesis test
+we check whether metrics satisfy robustness and generality conditions iii and iv by separately running this analysis over multiple factual error types and domains tasks
+we measure commonsense by checking the correlation between factual consistency levels determined using manual annotation and metric values
+evaluation datasets we evaluate the factual consistency metrics on two categories of datasets i available tion datasets on varying domains diagnostic datasets that are both simulated to evaluate different levels of factuality and model generated datasets
+dataset train dev test domain
+diagnostic datasets xsum cnndm samsum short news long news dialogues table summarization domains for evaluation
+
+summarization datasets in this work we consider summarization domains to cover a broad range of topics lengths of truth summaries and levels of abstractiveness
+in particular we focus on accurately measuring tuality in the context of news and dialogue marization which is key for preventing spread of misinformation in two different domains
+for ample in dialog summarization it is important that a machine generated summary of an exchange between a politician and a reporter at a press ence is factually consistent and does nt hallucinate details about what was said
+we considered the following three summarization domains see table for dataset statistics short news
+to test the ability of metrics to sure factuality in the extreme news summarization domain we use the xsum dataset narayan et al
+which contains over bbc news articles paired with sentence summaries
+long news
+we also test metrics on longer sentence summaries from the cnn dailymail dataset nallapati et al
+which tend to be more extractive than summaries in xsum dataset
+dialogues
+in contrast to news dialogue rization resources are relatively scarce
+we use the recently released samsum corpus gliwa et al
+to test metrics on dialogue summarization
+samsum consists of english language sations written by linguists in the style of chat messenger dialogues and aligned multi sentence summaries
+compared to cnn dailymail dataset xsum is considered more abstractive based on the portion of the novel n grams in gold summaries in comparison to the source documents narayan et al
+
+compared to structured news ments the samsum dialog dataset is unstructured and contains chats between varying interlucators and the text is rst person directed speech while the summaries are written in third person point of view which makes them highly abstractive in ture
+to test the ability of proposed metrics to fulll our predened conditions we set up two tic datasets consisting of i transformed reference summaries with simulated factuality errors that low us to induce and measure factual consistency in a controlled setting and summaries generated by state of the art transformer summarization els that allows us to measure the effectiveness of metrics in a real data setting
+
+
+simulated datasets for each of the considered domains in section
+we sample source document reference mary pairs
+we then inject simulated factual errors into the reference summaries based on randomly lecting entities including pronoun words or verbs and adjectives to induce a desired level of factual inconsistency
+we dene the full list of errors we inject using transformations in table
+we notice that some transformations did not duce any change in the reference summary due to a lack of lexical features that can be changed see ble for the distribution of the entity words verbs and adjectives
+for example the xsum reference summary warm humorous gutsy sparky ful determined and fun
+contains no entities or verbs that can be transformed
+in addition some transformations may have more of an effect on factuality than others e
+
+for the xsum mary you may know bob best as the paramedic finlay newton in the bbc s casualty ing idris for bob would change a smaller ratio of the summary content words than exchanging idris for finlay newton
+due to these reasons we generate ve different versions of each set of our diagnostic data when randomly selecting ence summary transformations and assessing the aggregated results see table for the distribution of errors
+we control the factuality of transformed maries by setting the maximum number of random transformations to or injected errors resenting three different levels of factual tency for sensitivity evaluations condition ii
+the appendix for details
+for verb negation we focus on simple negations using not e
+
+i agree i do not agree rather than more complex negation e
+
+i agree i disagree or i agree i beg to differ
+reference type description example irish taoiseach pm leo varadkar has engaged in some sock diplomacy in his rst meeting with canadian prime minister justin trudeau in dublin
+intrinsic entity error int an entity appearing in the source document is used incorrectly
+canadian taoiseach pm leo varadkar has engaged in some sock diplomacy in his rst meeting with irish prime minister justin trudeau in dublin
+irish taoiseach pm leo varadkar has engaged in some sock diplomacy in his rst meeting with canadian prime minister justin trudeau in dublin
+extrinsic entity error ext an entity appearing in the candidate summary does not appear in the source document
+french taoiseach pm leo varadkar has engaged in some sock diplomacy in his rst meeting with canadian prime minister justin trudeau in dublin
+irish taoiseach pm leo varadkar has engaged in some sock diplomacy in his rst meeting with canadian prime minister justin trudeau in dublin
+irish taoiseach pm leo varadkar has engaged in some sock diplomacy in his rst meeting with canadian prime minister justin trudeau in dublin
+irish taoiseach pm leo varadkar has engaged in people who have been prescribed powerful anxiety or pain relief drugs are being warned about a new drug driving law
+pronoun error pro negation error verb sentiment error sent a pronoun in the candidate summary is used incorrectly
+for example her she instead of him he
+canadian prime minister justin trudeau in dublin
+irish taoiseach pm leo varadkar has engaged in some sock diplomacy in her rst meeting with there are verb negations in the candidate summary that contradict the source document
+an adjective or adverb appearing in the candidate summary contradicts the source document
+irish taoiseach pm leo varadkar has not engaged in some sock diplomacy in his rst meeting with canadian prime minister justin trudeau in dublin
+irish taoiseach pm leo varadkar will engage in people who have been prescribed weak anxiety or pain relief drugs are being warned about a new drug driving law
+table table of possible factual errors
+dataset level avg
+level avg
+level avg
+xsum entity xsum non entity cnndm entity cnndm non entity samsum entity samsum non entity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+avg
+transformed all
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table analysis of simulated diagnostic dataset we average across different sets runs of randomized transformations for the same reference summaries
+we provide results for the average number of induced factuality errors for factual inconsistency level level and level as well as the percentage of summaries that were transformed for each level and across all levels all
+we split the diagnostic dataset into two subsets based on whether simulated errors are related to entities entity or non entity changes like verb negation non entity
+
+
+model generated datasets to assess the performance of various metrics on actual generated text we use a version of the encoder decoder summarization model fel et al
+that was pretrained on news marization data and generate summary text using either greedy decoding beam search or a based decoding strategy like top k fan et al
+and nucleus sampling holtzman et al
+
+we conduct a ne grained human evaluation of tuality over generated summaries to assess tiveness of our sensitivity analysis at highlighting metric strengths and weaknesses for generated maries see section
+
+factuality metrics for evaluation we mainly focus on meta evaluating most recently proposed factual consistency metrics which use two types of proxy natural language ing nlu objectives aimed at implicitly capturing factuality in generated text question answering qa and a masked token prediction cloze task
+we also measure the factual awareness of marization metrics that are aimed primarily at proving coherency rather than factual consistency e
+
+bertscore zhang et al
+and bleurt sellam et al
+and standard summarization evaluation metrics e
+
+rouge lin
+the following is the list of metrics we used for factual consistency evaluation qa based quality score
+given a source or reference document d and candidate summary si qa based evaluation metrics assign a generation quality score to si to measure the ability of a qa system by accurately answering questions ated from d or si
+we use the summaqa scialom et al
+and feqa durmus et al
+rics
+for the metric questions are erated from the source document d and the date summary si is used as input to the qa system
+alternatively feqa generates questions from si and uses d to answer these questions
+the generation quality score is typically the gregated score measuring the similarity between ground truth answers for questions generated from d and the answers predicted by the qa system
+also generally includes the aggregated model condence probabilities for predictions
+masked lm prediction cloze task score
+given a source document d and candidate mary si cloze based evaluation metrics assign a generation quality score to si by measuring the ability of a nlu system to accurately predict masked tokens in the source document given cess to the information in si
+we use two variants of blanc vasilyev et al
+blanc help and blanc tune
+blanc help uses both d and si as input to a pretrained masked token prediction model while blanc tune only uses d as input to a model that has been netuned on the date summary
+both metrics are aimed at capturing uency informativeness and factual correctness of summaries
+semantic similarity
+semantic similarity rics measure the overlap between contextual beddings of a source or reference document d and candidate summary si
+we use bertscore zhang et al
+which has been shown to correlate better with human judgements of coherency than standard summarization metrics and similarly to n gram metrics on factual consistency of cnndm summaries wang et al
+
+lexical overlap
+finally we test rouge lin which is the standard metric used for uating summarization
+rouge measures the gram overlap between a source or reference ment d and candidate summary si
+we evaluate results using and as well as rouge l which measures longest common sequence overlap
+we follow prior work that sidered rouge in factual consistency evaluations wang et al
+though it has also been viously noted that rouge can underweight good summarization examples novikova et al
+
+meta analysis of factuality metrics
+controlled data experiments we conduct controlled experiments on the lated datasets as introduced in
+
+mainly to measure the sensitivity of the factuality metrics on various simulated factuality errors
+we provide the results of the sensitivity analysis over our ulated data on the xsum domain in table on cnndm in table and on samsum in table
+all reported results are aggregated from metric ues computed over ve different sets of random transformations see section
+
+for details
+that focused specically on factuality are more sitive to changes in factuality compared to the dard lexical overlap or contextual semantic larity metrics all of these metrics except tune and rouge l satisfy the edness condition tables and
+additionally all metrics except summaqa condence scores summaqa c are sensitive for entity errors on the dialogue dataset see table
+for cnndm we nd that all the metrics except blanc tune and feqa are sensitive to factual consistency to some degree when we consider entity errors the most sensitive metric is summaqa with a tivity score of
+though the actual sensitivity effect size is very low for rouge and bertscore s
+
+for xsum summaqa has the highest sensitvity score
+but only feqa and bertscore are tively correlated with factual inconsistency with p
+
+this indicates that when factual sistency of summaries is relatively low factuality metrics have high variance in terms of ness at detecting differences in the levels of factual inconsistency
+overall at least of summaries are factually correct for xsum and at least are correct for cnndm see table for details
+rouge is not always a valid factuality ric
+even when we remove the limitations on cal overlap metrics posed by reference summaries novikova et al
+we nd that there is high variation across domains in the performance of source document referenced rouge metrics at identifying factual inconsistency
+while most other metrics full our boundness and sensitivity tions and rouge l fail to be bounded e
+
+xsum summaries with a factual tency level of have an average score of
+while the upper bound is
+or sensitive in the case of non entity based errors with metric values actually increasing as factual inconsistency increases has correlations of
+and
+on xsum and cnndm respectively while rouge l has correlations of and
+
+this implies that standard lexical overlap metrics are able to pick up on obvious lexical errors like those indicated by entity changes but are inadequately sensitive to subtler changes like those captured by verb negation
+differences between factuality and standard metrics are fragile when factuality is high
+our results collectively suggest that while the metrics qa vs
+cloze
+while masked token prediction cloze task metrics improve over rouge when it comes to detection of non entity based errors on upper bound level level level lower bound sensitivity correlation p value upper bound level level level lower bound sensitivity correlation p value cloze blanc help blanc tune summaqa c summaqa feqa qa standard contextual bertscore
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table results of simulated factual error data experiments xsum average of runs signicant for p
+signicant for p
+
+for cells with results for entity errors are reported on the left results for non entity errors are reported on the right
+the details for the upper lower bounds sensitivity score p value and correlation measures are explained in
+
+for sensitivity to factual consistency and correlation factuality levels we highlight the best performing and lowest performing metrics in green and red respectively
+for cases where metric values are invalid e
+
+the metric values increase as factuality decreases we highlight in purple
+cloze blanc help blanc tune summaqa c summaqa feqa qa standard contextual bertscore
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+table results of simulated factual error data experiments cnndm average of runs
+see table caption for details
+summaqa c summaqa feqa qa standard contextual bertscore cloze blanc help blanc tune
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+upper bound level level level lower bound sensitivity correlation p value
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table results of simulated factual error data experiments samsum average of runs
+see table caption for details
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cnndm as shown by table they are always bounded and negatively correlated they are less consistent than qa metrics and blanc tune is positively correlated with factual inconsistency on xsum
+this may be due to the fact these metrics are primarily entity focused rather than understanding the semantic meaning of a summary as a whole
+we nd that metrics that rely on more implicit nlu like summaqa and feqa scores are the most effective metrics on xsum both are negatively correlated with statistical signicance and summaqa c in particular has the highest sensitivity score at
+see table
+impact of summary length
+in general we that most of the metrics tested perform better on samsum and cnndm than xsum of the metrics showed signicant correlations with entity based factual error level on cnndm vs
+of the metrics for xsum
+we hypothesize this may be due to the fact samsum and cnndm summaries are multi sentence which provides more context for fact checking
+
+generated data experiments in order to observe how the metrics perform on machine generated summaries we generate maries from a ne tuned encoder decoder marization model
+we manually evaluate a set of summaries on xsum dataset which are pled using top k decoding from our model
+these summaries are aligned with articles sampled from the same random subset we use in the trolled sensitivity experiments
+we nd that of generated summaries contain at least factual error
+summaries that are factually inconsistent contain up to three errors which matches the constraints of our controlled sensitivity experiment
+as shown by figure all the types of errors dened for the controlled sensitivity experiments blanc help pearson s r
+p
+blanc tune pearson s r
+p
+feqa pearson s r
+p
+summaqa c pearson s r
+p
+summaqa pearson s r
+p
+bertscore pearson s r
+p
+figure distribution of metric values evaluated in this work
+the evaluations are on human annotated generated xsum dataset sample summaries across factuality levels for three different metric types cloze task question answering and contextual metrics
+the colored bounds indicate the variation across samples
+the colors indicate levels of factuality errors
+the results shown are for all errors except other and false quote
+attack say doctors
+here the actual implication in the ground truth summary is that blood tests can lead to better diagnosis of heart attacks and less unnecessary hospitalization rather than preventing heart attacks
+we nd that these types of false quote errors appear more frequently in xsum summaries than any other type of errors except the extrinsic entity errors ext
+figure shows the distribution of metric values across factuality levels for sampled xsum summaries excluding other and false quote errors
+table lists the correlation and p values from figure including the rouge scores
+we nd that all of the metrics except cloze task rics and are negatively correlated and summaqa metrics show a statistically signicant correlation
+this is in line with our ndings on the simulated data form table where we found that summaqa also performed best in terms of sensitivity score metrics were tively correlated with factual inconsistency with a value of
+compared to
+for feqa and cloze task metrics were not always bounded or sensitive and blanc tune and had figure distribution of factual error types in generated xsum summaries
+the factual error types are described in table
+ext extrinsic entity error int intrinsic entity error pro pronoun error neg negation error sent sentiment error false quote hallucinated quotes as described in table also appear in the tated generated summaries
+we also discovered a new category of error we dene for human ation false quote which describes an instance of a hallucinated quote in the generated summary
+for example in a model generated xsum mary is the claim a blood test may help to save a man from having heart attacks says a british medical journal when the ground truth summary is a blood test can more than halve the number of people admitted to hospital with a suspected heart of factuality of
+
+
+
+
+
+of metric of factuality of
+
+
+
+
+
+
+
+of metric of factuality of
+
+
+
+
+
+
+
+of metric of factuality of
+
+
+
+
+of metric of factuality of
+
+
+
+
+
+of metric of factuality of
+
+
+
+
+
+of metric valueserror int pro ext verb other sent false quote table correlation for annotated xsum generated maries without other and false quote errors
+metric correlation p value blanc help blanc tune summaqa c summaqa feqa r l bertscore
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+metric correlation p value blanc help blanc tune summaqa c summaqa feqa r l bertscore
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table correlation for annotated xsum generated maries with all error types
+the least correlations on entity based errors
+ever in our analysis on generated data we notice a difference in results for feqa and rouge l metrics
+we nd that these metrics are sensitive with a score less than
+on simulated xsum data with entity based errors but are not signicantly sensitive on generated data though these metrics are negatively correlated
+these ings indicate that the magnitude of the sensitivity score from the simulated data analysis as well as statistical signicance may be key to predicting results on generated data
+when we consider all errors table we nd relatively less variation in most of the metric scores between factuality els for the generated summaries though there is some evidence that metric values may be weakly correlated with factuality level
+
+discussion of meta evaluation our analyses show that in contrast to prior work on factual consistency that mostly concentrated on one specic domain and dataset our go figure work is effective at testing whether performance of metrics generalize across domains
+we highlight the following key points from periments run using our go figure meta tion the simulated data analysis highlights the same trends in and worst performing tuality metrics as human analysis
+metrics with low sensitivity scores on our simulated xsum data perform poorly on human annotated xsum data regardless of correlation with factual consistency on simulated data
+conversely high sensitivity scores on simulated data may be an indicator of better performance on human annotated data
+for the purposes of determining the most reliable factuality metric this suggests that simulated data is sufcient given that some metrics e
+
+have high sensitivity
+in case of metrics like bertscore and rouge variance in performance between simulated and generated data is less predictable due to low sensitivity
+analysis on human annotated data is still necessary when evaluating metrics
+while blanc help metric values decrease with factual inconsistency on simulated data the metric is positively correlated with factual inconsistency on generated data
+the differences between factuality metrics and lexical overlap metrics are also more clearcut when considering generated summaries as opposed to transformed reference summaries
+all rouge metrics may increase as factual consistency decreases when we consider the full set of error types see table and while is the most promising lexical overlap metric on simulated summaries in our simulated experiments it is also positively correlated with factual inconsistency when we remove other and false quote errors
+this emphasizes the importance of a human annotated test set as part of the go figure meta evaluation
+factuality metrics the effectiveness of is most clear when factual consistency is low
+while factuality metrics have higher sensitivity scores than standard lexical overlap or contextual metrics our analyses show that and bertscore metric values appear to be correctly correlated with factual consistency score on reference summaries transformed with simulated factual inconsistencies
+however these metrics do not perform well on generated summaries where there is more room for factual inconsistency
+limitations
+even though we dene levels of factual inconsistencies our framework assumes that the correctness of a factual claim is binary rather than scaled
+however it is possible that generated summaries are factually consistent but unfaithful in meaning because they carry different implications than ground truth summaries
+for example the summary the uk should remain a member of the european union and the matching ground truth summary should the uk remain a member of the eu both are factually consistent and on topic given the underlying news article but the slight change in the phrasing of the question for the generated summary makes it appear to be a leading question rather than the more impartial framing of the original summary
+this relates to subjectivity of generated text including generated misinformation zellers et al
+
+measuring shifts in faithfulness due to subjectivity is not explicitly captured by the current conditions of our framework
+related work factuality in summarization
+recent efforts by nlp researchers have drawn attention to the issue of factual errors and hallucinations in the output of neural summarization models cao et al
+massarelli et al
+zhao et al
+
+the work of kryscinski et al
+used similar simulated data collection to ours for improving factual consistency of models though their simulated data is only used for training rather than evaluation while dusek et al
+introduced a reference less model based generation quality metric based on adversarial training with simulated examples
+a number of works have highlighted the effectiveness of qa and cloze task objectives for evaluating or improving factuality on specic domains eyal et al
+huang et al
+
+we aim to evaluate these metrics more broadly
+evaluation framework
+prior work cerning evaluation of automatic metrics for nlg systems has mainly focused on general evaluations of output quality or coherence and uency callison burch et al
+graham fabbri et al
+rather than factuality
+recent work has started to explore evaluating factuality and faithfulness in summarization falke et al
+goodrich et al
+celikyilmaz et al
+
+in particular maynez et al
+compare correlation of various summarization metrics with human judgements of factuality
+we expand upon these prior analyses by also introducing a concretely dened framework for evaluating current and future factuality metrics
+in contrast to earlier works we also consider a broader range of domains notably dialogue summarization
+conclusion we show that our meta evaluation framework can be used to effectively evaluate sensitivity and ity of factual consistency metrics with only ence summaries rather than requiring intensive testing across summarization model variants to identify metric strengths and ings
+the theoretically grounded nature of our ric conditions also allows for potential extensions to other use cases and text generation settings like data to text generation
+in particular our ndings from application of the framework to summarization highlight that current metrics are capable of capturing obvious lexical errors e
+
+entity errors in summaries but gle with errors related to more subtle aspects of semantics e
+
+negation and false quotes
+posed future directions for improving the ability of metrics to capture a broader spectrum of factual inconsistencies include modication of qa metrics like summaqa and feqa to use more contextual question generation qg systems e
+
+sense qg shwartz et al
+that allows for more nuanced fact checking
+acknowledgments the authors thank yichen jiang and shiyue zhang for feedback on implementation hannah rashkin and tom mccoy for help with msr gpu clusters rowan zellers and elizabeth clark for pointers to related work as well as other members of the uw nlp msr ai and msr msai communities for helpful comments
+references chris callison burch cameron fordyce philipp koehn christof monz and josh schroeder
+
+in evaluation of machine translation
+ceedings of the second workshop on statistical chine translation pages prague czech republic
+association for computational tics
+ziqiang cao furu wei w
+li and sujian li
+
+faithful to the original fact aware neural tive summarization
+in aaai
+asli celikyilmaz elizabeth clark and jianfeng gao
+
+evaluation of text generation a survey
+arxiv
+
+elizabeth clark asli celikyilmaz and noah a
+smith
+
+sentence mover s similarity automatic uation for multi sentence texts
+in acl
+esin durmus he he and mona diab
+
+feqa a question answering evaluation framework for fulness assessment in abstractive summarization
+in proceedings of the annual meeting of the ciation for computational linguistics pages online
+association for computational guistics
+ondrej dusek jekaterina novikova and v
+rieser
+
+referenceless quality estimation for natural language generation
+arxiv
+
+matan eyal tal baumel and michael elhadad
+
+question answering as an automatic evaluation in ric for news article summarization
+ings of the conference of the north american chapter of the association for computational guistics human language technologies volume long and short papers pages neapolis minnesota
+association for computational linguistics
+a
+r
+fabbri wojciech kryscinski b
+mccann summeval arxiv r
+socher and d
+radev
+
+re evaluating summarization evaluation
+
+
+tobias falke leonardo f
+r
+ribeiro prasetya ajie utama ido dagan and iryna gurevych
+
+ranking generated summaries by correctness an teresting but challenging application for natural guage inference
+in acl
+tobias falke leonardo f
+r
+ribeiro prasetya ajie utama ido dagan and iryna gurevych
+
+ranking generated summaries by correctness an teresting but challenging application for natural guage inference
+in proceedings of the annual meeting of the association for computational guistics pages florence italy
+tion for computational linguistics
+angela fan m
+lewis and yann dauphin
+
+arxiv story generation
+hierarchical neural
+
+bogdan gliwa iwona mochol maciej biesek and aleksander wawer
+
+samsum corpus a human annotated dialogue dataset for abstractive summarization
+arxiv
+
+b
+goodrich v
+rao mohammad saleh and peter j
+liu
+
+assessing the factual accuracy of ated text
+proceedings of the acm sigkdd international conference on knowledge discovery data mining
+yvette graham
+
+re evaluating automatic marization with bleu and shades of rouge
+in proceedings of the conference on cal methods in natural language processing pages lisbon portugal
+association for tational linguistics
+han guo ramakanth pasunuru and mohit bansal
+
+soft layer specic multi task summarization in with entailment and question generation
+ceedings of the annual meeting of the tion for computational linguistics volume long papers pages melbourne australia
+sociation for computational linguistics
+t
+hashimoto hugh zhang and percy liang
+
+unifying human and statistical evaluation for ral language generation
+arxiv
+
+ari holtzman jan buys m
+forbes and yejin choi
+
+the curious case of neural text degeneration
+arxiv
+
+luyang huang lingfei wu and lu wang
+
+knowledge graph augmented abstractive rization with semantic driven cloze reward
+in ceedings of the annual meeting of the ciation for computational linguistics pages online
+association for computational guistics
+wojciech kryscinski b
+mccann caiming xiong and r
+socher
+
+evaluating the factual sistency of abstractive text summarization
+arxiv
+
+chin yew lin
+
+rouge a package for matic evaluation of summaries
+in text tion branches out pages barcelona spain
+association for computational linguistics
+yang liu and mirella lapata
+
+hierarchical formers for multi document summarization
+acl
+yuning mao liyuan liu qi zhu xiang ren and awei han
+
+facet aware evaluation for tive summarization
+in acl
+luca massarelli f
+petroni aleksandra piktus myle ott tim rocktaschel vassilis plachouras f
+vestri and s
+riedel
+
+how decoding gies affect the veriability of generated text
+arxiv
+
+joshua maynez shashi narayan bernd bohnet and ryan t
+mcdonald
+
+on faithfulness and arxiv factuality in abstractive summarization
+
+
+george a
+miller
+
+wordnet a lexical database for english
+commun
+acm
+tianyi zhang v
+kishore felix wu k
+weinberger and yoav artzi
+
+bertscore evaluating text generation with bert
+arxiv
+
+z
+zhao shay b
+cohen and b
+webber
+
+ing quantity hallucinations in abstractive tion
+arxiv
+
+chenguang zhu william hinthorn ruochen xu qingkai zeng michael zeng xuedong huang and meng jiang
+
+boosting factual correctness of abstractive summarization
+ramesh nallapati bowen zhou c
+d
+santos c aglar gulcehre and b
+xiang
+
+abstractive text marization using sequence to sequence rnns and yond
+in conll
+shashi narayan shay b
+cohen and mirella lapata
+
+do nt give me the details just the summary topic aware convolutional neural networks for in proceedings of the treme summarization
+conference on empirical methods in natural guage processing brussels belgium
+jekaterina novikova ondrej dusek a
+curry and ena rieser
+
+why we need new evaluation rics for nlg
+in emnlp
+colin raffel noam shazeer adam roberts katherine lee sharan narang michael matena yanqi zhou w
+li and peter j
+liu
+
+exploring the limits of transfer learning with a unied text to text former
+arxiv
+
+sascha rothe shashi narayan and a
+severyn
+
+leveraging pre trained checkpoints for sequence generation tasks
+transactions of the association for computational linguistics
+thomas scialom sylvain lamprier benjamin wowarski and jacopo staiano
+
+answers unite unsupervised metrics for reinforced rization models
+in emnlp ijcnlp
+thibault sellam dipanjan das and ankur parikh
+
+bleurt learning robust metrics for text generation
+in proceedings of the annual ing of the association for computational linguistics pages online
+association for tional linguistics
+noam shazeer and mitchell stern
+
+adafactor adaptive learning rates with sublinear memory cost
+in icml
+vered shwartz peter west ronan le bras dra bhagavatula and yejin choi
+
+vised commonsense question answering with talk
+emnlp
+oleg v
+vasilyev vedant dharnidharka and j
+hannon
+
+in the blanc human free quality estimation of document summaries
+arxiv
+
+fill alex wang kyunghyun cho and mike lewis
+
+asking and answering questions to evaluate the in proceedings of tual consistency of summaries
+the annual meeting of the association for putational linguistics pages online
+association for computational linguistics
+rowan zellers ari holtzman hannah rashkin yonatan bisk ali farhadi f
+roesner and yejin choi
+
+defending against neural fake news
+in
+if a summary is judged to be factually incorrect annotators are allowed to select the number and type of errors they observe using a predened list of factual errors
+a screenshot of the error types and examples shown in the annotation task is given in figure
+summaries were manually evaluated and labeled for factual inconsistency by a graduate student
+a appendices a
+simulated data transformations we inject errors into reference summaries by rst using a part of speech tagging model and named entity recognition system to extract ties verbs and adjectives from these summaries
+for each named entity we keep track of the label type e
+
+org gpe
+intrinsic entity errors
+to inject intrinsic entity errors into a summary s we construct a dictionary of all unique entities appearing in the source ument for s only organized by entity label type
+we then swap a random entity in the reference mary for a different entity of the same label type in the constructed dictionary
+extrinsic entity errors
+for extrinsic entity rors we use the same dictionary construction for all unique entities appearing in all the corpus source documents
+to change a random adjective we use wordnet miller to obtain the synsets for that adjective and swap the adjective for its antonym
+pronoun entity errors
+pronoun errors are troduced with a preset list of commonly used nouns
+we randomly extract a pronoun set e
+
+she her from the text using the preset list and swap it with another random pronoun set e
+
+he him
+verb negation
+we use a rule based system for verb negation based on verb tense and predict tense based on the sufx and preceding words
+a
+training we ne tune the base model trained on news summaries for each domain using the adafactor optimizer shazeer and stern with a learning rate of
+and a batch size of
+a
+
+human annotation layout for human annotation of factual consistency in summaries we show annotators the source ment reference summary and a candidate summary that should be assessed for factuality
+we then ask a factuality question with three choices yes i
+e
+the summary is factual no i
+e
+the summary contains factual not sure i
+e
+the summary is too incoherent sistencies to judge
+figure examples of factual errors given in annotation task
+

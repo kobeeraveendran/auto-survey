@@ -1,93 +1,97 @@
-t c o
-i a
-s
-c
-v
-v
-i x r a on modeling vagueness and uncertainty in data to text systems through fuzzy sets centro singular en investigacion en tecnoloxas informacion citius universidade santiago de compostela spain department of computing science university of aberdeen united kingdom ramos soto pereira farina departamento de filosofa e antropoloxa universidade santiago de compostela spain centre for argument technology arg tech university of dundee united kingdom abstract vagueness and uncertainty management is counted among one of the challenges that remain unresolved in systems that generate texts from non linguistic data known as data to text systems
+t c o i a
+s c v
+v i x r a on modeling vagueness and uncertainty in data to text systems through fuzzy sets centro singular en investigacion en tecnoloxas informacion citius universidade santiago de compostela spain department of computing science university of aberdeen united kingdom a
+ramos soto m
+pereira farina departamento de filosofa e antropoloxa universidade santiago de compostela spain centre for argument technology arg tech university of dundee united kingdom abstract vagueness and uncertainty management is counted among one of the challenges that remain unresolved in systems that generate texts from non linguistic data known as data to text systems
 in the last decade work in fuzzy linguistic summarization and description of data has raised the interest of using fuzzy sets to model and manage the imprecision of human language in data to text systems
 however despite some research in this direction there has not been an actual clear discussion and justication on how fuzzy sets can contribute to data to text for modeling vagueness and uncertainty in words and expressions
-this paper intends to bridge this gap by answering the following questions what does vagueness mean in fuzzy sets theory
-what does vagueness mean in data to text contexts
-in what ways can fuzzy sets theory contribute to prove data to text systems
-what are the challenges that researchers from both disciplines need to address for a successful integration of fuzzy sets into to text systems
-in what cases should the use of fuzzy sets be avoided in t
+this paper intends to bridge this gap by answering the following questions what does vagueness mean in fuzzy sets theory what does vagueness mean in data to text contexts in what ways can fuzzy sets theory contribute to prove data to text systems what are the challenges that researchers from both disciplines need to address for a successful integration of fuzzy sets into to text systems in what cases should the use of fuzzy sets be avoided in t for this we review and discuss the state of the art of vagueness modeling in email addresses alejandro
 
-for this we review and discuss the state of the art of vagueness modeling in email addresses ramos soto
-pereira farina preprint submitted to information sciences october natural language generation and data to text describe potential and actual
-ages of fuzzy sets in data to text contexts and provide some additional insights about the engineering of data to text systems that make use of fuzzy set based keywords vagueness data to text fuzzy sets natural language generation techniques
+alejandro
+
+ac
+uk a
+ramos soto martin
+
+m
+
+
+ac
+m
+pereira farina preprint submitted to information sciences october natural language generation and data to text describe potential and actual ages of fuzzy sets in data to text contexts and provide some additional insights about the engineering of data to text systems that make use of fuzzy set based keywords vagueness data to text fuzzy sets natural language generation techniques
 linguistic descriptions of data
-introduction the vast amounts of data that companies experts and users need to manage usually appear in very dierent formats tables time series images and their handling by human users is a real challenge
+introduction the vast amounts of data that companies experts and users need to manage usually appear in very dierent formats tables time series images
+and their handling by human users is a real challenge
 this has led to the emergence of computational systems that interpret and convert such data into texts known as natural language generation nlg systems
 thus nlg can be dened as the branch of articial intelligence devoted to research the process of generating information in the form of natural language texts from dierent types of input data such as other texts numeric data or visual information
-
 within nlg systems that use non linguistic data as input such as time series data or numerical datasets in general are commonly known as data text t systems
 in the literature it is possible to nd text generation solutions for many dierent application domains including health vironmental and weather information systems industry project management or education
 in recent times there has also been an explosion of commercially applied t due mainly to the increasing amounts of data that organizations have to
 therefore t systems are a fact in our society
-
 the main targets of t are human users and therefore the short review of the most internationally recognized companies can be found in but its number is likely to increase in the coming years this paper we will refer mainly to t but most of the statements made here about t also apply to nlg in general
 tained texts must be in addition to orthographically grammatically and tically correct also relevant eective and persuasive
 consequently choosing the best words and phrases that convey the most relevant information about the facts to be communicated deserves a special attention
-
 the generation of linguistic texts also needs to take into account the inherent features of natural language such as vagueness
 the traditional approach to this issue from the perspective of t researchers is performed using numerical and symbolical crisp denitions supported by proper experiments
 in other words in applied t systems a vague word or expression such as tall or in the morning is usually dened by means of a crisp numeric interval such as cm cm or respectively
 consequently we can not say that vagueness is explicitly modelled but that a crisp denition is assigned to them as a result cm or are not tall or in the morning
 vagueness is not only a matter of dealing with predicates involving borderline cases such as the mentioned in the morning or tall but it also aects the degree of truthfulness or reliability of the statements
 in these cases we talk about uncertainty rather than vagueness but they can be considered as two sides of the same coin
-for instance suppose an industrial process where an nlg system needs to report the evolution of the pressure in a valve see fig during the last minutes
+for instance suppose an industrial process where an nlg system needs to report the evolution of the pressure in a valve see fig
+during the last minutes
 figure there are many ways in which the information that even a single numeric value holds can be expressed
 this is a common problem that t systems have to face and leads us to consider the role that communicative intentions plays in human language
-pahigh pressure event detectedexcessive pressure event pa pressure event kpa pressure event detectedover
-pa pressure event detected an immediate answer is to generate a set of statements in minute the pressure was pa in minute the pressure was pa in minute the pressure was pa
+pahigh pressure event detectedexcessive pressure event pa pressure event kpa pressure event detectedover pa pressure event detected an immediate answer is to generate a set of statements e
+
+in minute the pressure was pa in minute the pressure was pa in minute the pressure was pa
 this result is not useful for a human user it needs to be rephrased preserving the same truth conditions
 a good candidate is the sentence almost all the pressure values were under pa where introducing a vague quantier such as almost all the text can be signicantly simplied without sacricing its reliability
-
-although vagueness in t systems has not been explicitly addressed this has not been an important impediment for obtaining excellent results
-ing alternative approaches
+although vagueness in t systems has not been explicitly addressed this has not been an important impediment for obtaining excellent results ing alternative approaches
 for instance by means of the analysis of corpora in order to capture how human writers or speakers actually use qualitative terms and psycho linguistic experiments nlg researchers can comprehend how man users understand qualitative terms and dene crisp denitions accordingly
-the sumtime mousam system is a good example of this where the authors used a corpus of manually written forecasts to analyse the correspondence between the use of time phrases and crisp numerical times see fig
-ing on the numerical datasets
+the sumtime mousam system is a good example of this where the authors used a corpus of manually written forecasts to analyse the correspondence between the use of time phrases and crisp numerical times see fig ing on the numerical datasets
 the evaluation of this system showed that readers preferred the automatically generated forecast texts over the manually written ones
 figure denition of time phrases in the sumtime mousam system
-
 from our point of view although these methods are eective they are by midnightby er midnightby mid a ernoonby early morningby early eveningby mid morningby mid evening cult to generalize because they are signicantly time consuming tasks
 in dition we disagree with the assumption that linguistic vagueness is only an epistemological issue that can be addressed searching for a crisp denition with enough information and time in our opinion vagueness is an ontological feature and should be analysed using dierent tools
 a good example that illustrates the complexity of vague predicates is the sorites paradox
 let us suppose that a person cm height is tall
-if the person decreased in height by mm every night when could it stop being considered tall
-such questions lead to the conclusion that vague concepts such as tall or heavy do not have a crisp meaning in certain contexts
+if the person decreased in height by
+mm every night when could it stop being considered tall such questions lead to the conclusion that vague concepts such as tall or heavy do not have a crisp meaning in certain contexts
 the use of fuzzy sets and fuzzy logic for the management of vagueness in the generation of linguistic texts from data was ignited by the research on fuzzy linguistic description and summarization of data ldd
-
 ldd focuses on the extraction of imprecise linguistic information from numeric datasets but their impact and inuence on t and nlg in general has been mostly residual although some eorts have started to appear in this realm
 in spite of these eorts we believe there is a lack of a proper in depth discussion that justies the use of fuzzy sets in t and that involves the main nexus that relates one realm with the other vagueness in human language
 we propose building a bridge between t and fst on the following tion why should vague terms be tackled in t systems using fst which can be split into four main sub questions
 what does vagueness actually mean in fst
-
 what does vagueness actually mean in t systems
-
 why is fst a good theory for addressing vagueness in t systems
+could t avoid fst for its improvement for providing a clear answer to these questions in section we address the rst two questions by means of a critical review of the literature about vagueness modelling in fst and nlg in section we compare both paradigms in terms of their interpretation of vagueness and discuss why fuzzy sets could be a positive contribution for the development of t systems in section we describe under which circumstances fst can be dispensable
+finally section highlights the main ideas discussed in this paper and provides a look at future trends about the use of fst in t
 
-could t avoid fst for its improvement
-
-for providing a clear answer to these questions in section we address the rst two questions by means of a critical review of the literature about vagueness modelling in fst and nlg in section we compare both paradigms in terms of their interpretation of vagueness and discuss why fuzzy sets could be a positive contribution for the development of t systems in section we describe under which circumstances fst can be dispensable
-finally section highlights the main ideas discussed in this paper and provides a look at future trends about the use of fst in
 understanding vagueness in fuzzy sets theory and t until the twentieth century vagueness had a predominant negative eration vague predicates were defective ones due to lack of precision and this could be easily solved by adding the missing information
-nevertheless russell in his seminal paper vagueness in rejected this idea
+nevertheless b
+russell in his seminal paper vagueness in rejected this idea
 he proposed that vague predicates are essential to natural language and allow us to denote those concepts which can not be precisely dened such as borderline cases
-good examples are the sorites paradox which has been described in the introduction or gradable adjectives such as tall where the extreme cases are very clear somebody who is height is undoubtedly tall and somebody who is height is undoubtedly short but the ones that are in between constitute a penumbra area where the change from one extreme to the other is fuzzy
-
+good examples are the sorites paradox which has been described in the introduction or gradable adjectives such as tall where the extreme cases are very clear somebody who is m
+height is undoubtedly tall and somebody who is m
+height is undoubtedly short but the ones that are in between constitute a penumbra area where the change from one extreme to the other is fuzzy
 as a result of this new conception of vagueness classical conceptions of truth and falsehood based on the excluded middle law must be reconsidered
+thus statements are not true or false anymore but they should be qualied by means of a degree of trustworthiness e
 
-thus statements are not true or false anymore but they should be qualied by means of a degree of trustworthiness s logic introduces the intermediate value of possible bayesianism appeals to agent s degree of belief for these intermediate values
+s logic introduces the intermediate value of possible bayesianism appeals to agent s degree of belief for these intermediate values
+
 in this section we will analyse in detail the perspective to tackle vagueness proposed by fuzzy logic widely adopted in computer science and the one adopted by nlg which underlies the majority of systems in this discipline used in real applications
+
 
 vagueness from a fuzzy sets theory perspective the notion of a fuzzy set was proposed by zadeh and formalizes the insight of linguistic vagueness in terms of borderline cases by means of the concept of gradualness in class membership using zadeh s words a class of objects with a continuum grades of membership
 this formalization is known as membership function and it is dened in the interval
 notwithstanding the meaning of a membership grade is a debatable question in fst and there is not uniformity about it
 during the last fty years fst has been developing both from a mathematical point of view and an engineering one and several dierent semantics for the notion of degree of membership have been proposed
-in this section we will analyse the three semantics for fuzzy sets similarity preference and uncertainty described by dubois and prade and the semantics proposed by the paradigm of computing with words cww
+in this section we will analyse the three semantics for fuzzy sets i
+e
+similarity preference and uncertainty described by d
+dubois and h
+prade and the semantics proposed by the paradigm of computing with words cww
+
 
 
 three semantics for fuzzy sets fuzzy sets seem to be applied in three main dierent basic problems classication and clustering decision making problems and approximate soning
@@ -96,30 +100,31 @@ classication and clustering problems usually interpret the membership tion in te
 thus given a fully representative element named type which f u all the remaining elements of the universe are sorted according to their resemblance to the prototype in terms of a distance tion which generates the corresponding values for a function those elements that are totally dierent to the prototype gets f u
 a very well known example of this type of semantics is the clustering task using the iris where a collection of owers are classied into three fuzzy classes iris setosa iris versicolor and iris virginica according to dierent measurements sepal length width and petal length width
 the vagueness of this task relies on the categories not on the measurements because there is not a sharp border that distinguishes one category from the others
-
 in decision making problems on the other hand fuzzy sets are devoted to the modeling of exible criteria or constraints rather than resemblance features
-
-thus a fuzzy set is in general a collection of values of a decision variable where the membership function f u indicates the degree of preference of the user for the value
-
+thus a fuzzy set is in general a collection of values of a decision variable where the membership function f u indicates the degree of preference of the user for the value u
 the most preferable a value is the higher its degree of membership to the fuzzy set
 an example of decision making problem is to choose a good car according to the following criteria which involves fuzzy terms
-it should have a good average of litres of combustible per
+it should have a good average of litres of combustible per km
 
 it must be safe
 
 it must be cheap
-each one of these three criteria is dened by means of a fuzzy set average l km good medium bad where the values of the able average l km are sorted according to the preferences of the user expressed in the criterion
+each one of these three criteria is dened by means of a fuzzy set
+
+average l km
+good
+medium
+bad where the values of the able average l km are sorted according to the preferences of the user expressed in the criterion
 in this case this variable is not so relevant it is qualied by the modal verb should but the preference in favour of the good value is clear with respect to the other two medium bad
 the last interpretation corresponds with typical cases of approximate soning it is usually named as the possibility theory
 thus a fuzzy set is a set of possible values or parameters u of a variable and the membership function indicates the degree of possibility of one of the parameters happening
-
-in this case it is known that takes one of the values of f and the degree of membership indicates the degree of belief of an agent o which particular value species database u is taken by the variable
+in this case it is known that takes one of the values of f and the degree of membership indicates the degree of belief of an agent o which particular value species database
+badbear
+com u is taken by the variable
 in we can nd an example of applying possibility theory to a dialogue game in deliberative negotiations
 here possibilistic logic is used both for representing the mental states of the agents involved in the dialogue but also for revising the bases and describing the decision procedure
-
 for instance the possible movements of an agent are modelled as a fuzzy set and the degree of membership indicates how possible a move in the process is
-similarity preference uncertainty elements objects values values objects
-perspective objective intentional subjective structure prototype non prototype non prototype measurement distance cost frequency table comparison among the three semantics for fuzzy sets
+similarity preference uncertainty elements objects values values objects perspective objective intentional subjective structure prototype non prototype non prototype measurement distance cost frequency table comparison among the three semantics for fuzzy sets
 in table we summarize a comparison among the three semantics ing to dierent features
 similarity semantics usually deals with collection of physical objects which can be precisely measured but the belonging categories are very dicult to dene sharply
 a signicant dierence of this proposal with respect to the other ones is the notion of prototype because it guarantees an element with the maximum degree of membership in the fuzzy set
@@ -127,14 +132,12 @@ preference semantics on the other hand relies on fuzzy sets whose elements are v
 given that most of the times decision making has to satisfy multicriteria the best way for assessing the degree of membership is in terms of cost for achieving the desired goal
 finally uncertainty semantics is the most subjective one since it captures the user s belief degree with respect to the possible values of a variable
 
-fuzzy sets in computing with words
-in the zadeh introduces the paradigm of computing with words cww
-a new way of computing where the computational operations are executed by means of words instead of numbers
-as a result natural language both from a semantic and syntactic point of view becomes a key tool for machine interaction mainly in problems that involve too much imprecision to be solved in the traditional numerical way
 
+
+fuzzy sets in computing with words in the zadeh introduces the paradigm of computing with words cww a new way of computing where the computational operations are executed by means of words instead of numbers
+as a result natural language both from a semantic and syntactic point of view becomes a key tool for machine interaction mainly in problems that involve too much imprecision to be solved in the traditional numerical way
 under this new paradigm the concepts of granule and protoform appear
 a granule is dened as a clump of physical or mental objects points drawn gether by indistinguishability similarity proximity of functionality
-
 each granule which can be crisp or fuzzy is the basic processing unit of information and there are four criteria that guide its denition
 it must be small enough to be manipulable
 
@@ -143,22 +146,22 @@ it must provide relevant insight about the problem in order to make it understan
 its origin must be objective numerical values
 
 each granule must represent a relevant part of the problem in order to be addressed
-
 for instance let us consider the temperature in a meteorological service
-
 the temperature captured by a thermometer is registered in a table every minutes
-a case of precise granule is to use the celsius scale considering only degrees and half degrees therefore two temperatures such as and are indistinguishable in our register because of both will be represented as
+a case of precise granule is to use the celsius scale considering only degrees and half degrees therefore two temperatures such as
+and
+are indistinguishable in our register because of both will be represented as
 a case of a fuzzy granule is to generate a fuzzy partition of temperature ranges using the following labels very cold cold warm hot very hot in this case with warm dened as a trapezoidal function temperatures such as and will be registered in our system simply as warm with the corresponding degree of membership
-following form the concept of granule is usually expressed by a proposition p with the x isr r where x is a constrained variable r are the information granules and r denotes the type of relationship between x and
-in dierent r are dened for instance in the example of the fuzzy granule temperatures r is fuzzy disjunctive because of a temperature
-belongs to one label or adjacent ones it is not the case that a temperature is very cold and very hot
+following form the concept of granule is usually expressed by a proposition p with the x isr r where x is a constrained variable r are the information granules and r denotes the type of relationship between x and r
+in dierent r are dened for instance in the example of the fuzzy granule temperatures r is fuzzy disjunctive because of a temperature belongs to one label or adjacent ones i
+e
+it is not the case that a temperature is very cold and very hot
 the last step are the encoding and decoding mechanisms which capture the objective data according to the dened granules
 for instance in the example of the temperature again it is necessary to dene a membership function for mapping the temperatures of the thermometer to the corresponding fuzzy labels
 the second notion to be considered is the protoform which is related with the output mechanism from the granule
 a protoform is dened as an abstract prototype of a linguistic summary q y are s q ky are s where y is a set of objects k is a qualier and s is a summariser
 the concept of summariser s is directly related with the communicative intention and it conveys the set of attributes to be predicated
 in addition it also introduces the linguistic quantier operator q which is a exible aggregation operation
-
 for instance if y denotes a set of students and s the set of possible marked qualications few students have obtained a good mark refers to the subset of students with good marks but also is a way of summarising or describing the information about the grading of the whole set of students
 likewise if k refers to the gender of the students we can also provide a description such as few male students have obtained a good mark
 in this context the concept of protoform is linked to the concept of fuzzy quantied sentence type i in the rst case and type ii where the qualier k appears
@@ -167,15 +170,26 @@ an actual application of these concepts is the realm of linguistic tion or descr
 an ldd system extracts by means of granules relevant information from numerical data and generate short linguistic excerpts
 there is an extensive collection of research work in this topic see the following reviews of methods and use cases for further information and in the recent years there has been an increasing eort in converting those short linguistic pieces into textual phrases useful for end users
 
+
 vagueness from a data to text perspective there is an essential dierence between fst and nlg about how vagueness is tackled while for fst it is a matter of an accurate representation of imprecise information for nlg it is a matter of eciency to achieve the communicative goal of the speaker according to the context
 thus for the latter the use of vague predicates or expressions is part of the strategy to select the most adequate wording in order to achieve a predened goal
+despite of this as in fst it is easy to identify the two aforementioned dimensions of vagueness vague predicates for referring borderline cases e
 
-despite of this as in fst it is easy to identify the two aforementioned dimensions of vagueness vague predicates for referring borderline cases x is tall x is short and uncertainty for assessing the reliability of assertions x may have happened
+x is tall x is short
+and uncertainty for assessing the reliability of assertions e
+
+x may have happened
+
 in this section we will analyse the dierent approaches developed in nlg for handling both dimensions of the same problem
 
+
+
 borderline predicates in nlg in the eld of nlg we can nd two main viewpoints mainly opposed about vagueness
-the rst one substantially supported by van deemter claims that vagueness should be generally avoided because it is a source of ambiguities and misunderstandings and as a consequence handling vagueness is not a core part in the nlg systems
-on the other hand as gatt et al hold nlg systems must represent adequately vagueness because it is an inherent characteristic of natural language and it can not be avoided in many cases of referring expressions
+the rst one substantially supported by k
+van deemter claims that vagueness should be generally avoided because it is a source of ambiguities and misunderstandings and as a consequence handling vagueness is not a core part in the nlg systems
+on the other hand as a
+gatt et al
+hold nlg systems must represent adequately vagueness because it is an inherent characteristic of natural language and it can not be avoided in many cases of referring expressions
 kees van deemter in several papers argues that game theory is a good theoretical framework for analysing the utility of vague expressions in nlg systems
 in particular he focuses on gradable properties in referring expression
 thus the use or lack of use of a vague expression is determined according to the context and the strategy to achieve the goal of the speaker
@@ -189,392 +203,530 @@ this question is addressed from an experimental point of view using corpora stud
 as in the previous study some exceptions can appear such as the subjective ences of the speaker but an analogous position is supported crisp predicates are preferable than vague ones in referring expressions
 a third part in the analysis of vague referring expressions can be found in their use as mechanisms to present data into a human accessible form and press irrelevant details losing the irrelevant information
 initially this seems to be an adequate use for them but several important issues arise i the referring expression following its typical denition in linguistics is any noun or phrase or surrogate for a noun phrase whose function in discourse is to identify some individual entity such as an object or a person
-the dierence between two adjacent members in the scale is comparatively small the mice with cm and cm are a natural group given the dierence with the third one cm which is much bigger ity of determining which is the best expressive choice given a particular context increases when more possible options are available see fig or the called multidimensionality issues where more than one vague adjective must be considered by the algorithm for generating the adapting referring expression
+the dierence between two adjacent members in the scale is comparatively small e
 
+the mice with cm and cm are a natural group given the dierence with the third one cm which is much bigger ity of determining which is the best expressive choice given a particular context increases when more possible options are available see fig
+or the called multidimensionality issues where more than one vague adjective must be considered by the algorithm for generating the adapting referring expression
 as a result of these dierent analyses conducted by van deemter it can be inferred that in general vague expressions should be avoided in order to generate the most clear and understandable texts
 although they might be useful in some specic contexts a crisp wording is more ecient and eective from a communicative point of view when precise data are available
-
 despite this conclusion van deemter himself recognizes that there are still some open questions about the role of vagueness from a communicative point of view
-
 in he explores two main questions why vagueness appears in language and when and why a speaker should choose a vague expression rather than a precise one
-in his analysis he concluded that there are some stances where vague predicates might appear such as when terms are essentially vague cloudy there exists a cost reduction vague expressions are easier to produce and interpret than crisp ones future contingencies as in weather forecasting or lack of good metrics if the system can not provide accurate crisp expressions it might use vague ones instead and therefore the use of vague expressions is a matter of choice
+in his analysis he concluded that there are some stances where vague predicates might appear such as when terms are essentially vague e
+
+cloudy there exists a cost reduction vague expressions are easier to produce and interpret than crisp ones future contingencies as in weather forecasting or lack of good metrics if the system can not provide accurate crisp expressions it might use vague ones instead and therefore the use of vague expressions is a matter of choice
 however this does not invalidate his previous conclusions from other studies and van deemter concludes again that vague expressions should be avoided generally
 other authors that support this same approach to vagueness are power and williams which propose the use of numerical approximations to describe proportions at dierent levels of precision
-thus if we compare phrases such as per cent and more than a quarter the latter is more vague than the former because of there exists a loss of information with respect to the crisp value
+thus if we compare phrases such as
+per cent and more than a quarter the latter is more vague than the former because of there exists a loss of information with respect to the crisp value
+a
 gatt et al
 on the other hand provide a dierent perspective about the impact of vagueness in nlg systems
 they explore the case of referring expression generation from non linguistic data where the use of fuzzy terms such as colour or position in an image even being fuzzy concepts can be more useful than crisp expressions since these are very dicult to be sharply dened
 their conclusions are supported by an experiment using an image of labelled human cells where dierent examples of referring phrases were compared according its referential success degrees
 the achieved results support the claim that vagueness is an issue that can not be generally avoided in nlg
 other example of real application where vague concepts play an important role is galiweather a t system which generates textual weather casts from short term prediction data
-concepts such us beginning dominant are modelled by means of fuzzy sets given the impossibility of getting a crisp denition for them
-
+concepts such us beginning dominant
+are modelled by means of fuzzy sets given the impossibility of getting a crisp denition for them
 for concluding the case of borderline predicates in nlg is mainly dealt with in the area of generating referring expressions
 in the literature we can nd two main opposed points of view one of them argues that vague or fuzzy expressions should be avoid whenever possible because they entail a lack of information and communicative eciency
 the other one holds that there are non linguistic data whose verbalization is inherently vague therefore specic theoretical tools for modelling vagueness such as fuzzy logic must be used in order to preserve the adequate degree of representativeness of the linguistic description
 
+
+
 uncertainty and nlg uncertainty is another dimension of vagueness to be considered in nlg systems
 in reiter s words applied nlg systems may need to communicate uncertainty about the reliability of the input data or the system s analysis
 the main contribution to this area are the recent works of gatt and portet whose main target is to tackle uncertainty in the modeling and conveyance of temporal expressions
-
 in porter and gatt introduce fuzzy techniques to deal with uncertainty in temporal data series used in the babytalk family of systems
 these erate reports from a signal analysis about the clinical state of babies that are in neonatal icu
-handling these temporal events generates uncertainty in the production of linguistic statements and they apply the fuzzy theory of ity in order to choose the most adequate modal expression for them may must for instance the baby was moved from simv to cpap
+handling these temporal events generates uncertainty in the production of linguistic statements and they apply the fuzzy theory of ity in order to choose the most adequate modal expression for them e
+
+may must
+for instance the baby was moved from simv to cpap
 he was extubated and underwent oral suction
 this must have caused the instability in hr and
-
 in the same authors advanced a step further with a theoretical model based on fst which is combined with experimental data from three dierent languages french maltese and english in order to capture the subjective bias of this kind of judgements involving uncertainty
 as a result they developed a classier that selects the most appropriate uncertain expression according to the obtained possibility necessity values and the subjective bias in order to enhance the feasibility of using the model as an underlying mechanism for an nlg system
-
 for concluding we can say that vagueness has not been a core issue in the development of nlg systems
 in addition until recently the most dominant claim in the literature was that there were not strong empirical or pragmatic reasons to improve the representation of borderline predicates or uncertainty it was enough to select a crisp denition based on data to assign a meaning to them
 however in the last years a new perspective has arisen arguing that vagueness is relevant and needs to be specically tackled
 
-comparing and integrating t and fuzzy sets in terms of ness interpretation
-from our perspective the current lack of understanding between t and fst relies on their dierent perspectives on vagueness while the former adopts a pragmatism conception of this sort of expressions subordinated to its nicative function the latter focuses on enhancing the accuracy of the matical representation
-
-nevertheless as the studies by gatt et al suggest the current state of the art in t technology seems to demand an specic treatment of vagueness
-in order to bridge this gap it is essential to connect both perspectives and explain the benets that fst can bring to nlg in a proper way providing an answer to the third question listed in sec
+comparing and integrating t and fuzzy sets in terms of ness interpretation from our perspective the current lack of understanding between t and fst relies on their dierent perspectives on vagueness while the former adopts a pragmatism conception of this sort of expressions subordinated to its nicative function the latter focuses on enhancing the accuracy of the matical representation
+nevertheless as the studies by gatt et al
+suggest the current state of the art in t technology seems to demand an specic treatment of vagueness
+in order to bridge this gap it is essential to connect both perspectives and explain the benets that fst can bring to nlg in a proper way i
+e
+providing an answer to the third question listed in sec
 
 a contribution to this mutual understanding can be found in
 in this paper kacprzyk and zadrozny identied in a potential connection between fuzzy sets and nlg through fuzzy linguistic summarization and discussed that nlg could benet from the imprecision or vagueness treatment that fst oers
-
 likewise they argued that nlg techniques could be used to provide a text generation interface for linguistic summarization
 these ideas were later retaken in without noticeable advances
 
-why is fst a good theory for addressing vagueness in t systems
-at this point we will further develop the ideas described in and
-we believe that a more in depth analysis about the underlying semantics of fuzzy protoforms will help shed light on the benets that fst and ldd can bring to for this we will describe a simple example based on a type i fuzzy quantied statement that merges both fst and t perspectives
+
+why is fst a good theory for addressing vagueness in t systems at this point we will further develop the ideas described in and
+we believe that a more in depth analysis about the underlying semantics of fuzzy protoforms will help shed light on the benets that fst and ldd can bring to t
+for this we will describe a simple example based on a type i fuzzy quantied statement that merges both fst and t perspectives
 let us refer to the fuzzy protoforms described in sec
-that adopt the form of q y are s namely type
-i fuzzy quantied statements
+
+
+that adopt the form of q y are s namely type i fuzzy quantied statements
 suppose then a t system tasked with generating descriptions about the pressure of a set of valves v
+
+
 vn in an industrial environment
 the system computes type i fuzzy quantied sentences on a fuzzy linguistic variable that models the pressure p low medium high using a set of fuzzy quantiers f q ew several many
 suppose also that we are certain that both p and r represent properly the semantics of the linguistic terms according to the expert s knowledge
-
 consequently the system produces descriptions such as a few valves have high pressure or most valves have low pressure which are later properly balized to match the domain language requirements
 in this context let us refer now to how a fuzzy quantied sentence is computed
 there are several fuzzy quantication models that allow to calculate the truth degree of a quantied sentence but for illustration purposes we will refer to zadeh s model which is also the most widely used in the literature t q y are s q n n p vi suppose then that we have the latest pressure measurement for our set of valves and the t system generates a description of this situation
-using zadeh s model we calculate the truth degree of all possible combinations for p and translating the procedure in equation to words implies to evaluate each pressure measurement against each pressure fuzzy label determine the fuzzy cardinality of the set of valves and then evaluate this result against all fuzzy quantiers
-
+using zadeh s model we calculate the truth degree of all possible combinations for p and r
+translating the procedure in equation to words implies to evaluate each pressure measurement against each pressure fuzzy label determine the fuzzy cardinality of the set of valves and then evaluate this result against all fuzzy quantiers
 after computing all possibilities suppose that our system determines that t most valves have high pressure
-what does t actually mean and what implications does this value have for the t system so that it can convey such information
-if we backtrack the process this starts from fuzzy denitions that represent vague terms about the pressure level such as low or high
-these denitions allow us to know for each of the labels in p the truth degree for vi is pj pj vi
-given that p was dened to reect the knowledge of an expert the truth degrees resulting from this evaluation are easy to interpret as they are a good representation of the degree in which each pressure value is and high according to the expert
 
-however by performing the remaining quantication procedure displayed in eq which involves obtaining the fuzzy cardinality for the whole set of valves and then evaluating against a fuzzy quantier we end up aggregating the nal individual truth degrees into a single truth degree that represents something far more complex than the correspondence degree between a pressure value and a vague term
+what does t actually mean and what implications does this value have for the t system so that it can convey such information if we backtrack the process this starts from fuzzy denitions that represent vague terms about the pressure level such as low or high
+these denitions allow us to know for each of the labels in p the truth degree for vi is pj i
+e
+pj vi
+given that p was dened to reect the knowledge of an expert the truth degrees resulting from this evaluation are easy to interpret as they are a good representation of the degree in which each pressure value is and high according to the expert
+however by performing the remaining quantication procedure displayed in eq
+which involves obtaining the fuzzy cardinality for the whole set of valves and then evaluating against a fuzzy quantier we end up aggregating the nal individual truth degrees into a single truth degree that represents something far more complex than the correspondence degree between a pressure value and a vague term
 one direct interpretation of t most valves have high pressure is the degree in which the high pressure values full that they are most within all values
 this corresponds to a rather logical interpretation that lows from the mathematical formula in equation
 in our case however we are interested in an interpretation closer to a language use perspective which can be useful for text generation purposes
-
 considering that we are dealing with vague terms dened as fuzzy sets such as low and most another complementary interpretation of t that can be useful for deciding how to convey quantied sentences is that the imprecision of these vague terms ends up causing a lack of certainty in what has to be stated
-for instance in our example t most valves have high pressure would mean according to this interpretation that we are rather certain or alternatively that there exists an important evidence that most values have high pressure
+for instance in our example t most valves have high pressure
+would mean according to this interpretation that we are rather certain or alternatively that there exists an important evidence that most values have high pressure
 this interpretation provides several benets for our t system the t system may choose to rank discard statements according to their level of certainty
-
 the t system can decide to verbalize the statements either alone or complemented by an assertion that communicates the level of certainty about each statement
-
 the t system may communicate situations of ambiguity or conict when two or more statements share a similar level of certainty
-this understanding of fuzzy quantied statements is aligned with reiter s postulates about t systems in where as stated in section these may need to communicate uncertainty about the reliability of the input data or the system s analysis
+this understanding of fuzzy quantied statements is aligned with reiter s postulates about t systems in where as stated in section
+
+these may need to communicate uncertainty about the reliability of the input data or the system s analysis
 this idea is not only applicable to the ldd framework but also to computing with words and fst in general
 under this new light fst provides a framework that allows to model the vagueness of terms and expressions to be used as well as to manage the uncertainty that results from data analysis
-
 certainly we have also seen that ldd is not the only connection of fst with t and nlg
-in section we have reviewed the uncertainty interpretation of fuzzy sets which was used by portet and gatt in to model and convey uncertain temporal expressions through possibility theory
+in section
+we have reviewed the uncertainty interpretation of fuzzy sets which was used by portet and gatt in to model and convey uncertain temporal expressions through possibility theory
 likewise the idea of considering vague fuzzy properties in the task of referring expression that was proposed by gatt et al
-in and the use of fuzzy temporal labels in responds to the similarity interpretation of fuzzy sets if we have a fuzzy denition of small we can calculate the degree in which objects or values match our prototype of smallness
+in and the use of fuzzy temporal labels in responds to the similarity interpretation of fuzzy sets e
+
+if we have a fuzzy denition of small we can calculate the degree in which objects or values match our prototype of smallness
 other interesting t problems that can be addressed using fuzzy sets and specically ldd techniques include generating temporal and geographical referring expressions
 time series data have been a recurring resource and search interest for ldd since its inception and its application in t is
 however the most interesting problem from a t perspective is the eration of geographical referring expressions which was studied and applied in the roadsafe system
 in short it is the problem of determining the best expression that refers to a set of geographical points where a relevant event which will be described within the automatically generated text takes place
-
 the treatment of geographical descriptors such as north coastal or inland that roadsafe employed for the generation of geographical references was based on a crisp grid approach that did not consider their inherent vagueness with respect to the use that the experts made of such terms
 in this context fst and ldd will allow to improve as the preliminary study in shows
+
 
 moving towards the development of applied t systems although merging the understanding of vagueness and uncertainty under the same umbrella is a necessary step to allow fst and t to unite from a theoretical and discussion perspective in order to extend this interpretation to actual systems a proper methodology that merges standard practices from both disciplines is needed as proposed in
 the discussion corresponding to this issue is out of the scope of this paper but given its importance we will provide a brief commentary and a few examples about this topic
 in short the application of fst in t systems will require to adapt existing experimentation approaches in t to model vague terms and expressions as fuzzy sets as well as to study which formalisms from fst and ldd can be applied to the obtained models
-for instance the temporal expressions used in the sumtime mousam system that resulted from the analysis of the corpus forecasts could have been modelled as fuzzy sets to represent the dierent but overlapping interpretations of the ve forecasters that authored the corpus texts
+for instance the temporal expressions used in the sumtime mousam system that resulted from the analysis of the corpus forecasts could have been modelled as fuzzy sets to represent the dierent but overlapping interpretations of the ve forecasters that authored the texts
 in fig
 it is shown that the expression midday could be gradually dened according to its actual usage
 figure histogram that relates the actual usage of the midday expression by ve dierent forecasters in the corpus of the sumtime mousam project
-
-likewise in the realm of geographical referring expression generation to empirically determine the understanding of geographical descriptors by experts or readers such as north or coastal which are inherently vague and gradual by nature
-is essential to build a proper t system
+likewise in the realm of geographical referring expression generation to empirically determine the understanding of geographical descriptors by experts or readers such as north or coastal which are inherently vague and gradual by nature is essential to build a proper t system
 this requires adapting typical data acquisition techniques from users such as surveys and to use such data to build fuzzy representations of the geographical concepts as was done in
 for instance fig
 shows a fuzzy geographical descriptor that represents the region ras baixas
-figure representation of the fuzzy geographical descriptor
-ras baixas located within the galician region in spain
+figure representation of the fuzzy geographical descriptor ras baixas located within the galician region in spain
+thus to create empirical fuzzy models of linguistic terms and expressions and to study which mechanisms from fst can be appropriate for t systems and related problems are some of main the challenges ahead that need to be explored in order to help move forward the integration of fst into t
 
-thus to create empirical fuzzy models of linguistic terms and expressions and to study which mechanisms from fst can be appropriate for t systems and related problems are some of main the challenges ahead that need to be explored in order to help move forward the integration of fst into
-could t avoid fst
-
-as a promising framework ldd and fst in general are tools that can improve the modelling and managing of vagueness and uncertainty in among the benets that can be accounted for fst allows to create a more accurate representation of the actual usage of words and expressions by human users and can also be used to communicate within the generated texts in an implicit or explicit way information about their lack of certainty
-
+could t avoid fst as a promising framework ldd and fst in general are tools that can improve the modelling and managing of vagueness and uncertainty in t
+among the benets that can be accounted for fst allows to create a more accurate representation of the actual usage of words and expressions by human users and can also be used to communicate within the generated texts in an implicit or explicit way information about their lack of certainty
 this does not necessarily mean however that when a t has to generate texts that include vague words these have to be modelled by means of fst
+in fact there can exist several situations where the application of fst in t would not be feasible or advisable for instance during the knowledge acquisition stage of the development of the t system if the empirical meanings of vague words or expressions to be utilised are given by expert guidelines that assign exact crisp numeric values or intervals to the terms e
 
-in fact there can exist several situations where the application of fst in t would not be feasible or advisable for instance during the knowledge acquisition stage of the development of the t system if the empirical meanings of vague words or expressions to be utilised are given by expert guidelines that assign exact crisp numeric values or intervals to the terms
+
 if after empirically studying the usage of words by human writers or readers through psycho linguistic experiments surveys or corpus analysis these can be represented using crisp denitions without excessive loss of information
 because due to the application domain of the t system managing vagueness and uncertainty in the generated texts is not a priority
 because using a crisp approach simplies the denition and management of words or expressions and is an acceptable trade o for the system s formance even if managing vagueness or uncertainty could be applicable
 to sum up in addition to determine if textual information should be veyed using vague expressions one has to decide for each specic case if fst is a tool that ts the domain application of the t system and its requirements
-
 for instance fst could be avoided under the circumstances that we have listed above
 thus answering in a general sense if t could avoid fst for its provement should not be the right question in fact nlg has been developing for more than years without resorting to fst
-
 thus this question in our opinion should be rephrased as whether or not t should avoid fst to solve the problem of vagueness and uncertainty in this eld
 based on our previous discussion in sec
+
 about the benets that fst can bring to t we strongly believe that fst should become the main framework that should be studied and applied for this task
 omitting fst at this stage of cross fertilization between both elds would be in our opinion a missed opportunity at the very least
+
 conclusions vagueness alongside uncertainty are both important issues aecting t and nlg
 however these have not been treated extensively and remain as open challenges
-in this sense there exists an important potential use of fst for managing vagueness and uncertainty in
-particularly in this paper we have brought together the interpretations of vagueness and uncertainty from both disciplines and provided a more unied understanding for the integration of fst in
-it is also interesting to point out that the rst actual connections between t and fst that kacprzyk and zadr ozny discussed have not been established from a genuinely nlg perspective from the use of ldd approaches but from the use of possibility theory and fuzzy constraint temporal networks in the works of gatt and portet from an uncertainty interpretation of fuzzy sets
-
+in this sense there exists an important potential use of fst for managing vagueness and uncertainty in t
+particularly in this paper we have brought together the interpretations of vagueness and uncertainty from both disciplines and provided a more unied understanding for the integration of fst in t
+it is also interesting to point out that the rst actual connections between t and fst that kacprzyk and zadr ozny discussed have not been established from a genuinely nlg perspective from the use of ldd approaches but from the use of possibility theory and fuzzy constraint temporal networks in the works of gatt and portet i
+e
+from an uncertainty interpretation of fuzzy sets
 this does not invalidate at all the original idea of kacprzyk and zadr ozny but rather seems to indicate that as we have reviewed there are at least two dierent complementary uses of fst in nlg
-
 given the wide variety of problems that nlg oers we expect to see in the coming years a better integration of fst techniques to address vagueness in t at many dierent levels
 current and future research trends in this regard include integration of fst based techniques into nlg such as fuzzy neural works genetic fuzzy systems or fuzzy rule based systems
-
 referring expression generation using fuzzy properties
 modeling and conveying uncertainty using possibility theory or tic logic
 construction of fuzzy models of linguistic terms and expressions based on data from experiments or corpus studies
-
 application of fuzzy linguistic summarization description of data niques for content selection purposes
-
 research on the inuence of using fst on nlg tasks
 in the long term we expect that fst can be considered the work for treating vagueness and uncertainty in nlg
 thanks to this new retical underpinning the most dicult and harder tasks that need to be done in the early stages of nlg systems such as the extensive experiments or pus studies will be less exhaustive resulting in a faster development of nlg systems
 likewise we expect that the construction of models of vague sions based on such techniques will allow to reect human language use more faithfully and to design algorithms which perform more eectively the selection and conveyance of such expressions thus improving the overall performance of t systems in terms of communication success
-acknowledgements
-this work has been funded by r and r projects from the spanish ministerio de economa y competitividad and by the consellera cultura educacion e ordenacion universitaria accreditation and the european regional ment fund erdf
-ramos soto is funded by the consellera cultura educacion e ordenacion universitaria under the postdoctoral fellowship
-creditation
+acknowledgements this work has been funded by r and r projects from the spanish ministerio de economa y competitividad and by the consellera cultura educacion e ordenacion universitaria accreditation and the european regional ment fund erdf
+a
+ramos soto is funded by the consellera cultura educacion e ordenacion universitaria under the postdoctoral fellowship creditation
+m
 pereira farina is funded by the consellera de cultura educacion e ordenacion universitaria under the postdoctoral fellowship accreditation
-references references adams
+references references adams e
+w
+
 a primer of probability logic
 csli publications
-amgoud prade
+amgoud l
+prade h
+
 reaching agreement through argumentation a possibilistic approach
 in proceedings of the ninth international ference on principles of knowledge representation and reasoning
+
 aaai press pp
 
-azar vaidyanathan
+azar a
+t
+vaidyanathan s
+e
+
 computational intelligence cations in modeling and control
-boran akay yager
+boran f
+e
+akay d
+yager r
+r
+
 an overview of methods for linguistic summarization with fuzzy sets
 expert systems with applications
+busemann s
+horacek h
 
-busemann horacek
 generating air quality reports from vironmental data
-in busemann becker finkler eds dfki workshop on natural language generation dfki document
-cintula fermller noguera
+in busemann s
+becker t
+finkler w
+eds
+dfki workshop on natural language generation dfki document
+cintula p
+fermller c
+noguera c
+e
+
 handbook of mathematical fuzzy logic
 
-dale reiter
+dale r
+reiter e
+
 computational interpretations of the gricean maxims in the generation of referring expressions
-cognitive science delgado ruiz sanchez vila
+cognitive science delgado m
+ruiz m
+d
+sanchez d
+vila m
+a
+
 fuzzy cation a state of the art
 fuzzy sets and systems theme quantiers and logic
+dubois d
+prade h
 
-dubois prade
 the three semantics of fuzzy sets
-fuzzy sets and systems fuzzy sets where do we stand
-where do we go
+fuzzy sets and systems fuzzy sets where do we stand where do we go dubois d
+prade h
 
-dubois prade
 the three semantics of fuzzy sets
 fuzzy sets and systems
+dubois d
+prade h
 
-dubois prade
-possibility theory and its applications where do we stand
-
-in springer handbook of computational intelligence
-
+possibility theory and its applications where do we stand in springer handbook of computational intelligence
 springer pp
 
-gatt krahmer
+gatt a
+krahmer e
+mar
+
 survey of the state of the art in natural language generation core tasks applications and evaluation
 arxiv prints
 
-gatt marn portet sanchez
+org
+
+gatt a
+marn n
+portet f
+sanchez d
+
 the role of ality for referring expression generation in visual scenes
-in information processing and management of uncertainty in knowledge based systems international conference ipmu eindhoven the netherlands june proceedings part springer international publishing gatt portet
+in information processing and management of uncertainty in knowledge based systems international conference ipmu eindhoven the netherlands june proceedings part i
+springer international publishing gatt a
+portet f
+
 multilingual generation of uncertain temporal expressions from data a study of a possibilistic formalism and its tency with human subjective evaluations
 fuzzy sets and systems pp
 
 
+gkatzia d
+hastie h
+lemon o
 
-gkatzia hastie lemon
 comparing multi label tion with reinforcement learning for summarisation of time series data
 in proceedings of the annual meeting of the association for tional linguistics volume long papers
 association for computational linguistics pp
 
-
-isard knox september
+isard a
+knox j
+september
 automatic generation of student report cards
 in proceedings of the international natural language generation conference
 association for computational linguistics burgh uk pp
 
+kacprzyk j
 
-kacprzyk
 computing with words is an implementable paradigm fuzzy queries linguistic data summaries and natural language generation
 ieee trans
 fuzzy systems
-kacprzyk zadrony
+kacprzyk j
+zadrony s
+
 fuzzy logic based linguistic summaries of time series a powerful tool for discovering knowledge on time varying processes and systems under imprecision
 wiley interdisciplinary reviews data mining and knowledge discovery
+j
+
 on three valued logic
-in borkowski ed lected works by jan
+in borkowski l
+ed
+lected works by jan
 northholland pp
 
-
-marn rivas gervilla snchez july
+marn n
+rivas gervilla g
+snchez d
+july
 using specicity to measure referential success in referring expressions with fuzzy properties
-
 in ieee international conference on fuzzy systems fuzz ieee
 pp
 
-marn snchez
+marn n
+snchez d
+
 on generating linguistic descriptions of time series
 fuzzy sets and systems special issue on linguistic description of time series
+portet f
+gatt a
 
-portet gatt
 towards a possibility theoretic approach to uncertainty in medical data interpretation for text generation
-in riano ten teije miksch peleg eds knowledge representation for health care
+in riano d
+ten teije a
+miksch s
+peleg m
+eds
+knowledge representation for health care
 data processes and guidelines
 vol
 of lecture notes in computer science
 springer berlin heidelberg pp
 
-portet reiter gatt hunter sripada freer sykes may
+portet f
+reiter e
+gatt a
+hunter j
+sripada s
+freer y
+sykes c
+may
 automatic generation of textual summaries from neonatal intensive care data
 articial intelligence
-power williams
+power r
+williams s
+mar
+
 generating numerical approximations
 comput
 linguist
 
-
-ramos soto alonso reiter van deemter gatt july
+ramos soto a
+alonso j
+m
+reiter e
+van deemter k
+gatt a
+july
 an empirical approach for modeling fuzzy geographical descriptors
-
 in ieee international conference on fuzzy systems fuzz ieee
 pp
 
-ramos soto bugarn barro
-on the role of linguistic descriptions of data in the building of natural language generation systems
+ramos soto a
+bugarn a
+barro s
 
+on the role of linguistic descriptions of data in the building of natural language generation systems
 fuzzy sets and systems
-ramos soto bugarn barro taboada feb
+ramos soto a
+bugarn a
+barro s
+taboada j
+feb
 linguistic descriptions for automatic generation of textual short term weather casts on real prediction data
 fuzzy systems ieee transactions on
-
-ramos soto tintarev de oliveira reiter van deemter july
+ramos soto a
+tintarev n
+oliveira r
+reiter e
+van deemter k
+july
 natural language generation and fuzzy sets an exploratory study on geographical referring expression generation
 in ieee ternational conference on fuzzy systems fuzz ieee
 pp
 
-reiter
+reiter e
+
 an architecture for data to text systems
-in busemann ed proceedings of the european workshop on natural language generation
+in busemann s
+ed
+proceedings of the european workshop on natural language generation
 pp
 
+reiter e
+robertson r
+osman l
 
-reiter robertson osman
 lessons from a failure ating tailored smoking cessation letters
 articial intelligence
+reiter e
+sripada s
+robertson r
 
-reiter sripada robertson
 acquiring correct knowledge for natural language generation
 journal of articial intelligence research
 philosophy
-russell
+russell b
+
 vagueness
-the australasian journal of psychology and sripada reiter davy
+the australasian journal of psychology and sripada s
+reiter e
+davy i
+
 sumtime mousam congurable marine weather forecast generator
 expert update
-
-sripada burnett turner mastin evans june
+sripada s
+g
+burnett n
+turner r
+mastin j
+evans d
+june
 a case study nlg meeting weather industry demand for quality and quantity of textual weather forecasts
 in proceedings
-trillas urtubey
+trillas e
+urtubey l
+a
+
 towards the dissolution of the sorites paradox
 applied soft computing the impact of soft computing for the progress of articial intelligence
-turner sripada reiter davy
+turner r
+sripada s
+reiter e
+davy i
+p
+
 selecting the content of textual descriptions of geographically located events in spatio temporal weather data
 applications and innovations in intelligent systems xv
-turner sripada reiter davy june
+turner r
+sripada s
+reiter e
+davy i
+p
+d
+june
 using spatial reference frames to generate grounded textual summaries of referenced data
 in proceedings of the international conference on natural language generation
-
 salt fork ohio
-van deemter
+van deemter k
+
 generating vague descriptions
 in proceedings of the first international conference on natural language generation ume
 inlg
 association for computational linguistics stroudsburg pa usa pp
 
-van deemter
+van deemter k
+
 finetuning nlg through experiments with man subjects the case of vague descriptions
 springer berlin heidelberg berlin heidelberg pp
 
+van deemter k
+jun
 
-van deemter
 generating referring expressions that involve gradable properties
 comput
 linguist
 
-van deemter
+van deemter k
+
 utility and language generation the case of ness
 journal of philosophical logic
-van deemter
-what game theory can do for nlg
-the case of vague language
+van deemter k
+
+what game theory can do for nlg the case of vague language
 in proceedings of the european workshop on natural guage generation
 enlg
 association for computational linguistics stroudsburg pa usa pp
 
-white caldwell
+white m
+caldwell t
+
 exemplars a practical extensible work for dynamic text generation
 in inlg
 niagara on the lake ontario pp
 
-yager
+yager r
+r
+
 a new approach to the summarization of data
 mation sciences
-yu hunter reiter sripada
+yu j
+hunter j
+reiter e
+sripada s
+
 an approach to generating summaries of time series data in the gas turbine domain
 in proceedings of ieee international conference on info tech info net
 beijing pp
 
-zadeh
+zadeh l
+
 fuzzy sets
-information and control zadeh
+information and control
+zadeh l
+
 fuzzy sets as a basis for a theory of possibility
 fuzzy sets and systems supplement
-zadeh
-syllogistic reasoning in fuzzy logic and its tions to usuality and reasoning with dispositions
-ieee transactions
-on systems man and cybernetics
-zadeh
-fuzzy logic computing with words
-ieee
-tions on fuzzy systems
+zadeh l
+a
 
-zadeh
+syllogistic reasoning in fuzzy logic and its tions to usuality and reasoning with dispositions
+ieee transactions on systems man and cybernetics
+zadeh l
+a
+
+fuzzy logic computing with words
+ieee tions on fuzzy systems
+zadeh l
+a
+
 from computing with numbers to computing with words from manipulation of measurements to manipulation of tions
 in intelligent systems and soft computing prospects tools and applications
 springer verlag pp
 
-
-zadeh aug
+zadeh l
+a
+aug
 computing with words and perceptions a shift
 in information reuse integration
 iri
 ieee international conference on
 pp
 viii
+

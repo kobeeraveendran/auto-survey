@@ -1,0 +1,953 @@
+abstractive text summarization based on language model conditioning and locality modeling dmitrii aksenov julian moreno schneider peter bourgonje robert schwarzenberg leonhard hennig georg rehm dfki gmbh alt moabit berlin germany rstname
+
+r a m l c
+s c v
+v i x r a abstract we explore to what extent knowledge about the pre trained language model that is used is benecial for the task of abstractive summarization
+to this end we experiment with conditioning the encoder and decoder of a transformer based neural model on the bert language model
+in addition we propose a new method of bert windowing which allows chunk wise processing of texts longer than the bert window size
+we also explore how locality modeling i
+e
+the explicit restriction of calculations to the local context can affect the summarization ability of the transformer
+this is done by introducing dimensional convolutional self attention into the rst layers of the encoder
+the results of our models are compared to a baseline and the state of the art models on the cnn daily mail dataset
+we additionally train our model on the swisstext dataset to demonstrate usability on german
+both models outperform the baseline in rouge scores on two datasets and show its superiority in a manual qualitative analysis
+keywords summarisation language modeling information extraction information retrieval bert locality modeling
+introduction text summarization is an nlp task with many real world applications
+the ever increasing amount of unstructured information in text form calls for methods to cally extract the relevant information from documents and present it in condensed form
+within the eld of marization different paradigms are recognised in two mensions extractive vs
+abstractive and single document vs
+multi document
+in extractive summarization those sentences or words are extracted from a text which carry the most important information directly presenting the sult of this as the summary
+abstractive summarization methods paraphrase the text and by changing the text aim to generate more exible and consistent summaries
+thermore single document summarization works on gle documents while multi document summarization deals with multiple documents at once and produces a single summary
+in this paper we concentrate on single document abstractive summarization
+most recent abstractive models utilize the neural network based sequence to sequence proach
+during training such models calculate the tional probability of a summary given the input sequence by maximizing the loss function typically cross entropy
+most approaches are based on the encoder decoder work where the encoder encodes the input sequence into a vector representation and the decoder produces a new mary given the draft summary which is the part of the summary generated during previous iterations
+the last layer of a decoder the generator maps hidden states to ken probabilities
+we use a state of the art transformer for sequence to sequence tasks which is built primarily on the attention mechanism vaswani et al
+
+we attempt to improve performance of abstractive text marization by improving the language encoding ties of the model
+recent results have shown that the main contribution of the transformer is its multi layer tecture allowing self attention to be replaced with some other technique without a signicant drop in performance domhan wu et al
+
+following this egy we develop a model that introduces convolution into the vanilla self attention allowing to better encode the cal dependencies between tokens
+to overcome the data sparsity problem we use a pre trained language model for the encoding part of the encoder decoder setup which ates a contextualized representation of the input sequence
+specically we use bert due to its bi directional context conditioning multilingualism and state of the art scores on many other tasks devlin et al
+
+furthermore we propose a new method which allows applying bert on longer texts
+the main contributions of this paper are designing two new abstractive text summarization models based on the ideas of conditioning on the pre trained guage model and application of convolutional self attention at the bottom layers of the encoder
+proposing a method of encoding the input sequence in windows which ates bert s input and allows the processing of longer input texts
+evaluating the performance of our models on the english and german language by conducting an ablation study on cnn dail mail and swisstext datasets and comparing it with other state of the art methods
+
+related work
+
+pre trained language models traditionally non contextualized embedding vectors were used for pre training neural based nlp models mikolov et al
+pennington et al
+
+recently trained language models exploiting contextualized dings such as elmo bert and xlnet raised the bar in many nlp tasks peters et al
+radford et al
+devlin et al
+yang et al
+
+recent tempts to use these models for text summarization can process sequences with a maximum of tokens
+strated their suitability by achieving new state of the art sults zhang et al
+liu liu and lapata
+
+
+neural abstractive text summarization the neural approach toward abstractive summarization was largely adopted by state of the art models shi et al
+
+a signicant contribution was the pointer generator work see et al
+
+it uses a special layer on top of the decoder network to be able to both generate tokens from the dictionary and extract them from the input text
+it uses the coverage vector mechanism to pay less attention to kens already covered by previous iterations
+an example of earlier work adapting reinforcement learning rl is
+the pure rl model described by paulus et al
+achieved high and rouge l scores but duced unreadable summaries
+its combination with cal cross entropy optimization achieved high scores to inating the unreliability problem
+liu et al
+the best of our knowledge were the rst to use the former model for summarization
+it was only used in the decoder on top of the extraction model with various tion compression techniques to increase the size of the put sequence
+zhang et al
+incorporate bert into the transformer based model
+they use a two stage dure exploiting the mask learning strategy
+others attempt to improve their abstractive summarization models by corporating an extractive model
+for example li et al
+use the key information guide network to guide the summary generation process
+in bottom up summarization gehrmann et al
+the extractive model is used to crease the precision of the pointer generator mechanism
+another strand of research adapts existing models to cope with long text
+cohan et al
+present the aware attention model which introduces hierarchy in the attention mechanism via calculating an additional attention vector over the sections of the input text
+subramanian et al
+showed that the language model trained on the combination of the original text extractive summaries erated by the model and the golden summary can achieve results comparable to standard encoder decoder based marization models
+
+approach our text summarization model is based on the transformer architecture
+this architecture adopts the original model of vaswani et al
+
+on top of the decoder we use a pointer generator formula to increase the extractive pabilities of the network we later refer to this architecture as copytransformer
+where is the probability of copying a specic word w from the source document psof is the probability of generation a word calculated by the tive summarization model and pgen is the probability of copying instead of generation
+
+
+convolutional self attention the transformer like any other self attention network has in many a hierarchical multi layer architecture
+figure model overview ments it was shown that this architecture tends to learn cal information in the rst layers sentence level patterns in the middle and the semantics in the upper layers raganato and tiedemann tenney et al
+
+the tage of this approach is that during the attention operation it considers all tokens as equally important whereas tic information is mostly concentrated in certain local areas
+this problem is usually specied as the problem of locality modeling
+as syntactic information can help in identifying more important words or phrases it could be benecial to focus attention on these regions
+a successful approach to the locality modeling task are the so called convolutions local self attention networks yang et al
+
+essentially the problem is dealt with by the application of a dimensional convolution to the self attention operation at the network s lower layers
+this strengthens dependencies among neighboring elements and makes the model distance aware when it searches for level patterns in a sequence
+in other words it restricts the attention scope to the window of neighboring elements
+the convolution applied to attention is illustrated in mulas and
+kh i m
+
+
+kh i
+
+
+kh m i m
+
+
+vh i
+
+
+vh m oh i where qh region centered at the position i
+i is the query and m m i is its attention the convolution can be extended to the dimensional area by taking interactions between features learned by the ferent attention heads of the transformer into account
+in the original transformer each head independently models a distinct set of linguistic properties and dependencies among tokens raganato and tiedemann
+by applying dimensional convolution where the second dimension is the index of attention head we explicitly allow each head to interact with learned features for their adjacent sub spaces
+the shortcoming of the original implementation is that the rst and the last heads do not interact as they are assumed not to be adjacent
+thus we assume that considering the heads sub spaces periodically we can increase the model s effectiveness by applying circular convolution to the second dimension
+in section we evaluate both the original sion and our modication
+n
+
+
+
+
+
+n n
+
+
+
+
+
+n oh i where m n h is the window region over heads and stands for the union of keys and values from different subspaces
+the convolutional self attention has been shown to be very effective in machine translation and several other nlp tasks
+however to our knowledge it was never applied to the text summarization problem
+for the experiments ported on in this paper we created our implementation of the local attention and the convolutional self attention work transformer
+it supports both and modes having the size of the kernels as system parameters
+as in yang et al
+we incorporate convolutional attention in the transformer encoder by positioning it in the place of the self attention in the lower layers
+in tion we show that the low level modeling capabilities of our encoder provides a strong boost to the model s tion accuracy in the text summarization task
+
+
+bert conditioned encoder the main task of the encoder is to remember all the mantic and syntactic information from the input text which should be used by the decoder to generate the output
+knowledge transfer from the language model should oretically improve its ability to remember the important formation due to the much larger corpus used in its training phase compared to the corpus used in the text marization training phase
+we thus condition our encoder on the bert language model
+for the encoder conditioning we used the most forward strategy recommended for the bert based model placing the pre trained language model in the encoder as an embeddings layer
+this should make the embeddings of the system context dependent
+we decided not to tune the encoder on bert for the sake of memory and time economy
+instead we follow the general recommendations by concatenating the hidden states of the last four layers of bert into a dimensional embedding vector vlin et al
+
+we use two variations of the bert based encoder
+the rst model uses only bert to encode the put sequence and the second model feeds bert s generated embeddings into the vanilla transformer encoder
+
+
+bert windowing one of the key features of our approach is its ability to overcome the length limitations of bert allowing it to deal with longer documents
+bert s maximum supported sequence length is which is smaller than the average size of texts used in most summarization datasets
+our method relies on the well known method of ing which to our knowledge was never used before neither are not tokens in the traditional sense but so called wordpiece tokens see devlin et al
+
+in the bert based models nor in abstractive text rization research figure
+we apply bert to the dows of texts with strides and generate n matrices every matrix embedding one window
+then we combine them by doing the reverse operation
+the vectors at the ping positions are averaged by summing and dividing by the number of overlapping vectors
+as a result we have the matrix of embeddings with the shape of the hidden size times the length of the text
+the drawback of this approach is that we reduce the size of the context as each resulted vector is calculated based on maximum twice the window size number of tokens
+besides the split of the text to equal size windows will aggravate the consistency of the input as some sentences will be split in an arbitrary manner between two adjacent windows
+despite this drawback we assume that this procedure will nevertheless improve the accuracy of the encoder trained on the non truncated texts
+we set the window size to the maximum size of tokens and the stride to
+we consider this stride size optimal due to a trade off between the average context size and tational requirements of the model number of windows
+by this trade we ensure every token to have a context except for the initial and nal tokens that only have tokens context
+figure integration of bert generated contextual sentations from two windows
+
+bert conditioned decoder in the decoder pre training was applied in a similar way
+the main difference is that instead of the nal output of bert we use only its word embedding matrix without sitions
+the reason behind this is that in the decoder the generated probability distribution is conditioned on the complete text previous summary draft output while bert implicitly assumes consistent and completed input zhang et al
+
+as context independent embeddings are not enough to represent the minimum set of features to make a meaningful prediction the custom transformer decoder is always stacked on top of bert
+our whole bert based model is similar to one stage bert zhang et al
+and bertsumabs liu and pata but differs in the usage of the four last hidden states of bert to create contextualized representation in presence of pointer generator and capabilities to process figure two different approaches for the integration of the bert conditioning with convolutional self attention method rouge l copytransformer conv
+conv
+circular conv
+
+
+
+
+
+
+
+
+
+
+
+
+table ablation study of model with convolutional attention on the cnn daily mail dataset kernel sizes are and long texts
+in figure we show the schema of the sic model with the bert conditioned convolutional attention encoder and bert conditioned decoder
+
+
+integration of bert and convolutional self attention we evaluated two different ways of integrating the conditioning with the convolutional self attention of the model s encoder figure
+stacking this approach comprises feeding the generated embeddings to the convolutional self attention transformer encoder
+a potential problem with this proach is that convolutional self attention is assumed to be benecial when applied in the lower layers as its locality modeling feature should help in modeling of local dencies e
+g
+syntax
+at the same time bert is a chical model where the last layers target high level patterns in the sequences e
+g
+semantics
+we assume that the plication of the network detecting the low level patterns on bert s output can undermine its generalization abilities
+concatenation because of the considerations raised above we also develop a second approach which we call concatenation
+we split the convolutional self attention transformer encoder into two networks where the rst one uses only convolutional self attention and the second inal self attention identical to the transformer encoder
+then we feed the original sequences into bert and into the convolutional self attention network in parallel
+the sulting embedding vectors are concatenated and fed into the transformer encoder
+in this way we model the locality at the lower layers of the encoder at the cost of a smaller depth of the network assuming the same number of layers
+
+datasets we aim to develop a system that works in a independent way
+it assumes that either the upstream components are available in the respective language or they are themselves language independent such as the multi lingual version of bert
+since most summarization datasets are in english however we use english for the evaluation and additionally include german to check if of our model can be applied to another language
+
+
+cnn daily mail our experiments are mainly conducted on the cnn daily mail dataset hermann et al
+nallapati et al
+
+it contains a collection of news articles paired with sentence summaries published on the cnn and daily mail websites
+this dataset is the standard for training summarization models
+we use the non anonymized data as was used for training of the most recent state of the art models e
+g
+see et al
+
+the raw dataset consists of separate text les each representing a single article or a summary
+we use the data in its preprocessed version as provided by gehrmann et al
+it has training pairs validation pairs and test pairs
+to align the data with the vocabulary of bert we enized it using the bpe based wordpiece tokenizer vlin et al
+
+as all samples in bert s training data are prepended with the special token we follow
+figure effect of the window size on model rouge l transformer copytransformer bert encoder transformer decoder bert transformer encoder transformer decoder bert transformer encoder bert transformer decoder transformer full text bert transformer encoder transformer decoder full text transformer copytransformer bert transformer encoder transformer decoder bert transformer encoder bert transformer decoder transformer full text bert transformer encoder transformer decoder full text
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table ablation study of the bert based model on truncated and original cnn daily mail dataset model rouge l table ablation study of the bert based model on the truncated and original swisstext dataset this and add it to every source text in our dataset
+in the resulting dataset the average lengths of an article and a summary are and tokens respectively
+in most of our experiments we use the clipped version of the training and validation datasets with each article truncated to tokens
+in the experiments on bert windowing we use the full text version
+
+
+swisstext dataset to evaluate the efciency of the model in a multi lingual multi domain environment we conduct a series of ments on the german swisstext dataset
+this dataset was created for the german text summarization challenge at the swiss text analytics conference swisstext zhaw
+it was designed to explore ent ideas and solutions regarding abstractive tion of german texts
+to the best of our knowledge it is the rst long document summarization dataset in the man language that is publicly available
+the data was tracted from the german wikipedia and represents mostly biographical articles and denitions of various concepts
+the dataset was tokenized by the multilingual wordpiece tokenizer devlin et al
+and preprocessed in the same way as the cnn daily mail dataset
+it was split into the training validation and testing sets containing and samples respectively
+the average length of a source sequence is tokens which makes this dataset suitable for our experiments on windowing
+
+experiments our system is built on the opennmt library
+for training we use cross entropy loss and the adam optimizer with the noam decay method kingma and ba
+tion is made via dropout and label smoothing
+for uation we calculate the scores for rouge using the library
+the rouge evaluation is made on the sequences of wordpiece tokens
+
+
+locality modeling to evaluate the effect of convolution on self attention we introduce it in the rst layer of the encoder
+we use the same kernel sizes as in yang et al
+
+in these iments to accelerate the training process we use a small model with a hidden size of four self attention heads and three layers in the encoder and decoder
+all models are trained for training steps with the coverage penalty
+as a baseline we use our implementation of former
+in contrast to see et al
+we do not re use the attention layer for the decoder but train a new generator layer from scratch
+the results are presented in table
+we see that both volutions over tokens and over attention heads improve the rouge scores
+standard convolution outperformed lar convolution on and rouge l by
+
+and
+percent respectively
+we also investigated the effect of the window size of the dimensional convolution on rouge scores figure
+in contrast to ndings in machine translation we found that size returns the best result for the summarization task
+
+
+bert conditioning all hyperparameters were set equal to nd the optimal architecture of the bert based stractive summarizer we conducted an ablation study table
+to the ones in experiments in convolutional self attention
+three different on cnn daily main dataset we test models bert decoder transformer decoder and transformer transformer decoder
+the version of bert used in the experiments is bert base
+as the baseline we use the transformer without pointer erator
+from the results we observe that bert improves the efciency of the model when it is used in both encoder and decoder
+besides bert in the encoder is more tive when it is used to produce embeddings to be used by the standard transformer encoder than when it is used solely as an encoder
+even without a pointer generator our model outperformed the copytransformer baseline by
+
+and
+on and rouge l
+to evaluate our bert windowing method we conducted the experiments on the full text
+our approach outperforms the baseline which proves that the method can be fully applied to texts longer than tokens
+the nal formance of this model is still lower than that of the model trained on the truncated text but as the same pattern can be observed for the baselines we assumed this relates to the specics of the dataset that is prone to having important information in the rst sentence of a text
+on swisstext data we use the multilingual version of bert base
+we evaluated two models with bert transformer encoder and transformer and transformer decoders table
+the introduction of bert into the transformer increased the and rouge l scores by
+
+and
+percent spectively
+at the same time the usage of bert in the decoder decreased the overall score
+we assume that the reason behind this is that in multilingual bert due to its language independence the embedding matrix outputs less precise contextualized representations which undermines their benets for the summarization task
+on the non truncated texts usage of the bert transformer encoder increased the rouge scores by
+
+and
+percent
+furthermore it gives us higher scores pared to the same model on truncated texts
+this strates the usability of bert windowing for this lar dataset
+we assume that the difference in performance on the cnn daily mail datasets reects the difference in distribution of the useful information within the text
+ticularly that in the swisstext dataset it is spread more uniformly than in the cnn daily mail dataset
+we ducted a small experiment comparing the average rouge score between a golden summary and the head and the tail of a document taking the rst or last n sentences where n correlates to the length of the gold summary on both datasets
+the difference between taking the head and a tail on the swisstext dataset rouge l of
+vs
+
+respectively was much smaller than on cnn daily mail rouge l of
+vs
+
+respectively which rms our hypothesis
+integration strategies
+
+to evaluate the integration strategies we trained two els with the respective bert based baselines
+both models have in their encoder two transformer layers and one volutional transformer layer placed on top of bert or in parallel respectively table
+the method of stacking does not provide any signicant improvement
+with the introduction of convolutional attention only increased by
+percent while dropped by
+and rouge l remained the same
+considering that in many domains imally correlates with human assessment see section we dismiss this method
+the concatenation strategy volution is shown to be much more efcient increasing rouge scores by
+
+and
+percent
+this rms our hypothesis that locality modeling is the most cient when applied at the bottom on the non contextualized word representations
+unfortunately this model failed to outperform the stacking baseline
+we conclude that the concatenating architecture undermines the performance of the transformer model and the convolutional self attention is not benecial when used together with pre trained guage models
+hence we decided to train our two nal models separately
+
+
+model comparison for the nal comparison of our model to other state of art methods we conducted experiments on the cnn daily mail dataset
+we set the hidden state to the number of transformer layers in the encoder and layers to six and the number of self attention heads to eight
+hence our baseline is smaller than the original copytransformer gehrmann et al
+which may be the reason why it performs slightly worse table
+bert conditioning was used in both the encoder and decoder
+the sizes of convolution kernels are set to and three
+the networks were trained for training steps on a single nvidia geforce gtx ti
+the generation of the summary was made via the beam search algorithm with the beam size set to four
+finally the generated summaries were detokenized back to the quences of words separated by spaces
+for the bert based model we set the minimum length of a generated summary to as we found that without such restriction the model was prone to generate shorter sequences than in the test dataset
+the model outperformed the baseline by
+on
+on and
+on rouge l
+this is better than the scores of stage bert but still worse than the two stage and sumabs models
+for the convolutional copytransformer we use tional self attention in the rst three layers of the encoder
+it increased and rouge l by
+
+and
+
+furthermore we present the rst publicly available mark for the swissdata dataset table
+all comparability with our other model we include results method of integration model rouge l stacking concatenation copytransformer copytransformer
+
+
+
+
+
+
+
+
+
+
+
+table different strategies for integrating language models with convolutional self attention cnn daily mail dataset method rouge l bilstm pointer generator coverage see et al
+ml intra attention paulus et al
+copytransformer gehrmann et al
+bottom up summarization gehrmann et al
+one stage bert zhang et al
+two stage bert zhang et al
+ml intra attention rl paulus et al
+key information guide network li et al
+sentence rewriting chen and bansal bertsumabs liu and lapata copytransformer our implementation convolutional copytransformer enc
+dec
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table rouge scores for various models on the cnn daily mail test set
+the rst section shows different state of the art models the second section presents our models and baseline
+method rouge l copytransformer our implementation convolutional copytransformer enc
+
+
+
+
+
+
+
+
+
+table rouge scores for our models on the swisstext test set eters are equal to the cnn daily mail baseline
+conditioning was used only in the encoder
+the networks were trained on the truncated texts in training steps
+from the results we see that the convolutional former showed much more efciency than on cnn daily mail dataset outperforming the baseline by
+percent on
+on and
+on rouge l
+the bert based model achieved the highest scores
+
+qualitative analysis as rouge evaluation is not always a valid method for quality assessment we perceive the need for an additional manual evaluation
+the best solution would be to conduct a ne grained study of the models outputs by manually ing them in terms of semantic coherence grammaticality
+however due to the time consuming nature of such an evaluation we reverted to a qualitative analysis comparing several summaries generated by different models
+figure includes the reference summary and those generated by the different models
+comparing the rst sentence we see that the vanilla transformer model performed worse by copying only part of the original sentence omitting some characters in the word meteorological
+the model with convolution has copied the whole sentence but still made a spelling ror
+finally only the bert based model succeeded to erate the right token meteorological
+also we see that while the bert based model s summary conveys the same meaning as the gold summary the convolutional former generates one and transformer two sentences that are not present in the gold summary
+overall on the given for the bigger model
+at the same time we found that the smaller model without the copy mechanism achieved higher scores with
+
+and
+rouge l
+this needs to be explored in future work
+example all models provided a summary of extractive ture and only the bert based model shows some level of abstractiveness merging parts of the two sentences into the single one in the second summary s sentence
+this is far from the gold summary where every sentence in some way paraphrases the original text
+hence given this particular example our models demonstrate some explicit ments
+still abstractive summarization remains ing
+the paraphrasing capabilities of all state of the art systems are low and the models are not guaranteed to duce summaries which follow the initial order of the quence of events
+
+discussion summarization evaluation rouge lin is the most widely adopted metric used for evaluating automatic text summarization approaches
+the evaluation is made though comparison of a set of system generated candidate summaries with a gold dard summary
+the availability of the corresponding ware and its performance contributed to its popularity han and goharian
+despite its adoption in many studies the metric faced some key criticisms
+the main criticism of rouge is that it does not take into account the meaning expressed in the sequences
+the ric was developed based on the assumption that a high ity generated candidate summary should share many words with a single human made gold standard summary
+this sumption may be very relevant to extractive but not to stractive summarization where different terminology and paraphrasing can be used to express the same meaning han and goharian
+this results in the metric ing low scores to any summary not matching the gold dard on the surface level
+this also allows cheating the metric by generating ungrammatical and nonsensical gold summary researchers are developing a computer that can write weather forecasts
+it takes meteorological data and writes a report designed to mimic a human
+this process is known as natural language generation lrb nlg rrb
+a prototype system will be tested on the bbc website later this year
+transformer researchers from london and edinburgh have developed a computer that can collateological information
+these puter generated weather updates are being tested by scientists at heriot watt university and university college london
+if the project is successful a prototype system will be tested by generating local weather reports on the bbc s website
+currently the bbc website features reports written by meteorologists
+convolutional transformer researchers from london and edinburgh have developed a computer that can collate meterological information and then produce forecasts as if they were written by a human
+it uses a process known as natural language generation lrb nlg rrb
+these computer generated weather updates are being tested by scientists at heriot watt university and university college london
+if the project is successful a prototype system will be tested by generating local weather reports on the bbc s website
+bert transformer researchers from london and edinburgh have developed a computer that can collate meteorological information and produce forecasts as if they were written by a human
+using met ofce data it uses a process known as natural language generation lrb nlg rrb
+if the project is successful a prototype system will be tested by generating local weather reports on the bbc s website
+figure comparison of the output of models on an example form cnn daily mail testset
+surface realisation mistakes are highlighted in green and a typical abstractive feature illustrating re arranging of the sentence is highlighted in blue
+maries having very high rouge scores
+sjobergh show how this can be achieved by choosing the most quent bigrams from the input document
+rouge adoption relies on its correlation with human in the rst research on the duc and sessment
+datasets containing news articles rouge indeed showed a high correlation with the human judgments lin dorr et al
+
+however more recent research tions the suitability of rouge for various settings
+roy and dang show that on duc data the tic and responsiveness scores of some systems do not respond to the high rouge scores
+cohan and ian demonstrate that for summarization of scientic texts and rouge l have very low correlations with the gold summaries
+rouge n correlates better but is still far from the ideal case
+this follows the result of murray et al
+showing that the unigram match tween the candidate summary and gold summary is not an accurate metric to assess quality
+another problem is that the credibility of rouge was demonstrated for the systems which operated in the scoring range
+peyrard show that different rization evaluation metrics correlate differently with human judgements for the higher scoring range in which state the art systems now operate
+furthermore improvements measured with one metric do not necessarily lead to provements when using others
+this concern led to the development of new evaluation rics
+peyrard dene metrics for important cepts with regard to summariazion redundancy vance and informativeness in line with shannon s entropy
+from these denitions they formulate a metric of tance which better correlates to human judgments
+clark et al
+propose the metric of sentence mover s larity which operates on the semantic level and also better correlates with human evaluation
+a summarization model trained via reinforcement learning with this metric as ward achieved higher scores in both human and based evaluation
+despite these drawbacks the broad adoption of rouge makes it the only way to compare the efciency of our model with other state of the art models
+the evaluation of our system on the swissdata dataset conrms that its ciency in terms of rouge is not restricted to cnn daily mail data only
+
+conclusion we present a new abstractive text summarization model which incorporates convolutional self attention in bert
+we compare the performance of our system to a baseline and to competing systems on the cnn daily mail data set for english and report an improvement over state of art results using rouge scores
+to establish suitability of our model to languages other than english and domains other than that of the cnn daily mail data set we apply our model to the german swisstext data set and present scores on this setup
+a key contribution of our model is the ability to deal with texts longer than bert s window size which is limited to wordpiece tokens
+we present a cascading approach and evaluate this on texts longer than this window size and demonstrate its performance when dealing with longer input texts
+the source code of our system is publicly available
+a functional service based on the model is currently being tegrated as a summarization service in the platforms lynx moreno schneider et al
+qurator rehm et al
+and european language grid rehm et al
+
+acknowledgements the work presented in this paper has received funding from the european union s horizon research and tion programme under grant agreement no
+lynx and from the german federal ministry of education and research bmbf through the project qurator tumskern no
+
+
+com axenov bert summ opennmt
+bibliographical references chen y
+
+and bansal m
+
+fast abstractive marization with reinforce selected sentence rewriting
+in proceedings of the annual meeting of the tion for computational linguistics volume long pers pages melbourne australia july
+ciation for computational linguistics
+clark e
+celikyilmaz a
+and smith n
+a
+
+sentence mover s similarity automatic evaluation for multi sentence texts
+in proceedings of the annual meeting of the association for computational tics pages florence italy july
+association for computational linguistics
+cohan a
+and goharian n
+
+revisiting rization evaluation for scientic articles
+available line arxiv
+cohan a
+dernoncourt f
+kim d
+s
+bui t
+kim s
+chang w
+and goharian n
+
+a discourse aware attention model for abstractive summarization of long documents
+in naacl hlt
+conroy j
+m
+and dang h
+t
+
+mind the gap gers of divorcing evaluations of summary content from linguistic quality
+in proceedings of the tional conference on computational linguistics coling pages manchester uk august
+coling organizing committee
+devlin j
+chang m
+
+lee k
+and toutanova k
+
+bert pre training of deep bidirectional formers for language understanding
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies volume long and short pers pages minneapolis minnesota june
+association for computational linguistics
+domhan t
+
+how much attention do you need a granular analysis of neural machine translation tectures
+in proceedings of the annual meeting of the association for computational linguistics volume long papers pages melbourne tralia july
+association for computational linguistics
+dorr b
+monz c
+president s
+schwartz r
+and jic d
+
+a methodology for extrinsic evaluation of text summarization does rouge correlate in ceedings of the acl workshop on intrinsic and sic evaluation measures for machine translation summarization pages ann arbor michigan june
+association for computational linguistics
+gehrmann s
+deng y
+and rush a
+
+bottom up abstractive summarization
+in proceedings of the conference on empirical methods in natural language processing pages
+hermann k
+m
+kocisky t
+grefenstette e
+espeholt l
+kay w
+suleyman m
+and blunsom p
+
+in teaching machines to read and comprehend
+ceedings of the international conference on neural information processing systems volume pages cambridge ma usa
+mit press
+kingma d
+and ba j
+
+adam a method for stochastic optimization
+learning representations
+international conference on li c
+xu w
+li s
+and gao s
+
+guiding eration for abstractive text summarization based on key information guide network
+in proceedings of the conference of the north american chapter of the sociation for computational linguistics human guage technologies volume short papers pages new orleans louisiana june
+association for putational linguistics
+lin c
+
+
+rouge a package for automatic uation of summaries
+in text summarization branches out pages barcelona spain july
+association for computational linguistics
+liu y
+and lapata m
+
+text summarization with pretrained encoders
+proceedings of the ence on empirical methods in natural language cessing and the international joint conference on natural language processing emnlp ijcnlp
+liu p
+j
+saleh m
+pot e
+goodrich b
+sepassi r
+kaiser l
+and shazeer n
+
+generating wikipedia by summarizing long sequences
+in tional conference on learning representations
+liu y
+
+fine tune bert for extractive tion
+available online arxiv
+mikolov t
+sutskever i
+chen k
+corrado g
+s
+and dean j
+
+distributed representations of words and phrases and their compositionality
+in c
+j
+c
+burges al
+editors advances in neural information processing systems pages
+curran ciates inc
+moreno schneider j
+rehm g
+montiel ponsoda e
+rodriguez doncel v
+revenko a
+karampatakis s
+khvalchik m
+sageder c
+gracia j
+and maganza f
+
+orchestrating nlp services for the legal main
+in nicoletta calzolari al
+editors proceedings of the language resources and evaluation ference lrec marseille france
+european language resources association elra
+accepted for publication
+submitted version available as preprint
+murray g
+renals s
+and carletta j
+
+tive summarization of meeting recordings
+in speech eurospeech european conference on speech communication and technology lisbon tugal september pages
+nallapati r
+zhou b
+dos santos c
+c
+and xiang b
+
+abstractive text summarization using sequence to sequence rnns and beyond
+in ings of the signll conference on computational natural language learning pages berlin germany august
+association for computational guistics
+paulus r
+xiong c
+and socher r
+
+a deep forced model for abstractive summarization
+in tional conference on learning representations
+pennington j
+socher r
+and manning c
+d
+
+glove global vectors for word representation
+in empirical methods in natural language processing emnlp pages
+pers
+shi t
+keneshloo y
+ramakrishnan n
+and reddy c
+k
+
+neural abstractive text summarization with sequence to sequence models
+available online arxiv
+sjobergh j
+
+older versions of the rougeeval marization evaluation system were easier to fool
+mation processing management
+text summarization
+subramanian s
+li r
+pilault j
+and pal c
+
+on extractive and abstractive neural document tion with transformer language models
+available online arxiv
+tenney i
+das d
+and pavlick e
+
+bert ers the classical nlp pipeline
+proceedings of the annual meeting of the association for computational linguistics
+vaswani a
+shazeer n
+parmar n
+uszkoreit j
+jones l
+gomez a
+n
+kaiser l
+and polosukhin i
+
+attention is all you need
+in proceedings of the ternational conference on neural information ing systems pages usa
+curran associates inc
+wu f
+fan a
+baevski a
+dauphin y
+and auli m
+
+pay less attention with lightweight and dynamic convolutions
+in international conference on learning representations
+yang b
+wang l
+wong d
+f
+chao l
+s
+and tu z
+
+convolutional self attention networks
+ceedings of the conference of the north
+yang z
+dai z
+yang y
+carbonell j
+salakhutdinov r
+r
+and le q
+v
+
+xlnet generalized toregressive pretraining for language understanding
+in h
+wallach al
+editors advances in neural tion processing systems pages
+curran associates inc
+zhang h
+cai j
+xu j
+and wang j
+
+pretraining based natural language generation for text summarization
+in proceedings of the conference on computational natural language learning conll pages hong kong china november
+ation for computational linguistics
+zhaw
+
+german text summarization challenge
+swiss text analytics conference
+available online
+peters m
+neumann m
+iyyer m
+gardner m
+clark c
+lee k
+and zettlemoyer l
+
+deep alized word representations
+in proceedings of the conference of the north american chapter of the ation for computational linguistics human language technologies volume long papers pages new orleans louisiana june
+association for computational linguistics
+peyrard m
+
+a simple theoretical model of tance for summarization
+in proceedings of the nual meeting of the association for computational guistics pages florence italy july
+ation for computational linguistics
+peyrard m
+
+studying summarization evaluation metrics in the appropriate scoring range
+in proceedings of the annual meeting of the association for putational linguistics pages florence italy july
+association for computational linguistics
+radford a
+wu j
+child r
+luan d
+amodei d
+and sutskever i
+
+language models are unsupervised multitask learners
+available online
+raganato a
+and tiedemann j
+
+an analysis of encoder representations in transformer based machine translation
+in proceedings of the emnlp shop blackboxnlp analyzing and interpreting neural networks for nlp pages brussels belgium november
+association for computational linguistics
+rehm g
+berger m
+elsholz e
+hegele s
+kintzel f
+marheinecke k
+piperidis s
+deligiannis m
+nis d
+gkirtzou k
+labropoulou p
+bontcheva k
+jones d
+roberts i
+hajic j
+hamrlova j
+kacena l
+choukri k
+arranz v
+vasiljevs a
+anvari o
+lagzdin s a
+melnika j
+backfried g
+dikici e
+janosik m
+prinz k
+prinz c
+stampler s
+aniola d
+perez j
+m
+g
+silva a
+g
+berro c
+mann u
+renals s
+and klejch o
+
+european language grid an overview
+in nicoletta calzolari et al
+editors proceedings of the language sources and evaluation conference lrec seille france
+european language resources ation elra
+accepted for publication
+rehm g
+bourgonje p
+hegele s
+kintzel f
+schneider j
+m
+ostendorff m
+zaczynska k
+berger a
+grill s
+rauchle s
+rauenbusch j
+rutenburg l
+schmidt a
+wild m
+hoffmann h
+fink j
+schulz s
+seva j
+quantz j
+bottger j
+matthey j
+fricke r
+thomsen j
+paschke a
+qundus j
+a
+hoppe t
+karam n
+weichhardt f
+fillies c
+neudecker c
+gerber m
+labusch k
+rezanezhad v
+schaefer r
+zellhofer d
+siewert d
+bunk p
+pintscher l
+aleynikova e
+and heine f
+
+qurator innovative gies for content and data curation
+in adrian paschke et al
+editors proceedings of qurator the conference for intelligent content solutions berin many
+ceur workshop proceedings volume
+january
+see a
+liu p
+j
+and manning c
+d
+
+get to the point summarization with pointer generator networks
+proceedings of the annual meeting of the tion for computational linguistics volume long

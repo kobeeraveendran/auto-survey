@@ -1,157 +1,101 @@
-keyphrase based arabic summarizer kpas tarek el and fatma el
-benha university
-cairo faculty of engineering shoubra egypt
-electronics research institute
-cairo egypt
-
-into sentences representative abstract
-this paper describes a computationally inexpensive and efficient generic summarization algorithm for arabic texts
+keyphrase based arabic summarizer kpas tarek el and fatma el benha university cairo faculty of engineering shoubra egypt
+com electronics research institute cairo egypt
+com into sentences representative abstract this paper describes a computationally inexpensive and efficient generic summarization algorithm for arabic texts
 the algorithm belongs to extractive summarization family which reduces the identification and problem extraction sub problems
 important keyphrases of the document to be summarized are identified employing combinations of statistical and linguistic features
 the sentence extraction algorithm exploits keyphrases as the primary attributes to rank a sentence
 the present experimental work demonstrates different techniques for achieving various summarization goals including informative richness coverage of both main and auxiliary topics and keeping redundancy to a minimum
 a scoring scheme is then adopted that balances between these summarization goals
-
 to evaluate the resulted arabic summaries with well established systems aligned english arabic texts are used through the experiments
-
 keywords arabic nlp information retrieval summarization arabic keyphrase extraction extractive summaries
 
-introduction a summary can be defined as a text that is produced from one or
-more texts that contains a significant portion of the information in the original text
+introduction a summary can be defined as a text that is produced from one or more texts that contains a significant portion of the information in the original text
 as the number of electronic documents rapidly increases the need for automatic techniques to assess the relevance of documents materializes
-
 summaries could be displayed in search engine web pages results as an informative tool for the user to find the relevant and desired information
-
 summarization process can be classified according to many directives method granularity generality and information richness
 in general there are two methods for automatic text summarization extractive and abstractive
-
 extractive summarization involves copying significant units usually sentences of the original documents
-
 the goal of abstraction summary is to produce summaries that read as text produced by humans
 therefore abstraction summary may need the building of an internal semantic representation the use of natural language generation of the sentences compression techniques the reformulation or the use of new word sequences that are not present in the original document
-
 these methods are still difficult to achieve
-extractive summaries can have different granularity levels which reflect
-the size of text unit to be extracted starting from word phrase distribution and up to complete paragraph extraction
-
+extractive summaries can have different granularity levels which reflect the size of text unit to be extracted starting from word phrase distribution and up to complete paragraph extraction
 concerning generality of summaries two types can be distinguished generic summaries and query driven summaries
-
 the first type tries to represent all relevant topics of a source text
-
 the second type focuses on the user desired query keywords or topics
 another classification of summaries is based on its information richness
 indicative summaries give a brief idea of what the original text is about without conveying specific content
 it is used to indicate important topics to quickly decide whether a text is worth reading
-
 the second type is informative summaries which are intended to cover the topics in the source text to provide some shortened version of the content
-
 
 in this paper we present a computationally inexpensive and efficient generic summarization technique that focuses on keyphrase based extractive summarization
 keyphrases that are automatically extracted from a document text are used to evaluate the importance of each sentence in the document
 although there are numerous techniques for sentence to changing extraction strategy to achieve one or more summarization goals
 a human summarizer has the ability to select the sentences to be presented according to many factors the maximum allowed number of sentences to be displayed and the number of topics to be covered in the document
-also a human summmarizer may change the selection strategy if it was noticed that the document contains equal important or main supplementary concepts
-therefore the main objective of our work is to demonstrate constructs smaller keyphrases a more flexibility method in directing the proposed sentence extractor towards one or
-more summarization goals
-the goals are level extraction little attention including language is paid using
-extract the most that capture main topics
 
+also a human summmarizer may change the selection strategy if it was noticed that the document contains equal important or main supplementary concepts
+therefore the main objective of our work is to demonstrate constructs smaller keyphrases a more flexibility method in directing the proposed sentence extractor towards one or more summarization goals
+the goals are level extraction little attention including language is paid using extract the most that capture main topics
 this may be useful in extracting very short summary informative sentences eliminate the domination of main topic on output important for is particularly summary
 this documents that contain main and supplementing topics
-
 keep sentence redundancy to a minimum
 this is an essential requirement for a summarizer to allow a room for other concepts to be presented in the output
-
 cover all important topics of the document
-
 for long documents this puts the lower limit of compression
-
 achieve balance between all previous goals
-
 it language independent however the presented keyphrase extraction and summarization is heuristics are implemented to extract summaries of arabic documents
-
 to the best of our knowledge this is the first work that exploits automatically extracted keyphrases to produce arabic summaries
-
 the remaining of this paper is organized as follows the related works is presented in section and a fast revision of the accurate arabic lemmatizer is presented in section
-
 the efficiency of the summary is mainly determined by the keyphrase extraction sub system
 therefore one of the main contributions of this work is the modification done to an existing arabic keyphrase extraction subsystem that helps to select the relevant sentences to be in the summary
-
 in section the keyphrase extraction algorithm is reviewed
 the paper proposes the use of new heuristics to identify significant sentences
 each heuristic has its pros and cons that affect the summarization results
 section discusses these effects and introduces a combined heuristic to achieve a balance between summarization goals
-
 in keyphrase based summarization
 related works the basic idea of the extraction is to create summaries using words phrases sentences and even paragraphs pulled directly from the source text using statistical and linguistic analysis
 word level summary has been started as early as in the
-
 luhn introduced a way for summarization based only on word distribution in the source document
-
 this representation abstracts the source text into a frequency table
-
 similar approaches still used today to generate tag cloud interface
-
-
 the focus is to present nouns or adjective noun pairs frequently mentioned in the the second representation reviews with font size proportional to their number of occurrences
 keyphrases are in abstraction hierarchy
-keyphrases are defined as a short list of terms to provide condensed summary of the topics of a document
-where important words and phrases that express the main topics are extracted
-davanzo et
+keyphrases are defined as a short list of terms to provide condensed summary of the topics of a document where important words and phrases that express the main topics are extracted
+davanzo
 al
 proposed the lake system to extract keyphrases
 the summary that approximates the summarization
-list of keyphrases is presented as level
-most of the extractive summarization techniques consider sentence as a basic extraction unit
+list of keyphrases is presented as level most of the extractive summarization techniques consider sentence as a basic extraction unit
 earlier techniques were based on surface level features such as occurrence of cue phrase markers eg
-in conclusion in summary
-
-other researchers rely on formatting attributes such as position of sentences bold texts or headers
+in conclusion in summary other researchers rely on formatting attributes such as position of sentences bold texts or headers
 another class of summarization depends on scoring sentences which takes many forms based on statistical syntactic or semantic attributes
 relevance measure rm and latent semantic analysis lsa were used to score sentences
-
 the motivation is to identify topics and evaluate the importance of these topics
-
 lexical chaining algorithm is another way to group the words of a given text so that the words of each group has a close semantic relation the motivation is to identify topics and evaluate the importance of these topics
 chains are created by taking a new text word and finding a related chain for it according to relatedness criteria
 barzilay and elhadad introduced an algorithm to compute lexical chains in a text merging several knowledge sources such as wordnet thesaurus a part of speech tagger and shallow parser for the identification of nominal groups
-
 the chain representation approach avoids selecting different terms having the same concept using wordnet problem because all these terms occur in the same chain which reflects that they represent the same concept
-
 goldstein presented a summarizer for news article generated by sentence selection
-
 sentences are directly ranked for potential inclusion in the summary using a weighted combination of statistical and linguistic features
-
 an english domain specific sentence scoring technique was presented in
-the system ranks a sentence based on sentence position keyphrase existence cue phrase existence
-sentence length and sentence similarity to document class
+the system ranks a sentence based on sentence position keyphrase existence cue phrase existence sentence length and sentence similarity to document class
 some research has treated sentence extraction as a learning problem training material this approach exemplifies extracted sentences by providing sentence features and selection flag
-the study of sobh et
+the study of sobh
 al introduced an arabic classifier that is trained to extract important sentences directly based on many features such as sentence length
-
 in interactive document summarizer sentence position in paragraph sentence similarity number of infinitives in sentence and number of verbs in sentences
-an ids using automatically extracted keyphrases is introduced by
-steve
+an ids using automatically extracted keyphrases is introduced by steve et
+
 keyphrases are extracted from a document using the kea keyphrase extraction algorithm
 each sentence in each document is then awarded a score using a heuristic based on the frequency of the document s keyphrases in the sentence
-
 a further characteristic of an interactive summarizer is the ability to bias the summary towards a particular topic or set of topics
-
-the methods described above belong to a family of that rely on word phrase or
-sentence techniques distribution where concept is a single or multiple words
-
+the methods described above belong to a family of that rely on word phrase or sentence techniques distribution where concept is a single or multiple words
 in salton et al
 paragraphs are represented as vectors then the similarity between paragraphs is evaluated
-
 a graph of paragraphs as nodes and the similarities as links is constructed
-
 given a threshold for similarity the link between two paragraphs exists only if the similarity is above that threshold
 the summarization is based on paragraph selection heuristics that selects paragraphs with many connections with other paragraphs and present them in text order
 
-the proposed system
-in this paper we propose an algorithm that belongs to extractive summarization family which reduces the problem into a sentence scoring and extraction problems
+the proposed system in this paper we propose an algorithm that belongs to extractive summarization family which reduces the problem into a sentence scoring and extraction problems
 instead of scoring sentences directly keyphrases are used as attributes to evaluate the sentence importance
-
 the algorithm is based on the intuition that the keyphrases represent the most important concepts of the text
 the proposed algorithm is different from directly scoring sentences through learning systems
 these algorithms usually determine absolute importance for selecting a sentence which is not true in all cases since the importance is also determined by the allowed maximum limit of compression
@@ -159,171 +103,111 @@ the algorithm extracts keyphrases contained in a text to be summarized
 based on the extracted keyphrases each sentence within the text is ranked
 the output summary is formed by extracting the sentences into the summary in order of decreasing ranks up to the specified summary length or percentage
 in the importance of a sentence is determined by different heuristics
-
 the current work introduces four scoring heuristics for achieving summarization goals and shows the pros and cons for each
 the proposed system both of the word representation granularity level and its extracted morpho syntactic features directly affect the performance of keyphrase extraction subsystem and hence the summarizer output
 section reviews the lemma level arabic analyzer
 next sections describe the two algorithm subsystems keyphrase extractor and sentence extraction
 
-
 arabic language analyzer lemma representation arabic is very rich in categorizing words and hence numerous techniques have been developed to evaluate the suitable representation level of arabic words in ir systems
-
 two levels have been debated root level and stem level
-
 the main problem in selecting a root as a standard representation level in information retrieval systems is the over semantic classification
 many words that do not have similar semantic interpretations are grouped into the same root
-
-on the other hand stem level suffers from
-semantic classification
+on the other hand stem level suffers from semantic classification
 stem pattern may exclude many similar words sharing the same semantic properties
-
-for example arabic broken plurals have stem patterns which differs from their patterns
-in our work
-we devoted towards lemma form representation level of arabic words
-
+for example arabic broken plurals have stem patterns which differs from their singular patterns
+in our work we devoted towards lemma form representation level of arabic words
 lemma refers to the set of all word forms that have the same meaning and hence capture semantic similarities between words
-
 on a word form conflation scale the minimum stem level and below the maximum root level
-
 the keyphrase extractor used in our work is based on the existing arabic keyphrase extractor ake
-
 the original linguistic processing of ake was based on an annotated arabic corpus
-to improve ambiguity resolution of arabic pos tagging and increase the coverage scope of language analysis we have replaced the based module with an accurate root based lemmatizer module which achieves maximum accuracy of and for first seen documents
+to improve ambiguity resolution of arabic pos tagging and increase the coverage scope of language analysis we have replaced the based module with an accurate root based lemmatizer module which achieves maximum accuracy of
+and
+for first seen documents
 the input document is segmented into its constituent sentences based on the arabic phrases delimiter characters such as comma semicolon colon hyphen and dot
 table shows part of the output of the lemmatizer
-
-the accurate root based arabic lemmatizer performs the following tasks lies slightly above a
-extracts pos tagging of the document words
-
+the accurate root based arabic lemmatizer performs the following tasks lies slightly above a extracts pos tagging of the document words
 ambiguity is resolved using metadata about patterns roots and infixes indications of arabic words
-
 transforms inflected word form to its dictionary canonical lemma form
 for nouns and adjectives lemma form is the singular indefinite masculine if possible form and for verbs it is the perfective third person masculine singular form
 features of the document words
-the modifications to ake are c
-extracts relevant morpho syntactic features that
-replacement of based analyzer with support keyphrase extraction purposes
-table sample of the lemmatizer output proposed lemmatizer dtnns the systems dtnn r p
-l pos vv particle nns dtnn rb in nn dtjj in dtjj in nn nn nns dtnn dtjj dtjj particle dtnns in nn nn jj
-
-dtnn dtnn dtnn dfnn english
-it female depends most countries the world now on use based on the computer the automatic in building and operating and maintenance projects the infra the basic the dedicated for it in different the sectors like sectors the industry and the agriculture and the education and the commerce arabic word
-
+the modifications to ake are c extracts relevant morpho syntactic features that replacement of based analyzer with support keyphrase extraction purposes
+table sample of the lemmatizer output proposed lemmatizer dtnns the systems dtnn r p l pos vv particle nns dtnn rb in nn dtjj in dtjj in nn nn nns dtnn dtjj dtjj particle dtnns in nn nn jj dtnn dtnn dtnn dfnn english it female depends most countries the world now on use based on the computer the automatic in building and operating and maintenance projects the infra the basic the dedicated for it in different the sectors like sectors the industry and the agriculture and the education and the commerce arabic word
 lemma based keyphrase extraction the first step of the proposed summarizer algorithm is to extract indicative keyphrases of the document at a lemma level
 we employ the existing arabic keyphrase extractor system
-
 the extractor is supplied with linguistic knowledge to enhance its efficiency instead of relying only on statistical information such as term frequency and distance
-the main modification done to ake subsystem is the replacement of the annotated
-arabic with the accurate arabic lemmatizer to extract the required lexical lemma based analyzer
-
+the main modification done to ake subsystem is the replacement of the annotated arabic with the accurate arabic lemmatizer to extract the required lexical lemma based analyzer
 inclusion of latin words and unrecognized words in keyphrases they are treated as arabic nouns
-
-recognition of numerals
-
-adding new sets of syntax rules that limits allowed word category sequences in candidate keyphrases
-the linguistic and statistical features are used to learn the
-linear
-discriminant analysis classifier to extract relevant
-the keyphrases
-
+c recognition of numerals
+d adding new sets of syntax rules that limits allowed word category sequences in candidate keyphrases
+the linguistic and statistical features are used to learn the linear discriminant analysis classifier to extract relevant the keyphrases
 after modifications keyphrase extractor subsystem re evaluated
-
 the modified lemma based arabic keyphrase extractor is based on three main steps linguistic processing candidate phrase extraction and feature vector calculation
-
 the following sections review these steps
 the output of is
+
 candidate phrases extraction the second step of the kp extractor is to extract all possible phrases of one two or three consecutive words that appear in a given document as n gram terms
 to extract effective candidate keyphrases n gram terms are then filtered according to syntactic rules that limits allowed pos sequences
 table shows an example of the output grams candidate keyphrases
-table sample of extracted grams keyphrases sentence candidate phrases cp
-
-abstract form of cp
+table sample of extracted grams keyphrases sentence
+candidate phrases cp abstract form of cp
 
 feature vector calculation each candidate phrase is then assigned a number of features used to evaluate its importance
-
-the following features are adopted
-normalized phrase words npw which is the number of words in each phrase normalized to the maximum number of words in a phrase
-
-the phrase
-relative frequency prf which represents the frequency of abstract form of the candidate phrase normalized by dividing it by the most frequent phrase in the given document
-c
-the word
-relative frequency wrf
-the frequency of the most frequent single abstract word in a candidate phrase excluding article words normalized by dividing the maximum number of repetitions of all phrase words in a given document
-it by
-normalized sentence location nsl which measures the location of the sentence containing the candidate phrase within the document
-e
+the following features are adopted normalized phrase words npw which is the number of words in each phrase normalized to the maximum number of words in a phrase
+the phrase relative frequency prf which represents the frequency of abstract form of the candidate phrase normalized by dividing it by the most frequent phrase in the given document
+the word relative frequency wrf the frequency of the most frequent single abstract word in a candidate phrase excluding article words normalized by dividing the maximum number of repetitions of all phrase words in a given document
+it by normalized sentence location nsl which measures the location of the sentence containing the candidate phrase within the document
 normalized phrase location npl feature is adopted to measure the location of the candidate phrase within its sentence
 normalized phrase length nplen which is the length of the candidate phrase in words divided by the number of words of its sentence
-
-
-sentence contain verb scv
+g sentence contain verb scv
 this feature has a value of zero if the sentence of the candidate phrase contains verb
-
-is it
-question iit
-this feature has a value of one if the sentence of the candidate phrase is written in a question form
-
-
+is it question iit this feature has a value of one if the sentence of the candidate phrase is written in a question form
 in our work we use the same lda learning model of the corpus based arabic keyphrase extractor
-evaluating lemma based arabic keyphrase extractor
-the web lemma based version with since
-we have changed the central language processing module of the keyphrase extractor it was necessary to reevaluate its performance
 
+evaluating lemma based arabic keyphrase extractor the web lemma based version with since we have changed the central language processing module of the keyphrase extractor it was necessary to reevaluate its performance
 the performance of the proposed lemma based version of the arabic ke is evaluated in two experiments
-the first experiment uses same dataset described in to compare the output keyphrases of those extracted by the based ake kp miner
-web link and
-sakhr keyword
-extractor link
-sec technology keywords
+the first experiment uses same dataset described in to compare the output keyphrases of those extracted by the based ake kp miner web link
+claes
+sci
+eg kpminer and sakhr keyword extractor link
+sakhr
+default
+aspx sec technology keywords
 table shows extracted keyphrases from the four systems
 the results of the first experiment given in table show that the modified version of the keyphrase extractor has on average better performance than the based system in terms of precision and recall
 the additional benefit we get is the increased language coverage of lemma based system
-
 in the second experiment the data set is a parallel english arabic texts
-aligned texts from english unicef publication
-and its corresponding arabic translation
-are used to compare extracted
-arabic keyphrases using
-the proposed keyphrase extractor to corresponding english extracted ones
+aligned texts from english unicef publication and its corresponding arabic translation are used to compare extracted arabic keyphrases using the proposed keyphrase extractor to corresponding english extracted ones
 tables and show sample texts from both reports
-table sample of results of the first experiment lemma based system
-corpus based system
+table sample of results of the first experiment lemma based system corpus based system kp miner sakhr of key phrase s table sample of average results of the first experiment sakhr kp miner original system modified system p r p r p r p r
 
-kp miner sakhr of key phrase s table sample of average results of the first experiment sakhr kp miner original system modified system p r
-p r p r p r
-arabic texts are fed to lemma based ake and kp miner while their corresponding english texts are fed to both of kea and
-extractor systems
-kea identifies candidate keyphrases by computing feature values tfxidf the first occurrence which is
-the percentage of the document preceding the first occurrence of the term term length in words and node degree of a candidate phrase which is the number of phrases in the candidate set that are semantically related to this phrase
 
-kea is available for download at extractor is one of the major keyphrase extraction systems with accuracy that ranges from to regardless of subject domain
-extarctor keyphrases and summarization is available online at table
-english unicef sample document unicef humanitarian action and resilience
-guided by the convention on the rights of the child unicef in strengthened its core humanitarian policy to uphold the rights of children and women in crises
-unicef reframed its
-core commitments for children cccs in emergencies as the core commitments for children in humanitarian action reflecting wider shifts in unicef s own work in these contexts as well as the organization s commitment to humanitarian reform
+
+
+
+
+
+arabic texts are fed to lemma based ake and kp miner while their corresponding english texts are fed to both of kea and extractor systems
+kea identifies candidate keyphrases by computing feature values tfxidf the first occurrence which is the percentage of the document preceding the first occurrence of the term term length in words and node degree of a candidate phrase which is the number of phrases in the candidate set that are semantically related to this phrase
+kea is available for download at
+nzdl
+org kea index
+html extractor is one of the major keyphrase extraction systems with accuracy that ranges from to regardless of subject domain
+extarctor keyphrases and summarization is available online at
+extractor
+table english unicef sample document unicef humanitarian action and resilience guided by the convention on the rights of the child unicef in strengthened its core humanitarian policy to uphold the rights of children and women in crises
+unicef reframed its core commitments for children cccs in emergencies as the core commitments for children in humanitarian action reflecting wider shifts in unicef s own work in these contexts as well as the organization s commitment to humanitarian reform
 key changes include expanding the core commitments for children to include preparedness before the onset of a crisis and adopting an early recovery approach during response with disaster risk reduction integrated throughout
 the core commitments for children also moved from a focus on activities to broader strategic results that link humanitarian action to the fulfillment of children s and women s rights in each of unicef s programme sectors
 they also reflect the recognition that realizing these core commitments requires the contributions of a multitude of actors including clusters
 thus reconceived unicef s humanitarian action offers a potential platform for supporting resilience at the national and community levels
-
 a few recent examples illustrate how this has manifested in affected countries
-
-the revised
-core commitments for children also tighten the link between humanitarian action and development
-
+the revised core commitments for children also tighten the link between humanitarian action and development
 this stronger integration contributes to unicef s institutional flexibility the nimbleness with which our programmes adjust to evolving situations
 in addition the sharpened focus on disaster risk reduction and local capacity development as explicit strategies contribute to communities own flexibility in the face of multiple shocks throughout the broader cycle of prevention response and recovery
-
-in ethiopia unicef has ported disaster risk reduction through a
-led decentralized health extension programme to provide essential health and nutrition services
+in ethiopia unicef has ported disaster risk reduction through a led decentralized health extension programme to provide essential health and nutrition services
 this programme has had a significant impact in the communities results show an increase in national treatment capacity of severe acute malnutrition from cases per month in to cases per month in
-
 through the treatment of children suffering from malnutrition those with severe acute malnutrition can now be identified earlier and receive life saving treatment closer to home thus helping reduce children s vulnerability
-table arabic unicef
-a translation to english sample document in table
-
+table arabic unicef a translation to english sample document in table
 
 
 
@@ -337,307 +221,216 @@ a translation to english sample document in table
 
 
 the results of the four systems shown in table reflect the complexity of evaluating keyphrase systems
-
 for the two robust systems only of keyphrases extracted by kea are similar to those extracted by extractor
-
 our modified ake has similar keyphrases with extractor similar keyphrases with kp miner and similarity with kea
-table
-keyphrases output of sample documents shown in table and table extractor kea kp miner core commitments humanitarian action unicef programme
-unicef
-core commitments humanitarian action
-core commitments for children rights commitments for children severe acute malnutrition treatment lemma ake
-humanitarian disaster risk reduction disaster risk
-risk reduction link humanitarian link humanitarian action severe acute
-
+table keyphrases output of sample documents shown in table and table extractor kea kp miner core commitments humanitarian action unicef programme unicef core commitments humanitarian action core commitments for children rights commitments for children severe acute malnutrition treatment lemma ake humanitarian disaster risk reduction disaster risk risk reduction link humanitarian link humanitarian action severe acute
 sentence extraction the sentence extraction algorithm exploits keyphrases that are automatically extracted from document text as the primary attributes of a sentence
 sentence ranking is determined by assigning scores to each sentence of the document based on extracted keyphrases
 different scoring schemes are adopted to achieve one or more goals of summarization
-
 the output summary is then formed by extracting the sentences into the summary in order of decreasing ranks up to the specified summary length or percentage
 the proposed summarizer extracted sentences are sequentially presented in the same sequence as the original text to preserve the information flow
 the four different subsections describe heuristics for scoring sentences based on keyphrases
-
 for each document the top twelve extracted keyphrase are employed through the evaluation experiments
-
 in all experiments a compression ratio is set to
-following in summing keyphrases heuristic once extracted keyphrases scores have been computed the next step of the algorithm is to score sentences
+following in
+summing keyphrases heuristic once extracted keyphrases scores have been computed the next step of the algorithm is to score sentences
 in the first heuristic scoring is based on summing scores for all lemma keyphrase forms that appear in the sentence
-
-the summing heuristic is given by
-for each sentence s sum all the scores of lemma form keyphrases contained in
+the summing heuristic is given by for each sentence s sum all the scores of lemma form keyphrases contained in s
 find nss by normalizing sentences scores by the maximum score
-
-sentences are then ranked based on their normalized
-summing scores nss and an percentage of sentences are extracted into a summary
-
+sentences are then ranked based on their normalized summing scores nss and an percentage of sentences are extracted into a summary
 the algorithm is greedy since it favors a sentence that contains many important concepts
 for small percentage summarization the algorithm succeeds to capture minimum number of sentences that carry most important topics of the document
-
-table shows
-the output summary of the sample document
-table
-summary output based on nss
-
-
+table shows the output summary of the sample document
+table summary output based on nss
 
 
 the main problems with summing based algorithm are its limited coverage and redundant sentence selections
-
 a document usually consists of several topics
-
 main topics are described by many sentences and hence have high scores
 supplementing concepts are usually described by few sentences and hence have small scores
-
 in summing based algorithm many sentences that describe same focus topic dominate the selection
-
 all sentences containing the main topic will get higher scores which may lead to redundant sentences selection and does not provide a room for other topics to appear in the summary
 we therefore defined a second heuristic based on counting keyphrases instead of summing their scores
+
 counting keyphrases heuristic one solution to cover the major topics of the document as much as possible is to score sentences according to count of keyphrases instead of their scores
-
-the counting heuristic is given by for each sentence s count all lemma form keyphrases contained in s
-find ncs by
-normalizing the sentence
-count scores by the maximum score
-
+the counting heuristic is given by for each sentence s count all lemma form keyphrases contained in s find ncs by normalizing the sentence count scores by the maximum score
 this gives equal importance to all keyphrases and hence concepts
-
 sentences that have more keyphrases are extracted and put in a summary
-
 table shows summarization result for counting score heuristic
 table summary output based on ncs
 
 
 
 
-the problem of
-it is noticed that the algorithm tends to select longer sentences because they are more likely to achieve high count scores
-
+the problem of it is noticed that the algorithm tends to select longer sentences because they are more likely to achieve high count scores
 this may be useful for a summary where longer sentences tend to be more easily interpreted without surrounding context
-topic
-count heuristic solves domination of the output summary
+topic count heuristic solves domination of the output summary
 however it does not guarantee the avoidance of redundant topic selection
 the same problem exists also with summing heuristic
-
 some authors repeat important sentences in many parts of the document with little word variations
-
-the problem was solved in previous work
-by adding a filter which removes redundant sentences based on cosine similarity measurement between all extracted sentences
+the problem was solved in previous work by adding a filter which removes redundant sentences based on cosine similarity measurement between all extracted sentences
 in the current research we have another approach discussed in the third heuristic
 main
+
 keyphrase coverage oriented heuristic both of the previously described two heuristics are based on scoring sentences and do nt guarantee complete coverage of all concepts of the document for a summary length
 also very similar sentences can be extracted
-the coverage heuristic is given by for each lemma form of keyphrase
-k increment the score of the first sentence containing k find nks by
-normalizing the sentence key scores by the maximum score
-
+the coverage heuristic is given by for each lemma form of keyphrase k increment the score of the first sentence containing k find nks by normalizing the sentence key scores by the maximum score
 in the coverage oriented algorithm only one sentence is extracted for each keyphrase
-it starts by
-high score keyphrases extract the sentence that contains the first appearance of this keyphrase to summary if it is not already exist
+it starts by high score keyphrases extract the sentence that contains the first appearance of this keyphrase to summary if it is not already exist
 in this heuristic only one sentence at most is extracted for each keyphrase
 the algorithm covers all the major topics of the document and at the same time keeping redundancy to a minimum
 table shows the resultant summary
-table
-summary output based on merging heuristic
-
-
-
+table summary output based on merging heuristic
 table summary output based on nks
 
 
 
-
-
 merging heuristics the fourth heuristic merges different scoring techniques to achieve a balance between summarization goals
-
 this should lead to further improvement of the source text abstraction
 the scoring of merging heuristic is formed by summing previous normalized scores this is given by merging score nss ncs nks evaluating automatic text summarization systems is not a straightforward process since it is an elusive property
-
-since there are no arabic standard summarization documents we compare extracted
-arabic sentences with existing well established extractor system
-
-the following procedures are adopted through the experiment
-
-apply the proposed system to generate a summary for arabic texts with compression ratio of of the document sentences
-
+since there are no arabic standard summarization documents we compare extracted arabic sentences with existing well established extractor system
+the following procedures are adopted through the experiment apply the proposed system to generate a summary for arabic texts with compression ratio of of the document sentences
 extract the corresponding english sentences to have the equivalent english summary
-
-
-generate the english summary of english texts
-corresponding to arabic ones using extractor system
-
+generate the english summary of english texts corresponding to arabic ones using extractor system
 compare the similarity of the equivalent english summary and english summary
 table shows the compression of a sample document merging heuristic summaries
-table
-presents its equivalent english
-summary
+table presents its equivalent english summary
 extractor summarization is given in table
 the average results of similarity between extractor and the proposed system is nearly for compression summaries
 more evaluation is still required to measure the similarity at different compression ratios
 
-table equivalent english summary with shaded area represent similarities with extractor guided by the convention on the rights of the child unicef in strengthened its core humanitarian policy to uphold the rights of children and women in crises
 
+table equivalent english summary with shaded area represent similarities with extractor guided by the convention on the rights of the child unicef in strengthened its core humanitarian policy to uphold the rights of children and women in crises
 unicef reframed its core commitments for children cccs in emergencies as the core commitments for children in humanitarian action with disaster risk reduction integrated throughout
 the core commitments for children also moved from a focus on activities to broader strategic results that link humanitarian action to the fulfillment of children s and women s rights in each of unicef s programme sectors
 thus reconceived unicef s humanitarian action offers a potential platform for supporting resilience at the national and community levels
-table summarization output of extractor
-guided by the convention on the rights of the child unicef in strengthened its core humanitarian policy to uphold the rights of children and women in crises
-unicef reframed its core commitments for children cccs in emergencies as the core commitments for children in humanitarian action reflecting wider shifts in unicef s own work in these contexts as well as the
-organization s commitment to humanitarian reform
-
+table summarization output of extractor guided by the convention on the rights of the child unicef in strengthened its core humanitarian policy to uphold the rights of children and women in crises
+unicef reframed its core commitments for children cccs in emergencies as the core commitments for children in humanitarian action reflecting wider shifts in unicef s own work in these contexts as well as the organization s commitment to humanitarian reform
 the core commitments for children also moved from a focus on activities to broader strategic results that link humanitarian action to the fulfillment of children s and s rights in each of unicef s programme sectors
-
 this programme has had a significant impact in the communities results show an increase in national treatment capacity of severe acute malnutrition from cases per month in to cases per month in
 
 conclusions to this in research we have presented an arabic summarization for extracting relevant sentences from free texts
-
 the system exploits statistical and linguistic features important keyphrases
-identify
-through experiments we show that different keyphrase based scoring schemes can direct the proposed sentence extractor towards one or more summarization goals
+identify through experiments we show that different keyphrase based scoring schemes can direct the proposed sentence extractor towards one or more summarization goals
 references
-
 barzilay r elhadad m using lexical chains for text summarization proceedings of the acl workshop on intelligent scalable text summarization
-
-magnini vallin
-a keyphrase extraction for summarization
-purposes
-the lake system at
-in the document understanding workshop presented at the hlt naacl
-annual meeting boston usa
-edmunson newm methods in automatic extracting
+e
+magnini b
+vallin a keyphrase extraction for summarization purposes the lake system at
+in the document understanding workshop presented at the hlt naacl annual meeting boston usa
+edmunson h
+newm methods in automatic extracting
 journal of the acm
-
-
-el beltagy rafea kp miner
-a keyphrase
-extraction system for english and arabic documents
-
+el beltagy s
+r
+rafea a
+kp miner a keyphrase extraction system for english and arabic documents
 information systems doi
+j
+is
 
-el shishtawy t and
-el ghannam f
-an accurate arabic
-root based lemmatizer information retrieval purposes international journal of computer
-science issues volume issue january
+
+el shishtawy t and el ghannam f an accurate arabic root based lemmatizer information retrieval purposes international journal of computer science issues volume issue january
 for el shishtawy t and
-al sammak a arabic keyphrase
-extraction using linguistic knowledge and machine
-learning techniques proceedings of the second international conference on arabic language resources and tools the medar consortium cairo egypt
+al sammak a arabic keyphrase extraction using linguistic knowledge and machine learning techniques proceedings of the second international conference on arabic language resources and tools the medar consortium cairo egypt
 
-frank e paynter witten gutwin and
-nevill manning
-
+frank e paynter g
+w
+witten i
+h
+gutwin c
+and nevill manning c
+g
 domain specific keyphrase extraction
 kea proc
-
 international joint conference on artificial intelligence morgan kaufmann publishers san francisco ca pp
 
-goldstein kantrowitz mittal and
-carbonell
-summarizing text documents sentence selection and evaluation metrics in pvoc of the
-international conference on research and
-development in information retrieval
-
+goldstein j
+kantrowitz m
+mittal v
+o
+and carbonell j
+g
+summarizing text documents sentence selection and evaluation metrics in pvoc
+of the international conference on research and development in information retrieval
 berkeley ca usa acm press pp
 
+gong y
+and liu x
 
-
-gong and liu
-
-generic text
-summarization using relevance measure and latent semantic analysis
-in proceedings of the
-annual international acm sigir conference on research and development in information retrieval hassel evaluation of automatic text summarization
-a practical thesis department of numerical analysis and computer
-science royal institute of technology stockholm sweden
+generic text summarization using relevance measure and latent semantic analysis
+in proceedings of the annual international acm sigir conference on research and development in information retrieval hassel evaluation of automatic text summarization a practical thesis department of numerical analysis and computer science royal institute of technology stockholm sweden
 implementation
+licentiate hovy e
+h
+automated text summarization
+in r
+mitkov ed the oxford handbook of computational linguistics chapter pages
+oxford university press
+hovy e
+h
+and lin c
+automated text summarization in summarist in acl eacl summarization workshop madrid spain
+lin c
+training a selection function for extraction in pvoc
+of the international conference on knowledge management
+kansas city mo usa acm press luhn h
 
-licentiate
-hovy
-automated
-text summarization
+the automatic creation of literature abstracts ibm journal of research and development
 
-in mitkov ed the oxford handbook of computational linguistics chapter pages
+morris j
+and hirst g
 
-university press
-
-
-hovy and lin
-automated text summarization in summarist
-in acl eacl summarization workshop madrid spain
-
-lin training a selection function for extraction in pvoc
-of the
-international conference on knowledge management
-kansas city mo usa acm press
-luhn h
-
-the automatic creation of literature abstracts ibm journal of research and development morris and hirst g lexical cohesion computed by thesaural relations as an indicator of the structure of text
+lexical cohesion computed by thesaural relations as an indicator of the structure of text
 computational linguistics
-
-padro cirera
-fuentes alonso al
+padro cirera l
+fuentes m
+j
+alonso l
+al
 approaches to text summarization questions and answers
 revista beroamericana artificial issn
-inteligencia
-rafeeq
-al hashemi text summarization extraction system tses
-
-using extracted
-keywords international arab journal of e technology vol
-
-no june
-
-sobh darwish
+inteligencia rafeeq al hashemi text summarization extraction system tses using extracted keywords international arab journal of e technology vol
+no
+june
+sobh i
+darwish n
 fayek
+m
 
-an optimized
-dual classification
-system for
-arabic extractive generic in text proceedings of the seventh conference on language engineering
-
-summarization eslec
-text structuring and
-salton singhal mitra and buckley
+an optimized dual classification system for arabic extractive generic in text proceedings of the seventh conference on language engineering
+eg
+com rdi technologies paper
+htm summarization eslec
+text structuring and salton g
+a
+singhal m
+mitra and c
+buckley
 summarization automatic information processing and management
-steve j lundy s paynter w interactive document extracted the hawaii summarisation using
-automatically
-keyphrases
-proceedings of international conference on system sciences
+steve j lundy s paynter w interactive document extracted the hawaii summarisation using automatically keyphrases proceedings of international conference on system sciences
+turney p
+d
+learning algorithms for keyphrase extraction information retrieval national research council canada
+turney p
+d
 
-
-turney
-learning
-algorithms for keyphrase extraction information retrieval
-national research council canada
-
-turney
 mining the web for lexical knowledge to improve keyphrase extraction learning from labeled and unlabeled data
-
 national research council institute for information technology canada
 technical report
 unicef available at
-
-
-unicef unicef
-humanitarian
-action for at resilience available children building
-yatani k novati m trusty a and khai truong analysis of
-adjective noun
-word
-pair extraction methods for online
-review summarization
-proceedings of the twenty second international joint conference on artificial intelligence
+unicef
+org
+html unicef unicef humanitarian action for at resilience available children building
+unicef
+org yatani k novati m trusty a and khai n
+truong analysis of adjective noun word pair extraction methods for online review summarization proceedings of the twenty second international joint conference on artificial intelligence
 tarek el shishtawy is a professor assistant at faculty of engineering benha university egypt
-he participated in many
-arabic computational linguistic projects
-
-large scale
-arabic annotated corpus was one of important projects for egyptian computer society and
-academy of scientific research and technology he has many publications in arabic corpus machine translation text and data mining
-
-fatma
-el ghannam is a researcher assistance at electronics research institute cairo egypt
+he participated in many arabic computational linguistic projects
+large scale arabic annotated corpus was one of important projects for egyptian computer society and academy of scientific research and technology he has many publications in arabic corpus machine translation text and data mining
+fatma el ghannam is a researcher assistance at electronics research institute cairo egypt
 she has great research interests in arabic language generation and analysis
-
-currently she preparing for a degree in nlp
+currently she preparing for a ph
+d
+degree in nlp
 

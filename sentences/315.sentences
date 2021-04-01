@@ -1,0 +1,582 @@
+align then summarize automatic alignment methods for summarization corpus creation paul david janiszek yannick estve vincent nguyen lium le mans universit ubiqus labs universit paris descartes lia avignon universit
+com david
+
+fr yannick
+avignon
+fr
+com l u j l c
+s c v
+v i x r a abstract summarizing texts is not a straightforward task
+before even considering text summarization one should determine what kind of summary is expected
+how much should the information be compressed is it relevant to reformulate or should the summary stick to the original phrasing state of the art on automatic text summarization mostly revolves around news articles
+we suggest that considering a wider variety of tasks would lead to an improvement in the eld in terms of generalization and robustness
+we explore meeting summarization generating reports from automatic transcriptions
+our work consists in segmenting and aligning transcriptions with respect to reports to get a suitable dataset for neural summarization
+using a bootstrapping approach we provide pre alignments that are corrected by human annotators making a validation set against which we evaluate automatic models
+this consistently reduces annotators efforts by providing iteratively better pre alignment and maximizes the corpus size by using annotations from our automatic alignment models
+evaluation is conducted on a novel corpus of aligned public meetings
+we report automatic alignment and summarization performances on this corpus and show that automatic alignment is relevant for data annotation since it leads to large improvement of almost on all rouge scores on the summarization task
+keywords alignment summarization corpus annotation
+introduction automatic text summarization is the task of producing a short text that captures the most salient points of a longer one
+however a large variety of tasks could t this tion
+many factors are critical in the summarization process such as whether to rephrase the source abstractiveness or use part of the source as is extractiveness the length tio of target and source compression factor the source and target lengths and their variances and the information distribution i
+e
+how important information is distributed along the text
+most of summarization benchmarks see et al
+paulus et al
+gehrmann et al
+rely on news articles from cnn and dailymail hermann et al
+nallapati et al
+which exhibit particular istics such as i being quite extractive i
+e
+picking tions of text from the source the opposite of abstractive liu et al
+a high compression factor with the summary being up to times shorter than the source liu et al
+a low variance in both source and target length and iv concentrating information mostly at the ginning of the article for example papers working on the cnn dailymail hermann et al
+nallapati et al
+often truncate the article to the rst words of the article see et al
+gehrmann et al
+ziegler et al
+ignoring up to half of it
+in contrast we explore meeting data using transcription as the source and the meeting report as the target
+contrary to news articles there is high variance in the length of speaker interventions the data need to be rephrased into a written form thus an abstractive process by nature and to be informative throughout
+in this work we focus on so called exhaustive reports which are meant to capture all the information and keep track of speaker terventions
+information itself is not summarized but the speech is compressed from an oral form to a written one
+thus the compression factor is lower than in news tasks but variance remains high depending on how verbose the intervention is
+the data at hand consist of i exhaustive reports produced by ubiqus in house editors ii full audio recording of the meeting
+an automated transcript is produced from the ter with an automatic speech recognition system very close to the one described hernandez et al
+meignier and merlin but trained for french language from internal data
+such data are not suitable for summarization learning as is therefore we propose to segment it at the intervention level i
+e
+what is said from one speaker until another one starts
+it is particularly convenient since the nature of our dataset ensures that all interventions remain apart from very short ones and chronological order is preserved in both the scription and the report
+reports explicitly mention ers making segmentation trivial and error free for that part
+transcriptions do not have such features so we present an alignment process that maps interventions from the reports with its related transcription sentences based on similarity
+we bootstrap the corpus creation iterating between matic pre alignment generations and corrections from man annotators
+we aim at jointly minimizing human effort while ne tuning automatic alignment models to eventually use alignment models for automatic data annotation
+in this paper we present a methodology for building a marization based on the segmentation and alignment of reports and transcriptions from meetings using a strapping approach
+we also present a novel public meeting dataset against which we evaluate both automatic alignment and summarization
+tion models are rst trained on the gold set from human annotator and then using automatic annotations with our automatic alignment models which outperform the baseline by a large margin almost on all considered rouge metrics
+source code data and reproduction instructions can be found at
+com pltrdy autoalign
+
+related work this work aims to jointly segment two related les a scription and a report of the same meeting so that the segment of the report actually corresponds to the j ment of the transcription
+since report side segmentation is simple thanks to its ture we focus on the transcription side
+bearing that in mind the task is similar to a linear segmentation problem i
+e
+nding borders between segments
+hearst posed texttiling a linear segmentation algorithm that compares adjacent blocks of text in order to nd subtopic shifts borders between segments using a moving window over the text and identifying borders by thresholding
+as proposed by choi uses similarity and ranking matrices instead then clustering to locate topic boundaries
+texttiling has been extended i to audio signals jee and rudnicky but is said to lack robustness to atypical participant behavior which is common in our text to work with word embeddings in order to capture similarity between query and answer in a dialogue context song et al
+
+alemi and ginsparg also plore word embedding use in segmentation by ing it into existing algorithms and showing improvements
+badjatiya et al
+address the segmentation task with an end to end attention based neural approach
+while such an approach could be investigated in the future we could not consider it in this work due to the lack of reference data
+glavas et al
+use semantic relatedness graph resentation of text then derive semantically coherent ments from maximal cliques of the graph
+one issue of this approach is that searching for large segments in big texts requires decreasing the threshold which exponentially increases computational cost eventually making our task intractable
+
+
+alignment alignment has already been studied for creation
+in particular barzilay and elhadad nelken and shieber extract related segments from the pedia britannica and britannica elementary a simpler sion
+it is different from our work since we are looking for a total alignment i
+e
+both documents must be fully aligned not just partially extracted
+furthermore alignment of oral speech to its written form has been studied by braunschweiler et al
+in the context of audio books and by lecouteux et al
+for subtitles and transcripts e
+
+of news report in order to prove automatic speech recognition engines
+while such approaches sound similar to ours they mostly look for act matches rather than an approximate alignment of metrical data based on textual similarity
+
+
+summarization datasets hermann et al
+nallapati et al
+proposed the rst multi sentence summarization dataset with more than
+training pairs
+sources are up to words long but are often truncated to the rst words see et al
+gehrmann et al
+ziegler et al
+and the target is around words on average
+a similar dataset based on ny times articles was presented by paulus et al
+with three times more training pairs sources of words and targets of words on average
+liu et al
+work on generating wikipedia introductions known as leads from reference articles and web crawled data
+both inputs and outputs are several orders of tude longer sources can be up to words and targets are in the range
+in our context we are dealing with limited resources in particular with respect to ready to train data which vated this paper
+our dataset comprises gold dard training pairs and up to pairs when taking into account all the automatically aligned data
+we currently ter training pairs in order to contain fewer than words and sentences
+future work would explore a wider range of segment lengths
+
+methods our task consists in nding the best alignment between a meeting transcription
+
+
+ti and the related human written report
+
+
+rj
+both documents are segmented into mutually exclusive sets of sentences t
+
+
+t m
+
+
+rn
+alignment maps each transcription segment t m to actly one report segment rn based on sentence level similarities si j r j with ti r j
+the alignment process is a pipeline of different modules
+the rst one reads the data the second one independently segments each side respectively report and transcription the third one computes similarity scores in order to nd the alignment that maximizes the overall score
+this section presents those modules
+
+
+segmentation segmentation consists in nding borders in texts such that each segment can be processed independently
+the mentation granularity should be ne enough for segments to be not too long which would make learning more cult and result in fewer training pairs and coarse enough to remain relevant very short segments can not be ingfully summarized
+we consider speaker interventions i
+e
+uninterrupted speech of only one speaker to be an appropriate segmentation level
+in particular we make the assumption that the task of writing a report can roughly be divided into sub tasks consisting of reports for each vention which is a close approximation of exhaustive ports
+on the report side each speaker s intervention may be plicitly mentioned using special tags in the document one particular style applied to names or identied with based identication e
+
+looking for mr
+ms
+
+on the transcription side segments are groups of sentences dened by the automatic speech recognition system
+
+
+text representation and similarity function the alignment process consists in nding for each scription segments t m its related report segment rn in other words the function n m m n n we consider a sentence level similarity matrix s between the transcription and the report such as si j scor r j with r
+for the score function we experimented with i rouge from lin cosine similarity on t i d sentations cosine similarity based on word embedding vectors
+a pool i ng function typically a sum is applied to word embeddings to produce sentence embeddings as shown in gure
+by default both and are sets of however we also use sliding windows with overlap over sentences
+for each document d the k sliding window w d o s is a set of s sentences having its rst respectively last o sentences in common with previous window resp
+next
+w d o s k
+
+
+si sliding windows aggregate sentence representations into a single vector using the ag g function see gure then we calculate scores for all pairs of sliding windows from both sides s sl i d ng l score g w t o s ag g w r o s l then similarities are assigned back to the sentence level o s l s t o s w r si j r ed sl i d ng l s the reduction function r ed sum or product calculates sentence scores from the sliding windows that contain it
+
+
+alignment having sentence level of sentence windows similarities of every pairs of transcription and report the alignment task is now to maximize the similarity at the document level
+we use dynamic programming which aims to nd an optimal path in the similarity matrix while ensuring by design that transcription and report are aligned chronologically
+we introduce the alignment matrix a that for each nate i j corresponds to the similarity eventually scaled to the power of p plus the maximal value from its top i or left i j neighbor coordinates ai j si j p j ai j p are determined by punctuation which is predicted by the speech recognition system on the transcription side
+figure text representations windows
+from words to at each position i j we keep track of the previous tion e
+
+either i j or i hi j arg max j i ac ultimately giving us the optimal path which correspond to the sentence level alignment p hi j with i j pk pi j i j figure shows simple example of the alignment process
+to derive the segment level alignment of a transcription segment t i we choose r j to maximize similarity along the path arg max ai j j p n m s rn
+
+evaluation linear segmentation performance is measured using windowdiff pevzner and hearst which pares boundaries predicted by the algorithm to the reference in a moving window of size k
+windowdiff is based on pk beeferman et al
+but is meant to be fairer with respect to false negatives number of boundaries segment size and near miss errors
+we report windowdiff scores for our experiments
+we also consider simple metrics such as the segment accuracy and word accuracy
+experience scores are micro averaged over reference les
+
+experiments
+
+bootstrapping the corpus creation to build a corpus from scratch we iterate over three phases i generating pre alignments from the data using an tomatic alignment model correct the pre alignment thanks to human annotators to get a gold reference set evaluate models with respect to the new reference set
+iterations increase the amount of gold references allowing accurate evaluation of automatic alignment models tually making the annotators task easier
+wordembeddingswordssentenceembeddingssliding figure example of dynamic programming algorithm nding optimal path
+at each coordinates i j the alignment a on the right adds the corresponding similarity from s on the left to highest neighbor value either from top i or left i j as shown with arrows equivalent to h red arrows represent the optimal path p
+similarity values are arbitrary here for simplicity
+gold alignments we developed an ad hoc platform to collect gold alignments thanks to human annotators to serve as reference sets
+we use our automatic alignment models to provide a pre alignment that is then corrected by the notator
+grid search in order to evaluate a wide variety of rameters at a reasonable computational cost we use several validation sets varying in their amount of reference les
+the evaluation process iteratively selects best parameters thus reducing their number then evaluates these sub sets on a bigger reference set
+it helps us to efciently explore the parameter space without spending too much effort on ously sub performing parameter sets and eventually tify most critical parameters
+iteration diagonal alignment the rst iteration started without any reference le therefore we had no way of quantitatively evaluating the auto alignment cess
+still in order to provide a pre alignment to human annotator we used a naive approach that aligns segments diagonally we do not compute similarity si j j and move into the alignment matrix to stay on a diagonal i
+e
+we replace the position history matrix h of eq
+to be hi j i j if ri j i otherwise with r t r and ri j i iteration exploring scoring functions during the second iteration we mainly explored different sentence resentations and scoring functions
+using plain text we measure rouge scores lin more precisely f f and rl f
+we use vector representations of text based on i t i d and latent semantic analysis and ii pre trained french word embeddings from nier and score sentences based on cosine similarity
+word embeddings are trained with mikolov et al
+
+we experimented with both cbow and gram variants without signicant performance differences
+measuring similarities between sliding windows instead of sentences directly was meant to reduce impact of lated sentences of low similarities
+in fact because our data do nt perfectly match there may be sentences with a very low similarity inside segments that actually discuss the same point
+parameters related to the sliding windows are the window size and the overlap
+we experimented with all combinations of s
+related to its scores we consider aggregation and tion function as parameters and experiment with ag g sum mean max and r ed od uc
+iteration ne tuning embedding based models during the alignment phase we found that the dynamic programming algorithm may keep the same direction for a long time
+for example one report sentence may get high similarities with a lot of transcription sentences resulting in a too monotonical alignment
+to limit this behavior we troduce horizontal and vertical decay factors respectively hd and typically in that lower scores in the same direction
+we then consider a decayed alignment matrix a such as a i j ai j di j di j di j hd if ai j ai j di j vd otherwise the decay is reset to di j at each change of direction
+iteration finally we select a set of public meetings in order to make it available for productions and benchmarks
+this smaller corpus is used as a test set no ne tuning has been done on this data for both the alignment and the summarization tasks
+
+
+other models we also consider two linear segmentation baselines namely texttiling of hearst and
+linear segmentation baselines are penalized in comparison to our methods since they do not use the report document content
+in particular our methods can not be wrong about the segment number since it is xed by report side tation
+therefore to make a fairer comparison we only consider parameters sets that produce the excepted number of segments
+segment number can be explicitly set in whereas we had to grid search texttiling parameters
+graphseg from glavas et al
+has been considered but producing long enough segments to be comparable with our work requires a low relatedness threshold which nentially increases the computational cost
+
+
+summarization we trained neural summarization models on our data then incorporating rst using gold set only cally aligned data
+pre processing include ltering ments based on their number of words and sentences i
+e
+we consider segments if wor d s and sent ences
+using opennmt et al
+we train former models vaswani et al
+similar to the line presented in ziegler et al
+with the difference that we do not use any copy mechanism
+evaluation is conducted against our test set and uses the rouge f metric lin
+
+results
+
+automatic alignment evaluation table compares performances of automatic alignment models
+diagonal baseline shows interesting performances
+in ticular it outperforms by a large margin linear tion algorithms and both of our tf idf and rouge based models
+embeddings based approaches are on a totally different level with performances twice better than the diagonal baseline and more than three times better than any other considered algorithm on the validation set
+introducing decays at the alignment stage is meant to avoid the alignment to be too monotonic
+we started ing with small decays on both horizontal and vertical axes
+results make it clear that decays are key parameters
+in particular we found vertical decay vd to have a greater impact while horizontal decay hd should be turned off for maximal performances
+similarly scaling scores to the power of p during alignment improves every model
+in fact it helps the model to distinguish good scores from average ones
+sliding windows performs better that sentence s o in most case only tf idf models tion i
+e
+reach its top scores without it
+however we observed many different congurations of sizes overlaps aggregations and reduction functions reach high scores
+
+
+human evaluation human annotators align transcription segments with spect to report segments based on a pre alignment produced by automatic alignment models
+as we were ne tuning our models we provided better pre alignments eventually making the annotator s task easier the alignment process for the annotators consists in checking the pre alignment and correcting mismatches one segment at a time
+we port human evaluated segment level accuracy as the ratio of segments that were not modied by the annotator against the total number of segments
+figure and table show for each iteration the accuracy distribution
+we observe that accuracy is consistently creasing over iterations
+
+com opennmt opennmt py documents annotator score mean med i an iteration iteration iteration
+
+
+
+
+
+
+
+table human evaluation of automatic alignments figure annotator evaluation with respect to the matic pre alignment for each iterations
+
+summarization summarization models have rst been trained on human annotated alignments only then with a larger dataset that also contains more training pairs emanating from automatic alignment
+we nd that using automatic ment for data annotation makes a substantial difference in the summarization performance of almost rouge points table
+this result is encouraging and motivates us to continue automatic annotation
+dataset pairs t r n t est rouge score f rl gold dataset gold automatic
+
+
+
+
+
+table scores on the set of matic summarization models trained on human references only vs
+extend the dataset with annotations from automatic alignment
+discussion and future work during the alignment process we make the assumption that each transcription segment must be aligned
+however in practice we asked human annotators to lter out irrelevant segments
+such segments are part of the validation set but model window s o window scoring ag g r ed alignment hd vd p dev
+acc
+seg
+wor d dev
+wd test acc
+test wd seg
+wor d texttiling diagonal tf idf rouge embeddings sum sum mean mul max prod cat sum cat sum sum prod sum prod sum prod
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table automatic alignment models evaluation against test set meetings on three metrics segment accuracy word accuracy and windowdiff
+the validation set reference meetings and agged in order that they should not be assigned to any port segments
+during evaluation we penalize models for each false alignment assigned to irrelevant segments so that our results are comparable to future models capable of noring some transcription segments
+to get an idea of how important this phenomenon is we adapt word accuracy to ignore irrelevant segments and nd a
+absolute ence
+wor wal i g ned w wal i g ned w wi r r ev ant word embedding vectors used in this work have been trained by fauconnier who made them publicly
+while they make our results fully available
+ducible training embedding vectors on our data would be an interesting area for future research and could improve the quality of the automatic alignment
+lastly we would like to study whether the alignment scores provided by our models could be used to predict the ment quality
+such predictions could be used to lter tomatic annotations and use only the potentially relevant automatically aligned segments
+
+conclusion this paper has explored the development of automatic alignment models to map speaker interventions from ing reports to corresponding sentences of a tion
+meetings last several hours making them able sources for training as is therefore segmentation is a key pre processing step in neural approaches for automatic summarization
+our models align transcription sentences as provided by our speech recognition system with spect to report segments delimited by tags in the document information and vectors can be found at fauconnier
+github
+either in the header or when explicitly specifying a change of speaker
+we introduce a novel meeting marization corpus against which we evaluate both matic alignment and summarization
+we have shown that our automatic alignment models allow us to greatly increase our corpus size leading to better marization performance on all rouge metrics rl
+
+bibliographical references alemi a
+a
+and ginsparg p
+
+text tation based on semantic word embeddings
+corr
+mar
+badjatiya p
+kurisinkel l
+j
+gupta m
+and varma v
+
+attention based neural text segmentation
+lecture notes in computer science including subseries lecture notes in articial intelligence and lecture notes in bioinformatics
+banerjee s
+and rudnicky a
+i
+
+a texttiling based approach to topic boundary detection in ings
+in proceedings of the annual conference of the ternational speech communication association speech volume pages
+barzilay r
+and elhadad n
+
+sentence alignment for monolingual comparable corpora
+in proceedings of the conference on empirical methods in natural language processing volume pages ristown nj usa
+association for computational guistics
+beeferman d
+berger a
+lafferty j
+cardie c
+and mooney r
+
+statistical models for text tation
+machine learning
+braunschweiler n
+gales m
+j
+f
+and buchholz s
+
+lightly supervised recognition for automatic alignment of large coherent speech recordings
+in ceedings of the annual conference of the national speech communication association speech pages
+nelken r
+and shieber s
+m
+
+towards robust context sensitive sentence alignment for monolingual corpora
+in eacl conference of the pean chapter of the association for computational guistics proceedings of the conference pages
+paulus r
+xiong c
+and socher r
+
+a deep reinforced model for abstractive summarization
+international conference on learning representations iclr conference track proceedings may
+pevzner l
+and hearst m
+a
+
+a critique and provement of an evaluation metric for text segmentation
+computational linguistics
+see a
+liu p
+j
+and manning c
+d
+
+get to the point summarization with pointer generator networks
+proceedings of the annual meeting of the tion for computational linguistics volume long pers apr
+song y
+mou l
+yan r
+yi l
+zhu z
+hu x
+and zhang m
+
+dialogue session tion by embedding enhanced texttiling
+proceedings of the annual conference of the international speech interspeech communication association oct
+vaswani a
+shazeer n
+parmar n
+uszkoreit j
+jones l
+gomez a
+n
+kaiser
+polosukhin i
+kaiser l
+and polosukhin i
+
+attention is all you need
+in i guyon al
+editors advances in neural information processing systems pages
+curran ciates inc
+jun
+ziegler z
+m
+melas kyriazi l
+gehrmann s
+and rush a
+m
+
+encoder agnostic adaptation for tional language generation
+corr
+
+choi f
+y
+y
+
+advances in domain dent linear text segmentation
+meeting of the north chapter of the association for tional linguistics
+fauconnier
+
+github
+io
+j
+
+french word embeddings
+gehrmann s
+deng y
+and rush a
+m
+
+up abstractive summarization
+proceedings of emnlp
+glavas g
+nanni f
+and ponzetto s
+p
+
+supervised text segmentation using semantic relatedness graphs
+in sem joint conference on ical and computational semantics proceedings pages berlin germany
+association for tional linguistics
+hearst m
+a
+
+texttiling segmenting text into multi paragraph subtopic passages
+computational guistics
+hermann k
+m
+kocisk t
+grefenstette e
+espeholt l
+kay w
+suleyman m
+and blunsom p
+
+teaching machines to read and comprehend
+in vances in neural information processing systems ume janua pages jun
+hernandez f
+nguyen v
+ghannay s
+tomashenko n
+and estve y
+
+ted lium twice as much data and corpus repartition for experiments on speaker adaptation
+in lecture notes in computer science cluding subseries lecture notes in articial intelligence and lecture notes in bioinformatics volume lnai pages may
+klein g
+kim y
+deng y
+senellart j
+and rush a
+m
+
+open source toolkit for neural chine translation
+acl annual meeting of the association for computational linguistics ings of system demonstrations pages
+lecouteux b
+linars g
+and oger s
+
+ing imperfect transcripts into speech recognition systems for building high quality corpora
+computer speech and language
+lin c
+y
+
+rouge a package for automatic tion of summaries
+proceedings of the workshop on text summarization branches out was pages
+liu p
+j
+saleh m
+pot e
+goodrich b
+sepassi r
+kaiser
+shazeer n
+kaiser l
+shazeer n
+j
+liu p
+saleh m
+pot e
+goodrich b
+sepassi r
+kaiser l
+and shazeer n
+
+generating wikipedia by marizing long sequences
+international conference on learning representations iclr conference track proceedings jan
+meignier s
+and merlin t
+
+lium tion an open source toolkit for tion
+cmu spud workshop page
+mikolov t
+sutskever i
+chen k
+corrado g
+and dean j
+
+distributed representations ofwords and phrases and their compositionality
+in advances in neural information processing systems
+nallapati r
+zhou b
+dos santos c
+n
+gulcehre c
+ang b
+dos santos c
+and xiang b
+
+tive text summarization using sequence to sequence rnns and beyond
+proceedings of conll
+

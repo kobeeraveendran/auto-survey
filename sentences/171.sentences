@@ -1,78 +1,84 @@
 p e s r i
-s
-c
-v
-v
-i x r a summarizing user generated textual content motivation and methods for fairness in algorithmic summaries abhisek dash indian institute of technology kharagpur india anurag shandilya indian institute of technology kharagpur india arindam biswas indian institute of technology kharagpur india kripabandhu ghosh tata research development and design centre india
-saptarshi ghosh indian institute of technology kharagpur india abhijnan chakraborty max planck institute for software systems germany
-as the amount of user generated textual content grows rapidly text summarization algorithms are ingly being used to provide users a quick overview of the information content
-traditionally summarization algorithms have been evaluated only based on how well they match human written summaries as sured by rouge scores
-in this work we propose to evaluate summarization algorithms from a completely new perspective that is important when the user generated data to be summarized comes from dierent
-cially salient user groups men or women caucasians or african americans or dierent political groups
-republicans or democrats
+s c v
+v i x r a summarizing user generated textual content motivation and methods for fairness in algorithmic summaries abhisek dash indian institute of technology kharagpur india anurag shandilya indian institute of technology kharagpur india arindam biswas indian institute of technology kharagpur india kripabandhu ghosh tata research development and design centre india saptarshi ghosh indian institute of technology kharagpur india abhijnan chakraborty max planck institute for software systems germany as the amount of user generated textual content grows rapidly text summarization algorithms are ingly being used to provide users a quick overview of the information content
+traditionally summarization algorithms have been evaluated only based on how well they match human written summaries e
+
+as sured by rouge scores
+in this work we propose to evaluate summarization algorithms from a completely new perspective that is important when the user generated data to be summarized comes from dierent cially salient user groups e
+
+men or women caucasians or african americans or dierent political groups republicans or democrats
 in such cases we check whether the generated summaries fairly represent these dierent social groups
-specically considering that an extractive summarization algorithm selects a set of the textual units microblogs in the original data for inclusion in the summary we investigate whether this selection is fair or not
+specically considering that an extractive summarization algorithm selects a set of the textual units e
+
+microblogs in the original data for inclusion in the summary we investigate whether this selection is fair or not
 our experiments over real world microblog datasets show that existing summarization algorithms often represent the socially salient user groups very dierently compared to their distributions in the original data
 more importantly some groups are frequently under represented in the erated summaries and hence get far less exposure than what they would have obtained in the original data
 to reduce such adverse impacts we propose novel fairness preserving summarization algorithms which duce high quality summaries while ensuring fairness among various groups
 to our knowledge this is the rst attempt to produce fair text summarization and is likely to open up an interesting research direction
-ccs concepts information systems summarization human centered computing social media additional key words and phrases text summarization extractive summarization fair summarization
-ness in algorithmic decision making group fairness introduction
-recently there has been an explosion in the amount of user generated information on the web
+ccs concepts information systems summarization human centered computing social media additional key words and phrases text summarization extractive summarization fair summarization ness in algorithmic decision making group fairness introduction recently there has been an explosion in the amount of user generated information on the web
 to help web users deal with the information overload text summarization algorithms are commonly used to get a quick overview of the textual information
 recognizing the business opportunities many startups have mushroomed recently to oer content summarization services
-for example agolo provides a summarization platform to get the most relevant tion from both public and private documents
-aylien or this work has been accepted for presentation at the acm conference on computer supported cooperative work and social computing cscw
+for example agolo agolo
+com splash provides a summarization platform to get the most relevant tion from both public and private documents
+aylien aylien
+com text api summarization or this work has been accepted for presentation at the acm conference on computer supported cooperative work and social computing cscw
 please cite the cscw proceedings version
-
 we acknowledge the human annotators who developed the gold standard summaries for the datasets used in this study
+this research was supported in part by a european research council erc advanced grant for the project foundations for fair social computing funded under the european union s horizon framework programme grant agreement no
 
-this research was supported in part by a european research council erc advanced grant for the project foundations for fair social computing funded under the european union s horizon framework programme grant agreement
-no
+a
 dash is supported by a fellowship from tata consultancy services
-
 authors addresses abhisek dash indian institute of technology kharagpur india anurag shandilya indian institute of technology kharagpur india arindam biswas indian institute of technology kharagpur india kripabandhu ghosh tata research development and design centre india saptarshi ghosh indian institute of technology kharagpur india abhijnan chakraborty max planck institute for software systems germany
-resoomer present relevant points and topics from a piece of text
-multiple phone apps inshorts have also been launched to provide short summaries of news stories
-a large number of text summarization algorithms have been devised including algorithms to summarize a single large document as well as for summarizing a set of documents a set of microblogs or tweets interested readers can check for a survey on summarization algorithms
+resoomer resoomer
+com present relevant points and topics from a piece of text
+multiple phone apps e
 
-most of these summarization algorithms are extractive in nature they form the summary by extracting some of the textual units in the input individual sentences in a document or individual tweets in a set of tweets
+inshorts have also been launched to provide short summaries of news stories
+a large number of text summarization algorithms have been devised including algorithms to summarize a single large document as well as for summarizing a set of documents e
+
+a set of microblogs or tweets interested readers can check for a survey on summarization algorithms
+most of these summarization algorithms are extractive in nature i
+e
+they form the summary by extracting some of the textual units in the input e
+
+individual sentences in a document or individual tweets in a set of tweets
 additionally some abstractive algorithms have also been devised that attempt to generate natural language summaries
 in this paper we restrict our focus to the more prevalent extractive summarization
 extractive summarization algorithms essentially perform a selection of a small subset of the textual units in the input for inclusion in the summary based on some measure of the relative quality or importance of the textual units
 traditionally these algorithms are judged based on how closely the algorithmic summary matches gold standard summaries that are usually written by human annotators
-to this end measures such as rouge scores are used to evaluate the
-ness of algorithmic summaries
+to this end measures such as rouge scores are used to evaluate the ness of algorithmic summaries
 the underlying assumption behind this traditional evaluation criteria is that the data to be summarized is homogeneous and the sole focus of summarization rithms should be to identify summary worthy information
 however user generated content constitutes a large chunk of information generated on the web today and such content is often heterogeneous coming from users belonging to dierent social groups
-for example on social media dierent user groups men and women republicans and democrats discuss socio political issues and it has been observed that dierent social groups often express very dierent opinions on the same topic or event
-hence while summarizing such heterogeneous user generated data one needs to check whether the summaries are properly representing the opinions of these dierent social groups
-since the textual units tweets that are included in the summary get much more exposure than the rest of the information similar to how top ranked search results get much more exposure than other documents if a particular group is under represented in the summary their opinion will get much less exposure than the opinion of other groups
+for example on social media dierent user groups e
 
-therefore in this paper we propose to look at summarization algorithms from a completely new perspective and investigate whether the selection of the textual units in the summary is fair whether the generated summary fairly represents every social group in the input data
+men and women republicans and democrats discuss socio political issues and it has been observed that dierent social groups often express very dierent opinions on the same topic or event
+hence while summarizing such heterogeneous user generated data one needs to check whether the summaries are properly representing the opinions of these dierent social groups
+since the textual units e
+
+tweets that are included in the summary get much more exposure than the rest of the information similar to how top ranked search results get much more exposure than other documents if a particular group is under represented in the summary their opinion will get much less exposure than the opinion of other groups
+therefore in this paper we propose to look at summarization algorithms from a completely new perspective and investigate whether the selection of the textual units in the summary is fair i
+e
+whether the generated summary fairly represents every social group in the input data
 we experiment with three datasets of tweets generated by dierent user groups men and women pro republican and pro democratic users
-we nd that most existing summarization algorithms do not fairly represent dierent groups in the generated summaries even though the tweets
-ten by these groups are of comparable textual quality
+we nd that most existing summarization algorithms do not fairly represent dierent groups in the generated summaries even though the tweets ten by these groups are of comparable textual quality
 more worryingly some groups are found to be systemically under represented in the process
 note that we by no means claim such representation to be intentionally caused by the existing algorithms
 rather it is most likely an inadvertent perpetuation of the metrics that the algorithms are trying to optimize
 since the plications of summarization algorithms may extend from product reviews to citizen journalism the question of whether existing algorithms are fair and how we can potentially improve them become even more important
 having observed that existing summarization algorithms do not give fair summaries in most cases we next attempt to develop algorithms for fair summarization
-recently there have been
-tiple research works attempting to incorporate fairness in machine learning algorithms
-
+recently there have been tiple research works attempting to incorporate fairness in machine learning algorithms
 primarily there are three ways in which these research works make fairness interventions in an existing system pre processing in processing and post processing depending on whether the terventions are applied at the input algorithm or the output stage
 following this line of work in this paper we develop three novel fairness preserving summarization algorithms which select highly relevant textual units in the summary while maintaining fairness in the process
 our proposed in processing algorithm is based on constrained sub modular optimization where the fairness criteria are applied as constraints
 the post processing algorithm is based on fair ing of textual units based on some goodness measure and the pre processing approach groups the tweets on the basis of their association to dierent classes and then summarizes each group separately to generate fair summaries
-extensive evaluations show that our proposed algorithms are able to generate summaries having quality comparable to state of the art summarization
-rithms which often do not generate fair summaries while being fair to dierent user groups
-
+extensive evaluations show that our proposed algorithms are able to generate summaries having quality comparable to state of the art summarization rithms which often do not generate fair summaries while being fair to dierent user groups
 in summary we make the following contributions in this paper ours is one of the rst tempts to consider the notion of fairness in summarization and the rst work on fair tion of textual information we show that while summarizing content generated by dierent user groups existing summarization algorithms often do not represent the user groups fairly and we propose summarization algorithms that produce summaries that are of good quality as well as fair according to dierent fairness notions including equal representation proportional sentation and so on
 we have made the implementation of our fair summarization algorithms and our datasets publicly available at
+com fairsumm
 we believe that this work will be an important addition to the growing literature on ing fairness in algorithmic systems
-generation of fair summaries would not only benet the end users of the summaries but also many downstream applications that use the summaries of sourced information summary based opinion classication and rating inference systems
+generation of fair summaries would not only benet the end users of the summaries but also many downstream applications that use the summaries of sourced information e
 
+summary based opinion classication and rating inference systems
 the rest of the paper is structured as follows
 section gives a background on summarization and discusses related works
 section describes the datasets we use throughout the paper
@@ -81,10 +87,10 @@ section introduces some possible notions of fairness in summarization and sectio
 in section we discuss a principled framework for achieving fairness in summarization followed by details of three fair summarization algorithms in sections and
 we evaluate the performance of our proposed algorithms in section
 finally we conclude the paper discussing some limitations of the proposed algorithms and possible future directions
-background and related work
-in this section we discuss two strands of prior works that are relevant to our paper
+background and related work in this section we discuss two strands of prior works that are relevant to our paper
 first we focus on text summarization
 then we relate this paper to prior works on bias and fairness in information systems
+
 text summarization text summarization is a well studied problem in natural language processing where the task is to produce a uent and informative summary given a piece of text or a collection of text ments
 a large number of text summarization algorithms have been proposed in literature the reader can refer to for surveys
 as discussed in the introduction there are two variants of summarization algorithms extractive and abstractive summarization algorithms
@@ -97,21 +103,18 @@ one of the most commonly used class of summarization algorithms is tered around 
 dierent works have used tf idf based similarities for summarization
 additionally there has been a series of works where summarization has been treated as a sub modular optimization problem
 one of the fair summarization rithms proposed in this work is also based on a sub modular constrained optimization framework and uses the notion of tf idf similarity
-
 multi document summarization multi document extractive summarization deals with tion of information from multiple documents pieces of text written about the same topic
 for instance neats is a multi document summarization system that given a collection of paper articles as input generates a summary in three stages content selection ltering and presentation
 hub authority is another multi document summarization system which uses the markov model to order the sub topics that the nal summary should contain and then puts the summary according to the sentence ranking score of all sentences within one sub topic
-
-generic relation extraction gre
-is another multi document text summarization approach which aims to build systems for relation identication and characterization that can be ferred across domains and tasks without modication of model parameters
-celikyilmaz al
+generic relation extraction gre is another multi document text summarization approach which aims to build systems for relation identication and characterization that can be ferred across domains and tasks without modication of model parameters
+celikyilmaz et al
 described multi document summarization as a prediction problem based on a two phase hybrid model and proposed a hierarchical topic model to discover the topic structures of all sentences
-
 wong et al
 proposed a semi supervised method for extractive summarization by co training two classiers iteratively
 in each iteration the unlabeled training sentences with top scores are included in the labeled training set and the classiers are trained on the new training data
+summarization of user generated text on social media with the proliferation of user erated textual content on social media e
 
-summarization of user generated text on social media with the proliferation of user erated textual content on social media twitter facebook a number of summarization rithms have been developed specically for such content
+twitter facebook a number of summarization rithms have been developed specically for such content
 for instance carenini et al
 posed a novel summarization algorithm that summarizes e mail conversations using fragment quotation graph and clue words
 nichols et al
@@ -121,77 +124,74 @@ rudra et al
 proposed a rization algorithm for tweets posted during disaster events
 kim et al
 used narrative theory as a framework for identifying the links between social media content and designed ing tasks to generate summaries of events based on commonly used narrative templates
-zhang al
+zhang et al
 proposed a recursive summarization workow where they design a summary tree that enables readers to digest the entire abundance of posts
 zhang et al
 developed tilda which allows participants of a discussion to collectively tag group link and summarize chat messages in a variety of ways such as by adding emoji reactions to messages or leaving written notes
+
 bias and fairness in information filtering algorithms bias in applications on user generated content powerful computational resources along with the enormous amount of data from social media sites has driven a growing school of works that uses a combination of machine learning natural language processing statistics and network ence for decision making
 in baeza yates has discussed how human perceptions and societal biases creep into social media and how dierent algorithms fortify them
 these observations raise questions of bias in the decisions derived from such analyses
 friedman et al
 broadly rized these biases into dierent classes and essentially were the rst to propose a framework for comprehensive understanding of the biases
-several recent works have investigated dierent types of biases demographic ranking position biases and their eects on online social dia
+several recent works have investigated dierent types of biases demographic ranking position biases
+and their eects on online social dia
 our observations in this work show that summaries generated by existing rithms which do not consider fairness can lead to biases towards against socially salient graphic groups
+rooney rule the notion of implicit bias has been an important component in understanding crimination in activities such as hiring promotion and school admissions
+research on implicit bias hypothesizes that when people evaluate others e
 
-rooney rule
-the notion of implicit bias has been an important component in understanding crimination in activities such as hiring promotion and school admissions
-research on implicit bias hypothesizes that when people evaluate others while hiring for a job their scious biases about membership in particular groups can have an eect on their decision making even when they have no deliberate intention to discriminate against members of these groups
-
+while hiring for a job their scious biases about membership in particular groups can have an eect on their decision making even when they have no deliberate intention to discriminate against members of these groups
 to this end the rooney rule was proposed hoping to reduce the adverse eects of such implicit biases
 the rooney rule is a national football league policy in the usa that requires league teams to interview ethnic minority candidates for head coaching and senior football operation jobs
 roughly speaking it requires that while recruiting for a job opening one of the candidates interviewed must come from an underrepresented group
 as per there are two variants of the rooney rule
-the soft armative action programs encompass outreach attempts like
-ity recruitment and counseling while the hard armative action programs usually include explicit preferences or quotas that reserve a specic number of openings exclusively for members of the preferred group
-
+the soft armative action programs encompass outreach attempts like ity recruitment and counseling
+while the hard armative action programs usually include explicit preferences or quotas that reserve a specic number of openings exclusively for members of the preferred group
 in the context of summarization any summarization algorithm will adhere to the soft variant of rooney rule since all the textual units be it from majority or minority groups have candidature to enter the summary
 however existing summarization algorithms are not guaranteed to adhere to the hard variant of the rooney rule
 the algorithms proposed in this paper detailed in sections and are guaranteed to also cohere to the hard variant of the rooney rule since they maintain a specic level of representation of various social groups in the nal summary
 fairness in information ltering algorithms given that information ltering algorithms search recommendation summarization algorithms have far reaching social and economic consequences in today s world fairness and anti discrimination have been recent inclusions in the algorithm sign perspective
 there have been several recent works on dening and achieving dierent notions of fairness as well as on removing the existing unfairness from dierent methodologies
-dierent fairness aware algorithms have been proposed to achieve group individual fairness for tasks such as clustering classication ing
-matching
-recommendation
-and sampling
-
+dierent fairness aware algorithms have been proposed to achieve group individual fairness for tasks such as clustering classication ing matching recommendation and sampling
 to our knowledge only two prior works have looked into fairness in summarization
 celis et al
 proposed a methodology to obtain fair and diverse summaries
 they applied their tal point process based algorithm on an image dataset and a categorical dataset having several attributes and not on textual data
 the problem of fair text summarization was rst introduced in our prior work which showed that many existing text summarization algorithms do not generate fair summaries however no algorithm for fair summarization was proposed in
 to our knowledge ours is the rst work to propose algorithms for fair summarization of textual data
-datasets used
-since our focus in this paper is to understand the need for fairness while summarizing generated content we consider datasets containing tweets posted by dierent groups of users dierent gender groups or groups of users with dierent political leanings
+datasets used since our focus in this paper is to understand the need for fairness while summarizing generated content we consider datasets containing tweets posted by dierent groups of users e
+
+dierent gender groups or groups of users with dierent political leanings
 specically we use the following three datasets throughout this paper
-claritin dataset
-patients undergoing medication often post the consequences of using ferent drugs on social media especially highlighting the side eects they endure
+claritin dataset patients undergoing medication often post the consequences of using ferent drugs on social media especially highlighting the side eects they endure
 claritin loratadine is an anti allergic drug that reduces the eects of natural chemical histamine in the body which can produce symptoms of sneezing itching watery eyes and runny nose
 however this drug may also have some adverse eects on the patients
 to understand the sentiments of people towards claritin and dierent side eects caused by it tweets posted by users about claritin were collected analyzed and later publicly released by figure eight erstwhile crowdflower
 this dataset contains tweets in english about the eects of the drug
-each tweet is annotated with the gender of the user male female unknown posting
-it
-initial analyses on these tweets reveal that women mentioned some serious side eects of the drug heart palpitations shortness of breathe headaches while men did not
+each tweet is annotated with the gender of the user male female unknown posting it
+initial analyses on these tweets reveal that women mentioned some serious side eects of the drug e
+
+heart palpitations shortness of breathe headaches while men did not
 from this dataset we ignored those tweets for which the gender of the user is unknown
 we also removed exact duplicate tweets since they do not have any meaningful role in summarization
-finally we have tweets in total of which are written by men and by women
-us election dataset this dataset consists of tweets related to the us presidential tion collected by the website tweetelect during the period from september to november the election day
-
+finally we have tweets in total of which
+are written by men and
+by women
+us election dataset this dataset consists of tweets related to the us presidential tion collected by the website tweetelect
+com work tweetelect during the period from september to november the election day
 tweetelect used an initial set of keywords related to the election including all candidate names and common hashtags about the participating parties for ltering relevant tweets
 subsequently state of the art adaptive tering methods were used to expand the set of keywords with additional terms that emerged over time and their related tweets were added to the collection
-
 in this dataset released by darwish et al
 each tweet is annotated as supporting or attacking one of the presidential candidates donald trump and hillary clinton or neutral or attacking both
 for simplicity we grouped the tweets into three classes pro republican tweets which support trump and or attack clinton pro democratic tweets which support clinton and or attack trump and neutral tweets which are neutral or attack both candidates
 after removing duplicates we have tweets out of which
-are pro republican tweets are pro democratic and remaining are neutral tweets
+are pro republican
+tweets are pro democratic and remaining
+are neutral tweets
 metoo dataset we collected a set of tweets related to the metoo movement in october
-
-we initially collected english tweets containing the hashtag
-metoo using the twitter search api
+we initially collected english tweets containing the hashtag metoo using the twitter search api
 after removing duplicates we were left with distinct tweets
 we asked three human annotators to examine the name and bio of the twitter accounts who posted the tweets
-
 the annotators observed three classes of tweets based on who posted the tweets tweets posted by male users tweets posted by female users and tweets posted by organizations mainly news media agencies
 also there were many tweets for which the annotators could not understand the type gender of the user posting the tweet
 for purpose of this study we decided to focus only on those tweets for which all the annotators were certain that they were written by men or women
@@ -202,66 +202,81 @@ rouge scores are between where a higher rouge score means a better algorithmic s
 specically the similarity is computed in terms of common unigrams in case of or common bigrams in case of between the algorithmic summary and the human generated summaries
 for creating the gold standard summaries we asked three human annotators to summarize the datasets
 each annotator is well versed with the use of social media like twitter is uent in english and none is an author of this paper
-the annotators were asked to generate extractive summaries independently without consulting one another
+the annotators were asked to generate extractive summaries independently i
+e
+without consulting one another
 we use these three human generated summaries for the evaluation of algorithmically generated summaries by computing the average and recall and scores
-why do we need fair summaries
-
-traditionally summarization algorithms have only considered including in the summary those textual units tweets in our case whose contents are most summary worthy
+why do we need fair summaries traditionally summarization algorithms have only considered including in the summary those textual units tweets in our case whose contents are most summary worthy
 in contrast in this paper we argue for giving a fair chance to textual units written by dierent social groups to appear in the summary
-before making this argument two questions need to be investigated are the tweets written by dierent social groups of comparable textual quality
-if not someone may argue for discarding lower quality tweets generated by a specic user group
-do the tweets written by dierent social groups actually reect dierent opinions
-this tion is important since if the opinions of the dierent groups are not dierent then it can be argued that selecting tweets of any group for inclusion in the summary is sucient
-
+before making this argument two questions need to be investigated are the tweets written by dierent social groups of comparable textual quality if not someone may argue for discarding lower quality tweets generated by a specic user group
+do the tweets written by dierent social groups actually reect dierent opinions this tion is important since if the opinions of the dierent groups are not dierent then it can be argued that selecting tweets of any group for inclusion in the summary is sucient
 we attempt to answer these two questions in this section
 
-are tweets written by dierent social groups of comparable quality
-we use three measures for estimating the textual quality of individual tweets
-
+are tweets written by dierent social groups of comparable quality we use three measures for estimating the textual quality of individual tweets
 first the nava words nouns adjectives verbs adverbs are known to be the most informative words in an english text
-
 hence we consider the count of nava words in a tweet as a measure of its textual quality
 we consider two other measures of textual quality that are specic to the application of text summarization ii precision and iii precision scores
 put simply the precision score of a tweet measures what fraction of the unigrams bigrams in the tweet appears in the gold standard summaries for the corresponding dataset as described in section
 thus these scores specically measure the utility of selecting a particular tweet for inclusion in the summary
-
 for a particular dataset we compare the distributions of the three scores precision score precision score and count of nava words for the subsets of tweets written by dierent user groups
 for all cases we found that precision scores and sion scores show similar trends hence we report only the precision scores
-figure
-and figure respectively compare the distributions of precision scores and nava word counts among the tweets written by male and female users in the metoo dataset
+figure and figure respectively compare the distributions of precision scores and nava word counts among the tweets written by male and female users in the metoo dataset
 we nd that the distributions are very close to each other thus implying that the tweets written by both groups are of comparable textual quality
 similarly figure shows that in the us election dataset the pro democratic pro republican and neutral tweets are of comparable textual quality
-the tual quality of the tweets written by male and female users in the claritin dataset are also very similar the mean number of nava words are and respectively for tweets written by male and female users while the mean precision scores are for male and for precision nava word count fig
+the tual quality of the tweets written by male and female users in the claritin dataset are also very similar the mean number of nava words are
+and
+respectively for tweets written by male and female users while the mean precision scores are
+for male and
+for
+
+
+
+
+
+precision nava word count fig
+
 comparing textual quality of individual tweets of the two user groups in metoo dataset distributions of a precision scores and count of nava words of individual tweets
-f d c f d c
-male female democrat republican
-neutral f d c f d c male female democrat
-republican
-neutral precision nava word count fig
+
+
+f d c
+
+
+
+f d c
+
+
+male female democrat republican neutral
+
+f d c
+
+
+
+
+f d c
+
+
+male female democrat republican neutral
+
+
+
+
+
+precision nava word count fig
 
 comparing textual quality of individual tweets of the three groups in us election dataset distributions of a precision scores and count of nava words
-tweets on metoo from male users tweets on metoo from female users
-if a woman shares a metoo without evidence its taken to be true coz its a womens testimony a man coming out with hetoo story people would be doubtful question the evidences the intent will never except the man as victim
+tweets on metoo from male users tweets on metoo from female users if a woman shares a metoo without evidence its taken to be true coz its a womens testimony a man coming out with hetoo story people would be doubtful question the evidences the intent will never except the man as victim
 misandry must be understood
-speakupman instead of arresting this women
-
-baipolice taking common man coz its metoo metooindia
-this is why feminismiscancer feminismismisandry crimebywomen pain knows no gender
+speakupman instead of arresting this women baipolice taking common man coz its metoo metooindia this is why feminismiscancer feminismismisandry crimebywomen pain knows no gender
 when it hurts it hurts equally whether its a man or woman
 why there is discrimination on gender
 every person serves dignied treatment and happy life
-metoo
-when settlement amount is the motive by falsely charging a man it s called metoo pls tk action on ppl ling fakecases bring trallaws sion
+metoo when settlement amount is the motive by falsely charging a man it s called metoo pls tk action on ppl ling fakecases bring trallaws sion
 if a woman is unveiled it gives a man the right mand sexual favors
-when it comes sexual ment in islamic republic it is always your fault if
-u do nt wear hijab
+when it comes sexual ment in islamic republic it is always your fault if u do nt wear hijab
 women using camera to expose sexual harassment
-mycameraismyweapon is like metoo movement in iran
-whatever happens to you in your life you ways have the choice to rise above your challenges
-
+mycameraismyweapon is like metoo movement in iran whatever happens to you in your life you ways have the choice to rise above your challenges
 choose not to be a victim
 feminism metoo only charges and thousands of cries for help
-
 too many are victim to uberrape and their voices arent being heard
 timesup metoo a long term solution would be the exact opposite of the two suggested here gender sensitisation not segregation so that exchange between dierent genders is normalised instead of being stigmatised further
 metoo table
@@ -270,54 +285,53 @@ even though all tweets have high textual quality the opinions expressed by the t
 female detailed results omitted for brevity
 all these values show that the textual quality is very similar for the dierent groups of tweets across all the three datasets
 
-do tweets written by dierent user groups reflect dierent opinion
-
-to answer this question we asked our human annotators those who prepared the gold standard summaries to observe the tweets written by dierent user groups in the datasets
+do tweets written by dierent user groups reflect dierent opinion to answer this question we asked our human annotators those who prepared the gold standard summaries to observe the tweets written by dierent user groups in the datasets
 for all three datasets the annotators observed that the tweets posted by dierent social groups mostly contain very dierent information opinion
-
 for instance table shows some sample tweets written by male and female users in the metoo dataset along with some of the hashtags that are frequently posted by male and female users highlighted
 we observe that most tweets written by women support the metoo movement and give examples of relevant experiences of themselves or of other women
 on the other hand many of the tweets written by male users point out undesirable side eects of the movement and call for gender equality
+similarly in the us election dataset the pro republican tweets criticize hillary clinton support the policies of donald trump e
 
-similarly in the us election dataset the pro republican tweets criticize hillary clinton support the policies of donald trump
 we must not let crookedhillary take her criminal scheme into the oval oce
-draintheswamp while the pro democratic tweets have the site opinion yes america
+draintheswamp while the pro democratic tweets have the site opinion e
+
+yes america
 this is the election where hillary s cough gets more furious coverage than trump asking people to shoot her interrogatetrump
 the neutral tweets either give only formation and no opinion or criticize both clinton and trump
-for the claritin dataset as well there is large dierence in opinion among the tweets written by male and female users
-the male users criticize the drug much more than the male users details omitted for brevity
+for the claritin dataset as well there is large dierence in opinion among the tweets written by male and female users the male users criticize the drug much more than the male users details omitted for brevity
 thus it is clear that tweets posted by dierent social groups often reect very dierent opinions
-need for fairness in summarization
-the fact that tweets written by dierent social groups are of very similar quality merit implies that all groups should have equality of opportunity for their opinions to be reected in the summary
+
+need for fairness in summarization the fact that tweets written by dierent social groups are of very similar quality merit implies that all groups should have equality of opportunity for their opinions to be reected in the summary
 this fact coupled with the diversity in opinion of the dierent groups calls for a fair representation of the opinions of dierent groups in the summary
 this is similar in spirit to the need for fairness in top crowdsourced recommendations or top search results
 since the tweets that get included in the summary are likely to get much more exposure than the rest of the information just like how top search and recommendation results get much more exposure under representation of any of the social groups in the summary can severely suppress their opinion
 these factors advocate the need for fair summaries when data generated by various social groups is being summarized
-notions of fair summarization
-having established the need for fair summarization we now dene two fairness notions that are applicable in the context of summarization
-essentially when the input data tweets are erated by users belonging to dierent social groups we require the summaries to fairly represent these groups
+notions of fair summarization having established the need for fair summarization we now dene two fairness notions that are applicable in the context of summarization
+essentially when the input data e
+
+tweets are erated by users belonging to dierent social groups we require the summaries to fairly represent these groups
 next we consider two notions for fairness in representation
-equal representation
-the notion of equality nds its roots in the eld of morality and justice which advocates for the redress of undeserved inequalities inequalities of birth or due to natural endowment
 
+equal representation the notion of equality nds its roots in the eld of morality and justice which advocates for the redress of undeserved inequalities e
 
+inequalities of birth or due to natural endowment
 formal equality suggests that when two people or two groups of people have equal status in at least one normatively relevant aspect they must be treated equally
 in terms of selection equal representation requires that the number of representatives from dierent classes in the society having comparable relevance has to be equal
-
 in the context of user generated content we observed that dierent sections of the society have dierent opinion on the same topic either because of their gender or ideological leaning
-
-ever if we consider the textual quality their candidature for inclusion in the summary then tweets from both the groups are comparable as discussed in section
+ever if we consider the textual quality i
+e
+their candidature for inclusion in the summary then tweets from both the groups are comparable as discussed in section
 thus the notion of equal representation requires that a summarization algorithm will be fair if dierent groups generating the input data are represented equally in the output summary
 given the usefulness of summaries in many downstream applications this notion of fairness ensures equal exposure to the opinions of dierent socially salient groups
-proportional representation
-often it may not be possible to equally represent dierent user groups in the summary especially if the input data contains very dierent proportions from dierent groups
+
+proportional representation often it may not be possible to equally represent dierent user groups in the summary especially if the input data contains very dierent proportions from dierent groups
 hence we consider another notion of fairness proportional representation also known as statistical parity
 portional representation requires that the representation of dierent groups in the selected set should be proportional to their distribution in the input data
-
 in certain scenarios such as hiring for jobs relaxations of this notion are often used
-for instance the equal employment opportunity commission uses a variant of proportional tion to determine whether a company s hiring policy is biased against has any adverse impact on a demographic group
+for instance the u
+s
+equal employment opportunity commission uses a variant of proportional tion to determine whether a company s hiring policy is biased against has any adverse impact on a demographic group
 according to this policy a particular class c is under represented in the selected set or adversely impacted if the fraction of selected people belonging to class c is less than of the fraction of selected people from the class having the highest selection rate
-
 in the context of summarization proportional representation requires that the proportion of content from dierent user groups in the summary should be same as in the original input
 a laxed notion of proportional fairness is one which would ensure no adverse impact in the generated summary
 in other words no adverse impact requires that the fraction of textual units from any class that is selected for inclusion in the summary should not be less than of the fraction of selected units from the class having the highest selection rate in the summary
@@ -325,61 +339,43 @@ these notions of fairness ensure that the probability of selecting an item is in
 it should be noted that we are not advocating for any particular notion of fairness to be better in the context of summarization
 we also note that dierent applications may require dierent types of fairness
 hence in this work we propose mechanisms that can accommodate dierent notions of fairness including the ones stated above and produce fair summaries accordingly
-do existing algorithms produce fair summaries
-having discussed the need for fair summarization we now check whether existing algorithms generate fair summaries
-summarization algorithms
-we consider a set of well known extractive summarization algorithms that select a subset of the textual units for inclusion in the summary
-some of the methods are unsupervised the traditional methods and some are recent supervised neural models
+do existing algorithms produce fair summaries having discussed the need for fair summarization we now check whether existing algorithms generate fair summaries
 
+summarization algorithms we consider a set of well known extractive summarization algorithms that select a subset of the textual units for inclusion in the summary
+some of the methods are unsupervised the traditional methods and some are recent supervised neural models
 unsupervised summarization algorithms we consider six well known summarization rithms
-these algorithms generally estimate an importance score for each textual unit sentence tweet in the input and the k textual units having the highest importance scores are selected to generate a summary of length cluster rank which clusters the textual units to form a cluster graph and uses graph algorithms
+these algorithms generally estimate an importance score for each textual unit sentence tweet in the input and the k textual units having the highest importance scores are selected to generate a summary of length
+cluster rank which clusters the textual units to form a cluster graph and uses graph algorithms e
+
 pagerank to compute the importance of each unit
 dsdr which measures the relationship between the textual units using linear tions and reconstructions and generates the summary by minimizing the reconstruction error
-
 lexrank which creates a graph representation based on similarity of the units where edges are placed depending on the intra unit cosine similarity and then computes the importance of textual units using eigenvector centrality on this graph
-
 lsa which constructs a terms by units matrix and estimates the importance of the tual units based on singular value decomposition on the matrix
-
 luhn which derives a signicance factor for each textual unit based on occurrences and placements of frequent words within the unit
-
-sumbasic
-which uses frequency based selection of textual units and reweights word probabilities to minimize redundancy
-
+sumbasic which uses frequency based selection of textual units and reweights word probabilities to minimize redundancy
 supervised neural summarization algorithms with the recent popularity of neural network based models the state of the art techniques for summarization have shifted to data driven vised algorithms
 we have considered two recently proposed extractive neural summarization models proposed in summarunner rnn a recurrent neural network based sequence model that provides a binary label to each textual unit a label of implies that the textual unit can be part of the summary while implies otherwise
 each label has an associated condence score
 the summary is generated by picking textual units labeled in decreasing order of their condence score
-
 summarunner cnn is a variant of the above model where the sentences are fed to a two layer convolutional neural network cnn architecture before using gru rnn in the third layer
-
 for both the summarunner models the authors have made the pretrained models which are trained on the cnn daily mail news articles
 we directly used the pretrained models for the summarization
-verifying if the summaries are fair
-we applied the summarization algorithms stated above on the datasets described in section to obtain summaries of length tweets each
+
+verifying if the summaries are fair we applied the summarization algorithms stated above on the datasets described in section to obtain summaries of length tweets each
 table shows the results of summarizing the claritin dataset while table and table show the results for the us election and metoo datasets tively
-in all cases shown are the numbers of tweets of the dierent classes in the whole dataset
-rst row and in the summaries generated by the dierent summarization algorithms subsequent rows and the average and recall and scores of the summaries
+in all cases shown are the numbers of tweets of the dierent classes in the whole dataset rst row and in the summaries generated by the dierent summarization algorithms subsequent rows and the average and recall and scores of the summaries
 we check whether the generated summaries are fair according to the fairness notions of equal representation proportional representation and the principle of no adverse impact which were explained in section
 we nd under representation of particular groups of users in the summaries generated by many of the algorithms these cases are marked in table table and table with the symbols where equal representation is violated where proportional sentation is violated and cases where there is adverse impact
 especially the minority groups are under represented in most of the cases
 we repeated the experiments for summaries of lengths other than as well such as for
+
+
 details omitted due to lack of space
 we observed several cases where the same algorithm includes very dierent proportions of tweets of various groups while generating summaries of dierent lengths
 
-
-method whole data recall
-na recall
-na female
-
-na
-na clusterrank dsdr
-lexrank lsa luhn
-sumbasic summarnn summacnn nos of tweets
-male
-
-
-
-table
+com hpzhao summarunner
+com deepmind rc data method whole data recall na recall na female na na clusterrank dsdr lexrank lsa luhn sumbasic summarnn summacnn nos
+of tweets male table
 results of summarizing the claritin dataset number of tweets posted by the two user groups in the whole dataset and in summaries of length tweets generated by dierent rithms
 also given are and recall and scores of each summary
 the symbols and respectively indicate under representation of a group according to the fairness notions of equal representation proportional representation and no adverse impact
@@ -395,122 +391,163 @@ the symbols and respectively indicate under representation of a group according 
 
 
 
-method whole data clusterrank dsdr
-lexrank lsa luhn
-sumbasic summarnn summacnn pro rep
 
 
 
 
 
 
-nos of tweets
-pro dem
-
-
-
-
-
-neutral
 
 
 
 
 
 
-na recall
-na
-na
-recall
-na
+
+
+
+
+
+
+
+
+method whole data clusterrank dsdr lexrank lsa luhn sumbasic summarnn summacnn pro rep nos
+of tweets pro dem neutral na recall na na recall na
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 table
 results of summarizing the us election dataset number of tweets of the three groups in the whole data and summaries of length tweets generated by dierent algorithms
-the symbols and denote under representation of the corresponding group similar to table method whole data nos of tweets
-male
-na recall
-na
-na recall
-na female
-
-
-
-
-
-
-
-clusterrank dsdr
-lexrank lsa luhn
-sumbasic summarnn summacnn
-
-
-
-
-table
+the symbols and denote under representation of the corresponding group similar to table
+method whole data nos
+of tweets male
+na recall na na recall na female
+clusterrank dsdr lexrank lsa luhn sumbasic summarnn summacnn table
 results of summarizing the metoo dataset number of tweets of the two classes in the whole dataset and in summaries of length tweets generated by dierent algorithms
 the bols and denote under representation of the corresponding group similar to table
 
 
-thus there is no guarantee of fairness in the summaries generated by the existing
-tion algorithms one or more groups are often under represented in the summaries even though the quality of the tweets written by dierent groups are quite similar as was shown in section
-achieving fairness in summarization
-recently there has been a urry of research activities focusing on fairness issues in algorithmic decision making systems with the main emphasis on classication algorithms
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+thus there is no guarantee of fairness in the summaries generated by the existing tion algorithms one or more groups are often under represented in the summaries even though the quality of the tweets written by dierent groups are quite similar as was shown in section
+achieving fairness in summarization recently there has been a urry of research activities focusing on fairness issues in algorithmic decision making systems with the main emphasis on classication algorithms
 proaches proposed in these works can be broadly categorised into three types pre processing in processing and post processing based on the stage where the fairness intervention is applied
-
 to achieve fairness pre processing approaches attempt to change the input data representation in processing approaches change the underlying algorithm itself and post processing methods change the outputs of the algorithm before they get used in downstream applications
-
 following this line of work in this paper we develop three novel fairness preserving rization algorithms adhering to the principles of and post processing which select highly relevant textual units in the summary while maintaining fairness in the process
 next we discuss the key ideas behind the proposed algorithms
 each of the algorithms will be explained in detail in subsequent sections
 pre processing as mentioned above pre processing approaches attempt to change the input to the algorithms to make the outcome fair
 the idea originated from classication algorithms where the biases in the training data may get translated into the learned model and hence by making the training data or the input unbiased the algorithm can be made non discriminatory
-in our context to ensure fair representation we propose a pre processing technique classwisesumm
-described in section where we rst group tweets on the basis of their association to dierent classes
-then we propose to summarize each group separately using any state of the art
-rithm and generate length summaries for dierent groups where the lengths would be determined based on the fairness objective
-finally these individual summaries would be combined to generate the nal fair summary
+in our context to ensure fair representation we propose a pre processing technique classwisesumm described in section
+where we rst group tweets on the basis of their association to dierent classes
+then we propose to summarize each group separately using any state of the art rithm and generate
 
+
+length summaries for dierent groups where the lengths
+
+
+would be determined based on the fairness objective
+finally these individual summaries would be combined to generate the nal fair summary
 in processing in processing methods work by changing the underlying learning algorithms and making them adhere to the fairness objectives for instance by putting additional fairness straints
 our proposed algorithm fairsumm detailed in section is one such algorithm where we summarize using a constrained sub modular optimization with the fairness criteria applied as matroid constraints to an objective function ensuring goodness of the summary
 post processing the third approach for bringing fairness into algorithmic systems is by ifying the outputs of an algorithm to achieve the desired results for dierent groups
 intervention at the output stage becomes necessary when the summarization algorithm is already decided and there is no option to change its working
 for example in our context if some organization intends to stick to its proprietary summarization algorithm then post processing on the generated maries or the ranked list of textual units becomes necessary to produce fair summaries
 hence we propose refasumm reranking fairly the summarization outputs where we attempt to fairly re rank the outputs generated by existing summarization algorithms detailed in section
-fairsumm in processing algorithm for fair summarization
-our proposed in processing algorithm named fairsumm treats summarization as a constrained optimization problem of an objective function
-the objective function is designed so that
-ing it is likely to result in a good quality summary while the fairness requirements are applied as constraints which must be obeyed during the optimization process
 
-some notations let v denote the set of textual units tweets that is to be summarized
+fairsumm in processing algorithm for fair summarization our proposed in processing algorithm named fairsumm treats summarization as a constrained optimization problem of an objective function
+the objective function is designed so that ing it is likely to result in a good quality summary while the fairness requirements are applied as constraints which must be obeyed during the optimization process
+some notations let v denote the set of textual units e
+
+tweets that is to be summarized
 our goal is to nd a subset s v such that k where k an integer is the desired length of the summary specied as an input
-formulating summarization as an optimization problem
-we need an objective function for extractive summarization optimizing which is likely to lead to a good summary
+formulating summarization as an optimization problem we need an objective function for extractive summarization optimizing which is likely to lead to a good summary
 following the formulation by lin et al
 we consider two important aspects of an extractive text summarization algorithm viz
 coverage and diversity reward described below
-coverage coverage refers to amount of information covered in the summary clearly the mary can not contain the information in all the textual units
-we consider the summary s to cover the information contained in a particular textual unit i v if either s contains i or if s contains another textual unit j v that is very similar to
+coverage coverage refers to amount of information covered in the summary s
+clearly the mary can not contain the information in all the textual units
+we consider the summary s to cover the information contained in a particular textual unit i v if either s contains i or if s contains another textual unit j v that is very similar to i
 here we assume a notion of similarity j between two textual units i v and j v which can be measured in various ways
-thus the coverage will be measured by a function say l whose generic form can be j
-i s j v
-thus measures the overall similarity of the textual units included in the summary s with all the textual units in the input collection v
-
+thus the coverage will be measured by a function say l whose generic form can be j i s j v thus measures the overall similarity of the textual units included in the summary s with all the textual units in the input collection v
 diversity reward the purpose of this aspect is to avoid redundancy and reward diverse tion in the summary
 usually it is seen that the input set of textual units can be partitioned into groups where each group contains textual units that are very similar to each other
 a popular way of ensuring diversity in a summary is to partition the input set into such groups and then select a representative element from each group
 specically let us consider that the set v of textual units is partitioned into k groups
-let pk comprise a partition of v
-that is i pi v v is formed by the union of all pi and pi pj
-pi pj have no element in common for all i for instance the ing
-pk can be achieved by clustering the set v using any clustering algorithm
+let
+
+
+pk comprise a partition of v
+that is i pi v v is formed by the union of all pi and pi pj pi pj have no element in common for all i j
+for instance the ing
+
+
+pk can be achieved by clustering the set v using any clustering algorithm e
+
 k means based on the similarity of items as measured by j
 then to reduce redundancy and increase diversity in the summary including textual units from dierent partitions needs to be rewarded
-let the associated function for diversity reward be noted as a generic formulation of r is k j i s j pi s r j j where r j is a suitable function that estimates the importance of adding the textual unit j v to the summary
-the function r j is called a singleton reward function since it estimates the reward of adding the singleton element j v to the summary one possible way to dene this function is by measuring the average similarity of j to the other textual units in v
-mathematically i v
-justifying the functional forms of coverage and diversity reward we now explain the nicance of the functional form of in equation and in equation
-we give only an intuitive explanation here more mathematical details are given in appendix
+let the associated function for diversity reward be noted as r
+a generic formulation of r is k j i s j pi s r j j where r j is a suitable function that estimates the importance of adding the textual unit j v to the summary
+the function r j is called a singleton reward function since it estimates the reward of adding the singleton element j v to the summary s
+one possible way to dene this function is by measuring the average similarity of j to the other textual units in v
+mathematically i v justifying the functional forms of coverage and diversity reward we now explain the nicance of the functional form of in equation and in equation
+we give only an intuitive explanation here more mathematical details are given in appendix a
 the functions and are designed to be monotonic non decreasing submodular tions or monotone submodular functions since such functions are easier to optimize
 a tonic non decreasing function is one that does not decrease usually increases as the set over which the function is employed grows
 a submodular function has the property of diminishing returns which intuitively means that as the set over which the function is employed grows the increment of the function decreases
@@ -520,143 +557,176 @@ at the same time l is submodular since the increase in l would be more when a se
 also r is a monotone submodular function
 the diversity of a summary increases considerably only for the initial growth of the set when new novel elements are added to the summary and stabilizes later on and thus prevents the incorporation of similar elements redundancy in the summary
 rewards diversity since there is more benet in selecting a textual unit from a partition cluster that does not yet have any of its elements included in the summary
-as soon as any one element from a cluster pi is included in the summary
-the other elements in pi start having diminishing gains due to the square root function in equation
-
+as soon as any one element from a cluster pi is included in the summary the other elements in pi start having diminishing gains due to the square root function in equation
 combining coverage and diversity reward while constructing a summary both coverage and diversity are important
 only maximizing coverage may lead to lack of diversity in the ing summary and vice versa
 so we dene our objective function for summarization as follows f where are the weights given to coverage and diversity respectively
 our proposed fairness preserving summarization algorithm will maximize f in keeping with some fairness constraints
-note that f is monotone submodular since it is a non negative linear combination of two monotone submodular functions l and we have chosen f such that it is monotone submodular since there exist standard algorithms to eciently optimize such functions
-as explained later in the section
+note that f is monotone submodular since it is a non negative linear combination of two monotone submodular functions l and r
+we have chosen f such that it is monotone submodular since there exist standard algorithms to eciently optimize such functions as explained later in the section
+
 proposed fair summarization scheme our proposed scheme is based on the concept of matriods that are typically used to generalize the notion of liner independence in matrices
 specically we utilize a special type of matroids called partition matroids
 we give here a brief intuitive description of our method
-more details can be found in appendix brief background on matroids and related topics
-in mathematical terms a matroid is a pair m z i dened over a nite set z called the ground set and a family of sets i called the independent sets that satises the three properties empty set if y i and x y then x if x i y i and then there exists e y x such that x
-e condition simply means that i can contain the empty set the empty set is independent
-
+more details can be found in appendix a
+brief background on matroids and related topics in mathematical terms a matroid is a pair m z i dened over a nite set z called the ground set and a family of sets i called the independent sets that satises the three properties empty set i
+if y i and x y then x i
+if x i y i and then there exists e y x such that x e i
+condition simply means that i can contain the empty set i
+e
+the empty set is independent
 condition means that every subset of an independent set is also independent
-condition means that if x is independent and there exists a larger independent set y x can be extended to a larger independent set by adding an element in y but not in x partition matroids refer to a special type of matroids where the ground set z is partitioned into s disjoint subsets
-zs for some s and i s s z and
-zi ci for all i s for some given parameters cs
+condition means that if x is independent and there exists a larger independent set y x can be extended to a larger independent set by adding an element in y but not in x
+partition matroids refer to a special type of matroids where the ground set z is partitioned into s disjoint subsets
+
+
+zs for some s and i s s z and zi ci for all i
+
+
+s for some given parameters
+
+
+cs
 thus s is a subset of z that contains at least ci items from the partition zi for all i and i is the family of all such subsets
-details refer to consider that we have a set of control variables
+details refer to math
+mit
+matroid notes
+pdf consider that we have a set of control variables e
+
 gender political leaning
-each item in z has a particular value for each zj
-also consider that zj takes tj distinct values the trol variable gender takes the two distinct values male and female while the control variable political leaning takes the values democrat republican and neutral
+each item in z has a particular value for each
+also consider that zj takes tj distinct values e
 
+the trol variable gender takes the two distinct values male and female while the control variable political leaning takes the values democrat republican and neutral
 for each control variable we can partition z into tj disjoint subsets
+
+
 zjtj each corresponding to a particular value of this control variable
-we now dene a partition matriod mj
-z ij such that ij s s z and zji cj for all i
+we now dene a partition matriod mj z ij such that ij s s z and zji cj for all i
 
-tj for some given parameters ctj
 
-now for a given submodular objective function a submodular optimization under the tion matriod constraints with p control variables can be designed as follows maximizes z
-s subject to s
+tj for some given parameters
 
-p
+
+ctj
+now for a given submodular objective function a submodular optimization under the tion matriod constraints with p control variables can be designed as follows maximizes z s subject to s p i
 a prior work by du et al
-has established that this submodular optimization problem under
-the matroid constraints can be solved eciently with provable guarantees see for details
-
+has established that this submodular optimization problem under the matroid constraints can be solved eciently with provable guarantees see for details
 formulating the fair summarization problem in the context of the fair summarization lem the ground set is v z the set of all textual units sentences tweets which we look to summarize
 the control variables are analogous to the sensitive attributes with respect to which fairness is to be ensured such as gender or political leaning
 in this work we consider only one sensitive attribute for a particular dataset the gender of a user for the claritin and metoo datasets and political leaning for the us election dataset
-let the corresponding control variable be z and let z take t distinct values t for the claritin and metoo datasets and t for the us election dataset
-note that the formulation can be extended to multiple sensitive attributes control variables as well
+let the corresponding control variable be z and let z take t distinct values e
 
-each textual unit in v is associated with a class a particular value of the control variable z
+t for the claritin and metoo datasets and t for the us election dataset
+note that the formulation can be extended to multiple sensitive attributes control variables as well
+each textual unit in v is associated with a class i
+e
+a particular value of the control variable z e
+
 is posted either by a male or a female
-let zt zi v for all i be disjoint subsets of the textual units from the t classes
-each associated with a distinct value of we now dene a partition matroid m v i in which v is partitioned into disjoint subsets zt and i s s v and
-zi ci t for some given parameters ct
+let
+
+
+zt zi v for all i be disjoint subsets of the textual units from the t classes each associated with a distinct value of z
+we now dene a partition matroid m v i in which v is partitioned into disjoint subsets
+
+
+zt and i s s v and zi ci
+
+
+t for some given parameters
+
+
+ct
 in other words i will contain all the sets s containing at most textual units from zi
+
+
+t
 now we add the fairness constraints
-outside the purview of the matroid constraints we
-ci
-the desired length of the summary s and t tain the restriction that ci s are chosen such that a desired fairness criterion is maintained in
-for instance if equal representation of all classes in the summary is desired then ci
-we now express our fairness constrained summarization problem as follows t for all maximizes v f s subject to s where the objective function f s is as stated in equation
+outside the purview of the matroid constraints we ci the desired length of the summary s and t tain the restriction that ci s are chosen such that a desired fairness criterion is maintained in s
+for instance if equal representation of all classes in the summary is desired then ci we now express our fairness constrained summarization problem as follows t for all i
+maximizes v f s subject to s i
+where the objective function f s is as stated in equation
 given that f is a submodular tion as explained earlier in this section the algorithm proposed by du et al
 is suitable to solve this constrained submodular optimization problem
 an example let us illustrate the formulation of the fair summarization problem with an example
-
 assume that we are applying the equal representation fairness notion over the metoo dataset algorithm fairsumm in processing approach for fair summarization t for t
+
+
 where l armini wi d n and wl
+set d maxz v f z
+set wt set g for t
 
-d set d maxz v f z
 
-set wt
-set g for t
-l l do for each z v and g z
-
-i do if f g z f g wt then set g g z end if end for end for output g as the summary
-and we want a summary of length k tweets
+l l do for each z v and g z i do if f g z f g wt then set g g z end if end for end for output g as the summary and we want a summary of length k tweets
 then the control variable corresponds to the sensitive attribute gender which takes t values male and female for this particular dataset
-
 the set of tweets v will be partitioned into two disjoint subsets and which will comprise the tweets posted by male and female users respectively
-to enforce equal representation fairness constraint we will set the parameters and
-since we want equal number of tweets from and in the summary
+to enforce equal representation fairness constraint we will set the parameters and since we want equal number of tweets from and in the summary
 thus i contains all the possible sets s that contain at most tweets written by male users and tweets written by female users
-each such s is a valid summary
-that satises the fairness constraints
-solving the optimization problem in equation will give us that summary s for which f s will be maximum for which coverage and diversity reward will be the highest
-
+each such s is a valid summary that satises the fairness constraints
+solving the optimization problem in equation will give us that summary s for which f s will be maximum i
+e
+for which coverage and diversity reward will be the highest
 algorithm for fair summarization algorithm presents the algorithm to solve this constrained submodular optimization problem based on the algorithm developed by du et al
 
 the g put by algorithm is the solution of equation
 we now briey describe the steps of algorithm
-
-in step the maximum value of the objective function f that can be achieved for a text unit
-v is calculated and stored in
+in step the maximum value of the objective function f that can be achieved for a text unit v is calculated and stored in d
 the purpose of this step is to compute the maximum value of f for a single text unit and set a selection threshold to be described shortly with respect to this value
-this step will help in the subsequent selection of textual units for the creation of the summary to be stored in wt dened in step is such a threshold at the t th time step
+this step will help in the subsequent selection of textual units for the creation of the summary to be stored in g
+wt dened in step is such a threshold at the t th time step
 wt is updated decreased by division with a factor for t
+
+
+
 l is the minimum value of i for which wi d n holds see du et al
 for details and wl is set to zero
 in step g the set that will contain the summary is initialized as an empty set
 note that g is supposed to be an independent set according to the denition of matroid given earlier in this section
 by condition in the denition of matroids stated earlier in this section an empty set is independent
-step iterates through the dierent values of step tests for each z text element v if g remains an independent set by the inclusion of only those z s are chosen in this step whose inclusion expands g already an independent set to another independent set
+step iterates through the dierent values of t
+step tests for each z text element v if g remains an independent set by the inclusion of z
+only those z s are chosen in this step whose inclusion expands g already an independent set to another independent set
 step selects a z permitted by step for inclusion in g if f g z f g wt
 this z is added to g in step
 that is z is added to g if the increment of f by the addition of z is not less than the threshold wt
 for t wt that is the maximum value of f for any z v
-this means the z which maximizes f is added to note that there can be multiple z for which f is maximized
+this means the z which maximizes f is added to g
+note that there can be multiple z for which f is maximized
 in that case the tie is broken arbitrarily
 the remaining z s may or may not be added to g based on the threshold value
-
 another important point to note is that our chosen f see equation is designed to mize both coverage and diversity
 so even if multiple z satisfy step they may not be added to g in step if they contain redundant information
-the value of wt is relaxed for the subsequent values of t to allow text elements producing relatively lower increments of f to be considered for possible inclusion in wl indicates that for the nal value of t at least one text unit z which does not decrement f is added to this ensures that the coverage of the summary produced is not compromised while preserving diversity
+the value of wt is relaxed for the subsequent values of t to allow text elements producing relatively lower increments of f to be considered for possible inclusion in g
+indicates that for the nal value of t at least one text unit z which does not decrement f is added to g
+this ensures that the coverage of the summary produced is not compromised while preserving diversity
 this process steps to is repeated for t
-l l resulting in the nal output
+
+
+l l resulting in the nal output g
 the reason for the eciency of algorithm is the fact that this algorithm does not perform exhaustive evaluation of all the possible submodular functions evolving in the intermediate steps of the algorithm
 the reduction in the number of steps in the algorithm is achieved mainly by decreasing wt geometrically by a factor of
 in addition multiple elements z can be added to g for a single threshold which also expedites the culmination of the algorithm
-pre and post processing mechanisms for fair summarization
-in this section we discuss our proposed pre processing and post processing summarization rithms to produce fair summaries
-classwisesumm pre processing algorithm for fair summarization
-we now describe a simple pre procesing algorithm for fair summarization
+pre and post processing mechanisms for fair summarization in this section we discuss our proposed pre processing and post processing summarization rithms to produce fair summaries
+
+classwisesumm pre processing algorithm for fair summarization we now describe a simple pre procesing algorithm for fair summarization
 suppose that the tual units in the input belong to t classes
-zt and to conform to a desired fairness notion the summary should have ci units from class
-zi i
+
+
+zt and to conform to a desired fairness notion the summary should have ci units from class zi i
+
+
 t using the same notations as in tion
-the simplest way to generate a fair summary is to separately summarize the textual units belonging to each class
-zi to produce a summary of length ci and nally to combine all the t maries to obtain the nal summary of length
+the simplest way to generate a fair summary is to separately summarize the textual units belonging to each class zi to produce a summary of length ci and nally to combine all the t maries to obtain the nal summary of length
 we refer to this method as the classwisesumm method
 specically in this work we use our proposed algorithm fairsumm without any fairness constraints to summarize each class separately
 however any other summarization algorithm can be used to summarize each class separately
-refasumm
-post processing algorithm for fair summarization
-in this section we discuss our proposed post processing mechanism for generating fair summaries which can be used along with any existing summarization algorithm
+
+refasumm post processing algorithm for fair summarization in this section we discuss our proposed post processing mechanism for generating fair summaries which can be used along with any existing summarization algorithm
 many summarization rithms including the ones stated in section generate an importance score of each textual unit in the input
 the textual units are then ranked in decreasing order of this importance score and the top ranked k units are selected to form the summary
 hence if the ranked list of the textual units can be made fair according to some desired fairness notion then selecting the top from this fair ranked list can generate a fair summary
-we refer to this algorithm as refasumm re ranking
-fairly the summarization output
+we refer to this algorithm as refasumm re ranking fairly the summarization output
 fairness in ranking systems is an important problem that has been addressed recently by some works
 we adopt the fair ranking methodology developed by zehlike et al
 to generate fair summaries
@@ -664,102 +734,172 @@ the fair ranking scheme in considers a two class setting with a majority class a
 their proposed ranking algorithm named ensures that the proportion of the candidates items from the minority class in a ranked list never falls below a certain ed threshold
 specically two fairness criteria are ensured selection utility which means every selected item is more qualied than those not selected and ordering utility which means for every pair of selected candidates either the more qualied is ranked above or the dierence in their qualications is small
 we propose to use the algorithm in for fair extractive text summarization as follows
-note that this scheme is only applicable to cases where there are two groups the claritin and metoo datasets
+note that this scheme is only applicable to cases where there are two groups e
+
+the claritin and metoo datasets
 we consider that group to be the majority class which has the higher number of textual units tweets in the input data while the group having lesser textual units in the input is considered the minority class
-
 input and parameter settings the algorithm takes as input a set of textual units to be rized the other input parameters k i and p taken by the algorithm in are set as follows
-
-
 qualication qi of a candidate in our summarization setting this is the goodness value of a textual unit in the data to be summarized
-we set this value to the importance score computed by some standard summarization algorithm
+we set this value to the importance score computed by some standard summarization algorithm e
+
 the ones discussed in section that ranks the text units by their importance scores
 expected size k of the ranking the expected number of textual units in the summary k
-
 indicator variable i indicating if the candidate is protected we consider that group to be the minority class which has the lesser number of textual units in the input data
 all tweets posted by the minority group are marked as protected
-
 minimum proportion p of protected candidates we will set this value in the open interval and excluded so that a particular notion of fairness is ensured in the summary
 for instance if we want equal representation of both classes in the summary we will set p
 
 adjusted signicance level we regulate this parameter in the open interval
-
 working of the algorithm two priority queues for the textual units of the majority class and for the textual units of the minority class each with capacity k are set to empty
 and are initialized by the goodness values of the majority and minority textual units respectively
-
 then a ranked group fairness table is created which calculates the minimum number of minority textual units at each rank given the parameter setting
-if this table determines that a textual unit from the minority class needs to added to the summary being generated the algorithm adds the best element from to the summary s otherwise it adds the overall best textual unit from to
+if this table determines that a textual unit from the minority class needs to added to the summary being generated the algorithm adds the best element from to the summary s otherwise it adds the overall best textual unit from to s
 thus a fair summary s of desired length k is generated adhering to a particular notion of fairness decided by the parameter setting
-
-note that since the algorithm provides fair ranking for two classes only we look to apply this algorithm for summarization of data containing tweets from exactly two social groups the claritin and metoo datasets only
+note that since the algorithm provides fair ranking for two classes only we look to apply this algorithm for summarization of data containing tweets from exactly two social groups i
+e
+the claritin and metoo datasets only
 it is an interesting future work to design a fair ranking algorithm for more than two classes and then to use the algorithm for summarizing data from more than two social groups
-experiments and evaluation
-
-we now experiment with dierent methodologies of generating fair summaries over the three datasets described in section
-
+experiments and evaluation we now experiment with dierent methodologies of generating fair summaries over the three datasets described in section
 pre processing the datasets we performed standard pre processing on the datasets including stopword removal and stemming using porter stemmer
 all summarization algorithms were cuted on these pre processed datasets
-parameter settings of algorithms
-the following parameter settings are used
 
-
+parameter settings of algorithms the following parameter settings are used
 for all datasets we generate all summaries of k tweets
-
-
-the proposed algorithm fairsumm uses a similarity function j to measure the similarity between two tweets i and we experimented with the following two similarity functions
-tfidfsim we compute tf idf scores for each word unigram in a dataset and hence obtain a tf idf vector for each textual unit
-the similarity j is computed as the cosine similarity between the tf idf vectors of i and embedsim we obtain an embedding a vector of dimension for each distinct word in a dataset either by training
-
-on the dataset or by considering pre trained glove beddings
-
+the proposed algorithm fairsumm uses a similarity function j to measure the similarity between two tweets i and j
+we experimented with the following two similarity functions tfidfsim we compute tf idf scores for each word unigram in a dataset and hence obtain a tf idf vector for each textual unit
+the similarity j is computed as the cosine similarity between the tf idf vectors of i and j
+embedsim we obtain an embedding a vector of dimension for each distinct word in a dataset either by training on the dataset or by considering pre trained glove beddings
 we obtain an embedding for a tweet by taking the mean embedding of all words contained in the tweet
-j is computed as the cosine similarity between the embeddings of tweets i and
+j is computed as the cosine similarity between the embeddings of tweets i and j
 we found that the performance of the fairsumm algorithm is very similar for both the similarity measures
 hence we report results for the tfidfsim similarity measure
-
-
 for our post processing algorithm the one based on fair ranking the value of the parameter c needs to be decided see section
-we try dierent values of c in the interval using grid search and nally use c since this value obtained the best rouge scores on the claritin and metoo datasets
+
+we try dierent values of c in the interval using grid search and nally use c
+since this value obtained the best rouge scores on the claritin and metoo datasets
+
 baselines to our knowledge there is no existing fair text summarization algorithm
 hence we consider the standard text summmarization algorithms stated in section as baselines
 additionally we have used our proposed fairsumm algorithm described in section without considering any fairness constraints as a separate baseline
 we call this summarization algorithm dicosumm a tion algorithm that is optimized for both diversity and coverage but not considering any fairness constraints
 next we compare the performance of the dierent fair summarization algorithms with all the baselines
+
 results and insights we now describe the results of applying various fair summarization algorithms over the three datasets
-some sample summaries obtained by using various algorithms are given in appendix
+some sample summaries obtained by using various algorithms are given in appendix b
 to evaluate the quality of summaries we compute and recall and scores by matching the algorithmically generated summaries with the gold standard summaries scribed in section
 table reports the results of summarizing the claritin dataset
 we compute summaries without any fairness constraint and considering the two fairness notions of equal sentation and proportional representation explained in section
 in each case we state the number of tweets in the summary from the two user groups and the rouge scores of the summary
-
-
 ilarly table and table report the results for the metoo dataset and the us election dataset respectively
-
 the fairsumm algorithm in processing algorithm and the classwisesumm algorithm processing algorithm are executed over all three datasets
-for the two class claritin and metoo datasets we also apply our post processing methodology stated in section where a fair ing scheme is used for fair summarization results in table and table
+for the two class claritin and metoo datasets we also apply our post processing methodology stated in section
+where a fair ing scheme is used for fair summarization results in table and table
 specically we use our post processing methodology over the existing summarization algorithms described in section such as clusterrank lexrank summarnn summacnn
 the resulting fair summarization algorithms are denoted as fair clusrank fair lexrank fair summarnn fair summacnn and so on
 note that for generating a xed length summary the neural models use only the textual units labeled with ranked as per their condence scores
-hence in fair summarnn and summacnn methods we have considered the ranked list of only those textual units that are beled with insights from the results we make the following observations from the results shown in ble table and table
-approach algorithm whole data nos of tweets
-male female
-recall recall baselines which do not consider fairness
+hence in fair summarnn and summacnn methods we have considered the ranked list of only those textual units that are beled with
+insights from the results we make the following observations from the results shown in ble table and table
+approach algorithm whole data nos
+of tweets male female recall recall baselines which do not consider fairness
 
 
 
-clusterrank dsdr
-lexrank lsa luhn
-sumbasic summarnn summacnn dicosumm
-fairness equal representation in processing pre processing
-post processing refasumm used with existing summarization algorithms
 
-in processing pre processing
-post processing refasumm
-fairsumm
-classwisesumm fair clusrank fair dsdr
-fair lexrank fair lsa fair luhn fair sumbasic fair summarnn
-fair summacnn fairsumm classwisesumm fair clusrank fair dsdr
-fair lexrank fair lsa fair luhn fair sumbasic fair summarnn
-fair summacnn fairness proportional representation
+
+
+
+
+clusterrank dsdr lexrank lsa luhn sumbasic summarnn summacnn dicosumm fairness equal representation in processing pre processing post processing refasumm used with existing summarization algorithms in processing pre processing post processing refasumm fairsumm classwisesumm fair clusrank fair dsdr fair lexrank fair lsa fair luhn fair sumbasic fair summarnn fair summacnn fairsumm classwisesumm fair clusrank fair dsdr fair lexrank fair lsa fair luhn fair sumbasic fair summarnn fair summacnn fairness proportional representation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -777,36 +917,120 @@ fair summacnn fairness proportional representation
 
 
 table
-summarizing the claritin dataset number of tweets written by the two user groups in
-the whole dataset and the summaries of length tweets generated by dierent algorithms
+summarizing the claritin dataset number of tweets written by the two user groups in the whole dataset and the summaries of length tweets generated by dierent algorithms
 also given are the and recall and scores of each summary
-
-
 in processing and post processing methods perform better than pre processing across all datasets the in processing fairsumm algorithm achieves higher rouge scores than wisesumm considering the same fairness notion
 note that in the classwisesumm approach the same fairsumm algorithm is used on each class separately
 hence the pre processing approach of separately summarizing each class leads to relatively poor summaries as compared to the processing fairsumm methodology
 this dierence in performance is probably because if similar tweets opinions are posted by dierent social groups classwisesumm can include multiple ilar posts in the summary thereby leading to redundancy in the summary
-on the other hand fairsumm optimizes coverage and diversity across all textual units taken together thereby
-ing redundancy in the summary
-
+on the other hand fairsumm optimizes coverage and diversity across all textual units taken together thereby ing redundancy in the summary
 the in processing fairsumm algorithm and some of the post processing approaches achieve comparable performances
 for instance while fairsumm performs decidedly better than all other algorithms for the claritin dataset the post processing approaches fair summacnn and summarnn perform better in most cases over the metoo dataset
-approach algorithm whole data
-nos of tweets
-male female
+approach algorithm whole data nos
+of tweets male
+female
 recall recall baselines which do not consider fairness
-clusterrank dsdr
-lexrank lsa luhn
-sumbasic summarnn summacnn dicosumm fairness equal representation in processing pre processing
-post processing refasumm
-in processing pre processing
-post processing refasumm
-fairsumm
-classwisesumm fair clusrank fair dsdr
-fair lexrank fair lsa fair luhn fair sumbasic fair summarnn
-fair summacnn fairsumm classwisesumm fair clusrank fair dsdr
-fair lexrank fair lsa fair luhn fair sumbasic fair summarnn
-fair summacnn fairness proportional representation
+
+
+
+
+
+
+
+
+clusterrank dsdr lexrank lsa luhn sumbasic summarnn summacnn dicosumm fairness equal representation in processing pre processing post processing refasumm in processing pre processing post processing refasumm fairsumm classwisesumm fair clusrank fair dsdr fair lexrank fair lsa fair luhn fair sumbasic fair summarnn fair summacnn fairsumm classwisesumm fair clusrank fair dsdr fair lexrank fair lsa fair luhn fair sumbasic fair summarnn fair summacnn fairness proportional representation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -825,21 +1049,14 @@ table
 summarizing the metoo dataset number of tweets written by the two user groups in the whole dataset and the summaries of length tweets generated by dierent algorithms
 also given are the and recall and scores of each summary
 note that the performances of the pre processing and post processing algorithms depend on that of the original summarization algorithm that is used
-as such the pre processing and processing algorithms can be useful in situations where an existing summarization algorithm is preferred when a rm has a proprietary summarization algorithm
+as such the pre processing and processing algorithms can be useful in situations where an existing summarization algorithm is preferred e
+
+when a rm has a proprietary summarization algorithm
 proposed algorithms are generalizable to dierent fairness notions table table and table demonstrate that the proposed algorithms are generalizable to various fairness notions
-
 we demonstrate summaries conforming to equal representation and proportional representation for all three datasets
-additionally table shows dierent summaries that can be generated using
-fairsumm considering the no adverse impact fairness notion such rows are omitted from other tables for brevity
-
-in general summaries conforming to proportional representation achieve higher rouge scores than summaries conforming to other fairness notions probably because the human assessors tuitively attempt to represent dierent opinions coming from dierent social groups in a similar whole data clusterrank dsdr
-lexrank lsa luhn
-sumbasic summarnn summacnn dicosumm approach algorithm
-pro rep
-nos of tweets
-pro dem
-
-neutral baselines which do not consider fairness recall recall
+additionally table shows dierent summaries that can be generated using fairsumm considering the no adverse impact fairness notion such rows are omitted from other tables for brevity
+in general summaries conforming to proportional representation achieve higher rouge scores than summaries conforming to other fairness notions probably because the human assessors tuitively attempt to represent dierent opinions coming from dierent social groups in a similar whole data clusterrank dsdr lexrank lsa luhn sumbasic summarnn summacnn dicosumm approach algorithm pro rep nos
+of tweets pro dem neutral baselines which do not consider fairness recall recall
 
 
 
@@ -851,31 +1068,109 @@ neutral baselines which do not consider fairness recall recall
 
 
 
-in processing pre processing fairsumm classwisesumm
-in processing pre processing fairsumm
-classwisesumm fairness equal representation fairness proportional representation in processing
-fairsumm
-fairsumm
-fairsumm
-fairsumm
-fairsumm fairness no adverse impact table
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+in processing pre processing fairsumm classwisesumm in processing pre processing fairsumm classwisesumm fairness equal representation fairness proportional representation in processing fairsumm fairsumm fairsumm fairsumm fairsumm fairness no adverse impact table
 summarizing the us election dataset number of tweets of the three classes in the whole dataset and the summaries of length tweets generated by dierent algorithms
 also given are the and recall and scores of each summary
 proportion in the gold standard summaries as what occurs in the input data even though they were not told anything about ensuring fairness while writing the gold standard summaries
+ensuring fairness does not lead to much degradation in summary quality for all three datasets we observe that fairsumm with fairness constraints always achieves higher rouge scores than dicosumm without fairness constraints
+also we can compare the performances of the existing summarization algorithms e
 
-ensuring fairness does not lead to much degradation in summary quality
-for all three datasets we observe that fairsumm with fairness constraints always achieves higher rouge scores than dicosumm without fairness constraints
-also we can compare the performances of the existing summarization algorithms dsdr lexrank summarnn without any
-ness constraint and after their outputs are made fair using the methodology in section
+dsdr lexrank summarnn without any ness constraint and after their outputs are made fair using the methodology in section
+
 we nd that the performances in the two scenarios are comparable to each other
 in fact for a few cases the rouge scores marginally improve after the summaries generated by an algorithm are made fair over those of the original summary generated by the same algorithm
 thus making summaries fair does not lead to much degradation in summary quality as measured by rouge scores
+overall the results signify that the proposed fair summarization algorithms can not only ensure various fairness notions in the summaries but also can generate summaries that achieve ble or better rouge scores than many well known summarization algorithms which often do not generate fair summaries as demonstrated in section
+error rate whole data nos
+of tweets male
+female
+recall recall fairness equal representation
 
-overall the results signify that the proposed fair summarization algorithms can not only ensure various fairness notions in the summaries but also can generate summaries that achieve ble or better
-rouge scores than many well known summarization algorithms which often do not generate fair summaries as demonstrated in section
-error rate whole data nos of tweets
-male female
-recall recall fairness equal representation fairness proportional representation
+
+
+
+
+
+
+fairness proportional representation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -885,89 +1180,106 @@ table
 eect of degraded information of gender in metoo dataset number of tweets written by the two user groups in the whole dataset and the summaries of length tweets generated by fairsumm algorithm
 also given are the and recall and scores of each summary
 each result is averaged over random experiments for each of the error rates
-eects of degraded information of demographic details our proposed algorithms assume the availability of class information of the textual units under consideration gender information for the tweets in claritin and metoo datasets and ical leaning for tweets in the us election dataset
-in cases where such class information is not available we need to resort to inference mechanisms
-for instance there are multiple ologies to infer demographic details of people from their writing styles with a high level of
-racy
 
+eects of degraded information of demographic details our proposed algorithms assume the availability of class information of the textual units under consideration e
+
+gender information for the tweets in claritin and metoo datasets and ical leaning for tweets in the us election dataset
+in cases where such class information is not available we need to resort to inference mechanisms
+for instance there are multiple ologies to infer demographic details of people from their writing styles with a high level of racy
 moreover in social media additional information can be utilized to infer graphic details of their users such as user names and prole pictures
 similarly sentiment analysis can be deployed to infer the opinions
 however such inferences may not be absolutely perfect and the accuracy of these inference methodologies will eventually decide how well the predicted labels replicate the true class labels
 in this section we check how the inaccuracy in the inference mechanism may impact the performance of the proposed fairsumm algorithm
-
 experimental setup we performed these experiments for all the three datasets and obtained qualitatively similar results
 hence for brevity we are reporting the experimental results only on the metoo dataset
 we assume the existence of a classier which can infer the gender information of the authors of textual posts required for our fairsumm algorithm with certain level of error for the metoo dataset
-to simulate the eect of a classier with error rate we change the class labels consider the inferred label to be male if the true label was female and vice versa of randomly selected of the tweets in the dataset
+to simulate the eect of a classier with error rate we change the class labels i
+e
+consider the inferred label to be male if the true label was female and vice versa of randomly selected of the tweets in the dataset
 now this degraded information of gender labels is given as input to the fairsumm algorithm to create the fair summaries
 we experiment with error rates
 for every error rate we repeat the experiment times and then report the average results over all experiments
-note that for checking the fairness property the proportion of tweets from various groups in the summaries we use the true labels and not the inferred labels
-
+note that for checking the fairness property i
+e
+the proportion of tweets from various groups in the summaries we use the true labels and not the inferred labels
 observations table reports the results obtained over the metoo dataset with increasing amount of noise error in the demographic labels
 as expected the error noise in the demographic inference has some eects on the fairness property that the summaries are meant to satisfy
 with ing error rate in the prediction of the class labels the summaries deviate further from the desired fairness criterion
 however it is interesting to note that even with degraded demographic mation the summaries generated by fairsumm have better fairness property than the summaries generated by many of the baseline algorithms
 also it is evident from table that the degradation in the availability of demographic details does not aect the quality of the summaries much as measured by rouge scores
 in fact even with the degraded gender information the fairsumm algorithm outperforms many of the existing summarization algorithms in terms of rouge scores
-
 hence we can conclude that though the accuracy of the inference methodology is an important factor when the actual class information is not present especially in order to achieve the fairness goals the quality of summaries produced by fairsumm is generally robust to such noise in the inferred labels
-concluding discussion
-to our knowledge this work is the rst attempt to consider fairness in textual summarization
-
+concluding discussion to our knowledge this work is the rst attempt to consider fairness in textual summarization
 through experiments on several user generated microblog datasets we show that existing rithms often produce summaries that are not fair even though the text written by dierent social groups are of comparable quality
 note that we do not claim the existing algorithms to be tentionally biased towards against any social group
-since these algorithms attempt to optimize only one metric textual quality of the summary the unfairness comes as a side eect
-we further propose algorithms to generate high quality summaries that conform to various standard notions of fairness implementations available at
-these gorithms will help in addressing the concern that using a inadvertently biased summarization algorithm can reduce the visibility of the voice opinion of certain social groups in the summary
-moreover downstream applications that use the summaries for opinion classication and rating inference would benet from a fair summary
+since these algorithms attempt to optimize only one metric e
 
+textual quality of the summary the unfairness comes as a side eect
+we further propose algorithms to generate high quality summaries that conform to various standard notions of fairness implementations available at
+com fairsumm
+git
+these gorithms will help in addressing the concern that using a inadvertently biased summarization algorithm can reduce the visibility of the voice opinion of certain social groups in the summary
+moreover downstream applications that use the summaries e
+
+for opinion classication and rating inference would benet from a fair summary
 limitations and future directions there are potential limitations of the fair summarization gorithms presented in this paper
-all three algorithms need as input the class socially salient group information to which each textual unit belongs
+all three algorithms need as input the class e
+
+socially salient group information to which each textual unit belongs
 where such class information is not ily available we need to infer these information which may impact the fairness objectives to some extent as discussed in section
+
 a major limitation of refasumm comes from the fair ranking algorithm being applied in the post processing phase
-the framework is designed for scenarios where only two socially salient groups are dened male and female
+the framework is designed for scenarios where only two socially salient groups are dened e
+
+male and female
 hence our post processing algorithm is presently applicable only in such cases
 we plan to extend refasumm to more than two classes in future work
 we also note that in certain special cases the fair summarization algorithms developed in this work may lead to degradation in the summary quality
-for example let us assume a scenario where we are summarizing tweets posted by two equally sized groups of users group a and group b and the fairness objective is to achieve equal representation both groups should have the same number of tweets in the summary
-now if the variability of opinions within the groups are dierent everyone from group a has the same opinion on an issue while people in group b have many varied opinions on the same issue then the proposed method will not generate a good summary because there will be redundant tweets posted by users of group a while some of the diverse opinions posted by users of group b may not be included in the summary
+for example let us assume a scenario where we are summarizing tweets posted by two equally sized groups of users
 
+group a and group b and the fairness objective is to achieve equal representation i
+e
+both groups should have the same number of tweets in the summary
+now if the variability of opinions within the groups are dierent e
+
+everyone from group a has the same opinion on an issue while people in group b have many varied opinions on the same issue then the proposed method will not generate a good summary because there will be redundant tweets posted by users of group a while some of the diverse opinions posted by users of group b may not be included in the summary
 hence if the distribution of opinions is very dierent from the distribution of people belonging to dierent social groups then the summaries may not be of good quality
 this situation leads us to an interesting question of whether to look for fair representation across demographic groups or for fair representation across the dierent opinions a question that we would like to investigate in future work
 going beyond summarization deciding the social grouping is often a normative question in many socio technical applications which requires decisions at the policy level
 in some tions legal doctrines may suggest what should be the social grouping which often emerges from long deliberations and historical contexts whereas in other cases the corresponding online forms such as social media sites like facebook or twitter may have their own guidelines to decide groups they want to be considerate about
 similar to most of the recent algorithms trying to porate group fairness including fair classication algorithms the algorithms proposed in this paper also consider the grouping to be given apriori
 however questions on what constitute the right grouping are important and should be more widely discussed in the research community
-
 finally looking at a higher level fairness preserving information ltering algorithms like the ones proposed in this paper are of signicant societal importance
-today social media sites are the gateway of information for a large number of people worldwide and the algorithms search recommendation sampling summarization deployed in these sites act as the gatekeepers
-
+today social media sites are the gateway of information for a large number of people worldwide and the algorithms search recommendation sampling summarization
+deployed in these sites act as the gatekeepers
 if these algorithms lack the sense of embedded ethics or civic responsibilities they may not be fully suitable to curate information for the heterogeneous society
 thus incorporating fairness in algorithms is the need of the hour
 as discussed in section recent research works are taking correct steps in that direction
 likewise we believe that our work will open up multiple interesting research problems on fair summarization such as extending the concept of fairness to abstractive summaries or estimating user preferences for fair summaries in various applications and will be an important addition to the emerging literature on fairness in algorithmic decision making
 references
-
 twitter search api
 
-
+twitter
+com en docs tweets search api reference get search tweets
+html
 
 rasim m alguliev ramiz m aliguliyev makrufa s hajirahimova and chingiz a mehdiyev
 
-mcmr
-maximum coverage and minimum redundant text summarization model
+mcmr maximum coverage and minimum redundant text summarization model
 expert systems with applications
-mehdi allahyari seyed amin pouriyeh mehdi asse saeid safaei elizabeth trippe juan gutierrez and krys kochut
+mehdi allahyari seyed amin pouriyeh mehdi asse saeid safaei elizabeth d
+trippe juan b
+gutierrez and krys kochut
+
 text summarization techniques a brief survey
 corr
 
+org
 mahmoudreza babaei juhi kulshrestha abhijnan chakraborty fabrcio benevenuto krishna p gummadi and adrian weller
 
 purple feed identifying high consensus news posts on social media
 in proc
 aaai acm aies
-
 ashwinkumar badanidiyuru baharan mirzasoleiman amin karbasi and andreas krause
 
 streaming ular maximization massive data summarization on the y
@@ -978,35 +1290,44 @@ ricardo baeza yates
 bias on the web
 commun
 acm
-
 dan biddle
 
 adverse impact and test validation a practitioner s guide to valid and defensible employment testing
-asia biega krishna gummadi and gerhard weikum
+asia j
+biega krishna p
+gummadi and gerhard weikum
 
-equity of attention amortizing individual fairness routledge in rankings
-in proc acm sigir
+equity of attention amortizing individual fairness routledge
+in rankings
+in proc
+acm sigir
 proc
 acm www
 proc
 acl
 francesco bonchi sara hajian bud mishra and daniele ramazzotti
+
 exposing the probabilistic causal structure of discrimination
 international journal of data science and analytics
 giuseppe carenini raymond t ng and xiaodong zhou
 
 summarizing email conversations with clue words
 in asli celikyilmaz and dilek hakkani tur
+
 a hybrid hierarchical model for multi document summarization
 in elisa l celis amit deshpande tarun kathuria and nisheeth k vishnoi
 
-how to be fair and diverse
-corr
-elisa celis vijay keswani damian straszak amit deshpande tarun kathuria and nisheeth vishnoi
+how to be fair and diverse corr
+
+org
+elisa l
+celis vijay keswani damian straszak amit deshpande tarun kathuria and nisheeth k
+vishnoi
 
 fair and diverse dpp based data summarization
 corr
 
+org
 abhijnan chakraborty saptarshi ghosh niloy ganguly and krishna p gummadi
 
 dissemination biases of social media channels on the topical coverage of socially shared news
@@ -1014,8 +1335,7 @@ in proc
 aaai icwsm
 abhijnan chakraborty johnnatan messias fabricio benevenuto saptarshi ghosh niloy ganguly and krishna p gummadi
 
-who makes trends
-understanding demographic biases in crowdsourced recommendations
+who makes trends understanding demographic biases in crowdsourced recommendations
 abhijnan chakraborty gourab k patro niloy ganguly krishna p gummadi and patrick loiseau
 
 equality of voice towards fair representation in crowdsourced top k recommendations
@@ -1024,48 +1344,54 @@ acm fat
 flavio chierichetti ravi kumar silvio lattanzi and sergei vassilvitskii
 
 fair clustering through fairlets
-in proc neurips
+in proc
+neurips
 
 election
 in proc
 socinfo
+
+org
 claritin dataset
 discovering drug side eects with crowdsourcing
 
 
+crowdower
+com discovering drug side eects with
 brian w collins
 
 tackling unconscious bias in hiring practices the plight of the rooney rule
-nyu law review darwish magdy and zanouda
-trump hillary what went viral during the us presidential yue dong
+nyu law review k
+darwish w
+magdy and zanouda t
+
+trump vs
+hillary what went viral during the us presidential yue dong
 
 a survey on neural network based summarization methods
 corr
-
 nan du yingyu liang maria florina balcan and le song
 
 continuous time inuence maximization for tiple items
 corr
 
+
+org
 soumi dutta vibhash chandra kanav mehra asit kr
 das tanmoy chakraborty and saptarshi ghosh
 
-
 semble algorithms for microblog summarization
 ieee intelligent systems
-
 cynthia dwork moritz hardt toniann pitassi omer reingold and richard zemel
 
 fairness through awareness
-
 in proc
 acm itcs
-
-gnes erkan and dragomir radev
+gnes erkan and dragomir r
+radev
 
 lexrank graph based lexical centrality as salience in text tion
 journal of articial intelligence res
-
 
 sorelle a friedler carlos scheidegger suresh venkatasubramanian sonam choudhary evan p hamilton and derek roth
 
@@ -1084,14 +1410,13 @@ yihong gong and xin liu
 
 generic text summarization using relevance measure and latent semantic analysis
 
-
 in proc
 acm sigir
-
 stefan gosepath
 
 equality
-in the stanford encyclopedia of philosophy edward zalta ed
+in the stanford encyclopedia of philosophy edward n
+zalta ed
 
 vishal gupta and gurpreet singh lehal
 
@@ -1102,7 +1427,6 @@ ben hachey
 multi document summarisation using generic relation extraction
 in proc
 emnlp
-
 sara hajian francesco bonchi and carlos castillo
 
 algorithmic bias from discrimination discovery to aware data mining
@@ -1116,13 +1440,12 @@ moritz hardt eric price nati srebro and others
 
 equality of opportunity in supervised learning
 in proc
-
+neurips
 zhanying he and others
 
 document summarization based on data reconstruction
 in proc
 aaai
-
 joy kim and andres monroy hernandez
 
 storia summarizing social media content based on narrative theory jon kleinberg jens ludwig sendhil mullainathan and cass r sunstein
@@ -1137,7 +1460,6 @@ jon kleinberg and sendhil mullainathan
 simplicity creates inequity implications for fairness stereotypes and interpretability
 technical report
 national bureau of economic research
-
 jon kleinberg and manish raghavan
 
 selection problems in the presence of implicit bias
@@ -1147,14 +1469,13 @@ andreas krause and daniel golovin
 submodular function maximization
 in tractability practical approaches chin yew lin
 
-rouge
-a package for automatic evaluation of summaries
+rouge a package for automatic evaluation of summaries
 in proc
 workshop on text chin yew lin and eduard hovy
+
 from single to multi document summarization
 in proc
 acl
-
 hui lin and je bilmes
 
 a class of submodular functions for document summarization
@@ -1162,17 +1483,22 @@ in proc
 acl hlt elena lloret horacio saggion and manuel palomar
 
 experiments on summary based opinion classication
-in luhn
+in h
+p
+luhn
 
 the automatic creation of literature abstracts
-ibm res
+ibm j
+res
 dev
 
-
 binh thanh luong salvatore ruggieri and franco turini
-nn as an implementation of situation testing for discrimination discovery and prevention
+
+k nn as an implementation of situation testing for discrimination discovery and prevention
 in proc
 acm kdd
+
+org
 to hard problems
 rization branches out acl
 
@@ -1182,23 +1508,23 @@ walid magdy and tamer elsayed
 
 unsupervised adaptive microblog ltering for broad dynamic topics
 mation processing management
-mikolov
-yih and zweig
+t
+mikolov w
+t
+yih and g
+zweig
 
 linguistic regularities in continuous space word representations
 in proc
-
-george miller
-wordnet
-a lexical database for english
+george a
+miller
+wordnet a lexical database for english
 communications of the acm
-
 ramesh nallapati feifei zhai and bowen zhou
 
 summarunner a recurrent neural network based sequence model for extractive summarization of documents
 in proc
 aaai
-
 ani nenkova and lucy vanderwende
 
 the impact of frequency on summarization
@@ -1210,37 +1536,32 @@ in proc
 acm naacl hlt
 research
 iui
-
 karen oconnor pranoti pimpalkhute azadeh nikfarjam rachel ginn karen l smith and graciela gonzalez
-
-macovigilance on twitter
-mining tweets for adverse drug reactions
+macovigilance on twitter mining tweets for adverse drug reactions
 in amia annual symposium proceedings
-
 alexandra olteanu ingmar weber and daniel gatica perez
 
 characterizing the demographics behind the blacklivesmatter movement
 in proc
 aaai spring symposium series
-
-james oxley
+james g
+oxley
 
 matroid theory oxford graduate texts in mathematics
-oxford university press
-jerey pennington richard socher and christopher manning
+oxford university press inc
+jerey pennington richard socher and christopher d
+manning
 
-glove
-global vectors for word tion
+glove global vectors for word tion
 in proc
 emnlp
 comput
 linguist
 
-
-dragomir radev eduard hovy and kathleen mckeown
+dragomir r
+radev eduard hovy and kathleen mckeown
 
 introduction to the special issue on summarization
-
 john rawls
 
 a theory of justice
@@ -1270,7 +1591,6 @@ in proc
 ecir
 luke sloan jerey morgan william housley matthew williams adam edwards pete burnap and omer rana
 
-
 knowing the tweeters deriving sociologically relevant demographics from twitter
 sociological research online
 tom shr asia j biega meike zehlike krishna p gummadi and abhijnan chakraborty
@@ -1283,13 +1603,11 @@ kam fai wong mingli wu and wenjie li
 extractive summarization using supervised and semi supervised learning
 in proc
 coling
-
 muhammad bilal zafar isabel valera manuel gomez rogriguez and krishna p gummadi
 
 fairness constraints mechanisms for fair classication
 in proc
 aistas
-
 meike zehlike francesco bonchi carlos castillo sara hajian mohamed megahed and ricardo baeza yates
 
 a fair top k ranking algorithm
@@ -1301,8 +1619,7 @@ learning fair representations
 in proc
 amy x zhang and justin cranshaw
 
-making sense of group chat through collaborative tagging and
-amy x zhang lea verou and david karger
+making sense of group chat through collaborative tagging and amy x zhang lea verou and david karger
 
 wikum bridging discussion forums and wikis using recursive junlin zhang le sun and quan zhou
 
@@ -1315,820 +1632,575 @@ in proc
 acm cscw
 rization
 in proc
-ieee nlp ke appendices a fairsumm mathematical details
-this section describes fairsumm our proposed in processing algorithm for fair summarization in more detail
+ieee nlp ke
+appendices a fairsumm mathematical details this section describes fairsumm our proposed in processing algorithm for fair summarization in more detail
 this algorithm treats summarization as an optimization problem of a submodular monotone objective function where the fairness requirements are applied as constraints
 in this section we rst establish the theoretical premise of our algorithm and then describe our algorithm
-
 the symbols used in this section are given in table
+a
+submodularity and monotonicity denitions let v
 
-submodularity and monotonicity denitions let v vn be the set of elements to be summarized where each vi represents a textual unit a tweet
+
+vn be the set of elements to be summarized where each vi represents a textual unit e
+
+a tweet
 we dene a function f r the set of real numbers that assigns a real value to a subset say s of v
-our goal is to nd s v such that k where r is the desired length of the summary specied as an input and for which f is maximized s armaxb v f b
-so from a set of textual units v we look to nd a summary
-s that maximizes an objective function f
+our goal is to nd s v such that k where r is the desired length of the summary specied as an input and for which f is maximized i
+e
+s armaxb v f b
+so from a set of textual units v we look to nd a summary s that maximizes an objective function f
+denition discrete derivative for e v and a function r let s s be the discrete derivative of at s with respect to e
+denition submodularity a function is submodular if for every a b v and e v b i
+e
+e v and e b this property is popularly called the property of diminishing returns
+denition monotonicity the function is monotone or monotone nondecreasing if for every a b v f a b symbols meanings set of textual units to be summarized number of textual units to be summarized number of classes to which the textual units in v belong e
 
-denition discrete derivative
-for e v and a function r let
-s s be the discrete derivative of at s with respect to denition submodularity a function is submodular if for
-every a b v and e v b e v and e b
+t for metoo dataset t for us election the t classes of the textual units summary conforming to fairness notions s v desired length of summary minimum number of textual units from class zi to be included in s to satisfy a given fairness notion v n t f l i g
 
-this property is popularly called the property of diminishing returns
-denition monotonicity the function
-is monotone or monotone nondecreasing if for every
-a b v f a
-b symbols meanings set of textual units to be summarized number of textual units to be summarized number of classes to which the textual units in v belong t for metoo dataset t for us election
-the t classes of the textual units
-summary conforming to fairness notions s v
-desired length of summary minimum number of textual units from class zi to be included in s to satisfy a given fairness notion v n t f l i g
+
 zt s k ci
-t r j
-m objective function overall goodness measure of s
-coverage function
 
-goodness measure of s
-diversity
-reward function goodness measure of s
-similarity score between two textual units i j v a partition matriod
-set of partitions of matriod m the optimized fair summary produced by algorithm table
-the main symbols used in appendix properties we now discuss some of the important properties of monotone submodular functions which we will exploit in our problem formulation
-property
-the class of submodular functions is closed under non negative linear combinations let
-fn dened by fi r i be submodular functions and n be non negative real numbers
-then proof this is a well known property of submodular functions see hence the proof is omitted
+
+t r j m objective function overall goodness measure of s coverage function goodness measure of s diversity reward function goodness measure of s similarity score between two textual units i j v a partition matriod set of partitions of matriod m the optimized fair summary produced by algorithm table
+the main symbols used in appendix a
+properties we now discuss some of the important properties of monotone submodular functions which we will exploit in our problem formulation
+property the class of submodular functions is closed under non negative linear combinations let
+
+
+fn dened by fi r i
+
+
+n be submodular functions and
+
+
+n be non negative real numbers
+then proof this is a well known property of submodular functions e
+
+see hence the proof is omitted
 n i i fi is also submodular
-property
-the class of monotone functions is closed under non negative linear combinations let
-fn dened by fi r i be monotone functions and n be non negative real numbers
+property the class of monotone functions is closed under non negative linear combinations let
+
+
+fn dened by fi r i
+
+
+n be monotone functions and
+
+
+n be non negative real numbers
 then proof let v
 then since each fi is a monotone fi fi
-let
-f
-case i let i for all i
-then f and is a constant non decreasing function
+let f case i let i for all i
 
+
+n
+then f and is a constant non decreasing function
 case ii let i for all i
+
+
+n
 then we can write n i i fi is also monotone
 n i i fi
+fi fi i fi fi n n i fi i fi i i n n f f
+case iii let only some m m and m n i s
+let without any loss of generality such i s be
 
 
-fi fi i fi fi n n
-i fi i fi
-i i n n
-f f
-case iii
-let only some m m and m n i s
-let without any loss of generality such i s be m
-then we have
-fi fi i fi fi m
 m
-i fi i fi
-i for i
-m
-i fi i fi
-i for i m m
-m n
-m n
-f f
-this completes the proof
-property
-the class of monotone submodular functions is closed under non negative linear binations let
-fn dened by fi r i be monotone submodular functions and n be non negative real numbers
+then we have fi fi i fi fi m m i fi i fi i for i
+
+
+m i fi i fi i for i m m
+
+
+n m n m n f f this completes the proof
+property the class of monotone submodular functions is closed under non negative linear binations let
+
+
+fn dened by fi r i
+
+
+n be monotone submodular functions and
+
+
+n be non negative real numbers
 then proof this follows trivially from properties and
+property given functions f r and r r the composition f f r i
+e
+f f s is nondecreasing sub modular if f is non decreasing concave and f is nondecreasing submodular
+proof this is also a well known property of submodular functions e
 
-property given functions f r and r r the composition f
-f r f
-f s is nondecreasing sub modular if f is non decreasing concave and f is nondecreasing submodular
-
-proof this is also a well known property of submodular functions see hence the proof is omitted
+see hence the proof is omitted
 i i fi is also monotone submodular
-formulation of the objective function for summarization
-we now look for an objective function for the task of extractive summarization
+a
+formulation of the objective function for summarization we now look for an objective function for the task of extractive summarization
 following the formulation by lin et al
 we use monotone submodular functions to construct the objective function
-we consider the following two aspects of an extractive text summarization algorithm
-coverage coverage refers to amount of information covered in the summary s measured by a function say the generic form of l can be simi j i s j v where simi j denotes the similarity between two textual units tweets sentences
+we consider the following two aspects of an extractive text summarization algorithm coverage coverage refers to amount of information covered in the summary s measured by a function say l
+the generic form of l can be simi j i s j v where simi j denotes the similarity between two textual units tweets sentences
 i v and j v
 thus measures the overall similarity of the textual units included in the summary s with all the textual units in the input collection v
 note that l is monotone submodular
 l is monotonic since coverage increases by the addition of a new sentence in the summary
 at the same time l is submodular since the increase in l would be more when a sentence is added to a shorter summary than when a sentence is added to a longer summary
 there can be several forms of l depending on how simi j is measured which we will discuss later in this paper
-
 diversity reward the purpose of this aspect is to avoid redundancy and reward diverse mation in the summary
-let the associated function be denoted as a generic formulation of r is k j
-s j pi s
-where
-pk comprise a partition of v such that i pi v and pi pj
-for all i j r j is a suitable monotone submodular function that estimates the importance of adding the textual unit j to the summary
-the partitioning pk can be achieved by clustering the set v using any clustering algorithm
+let the associated function be denoted as r
+a generic formulation of r is k j s j pi s where
+
+
+pk comprise a partition of v such that i pi v and pi pj for all i j r j is a suitable monotone submodular function that estimates the importance of adding the textual unit j to the summary
+the partitioning
+
+
+pk can be achieved by clustering the set v using any clustering algorithm e
+
 k means based on the similarity of items as measured by j
 rewards diversity since there is more benet in selecting a textual unit from a partition cluster that does not yet have any of its elements included in the summary
 as soon as any one element from a cluster pi is included in the summary the other elements in pi start having diminishing gains due to the square root function
-
-the function r j is a singleton reward function since it estimates the reward of adding the singleton element j v to the summary one possible way to dene this function is r j j i
-which measures the average similarity of j to the other textual units in v
+the function r j is a singleton reward function since it estimates the reward of adding the singleton element j v to the summary s
+one possible way to dene this function is r j j i which measures the average similarity of j to the other textual units in v
 note that is tone submodular by property since square root is a non decreasing concave function
 this formulation will remain monotone submodular if any other non decreasing concave function is used instead of square root
 while constructing a summary both coverage and diversity are important
 only maximizing coverage may lead to lack of diversity in the resulting summary and vice versa
 so we dene our objective function for summarization as follows f where are the weights given to coverage and diversity respectively
 note that by property f is monotone submodular
-
 our proposed fairness preserving summarization algorithm will maximize f in keeping with some fairness constraints
 we now discuss this step
-
+a
 submodular maximization using partition matroids for fairness preserving summarization we essentially need to optimize the submodular function f while ensuring that the summary includes at least a certain number of textual units from each class present in the input data
 this problem can be formulated using the concept of partition matroids as described below
-
 denitions we start with some denitions that are necessary to formulate the constrained mization problem
+denition matroid a matroid is a pair m z i dened over a nite set z called the ground set and a family of sets i called the independent sets that satises the three properties empty set i
+if y i and x y then x i
+if x i y i and then there exists e y x such that x e i
+denition partition matroids partition matroids refer to a special type of matroids where the ground set z is partitioned into disjoint subsets
 
-denition matroid a matroid is a pair m
-z i dened over a nite set z called the ground set and a family of sets i called the independent sets that satises the three properties
-empty set
-if y i and x y then x
-if x i y i and then there exists e
-y x such that x e denition partition matroids partition matroids refer to a special type of matroids where the ground set z is partitioned into disjoint subsets
-zs for some s and i s s z and
-zi ci for all i s for some given parameters cs
+
+zs for some s and i s s z and zi ci for all i
+
+
+s for some given parameters
+
+
+cs
 thus s is a subset of z that contains at least ci items from the partition zi for all i and i is the family of all such subsets
-formulation of the constrained maximization problem consider that we have a set of trol variables gender political leaning each of which takes tj distinct values male and female democrat and republican
-each item in z has a particular value for each zj
+formulation of the constrained maximization problem consider that we have a set of trol variables e
 
+gender political leaning each of which takes tj distinct values e
+
+male and female democrat and republican
+each item in z has a particular value for each
 for each control variable we can partition z into tj disjoint subsets
+
+
 zjtj each corresponding to a particular value of this control variable
-we now dene a partition matriod mj
-z ij such that ij s s z and zji cj for all i
+we now dene a partition matriod mj z ij such that ij s s z and zji cj for all i
 
-tj for some given parameters ctj
 
-now for a given submodular objective function a submodular optimization under the tion matriod constraints with p control variables can be designed as follows maximizes z
-s subject to s
+tj for some given parameters
 
-p
+
+ctj
+now for a given submodular objective function a submodular optimization under the tion matriod constraints with p control variables can be designed as follows maximizes z s subject to s p i
 a prior work by du et al
-has established that this submodular optimization problem under
-the matroid constraints can be solved eciently with provable guarantees see for details
-proposed summarization scheme
-in the context of the summarization problem the ground set is v z the set of all textual units sentences tweets which we look to summarize
-the control variables stated in section are analogous to the sensitive attributes with respect to which fairness is to be ensured
+has established that this submodular optimization problem under the matroid constraints can be solved eciently with provable guarantees see for details
+a
+proposed summarization scheme in the context of the summarization problem the ground set is v z the set of all textual units sentences tweets which we look to summarize
+the control variables stated in section a
+are analogous to the sensitive attributes with respect to which fairness is to be ensured
 in this work we consider only one sensitive attribute for a particular dataset the gender of a user for the claritin dataset political leaning of a tweet for the us election dataset and the media source for the dataset
-let the corresponding control variable be z and let z take t distinct values t for the claritin dataset and t for the us election dataset
-note that as described in section the formulation can be extended to multiple sensitive attributes control variables as well
+let the corresponding control variable be z and let z take t distinct values e
+
+t for the claritin dataset and t for the us election dataset
+note that as described in section a
+the formulation can be extended to multiple sensitive attributes control variables as well
 i t for t
+
+
 where l armini wi d n and wl
-algorithm
-fairsumm for fair summarization set d maxz v f z
+algorithm fairsumm for fair summarization set d maxz v f z
+set wt set g for t
 
-set wt
-set g for t
-l l do for each and g z
-i do if f g z f g wt then set g g z end if end for end for output g each textual unit in v is associated with a class a particular value of the control variable
+
+l l do for each and g z i do if f g z f g wt then set g g z end if end for end for output g each textual unit in v is associated with a class i
+e
+a particular value of the control variable e
+
 is posted either my a male or a female
-let zt zi v for all i be the disjoint subsets of the textual units from the t classes
-each associated with a distinct value of we now dene a partition matroid m v i in which v is partitioned into disjoint subsets zt and
-i s s v and
-zi ci t for some given parameters ct
-in other words i will contain all the sets s containing at most ci sentences from zi
-outside the purview of the matroid constraints we maintain the restriction that ci s are chosen such that i ci
-the desired length of the summary s and t
-a desired fairness criterion is maintained in
-for instance if equal representation of all classes in the summary is desired then ci
-we now express our fairness constrained summarization problem as follows t for all maximizes v f s subject to s where the objective function f s is as stated in equation
+let
 
+
+zt zi v for all i be the disjoint subsets of the textual units from the t classes each associated with a distinct value of z
+we now dene a partition matroid m v i in which v is partitioned into disjoint subsets
+
+
+zt and i s s v and zi ci
+
+
+t for some given parameters
+
+
+ct
+in other words i will contain all the sets s containing at most ci sentences from zi
+
+
+t
+outside the purview of the matroid constraints we maintain the restriction that ci s are chosen such that i ci the desired length of the summary s and t a desired fairness criterion is maintained in s
+for instance if equal representation of all classes in the summary is desired then ci we now express our fairness constrained summarization problem as follows t for all i
+maximizes v f s subject to s i
+where the objective function f s is as stated in equation
 the suitable algorithm to solve this constrained submodular optimization problem proposed by du et al
 is presented as algorithm
 the g produced by algorithm is the solution of equation
 this algorithm is an ecient alternative to the greedy solution which has a time complexity of where n and k
 on the other hand it can be shown that the time complexity of du et al
 is n where is a factor to be explained shortly
-the reason for this eciency is the fact that this algorithm does not perform exhaustive evaluation of all the possible submodular functions evolving in the intermediate steps of the
-rithm
+the reason for this eciency is the fact that this algorithm does not perform exhaustive evaluation of all the possible submodular functions evolving in the intermediate steps of the rithm
 instead it keeps on decreasing the threshold wt by a dividing factor which skips the evaluation of many submodular functions and sets the threshold to zero when it is small enough
-
 it selects elements z from the ground set in our case v only at each threshold value to evaluate the marginal gain f g z f g without violating any constraints
-lo n note that the theoretical guarantee of algorithm depends upon the number of partition troids p the number of control variables and the curvature of f given by cf maxj v
-
-p see for details
-in our setting the number of partition the approximation ratio is troids
-p is
-
+lo n note that the theoretical guarantee of algorithm depends upon the number of partition troids p i
+e
+the number of control variables and the curvature of f given by cf maxj v p see for details in our setting the number of partition the approximation ratio is troids p is
 algorithm for fair summarization algorithm presents the algorithm to solve this constrained submodular optimization problem based on the algorithm developed by du et al
 
 the g duced by algorithm is the solution of equation
 we now briey describe the steps of rithm
-
-in step the maximum value of the objective function f that can be achieved for a text unit
-v is calculated and stored in
+in step the maximum value of the objective function f that can be achieved for a text unit v is calculated and stored in d
 the purpose of this step is to compute the maximum value of f for a single text unit and set a selection threshold to be described shortly with respect to this value
-this step will help in the subsequent selection of textual units for the creation of the summary to be stored in wt dened in step is such a threshold at the t th time step
+this step will help in the subsequent selection of textual units for the creation of the summary to be stored in g
+wt dened in step is such a threshold at the t th time step
 wt is updated decreased by division with a factor for t
+
+
+
 l is the minimum value of i for which wi d n holds see du et al
 for details and wl is set to zero
 in step g the set that will contain the summary is initialized as an empty set
 note that g is supposed to be an independent set according to the denition of matroid given earlier in this section
 by the condition in the denition of matroids stated earlier in this section an empty set is independent
-step iterates through the dierent values of step tests for each z text element v if g remains an independent set by the inclusion of only those z s are chosen in this step whose inclusion expands g already an independent set to another independent set
-step selects a z permitted by step for inclusion in g if f g z
-f g wt
+step iterates through the dierent values of t
+step tests for each z text element v if g remains an independent set by the inclusion of z
+only those z s are chosen in this step whose inclusion expands g already an independent set to another independent set
+step selects a z permitted by step for inclusion in g if f g z f g wt
 this z is added to g in step
 that is z is added to g if the increment of f by the addition of z is not less than the threshold wt
 for t wt that is the maximum value of f for any z v
-this means the z which maximizes f is added to note that there can be multiple z for which f is maximized
+this means the z which maximizes f is added to g
+note that there can be multiple z for which f is maximized
 in that case the tie is broken arbitrarily
 the remaining z s may or may not be added to g based on the threshold value
-
 another important point to note is that our chosen f see equation is designed to mize both coverage and diversity
 so even if multiple z satisfy step they may not be added to g in step if they contain redundant information
-the value of wt is relaxed for the subsequent values of t to allow text elements producing relatively lower increments of f to be considered for possible inclusion in wl indicates that for the nal value of t at least one text unit z which does not decrement f is added to this ensures that the coverage of the summary produced is not compromised while preserving diversity
+the value of wt is relaxed for the subsequent values of t to allow text elements producing relatively lower increments of f to be considered for possible inclusion in g
+indicates that for the nal value of t at least one text unit z which does not decrement f is added to g
+this ensures that the coverage of the summary produced is not compromised while preserving diversity
 this process steps to is repeated for t
-l l resulting in the nal output
+
+
+l l resulting in the nal output g
 the reason for the eciency of algorithm is the fact that this algorithm does not perform exhaustive evaluation of all the possible submodular functions evolving in the intermediate steps of the algorithm
 the reduction in the number of steps in the algorithm is achieved mainly by decreasing wt geometrically by a factor of
 in addition multiple elements z can be added to g for a single threshold which also expedites the culmination of the algorithm
-b sample summaries of
-the datasets
-we give some examples of summaries generated by the dierent summarization algorithms cussed in the paper on two datasets i metoo dataset and us election dataset
+b sample summaries of the datasets we give some examples of summaries generated by the dierent summarization algorithms cussed in the paper on two datasets i metoo dataset and us election dataset
 the datasets are described in detail in the original paper
 all summaries showen here are of length k tweets
-summaries of metoo dataset
-
-here are few summaries produced with dierent fairness constraints of the metoo dataset
-
-summary produced by sumbasic algorithm tweets by females tweets by males
-abusers are nt victims opportunists are nt crusaders
+b
+summaries of metoo dataset here are few summaries produced with dierent fairness constraints of the metoo dataset
+summary produced by sumbasic algorithm tweets by females tweets by males abusers are nt victims opportunists are nt crusaders
 slut shamers shudnt talk about slut shaming cowards shudnt pretend to be warriors
 this is what sonam mahajan who i once considered a friend did to me
 telling this now seeing her blatant bigotry hypocrisy around metoo
 all the rapes and metoo metooindia allegations give raise to one question
-when will it stop
-but the questions must be when did it start
-and how long has it taken for us to standup against it
-i need inuencers to help me get the word out
+when will it stop but the questions must be when did it start and how long has it taken for us to standup against it i need inuencers to help me get the word out
 i need if people to follow me rt
 i need a dateline long format interview to talk to oprah
 i need funding and support
 i am alex jones ex wife i am not the underdog
 i am you
 i am america metoo can change this
-
-apparently i m only scared because of metoo even though the movement did nt exist at the time good to see india s top uni take a no nonsense approach to sexual harassment in academia metoo iisc shows door to top professor on charges of sexual harassment
-the rst story on talk dammit was mine
+apparently i m only scared because of metoo even though the movement did nt exist at the time good to see india s top uni take a no nonsense approach to sexual harassment in academia metoo iisc shows door to top professor on charges of sexual harassment the rst story on talk dammit was mine
 the rst person i opened up to about having been molested as a child was faizan
 please do nt believe this attention seeking bully of a woman faizan has been there for me and countless others even before there was a metoo movement
-
 also the jokes
 the jokes
-if i now shake hands with you will you yell metoo
-it is that funny is it
-women and so many men nally found the strength to share the stories of sexual misconduct and assault and some men need to joke about it
-
-
+if i now shake hands with you will you yell metoo it is that funny is it women and so many men nally found the strength to share the stories of sexual misconduct and assault and some men need to joke about it
 and it would be because of the actions of a few girls like meghasharma who abuse metoo one day it will probably have its own metoo movement as a mark of protest
-
-
-metoo ignores evidence and that s not right
-
-cause a man is human and he has the rights as woman but they does nt understand that
-
-
-feministsaremonster
-allowing a clear serial sexual predator to run one of your labels is a bad look crecords
+metoo ignores evidence and that s not right cause a man is human and he has the rights as woman but they does nt understand that
+feministsaremonster allowing a clear serial sexual predator to run one of your labels is a bad look crecords
 you need to drop now
-metoo believewomen
-my model friend has taken the initiative to come forward and speak about his metoo experience in the fashion industry
-lead
-the way kawal
+metoo believewomen my model friend has taken the initiative to come forward and speak about his metoo experience in the fashion industry
+lead the way kawal
 proud of you
 hope more men come forward to expose their experience with the predators around
-
-
-tanand metooindia
-
-it is becoming more commonplace for schools to oer support groups for boys
-here they feel safe to discuss their emotions and learn to navigate their relationship with girls in the metoo movement boy talk breaking masculine stereotypes
-
-metoo dies a little more everyday
+tanand metooindia it is becoming more commonplace for schools to oer support groups for boys
+here they feel safe to discuss their emotions and learn to navigate their relationship with girls in the metoo movement boy talk breaking masculine stereotypes metoo dies a little more everyday
 bryan singer is back at work
 woody allen is getting support
 james gunn is back at work
 harvey weinstein is pretty much on the verge of being cleared of any charges
 ceelo green is back on the voice
 america really does nt care about rape
-
 for ladies in gambia
 i m working on a series of survivor stories within the context of metoo told exactly as the survivors would choose
 if you re a survivor or know someone who is comfortable with it and would want to share their story please dm me
-ask in the light of metoo movements and harvey weinsteins how do they feel about using money and lawyers to silence victims under ndas instead of letting justice run its course how did they address the problem in their organizations
-trump is right a vote for republicans on november is a vote for him
-
+ask in the light of metoo movements and harvey weinsteins how do they feel about using money and lawyers to silence victims under ndas instead of letting justice run its course how did they address the problem in their organizations trump is right a vote for republicans on november is a vote for him
 its a vote against women a vote against freedom of speech a vote for racism a vote for hate crimes a vote for acceptance of his lies
-metoo jamalkhashoggi magabomber
-pittsburghsynagogueshooting
-if the fear about metoo is false accusations against men then the gop shouldnt be fering to women to make false allegations against robert mueller
+metoo jamalkhashoggi magabomber pittsburghsynagogueshooting if the fear about metoo is false accusations against men then the gop shouldnt be fering to women to make false allegations against robert mueller arewegreatenoughyet still better than the sports masseur who said i lit him up like a christmas tree stroked the side of my breast put his penis in my upturned palm said he d love to put cameras all over my house so he could watch me all day
 
-arewegreatenoughyet
-still better than the sports masseur who said i lit him up like a christmas tree stroked the side of my breast put his penis in my upturned palm said he d love to put cameras all over my house so he could watch me all day
-i just ca nt even metoo sexualharassment salmans is an issue of domestic violence
+
+i just ca nt even
+
+
+metoo sexualharassment salmans is an issue of domestic violence
 not to be conated with metoo
 diluting the def of metoo will dampen its impact
 its def should be restricted to people in power sexually exploiting the weak
-not domestic violence or failed ships
-it takes immense courage to this young woman ananya to express and write her story
-really the time s up
-this young actress faced lots of mental emotional physical abuse from another woman
-metoo please read her story in the fb link with this tweet
-
-summary produced by applying proportional representation on the sumbasic algorithm
-tweets by females tweets by males
-algorithm ii
-i need inuencers to help me get the word out i need if people to follow me rt i need a dateline long format interview to talk to oprah i need funding and support i am
-alex jones ex wife i am not the underdog i am you i am america metoo can change this
-womeninlm believesurvivors timesup metoo christineblaseyford mkutra hypocrites hypocrisy boycotthollywood
-the truth is you women walked out of having any commonsense
-you re all puppets of pedowood walkaway
-
+not domestic violence or failed ships it takes immense courage to this young woman ananya to express and write her story really the time s up this young actress faced lots of mental emotional physical abuse from another woman metoo please read her story in the fb link with this tweet
+summary produced by applying proportional representation on the sumbasic algorithm tweets by females tweets by males algorithm ii i need inuencers to help me get the word out i need if people to follow me rt i need a dateline long format interview to talk to oprah i need funding and support i am alex jones ex wife i am not the underdog i am you i am america metoo can change this
+womeninlm believesurvivors timesup metoo christineblaseyford mkutra hypocrites hypocrisy boycotthollywood the truth is you women walked out of having any commonsense you re all puppets of pedowood walkaway
 apparently i m only scared because of metoo even though the movement did nt exist at the time
-all the rapes and metoo metooindia allegations give raise to one question when will it stop
-but the questions must be when did it start and how long has it taken for us to standup against it
-metoo men who sexually harass women dont see it as sexual ment womentoo
-does the same
-
-today i spoke to a victim of falseallegations we stay in contact and touch base regularly
-he s still angry at he s treatment by the so called justice system he spent just over months in prison till he s acquittal
-as a pensioner he spent over on he s defense metoo
-
+all the rapes and metoo metooindia allegations give raise to one question when will it stop but the questions must be when did it start and how long has it taken for us to standup against it
+metoo men who sexually harass women dont see it as sexual ment womentoo does the same
+today i spoke to a victim of falseallegations we stay in contact and touch base regularly he s still angry at he s treatment by the so called justice system he spent just over months in prison till he s acquittal as a pensioner he spent over on he s defense metoo
 in the current climate of metoo if someone did that to you at your place of work would you just let it go or should it be considered sexual assault
-
-another thing you are not alone in its been mentally consuming for me
-it was was one of your tweets shared but that pushed me through my silence and made me share my story
-we are all in this together and its high time so be proud metoo
+another thing you are not alone in its been mentally consuming for me it was was one of your tweets shared but that pushed me through my silence and made me share my story we are all in this together and its high time so be proud metoo
 and it would be because of the actions of a few girls like meghasharma who abuse metoo one day it will probably have its own metoo movement as a mark of protest
-
-the left has hyjacked the metoo movement
-the left does not believe in innocent until proven guilty
-the left does not believe in america rst instead they would rather put every country ahead of the united states
-
+the left has hyjacked the metoo movement the left does not believe in innocent until proven guilty the left does not believe in america rst instead they would rather put every country ahead of the united states
 in many organizations content is also raising its metoo voice for the way it is treated there contentstrategy
-
-all the gentlemen who have been urging me via direct messages to talk about my personal metoo please look for this soft porn gratication from the low cost data services now available
-or you could make a quick trip to bangkok without bhabhiji
-
-
-judgement
-
-
-metoo ignores evidence and that s not right
-
-cause a man is human and he has the rights as woman but they does nt understand that feministsaremonster
-
+all the gentlemen who have been urging me via direct messages to talk about my personal metoo please look for this soft porn gratication from the low cost data services now available or you could make a quick trip to bangkok without bhabhiji judgement
+metoo ignores evidence and that s not right cause a man is human and he has the rights as woman but they does nt understand that feministsaremonster
 any feminist lawyers out there want to join forces and learn cutting edge defamation law so we can protect people who speak out in the metoo movement i m in vancouver and want to join a collective to level the playing eld
-
-can you take back the shame and humiliation this guy faced bcoz of what you have done to him
-he should seriously le defamation case against you metoocontroversy metoo
-
-
+can you take back the shame and humiliation this guy faced bcoz of what you have done to him he should seriously le defamation case against you metoocontroversy metoo
 i hope the metoo sexual assault allegations in india tear down every perpetrator of sexual violence in bollywood and beyond i hope the industry crumbles from within and rebuilds something new
-
 party coming to sm disclosing his proof of innocense he is having access to those ministers who r appointed as gom in metoo campaign but he preferred to come to sm bcoz he knows vote matters even they would have not listened to genderappeasement now think about
-
-you are the founder of metoo and as such i feel that you should stand for
-anyone being abused johnny depp made the mistake of marrying amber heard but she s trashed his name when she s really the abuser
-she should be accountable and is not here are the court
-
-a year ago today i thought my world was falling apart i woke up to nd out that the hashtag
-metoo had gone viral and i did nt see any of the work i laid out over the previous decade attached to it
-i thought for sure i would be erased from a thing i worked so hard to build
-
+you are the founder of metoo and as such i feel that you should stand for anyone being abused johnny depp made the mistake of marrying amber heard but she s trashed his name when she s really the abuser she should be accountable and is not here are the court
+a year ago today i thought my world was falling apart i woke up to nd out that the hashtag metoo had gone viral and i did nt see any of the work i laid out over the previous decade attached to it i thought for sure i would be erased from a thing i worked so hard to build
 excellent news should have happened right away but good that it happened now thanks to for doing the right thing meanwhile suhel seth continues to hide in whatever hole he s crawled into metoo
-
-summary produced by applying equal representation on the sumbasic algorithm tweets by females tweets by males
-algorithm ii
-i need inuencers to help me get the word out i need if people to follow me rt i need a dateline long format interview to talk to oprah i need funding and support i am alex jones ex wife i am not the underdog i am you i am america metoo can change this
-womeninlm believesurvivors timesup metoo christineblaseyford mkutra hypocrites hypocrisy boycotthollywood
-the truth is you women walked out of having any commonsense
-you re all puppets of pedowood walkaway
-apparently i m only scared because of metoo even though the movement did nt exist at the time
-all the rapes and metoo metooindia allegations give raise to one question when will it stop
-but the questions must be when did it start and how long has it taken for us to standup against it
-metoo men who sexually harass women dont see it as sexual ment womentoo
-does the same
-
-today i spoke to a victim of falseallegations we stay in contact and touch base regularly
-he s still angry at he s treatment by the so called justice system he spent just over months in prison till he s acquittal
-as a pensioner he spent over on he s defense metoo
-
-
-
-another thing you are not alone in its been mentally consuming for me
-it was was one of your tweets shared but that pushed me through my silence and made me share my story
-we are all in this together and its high time so be proud metoo
-
-
+summary produced by applying equal representation on the sumbasic algorithm tweets by females tweets by males algorithm ii i need inuencers to help me get the word out i need if people to follow me rt i need a dateline long format interview to talk to oprah i need funding and support i am alex jones ex wife i am not the underdog i am you i am america metoo can change this
+womeninlm believesurvivors timesup metoo christineblaseyford mkutra hypocrites hypocrisy boycotthollywood the truth is you women walked out of having any commonsense you re all puppets of pedowood walkaway apparently i m only scared because of metoo even though the movement did nt exist at the time
+all the rapes and metoo metooindia allegations give raise to one question when will it stop but the questions must be when did it start and how long has it taken for us to standup against it
+metoo men who sexually harass women dont see it as sexual ment womentoo does the same
+today i spoke to a victim of falseallegations we stay in contact and touch base regularly he s still angry at he s treatment by the so called justice system he spent just over months in prison till he s acquittal as a pensioner he spent over on he s defense metoo
+another thing you are not alone in its been mentally consuming for me it was was one of your tweets shared but that pushed me through my silence and made me share my story we are all in this together and its high time so be proud metoo
 the metoo movement is ocially dead
 the left only cares about women s sexual assault allegations when it is against a rival political party
-they never cared about the claims of the victims
-thesepeoplearesick hypocriticalleft votedemsout pedowood ntajoke
-in the current climate of metoo if someone did that to you at your place of work would you just let it go or should it be considered sexual assault all the gentlemen who have been urging me via direct messages to talk about my personal metoo please look for this soft porn gratication from the low cost data services now available or you could make a quick trip to bangkok without bhabhiji
-
-judgement
-the left has hyjacked the metoo movement
-the left does not believe in innocent until proven guilty
-the left does not believe in america rst instead they would rather put every country ahead of the united states
-
+they never cared about the claims of the victims thesepeoplearesick hypocriticalleft votedemsout pedowood ntajoke in the current climate of metoo if someone did that to you at your place of work would you just let it go or should it be considered sexual assault all the gentlemen who have been urging me via direct messages to talk about my personal metoo please look for this soft porn gratication from the low cost data services now available or you could make a quick trip to bangkok without bhabhiji judgement the left has hyjacked the metoo movement the left does not believe in innocent until proven guilty the left does not believe in america rst instead they would rather put every country ahead of the united states
 any feminist lawyers out there want to join forces and learn cutting edge defamation law so we can protect people who speak out in the metoo movement i m in vancouver and want to join a collective to level the playing eld
-
 in many organizations content is also raising its metoo voice for the way it is treated there contentstrategy
-
 i hope the metoo sexual assault allegations in india tear down every perpetrator of sexual violence in bollywood and beyond i hope the industry crumbles from within and rebuilds something new
-
-
-metoo ignores evidence and that s not right
-
-cause a man is human and he has the rights as woman but they does nt understand that feministsaremonster
-
-you are the founder of metoo and as such i feel that you should stand for
-anyone being abused johnny depp made the mistake of marrying amber heard but she s trashed his name when she s really the abuser
-she should be accountable and is not here are the court
-
-a year ago today i thought my world was falling apart i woke up to nd out that the hashtag
-metoo had gone viral and i did nt see any of the work i laid out over the previous decade attached to it
-i thought for sure i would be erased from a thing i worked so hard to build
-
-
-can you take back the shame and humiliation this guy faced bcoz of what you have done to him
-he should seriously le defamation case against you metoocontroversy metoo excellent news should have happened right away but good that it happened now thanks to for doing the right thing meanwhile suhel seth continues to hide in whatever hole he s crawled into metoo
-
+metoo ignores evidence and that s not right cause a man is human and he has the rights as woman but they does nt understand that feministsaremonster
+you are the founder of metoo and as such i feel that you should stand for anyone being abused johnny depp made the mistake of marrying amber heard but she s trashed his name when she s really the abuser she should be accountable and is not here are the court
+a year ago today i thought my world was falling apart i woke up to nd out that the hashtag metoo had gone viral and i did nt see any of the work i laid out over the previous decade attached to it i thought for sure i would be erased from a thing i worked so hard to build
+can you take back the shame and humiliation this guy faced bcoz of what you have done to him he should seriously le defamation case against you metoocontroversy metoo excellent news should have happened right away but good that it happened now thanks to for doing the right thing meanwhile suhel seth continues to hide in whatever hole he s crawled into metoo
 party coming to sm disclosing his proof of innocense he is having access to those ministers who r appointed as gom in metoo campaign but he preferred to come to sm bcoz he knows vote matters even they would have not listened to genderappeasement now think about
-
-summary produced by applying proportional representation on proposed fairsumm algorithm tweets by females tweets by males
-algorithm i i need inuencers to help me get the word out
+summary produced by applying proportional representation on proposed fairsumm algorithm tweets by females tweets by males algorithm i i need inuencers to help me get the word out
 i need if people to follow me rt
 i need a dateline long format interview to talk to oprah
 i need funding and support
 i am alex jones ex wife i am not the underdog
 i am you
 i am america metoo can change this
-
 important my dms are open
 let s hear himtoo mentoo and the metoo stories of men
 tell me about cases where you as a man or a man you know has been abused ally assaulted harassed intimidated falsely accused and not even heard let alone believed
-
 reach out rt
-
 it is not just suhel seth s silence
 it s also the unacceptable silence of many in media who knew him professionally and socially
 i did too like many others
-i spoke up but i can count on one hand those of us who have demanded accountability from him metoo
-where are others too bad you do nt really believe in the power of truth
+i spoke up but i can count on one hand those of us who have demanded accountability from him metoo where are others too bad you do nt really believe in the power of truth
 how can you live with yourself knowingly voting for an alcoholic abuser of women
-next time i am sexually assaulted i will rst ask if anyone would like to witness for prosperity s sake
-metoo screw you
-
-
-i for one believe all women which is why i will believe this mueller accuser until it is proven
-she is or is nt lying
+next time i am sexually assaulted i will rst ask if anyone would like to witness for prosperity s sake metoo screw you
+i for one believe all women which is why i will believe this mueller accuser until it is proven she is or is nt lying
 sure is odd all the media is trying to get out in front of this before we even have the accuser s name though for those noting
-metoo
-a year ago today i thought my world was falling apart
-i woke up to nd out that the hashtag
-metoo had gone viral and i did nt see any of the work i laid out over the previous decade attached to it
-i thought for sure i would be erased from a thing i worked so hard to build
 
+metoo a year ago today i thought my world was falling apart
+i woke up to nd out that the hashtag metoo had gone viral and i did nt see any of the work i laid out over the previous decade attached to it
+i thought for sure i would be erased from a thing i worked so hard to build
 i admire the courage of all the victims who spoke out against sexual rassment abuse
 s resignation is a moral victory for everyone
 the defamation case ca nt change that
 the metoo movement needs support across party lines
-
-
 that to they lied and now they want to lynch every man on earth
 the whole metoo is stupid
 its dangerous to believe every woman
-
 no man is safe anymore when someone does nt like you they cry metoo
-it can happen to everyone are women that weak that they need a hashtag to speak out
-i m sure women are strong enough to ght without social media
-atleast women around
-me are
+it can happen to everyone are women that weak that they need a hashtag to speak out i m sure women are strong enough to ght without social media
+atleast women around me are
 metoo needs to be stopped because it does really promote more fake cases
-instead ght the real one bravely and we support
+instead ght the real one bravely and we support u
 as i cry and succumb to mental exhaustion because of i remember the ships women forged and solidarity we showered upon each other
 each one of you who has helped supported fought the war been there relentlessly i will never forget
 thank you
 i love you
-
 she has no cellphone and does nt use hashtags
 what is misleading is that people say metoo is an urban elite thing that must reach the poor
 it s actually the other way around
-they deserve justice
-mother of india s metoo speaks out excellent news should have happened right away but good that it happened now thanks to for doing the right thing meanwhile suhel seth continues to hide in whatever hole he s crawled into metoo
-
-
+they deserve justice mother of india s metoo speaks out excellent news should have happened right away but good that it happened now thanks to for doing the right thing meanwhile suhel seth continues to hide in whatever hole he s crawled into metoo
 i m so fucking stupid everyone always says do nt get in a strangers car
 i m fucking smarter than this
 i hate this world you can never trust ne he just tried to hold my hand put his hand on my leg
 i got home safely but still
-he was and i m metoo
-these wounds come from a culture infection we know where it began
+
+
+he was and i m metoo these wounds come from a culture infection we know where it began
 it s eects has lasted for generations and the time to cleanse it all out is now
 this is nt our shame to hold any longer
 this was never ours to begin with
-indigenousmetoo indigenous metoo
-if a guy says he s nervous about metoo just remind him that we come down pretty hard on murderers too and ask him why that does nt make him nervous
+indigenousmetoo indigenous metoo if a guy says he s nervous about metoo just remind him that we come down pretty hard on murderers too and ask him why that does nt make him nervous
 if he says because i have nt murdered anyone then you ve learned something new about your friend
-
-
 i had to cancel a follow up gynecologist appointment today for my iud
 my anxiety is through the roof
-i ca nt even deal with the travel right now any thought of going to that
-ment brings panic through my body
+i ca nt even deal with the travel right now
+
+
+any thought of going to that ment brings panic through my body
 i ll try again but not today
-survivorculture metoo
-i have been asking media houses to debate this but these spineless guys do nt ever discuss such incidents
+survivorculture metoo i have been asking media houses to debate this but these spineless guys do nt ever discuss such incidents
 biased media could only talk metoo at prime time to demean the men of this country
 poor guard with no mistake is behind bars
 jago jago harashtra if these same signs had pictures of transgender african americans holding metoo signs there would be rioting looting and protests
 the right would be called white supremacists and nazis for it
 the double standard is real and easy to see
-
-
 the question was nt about if women are ous or not it was if women are more agreable then men do nt change the topic
-the answer is no give more present than women help more others on their works do nt do metoo do nt ask for divorce at
-if a woman shares a metoo without evidence it s taken to be true coz
-it s a women s timony a man coming out with hetoo story people would be doubtful question the evidences the intent will never except the man as victim
+the answer is no give more present than women help more others on their works do nt do metoo do nt ask for divorce at if a woman shares a metoo without evidence it s taken to be true coz it s a women s timony a man coming out with hetoo story people would be doubtful question the evidences the intent will never except the man as victim
 misandry must be understood
-
-speakupman summary produced by applying equal representation on proposed fairsumm algorithm
-tweets by females tweets by males
-algorithm i i need inuencers to help me get the word out
+speakupman summary produced by applying equal representation on proposed fairsumm algorithm tweets by females tweets by males algorithm i i need inuencers to help me get the word out
 i need if people to follow me rt
 i need a dateline long format interview to talk to oprah
 i need funding and support
 i am alex jones ex wife i am not the underdog
 i am you
 i am america metoo can change this
-
-
 important my dms are open
 let s hear himtoo mentoo and the metoo stories of men
 tell me about cases where you as a man or a man you know has been abused ally assaulted harassed intimidated falsely accused and not even heard let alone believed
-
 reach out rt
-
 it is not just suhel seth s silence
 it s also the unacceptable silence of many in media who knew him professionally and socially
 i did too like many others
-i spoke up but i can count on one hand those of us who have demanded accountability from him metoo
-where are others too bad you do nt really believe in the power of truth
+i spoke up but i can count on one hand those of us who have demanded accountability from him metoo where are others too bad you do nt really believe in the power of truth
 how can you live with yourself knowingly voting for an alcoholic abuser of women
-next time i am sexually assaulted i will rst ask if anyone would like to witness for prosperity s sake
-metoo screw you
-
-
-i for one believe all women which is why i will believe this mueller accuser until it is proven
-she is or is nt lying
+next time i am sexually assaulted i will rst ask if anyone would like to witness for prosperity s sake metoo screw you
+i for one believe all women which is why i will believe this mueller accuser until it is proven she is or is nt lying
 sure is odd all the media is trying to get out in front of this before we even have the accuser s name though for those noting
-metoo
-a year ago today i thought my world was falling apart
-i woke up to nd out that the hashtag
-metoo had gone viral and i did nt see any of the work i laid out over the previous decade attached to it
-i thought for sure i would be erased from a thing i worked so hard to build
 
+metoo a year ago today i thought my world was falling apart
+i woke up to nd out that the hashtag metoo had gone viral and i did nt see any of the work i laid out over the previous decade attached to it
+i thought for sure i would be erased from a thing i worked so hard to build
 i admire the courage of all the victims who spoke out against sexual rassment abuse
 s resignation is a moral victory for everyone
 the defamation case ca nt change that
 the metoo movement needs support across party lines
-
-
 that to they lied and now they want to lynch every man on earth
 the whole metoo is stupid
 its dangerous to believe every woman
-
 no man is safe anymore when someone does nt like you they cry metoo
-it can happen to everyone are women that weak that they need a hashtag to speak out
-i m sure women are strong enough to ght without social media
+it can happen to everyone are women that weak that they need a hashtag to speak out i m sure women are strong enough to ght without social media
 atleast women around me are
 metoo needs to be stopped because it does really promote more fake cases
-instead ght the real one bravely and we support
+instead ght the real one bravely and we support u
 as i cry and succumb to mental exhaustion because of metoo i remember the friendships women forged and solidarity we showered upon each other
 each one of you who has helped supported fought the war been there relentlessly i will never forget
 thank you
 i love you
-
-
 she has no cellphone and does nt use hashtags
 what is misleading is that people say metoo is an urban elite thing that must reach the poor
 it s actually the other way around
-they deserve justice
-mother of india s metoo speaks out excellent news should have happened right away but good that it happened now thanks to for doing the right thing meanwhile suhel seth continues to hide in whatever hole he s crawled into metoo
-
-
+they deserve justice mother of india s metoo speaks out excellent news should have happened right away but good that it happened now thanks to for doing the right thing meanwhile suhel seth continues to hide in whatever hole he s crawled into metoo
 i m so fucking stupid everyone always says do nt get in a strangers car
 i m fucking smarter than this
 i hate this world you can never trust anyone i m ne he just tried to hold my hand put his hand on my leg
 i got home safely but still
-he was and i m metoo
-these wounds come from a culture infection we know where it began
+
+
+he was and i m metoo these wounds come from a culture infection we know where it began
 it s eects has lasted for generations and the time to cleanse it all out is now
 this is nt our shame to hold any longer
 this was never ours to begin with
-indigenousmetoo indigenous metoo
-if a guy says he s nervous about metoo just remind him that we come down pretty hard on murderers too and ask him why that does nt make him nervous
+indigenousmetoo indigenous metoo if a guy says he s nervous about metoo just remind him that we come down pretty hard on murderers too and ask him why that does nt make him nervous
 if he says because i have nt murdered anyone then you ve learned something new about your friend
-
-
 i had to cancel a follow up gynecologist appointment today for my iud
 my anxiety is through the roof
-i ca nt even deal with the travel right now any thought of going to that
-ment brings panic through my body
+i ca nt even deal with the travel right now
+
+
+any thought of going to that ment brings panic through my body
 i ll try again but not today
-survivorculture metoo
-we need to send out the message this not how we behave in our sector
+survivorculture metoo we need to send out the message this not how we behave in our sector
 brave words from
-
-and i have been calling for such action daily
-opinion metoo movement in housing are we standing up for change
-
-
-if these same signs had pictures of transgender african americans holding metoo signs there would be rioting looting and protests
+and i have been calling for such action daily opinion metoo movement in housing are we standing up for change if these same signs had pictures of transgender african americans holding metoo signs there would be rioting looting and protests
 the right would be called white supremacists and nazis for it
 the double standard is real and easy to see
-
-
 the question was nt about if women are ous or not it was if women are more agreable then men do nt change the topic
-the answer is no give more present than women help more others on their works do nt do metoo do nt ask for divorce at
-if a woman shares a metoo without evidence it s taken to be true coz
-it s a women s timony a man coming out with hetoo story people would be doubtful question the evidences the intent will never except the man as victim
+the answer is no give more present than women help more others on their works do nt do metoo do nt ask for divorce at if a woman shares a metoo without evidence it s taken to be true coz it s a women s timony a man coming out with hetoo story people would be doubtful question the evidences the intent will never except the man as victim
 misandry must be understood
-
-speakupman summaries of us election dataset
-here are few summaries of length k tweets produced with dierent fairness constraints of the us election dataset
-
-summaries produced by sumbasic algorithm pro democratic tweets pro republican tweets neutral tweets
-there is no other donald trump
+speakupman b
+summaries of us election dataset here are few summaries of length k tweets produced with dierent fairness constraints of the us election dataset
+summaries produced by sumbasic algorithm pro democratic tweets pro republican tweets neutral tweets there is no other donald trump
 this is it
-
-repeal and replace
-obamacareinthreewords states have voter registration deadlines today
-fl oh pa mi ga tx nm in la tn ar ky sc
+repeal and replace obamacareinthreewords states have voter registration deadlines today fl oh pa mi ga tx nm in la tn ar ky sc
 chief
-coming up on
-a rough night for hillary clinton abc news
-
-there s only one candidate in this election who s ready to be america s commander barack michelle joe bernie elizabeth you
+coming up on a rough night for hillary clinton abc news
+there s only one candidate in this election who s ready to be america s commander barack michelle joe bernie elizabeth you crooked hillary clinton likes to talk about the things she will do but she has been there for years why did nt she do them that was me i was there
 
 
-crooked hillary clinton likes to talk about the things she will do but she has been there for years why did nt she do them
-
-that was me
-i was there
-make america great again
-
-donald trump
-a president for all americans
-do you think hillary has all the questions that she is going to be asked debate retweet before you vote to give your prople a chance to vote
-the media and establishment want me out of the race so badly i will never drop out of the race will never let my supporters down
-
-maga
-we call on the fbi to immediately release all emails pertinent to their investigation
+make america great again donald trump a president for all americans do you think hillary has all the questions that she is going to be asked debate retweet before you vote to give your prople a chance to vote the media and establishment want me out of the race so badly i will never drop out of the race will never let my supporters down maga we call on the fbi to immediately release all emails pertinent to their investigation
 cans have the right to know before election day
-new reuters ipsos polls iowa trump
-clinton florida
-trump clinton colorado trump clinton
-
-thank you to for the great review of the speech on immigration last night
-thank you also to the great people of arizona
-
-russia took crimea during the so called obama years
-who would nt know this and why does obama get a free pass
-
-praying for the families of the two iowa police who were ambushed this morning
+new reuters ipsos polls iowa trump clinton florida trump clinton colorado trump clinton thank you to for the great review of the speech on immigration last night
+thank you also to the great people of arizona russia took crimea during the so called obama years
+who would nt know this and why does obama get a free pass praying for the families of the two iowa police who were ambushed this morning
 an attack on those who keep us safe is an attack on us all
 campaign raised a record million in september
 number of donors up
-my son is voting for the rst time i m so proud
-summary produced by applying proportional representation on fairsumm algorithm
-pro democratic tweets pro republican tweets neutral tweets
-algorithm i you can change your vote in six states
-so now that you see that hillary was a big mistake change your vote to make america great again
-
-wow hillary clinton was so insulting to my supporters millions of amazing hard ing people
-i think it will cost her at the polls
-
-why are people voting trump because hillary is a criminal when the fbi already cleared her and trump is going to court for a rape claim donald trump still refuses to say was born in america
-and this man wants to be our president
-when will he stop this ugliness
-
-just heard from nc campaign
-hillary campaign is calling voters saying they have a chance to win if they vote hillary
-paying votes
-voter fraud
-crooked hillary clinton even got the questions to a debate and nobody says a word
-can you imagine if i got the questions
-
-trump said his campaign could be his single greatest waste of time of energy money
-congrats donald
-today you are a trump u graduate
-
+my son is voting for the rst time i m so proud summary produced by applying proportional representation on fairsumm algorithm pro democratic tweets pro republican tweets neutral tweets algorithm i you can change your vote in six states
+so now that you see that hillary was a big mistake change your vote to make america great again wow hillary clinton was so insulting to my supporters millions of amazing hard ing people
+i think it will cost her at the polls why are people voting trump because hillary is a criminal when the fbi already cleared her and trump is going to court for a rape claim donald trump still refuses to say was born in america
+and this man wants to be our president when will he stop this ugliness just heard from nc campaign
+hillary campaign is calling voters saying they have a chance to win if they vote hillary paying votes voter fraud crooked hillary clinton even got the questions to a debate and nobody says a word
+can you imagine if i got the questions trump said his campaign could be his single greatest waste of time of energy money
+congrats donald today you are a trump u graduate
 in order to draintheswamp create a new government of by for the people i imagine if hillary clinton said on her email server i do nt talk about it anymore
-and we need your vote
-go to let s maga
-all just moved on
+and we need your vote go to let s maga all just moved on
 that s not how it works
-
-as just showed the american people no matter what happens he will not be deterred he will not give up ghting for you
-
-wow did you just hear bill clinton s statement on how bad obamacare is
+as just showed the american people no matter what happens he will not be deterred he will not give up ghting for you wow did you just hear bill clinton s statement on how bad obamacare is
 hillary not happy
-as i have been saying repeal and replace
-
-hearing privately from many reporters that hillary had a terrible night trump had best debate
+as i have been saying repeal and replace hearing privately from many reporters that hillary had a terrible night trump had best debate
 hope this will make it into print on air hillary clinton did nt go to louisiana and now she did nt go to mexico
-she does nt have the drive or stamina to make america great again
-
-the people are really smart in cancelling subscriptions to the dallas arizona papers now usa today will lose readers
-the people get it
-
-hey everyone the obama speechwriters who came up with if you like your plan you can keep it are saying hillary s health is just ne
-
+she does nt have the drive or stamina to make america great again the people are really smart in cancelling subscriptions to the dallas arizona papers now usa today will lose readers the people get it hey everyone the obama speechwriters who came up with if you like your plan you can keep it are saying hillary s health is just ne
 we hear hillary will try to get under trump s skin tomorrow night
-how does this dier with what she does to all of us daily
-
-debates
-the fact that trump s answer to a question about racial injustice is just we need law and order pretty much says it all
+how does this dier with what she does to all of us daily debates the fact that trump s answer to a question about racial injustice is just we need law and order pretty much says it all
 debatenight win or lose trump made our world uglier
 i do nt want any reality shows from him after this no cutesy late night sketches
 i want nothing
-
-how are so many people just now oended by trump
-it s like getting to the harry potter book realizing voldemort might be a bad guy
-
-
+how are so many people just now oended by trump it s like getting to the harry potter book realizing voldemort might be a bad guy
 i call on all republicans to put people before politics and nally vote on a clean funding bill to ght zika right here in florida
-summary produced by applying equal representation on fairsumm algorithm democratic tweets pro republican tweets neutral tweets
-algorithm i you can change your vote in six states
-so now that you see that hillary was a big mistake change your vote to make america great again
-
-wow hillary clinton was so insulting to my supporters millions of amazing hard ing people
-i think it will cost her at the polls
-
-why are people voting trump because hillary is a criminal when the fbi already cleared her and trump is going to court for a rape claim donald trump still refuses to say was born in america
-and this man wants to be our president
-when will he stop this ugliness
-voter fraud
-crooked hillary clinton even got the questions to a debate and nobody says a word
-can you imagine if i got the questions
-
-in order to draintheswamp create a new government of by for the people i imagine if hillary clinton said on her email server i do nt talk about it anymore
-and we need your vote
-go to let s maga
-all just moved on
+summary produced by applying equal representation on fairsumm algorithm democratic tweets pro republican tweets neutral tweets algorithm i you can change your vote in six states
+so now that you see that hillary was a big mistake change your vote to make america great again wow hillary clinton was so insulting to my supporters millions of amazing hard ing people
+i think it will cost her at the polls why are people voting trump because hillary is a criminal when the fbi already cleared her and trump is going to court for a rape claim donald trump still refuses to say was born in america
+and this man wants to be our president when will he stop this ugliness voter fraud crooked hillary clinton even got the questions to a debate and nobody says a word
+can you imagine if i got the questions in order to draintheswamp create a new government of by for the people i imagine if hillary clinton said on her email server i do nt talk about it anymore
+and we need your vote go to let s maga all just moved on
 that s not how it works
-
-as just showed the american people no matter what happens he will not be deterred he will not give up ghting for you
-
-wow did you just hear bill clinton s statement on how bad obamacare is
+as just showed the american people no matter what happens he will not be deterred he will not give up ghting for you wow did you just hear bill clinton s statement on how bad obamacare is
 hillary not happy
-as i have been saying repeal and replace
-
-the people are really smart in cancelling subscriptions to the dallas arizona papers now usa today will lose readers
-the people get it
-
-we have to stand up to this hate
+as i have been saying repeal and replace the people are really smart in cancelling subscriptions to the dallas arizona papers now usa today will lose readers the people get it we have to stand up to this hate
 we have to send a clear message america is better than this
 america is better than donald trump
-
 trump surrogates now attacking former miss universe doing a nude photo spread
 you know just like melania trump did
-do they ever think
-
-trump said his campaign could be his single greatest waste of time of energy money
-congrats donald
-today you are a trump u graduate
+do they ever think trump said his campaign could be his single greatest waste of time of energy money
+congrats donald today you are a trump u graduate
 win or lose trump made our world uglier
 i do nt want any reality shows from him after this no cutesy late night sketches
 i want nothing
-
-how are so many people just now oended by trump
-it s like getting to the harry potter book realizing voldemort might be a bad guy
-
-
+how are so many people just now oended by trump it s like getting to the harry potter book realizing voldemort might be a bad guy
 i call on all republicans to put people before politics and nally vote on a clean funding bill to ght zika right here in florida
-
 it happened win world series
 that s change even this south sider can believe in
-want to come to the white house before i leave
-
-trump i alone can x
-hillary
-together we can x it
-stein they ca nt x it and neither can i
-johnson googles denition of
-if hillary god is still god if trump
-god is still god i may have lost hope in america but never in god
-
+want to come to the white house before i leave trump i alone can x hillary together we can x it stein they ca nt x it and neither can i johnson googles denition of if hillary god is still god if trump god is still god i may have lost hope in america but never in god
 thank you to every nation that moved to bring the paris agreement into force
 history will judge today as a turning point for our planet
-note
-the dierence in length of tweets in the metoo dataset and that of us election dataset is due to the change in the maximum number of characters allowed in a tweet from to in the year
+note the dierence in length of tweets in the metoo dataset and that of us election dataset is due to the change in the maximum number of characters allowed in a tweet from to in the year
 

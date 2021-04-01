@@ -1,39 +1,35 @@
-discovering conversational topics and emotions associated with demonetization tweets in india mitodru niyogi
-govt
-college of engineering ceramic technology kolkata west bengal
+discovering conversational topics and emotions associated with demonetization tweets in india mitodru niyogi govt
+college of engineering ceramic technology kolkata west bengal email mitodru
 
-email asim kumar pal management information systems
-indian institute of management calcutta kolkata email v o
-n l c
-s
-c
-v
-v
-i x r a abstract social media platforms contain great wealth of mation which provides us opportunities explore hidden patterns or unknown correlations and understand people s satisfaction with what they are discussing
-as one showcase in this paper we summarize the data set of twitter messages related to recent demonetization of all rs and rs notes in india and explore insights from twitter s data
+com asim kumar pal management information systems indian institute of management calcutta kolkata email
+ac
+in v o n l c
+s c v
+v i x r a abstract social media platforms contain great wealth of mation which provides us opportunities explore hidden patterns or unknown correlations and understand people s satisfaction with what they are discussing
+as one showcase in this paper we summarize the data set of twitter messages related to recent demonetization of all rs
+and rs
+notes in india and explore insights from twitter s data
 our proposed system automatically extracts the popular latent topics in conversations regarding demonetization discussed in twitter via the latent dirichlet allocation lda based topic model and also identies the correlated topics across different categories
 additionally it also discovers people s opinions expressed through their tweets related to the event under consideration via the emotion analyzer
-
 the system also employs an intuitive and informative ization to show the uncovered insight
 furthermore we use an evaluation measure normalized mutual information nmi to select the best lda models
 the obtained lda results show that the tool can be effectively used to extract discussion topics and summarize them for further manual analysis
-introduction
-analyzing news stories have been pivotal for nding out
-some of the quantitative and qualitative attributes from text documents
+i
+introduction analyzing news stories have been pivotal for nding out some of the quantitative and qualitative attributes from text documents
 a broad domain like news analytics incorporates the use of various text mining methods to analyze text
-
 it applies methods from natural language processing chine learning information retrieval
 in our study the qualitative attributes can be socio economic tags related to demonetization in india
 the sentiment score which generally reects the tone positive negative of the text as well as the emotions expressed can be one of the quantitative attributes
-
-in this paper we have dealt with two problems in the domain of news analytics rstly is text categorization without any prior domain knowledge topic modeling and secondly is emotion analysis
+in this paper we have dealt with two problems in the domain of news analytics rstly is text categorization without any prior domain knowledge i
+e
+topic modeling and secondly is emotion analysis
 for example we are trying to investigate how emotions of people relate to demonetization in india
-
-for text categorization we have clustered the news stories into several k topics unsupervised learning with automatic topic labeling topic modeling
+for text categorization we have clustered the news stories into several k topics unsupervised learning with automatic topic labeling i
+e
+topic modeling
 topic modeling reects the thematic structure of the collection of documents by treating data as observations which gets derived from a ative probabilistic process that comprises hidden variables for documents
 inferring them using posterior inference results the topics generation that describes its corpus
-the emotion analysis also referred as sentiment extraction
-would give an emotion association score to each story depending on the expressive tone of the story in basic emotions categories and two sentiments positive negative deciding the tone of the overall story
+the emotion analysis also referred as sentiment extraction would give an emotion association score to each story depending on the expressive tone of the story in basic emotions categories and two sentiments positive negative deciding the tone of the overall story
 introduction is here
 the roadmap of the paper is as follows
 data preparation and exploratory insights are described in section
@@ -42,149 +38,142 @@ section reveals our proposed system architecture
 section deals with the experiment setup
 section gives the results
 section draws conclusions from discussions and points to future work
+a
 data set ii
-data
-the data has been collected over a period of two months from november to december across four metro cities delhi kolkata mumbai and chennai based on sets of keywords corresponding to demonetization in india demonet black money cashless using twitter s streaming api and was stored into mongodb
+data the data has been collected over a period of two months from november to december across four metro cities delhi kolkata mumbai and chennai based on sets of keywords corresponding to demonetization in india e
 
+demonet black money cashless
+using twitter s streaming api and was stored into mongodb
 we approximately collected tweets in the order of retweet count during the period
 novel data comprise tion date and time user id user name tweets message and geographical area
 due to the huge volume of novel data we divide the data into only with dates user ids and text and conduct further operation and analysis based on the three variables
 most of the tweets are written in english but the original raw data set also includes the tweets in vernacular languages such as hindi or bengali
 we did exclude them in the initial data manipulation process
-the data from the nosql database was imported into r console using the tm package
-in cran library to construct the document term matrix for use in developing the topic model
-
-exploratory insight
-we explore the time series analysis of tweets over given time period
+the data from the nosql database was imported into r console using the tm package in cran library to construct the document term matrix for use in developing the topic model
+b
+exploratory insight we explore the time series analysis of tweets over given time period
 we visualize the number of retweet by hour minute average number of words by hour
 we also explore which users have contributed to maximum tweets in our corpus
 it also determines user s inuence over others in terms of his retweet count
 out of tweets we see that most of the tweets are from twitter web client source followed by windows phone iphone sources
 we see that more than users have tweeted more than tweets for the event under consideration
-
 fig
-shows the hourly retweet count fig displays hourly average count of words in tweets fig
+shows the hourly retweet count fig
+displays hourly average count of words in tweets fig
 shows the top source contributors platforms for generation of tweets fig
-lists the top twitter handlers with maximum tweets count fig and fig
+lists the top twitter handlers with maximum tweets count fig
+and fig
 show some word clouds of the corpus
 fig
 top twitter handles with maximum tweets fig
 hourly retweet fig
 average number of words hourly fig
-
 wordcloud of corpus having high frequency words fig
 top sources contribution to maximum tweets fig
-
-wordcloud of corpus after removing set of keywords used to download data data preprocessing before applying any of the sentiment emotion extraction methods we perform data preprocessing
+wordcloud of corpus after removing set of keywords used to download data c
+data preprocessing before applying any of the sentiment emotion extraction methods we perform data preprocessing
 data preprocessing allows to produce higher quality of text classication and reduce the computational complexity
 typical preprocessing procedure includes the following steps stemming and lemmatization
 stemming is a procedure of replacing words with their stems or roots
 the dimensionality of the bag of words representation is reduced when related words such as read reader and reading are mapped into one word read
 over stemming lowers precision and under stemming lowers recall
 the overall impact of stemming depends on the dataset and stemming algorithm
-
 the most popular stemming algorithm is porter stemmer
-
 stop words removal
 stop words are words which carry a connecting function in the sentence such as prepositions articles
 there is no denite list of stop words but some search machines are using some of the most common short function words such as the is at which and on
 these words can be removed from the text before classication since they have a high frequency of occurrence in the text but do not affect the nal sentiment of the sentence
 tf idf model
-term frequency inverse document frequency tf idf
-divides the term frequencies by the document frequencies number of documents were the jth word has appeared
+term frequency inverse document frequency tf idf divides the term frequencies by the document frequencies number of documents were the jth word has appeared
 this adjustment is done in order to lower the weightage of those words which are common across all the documents
 the tf idf measure suggests how important the term is for the particular document
 in tf idf scheme words which are common across all documents will automatically get less importance
-preprocessing of tweet include following points remove all urls
-hash tags topic targets correct the spellings sequence of repeated characters is to be handled replace all the emoticons with their sentiment
+preprocessing of tweet include following points remove all urls e
+
+www
+xyz
+com hash tags e
+
+topic targets correct the spellings sequence of repeated characters is to be handled replace all the emoticons with their sentiment
 remove all punctuations symbols numbers remove stop words remove non english tweets iii
-background introduction to lda
-previously documents were treated as a bag of words
-approach as in many models which dealt with text documents
+background a
+introduction to lda previously documents were treated as a bag of words approach as in many models which dealt with text documents
 topic modeling adopts that a document is a of topics instead of a bag of words representation and its sole purpose is to cluster each term in each document into a relevant topic
 a variations of different probabilistic topic models have been proposed and lda is considered to be a well known method
-alike other methods the input to lda is a term document matrix and the output of
-lda is composed of two distributions namely topic distribution and topic word distribution
+alike other methods the input to lda is a term document matrix and the output of lda is composed of two distributions namely topic distribution and topic word distribution
 em and gibbs sampling algorithms were proposed to derive the distributions of and
-in this paper we use the gibbs
-sampling based lda
+in this paper we use the gibbs sampling based lda
 in this approach one of the most signicant step is updating each topic assignments individually for each term in every documents according to the probabilities calculated using equation
-cw t
-cw t vk vk v p zi k wi v zi wi c dt dk c dt
-dk k where zi k represents that the ith term in a document is assigned to topic k wi v
-is the mapping of the observed term
-wi to the vth term in the corpus s vocabulary and zi signies all the assignments of topic except the ith term
+cw t cw t vk vk v p zi k wi v zi wi c dt dk c dt dk k where zi k represents that the ith term in a document is assigned to topic k wi v is the mapping of the observed term wi to the vth term in the corpus s vocabulary and zi signies all the assignments of topic except the ith term
 cw t is the frequency of occurrence of term v assigned to a particular topic k and cdt dk is the number of times that the document d contains the topic
 moreover k is the user input denoting the number of topics v represents the vocabularys size parameters for the document topic distribution and topic word distribution are denoted by and respectively
 by default and are set to k and
+
 we perform n iterations of gibbs sampling for every terms in the corpus and after this we estimate the document topic and topic word distributions respectively using equations and
-dk c dt c dt dk dk k vk cw t
-cw t vk vk v emotion analysis emotion classication is fundamentally a text classication problem
+dk c dt c dt dk dk k vk cw t cw t vk vk v b
+emotion analysis emotion classication is fundamentally a text classication problem
 traditional sentiment classication mainly classies documents as positive negative and neutral
 in this scenario the emotion is ne grained into basic emotions such as anger fear anticipation trust surprise sadness joy and disgust
-
-in this paper the nrc word emotion association lexicon
-corpus is selected as the labeled corpus
-it comprises a list of english words and their associations with plutchik s
-eight basic emotions and two sentiments negative and positive
+in this paper the nrc word emotion association lexicon corpus is selected as the labeled corpus
+it comprises a list of english words and their associations with plutchik s eight basic emotions and two sentiments negative and positive
 it involves three variables targetword egory and associationflag
 targetword is a word for which emotion associations are provided
 affectcategory is one of eight emotions or one of two polarities negative or positive
-
 associationflag has one of two possible values or
 indicates that the target word has no association with affect category whereas indicates an association
 fig
 shows the process to identify a crowd type from social media
-what are the topics discussed by people online to help us understand people s interests
-what are people s opinion on the specic topics to help us understand their satisfaction of those topics
-
-the term document matrix is created which is fed to lda based model for discovering latent topics and
-the documents are analyzed by the emotion analyzer
+what are the topics discussed by people online to help us understand people s interests what are people s opinion on the specic topics to help us understand their satisfaction of those topics the term document matrix is created which is fed to lda based model for discovering latent topics and the documents are analyzed by the emotion analyzer
 then emotion analyzer will tag each tweet as happy sad angry fear surprise or neutral
-fig presents the architecture of our proposed system
 fig
-
-the process to identify a crowd type from social media via emotion analysis nmi in the experiment we used nmi normalized mutual formation
-to evaluate overall documents tweets cluster quality
+presents the architecture of our proposed system
+fig
+the process to identify a crowd type from social media via emotion analysis c
+nmi in the experiment we used nmi normalized mutual formation to evaluate overall documents tweets cluster quality
 the following formula is used to calculate nmi n m y y where is mutual information between x and y where x
+
+
 xn and y
+
+
 yn
-xi is the set of text reviews in lda s topic i while yj is the set of text reviews with the label in our experiments a text review with the label j means that the text review has the highest probability of belonging to topic j n is the number of topics
-is y
-y log yy xx y
-in the formula means probability of being classied to topic i means probability of labeled to topic j while yj means probability of being classied to cluster i but actually labeled to cluster is entropy of x as calculated by the following formula
-log n the clustering result is totally different from the label if the value of nmi is and is identical if value of nmi is
+xi is the set of text reviews in lda s topic i while yj is the set of text reviews with the label j
+in our experiments a text review with the label j means that the text review has the highest probability of belonging to topic j n is the number of topics
+is y y log yy xx y in the formula means probability of being classied to topic i means probability of labeled to topic j while yj means probability of being classied to cluster i but actually labeled to cluster j
+is entropy of x as calculated by the following formula log n the clustering result is totally different from the label if the value of nmi is and is identical if value of nmi is
 iv
 proposed system architecture we propose a system that consists of three main components including data collection data analysis and data visualization
-
 the data collection module is developed to crawl the tweets from twitter using data crawlers and to store the tweets into mongodb a nosql database for scalability and scheme less data storage purpose
-after data preprocessing steps such as tokenization stemming and stopwords removal the system mainly performs two different types of analyses to answer the following questions fig proposed system architecture experimental setup for the demonetization data we started with default
-rameters and input parameter topic number n which means desired topics
+after data preprocessing steps such as tokenization stemming and stopwords removal the system mainly performs two different types of analyses to answer the following questions fig
+proposed system architecture v
+experimental setup for the demonetization data we started with default rameters
 
+and input parameter topic number n which means desired topics
 by comparing the lda result given in table ii we choose topic number n as a basic group for further comparison since when n most topics have enough words to reveal information about the topic while without too much words to make the topics messy
-in the next step of our experiment we set n and tuning parameter and by setting while to see if the results show any difference
+in the next step of our experiment we set n and tuning parameter and by setting
 
+
+while
+
+
+to see if the results show any difference
 we performed the emotion analysis using syuzhet cran package which is based on nrc emotion lexicon on the dataset
 as a result tweets were labeled with one of eight emotions anger anticipation disgust fear joy sadness surprise trust and two sentiments positive and negative to determine the overall tone of the event
+a
 discovering topics vi
-results table
-i shows a list of topics
+results table i shows a list of topics
 the words are arranged in the order of highest probability of words distribution to topics
-
 fig
 displays some topics word cloud
 topic lists bank queue atm stand
 this reects the hectic issues related to bank atm transaction
-topic the table
-i discovering topics topics from topics table ii nmi of models topic topic topic topic topic bank atm cash queue stand long demonet stop blackmoney benet citizen plan nation currenc suffer impact life death paytm demonet parliament debate corrupt modi opposit
-protest govt farmer affect poor impact of currency ban on life of citizens which has led to deaths
+topic the table i discovering topics topics from topics table ii nmi of models topic topic topic topic topic bank atm cash queue stand long demonet stop blackmoney benet citizen plan nation currenc suffer impact life death paytm demonet parliament debate corrupt modi opposit protest govt farmer affect poor impact of currency ban on life of citizens which has led to deaths
 topic reveals parliamentary debate on tion
 topic reects farmer and opposition parties protest
-
 topic indicates people s support for demonetization
 topic lists words don modi rbi impact looks like a mixed topic
 topic lists modi ghts corrupt leader blackmoney
-this indicates people s support and edgment of pm modi s decision
+this indicates people s support and edgment of pm modi decision
 topic lists kashmir protest
 topic discusses about impact on terror funding due to note ban
 topic portrays currency ban as a vote bank politics supported by the govt as it lists bypol farmer congress affect move bjp words
@@ -197,19 +186,24 @@ shows the distribution of top terms in collection of topics
 lda models
 
 
+
+
+
+
+
 nmi results
+
 
 
 the results show that with fewer topics the nmi value tends to be higher
 since nmi presents similarity of clustered tweets set and labelled tweets set the overall nmi results indicate that with fewer topics tweets set are more correctly clustered
-
 the reason for this phenomenon could be the length of each document tweet is much shorter if compared to traditional documents
 since the length for each tweet is limited usually no longer than characters information contained in a single tweet is also limited
 hence when the number of topics increases many topics tend to contain the same words as a result it is hard to determine to which topic a document be assigned
 in further experiments we can use different tweeter pooling schemes and see whether they affect the nmi results
+c
 emotion count fig
 shows the distribution of emotions during this event
-
 as can be seen the dominating emotion is trust followed by anticipation and anger
 the reason might be that due to the mixed reactions of people expressing their thoughts and opinions through tweets
 more than tweets express trust as an emotion
@@ -220,45 +214,60 @@ more than tweets express positive sentiment and around indicate negative sentime
 fig
 topics fig
 top terms in topics fig
-emotion distribution during the event nmi results in our experiments we evaluated nmi of lda with ent topic numbers
+emotion distribution during the event b
+nmi results in our experiments we evaluated nmi of lda with ent topic numbers
 table ii reports the results vii
-discussion and conclusion
-as substantial number of people are connected to online social networking services and a noteworthy amount of
-zhai liu xu jia constrained lda for grouping product features in opinion mining
-in huang cao srivastava eds advances in knowledge discovery and data mining
+discussion and conclusion as substantial number of people are connected to online social networking services and a noteworthy amount of zhai z
+liu b
+xu h
+jia p
+constrained lda for grouping product features in opinion mining
+in huang j
+z
+cao l
+srivastava j
+eds advances in knowledge discovery and data mining
 pakdd
 lecture notes in computer science vol
-springer berlin heidelberg blei david
+springer berlin heidelberg blei david m
+
 probabilistic topic models
 communications of the acm
-blei david andrew ng and michael jordan
+blei david m
+andrew y
+ng and michael i
+jordan
 
 latent dirichlet allocation
 journal of machine learning research
-
-grifths and steyvers
+t
+l
+grifths and m
+steyvers
 finding scientic topics
 proceedings of the national academy of sciences
+t
 grifths gibbs sampling in the generative model of latent dirichlet allocation
+emotions evoked by common words and phrases using mechanical turk to create an emotion lexicon saif mohammad and peter turney in proceedings of the naacl hlt workshop on computational approaches to analysis and generation of emotion in text june la california
+plutchik r
 
-
-emotions evoked by common words and phrases using mechanical turk to create an emotion lexicon saif mohammad and peter turney
-in proceedings of the naacl hlt workshop on computational
-approaches to analysis and generation of emotion in text june la california
-
-plutchik
 integration differentiation and derivatives of tion evolution and cognition pp
-mehrotra sanner buntine xie improving lda topic models for microblogs via tweet pooling and automatic labeling proceedings of the international acm sigir conference on research and development in information retrieval
+mehrotra r
+s
+sanner w
+buntine l
+xie improving lda topic models for microblogs via tweet pooling and automatic labeling proceedings of the international acm sigir conference on research and development in information retrieval
 
 syuzhet
 
+r project
+org web packages syuzhet index
+html
 mation related to experiences and practices in consumption is shared in this new media form
 text mining is an emergent technique for mining valuable information from the web cially related to social media
 our objective is to discovering tweets semantic patterns in users discussions and trend on social media about demonetization in india
-
 in order to detect conversations in connection to the event under consideration we applied latent dirichlet allocation based probabilistic system to discover latent topics
-we varied
-the lda parameters to nd a model whose output is more informative as evaluated by nmi
+we varied the lda parameters to nd a model whose output is more informative as evaluated by nmi
 performance of the lda models were not affected by changes in distribution parameters and
 at the same time the results signicantly changed with the change of topic numbers
 as we expected the quality of lda results also depends on the amount of records in the data
@@ -266,45 +275,67 @@ manual analysis of the results revealed that lda is able to extract most of the 
 it extracts all the major event components including the people involved how the event unfolded
 however in some topics we ca nt infer to a specic label due to its mixed nature
 it is also important to note that all the extracted topics are related to the events covered by the collected data
-
 our method not only condes to the analysis of case study presented but also signicant to the analysis of twitter data collected in similar settings
 from our analysis we observed that the positive response has exceeded the negative aspects about the demonetization discussion as shown in the emotion distribution plot in fig
 which also does not rule out large section of people have raised voices against the event
 trust anticipation and anger are the top emotions in count which reects that our study is not biased towards one polarity
 understanding the inuence of social networks can help government agencies to better understand how such tion can be used not only in the dissemination of a economical event but can also help to draw responses that could help to mitigating an unruly reaction or preventing violence from starting and escalating
-references
-srivastava sahami eds
+references srivastava a
+sahami m
+eds
 text mining classication clustering and applications pp
 
 crc press boca raton fl
-hanna wallach
+hanna m
+wallach
 
 topic modeling beyond bag of words
-
 in proceedings of the international conference on machine learning icml
 acm new york ny usa
-doi bo pang and lillian lee
+doi
+
+
+bo pang and lillian lee
+
 opinion mining and sentiment analysis
 found
 trends inf
 retr
 january
+doi
 
-doi twitter streaming api twitter developers
+
+twitter streaming api twitter developers
+
+twitter
 streaming overview
+mongodb mongodb inc
 
-mongodb mongodb
+mongodb
 
 tweets twitter developers
 
+twitter
+com overview api tweets
+text mining package in r
 
-text mining package in porter
+r project
+org web packages porter m
+f
+
 an algorithm for sufx stripping
-in program
+in program tm
+pdf
 volume pages
+salton g
+and mcgill m
+j
 
-salton and mcgill
 in introduction to modern information retrieval
-mcgraw hill book
-yates neto modern information retrieval acm press new york
+mcgraw hill book co
+yates b
+r
+neto r
+b
+modern information retrieval acm press new york
 

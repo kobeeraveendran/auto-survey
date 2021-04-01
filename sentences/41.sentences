@@ -1,38 +1,52 @@
-the end of the many worlds
-or could we save everett s interpretation aurelien
-drezet institut neel upr cnrs university joseph fourier martyrs grenoble france dated june
-abstract r a m
-h t n a u
-q
-v
-v
-i x r a electronic address introduction
-the aim of this text is to discuss in a rather critical way the so called many worlds pretation mwi proposed originally by everett in
-i am a proponent of the pilot wave interpretation pwi dened by de broglie in and bohm in and while mwi shares with pwi a strong commitment for determinism there are also mental dierences between the two approaches
+the end of the many worlds or could we save everett s interpretation aurelien drezet institut neel upr cnrs university joseph fourier martyrs grenoble france dated june abstract r a m h t n a u q v
+v i x r a electronic address aurelien
+
+cnrs
+fr i
+introduction the aim of this text is to discuss in a rather critical way the so called many worlds pretation mwi proposed originally by h
+everett in
+i am a proponent of the pilot wave interpretation pwi dened by l
+de broglie in and d
+bohm in and while mwi shares with pwi a strong commitment for determinism there are also mental dierences between the two approaches
 the most important one concerns probably how both theories attempt to interpret quantum probability within their own ontological frameworks and this will be the topic of the present chapter
 as i will show however mwi is more dicult to accept than pwi in the sense that it has dramatic problems with its ontology which can not be ignored if we want to interpret probabilities
-
 first let us say a few words about ontology
 mwi and pwi are realistic approaches to quantum mechanics
 this means that they are trying to introduce a clean ontological structure into the formalism of quantum mechanics
 what is indeed so extraordinary about quantum mechanics is that the formalism appeared in without a clear ontological framework in complete opposition with classical approaches
-instead bohr berg born and others managed to develop a pragmatic and instrumentalist interpretation in which only macroscopic apparatuses and detectors possess a clear denition
-this way of thinking very much in harmony with the dominant positivism of this time relies on the need to consider as existing only what is seen by an observer the so called quantum observable
-in classical physics this positivistic approach was already introduced by the philosopher mach with his phenomenalistic philosophy of science and by the chemist oswald with his strong criticism of atomism in his debate with boltzmann
-the logical positivism of schlick carnap franck and reichenbach perpetuated this methodology in the xx s century and considered that ontology is pure metaphysics and should be removed of any positive science actually they are strongly mistaken any science is necessarily metaphysical on its theoretical ground as shown already by hume
+instead n
+bohr w
+berg m
+born and others managed to develop a pragmatic and instrumentalist interpretation in which only macroscopic apparatuses and detectors possess a clear denition
+this way of thinking very much in harmony with the dominant positivism of this time relies on the need to consider as existing only what is seen by an observer i
+e
+the so called quantum observable
+in classical physics this positivistic approach was already introduced by the philosopher e
+mach with his phenomenalistic philosophy of science and by the chemist w
+oswald with his strong criticism of atomism i
+e
+in his debate with l
+boltzmann
+the logical positivism of m
+schlick r
+carnap p
+franck and h
+reichenbach perpetuated this methodology in the xx s century and considered that ontology is pure metaphysics and should be removed of any positive science actually they are strongly mistaken any science is necessarily metaphysical on its theoretical ground as shown already by d
+hume
 theory is a pure creation of the human mind and needs to be tested with experimental facts
-this is the basis of the hypothetico deductive method which was in particular fended by boltzmann and later by einstein in his debated with heisenberg and bohr
+this is the basis of the hypothetico deductive method which was in particular fended by l
+boltzmann and later by a
+einstein in his debated with w
+heisenberg and n
+bohr
 however bohr s way of thinking is not completely identical to these various itivist approaches
 for bohr the problem is mainly experimental and is associated with the existence of the quantum of action
 indeed the classical ontologies based on waves and particles are not able to give a clear unambiguous picture of quantum reality as shown for instance by the famous wave particle duality paradox
 therefore one should try a dierent minimalist approach in which these classical concepts while necessary for the empirical scription of phenomena do not have the same ontological values as in the classical world
-
-the copenhagen interpretation says something like that take the schrodinger equation with its wave function t and its hamiltonian do nt try to see a physical propagation i of a wavy thing use it as a practical tool for dening a probability obtained by a classical observer
+the copenhagen interpretation says something like that take the schrodinger equation with its wave function t and its hamiltonian h
+do nt try to see a physical propagation i of a wavy thing use it as a practical tool for dening a probability obtained by a classical observer
 the observer sentient or not detector or automaton are part of the tation as well possesses a well dened position in space and time and is therefore foreign to the quantum formalism
-quantitative statements are introduced into the theory through born s probability rule which reads t t h t i i t where p the probability of the outcome associated with the observable operator a is related to the quantum state by squaring the norm of the amplitude
-
-
-we have the eigenvalue relation a i i
+quantitative statements are introduced into the theory through born s probability rule which reads t t h t i i t where p the probability of the outcome associated with the observable operator a is related to the quantum state by squaring the norm of the amplitude we have the eigenvalue relation a i i
 ontological questions about what happens to t h i where the system between the preparation and the measurement are beyond the scope of bohr s interpretation
 this answer is ne for an experimentalist in his lab and can be used with condence for all practical purposes fapp
 however this methodology keeps open some unsolved fundamental questions
@@ -45,17 +59,17 @@ in fact de broglie s view contains as a sub product the pwi while schrodinger s 
 ii
 everett and bohm now i will try to dene briey the ontology of mwi and pwi
 i will start with pwi
-
 in pwi the wave function t has an ontological meaning independently of the existence or nonexistence of the observer
 t is an actual guiding wave in a real quantum eld i i for particles which are somehow surng on the wave
 here i will be rather conservative and consider only the non relativistic case for a single particle of mass m without magnetic potential
 the velocity of the point like particle in pwi is given by i m m t t
-
 this guidance formula is enough for solving paradoxes such as wave particle duality by dening a complex trajectory for the particle
 the wave carries the particle into regions where the eld is non vanishing and omits regions where the quantum eld cancels therefore oering a contrasting view to the bohr heisenberg dictum that such kind of representation should be prohibited in the same way the famous no go theorem by von neumann vanishes into pure smoke
 alternatively we can introduce a quantum potential q acting on the particle and modifying the newtonian force induced by the external potentials v t
+in the conguration space for many particles
 
-in the conguration space for many particles the theory is highly nonlocal and can be used to solve the einstein podolsky rosen paradox in full agreement with bell s theorem
+
+the theory is highly nonlocal and can be used to solve the einstein podolsky rosen paradox in full agreement with bell s theorem
 i point out that i was deliberately quite unprecise and vague concerning the nature of the quantum eld
 indeed in pwi guides the particles but there is no reaction of the particle on the wave
 it is for this reason better to wait for a better understanding of the ontology of the wave function in the future
@@ -67,9 +81,7 @@ therefore we will here only consider as an eective eld or a nomological entity k
 now of course pwi makes sense only if we can introduce probabilistic elements into the theory in order to explain born s formula eq
 
 schrodinger s equation contains enough material to do that unambiguously
-indeed from the local current conservation law j t with t t and t
-t
-it is obviously natural to interpret t as a density of presence for the particle located at at time
+indeed from the local current conservation law j t with t t and t t it is obviously natural to interpret t as a density of presence for the particle located at at time t
 the local conservation plays the role of liouville theorem s in statistical chanics
 therefore if t is eectively interpreted as a density of probability of presence p t at a given time the interpretation will still be valid at any other times in agreement with the conservation law
 this was essentially the reasoning of broglie in and of bohm in
@@ -82,10 +94,11 @@ the solutions are probably very similar for the classical and quantum cases but 
 let us now turn to mwi
 as said before mwi is mainly the strict application of schrodinger s original theory in the conguration space
 in mwi is an ontological eld tity as in pwi
-but here there is not particle at all only a continuous wave
-for schrodinger describes a local electron in the case of the single electron the wave function e t charge density not a probability
+but here there is not particle at all only a continuous wave for schrodinger describes a local electron in the case of the single electron the wave function e t charge density not a probability
 the quantum eld t in such a theory is somehow very similar to the classical electromagnetic eld in the old fashioned maxwell s theory or to the metric tensor in general relativity
-in recent years practitioners and proponents of a measure of existence or a degree mwi in particular vaidman often called of reality the denition of vaidman is more general of course but it agrees with t mine if by existing quantum world we mean a state like
+in recent years practitioners and proponents of a measure of existence or a degree mwi in particular l
+vaidman often called of reality the denition of l
+vaidman is more general of course but it agrees with t mine if by existing quantum world we mean a state like
 however since there is no i preferred basis in the hilbert space the choice is arbitrary
 this is clearly reminiscent of schrodinger s language about charge density
 of course if we think of the electron as a delocalized charge distribution we get the obvious objections already given by bohr and heisenberg that a wave packet is spreading through space and time and that this could not explain the experimental facts where electrons are appearing as localized grains or quanta on detectors
@@ -97,27 +110,26 @@ therefore there is no privileged basis in the mwi of schrodinger and everett in 
 however we have something new in quantum physics
 a superposition such as here i there for a i single electron means that two wave packets localized in the space are superposed
 since however experiments show that an electron is only detected here or there it seems to us that mwi should have fundamental diculties in dealing with this reality
-
 however everett resurrected schrodinger s theory by introducing entanglement in the many particles conguration space
 his hope was that entanglement added to the schrodinger idea would solve completely the measurement paradox and all other tions
 we will see that this is not so easy
 to start with entanglement consider an ideal two particle universe
-
 in the coordinate representation and at a given time t the wave function for the system is written t
-what is here the meaning of and
-for a single electron is a spatial coordinate labeling the point in the space
+what is here the meaning of and for a single electron is a spatial coordinate labeling the point in the space
 but here we have two points of coordinates and
 this means that if we want to interpret t as an ontological eld we should extend a bit the classical framework of eld theory
 generally in classical eld theory we consider only local elds dened at a gle position
 the eld itself can obey a nonlinear equation in order to create for example solitons or bunched eld
 here however the quantum eld require two coordinates for its denition and
-this involves a new form of non locality or wholeness while the equation eq is kept strictly linear
-how to call such a eld
-maybe could be a good alternative name to wave function since it actually represents a correlation between two or many points in space and time
+this involves a new form of non locality or wholeness while the equation i
+e eq
+is kept strictly linear
+how to call such a eld maybe could be a good alternative name to wave function since it actually represents a correlation between two or many points in space and time
 the theory can of course be extended to the relativistic domain using the tomonaga schwinger equation for the functional where is a space like hyper surface in the universe
-now how will this solve the paradox of the spreading electron which was a dead end for the old schrodinger interpretation
-consider again our wave function t
-suppose at the initial time the system factorizes t t
+now how will this solve the paradox of the spreading electron which was a dead end for the old schrodinger interpretation consider again our wave function t
+suppose at the initial time the system factorizes i
+e
+t t
 we can take t as a freely expanding wave packet diracted by an external potential like a double slit screen the fact that the screen or more generally an external potential is a classical concept is here irrelevant and it is there only to simplify the discussion
 the second wave function t is associated with a localized wave packet conned in for example a coulomb potential let s says in a energy level
 when the rst electron collides with the second the system can exchange energy and mentum and this represents some information transfer to be used in a basic measurement protocol
@@ -125,58 +137,65 @@ in other worlds the modication of the second electron state will lead to glement
 consider the nal state pi t where the sum is over possible outcomes
 if we consider only a two state system for i then we have here a basic electron detector plate with the ground state meaning undetected while the excited states are recorded
 of course we could also introduce a third electron localized in state t before the interaction and actually factorized from the rest of the wave function
-after the interaction we will obtain a state like
-t t where the dots indicate other terms irrelevant for the present purpose for example the states where electrons and are not disturbed by the interaction
+after the interaction we will obtain a state like t t
+
+
+where the dots indicate other terms irrelevant for the present purpose for example the states where electrons and are not disturbed by the interaction
 clearly we have here an entanglement representing a basic spatial correlator the equivalent in optics would be an hanbury brown and twiss apparatus
 if electron is in the excited state then electron is in the ground state and reciprocally this is or information associated with two dierent bits
 in the language of bohr s interpretation this would mean that an observer can only detect a particle once since there is only one electron
 however here we are not in the copenhagen instrumentalist framework but in the mwi
 our universe contains only three electrons and no observer at all
-still with everett s web function eq represents an ontological eld and the dierence between and is completely i i real in an objective sense for example those states are orthogonal in the hilbert space
-
+still with everett s web function eq
+represents an ontological eld and the dierence between and is completely i i real in an objective sense for example those states are orthogonal in the hilbert space
 however now comes the fundamental issue since there is no collapse how should we interpret the superposition given by eq
-in mwi
-a state like equivalently be written
-there is no observer able to collapse the state this equivalent representation shows that we i could also
-since
-i i i i i do nt have yet our macroscopic world where electrons appear either here or there but not at both places
-while entanglement allowed us to describe a measuring device in quantum mechanics it constitutes an example of the shifty split of the heisenberg cut it did nt apparently remove our problem in the mwi
+in mwi a state like equivalently be written there is no observer able to collapse the state this equivalent representation shows that we i could also
+since i i i i i do nt have yet our macroscopic world where electrons appear either here or there but not at both places
+while entanglement allowed us to describe a measuring device in quantum mechanics i
+e
+it constitutes an example of the shifty split of the heisenberg cut it did nt apparently remove our problem in the mwi
 in other words the fact that we considered more and more electrons did nt solve the problem it only propagated it to a larger system thanks to entanglement
-still it was everett s hope that entanglement could somehow solve the measurement issue how could that be
-everett s strategy was to consider larger and larger systems until we can consider a conscious being or at least machines or robots suciently sophisticated to have memory sequences of recorded events
-the hope was that at a certain scale to be dened the collapse in the language of the mwi the split should occur
+still it was everett s hope that entanglement could somehow solve the measurement issue how could that be everett s strategy was to consider larger and larger systems until we can consider a conscious being or at least machines or robots suciently sophisticated to have memory sequences of recorded events
+the hope was that at a certain scale to be dened the collapse i
+e
+in the language of the mwi the split should occur
 this is what we should now analyze
-considering the previous example eq
+considering the previous example i
+e
+eq
 we see that entanglement will indeed propagate to any other systems in interaction with our detectors
-if the detector is emitting a signal going to a larger system able to memorize to modify in a rather stable way a chemical or molecular arrangement in a mechanical brain we can imagine entangled state such as
-t t
-i i with obvious notations for the states of the brain
-i point out that the ket notation for is the the brain is a compact way of speaking about xn where n h
-i number of particles in the brain including its environment the detectors and ultimately all the universe
+if the detector is emitting a signal going to a larger system able to memorize i
+e
+to modify in a rather stable way a chemical or molecular arrangement in a mechanical brain we can imagine entangled state such as t t i
+
+
+i with obvious notations for the states of the brain
+i point out that the ket notation for is the the brain is a compact way of speaking about
+
+
+xn where n h i number of particles in the brain including its environment the detectors and ultimately all the universe
 however the representation chosen is here irrelevant
-furthermore we have here obviously since the unitarity of the quantum evolution should preserve
-h i the orthogonality of the pointer states present in eq
+furthermore we have here obviously since the unitarity of the quantum evolution should preserve h i the orthogonality of the pointer states present in eq
+i
+e
 
 the h i brain states are of course physical states since with everett and von neumann we accept psychophysical parallelism that is the functionalist view whereby the mind supervenes on the brain like software on hardware
 everett s strong belief was that the state of awareness or consciousness of the observer or robot is a new essential ingredient in the theory
-however do nt forget that everett believed strongly in functionalism and that for him the introduction of minds in quantum mechanics was very dierent from what was later assumed by believers in the so called many minds
-in which minds dierent of brain states without obvious supervenience relations with the hardware played a fundamental role as well
+however do nt forget that everett believed strongly in functionalism and that for him the introduction of minds in quantum mechanics was very dierent from what was later assumed by believers in the so called many minds in which minds dierent of brain states i
+e
+without obvious supervenience relations with the hardware played a fundamental role as well
 i will not discuss such alternative approaches here since the abandonment of the psychophysical parallelism is denitely too much for me
 going back to eq we see that these two awareness states exist and evolve as if they were alone
 the reason is that they constitute two independent solutions of eq
 i will develop that important point below
 but as we said before unitarity allows many representations of eq
-like for example
+like for example i i i i
 
-i
-i i
-i
+
 here we have superposed cat states the meaning of which is unclear
-what is i i the feeling of a brain in such a cat state
-is this not a fatal problem for mwi
-are we not introducing furtively a new axiom favoring a representation a preferred basis at the detriment of not preserving full unitarity
-
-however we point out that for everett the awareness basis is not so much privileged but better considered as special or particular in the sense that we are always free to use a dierent basis if we wish
+what is i i the feeling of a brain in such a cat state is this not a fatal problem for mwi are we not introducing furtively a new axiom favoring a representation i
+e
+a preferred basis at the detriment of not preserving full unitarity however we point out that for everett the awareness basis is not so much privileged but better considered as special or particular in the sense that we are always free to use a dierent basis if we wish
 therefore unitarity is not violated
 still to be convincing the mwi should explain why is not an awareness state
 may be there are actually such mental states like but that we can not feel how it is to be like them
@@ -184,56 +203,37 @@ maybe i i i i the question is a bit like asking how it feels like to be a bee or
 maybe not
 this is a bit magic or mysterious for many and it is probably why some tried to shift from the mwi to the many minds
 of course if the two brain states evolve independently there is no apriori reason to mix them but what is more is that we can apparently use an argumentation based on inter subjectivity and entanglement to see why we never meet people in such cat states
-indeed if i met you in the street going out of the lab we could create an entangled state like
-t me
-you t me
-you i i
-therefore there has to be an inter subjective agreement between awareness states of me and you
-moreover like for eq and there are also states like me
-you me
-you but i now they involve me you and all the part of the universe having interacted with us
-there is thus an agreement between the cat states since eq
-can be written like t t
-me
-you t t me
-you i
-i me you me
-you i
-i but you should not bother about this since neither me
-nor you are feeling such cat states separately
+indeed if i met you in the street going out of the lab we could create an entangled state like t me you t me you
 
+
+i i therefore there has to be an inter subjective agreement between awareness states of me and you
+moreover like for eq
+and there are also states like me you me you but i now they involve me you and all the part of the universe having interacted with us
+there is thus an agreement between the cat states since eq
+can be written like t t me you t t me you i i me you me you i
+
+
+i but you should not bother about this since neither me nor you are feeling such cat states separately
 however this argumentation is not completely convincing to everyone see for example penrose since there are apparently other counterintuitive ways to write eq
 
-for instance what about writing eq like t me t me
-you i
-you i
-i t
-i
-you t me i
-me
-you i i i
+for instance what about writing eq
+like t me t me you i you i i t i you t me i me you i i i
+
 
 the cat state for you are now involved while i am mixed with the rst electron state
-the well known problem with such an expression is that it is not obvious and univocal to torize the me
-and you like i did this is the reason why i wrote me and you inside the same ket vector in eqs
+the well known problem with such an expression is that it is not obvious and univocal to torize the me and you like i did this is the reason why i wrote me and you inside the same ket vector in eqs
 
 indeed the two protagonists are strongly interacting with a complex environment
 the possibility to separate me from you is therefore in large part arbitrary and in practice physically impossible in the lab
-where to put the border tween me
-and you is a bit a question of taste
-this is clearly reminiscent of the wigner s friend paradox
-if before interacting with my friend i am in the state me
-me it is hoped that after meeting we should be in a state like me
-you i me
-
-you i and that i i possible state factorization does nt make any sense
+where to put the border tween me and you is a bit a question of taste
+this is clearly reminiscent of the wigner s friend paradox if before interacting with my friend i am in the state me me it is hoped that after meeting we should be in a state like me you i me you i and that i i possible state factorization does nt make any sense
 also for the same reason a state like you me border separating me from you is fuzzy and shifty
-we would like to obtain some kind of i i i i i you can not be easily factorized as me
-me you since the me
-
-superselection rules here in order to prove that such strange cat states are forbidden in nature
-for such reasons many proponents in the mwi like zeh or wallace and saunders following also zurek
-often emphasize that decoherence should be taken into account in this argumentation
+we would like to obtain some kind of i i i i i you can not be easily factorized as me me you since the me superselection rules here in order to prove that such strange cat states are forbidden in nature
+for such reasons many proponents in the mwi like d
+zeh or d
+wallace and s
+saunders following also w
+zurek often emphasize that decoherence should be taken into account in this argumentation
 decoherence is the averaging of an operator over the irrelevant degrees of freedom ciated with the environment
 the idea is that a macroscopic quantum object like a brain should be considered as an open system interacting with its environment
 by averaging over degrees of freedom associated with this environment we can transform a pure system into a mixture characterized by for example rate equations
@@ -249,16 +249,17 @@ this problem does nt exist at all for the pwi since probabilities have a classic
 tracing over the environment will only introduce a supplementary emerging ignorance like in thermodynamics
 for the mwi however there is no yet probability so that decoherence can not be interpreted in the same way
 we have only degrees of reality and measure of existence so that tracing actually means summing over some of these degrees of reality
-how can this help the mwi
-it seems rather to create additional problems
+how can this help the mwi it seems rather to create additional problems
 the answer is not so clear because in my opinion proponents of the mwi did nt yet reach a consensus
 one point which is often emphasized is that the privileged basis should be very robust in the sense that only in this basis is the system immune to the interaction with the environment
-this means in particular that if an experimentalist was able to prepare and the system should decohere isolate during even a short period a superposition like very fastly in a time probably smaller than
+this means in particular that if an experimentalist was able to prepare and the system should decohere isolate during even a short period a superposition like very fastly i
+e
+in a time probably smaller than
 while this result is generally i i interpreted using probability it has also an absolute meaning as a measure theoretical way to dene eective orthogonality between independent observer branches
-
-in this context the ideas of wallace on patterns are very interesting for the mwi
-what is a pattern
-referring to dennett s work wallace interprets a pattern like a cat or a tiger as an emerging structure inside the quantum evolution
+in this context the ideas of d
+wallace on patterns are very interesting for the mwi
+what is a pattern referring to d
+dennett s work wallace interprets a pattern like a cat or a tiger as an emerging structure inside the quantum evolution
 the border of an emerging structure is not always clearly dened at the macroscopical scale since the number of atoms is huge
 including some atoms in you or me is a bit arbitrary so that we generally do nt care about this shifty border between observers
 we already discussed this problem before and we should develop this a bit more
@@ -266,30 +267,24 @@ rigorously we should call a pattern any complete solution of eq
 for a given hamiltonian
 referring again to the single tron problem if and the sum i i i are separate solutions and therefore patterns then is also representing a viable pattern of the theory
 however i the linearity does nt destroy the individual patterns here and there and in that sense it really means that we have two localized electrons here
-in the same sense and i are
-i representing patterns if they are independent solutions of the full evolution including the environment
-the linear superposition eq is also an allowed pattern so that we have ally two me here one happy and one unhappy wallace calls that favoring multiplicity over superposition
+in the same sense and i are i representing patterns if they are independent solutions of the full evolution including the environment
+the linear superposition eq
+is also an allowed pattern so that we have ally two me here one happy and one unhappy wallace calls that favoring multiplicity over superposition
 moreover while the orthogonality of the states was here a consequence of the orthogonality of the pointer states this is not necessary
 two solutions of eq
 can be viable patterns without being orthogonal
-still in practice decoherence will ensure that is a good approximation after a very short time due to the complexity of the h environment neglecting poincare recurrence over the nite time of human or universe i
-existence and we could say that decoherence somehow create and select emerging patterns behaving classically without interference from the full spectrum of possible solutions those solutions that have no good thermodynamical properties are not considered
+still in practice decoherence will ensure that is a good approximation after a very short time due to the complexity of the h environment neglecting poincare recurrence over the nite time of human or universe i existence and we could say that decoherence somehow create and select emerging patterns behaving classically i
+e
+without interference from the full spectrum of possible solutions those solutions that have no good thermodynamical properties are not considered
 there is an important point to emphasize here considering a single photon of energy e interacting with a beam splitter we generally say that we end up with two independent possibilities reected and transmitted which are added and represent two independent i i pattern solutions of the free hamiltonian
 this is however an approximation since the ary conditions at the beam splitter make these two solutions inseparable
 only the sum reected practical purposes we are dealing with nite wave packets well localized in space and time
 i i is a solution of the time independent scattering problem
-still for transmitted
-this means that after interacting with the external potential the beam splitter we can approximately and asymptotically consider the two solutions reected i as independent and evolving freely
+still for transmitted this means that after interacting with the external potential the beam splitter we can approximately and asymptotically consider the two solutions reected i as independent and evolving freely
 so when we say that we end up with two independent i transmitted and branches this is already an approximation even with very simple systems and without ing macroscopic decoherence
 i mention that because it is also trivially true for eqs
-and or and patterns like i are not actually made of two independent sub solutions but only constitute complete and me
-you me
-you t t t t
-i i i inseparable solutions of the full universal evolution
-if you think about that then you realize that indeed and
-can not in general be rigorously independent patterns albeit seen
-i
-i as emerging and approximate structures whose condition is very robust due to h i decoherence
+and or and patterns like i are not actually made of two independent sub solutions but only constitute complete and me you me you t t t t i i i inseparable solutions of the full universal evolution
+if you think about that then you realize that indeed and can not in general be rigorously independent patterns albeit seen i i as emerging and approximate structures whose condition is very robust due to h i decoherence
 of course cat patterns as given in eqs
 and are not exact solutions as well and we can not really separate them from the full evolution
 this at least shows that the old debates about a preferred basis in the mwi is a bit empty
@@ -299,18 +294,21 @@ maybe it is here with us during all our life
 maybe not
 the ontology of the mwi is denitely very strange and debates about its self consistency will certainly continue during many years in many worlds
 iii
-probability in the many worlds interpretation
-well if this is enough for the ontology in the mwi interpretation what about ity
-this is the weaker worst point in the theory and it stirred up so much emotional debates within the years that it could be too long to summarize all points and tations here
+probability in the many worlds interpretation well if this is enough for the ontology in the mwi interpretation what about ity this is the weaker worst point in the theory and it stirred up so much emotional debates within the years that it could be too long to summarize all points and tations here
 additionally since decoherence needs a denition of probability to work it seems that introducing probability could also help the ontological problem in the mwi
 now everett introduced probability in his mwi in two ways
 the rst way is actually predating gleason s theorem which everett discovered independently in a simplied version
 i will not summarize this well known reasoning but just remind that its aim is to nd the most plausible measure in the hilbert space which could represent a bility of occurence
-the result using some natural assumptions about linearity is that the most natural measure is the one given by born s law eq
+the result using some natural assumptions about linearity is that the most natural measure is the one given by born s law i
+e
+eq
 
 still this is not yet a probability but just the proof that if we are going to attribute a probability to the state then born s law is the best choice
-in the recent years deutsch wallace and saunders on the one side and zurek on the other side tried to nd an alternative mathematical demonstration using some other symmetries called envariance by zurek and decision theory by deutsch than those considered by gleason and everett
-
+in the recent years d
+deutsch d
+wallace and s
+saunders on the one side and w
+zurek on the other side tried to nd an alternative mathematical demonstration using some other symmetries called envariance by zurek and decision theory by deutsch than those considered by gleason and everett
 the reasoning is that due to entanglement we can in a natural and mathematical way give a precise statement for laplace s principle of indierence in the quantum world
 the result is of course again born s law
 for me the gleason version and the envariance demonstration have the same value
@@ -319,11 +317,14 @@ is the most natural choice
 but still there is no ned for probability in the mwi outside from experimental considerations foreign to the theory
 at that stage it is interesting to make a remark
 everett and later many authors such as wallace and brown or zurek often claimed that their bayesian denition of probability is no better nor worst than in classical physics so that the situation is the same as for the pwi
-everett for example wrote the situation here is fully analogous to that of classical statistical mechanics where one puts a measure on trajectories of systems in the phase space by placing a measure on the phase space self and then making assertions such as ergodicity quasi ergodicity which hold for almost all trajectories
+everett for example wrote the situation here is fully analogous to that of classical statistical mechanics where one puts a measure on trajectories of systems in the phase space by placing a measure on the phase space self and then making assertions such as ergodicity quasi ergodicity
+which hold for almost all trajectories
 by almost everett means here a measure theoretic denition like the one proposed by lebesgue
 however having a measure is not enough to dene a ability
 for example we could use noether symmetry theorem which shows that maxwell equations involve a conserved current and interpret this result as a probability
-still this is not necessary not required by the theory
+still this is not necessary i
+e
+not required by the theory
 we need a clear ontological statement for introducing probability in a theory and this involves dynamical elements like particle randomness
 in the pwi for example the conservation law j t is clearly not enough to generate the probability interpretation it only gives an indication
 as a proof observe that madelung found simultaneously with broglie the guidance formula and the quantum potential
@@ -333,99 +334,99 @@ however gibbs statistical mechanics is nothing without the physical interpretati
 therefore we should not try to extract too much from gleason s theorem decision theory or envariance
 to introduce anyway probability we should love to the second step of everett s reasoning and consider a statistical experiment
 suppose for instance a single quantum source ting photons one by one all directed on a balanced beam splitter
-each photon is either transmitted or reected with equal probabilities and the detectors avalanche diodes register singular events in only one of the two path at once
+each photon is either transmitted or reected with equal probabilities and the detectors i
+e
+avalanche diodes register singular events in only one of the two path at once
 the statistics is of course a simple bernoulli process and the result following the weak law of large numbers is naturally in agreement with born s rule that the number of photons detected in each detectors are equal on the long run
 now this is of course a reading which make sense in bohr s instrumentalist interpretation as well as in the pwi
 in the the pwi photons follow trajectories determined by eq
-or some equivalent and by the initial conditions in the wave packets for example the particle s position at a given time
+or some equivalent and by the initial conditions in the wave packets i
+e
+for example the particle s position at a given time
 the theory is very similar to classical mechanics and therefore the pwi contains enough ingredients to introduce statistics in quantum mechanics
-
 in the mwi this is not the case since the continuous wave or eld is all what we have
-
 the wave packet impinging on the beam splitter behaves like a classical maxwell wave it is separated into two equal parts but there is no probability in this construction
-however should we be surprised
-the mwi is indeed based on the pure unitary schrodinger ics which only accepts the regular solution of eq
+however should we be surprised the mwi is indeed based on the pure unitary schrodinger ics which only accepts the regular solution of eq
 
 there is no singularity no ne graining in this theory for generating randomness
-it is therefore surprising that everett in his thesis followed by dewitt and his student n graham believed that probability could appear in the long run in the mwi
-it is of course true that in a bernoulli process with n repetition of the beam splitter experiment there is w nt
-nt
-possible branches in which nt photons are transmitted while n nt photons are reected
-using stirling formula n
-we get w
-n n this is a crude approximation in the long run limit n for nt n which means that the overwhelming majority of the erett branches will be following born s law
+it is therefore surprising that everett in his thesis followed by b
+dewitt and his student n graham believed that probability could appear in the long run in the mwi
+it is of course true that in a bernoulli process with n repetition of the beam splitter experiment there is w nt nt possible branches in which nt photons are transmitted while n nt photons are reected
+using stirling formula n we get w n n this is a crude approximation in the long run limit n for nt n which means that the overwhelming majority of the erett branches will be following born s law
 still this has only value in a measure theoretic sense
 we added branches to nd a degree of reality equal to w but nowhere there is a reason why we should do that
 in the same way that typicality is not probability there is here no possibility for extracting a tend to from a
 additionally for practical experiments we do nt use an innite number of registered events
 the pwi can deal with that only because the theory is deterministic and because randomness only results from the choice of the initial conditions for the particle positions
 there is no need for an innite number of events in the same way that in kinetic theory a gas does nt contain an innite number of molecules the gibbs ensemble is just an idealization after all
-i stress that my comments are somehow well known
-and that we can still nd some proponents of the mwi who are convinced that everett s answer is the good one
-in the recent year wallace and saunders following the ideas of deutsch introduced bayesianism into the mwi in order to save the theory this is what they called decision theory following savage
-
-quoting wallace on his discussion on patterns we have at least shown that it is rational for the observer to assign some weighting in other words we have shown that there is room for probabilistic concepts at least the decision theoretic sort to be accommodated in the theory
+i stress that my comments are somehow well known and that we can still nd some proponents of the mwi who are convinced that everett s answer is the good one
+in the recent year d
+wallace and s
+saunders following the ideas of d
+deutsch introduced bayesianism into the mwi in order to save the theory this is what they called decision theory following l
+j
+savage
+quoting d
+wallace on his discussion on patterns we have at least shown that it is rational for the observer to assign some weighting in other words we have shown that there is room for probabilistic concepts at least the decision theoretic sort to be accommodated in the theory
 in other words the observer does nt know where he will go after branching so that it seems legitimate to call that a bayesian choice
-or is it not
-bayesianism following ramsey or de finetti is mainly a subjective interpretation of probability based on inferences and degrees of belief as used by poker players or insurance companies
+or is it not bayesianism following ramsey or de finetti is mainly a subjective interpretation of probability based on inferences and degrees of belief as used by poker players or insurance companies
 still a poker player can only use his subjective notion of probability in nection with empirical evidences
-such empirical evidence means frequency of occurrences ideally using an innite sequence following von mises cf
+such empirical evidence means frequency of occurrences i
+e
+ideally using an innite sequence following von mises
 however our remarks made earlier concerning gibbs s ensembles
 therefore we are sent back to our rst criticism concerning the everett dewitt graham reasoning
 as we explained before the unitary schrodinger evolution is too regular and simple for implying objective probability and randomness
 and it is therefore dicult for me to derstand how some could even hope to obtain physical probability directly from subjective bayesianism my criticism concerns also the new trends about qbism even though qbism is actually the copenhagen counterpart of the decision theoretic view on the mwi
-
-thermore i am feeling that the whole game of decision theory is a bit like meeting a pair of twins or clones see the very suggestive zaxtarian scenario proposed by green based on the sleeping beauty analogy by vaidman
-
-and asking one of them what was the probability to be the other
-
+thermore i am feeling that the whole game of decision theory is a bit like meeting a pair of twins or clones see the very suggestive zaxtarian scenario proposed by b
+green based on the sleeping beauty analogy by l
+vaidman and asking one of them what was the probability to be the other
 in that case at least ontogenesis the ne grained structures make some dierence but with the quantum states the symmetry is too high and the ne graining unlike in the pwi absent
-why therefore should we introduce ity
-this is not convincing and the problem is not that the observer does nt know where he will go but rather that he will actually choose both ways since he will soon be sliced into two quantum clones
+why therefore should we introduce ity this is not convincing and the problem is not that the observer does nt know where he will go but rather that he will actually choose both ways since he will soon be sliced into two quantum clones
 the mwi is deterministic and there is no hidden variable with unknown initial conditions which could tell you what was the path you really followed in a quantum interferometer
-therefore how can we speak of some results being likely and others being unlikely when both take place
-in one sense the strong symmetry required by zurek s envariance the quantum version of laplace s indierence principle already ruins the chance of success of the mwi in justifying the use of bayesian probability
-over the years vaidman often emphasized as a kind of last chance for the mwi
-that ability should be postulated in the mwi
+therefore how can we speak of some results being likely and others being unlikely when both take place in one sense the strong symmetry required by zurek s envariance i
+e
+the quantum version of laplace s indierence principle already ruins the chance of success of the mwi in justifying the use of bayesian probability
+over the years l
+vaidman often emphasized as a kind of last chance for the mwi that ability should be postulated in the mwi
 if this is true then we completely denature the dream of everett and therefore we will at the end obtain something like a new version of the pwi and return to the original broglie s proposal
 in the following i will describe some alternatives to the old mwi which indeed are going to explore this analogy with the pwi
 iv
-saving the many worlds
-
-in the recent years several approaches have been proposed to modify or complete the mwi
+saving the many worlds in the recent years several approaches have been proposed to modify or complete the mwi
 i already mentioned the various many minds interpretations
 such approaches include in the theory some new ingredients which look a bit like hidden variables in the pwi in some versions the minds are indeed ying over the wave function like the electron is surng the guiding wave in the pwi this is a romantic view
 i will not analyze here such provocative ideas but the point is indeed that one way of saving the mwi is to go in the direction of the pwi
 this is what is interesting to me here since the proposal is actually going far beyond the realm of the many minds
-indeed the analogy with the pwi is for example the path proposed by valentini in his many bohmian worlds theory
-such an approach is also advocated by several authors like tipler and bolstrom
+indeed the analogy with the pwi is for example the path proposed by a
+valentini in his many bohmian worlds theory
+such an approach is also advocated by several authors like f
+j
+tipler and k
+j
+bolstrom
 the main point is that the pwi allows a description of the wave function of the whole universe by adding a gibbsian ensemble of universes to the theory
 indeed if we consider and innite number of copies of such a universe all characterized by the same wave function but in which the trajectories for the large vector associated with the n particles of the universe in the conguration space dier only by the choices concerning the initial conditions then we have a theory where many bohmian worlds exist independently of each others
-this reminds us of the old criticism by deutsch about pwi as a mwi in a permanent state of chronical denial
+this reminds us of the old criticism by d
+deutsch about pwi as a mwi in a permanent state of chronical denial
 here the aim is clearly to satisfy both pwi and mwi proponents by reversing the critics
 by introducing many copies of the universe we could maybe understand how the quantum potential can depend on the wave function itself
+n
 rosen who was one of the rst to study the pwi even before bohm gave up on this theory because it was not acceptable for him that a quantum potential q should depend somehow on the probability density remember that for a single non relativistic particle we have q
-de broglie renounced his pwi in m in part for similar reasons if the wave function is a subjective element the word is from de broglie then how could a dynamics depends on statistics
-de broglie came back to pwi in since this problem was not anymore a serious one for him
+de broglie renounced his pwi in m in part for similar reasons if the wave function is a subjective element the word is from de broglie then how could a dynamics depends on statistics de broglie came back to pwi in since this problem was not anymore a serious one for him
 still we can motivate the many bohmian worlds view by introducing the quantum potential as a kind of interaction between the dierent worlds
 actually this is even the only justication for the many bohmian worlds view
 personally i am not so much convinced but the theory is ne to study anyway since we do nt know yet where it will lead us
-
 to conclude this chapter i would like to discuss a dierent provocative proposals for modifying the mwi which i imagined some years ago
-since i am not taking it too seriously
-i will call that model the jumper interpretation ji
+since i am not taking it too seriously i will call that model the jumper interpretation ji
 in the ji the idea is to nd a stochastic approach based on the mwi
 i will consider rst a single electron described by t
 my suggestion is that at any time there is a single particle in the wave like in the pwi
-the particle is located at at time the density of probability that it will be found at x at any other time is simply given by
-t
-t
-
+the particle is located at at time t
+the density of probability that it will be found at x at any other time is simply given by t t
 that s more or less all
 the evolution is completely stochastic and if the wave is going to be diracted then the electron is jumping from one place to a dierent one simply using born s rule
 as inpwi there is an obvious privileged basis here the spatial coordinate representation but we could choose a dierent one
 also the dynamics can look crazy
-
 first the electron at time t has a non vanishing probability to appear at any place in the t wave whatever the distance separating the two points and x the velocity can therefore diverge
 second consider a particle interacting with a beam splitter
 after crossing the apparatus we have now two separated wave packets
@@ -433,66 +434,102 @@ still from my ji the particle can jump from one beam to the other completely ran
 the theory also requires a privileged lorentz frame like pwi
 indeed since there is not limit for velocity the trajectories are allowed to go backward in time in some reference frames
 a privileged slicing of space time allows us to dene unambiguously the possible probability of reaching a point using born s rule calculated in this preferred frame
-t
-actually this model is a minimalist version of the pwi
+t actually this model is a minimalist version of the pwi
 instead of being deterministic it is stochastic
 but still it shares with the pwi many common features
 in particular in a state like the particle is in one place at a time if we choose to favor i i the representation
 if we take as preferred basis the momentum representation then the system will not have position at all but rather a jumping momentum k in the distribution
-this ji could also be used to explain the epr paradox by including entanglement and by generalizing it to any possible hilbert space for example to k i h include spin or polarization variables
+this ji could also be used to explain the epr paradox by including entanglement and by generalizing it to any possible hilbert space for example to k h i include spin or polarization variables
 consider for example a perfectly entangled photon pair state like h i h v v i i i where h v denote horizontal and vertical polarization for photons and
 we require a preferred basis for describing the stochastic dynamics let say h i and i v i i but the choice could be dierent from pair to pair
 when the pair of photons is produced by the source it jumps randomly from time to time into the states h h or v
 now the epr i i v i i pair is directed in the bell experiment with polarizing beam splitters and wave plates for selecting polarization bases
 due to the presence at each time of both waves h h and i i v v the outcomes will follow the quantum predictions
 the situation will be like for the pwi involving a non locality this time not due to the quantum potential but to the i i mere existence of the two independent branches h i i i i h and v v one full one empty at each time
-
 the ji can be easily extended to measurement situations like the one described by eq
 with many electrons
 since we have privileged some ket basis in this theory the quantum state has a non ambiguous meaning in such a basis
 this is again very similar to the pwi
-
 here however the choice of the privileged basis is arbitrary i could have chosen a momentum space instead of a spatial coordinate this is my free ontological assumption
 now of course there is this strange randomness induced by the jump of particles in the wave function
-what is this jump going to imply for the brain states and to the observers
-are they going also to jump or to see these electrons jumping
-if the electrons are jumping in front of my eyes then the theory is of course invalidated
+what is this jump going to imply for the brain states and to the observers are they going also to jump or to see these electrons jumping if the electrons are jumping in front of my eyes then the theory is of course invalidated
 but this is again a hidden variable model and actually the nice thing is that this jump is really hidden in the same way that bohmian trajectories are hidden in the pwi
-indeed we see rst
-that if we consider an awareness state like xn written in the preferred basis the question of the basis choice is h
-i again arbitrary but to x
-it let s say that i am working mainly with spatial coordinates the spin degrees of freedom then the mind somehow supervenes on the n particles position at a given time this is also true for the pwi
+indeed we see rst that if we consider an awareness state like
+
+
+
+xn written in the preferred basis the question of the basis choice is h i again arbitrary but to x it let s say that i am working mainly with spatial coordinates the spin degrees of freedom then the mind somehow supervenes on the n particles position at a given time this is also true for the pwi
 second in a state like eq
-xn t t xn t t h i
-xn t h i there is only one electron at and one brain whatever that means located at xn
+
+
+
+
+xn t t
+
+
+
+xn t t h i
+
+
+
+xn t
+
+
+h i there is only one electron at and one brain whatever that means located at
+
+
+
+xn
 like for the pwi it does nt matter if we use eq
 with awareness states or eq
 with cat states
+
+
+
+
+xn t in both the probability of presence is given by the same number
+now the question about patterns plays an
+
+
+
+xn t important role here and discussing it now will also bring some new insights to the pwi
+what is important indeed is that in both the present ji and in the pwi the whole system only occupies one position x
+
+
+
+xn at any time only restricted by the condition
+
+
+
+xn t measurement and that
+now you should remember that we are speaking about a quantum t and t are not spatially overlapping at least at some time t
+it means that we have either or
+
+
+
+xn t t
+
+
+
 xn t
 
-in both the probability of presence is given by the same number
-now the question about patterns plays an xn t important role here and discussing it now will also bring some new insights to the pwi
-what is important indeed is that in both the present ji and in the pwi the whole system only occupies one position x
-xn at any time only restricted by the condition xn t measurement and that
-now you should remember that we are speaking about a quantum t and t are not spatially overlapping
-at least at some time t
-it means that we have either or xn t
-t xn t xn t
 
-t xn t depending on whether the electron position is located in the support of or
-the functionalist theory together with the existence of particles therefore imposes that we can only be in one of the two awareness states
-this trick is not possible in the old mwi interpretation since there is no preferred basis in eq
+
+xn t t
+
+
+
+xn t depending on whether the electron position is located in the support of or
+the functionalist theory together with the existence of particles therefore imposes that we can only be in one of the two awareness states this trick is not possible in the old mwi interpretation since there is no preferred basis in eq
 
 additionally it apriori gives a reason to impose the spatial coordinates as preferred basis since using momentum with its delocalized quantum states k could not lead to such a clean resolution of the observer identity crisis
 this is i think a very good reason to prefer the pwi over the mwi
-now with the present stochastic model
-the state given by eq
+now with the present stochastic model the state given by eq
 represents an electron and the detectors as jumping together
 the three entangled electrons will jump from randomly between two arbitrary times
 in the state given by eq
 to i i with an observer entangled with electron the whole system should also jump but again only together
-that means that the observer can not feel this jump at all
-if he is jumping all his memory sequence and the environment is jumping with him this why i called the theory crazy
+that means that the observer can not feel this jump at all if he is jumping all his memory sequence and the environment is jumping with him this why i called the theory crazy
 furthermore if other observers are included in the formalism see eq
 then the subjective agreement will also be automatic in the appropriate basis and you will jump with me always in agreement with quantum mechanics
 i emphasize that this ji is certainly a schematic structure not to be taken too seriously but i think that it contains mainly all the ingredients for a good hidden variable theory
@@ -501,69 +538,166 @@ as a further development we could also present a many jumpers interpretation sim
 again this could bring some philosophical advantages for explaining how the particles know where to jump
 the inter communication between the dierent jumping worlds brings indeed such an information to the whole ensemble of universes and with this we will conclude our many stories theory
 the author thanks nayla farouki and lev vaidman for helpful suggestions and comments during the preparation of the manuscript
-everett relative state formulation of quantum mechanics reviews of modern physics barrett byrne everett the everett interpretation of quantum mechanics collected works with commentary princeton university press wallace the emergent multiverse quantum theory according to the everett interpretation oxford university press
+h
+everett relative state formulation of quantum mechanics reviews of modern physics j
+barrett p
+byrne h
+everett the everett interpretation of quantum mechanics collected works with commentary princeton university press d
+wallace the emergent multiverse quantum theory according to the everett interpretation oxford university press
+p
+r
 holland the quantum theory of motion cambridge university press cambridge
-see also of course suggested interpretation of the quantum theory in terms of hidden variables
+see also of course d
+suggested interpretation of the quantum theory in terms of hidden variables
 part i phys
+rev
 part ii
-the fundamental work by de broglie is discussed in de mecanique ondulatoire structure atomique du rayonnement phys
-radium and in the report of the solvay conference in french reproduced recently in
-bacciagaluppi and valentini quantum theory at the crossroads reconsidering the solvay conference cambridge university press
-the best book on the subject is still probably bohm and hiley the undivided universe an ontological interpretation of quantum theory routledge london
+the fundamental work by de broglie is discussed in l
+de mecanique ondulatoire structure atomique du rayonnement j
+phys
+radium and in the report of the solvay conference in french reproduced recently in g
+bacciagaluppi and a
+valentini ed
+s quantum theory at the crossroads reconsidering the solvay conference cambridge university press
+the best book on the subject is still probably d
+bohm and b
+j
+hiley the undivided universe an ontological interpretation of quantum theory routledge london
+j
 von neumann mathematische grundlagen der quantenmechanik grundlehren der ematischen wissenschaften bd
 
 springer berlin
-
-bell on the problem of hidden variables in quantum mechanics mod
+j
+s
+bell on the problem of hidden variables in quantum mechanics rev
+mod
 phys
 
-einstein podolsky rosen can quantum mechanical description of physical reality be considered complete
+a
+einstein b
+podolsky n
+rosen can quantum mechanical description of physical reality be considered complete
 physical review
+j
+s
 bell on the einstein podolsky rosen paradox physics
+c
 callender the emergence and interpretation of probability in bohmian mechanics studies in history and philosophy of modern physics
-vaidman quantum theory and determinism quantum studies mathematics and tions vaidman many worlds interpretation of quantum mechanics stan
+l
+vaidman quantum theory and determinism quantum studies mathematics and tions l
+vaidman many worlds interpretation of quantum mechanics stan
 enc
-phil zalta ed
-entries qm vaidman probability and the many worlds interpretation of quantum theory in probability in physics the frontiers collection ben menahem and hemmo eds pp
-berlin heidelberg springer verlag arxiv quant vaidman probability in physics the frontiers collection ben menahem and hemmo eds pp
+phil
+e
+n
+zalta ed
+
+stanford
+edu entries qm l
+vaidman probability and the many worlds interpretation of quantum theory in probability in physics the frontiers collection y
+ben menahem and m
+hemmo eds
+pp
+berlin heidelberg springer verlag arxiv quant l
+vaidman probability in physics the frontiers collection y
+ben menahem and m
+hemmo eds
+pp
 berlin heidelberg springer verlag
-vaidman on schizophrenic ences of the neutron or why we should believe in the many worlds interpretation of quantum theory international studies in the philosophy of science vaidman the measure of existence of a quantum world and the sleeping beauty problem analysis
-albert and loewer interpreting the many worlds interpretation synthese lockwood mind brain and the quantum oxford basil blackwell
+
+l
+vaidman on schizophrenic ences of the neutron or why we should believe in the many worlds interpretation of quantum theory international studies in the philosophy of science l
+vaidman the measure of existence of a quantum world and the sleeping beauty problem analysis
+d
+albert and b
+loewer interpreting the many worlds interpretation synthese m
+lockwood mind brain and the quantum oxford basil blackwell
+r
 penrose the large the small and the human mind cambridge university press
-joos elements of environmental decoherence in decoherence theoretical experimental and conceptual problems edited by blanchard giulini joos kiefer and
+e
+joos elements of environmental decoherence in decoherence theoretical experimental and conceptual problems edited by p
+blanchard d
+giulini e
+joos c
+kiefer and i
+
 stamatescu springer
-schlosshauer decoherence and the quantum to classical transition heidelberg and berlin springer joos zeh kiefer giulini kupsch and stamatescu decoherence and the appearance of a classical world in quantum theory
-edition springer berlin zeh the physical basis of the direction of time springer zeh the problem of conscious observation in quantum mechanical description epistemological letters
-arxiv quant
-many worlds
-everett quantum theory and reality edited by saunders barrett a and wallace oxford university press
-tegmark
-the importance of quantum decoherence in brain processes phys
-e wallace everett and structure studies in the history and philosophy of modern physics gleason measures on the closed subspaces of hilbert space journal of mathematics
+m
+schlosshauer decoherence and the quantum to classical transition heidelberg and berlin springer
+joos h
+d
+zeh c
+kiefer d
+giulini j
+kupsch and i
+
+stamatescu decoherence and the appearance of a classical world in quantum theory
+edition springer berlin
+h
+d
+zeh the physical basis of the direction of time springer h
+d
+zeh the problem of conscious observation in quantum mechanical description epistemological letters arxiv quant
+many worlds everett quantum theory and reality edited by s
+saunders j
+barrett a
+kent and d
+wallace oxford university press
+m
+tegmark the importance of quantum decoherence in brain processes phys
+rev
+e d
+wallace everett and structure studies in the history and philosophy of modern physics a
+m
+gleason measures on the closed subspaces of hilbert space journal of mathematics d
 deutsch quantum theory of probability and decisions
 proceedings of the royal society
 
 and mechanics
 of london a
 modern physics
-zurek decoherence einselection and the quantum origins of the classical review of brown wallace solving the measurement problem broglie bohm loses out to everett found
-phys
-madelung quantentheorie in hydrodynamischer form zeit
+w
+zurek decoherence einselection and the quantum origins of the classical review of h
+r
+brown d
+wallace solving the measurement problem broglie bohm loses out to everett found
 phys
 
+e
+madelung quantentheorie in hydrodynamischer form zeit
+f
+phys
+
+j
+w
 gibbs elementary principles in statistical mechanics developed with special reference to the rational foundation of thermodynamics new york dover publications
-drezet comment on a simple experiment to test bell s inequality vigoureux opt
+a
+drezet comment on a simple experiment to test bell s inequality j
+
+vigoureux opt
 commun
 
-dewitt quantum mechanics and reality physics today graham the measurement of relative frequency in dewitt and graham eds
+b
+dewitt quantum mechanics and reality physics today n
+graham the measurement of relative frequency in dewitt and n
+graham eds
 the many words interpretation of quantum mechanics princeton nj princeton university press
-ballentine can the statistical postulate of quntum theory be dreived
-a critique of the many universes interpretation found
-phys benio a note on the everett interpretation of quantum mechanics found
-phys squires on an alleged proof of the quantum probability law phys
+l
+e
+ballentine can the statistical postulate of quntum theory be dreived a critique of the many universes interpretation found
+phys
+p
+benio a note on the everett interpretation of quantum mechanics found
+phys
+e
+j
+squires on an alleged proof of the quantum probability law phys
 lett
 a
+j
+l
 savage the foundations of statistics wiley
+d
 wallace often criticized the frequentist view using the well known redundancy with the weak law of large numbers
 indeed this weak law is sometime used improperly as a proof of the long run probability formula
 however since the weak law already needs probability with its frequentist denition to run there is obviously a kind of circularity and this motivates wallace s bayesian reading of probability
@@ -572,20 +706,41 @@ the frequentist view indeed is not proven by the weak law of large number it onl
 actually the frequentist view as often taught is too simple for exhausting the full physical complexity of randomness
 as i mentioned gibbs ensembles are pure idealization and what we need is actually a physical postulate concerning the initial conditions of the universe
 if these conditions impose that over molecules will be in state and n in state then we have already a good basis for probability
-however this is not enough in order to have a good random universe since in the long run a maverick result like with arriving rst and after is not random but would however satisfy the naive frequentist view
+however this is not enough in order to have a good random universe since in the long run a maverick result like
+
+
+with arriving rst and after is not random but would however satisfy the naive frequentist view
 in my opinion we must also add a physical postulate similar to boltzmann stosszahlansatz telling that the repartition of and in the nite sequence is somehow random as determined by initial conditions
 this postulate would for example mean that the molecules with state and are homogeneously distributed over the box or the universe considered and that the observer should pick up a fair sample when making a statistics
 i agree that mathematicians will not like my postulates but in my opinion probability should be a physical science before being a domain for mathematicians
 in other words probabilities are only pure idealizations in a deterministic universe and they only approximately convey a language for what we call chance and randomness
 unfortunately we do nt have a better one
-green the hidden reality parallel universes and the dddp laws of the cosmos new york
+b
+green the hidden reality parallel universes and the dddp laws of the cosmos new york l
 vaidman probability and the many worlds interpretation of quantum theory
 in quantum theory reconsideration of foundations ed
+a
 khrennikov sweden vaxjo university press vintage books
 
 
-tipler what about quantum theory
-bayes and the born interpretation arxiv bostrom combining bohm and everett axiomatics for a standalone quantum mechanics hall deckert wiseman quantum phenomena modelled by interactions between many classical worlds phys
-x sebens quantum mechanics as classical physics rosen on waves and particles journal of the elisha mitchell scientic society
+f
+j
+tipler what about quantum theory bayes and the born interpretation arxiv
+j
+bostrom combining bohm and everett axiomatics for a standalone quantum mechanics
+m
+j
+w
+hall d
+
+deckert h
+m
+wiseman quantum phenomena modelled by interactions between many classical worlds phys
+rev
+x c
+t
+sebens quantum mechanics as classical physics
+n
+rosen on waves and particles journal of the elisha mitchell scientic society
 
 

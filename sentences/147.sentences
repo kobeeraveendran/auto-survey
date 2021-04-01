@@ -1,14 +1,6 @@
 a m l c
-s
-c
-v
-
-
-v
-i x r a regularizing output distribution of abstractive chinese
-social media text summarization for improved semantic consistency bingzhen wei peking university china
-xuancheng
-ren peking university china xu sun peking university china yi zhang peking university china xiaoyan cai northwestern polytechnical university china qi su peking university china abstractive text summarization is a highly difficult problem and the sequence to sequence model has shown success in improving the performance on the task
+s c v
+v i x r a regularizing output distribution of abstractive chinese social media text summarization for improved semantic consistency bingzhen wei peking university china xuancheng ren peking university china xu sun peking university china yi zhang peking university china xiaoyan cai northwestern polytechnical university china qi su peking university china abstractive text summarization is a highly difficult problem and the sequence to sequence model has shown success in improving the performance on the task
 however the generated summaries are often inconsistent with the source content in semantics
 in such cases when generating summaries the model selects semantically unrelated words with respect to the source content as the most probable output
 the problem can be attributed to heuristically constructed training data where summaries can be unrelated to the source content thus containing semantically unrelated words and spurious word correspondence
@@ -18,45 +10,50 @@ experimental results demonstrate the effectiveness of the proposed approach whic
 especially the proposed approach improves the semantic consistency by in terms of human evaluation
 ccs concepts computing methodologies natural language generation neural networks ization additional key words and phrases abstractive text summarization semantic consistency chinese social media text natural language processing introduction abstractive test summarization is an important text generation task
 with the applying of the sequence to sequence model and the publication of large scale datasets the quality of the automatic generated summarization has been greatly improved chen et al
-
 chopra et al
 gu et al
-
-hu et al li et al mcauley and leskovec nallapati et al
-
-rush et al
-
-
-see et al
-however the semantic consistency of the automatically generated summaries is still far from satisfactory
-both authors contributed equally to the paper
-corresponding author authors addresses bingzhen wei moe key laboratory of computational linguistics school of electronics engineering and computer science peking university yiheyuan road beijing china xuancheng ren moe key laboratory of computational linguistics school of electronics engineering and computer science peking university yiheyuan road beijing china xu sun moe key laboratory of computational linguistics school of electronics engineering and computer science peking university yiheyuan road beijing china yi zhang moe key laboratory of computational linguistics school of electronics engineering and computer science peking university yiheyuan road beijing china xiaoyan cai school of automation northwestern polytechnical university xian shannxi china qi
-su school of foreign languages peking university yiheyuan road beijing china
-
-the commonly used large scale datasets for deep learning models are constructed based on naturally annotated data with heuristic rules chopra et al
-
 hu et al
+li et al
+mcauley and leskovec nallapati et al
+rush et al
+see et al
 
+however the semantic consistency of the automatically generated summaries is still far from satisfactory
+both authors contributed equally to the paper corresponding author authors addresses bingzhen wei moe key laboratory of computational linguistics school of electronics engineering and computer science peking university no
+yiheyuan road beijing china
+edu
+cn xuancheng ren moe key laboratory of computational linguistics school of electronics engineering and computer science peking university no
+yiheyuan road beijing china
+edu
+cn xu sun moe key laboratory of computational linguistics school of electronics engineering and computer science peking university no
+yiheyuan road beijing china
+edu
+cn yi zhang moe key laboratory of computational linguistics school of electronics engineering and computer science peking university no
+yiheyuan road beijing china
+edu
+cn xiaoyan cai school of automation northwestern polytechnical university xian shannxi china
+edu
+cn qi su school of foreign languages peking university no
+yiheyuan road beijing china
+edu
+cn
+the commonly used large scale datasets for deep learning models are constructed based on naturally annotated data with heuristic rules chopra et al
+hu et al
 nallapati et al
 
 the summaries are not written for the source content specifically
 it suggests that the provided summary may not be semantically consistent with the source content
-for example the dataset for chinese social media text summarization namely lcsts contains more than text summary pairs that are not related according to the statistics of the manually checked data hu et al
+for example the dataset for chinese social media text summarization namely lcsts contains more than text summary pairs that are not related according to the statistics of the manually checked data et al
+
 table
 example of semantic inconsistency in the lcsts dataset
 in this example the reference summary can not be concluded from the source content because the semantics of the summary is not contained in the source text
 in short the semantics of benefits can not be concluded from the source content
-
-source content sec
-in the end after the hong kong stock exchange rejected the partnership equity structure of the alibaba group s different shareholding rights the alibaba group was forced to say goodbye to its former partners and turned to invest in the arms of the securities and exchange commission sec
-the picture below shows the alibaba empire
-reference summary
-alibaba will be listed again for whose benefits
-table shows an example of semantic inconsistency
+source content sec in the end after the hong kong stock exchange rejected the partnership equity structure of the alibaba group s different shareholding rights the alibaba group was forced to say goodbye to its former partners and turned to invest in the arms of the securities and exchange commission sec
+the picture below shows the alibaba empire reference summary alibaba will be listed again for whose benefits table shows an example of semantic inconsistency
 typically the reference summary contains extra information that can not be understood from the source content
 it is hard to conclude the summary even for a human
 due to the inconsistency the system can not extract enough information in the source text and it would be hard for the model to learn to generate the summary accordingly
-
 the model has to encode spurious correspondence of the summary and the source content by memorization
 however this kind of correspondence is superficial and is not actually needed for generating reasonable summaries
 moreover the information is harmful to generating semantically consistent summaries because unrelated information is modeled
@@ -64,73 +61,62 @@ for example the word benefits in the summary is not related to the source conten
 thus it has to be remembered by the model together with the source content
 however this correspondence is spurious because the word is not related to any word in the source content
 in the following we refer to this problem as spurious correspondence caused by the semantically inconsistent data
-
 in this work we aim to alleviate the impact of the semantic inconsistency of the current dataset
-
 based on the sequence to sequence model we propose a regularization method to heuristically show down the learning of the spurious correspondence so that the unrelated information in the dataset is less represented by the model
 we incorporate a new soft training target to achieve this goal
 for each output time in training in addition to the gold reference word the current output also targets at a softened output word distribution that regularizes the current output word distribution
 in this way a more robust correspondence of the source content and the output words can be learned and potentially the output summary will be more semantically consistent
 to obtain the softened output word distribution we propose two methods based on the to sequence model
-
 the first one uses the output layer of the decoder to generate the distribution but with a higher temperature when using softmax normalization
 it keeps the relative order of the possible output words but guides the model to keep a smaller discriminative margin
 for spurious correspondence across different examples the output distribution is more likely to be different so no effective discriminative margin will be established
 for true correspondence across different examples the output distribution is more likely to be the same so a margin can be gradually established
-
 the second one introduces an additional output layer to generate the distribution
 analogous to multi task learning the additional output layer provides an alternative view of the data so that it can regularize the output distribution more effectively
-because the additional output layer differs from the original one in that the less stable information the spurious correspondence learned by the model itself is represented differently
+because the additional output layer differs from the original one in that the less stable information i
+e
+the spurious correspondence learned by the model itself is represented differently
 besides the relative order can also be regularized in this method
-
 more detailed explanation is introduced in section
 another problem for abstractive text summarization is that the system summary can not be easily evaluated automatically
-rouge
-lin is widely used for summarization evaluation
-
+rouge lin is widely used for summarization evaluation
 however as rouge is designed for extractive text summarization it can not deal with summary paraphrasing in abstractive text summarization
 besides as rouge is based on the reference it requires high quality reference summary for a reasonable evaluation which is also lacking in the existing dataset for chinese social media text summarization
 we argue that for proper evaluation of text generation task human evaluation can not be avoided
 we propose a simple and practical human evaluation for evaluating text summarization where the summary is evaluated against the source content instead of the reference
 it handles both of the problems of paraphrasing and lack of high quality reference
-the contributions of this work are summarized as follows
-we propose an approach to regularize the output word distribution so that the semantic inconsistency words not related to the source content exhibited in the training data is derrepresented in the model
+the contributions of this work are summarized as follows we propose an approach to regularize the output word distribution so that the semantic inconsistency e
+
+words not related to the source content exhibited in the training data is derrepresented in the model
 we add a cross entropy based regularization term to the overall loss
 we also propose two methods to obtain the soft target distribution for regularization
 the results demonstrate the effectiveness of the proposed approach which outperforms almost all the existing systems
 in particular the semantic consistency is improved by in terms of human evaluation
 we also conduct analysis to examine the effect of the proposed method on the output summaries and the output label distributions showing that the improved consistency results from the regularized output distribution
-
 we propose a simple human evaluation method to assess the semantic consistency of the generated summary with the source content
 such kind of evaluation is absent in the existing work of text summarization
 in the proposed human evaluation the summary is evaluated against the source content other than the reference summary so that it can better measure the consistency of the generated summary and the source content when high quality reference is not available
 proposed method base on the fact that the spurious correspondence is not stable and its realization in the model is prone to change we propose to alleviate the issue heuristically by regularization
-we use the cross entropy with an annealed output distribution as the regularization term in the loss so that the little fluctuation in the distribution will be depressed and more robust and stable
-correspondence will be learned
+we use the cross entropy with an annealed output distribution as the regularization term in the loss so that the little fluctuation in the distribution will be depressed and more robust and stable correspondence will be learned
 by correspondence we mean the relation between the current output and the source content and the partially generated output
 furthermore we propose to use an additional output layer to generate the annealed output distribution
 due to the same fact the two output layers will differ more in the words that superficially co occur so that the output distribution can be better regularized
 
-regularizing the neural network with annealed distribution
-typically in the training of the sequence to sequence model only the one hot hard target is used in the cross entropy based loss function
+regularizing the neural network with annealed distribution typically in the training of the sequence to sequence model only the one hot hard target is used in the cross entropy based loss function
 for an example in the training set the loss of an output fig
+
 illustration of the proposed methods
 left self train
-right
-dual train
-vector j
-yi log zi m where z is the output vector y is the one hot hard target vector and m is the number of labels
-
+right dual train
+vector j yi log zi m where z is the output vector y is the one hot hard target vector and m is the number of labels
 however as y is the one hot vector all the elements are zero except the one representing the correct label
-hence the loss becomes j z
-log zl where l is the index of the correct label
+hence the loss becomes j z log zl where l is the index of the correct label
 the loss is then summed over the output sentences and across the minibatch and used as the source error signal in the backpropagation
-
 the hard target could cause several problems in the training
 soft training methods try to use a soft target distribution to provide a generalized error signal to the training
-for the summarization task a straight forward way would be to use the current output vector as the soft target which contains the knowledge learned by the current model the correspondence of the source content and the current output word then the two losses are combined as the new loss function j zi log zi m j z
-log zl
-zi log zi m where l is the index of the true label and is the strength of the soft training loss
+for the summarization task a straight forward way would be to use the current output vector as the soft target which contains the knowledge learned by the current model i
+e
+the correspondence of the source content and the current output word then the two losses are combined as the new loss function j zi log zi m j z log zl zi log zi m where l is the index of the true label and is the strength of the soft training loss
 we refer to this approach as self train the left part of figure
 the output of the model can be seen as a refined supervisory signal for the learning of the model
 the added loss promotes the learning of more stable correspondence
@@ -138,22 +124,21 @@ the output not only learns from the one hot distribution but also the distributi
 however during the training the output of the neural network can become too close to the one hot distribution
 to solve this we make the soft target the soften output distribution
 we apply the softmax with temperature which is computed the convenience of description we omit the related trainable parameters of the model
-uses simplified notation where zi and zj should be the unnormalized output the output before the softmax operation
-
-
-
+uses simplified notation where zi and zj should be the unnormalized output i
+e
+the output before the softmax operation
 i
 
+
 m trainencoderdecoderencoderdecoderdual train this transformation keeps the relative order of the labels and a higher temperature will make the output distributed more evenly
-the key motivation is
-that if the model is still not confident how to generate the current output word under the supervision of the reference summary it means the correspondence can be spurious and the reference output is unlikely to be concluded from the source content
+the key motivation is that if the model is still not confident how to generate the current output word under the supervision of the reference summary it means the correspondence can be spurious and the reference output is unlikely to be concluded from the source content
 it makes no sense to force the model to learn such correspondence
 the regularization follows that motivation and in such case the error signal will be less significant compared to the one hot target
 in the case where the model is extremely confident how to generate the current output the annealed distribution will resemble the one hot target
 thus the regularization is not effective
 in all we make use of the model itself to identify the spurious correspondence and then regularize the output distribution accordingly
-dual output layers
-however the aforementioned method tries to regularize the output word distribution based on what it has already learned
+
+dual output layers however the aforementioned method tries to regularize the output word distribution based on what it has already learned
 the relative order of the output words is kept
 the self dependency may not be desirable for regularization
 it may be better if more correspondence that is spurious can be identified
@@ -161,70 +146,60 @@ in this paper we further propose to obtain the soft target from a different view
 an additional output layer is introduced to generate the soft target
 the two output layers share the same hidden representation but have independent parameters
 they could learn different knowledge of the data
-
 we refer to this approach as dual train
 for clarity the original output layer is denoted by and the new output layer
 their outputs are denoted by and respectively
 the output layer acts as the original output layer
 we apply soft training using the output from to this output layer to increase its ability of generalization
-suppose the correct label is
-the target of the output includes both the one hot distribution and the distribution generated from j
-
-log
-
-l i log
-
-i m
-the new output layer is trained normally using the originally hard target
+suppose the correct label is l
+the target of the output includes both the one hot distribution and the distribution generated from j log l i log i m the new output layer is trained normally using the originally hard target
 this output layer is not used in the prediction and its only purpose is to generate the soft target to facilitate the soft training of
-suppose the correct label is
-the target of the output includes only the one hot distribution j
-
-log
-
-l
-because of the random initialization of the parameters in the output layers and could learn different things
+suppose the correct label is l
+the target of the output includes only the one hot distribution j log l because of the random initialization of the parameters in the output layers and could learn different things
 the diversified knowledge is helpful when dealing with the spurious dence in the data
 it can also be seen as an online kind of ensemble methods
 several different instances of the same model are softly aggregated into one to make classification
 the right part of figure shows the architecture of the proposed dual train method
-experiments
-we evaluate the proposed approach on the chinese social media text summarization task based on the sequence to sequence model
+experiments we evaluate the proposed approach on the chinese social media text summarization task based on the sequence to sequence model
 we also analyze the output text and the output label distribution of the models showing the power of the proposed approach
 finally we show the cases where the correspondences learned by the proposed approach are still problematic which can be explained based on the approach we adopt
-dataset
-large scale chinese short text summarization dataset lcsts is constructed by hu et al
 
-the dataset consists of more than million text summary pairs in total constructed from a famous chinese social media microblogging service
+dataset large scale chinese short text summarization dataset lcsts is constructed by et al
 
+the dataset consists of more than
+million text summary pairs in total constructed from a famous chinese social media microblogging service
 the whole dataset is split into three parts with pairs in part i for training pairs in part ii for validation and pairs in part iii for testing
 the authors of the dataset have manually annotated the relevance scores ranging from to of the text summary pairs in part ii and part iii
 they suggested that only pairs with scores no less than three should be used for evaluation which leaves pairs in part ii and pairs in part iii
 from the statistics of the part ii and part iii we can see that more than of the pairs are dropped to maintain semantic quality
 it indicates that the training set which has not been manually annotated and checked contains a huge quantity of unrelated text summary pairs
-experimental settings
 
-we use the sequence to sequence model sutskever et al
+experimental settings we use the sequence to sequence model sutskever et al
 with attention bahdanau et al
-jean et al luong et al mi et al
+jean et al
+luong et al
+mi et al
 as the baseline
 both the encoder and decoder are based on the single layer lstm hochreiter and schmidhuber
 the word embedding size is and the hidden state size of the lstm unit is
 we conduct experiments on the word level
 to convert the character sequences into word sequences we use to segment the words the same with the existing work gu et al
 hu et al
+
 self train and dual train are implemented based on the baseline model with two more parameters the temperature and the soft training strength
 we use a very simple setting for all tasks and set
 we pre train the model without applying the soft training objective for epochs out of total epochs
-we use the adam optimizer kingma and ba for all the tasks using the default settings with and
+we use the adam optimizer kingma and ba for all the tasks using the default settings with
+
+and
+
 in testing we use beam search to generate the summaries and the beam size is set to
 we report the test results at the epoch that achieves the best score on the development set
-evaluation protocol
-for text summarization a common automatic evaluation method is rouge
-lin
+
+evaluation protocol for text summarization a common automatic evaluation method is rouge lin
 the ated summary is evaluated against the reference summary based on unigram recall bigram recall and recall of longest common subsequence rouge l
 to facilitate comparison with the existing systems we adopt rouge as the automatic evaluation method
-the rouge is calculated on the character level following the previous work hu et al
+the rouge is calculated on the character level following the previous work et al
 
 however for abstractive text summarization the rouge is sub optimal and can not assess the semantic consistency between the summary and the source content especially when there is only one reference for a piece of text
 the reason is that the same content may be expressed in different ways with different focuses
@@ -237,7 +212,9 @@ in theory calculating rouge metrics on the word level could alleviate the proble
 however word segmentation is also a non trivial task for chinese
 there are many kinds of segmentation rules which will produce different rouge scores
 we argue that it
-is not acceptable to introduce additional systematic bias in automatic evaluations and automatic evaluation for semantically related tasks can only serve as a reference
+com
+python
+org pypi is not acceptable to introduce additional systematic bias in automatic evaluations and automatic evaluation for semantically related tasks can only serve as a reference
 to avoid the deficiencies we propose a simple human evaluation method to assess the semantic consistency
 each summary candidate is evaluated against the text rather than the reference
 if the candidate is irrelevant or incorrect to the text or the candidate is not understandable the candidate is labeled bad
@@ -246,7 +223,8 @@ then we can get an accuracy of the good summaries
 the proposed evaluation is very simple and straight forward
 it focuses on the relevance between the summary and the text
 the semantic consistency should be the major consideration when putting the text summarization methods into practice but the current automatic methods can not judge properly
-for detailed guidelines in human evaluation please refer to appendix in the human evaluation the text summary pairs are dispatched to two human annotators who are native speakers of chinese
+for detailed guidelines in human evaluation please refer to appendix a
+in the human evaluation the text summary pairs are dispatched to two human annotators who are native speakers of chinese
 as in our setting the summary is evaluated against the reference the number of the pairs needs to be manually evaluated is four times the number of the pairs in the test set because we need to compare four systems in total
 to decrease the workload and get a hint about the annotation quality at the same time we adopt the following procedure
 we first randomly select pairs in the validation set for the two human annotators to evaluate
@@ -254,12 +232,14 @@ each pair is annotated twice and the inter annotator agreement is checked
 we find that under the protocol the inter annotator agreement is quite high
 in the evaluation of the test set a pair is only annotated once to accelerate evaluation
 to further maintain consistency summaries of the same source content will not be distributed to different annotators
+
 experimental results table
 results of the human evaluation showing how many summaries are semantically consistent with their source content
 the generated summary is evaluated directly against the source content
-good total accuracy methods reference
-baseline self train
-dual train
+good total accuracy methods reference baseline self train dual train
+
+
+
 first we show the results for human evaluation which focuses on the semantic consistency of the summary with its source content
 we evaluate the systems implemented by us as well as the reference
 we can not conduct human evaluations for the existing systems from other work because the output summaries needed are not available for us
@@ -274,20 +254,34 @@ after investigating its generated summaries we find that the major reason is tha
 because the definition of being good the improved relevance does not make up the loss on intelligibility
 table
 comparisons with the existing models in terms of rouge metrics
-methods rnn context hu et al srb
-ma et al
-
-
-copynet
-gu et al
+methods rnn context et al
+srb ma et al
+copynet gu et al
 rnn distract chen et al
+drgd li et al
+baseline ours self train ours dual train ours rouge l
 
-drgd
-li et al
 
-baseline ours
-self train ours
-dual train ours rouge l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 then we compare the automatic evaluation results in table
 as we can see only applying soft training without adaptation self train hurts the performance
@@ -298,9 +292,11 @@ the automatic evaluation is done on the original test set to facilitate comparis
 however a more reasonable setting would be to exclude the test instances that are found bad in the human evaluation because the quality of the automatic evaluation depends on the reference summary
 as the existing methods do not provide their test output it is a non trivial task to reproduce all their results of the same reported performance
 nonetheless it does not change the fact that rouge can not handle the issues in abstractive text summarization properly
-experimental analysis
-to examine the effect of the proposed method and reveal how the proposed method improves the consistency we compare the output of the baseline with dual train based on both the output text and the output label distribution
+
+experimental analysis to examine the effect of the proposed method and reveal how the proposed method improves the consistency we compare the output of the baseline with dual train based on both the output text and the output label distribution
 we also conduct error analysis to discover room for improvements
+
+
 analysis of the output text
 to gain a better understanding of the results we analyze the summaries generated by the baseline model and our proposed model
 some of the summaries are listed in table
@@ -310,125 +306,67 @@ in the second one the baseline system generates a related but ungrammatical summ
 we believe the generated summary is actually better than the reference because the focus of the visit is not the event itself but its purpose
 in the third one the baseline system generates a related and grammatical summary but the facts stated are completely incorrect
 the summary generated by the proposed method is more comprehensive than the reference while the reference only includes the facts in the last sentence of the source content
-
 in short the generated summary of the proposed method is more consistent with the source content
 it also exhibits the necessity of the proposed human evaluation
 because when the generated summary is evaluated against the reference it may seem redundant or wrong but it is actually true to the source content
 while it is arguable that the generated summary is better than the reference table
 examples of the summaries generated by the baseline and dual train from the test set
 as we can see the summaries generated by the proposed are much better than the ones generated by the baseline and even more informative and precise than the references
-short text
-
-
-
-china railway news starting from january bikes can not be carried onto the platform and the train
+short text china railway news starting from january bikes can not be carried onto the platform and the train
 riders voice complaints
-
 the travelers who wish that as soon as they get off the train their bike ride can begin have to check their bikes in before getting on board they can consult the customer service at and check in at the nearest service station in advance
 shipping costs per kilogram depend on the shipping mileage
-
-reference bikes can not be carried onto the train baseline bikes bikes will not stop what do you think of it
-
-proposal china railway bikes can not be carried onto the platform
-short text
-
-on the afternoon of the liu yunshan member of the standing committee of the political bureau of the cpc central committee and secretary of the secretariat of the cpc central committee paid a visit to yu min and zhang cunhao the recipients of the state preeminent science and technology award
+reference bikes can not be carried onto the train baseline bikes bikes will not stop what do you think of it proposal china railway bikes can not be carried onto the platform short text on the afternoon of the liu yunshan member of the standing committee of the political bureau of the cpc central committee and secretary of the secretariat of the cpc central committee paid a visit to yu min and zhang cunhao the recipients of the state preeminent science and technology award
 liu yunshan pointed out that scientists and technologists should study the pragmatic research spirit of the older generation be indifferent to fame and fortune devote themselves to scientific research and strive to create more first rate scientific research achievements
-
-reference liu yunshan paid a visit to prominent science and technology experts
-baseline liu yunshan
-science and technology research research
-proposal
-liu yunshan scientists and technologists should study the pragmatic research spirit of the older generation
-short text
-
-on september the geneva based world economic forum released the global competitiveness report
+reference liu yunshan paid a visit to prominent science and technology experts baseline liu yunshan science and technology research research proposal liu yunshan scientists and technologists should study the pragmatic research spirit of the older generation short text on september the geneva based world economic forum released the global competitiveness report
 switzerland ranks first for six years in a row becoming the most competitive country in the world with singapore and the united states taking the second place and the third place
 china ranks the the highest in the bric countries
-
-reference
-in the global competitiveness rankings china ranks the the highest in the bric countries
-baseline global competitiveness report china ranks the eighth in the world
-proposal global competitiveness report switzerland takes the first place china ranks the there is no doubt that the generated summary of the proposed method is better than the baseline
-
+reference in the global competitiveness rankings china ranks the the highest in the bric countries baseline global competitiveness report china ranks the eighth in the world proposal global competitiveness report switzerland takes the first place china ranks the there is no doubt that the generated summary of the proposed method is better than the baseline
 however the improvement can not be properly shown by the existing evaluation methods
-
 furthermore the examples suggest that the proposed method does learn better correspondence
-
 the highlighted words in each example in table share almost the same previous words
 however in the first one the baseline considers stop as the most related words which is a sign of noisy word relations learned from other training examples while the proposed method generates to the platform which is more related to what a human thinks
 it is the same with the second example where a human selects expert and dual train selects worker while the baseline selects research and fails to generate a grammatical sentence later
 in the third one the reference and the baseline use the same word while dual train chooses a word of the same meaning
 it can be concluded that dual train indeed learns better word relations that could generalize to the test set and good word relations can guide the decoder to generate semantically consistent summaries
 
-analysis of the output label distribution
-to show why the generated text of the proposed method is more related to the source content we further analyze the label distribution the word distribution generated by the first output layer from which the output word is selected
 
+analysis of the output label distribution
+to show why the generated text of the proposed method is more related to the source content we further analyze the label distribution i
+e
+the word distribution generated by the first output layer from which the output word is selected
 to illustrate the relationship we calculate a representation for each word based on the label distributions
 each representation is associated with a specific label word denoted by l and each dimension i shows how likely the label indexed by i will be generated instead of the label
-
 to get such representation we run the model on the training set and get the output vectors table
 examples of the labels and their top most related labels
 the highlighted words indicate problematic word relations
 the baseline system encodes semantically unrelated words into the word relations while the proposed method learns the relatedness more precisely and robustly
-
-top most related labels label word
-proposal china nationwide nation domestic baseline china nationwide domestic the state council
-our country
-proposal motor vehicle automobile beijing driver baseline restricted license beijing vehicle subsidy
-old car
-proposal one one one ren one ge
-
-baseline one one china one ge
-one ming
-proposal figure photo image picture baseline photo figure and de
-image
-proposal automobile electrombile electric vehicle tesla baseline automobile usa internet
-tesla
-proposal futures reform bond enterprise
-futures industry
-baseline futures china innovation
-
-sleet
-
-how long sandstorm
-railway police baseline rescue somebody railway police police internship proposal snow sleet snowfall strong wind
-baseline sleet exist snowfall first snowfall
-proposal how many how long de time
-baseline ma de know
-proposal windstorm sand and dust xinjiang usa
-baseline sand and dust snowstorm rainstorm short time
-proposal railway police police train railway in the decoder which are then averaged with respect to their corresponding labels to form a representation
+top most related labels label word proposal china nationwide nation domestic baseline china nationwide domestic the state council our country proposal motor vehicle automobile beijing driver baseline restricted license beijing vehicle subsidy old car proposal one one one ren one ge baseline one one china one ge one ming proposal figure photo image picture baseline photo figure and de image proposal automobile electrombile electric vehicle tesla baseline automobile usa internet tesla proposal futures reform bond enterprise futures industry baseline futures china innovation sleet how long sandstorm railway police baseline rescue somebody railway police police internship proposal snow sleet snowfall strong wind baseline sleet exist snowfall first snowfall proposal how many how long de time baseline ma de know proposal windstorm sand and dust xinjiang usa baseline sand and dust snowstorm rainstorm short time proposal railway police police train railway in the decoder which are then averaged with respect to their corresponding labels to form a representation
 we can obtain the most related words of a word by simply selecting the highest values from its representation
 table lists some of the labels and the top labels that are most likely to replace each of the labels
 it is a hint about the correspondence learned by the model
-
 from the results it can be observed that dual train learns the better semantic relevance of a word compared to the baseline because the spurious word correspondence is alleviated by regularization
-
 for example the possible substitutes of the word how long considered by dual train include how many how long and time
 however the relatedness is learned poorly in the baseline as there is know a number and two particles in the possible substitutes considered by the baseline
 another representative example is the word image where the baseline also includes two particles in its most related words
-
 the phenomenon shows that the baseline suffers from spurious correspondence in the data and learns noisy and harmful relations which rely too much on the co occurrence
 in contrast the proposed method can capture more stable semantic relatedness of the words
 for text summarization grouping the words that are in the same topic together can help the model to generate sentences that are more coherent and can improve the quality of the summarization and the relevance to the source content
-
 although the proposed method resolves a large number of the noisy word relations there are still cases that the less related words are not eliminated
 for example the top most similar words of futures industry from the proposed method include reform
 it is more related than from the baseline but it can still be harmful to text summarization
 the problem could arise from the fact that words as rarely occur in the training data and their relatedness is not reflected in the data
-another issue is that there are some particles de in the most related words
-a possible explanation is that particles show up too often in the contexts of the word and it is hard for the models to distinguish them from the real semantically related words
+another issue is that there are some particles e
 
+de in the most related words
+a possible explanation is that particles show up too often in the contexts of the word and it is hard for the models to distinguish them from the real semantically related words
 as our proposed approach is based on regularization of the less common correspondence it is reasonable that such kind of relation can not be eliminated
 the first case can be categorized into data sparsity which usually needs the aid of knowledge bases to solve
 the second case is due to the characteristics of natural language
 however as such words are often closed class words the case can be resolved by manually restricting the relatedness of these words
-related work
+related work related work includes efforts on designing models for the chinese social media text summarization task and the efforts on obtaining soft training target for supervised learning
 
-related work includes efforts on designing models for the chinese social media text summarization task and the efforts on obtaining soft training target for supervised learning
-systems for chinese social media text summarization
-the large scale chinese short text summarization dataset was proposed by hu et al
+systems for chinese social media text summarization the large scale chinese short text summarization dataset was proposed by et al
 
 along with the datasets et al
 also proposed two systems to solve the task namely rnn and rnn context
@@ -437,25 +375,23 @@ the difference between them was that rnn context had attention mechanism while r
 they conducted experiments both on the character level and on the word level
 rnn distract chen et al
 was a distraction based neural model where the attention mechanism focused on different parts of the source content
-copynet
-gu et al
+copynet gu et al
 incorporated a copy mechanism to allow part of the generated summary to be copied from the source content
-
 the copy mechanism also explained that the results of their word level model were better than the results of their character level model
-srb ma et al was a sequence to sequence based neural model to improve the semantic relevance between the input text and the output summary
-
-drgd
-li et al
+srb ma et al
+was a sequence to sequence based neural model to improve the semantic relevance between the input text and the output summary
+drgd li et al
 was a deep recurrent generative decoder model combining the decoder with a variational autoencoder
-methods for obtaining soft training target
-soft target aims to refine the supervisory signal in supervised learning
+
+methods for obtaining soft training target soft target aims to refine the supervisory signal in supervised learning
 related work includes soft target for traditional learning algorithms and model distillation for deep learning algorithms
 the soft label methods are typically for binary classification nguyen et al
 where the human annotators not only assign a label for an example but also give information on how confident they are regarding the annotation
-the main difference from our method is that the soft label methods require additional annotation information the confidence information of the annotated labels of the training data which is costly in the text summarization task
+the main difference from our method is that the soft label methods require additional annotation information e
+
+the confidence information of the annotated labels of the training data which is costly in the text summarization task
 there have also been prior studies on model distillation in deep learning that distills big models into a smaller one
 model distillation hinton et al
-
 combined different instances of the same model into a single one
 it used the output distributions of the previously trained models as the soft target distribution to train a new model
 a similar work to model distillation is the soft target regularization method aghajanyan for image classification
@@ -463,13 +399,11 @@ instead of using the outputs of other instances it used an exponential average o
 the proposed method is different compared with the existing model distillation methods in that the proposed method does not require additional models or additional space to record the past soft label distributions
 the existing methods are not suitable for text summarization tasks because the training of an additional model is costly and the additional space is huge due to the massive number of data
 the proposed method uses its current state as the soft target distribution and eliminates the need to train additional models or to store the history information
-conclusions
-we propose a regularization approach for the sequence to sequence model on the chinese social media summarization task
+conclusions we propose a regularization approach for the sequence to sequence model on the chinese social media summarization task
 in the proposed approach we use a cross entropy based regularization term to make the model neglect the possible unrelated words
 we propose two methods for obtaining the soft output word distribution used in the regularization of which dual train proves to be more effective
 experimental results show that the proposed method can improve the semantic consistency by in terms of human evaluation
 as shown by the analysis the proposed method achieves the improvements by eliminating the less semantically related word correspondence
-
 the proposed human evaluation method is effective and efficient in judging the semantic sistency which is absent in previous work but is crucial in the accurate evaluation of the text summarization systems
 the proposed metric is simple to conduct and easy to interpret
 it also provides an insight on how practicable the existing systems are in the real world scenario
@@ -478,58 +412,42 @@ examples for each case in the human evaluation
 there are three rules to be examined in order
 if one rule is not met the following rules do not need to be checked
 the procedure leaves us four specific cases in total of which three is bad and one is good
-bad fluency
-
-source
-
-since the beginning of this year a number of brokers have been finding their husbands
+bad fluency source since the beginning of this year a number of brokers have been finding their husbands
 on july million shares of qilu securities were listed on the beijing financial asset exchange together with century securities shenyin wanguo and yunnan securities which are currently listed on the four major property rights exchanges and at least four stockholders equity was unveiled around the country
-
-summary qilu securities million shares find good fluency bad relatedness
-source
-in august xiaomi s valuation has exceeded billion
+summary qilu securities million shares find good fluency bad relatedness source in august xiaomi s valuation has exceeded billion
 this is mainly because xiaomi is not a company that is valued by a hardware company
 in the smart terminal equipment industry the hardware company is regarded as a company in the downstream of the industrial chain and it is in the bottom of a smile curve in the words of acer s founder shi zhengrong
-
-summary xiaomi s defense in marketing channels lei jun combats the scalpers with multiple measures good fluency and relatedness
-bad faithfulness source ceo
-tian tongsheng years old times marathon
+summary xiaomi s defense in marketing channels lei jun combats the scalpers with multiple measures good fluency and relatedness bad faithfulness source ceo tian tongsheng years old times marathon
 cctv narrator yu jia selling a car he runs kilometers a day to work
 lenovo vice president wei jianglei running can empty the brain real estate ceo liu aiming running a marathon always has a situation that will stimulate me no matter how fast you run you can see people who are obviously older than you running in front of you
-
 summary liu chuanzhi years old times marathon he runs kilometers a day to work
-
-good fluency relatedness and
-faithfulness
-source
-chengdu s software and information technology service industry has maintained a rapid growth momentum in recent years ing first in the midwest cities and it has become the silicon valley in western china
+good fluency relatedness and faithfulness source chengdu s software and information technology service industry has maintained a rapid growth momentum in recent years ing first in the midwest cities and it has become the silicon valley in western china
 chengdu software and information technology service industry development report has been released
-
 summary chengdu s efforts to build west silicon valley for human evaluation the annotators are asked to evaluate the summary against the source content based on the goodness of the summary
 if the summary is not understandable relevant or correct according to the source content the summary is considered bad
 more concretely the annotators are asked to examine the following aspects to determine whether the summary is good fluency
 if the summary itself can not be understood the summary is not good
 this is not judged by grammatical correctness but by checking if major semantic roles such as the predicate the agent and the experiencer are missing
-it allows the summary where certain particles or aspect markers are missing but the content can still be understood
+it allows the summary where certain particles e
+
+or aspect markers e
+
+are missing but the content can still be understood
 another common issue is that the summary may have repeated words
 our view on this is that if the repetition does not affect the intelligibility of the summary we still treat the summary as good
 relatedness
 if it is impossible to decide whether the summary is correct or wrong according to the source content the summary is bad
 by definition the nonsense is also ruled out
-
 faithfulness
 if the summary is not correct according to the source content the summary is labeled bad
 we also treat the summary that is relevant and correct according to the source content but is too general as bad
 if a rule is not met the summary is labeled bad and the following rules do not need to be checked
-
 in table we give examples for cases of each rule
 in the first one the summary is not fluent because the patient of the predicate seek for is missing
 the second summary is fluent but the content is not related to the source in that we can not determine if lei jun is actually fighting the scalpers based on the source content
 in the third one the summary is fluent and related to the source content but the facts are wrong as the summary is made up by facts of different people
-
-the last one met all the three rules and thus it is considered good acknowledgments
-this work is supported in part by the national natural science foundation of china under grant
-no
+the last one met all the three rules and thus it is considered good
+acknowledgments this work is supported in part by the national natural science foundation of china under grant no
 
 references armen aghajanyan
 
@@ -537,26 +455,30 @@ softtarget regularization an effective technique to reduce over fitting in neura
 dzmitry bahdanau kyunghyun cho and yoshua bengio
 
 neural machine translation by jointly learning to align corr
+
 and translate
 corr
+
 qian chen xiaodan zhu zhenhua ling si wei and hui jiang
 
 distraction based neural networks for modeling documents
 in proceedings of the international joint conference on artificial intelligence
 new york new york usa
-
-sumit chopra michael auli and alexander rush
+sumit chopra michael auli and alexander m
+rush
 
 abstractive sentence summarization with attentive recurrent neural networks
 in naacl hlt the conference of the north american chapter of the association for computational linguistics human language technologies
 
-jiatao gu zhengdong lu hang li and victor li
+jiatao gu zhengdong lu hang li and victor o
+k
+li
 
-incorporating copying mechanism in sequence to sequence
-learning
+incorporating copying mechanism in sequence to sequence learning
 in proceedings of the annual meeting of the association for computational linguistics volume long papers
 berlin germany
-geoffrey hinton oriol vinyals and jeffrey dean
+geoffrey e
+hinton oriol vinyals and jeffrey dean
 
 distilling the knowledge in a neural network
 in nips deep learning workshop
@@ -566,51 +488,62 @@ long short term memory
 neural computation
 baotian hu qingcai chen and fangze zhu
 
-lcsts
-a large scale chinese short text summarization dataset
+lcsts a large scale chinese short text summarization dataset
 in proceedings of the conference on empirical methods in natural language processing
 lisbon portugal
-
 sbastien jean kyunghyun cho roland memisevic and yoshua bengio
+
 on using very large target vocabulary for neural machine translation
 in proceedings of the annual meeting of the association for computational linguistics acl
 
+diederik p
+kingma and jimmy ba
 
-diederik kingma and jimmy ba
 adam a method for stochastic optimization
 corr
 
 piji li wai lam lidong bing and zihao wang
 
 deep recurrent generative decoder for abstractive text summarization
-
 in proceedings of the conference on empirical methods in natural language processing
 copenhagen denmark
-
 chin yew lin
 
-rouge
-a package for automatic evaluation of summaries
+rouge a package for automatic evaluation of summaries
 in text summarization branches out proceedings of the workshop
 association for computational linguistics barcelona spain
 junyang lin shuming ma qi su and xu sun
 
 decoding history based adaptive control of attention for neural machine translation
 corr
-thang luong hieu pham and christopher manning
+
+
+
+org
+thang luong hieu pham and christopher d
+manning
 
 effective approaches to attention based neural machine translation
 in proceedings of the conference on empirical methods in natural language processing emnlp
 
 shuming ma xu sun wei li sujian li wenjie li and xuancheng ren
 
-query and output generating words by
-querying distributed word representations for paraphrase generation
+query and output generating words by querying distributed word representations for paraphrase generation
 corr
+
+
+
+org
 shuming ma xu sun junyang lin and xuancheng ren
+
 a hierarchical end to end model for jointly improving text summarization and sentiment classification
 corr
+
+
+
+org
 shuming ma xu sun jingjing xu houfeng wang wenjie li and qi su
+
 improving semantic relevance for to sequence learning of chinese social media text summarization
 in proceedings of the annual meeting of the association for computational linguistics volume short papers
 vancouver canada
@@ -633,16 +566,22 @@ quang nguyen hamed valizadegan and milos hauskrecht
 
 learning classification models with soft label information
 journal of american medical informatics association
-alexander rush sumit chopra and jason weston
+alexander m
+rush sumit chopra and jason weston
 
 a neural attention model for abstractive sentence tion
 in proceedings of the conference on empirical methods in natural language processing emnlp lisbon portugal september
 
-abigail see peter liu and christopher manning
+abigail see peter j
+liu and christopher d
+manning
 
 get to the point summarization with pointer generator networks
 in proceedings of the annual meeting of the association for computational linguistics acl vancouver canada july august volume long papers
-ilya sutskever oriol vinyals and quoc le
+
+ilya sutskever oriol vinyals and quoc v
+le
+
 sequence to sequence learning with neural networks
 in advances in neural information processing systems annual conference on neural information processing systems
 
@@ -650,4 +589,8 @@ jingjing xu xu sun xuancheng ren junyang lin bingzhen wei and wei li
 
 dp gan diversity promoting generative adversarial network for generating informative and diversified text
 corr
+
+
+
+org
 

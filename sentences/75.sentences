@@ -1,15 +1,7 @@
-towards abstraction from extraction multiple timescale gated recurrent unit for summarization minsoo kim
-school of electronics engineering
-kyungpook national university daegu south korea
-moirangthem dennis singh
-school of electronics engineering
-kyungpook national university daegu south korea
-minho lee
-school of electronics engineering
-kyungpook national university daegu south korea
-
-abstract
-in this work we introduce temporal erarchies to the sequence to sequence model to tackle the problem of abstractive summarization of scientic ticles
+towards abstraction from extraction multiple timescale gated recurrent unit for summarization minsoo kim school of electronics engineering kyungpook national university daegu south korea
+com moirangthem dennis singh school of electronics engineering kyungpook national university daegu south korea
+com minho lee school of electronics engineering kyungpook national university daegu south korea
+com abstract in this work we introduce temporal erarchies to the sequence to sequence model to tackle the problem of abstractive summarization of scientic ticles
 the proposed multiple timescale model of the gated recurrent unit gru is implemented in the decoder setting to better deal with the presence of multiple compositionalities in larger texts
 the proposed model is pared to the conventional rnn decoder and the results demonstrate that our model trains faster and shows ca nt performance gains
 the results also show that the temporal hierarchies help improve the ability of models to capture compositionalities better without the presence of highly complex tural hierarchies
@@ -19,132 +11,97 @@ offer excellent overviews of the eld
 broadly summarization methods can be categorized into extractive approaches and abstractive approaches hahn and mani based on the type of computational task
 tive summarization is a selection problem while abstractive summarization requires a deeper mantic and discourse understanding of the text as well as a novel text generation process
 extractive summarization has been the focus in the past but abstractive summarization remains a challenge
-
-recently sequence to sequence
-current neural networks rnns have seen wide application in a number of tasks
-such rnn encoder decoders cho et al bahdanau et
-al combine a representation learning coder and a language modeling decoder to perform mappings between two sequences
+recently sequence to sequence current neural networks rnns have seen wide application in a number of tasks
+such rnn encoder decoders cho et al
+bahdanau et al
+combine a representation learning coder and a language modeling decoder to perform mappings between two sequences
 similarly cent works have proposed to cast summarization as a mapping problem between an input sequence and a summary sequence
-recent successes such as rush al
-
+recent successes such as rush et al
 nallapati et al
 have shown that the rnn encoder decoder performs markably well in summarizing short text
 such approaches offer a fully data driven tion to both semantic and discourse understanding and text generation
 while presents a promising way ward for abstractive summarization extrapolating the methodology to other tasks such as the marization of a scientic article is not trivial
-a number of practical and theoretical concerns arise we can not simply train rnn encoder decoders on entire articles
-for the memory capacity of rent gpus scientic articles are too long to be processed whole via rnns
-
+a number of practical and theoretical concerns arise we can not simply train rnn encoder decoders on entire articles for the memory capacity of rent gpus scientic articles are too long to be processed whole via rnns
 moving from one or two sentences to several sentences or several paragraphs introduces additional levels of positionality and richer discourse structure
-how can we improve the conventional rnn decoder to better capture these
-deep learning approaches depend heavily on good quality scale datasets
+how can we improve the conventional rnn decoder to better capture these deep learning approaches depend heavily on good quality scale datasets
 collecting source summary data pairs is difcult and datasets are scarce outside of the newswire domain
-
 in this paper we present a rst ate step towards end to end abstractive rization of scientic articles
-our aim is to
-tend based summarization to larger text with a more complex summarization task
+our aim is to tend based summarization to larger text with a more complex summarization task
 to l u j l c
-s
-c
-v
-v
-i x r a dress each of the issues above we propose a paragraph wise summarization system which is trained via paragraph salient sentence pairs
-we use term frequency inverse document frequency
-tf idf
-luhn jones scores to tract a salient sentence from each paragraph
-
-
-we introduce a novel model multiple timescale gated recurrent unit mtgru which adds a temporal hierarchy component that serves to
-dle multiple levels of compositionality
-this is inspired by an analogous concept of temporal erarchical organization found in the human brain and is implemented by modulating different layers of the multilayer rnn with different timescales
-yamashita and tani
-we demonstrate that our model is capable of understanding the tics of a multi sentence source text and knowing
-what is important about it which is the rst essary step towards abstractive summarization
-
-we build a new dataset of computer science cs articles from extracting their tions from the latex source les
+s c v
+v i x r a dress each of the issues above we propose a paragraph wise summarization system which is trained via paragraph salient sentence pairs
+we use term frequency inverse document frequency tf idf luhn jones scores to tract a salient sentence from each paragraph
+we introduce a novel model multiple timescale gated recurrent unit mtgru which adds a temporal hierarchy component that serves to dle multiple levels of compositionality
+this is inspired by an analogous concept of temporal erarchical organization found in the human brain and is implemented by modulating different layers of the multilayer rnn with different timescales yamashita and tani
+we demonstrate that our model is capable of understanding the tics of a multi sentence source text and knowing what is important about it which is the rst essary step towards abstractive summarization
+we build a new dataset of computer science cs articles from arxiv
+org extracting their tions from the latex source les
 the tions are decomposed into paragraphs each graph acting as a natural unit of discourse
-
 finally we concatenate the generated summary of each paragraph to create a non expert summary of the article s introduction and evaluate our sults against the actual abstract
 we show that our model is capable of summarizing multiple tences to its most salient part on unseen data ther supporting the larger view of summarization as a mapping task
 we demonstrate that our mtgru model satises some of the major quirements of an abstractive summarization tem
 we also report that mtgru has the bility of reducing training time signicantly pared to the conventional rnn encoder decoder
-the paper is structured as follows section
-scribes the proposed model in detail
+the paper is structured as follows section scribes the proposed model in detail
 in section we report the results of our experiments and show the generated summary samples
 in section we analyze the results of our model and comment on future work
-proposed model
-in this section we discuss the background related to our model and describe in detail the newly veloped architecture and its application to rization
+proposed model in this section we discuss the background related to our model and describe in detail the newly veloped architecture and its application to rization
 figure a gated recurrent unit
-background the principle of compositionality denes the meaning conveyed by a linguistic expression as a function of the syntactic combination of its stituent units
 
+background the principle of compositionality denes the meaning conveyed by a linguistic expression as a function of the syntactic combination of its stituent units
 in other words the meaning of a sentence is determined by the way its words are combined with each other
 in multi sentence text sentence level compositionality the way tences are combined with one another is an ditional function which will add meaning to the overall text
 when dealing with such larger texts compositionality at the sentence and even graph levels should be considered in order to ture the text meaning completely
-an approach plored in recent literature is to create dedicated chitectures in a hierarchical fashion to capture sequent levels of compositionality
-li et al
-and
-nallapati et al
+an approach plored in recent literature is to create dedicated chitectures in a hierarchical fashion to capture sequent levels of compositionality li et al
+and nallapati et al
 build dedicated word and sentence level rnn architectures to capture compositionality at different levels of text units leading to improvements in performance
-
 however architectural modications to the rnn encoder decoder such as these suffer from the drawback of a major increase in both ing time and memory usage
 therefore we pose an alternative enhancement to the ture that will improve performance with no such overhead
-we draw our inspiration from roscience where it has been shown that tional differentiation occurs naturally in the human brain giving rise to temporal hierarchies meunier al
+we draw our inspiration from roscience where it has been shown that tional differentiation occurs naturally in the human brain giving rise to temporal hierarchies meunier et al
 botvinick
-
 it has been well documented that neurons can hierarchically nize themselves into layers with different tion rates to stimuli
-the quintessential example of
-this phenomenon is the auditory system in which syllable level information in a short time window is integrated into word level information over a longer time window and so on
-previous works have applied this concept to rnns in movement tracking
-paine and tani and speech rt zt
+the quintessential example of this phenomenon is the auditory system in which syllable level information in a short time window is integrated into word level information over a longer time window and so on
+previous works have applied this concept to rnns in movement tracking paine and tani and speech rt zt ht ztut the time constant added to the activation ht of the mtgru is shown in eq
 
-
-
-
-ht ztut
-
-the time constant added to the activation ht of the mtgru is shown in
 is used to control the timescale of each gru cell
-larger meaning slower cell outputs
-but it makes the cell focus on the slow features of a dynamic sequence input
+larger meaning slower cell outputs but it makes the cell focus on the slow features of a dynamic sequence input
 the proposed mtgru model is illustrated in fig
 
 the conventional gru will be a special case of mtgru where where no attempt is made to organize layers into different timescales
-ut e e ht e ht zt rt e ht zt e ht zt
-e ht
-eq
-shows the learning algorithm derived for the mtgru according to
-the dened forward
-cess and the back propagation through time rules
+ut e e ht e ht zt rt e ht zt e ht zt e ht eq
+shows the learning algorithm derived for the mtgru according to the dened forward cess and the back propagation through time rules
 is the error of the cell outputs at time t e and e is the current gradient of the cell outputs
 ht different timescale constants are set for each layer where larger means slower context units and denes the default or the input timescale
-
 based on our hypothesis that later layers should learn features that operate over slower timescales we set larger as we go up the layers
-
 in this application the question is whether the word sequences being analyzed by the rnn sess information that operates over different poral hierarchies as they do in the case of the tinuous audio signals received by the human tory system
 we hypothesize that they do and that word level clause level and sentence level positionalities are strong candidates
 in this light the multiple timescale modication functions as a way to explicitly guide each layer of the neural network to facilitate the learning of features erating over increasingly slower timescales figure proposed multiple timescale gated current unit
 nition heinrich et al
+
+
 multiple timescale gated recurrent unit our proposed multiple timescale gated rent unit mtgru model applies the ral hierarchy concept to the problem of text summarization in the framework of the rnn encoder decoder
-previous works such as mashita and tani s
-multiple timescale recurrent neural network mtrnn have ployed temporal hierarchy in motion prediction
-however mtrnn is prone to the same problems present in the rnn such as difculty in
-ing long term dependencies and vanishing ent problem hochreiter al
-long short term memory network hochreiter al utilizes a complex gating architecture to aid the learning of long term dependencies and has been shown to perform much better than the rnn in tasks with long term temporal dependencies such as machine translation sutskever et al
-gated recurrent unit gru cho et al which has been proven to be comparable to lstm
-chung al has a similar complex gating architecture but requires less memory
+previous works such as mashita and tani s multiple timescale recurrent neural network mtrnn have ployed temporal hierarchy in motion prediction
+however mtrnn is prone to the same problems present in the rnn such as difculty in ing long term dependencies and vanishing ent problem hochreiter et al
+
+long short term memory network hochreiter et al
+utilizes a complex gating architecture to aid the learning of long term dependencies and has been shown to perform much better than the rnn in tasks with long term temporal dependencies such as machine translation sutskever et al
+
+gated recurrent unit gru cho et al
+which has been proven to be comparable to lstm chung et al
+has a similar complex gating architecture but requires less memory
 the dard gru architecture is shown in fig
 
 because summarization involves tentially many long range temporal dependencies our model applies temporal hierarchy to the gru
-
 we apply a timescale constant at the end of a gru essentially adding another constant gating unit that modulates the mixture of past and current hidden states
-the reset gate rt update gate zt and the candidate activation ut are computed similarly to that of the original gru as shown in
-rnn type layers hidden units
-gru mtgru table network parameters for each model
+the reset gate rt update gate zt and the candidate activation ut are computed similarly to that of the original gru as shown in eq
+
+rnn type layers hidden units gru mtgru table network parameters for each model
 sponding to subsequent levels in the compositional hierarchy
+
 summarization to apply our newly proposed multiple timescale model to summarization we build a new dataset of academic articles
-we collect latex source les of articles in the cv lg ne mains from the arxiv preprint server extracting their introductions and abstracts
+we collect latex source les of articles in the cs
+cl cv lg ne mains from the arxiv preprint server extracting their introductions and abstracts
 we decompose the introduction into paragraphs and pair each paragraph with its most salient sentence as the get summary
 these target summaries are erated using the widely adopted tf idf scoring
-
 fig
 shows the structure of our summarization model
 our dataset contains rich compositionality and longer text sequences increasing the complexity of the summarization problem
@@ -155,61 +112,69 @@ the model using mtgru is trained using these paragraphs and their targets
 the generated maries of each introduction is evaluated using the abstracts of the collected articles
 we chose the abstracts as gold summaries because they ally contain important discourse structures such as goal related works methods and results making them good baseline summaries
 to test the fectiveness of the proposed method we compare it with the conventional rnn encoder decoder in terms of training speed and performance
-experiments and results
-
-we trained two models the rst model
-ing the conventional gru in the rnn encoder coder and the second model using the newly posed mtgru
+experiments and results we trained two models the rst model ing the conventional gru in the rnn encoder coder and the second model using the newly posed mtgru
 both models are trained using the same hyperparamenter settings with the optimal conguration which ts our existing hardware pability
-
 following sutskever et al
 the inputs are divided into multiple buckets
 both gru and figure paragraph level approach to tion
-steps mtgru rnn
+steps mtgru rnn gru train perplexity test perplexity
 
-gru train perplexity test perplexity table training results of the models
+
+
+table training results of the models
 gru models consist of layers and hidden units
-as our models take longer input and get sequence sizes the hidden units size and
-ber of layers are limited
+as our models take longer input and get sequence sizes the hidden units size and ber of layers are limited
 an embedding size of was used for both networks
-the timescale constant for each layer is set to respectively
+the timescale constant for each layer is set to
+
+
+respectively
 the models are trained on summary pairs
 the source text are the paragraphs extracted from the introduction of academic ticles and the targets are the most salient tence extracted from the paragraphs using tf idf scores
 for comparison of the training speed of the models fig
 shows the plot of the training curve until the train perplexity reaches
-both of the models are trained using nvidia ge force gtx
-titan x gpus which takes roughly days and days respectively
+
+both of the models are trained using nvidia ge force gtx titan x gpus which takes roughly days and days respectively
 during test greedy decoding was used to generate the most likely output given a source introduction
-
-for evaluation we adopt the recall oriented understudy for gisting evaluation rouge
-rics lin proposed by lin and hovy
-
+for evaluation we adopt the recall oriented understudy for gisting evaluation rouge rics lin proposed by lin and hovy
 rouge is a recall oriented measure to score tem summaries which is proven to have a strong correlation with human evaluations
-it measures evaluation metric recall
-rouge l precision
+it measures evaluation metric recall rouge l
 
-f score table rouge scores of gru model summarymtgru model introductionparagraph
-nsummary nslow context unitsfast context unitsslowest context unitsslower context units evaluation metric recall
-rouge l precision f score table rouge scores of mtgru model figure an example of the output summary vs the extracted targets discussion and future work the rouge scores obtained for the tion model using gru and mtgru show that the multiple timescale concept improves the mance of the conventional model without the presence of highly complex architectural archies
+
+precision
+
+
+f score
+
+
+table rouge scores of gru model summarymtgru model introductionparagraph nsummary nslow context unitsfast context unitsslowest context unitsslower context units evaluation metric recall rouge l
+
+
+precision
+
+
+f score
+
+
+table rouge scores of mtgru model figure an example of the output summary vs the extracted targets discussion and future work the rouge scores obtained for the tion model using gru and mtgru show that the multiple timescale concept improves the mance of the conventional model without the presence of highly complex architectural archies
 another major advantage is the increase in training speed by as much as epoch
-
 over the sample summary shown in fig
 strates that the model has successfully generalized on the difcult task of summarizing a large graph into a one line salient summary
-
 in setting the timescale parameters we low yamashita and tani
 we gradually increase as we go up the layers such that higher layers have slower context units
 moreover we experiment with multiple settings of and pare the training performance as shown in fig
 
+the of and are set as
 
-the of and are set as and tively
+and
+
+tively
 is the nal model adopted in our experiment described in the previous section
-has comparatively slower context
-ers and has two fast and two slow text layers
+has comparatively slower context ers and has two fast and two slow text layers
 as shown in the comparison the ing performance of is superior to the remaining two which justies our selection of the timescale settings
-
 the results of our experiment provide evidence that an organizational process akin to functional differentiation occurs in the rnn in language tasks
 the mtgru is able to train faster than the conventional gru by as much as epoch
-we believe that the mtrgu expedites a type of tional differentiation process that is already ring in the rnn by explicitly guiding the
-ers into multiple timescales where otherwise this temporal hierarchical organization occurs more gradually
+we believe that the mtrgu expedites a type of tional differentiation process that is already ring in the rnn by explicitly guiding the ers into multiple timescales where otherwise this temporal hierarchical organization occurs more gradually
 figure comparison of training speed between gru and mtgru
 the n gram recall between the candidate summary and gold summaries
 in this work we only have one gold summary which is the abstract of an ticle thus the rouge score is calculated as given in li et al
@@ -220,31 +185,24 @@ this step was chosen as the early stopping point as at this step we get the test
 the rouge scores calculated using these trained networks are shown in table and table for the gru and gru models respectively
 a sample summary generated by the mtgru model is shown in fig
 
-
 figure an example of the generated summary with mtgru
-number of
-speed comparisonmtgrugruinput text
-the input is the introduction of this paper
+number of speed comparisonmtgrugruinput text the input is the introduction of this paper
 generated
 summarization has been the topic explored as a challenge of text semantic
 recently unk neural networks have emerged as a success in wide range of practical
 in particular we need to use a new way to evaluate three important questions into the
 we use a concept to define the temporal hierarchy of each sentence in the context of
 we demonstrate that our model outperforms a conventional unk system and significantly lead to
-in section we evaluate the experimental results on our model and evaluate our results in section
-the paper is structured as follows section describes the related works
+in section we evaluate the experimental results on our model and evaluate our results in section the paper is structured as follows section describes the related works
 section describes the data collection and processing steps
 section describes the proposed models in detail
 in section we report the results of our experiments and show the sample generated summaries
 in section we analyze the results of our models
 section describes the data collection models and the experimental results
 in section we report the results of our experiments and show the sample generated summaries
-mtgru output summaryinputtf idf extracted summary has already been shown implicitly in previous works such as rush al
-
+mtgru output summaryinputtf idf extracted summary has already been shown implicitly in previous works such as rush et al
 nallapati et al
-but is made explicit in our work due to our choice of data consisting of paragraph salient
-secondly our results indicate sentence pairs
-
+but is made explicit in our work due to our choice of data consisting of paragraph salient secondly our results indicate sentence pairs
 that probabilistic language models can solve the task of novel word generation in the tion setting meeting a key criteria of abstractive summarization
 bengio et al
 originally demonstrated that probabilistic language models can achieve much better generalization over lar words
@@ -254,16 +212,12 @@ this makes a strong case for rnn language models as the best available lution fo
 for ample in fig
 the rst summary shows that our model generates the word explored which is not present in the paper
 furthermore our results suggest that if given abstractive targets the same model could train a fully abstractive tion system
-
 in the future we hope to explore the zational effect of the mtgru in different tasks where temporal hierarchies can arise as well as investigating ways to effectively optimize the timescale constant
 finally we will work to move towards a fully abstractive end to end tion system of multi paragraph text by utilizing a more abstractive target which can potentially be generated with the help of the abstract from the articles
-conclusion
-in this paper we have demonstrated the ity of the mtgru in the multi paragraph text summarization task
+conclusion in this paper we have demonstrated the ity of the mtgru in the multi paragraph text summarization task
 our model fullls a mental requirement of abstractive summarization deep semantic understanding of text and tance identication
 the method draws from a well researched phenomenon in the human brain and can be implemented without any hierarchical architectural complexity or additional memory quirements during training
-although we show its application to the task of capturing
-tional hierarchies in text summarization only gru also shows the ability to enhance the learning figure comparison of training performance between multiple time constants
-
+although we show its application to the task of capturing tional hierarchies in text summarization only gru also shows the ability to enhance the learning figure comparison of training performance between multiple time constants
 in fig
 we show the comparison of a erated summary of the input paragraph to an tracted summary
 as seen in the example our model has successfully extracted the key mation from multiple sentences and reproduces it into a single line summary
@@ -272,152 +226,139 @@ the objective maximizes the joint probability of the target sequence ditioned on
 when a marization model is trained on source extracted salient sentence target pairs the objective can be viewed as consisting of two subgoals one is to correctly perform saliency nding importance traction in order to identify the most salient tent and the other is to generate the precise order of the sentence target
 in fact during training we observe that the optimization of the rst subgoal is achieved before the second subgoal
 the second subgoal is fully achieved only when overtting curs on the training set
-the generalization bility of the model is attributable to the fact that the model is expected to learn multiple points of saliency per given paragraph input not only
-a gle salient section corresponding to a single tence as many training examples are seen
+the generalization bility of the model is attributable to the fact that the model is expected to learn multiple points of saliency per given paragraph input not only a gle salient section corresponding to a single tence as many training examples are seen
 this explains how the results such as those in fig
 can be obtained from this model
 we believe our work has some meaningful plications for abstractive summarization going forward
 first our results conrm that it is possible to train an encoder decoder model to perform saliency identication without the need to refer to an external corpus at test time
 this number of of multiple speed thereby reducing training time signicantly
-
 in the future we hope to extend our work to a fully abstractive end to end summarization system of multi paragraph text
-
-acknowledgment
-this research was supported by basic science research program through the national search foundation of funded by the ministry of science ict and future and by the industrial strategic technology development gram funded by the ministry of trade industry and energy motie korea
-
-references
-bahdanau dzmitry bahdanau kyunghyun cho and yoshua bengio
+acknowledgment this research was supported by basic science research program through the national search foundation of funded by the ministry of science ict and future and by the industrial strategic technology development gram funded by the ministry of trade industry and energy motie korea
+references bahdanau et al
+dzmitry bahdanau kyunghyun cho and yoshua bengio
 
 neural machine translation by jointly learning to align and translate
 corr
-bengio yoshua bengio rejean ducharme pascal vincent and christian jauvin
+
+bengio et al
+yoshua bengio rejean ducharme pascal vincent and christian jauvin
 
 a journal of ral probabilistic language model
 chine learning research
-
-
 matthew m botvinick
 
 tilevel structure in behaviour and in the brain a model of fuster hierarchy
 philosophical actions of the royal society b biological sciences september
-
-cho kyunghyun cho bart van boer c aglar gulcehre fethi bougares holger
-schwenk and yoshua bengio
-
+cho et al
+kyunghyun cho bart van boer c aglar gulcehre fethi bougares holger schwenk and yoshua bengio
 ing phrase representations using rnn decoder for statistical machine translation
 corr
 
 
-chung et junyoung chung c aglar gulcehre kyunghyun cho and yoshua bengio
+chung et al
+junyoung chung c aglar gulcehre kyunghyun cho and yoshua bengio
 
 pirical evaluation of gated recurrent neural networks on sequence modeling
 corr
-hahn and
-udo hahn and inderjeet mani
+
+hahn and udo hahn and inderjeet mani
+
 the challenges of automatic summarization
-
 computer november
-
-heinrich et
-stefan heinrich cornelius
-ber and stefan wermter
-articial neural networks and machine learning icann
-international conference on articial
-
-ral networks lausanne switzerland september
-proceedings part i chapter tive learning of linguistic hierarchy in a multiple timescale recurrent neural network pages
-springer berlin heidelberg berlin berg
-
-hochreiter et sepp hochreiter yoshua gio and paolo frasconi
+heinrich et al
+stefan heinrich cornelius ber and stefan wermter
+articial neural networks and machine learning icann international conference on articial ral networks lausanne switzerland september proceedings part i chapter tive learning of linguistic hierarchy in a multiple timescale recurrent neural network pages
+springer berlin heidelberg berlin
+hochreiter al
+sepp hochreiter yoshua gio and paolo frasconi
 
 gradient ow in recurrent nets the difculty of learning long term dependencies
-in kolen and kremer tors field guide to dynamical recurrent networks
-
+in j
+kolen and s
+kremer tors field guide to dynamical recurrent networks
 ieee press
-
-
 karen sparck jones
 
 a statistical interpretation of term specicity and its application in retrieval
 journal of documentation
-
-
 karen sparck jones
 
 automatic summarising the state of the art
 information cessing and management an international journal
-
-
-li jiwei li minh thang luong and dan
-a hierarchical neural
-corr for paragraphs and documents
+et al
+jiwei li minh thang luong and dan
+a hierarchical neural corr for paragraphs and documents
 jurafsky
 coder
 
-lin and
-chin yew lin and eduard hovy
+lin and chin yew lin and eduard hovy
 
-
-automatic evaluation of summaries using
-in proceedings of gram co occurrence statistics
-the conference of the north american
-
-ter of the association for computational linguistics on human language technology volume pages
+automatic evaluation of summaries using in proceedings of gram co occurrence statistics
+the conference of the north american ter of the association for computational linguistics on human language technology volume pages
 association for computational linguistics
-
 chin yew lin
 
-rouge
-a package for automatic evaluation of summaries
+rouge a package for automatic evaluation of summaries
 in text rization branches out proceedings of the workshop volume
-
+h
+p
 luhn
 
 the automatic creation of literature abstracts
-ibm res
-dev april
-
-meunier meunier lambiotte nito ersche and bullmore
+ibm j
+res
+dev
+april
+et al
+d
+meunier r
+lambiotte a
+nito k
+d
+ersche and e
+t
+bullmore
 
 erarchical modularity in human brain functional works
 arxiv e prints april
-
-nallapati ramesh nallapati bing xiang and bowen zhou
-
+nallapati et al
+ramesh nallapati bing xiang and bowen zhou
 
 sequence to sequence rnns for text summarization
 international ference on learning representations workshop track iclr
-nenkova ani nenkova sameer maskey and yang liu
+nenkova et al
+ani nenkova sameer maskey and yang liu
 
 automatic summarization
-
 in proceedings of the annual meeting of the association for computational linguistics tutorial abstracts of acl hlt pages stroudsburg pa usa
 association for tional linguistics
-
-paine and rainer paine and jun tani
-
+paine and rainer w
+paine and jun tani
 motor primitive and sequence
 organization in a hierarchical recurrent neural work
 neural networks
 new developments in self organizing systems
-
-rush alexander rush sumit chopra and jason weston
+rush et al
+alexander m
+rush sumit chopra and jason weston
 
 a neural attention model for sentence summarization
 in proceedings of the conference on empirical methods in natural language processing pages
 association for computational linguistics lisbon portugal
-
-sutskever et ilya sutskever oriol vinyals sequence to sequence
-
+sutskever et al
+ilya sutskever oriol vinyals sequence to sequence
 and quoc v le
 learning with neural networks
-
-in ghahramani welling cortes lawrence and
+in z
+ghahramani m
+welling c
+cortes n
+d
+lawrence and k
+q
 weinberger editors advances in neural tion processing systems pages
-ran associates
-yamashita and
-yuichi yamashita and jun tani
-
+ran associates inc
+yamashita and yuichi yamashita and jun tani
 
 emergence of functional hierarchy in a multiple timescale neural network model a humanoid robot experiment
 plos comput biol

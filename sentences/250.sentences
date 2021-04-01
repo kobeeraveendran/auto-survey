@@ -1,0 +1,652 @@
+c e d l c
+s c v
+v i x r a generating summaries tailored to target characteristics kushal chawla hrituraj singh arijit pramanik mithlesh kumar balaji vasan srinivasan adobe research bangalore india indian institute of technology roorkee indian institute of technology bombay indian institute of technology kanpur
+com
+com abstract
+recently research eorts have gained pace to cater to varied user preferences while generating text summaries
+while there have been attempts to incorporate a few handpicked characteristics such as length or entities a holistic view around these preferences is missing and crucial insights on why certain characteristics should be incorporated in a cic manner are absent
+with this objective we provide a categorization around these characteristics relevant to the task of text summarization one focusing on what content needs to be generated and second focusing on the stylistic aspects of the output summaries
+we use our insights to provide guidelines on appropriate methods to incorporate various classes characteristics in sequence to sequence summarization framework
+our experiments with incorporating topics readability and simplicity cate the viability of the proposed prescriptions
+introduction automatic text summarization is the task of generating a summary of an input document while retaining the key aspects
+such a summary helps in senting the important content from a long input text in a succinct form for quick information consumption
+traditional methods for summarization tract key sentences from the source text to construct an extractive summary
+recent eorts towards abstractive summarization have geared towards ating human like paraphrased summaries from the input article
+while these algorithms allow for the generation of a single summary it is often desirable to generate summary variants tailored towards specic teristics
+for instance readers may be interested in summaries of dierent lengths or might want to focus on specic entities topics from the input text
+pending on dierent age groups of the readers they might prefer formal informal variants of the summary
+irrespective of the application context it has been shown that incorporating these characteristics at the time of generation can yield more contextual summaries
+recent works have proposed dierent ways to incorporate target teristics at the time of summary generation introducing modications to the architecture learning objectives or the decoder probabilities
+however all these attempts handpick a few characteristics and propose ways to incorporate them
+in the absence of appropriate insights it is unclear as to why these methodologies work in tuning the summaries towards the chosen acteristics and why the same can not be extended for other characteristics
+in this work our objective is to gain a holistic understanding around these additional constraints centering on the task of text summarization
+taking a step in this direction we propose a categorization of these acteristics into content specic which primarily focus on what content is presented pivoting on the semantics or information presented in the output mary and style specic focusing on the stylistic expressions pivoting on the linguistic presentation in the output summary
+through a comparative tion of various existing and proposed methods we further prescribe guidelines to help choosing the right framework for tailoring these categories of characteristics
+our primary contribution is providing a categorization of target characteristics as content and style specic towards a holistic understanding of tailored mary generation
+additionally we propose an attention boosting approach to improve tailoring of content specic characteristics and a policy gradient based algorithm to incorporate stylistic characteristics in summaries
+related work traditional methods for summarization extract key sentences from the source text to construct an extractive summary
+features like descriptiveness of words and word frequencies have been explored to choose the summary sentences
+ever humans summarize by understanding the content and paraphrasing the understood content into a summary
+extractive summarization is hence unable to produce human like summaries
+this has led to eorts towards abstractive summarization which paraphrase summaries from input article content
+early attempts at abstractive summarization created summary sentences ther based on templates or used ilp based sentence compression niques
+with the advent of deep sequence to sequence models attention based neural models have been proposed for summarizing long tences
+these approaches were further improved by incorporating stract meaning representations and using hierarchical encoding networks
+more recent approaches have focused on large scale datasets for rization such as cnn dailymail corpus
+gulcehre et al
+introduced the ability to copy out of vocabulary words from the article to incorporate rarely seen words like names in the generated text
+tu et al
+included the concept of coverage to prevent the models from repeating the same phrases while erating a sentence
+see et al
+proposed a pointer generator framework which incorporates these improvements and also learns to switch between generating new words and copying words from the source article
+although research has primarily focused on unconditioned abstractive text summarization there have been some recent eorts to incorporate a variety of additional constraints into the generation algorithm
+fan et al
+use explicit indicators to control the length of the output summary imposing a constraint on how detailed the output needs to be
+they extend the same technique to also control the entities which must be focused on while generating the summary
+krishna et al
+generated topic oriented summaries by using an indicator topic vector along with the input representation
+each of these approaches aim to control the information presented in the generated summary and therefore modies the attention distribution to focus on appropriate parts of the text as dictated by the target characteristics
+we group these approaches as specic characteristic tuning
+another direction of eorts have attempted to incorporate aspects like ments or tense using generative models like variational auto encoders or ing adversarial training
+focusing on politeness sennrich et al
+propose modications to neural machine translation setup to generate polite variants
+propose the use of a conditional language model to generate ficler et al
+text with variations such as descriptiveness personal and sentiment ously
+more recently generating text with varying levels of formality was studied in machine translation
+oraby et al
+attempt to control personality dimensions in generation namely agreeable disagreeable conscientious scientious and extravert by using indicator tokens and stylistic encodings
+ishna et al
+modify the decoding algorithm to produce readable and simple summaries
+each of these exploration focus primarily of tuning the linguistic presentation of the generated text and we group these as style specic teristic tuning
+policy learning based approaches have shown promise to control several qualitative characteristics explicitly and can potentially be used for both content and style specic characteristics
+while it has been successfully deployed for metrics like rouge we show its applicability to style specic characteristics by proposing a policy gradient framework for readability and simplicity
+content vs style the notion of style and the associated nomenclature is quite convoluted in the literature
+approaches in style transfer try to obtain independent latent representations for style and semantics of the content
+using this interpretation we see the output of a text generation system as a combination of the semantics of the information which is being presented and the style associated with that content
+however unlike these approaches that learn the notion of style implicitly from the available corpora we fragment style across a set of dimensions such as readability simplicity
+these are referred to as various aspects of style aligning with ad approaches towards style transfer as described in
+pointer generator framework we base all our explorations on the pointer generator network
+however all our ndings and insights are generic and can be extended to any other works without loss of generality
+we describe the pointer generator framework here for the sake of completion and please refer to for more details on the framework
+the pointer generator network consists of an encoder and a coder both based on lstm architecture
+given an input article the encoder takes the embedding vectors of each word in the source text a and computes the encoder hidden states
+
+hn
+the nal hidden state is passed to a coder which computes a hidden state st at each decoding step and calculates an attention distribution at over all words as at where vt wsst batt et t n where v wh ws and batt are model parameters to be trained
+the attention is a probability distribution over words in the source text which aids the decoder in generating the next word in the summary using words in the source text with higher attention
+the context vector h at ihi is a weighted sum of the i the attention on the ith input word at encoder hidden states weighted on at tth step and is used to determine the next word to be generated
+the attention distribution allows the network to focus on specic parts of the input as the output summary is generated
+to tailor a summary to various content specic characteristics it is important to modify this attention distribution to focus on the appropriate parts of the input text as required by the characteristics tuned
+at each decoding step the decoder also gets the last word yt in the summary generated so far and computes a scalar pgen denoting the probability of ating a new word from the vocabulary pgen y yt bgen where wh ws wy bgen are trained vectors
+the network probabilistically decides based on pgen whether to generate a new word from the vocabulary or copy a word from the source text using the attention distribution
+for each word w in the vocabulary the model calculates the probability of the word getting generated next
+for each word in the input article its total attention received yields its probability of being copied
+since some words occur in the vocabulary and also the input article they will have non zero probabilities of being newly generated as well as being copied
+hence the total probability of w being the next word generated in the by p is given by s st wt t wt h h pgen at i i wi w the second term allows the framework to choose a word to copy from the put text using the attention distribution
+the pointer generator network further employs a coverage mechanism to encourage diversity in attention distributions over time steps
+the training loss is set to be the average negative log likelihood of the ground truth summaries
+the model is trained using back propagation and the adagrad gradient descent algorithm
+since the stylistic characteristics deal with specic expressions of the output text it can be tailored by modifying to incorporate the corresponding stylistic preferences
+for more complex characteristics as we show it is possible to dene a reinforcement learning based loss appended to the training loss to tailor the specic characteristics
+content specic characteristics content specic characteristics primarily govern what content needs to be sented in the output summary
+for the rest of the paper we illustrate the needs and modeling for content based characteristics with topical tailoring
+however the proposed approach can be extended to other content characteristics like entity centric tailoring
+often the whole content of the article may not be relevant to the readers and may prefer specic elements of the input to be summarized
+for instance a sports enthusiast may only be interested in content concerning that domain or a surgeon may only be interested in health related content
+this calls for a need to generate multiple summary variants taking this information into account
+table shows a particular instance from our dataset which talks about both politics and military
+if a reader is interested only in politics the baseline summary generated by pointer generator pgen model does not refer to politics and hence fails to meet the needs
+article bernie sanders my vermont senator and indeed a friend of many years is now running for president
+he noted at his announcement with a familiar note of wise irony people should not underestimate me
+to most americans of course sen
+bernie sanders is only a name if that
+he is barely known to the general public which makes him a very long shot indeed to win election to the highest oce in the nation
+cnn he was impressively polite and bright in the eyes of his boyhood teachers an encourager of his college friends
+he was a docile captured killer in the care of paramedics tending to his gunshot wounds
+dzhokhar jahar tsarnaev s defense team is seeking to spare him from a death sentence for his part two years ago in the boston marathon bombings and murder of an mit police ocer
+
+
+pgen dzhokhar jahar tsarnaev s defense team is seeking to spare him from a death sentence
+he was a docile captured killer in the care of paramedics tending to his gunshot wounds
+tsarnaev was convicted april on all counts including that carry a possible death penalty
+token based mixed attention boosting politics sen
+bernie sanders is running for president
+he is barely known to the general public which makes him a very long shot indeed
+he is barely known to the general public which makes him a very long shot indeed
+token based mixed attention boosting military dzhokhar jahar tsarnaev s defense team is seeking to spare him from a death sentence
+he was convicted april on all counts including that carry a possible death penalty
+a paramedic testied wednesday that it was common for patients in shock to become agitated
+table
+sample output topic tailored summaries generated by token based proach trained on cnn dm mixed dataset
+we show just the top few sentences in the input article in the interest of space
+sequence to sequence learning models have been shown to understand where to look in the input through attention mechanisms which is then used for output generation
+tailoring content specic characteristics would require this attention to be tuned to focus on the relevant parts of the input e
+
+the relevant parts of the input talking about a topic of interest to generate the desired output
+this requires the model to be taught either explicitly or implicitly where to attend in the input article to tailor the summary appropriately
+one possibility is to maintain explicit indicators for each category of the characteristic e
+
+for each topic allowing the model to learn where to pay more attention directly from the data
+fan et al
+propose to use such dicator tokens to tune characteristics such as length or desired entities
+when training on an article summary pair belonging to a particular bin a token indicating the characteristic topic in this case represented by the summary is added to the beginning of the input article
+while decoding an unseen article the framework can generate multiple summary variants based on what token is prepended to the input word sequence
+internally the model uses the token to learn a conditioned space of parameters ensuring appropriate attention tuning to generate the summary with corresponding tailoring
+we refer to this approach as token based in our experiments
+a key requirement to make the model learn these intricacies is that the training data should contain sucient samples under each category
+however there could be a skew in the dataset which calls for alternate approach to tackle these characteristics
+to deal with this problem krishna et al
+create a separate dataset where the model sees multiple summary variants for the same input article by mixing multi topic articles
+given such a dataset the vocabulary tokens can be used to guide the learning process towards a topic specic attention with a skewed dataset
+this method is called as token based mixed which is trained on such an interspersed dataset
+while and use token based approaches implicitly teach the networks by taking advantage of the diversity in the training data we propose an alternative to explicitly boost the attention distributions referred to as attn boost restricting the model to focus on some parts of the input more than others
+more formally we modify eq
+from the pointer generator as i ivt wsst batt where v wh ws and batt are trainable model parameters as before and use this ei to compute the attention at
+i is a word specic attention boosting parameter
+this explicitly teaches the model to pay more attention towards specic words than others
+we leverage topic specic word lists curated by and select the top in our experiments sentences from the input article which are most related to the target topic
+we explicitly boost is of all the words in these sentences using the topic condence measures as used by
+to draw more insights on each of these approaches we evaluate it on the task of topic based summarization on the cnn dailymail cnn dm dataset
+the dataset consists of training validation and test instances
+the articles have an average length of tokens and sentence summaries with average length of tokens
+we use the vanilla pointer generator pgen as the baseline for all our experiments retaining the
+we train the token based model for topics parameters by see et al
+by categorizing the ground truth summaries into topics business education entertainment health military politics social sports and technology extending the setup by and prepending the topic to the input article while training
+following we also have a setup where we intersperse articles from dierent topics in cnn dm resulting in multiple topic specic ground truth summaries for the same article
+using the topics as before the model now sees multiple summaries for the same article
+there are article summary topic tuples for training tuples for validation and tuples in the test dataset
+to evaluate the generation quality of all the approaches we compare them on rouge and l score
+note that generating summaries for all the topics may not make sense for the same input article particularly when the article does not talk about the target topic
+hence for each article in the test set we generate the summary corresponding to the target topic dened by the ground truth summary
+then we use the topic specic word lists to get the and topics in the decoded summaries
+the fraction of times the target topic lies in and topics of the decoded summaries denes the and accuracies of the various setups
+method rouge f score accuracy l
+
+
+
+
+pgen
+
+
+
+
+token based
+
+
+
+
+attn boost proposed
+
+
+
+
+token based attn boost token based mixed attn boost
+
+
+
+
+table
+performance of proposed methodologies for generating topic tuned summaries on the cnn dm mixed test dataset
+table summarizes the results of our methods for generating topic oriented summaries
+we observe that boosting attention values explicitly shows ment in topic percentage accuracies but it suers a decline in quality based on rouge scores
+this is expected since the explicit topic attention would make the model attend to parts of documents that are dierent from the ground truth summary
+on the other hand token based approach improves on rouge with a lesser topical accuracy
+a combined framework of token based and attention boosting yields the best performance across both rouge and topical accuracy metrics
+this is perhaps because in the combined setup the model learns more intricacies implicit in the data along with explicit attention to the topics thus getting the best of both frameworks
+when we train the same setup with the mixed dataset by both rouge and the topical accuracies improve ing the importance of the diversity in data for the network to implicitly learn attention patterns
+we show generated summaries from the token based approach in table for a particular instance from the testing dataset
+the article was created by bining two articles from politics and military domain
+the proposed approach appended with token based framework on cnn dm mixed dataset is able to generate topic specic variants while the pgen approach fails to meet the quirement towards both the topics
+figure shows the average attention on the most attended parts of the input for the same instance by the token based model trained on cnn dm mixed
+when generating a politics oriented summary the attention is on words like president bernie sanders and general public showing the bias towards political phrases
+on the other hand when the target topic is military the focus attention shifts to death sentence and defence team
+politics military fig
+
+attention distribution over the source article for dierent target ics
+our evaluations show that tuning content based characteristics can be achieved by modifying the attention of the network either implicitly or explicitly
+plicit attention modication uses a token based approach but relies on the diversity of the characteristics in the data
+where not available feeding o of an interspersed dataset to articially infuse diversity is benecial
+by bining an interspersed dataset with explicitly attention boosting framework the model is able to tune the characteristics better by learning where to attend and where not to attend while tuning the content based characteristics
+stylistic characteristics next we focus on incorporating stylistic characteristics in the generated mary
+style specic preferences ensure that the content is served appropriately to the target audience
+in this direction prior work has focused on incorporating dimensions such as sentiment descriptiveness formality and many more across various tasks in text generation
+we describe our methodology below to incorporate such characteristics into abstractive text summarization
+the way these stylistic aspects are incorporated into the sequence to sequence summarization framework depends on how these aspects are dened
+for ample simplicity of text can be dened at a lexical level based on the frequency in a simple corpus as dened in
+krishna et al
+extend this towards generating simple summary by modifying the decoder probability in eq
+
+they incorporate simplicity by modifying the beam search decoder to choose contextual replacement with words that are simpler dening simplicity as m m where is the frequency of the ith word in the subtlex
+ishna et al
+then use a word to word replacement probabilities to achieve the tailoring
+however not all aspects can be dened at a lexical level and hence it is not always straightforward to modify the decoder probability
+for example ability can be quantied via the flesch reading ease score given by
+
+total words total sentences
+total syllables total words
+the flesch reading ease score quanties the diculty in understanding a passage written in english
+higher scores indicate easier to read passages
+it posits that the readability is inversely related to the average number of words in a sentence and to the average number of syllables in a word
+using a partial form of this denition propose to use shorter words lesser syllables as a surrogate to reading ease and use it to modify decoder probabilities
+however ignoring the rst component of the reading ease makes this an incomplete tailoring
+accounting for the rst component would require the whole sentence to be generated before providing any feedback to the model on its generated ity
+we propose to use a reinforcement learning based framework to incorporate such complex objectives requiring the generation of the complete partial put for feedback generation
+recently reinforcement learning frameworks have been successfully used to optimize text generation for content based metrics e
+
+rouge scores for summarization in cider scores for image captioning in
+we extend these to propose a reinforcement loss for stylistic elements as an additional term along with cross entropy using the self critical sequence training scst algorithm
+given an input article word sequence and a corresponding ground truth t the pointer generator framework optimizes the summary y y
+
+
+y negative log likelihood objective function is given by y lnll t
+
+
+y
+t for providing explicit feedback on the stylistic characteristics two output quences are generated at the time of training sampled sequence ys and baseline sequence yb
+we generate ys by sampling from the bution at each time step and by greedily choosing the word with maximum probability from the output distribution at each time step
+the scst algorithm denes a loss term lnll with a reward for the target style characteristics
+
+ys ys lrl
+
+ys t where
+is the reward function based on the target style characteristic to be optimized
+optimizing lrl improves the expected reward of the generated output
+the nal loss is a linear combination of lnll and lrl given by l lnll lrl where governs the strength of rl based loss term
+reinforcement learning allows the loss function to include any non dierentiable metric in the form of rewards which can be leveraged to optimize on our complex stylistic aspects directly
+the self critical sequence training approach also helps in dealing with a exposure bias a limitation in teacher forcing algorithm for training recurrent neural networks
+by using sampled sequences the model is exposed to its own distribution learning to generate in accordance with such global meta properties
+to evaluate this methodology towards incorporating such characteristics we use our setup to improve on the readability and simplicity of the generated maries and incorporate the corresponding metrics into the learning algorithm rectly as a reward function using the reinforcement learning based loss function lrl
+to gain more insights on appropriate methods of tailoring stylistic acteristics we compare our rl based approach against the pointer generator method from the use of vocabulary tokens adapted from and with fying word to word anity probabilities adapted from
+to adapt token based approach for readability we dene two tokens not readable and readable based on whether the readability of the ground truth summary was less or more as compared to the median value of
+in the ing dataset
+we also evaluate against the lexical level modications suggested by and use their voting method to modify the generation probabilities by moting the generation of shorter words over their longer synonyms
+finally for our rl based approach we observe that training using the reinforcement loss is extremely slow owing to the computation of sampled and greedy sequences along with the teacher forced outputs
+hence we use the pgen model pre trained on cnn dm dataset as the initialization point i
+e
+training with
+then we train for more iterations with a xed
+
+similarly for simplicity we leverage the work by to measure simplicity based on eq
+and establish the baselines similar to readability above
+our based method directly uses this simplicity score as the reward function
+for the token based approach we divide the ground truth summaries into two classes not simple and simple by thresholding at the median observed to be
+in the training dataset
+similar to content specic characteristics we use rouge rouge and rouge l f scores to evaluate the overlap between the generated and truth summaries
+to evaluate whether the models are able to capture our ability denition we report the average flesch reading ease score for the ated summaries
+for simplicity we report the corresponding average simplicity score
+note that our objective is to understand whether the methods are able to capture a given denition for style specic characteristics
+therefore we have evaluated the tailoring based on the dened target metrics itself
+table summarizes our experiments for readability and simplicity
+we serve a trade o between the use of simpler readable words from the vocabulary and the generation quality as captured by rouge metric primarily because of the deviation towards more simpler or readable words from the ones in erence summaries
+the proposed rl based approach is better able to capture readability achieving higher average scores over all other approaches
+however it is not the best model for simplicity where the lexical modications at the coder beats the rl method
+this suggests that where the entire sequence needs to be generated to measure the stylistic aspect like readability it is useful to resort to rl based frameworks
+however when the stylistic aspect can be sured lexically decoder modications perform better
+there exist works in the reinforcement learning literature that have explored actor critic methods to provide intermediate feedback to the model even before generating the plete output sequences via partial rewards
+exploring such techniques to tackle simpler to complex denitions for style specic constraints is a topic for future work
+also note that token based frameworks have a mixed results since it heavily relies on the diversity of training data without any explicit signal hence might not be suited for stylistic aspects unless the training data contains sucient diversity
+it is possible to train a joint model which can be trained using the feedback on both ground truth summaries in the data and the sequences sampled from the output distributions in a token based framework which is a subject of further research
+readability simplicity method rouge f score readability rouge f score simplicity pgen token based voting rl based l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table
+performance of the proposed approach in improving the readability and simplicity of generated summaries
+table shows the generated output summaries for the rl based approach and pgen baseline model on an instance from cnn dm dataset where our rl based method achieves better readability scores using shorter sentence structs
+such a framework can be used to teach the model on sentence level characteristics required to achieve a target style
+similarly the summaries ated by voting based approach is shown in table the generated summaries uses simpler words in the summaries such as big in place of major and hurt in place of injured
+in a similar manner careful modications of the generated probabilities while decoding can be used to incorporate various other stylistic aspects dened at a lexical level
+
+the killing of an employee at wayne community college in goldsboro north carolina may have been a hate crime authorities said tuesday
+investigators are looking into the possibility said goldsboro police sgt
+jeremy sutton
+he did not explain what may have made it a hate crime
+the victim ron lane whom ocials said was a longtime employee and the school s print shop operator was white as is the suspect
+lane s relatives said he was gay cnn aliate wncn reported
+the suspect kenneth morgan stancil iii worked with lane as part of a work study program but was let go from the program in early march due to poor attendance college president kay albertson said tuesday
+on monday stancil walked into the print shop on the third oor of a campus building aimed a pistol grip shotgun and red once killing lane according to sutton
+stancil has tattoos on his face
+
+
+
+relatives of wayne community college shooting victim say he was gay local media report
+the suspect had worked for the victim but was let go college president says
+the suspect kenneth morgan stancil iii was found sleeping on a orida beach and arrested
+
+wayne community college north carolina may have been a hate crime authorities say
+investigators are looking into the possibility said goldsboro police sgt
+jeremy sutton
+investigators are looking into the possibility said goldsboro police sgt
+jeremy sutton
+rl
+the killing of an employee at wayne community college may have been a hate crime
+the suspect kenneth morgan stancil iii worked with lane as part of a work study program
+he has no previous criminal record authorities say
+table
+sample output summary generated by incorporating readability as a reward function along with baseline and reference summaries on an instance from cnn dm mixed dataset
+the numbers in brackets refer to the sponding readability scores
+we show just the top few sentences in the input article in the interest of space
+conclusions in this work we study a variety of constraints which may be imposed while generating abstractive summaries of a given input article by categorizing these constraints as either content specic which govern what content needs to be generated and style specic which govern various stylistic expressions in these outputs
+our experiments indicate that the content based characteristics can be tailored in the summary via explicitly or implicitly tuning the attention to focus on relevant parts of the network
+approach to tailor stylistic constraints depends on the nature of denition characteristics dened at lexical level can be tuned better by modifying decoder probabilities during beam search
+more complicated metrics can be tuned by using reinforced rewards in the loss function
+references
+nenkova a
+mckeown k
+automatic summarization
+foundations and trends in information retrieval article hong kong cnn six people were hurt after an explosion at a troversial chemical plant in china s southeastern fujian province sparked a huge re provincial authorities told state media
+the plant located in zhangzhou city produces paraxylene px a reportedly carcinogenic chemical used in the production of polyester lms and fabrics
+the blast occurred at an oil storage facility monday night after an oil leak though local media has not reported any toxic chemical spill
+
+
+summary
+
+
+ve out of six people were by broken glass and have been sent to the hospital for treatment
+article cnn debates on climate change can break down fairly fast
+there are those who believe that mankind s activities are changing the planet s climate and those who do nt
+but a new way to talk about climate change is emerging which shifts focus from impersonal discussions about greenhouse gas emissions and power plants to a very personal one your health
+
+
+summary
+
+
+it s easy to brush aside debates involving international corporations but who would nt stop to think and perhaps do something about their own health table
+sample simplied summaries generated by the proposed approach
+words in bold show the use of simpler summaries generated by our approach while the words in italics are those picked up by the baseline model
+
+nallapati r
+zhai f
+zhou b
+summarunner a recurrent neural network based in aaai
+sequence model for extractive summarization of documents
+
+see a
+liu p
+j
+manning c
+d
+get to the point summarization with in annual meeting of the association for computational generator networks
+linguistics acl
+
+fan a
+grangier d
+auli m
+controllable abstractive summarization
+arxiv preprint
+
+krishna k
+srinivasan b
+v
+generating topic oriented summaries using neural attention
+in conference of the north american chapter of the association for computational
+
+wang l
+yao j
+tao y
+zhong l
+liu w
+du q
+a reinforced aware convolutional sequence to sequence model for abstractive text tion
+arxiv preprint
+
+niu x
+martindale m
+carpuat m
+a study of style in machine translation controlling the formality of machine translation output
+in proceedings of the conference on empirical methods in natural language processing
+
+krishna k
+murhekar a
+sharma s
+srinivasan b
+v
+vocabulary tailored summary generation
+in international conference on computational linguistics coling
+
+paulus r
+xiong c
+socher r
+a deep reinforced model for abstractive marization
+arxiv
+wang l
+cardie c
+domain independent abstract generation for focused meeting summarization
+in acl
+
+genest p
+e
+lapalme g
+framework for abstractive summarization using to text generation
+in workshop on monolingual text to text generation
+
+filippova k
+multi sentence compression finding shortest paths in word graphs
+in international conference on computational linguistics coling
+
+berg kirkpatrick t
+gillick d
+klein d
+jointly learning to extract and press
+in annual meeting of the association for computational linguistics acl
+
+banerjee s
+mitra p
+sugiyama k
+multi document abstractive summarization using ilp based multi sentence compression
+in ijcai
+
+sutskever i
+vinyals o
+le q
+v
+sequence to sequence learning with neural in advances in neural information processing systems
+networks
+
+rush a
+m
+chopra s
+weston j
+a neural attention model for abstractive tence summarization
+in conference on empirical methods in natural language processing
+
+chopra s
+auli m
+rush a
+m
+harvard s
+abstractive sentence summarization with attentive recurrent neural networks
+in hlt naacl
+
+takase s
+suzuki j
+okazaki n
+hirao t
+nagata m
+neural headline ation on abstract meaning representation
+in proceedings of the conference on empirical methods in natural language processing
+
+nallapati r
+zhou b
+dos santos c
+gulcehre c
+xiang b
+abstractive in signll text summarization using sequence to sequence rnns and beyond
+conference on computational natural language learning
+
+hermann k
+m
+kocisky t
+grefenstette e
+espeholt l
+kay w
+suleyman m
+blunsom p
+teaching machines to read and comprehend
+in advances in neural information processing systems
+
+gulcehre c
+ahn s
+nallapati r
+zhou b
+bengio y
+pointing the known words
+in annual meeting of the association for computational linguistics acl
+
+tu z
+lu z
+liu y
+liu x
+li h
+modeling coverage for neural machine lation
+in annual meeting of the association for computational linguistics volume long papers
+
+hu z
+yang z
+liang x
+salakhutdinov r
+xing e
+p
+toward controlled generation of text
+in international conference on machine learning
+
+shen t
+lei t
+barzilay r
+jaakkola t
+style transfer from non parallel text by cross alignment
+in advances in neural information processing systems
+
+sennrich r
+haddow b
+birch a
+controlling politeness in neural machine translation via side constraints
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies
+
+ficler j
+goldberg y
+controlling linguistic style aspects in neural language generation
+in proceedings of the workshop on stylistic variation
+
+niu x
+rao s
+carpuat m
+multi task neural models for translating between styles within and across languages
+arxiv preprint
+
+oraby s
+reed l
+tandon s
+sharath t
+lukin s
+walker m
+controlling personality based stylistic variation with neural natural language generators
+arxiv preprint
+
+tikhonov a
+yamshchikov i
+p
+what is wrong with style transfer for texts arxiv preprint
+
+artetxe m
+labaka g
+agirre e
+cho k
+unsupervised neural machine lation
+arxiv preprint
+
+han m
+wu o
+niu z
+unsupervised automatic text style transfer using lstm
+in national ccf conference on natural language processing and chinese puting springer
+xu j
+sun x
+zeng q
+ren x
+zhang x
+wang h
+li w
+unpaired sentiment to sentiment translation a cycled reinforcement learning approach
+arxiv preprint
+
+prabhumoye s
+tsvetkov y
+salakhutdinov r
+black a
+w
+style transfer through back translation
+arxiv preprint
+
+zhang y
+ding n
+soricut r
+shaped shared private encoder decoder for text style adaptation
+in proceedings of the conference of the north can chapter of the association for computational linguistics human language technologies volume long papers
+volume
+
+duchi j
+hazan e
+singer y
+adaptive subgradient methods for online learning and stochastic optimization
+journal of machine learning research
+paetzold g
+specia l
+lexenstein a framework for lexical simplication
+ceedings of acl ijcnlp system demonstrations
+brysbaert m
+new b
+moving beyond kucera and francis a critical evaluation of current word frequency norms and the introduction of a new and improved word frequency measure for american english
+behavior research methods
+flesch r
+f
+how to write plain english a book for lawyers and consumers
+harpercollins
+rennie s
+j
+marcheret e
+mroueh y
+ross j
+goel v
+self critical sequence training for image captioning
+in cvpr
+
+bahdanau d
+brakel p
+xu k
+goyal a
+lowe r
+pineau j
+courville a
+bengio y
+an actor critic algorithm for sequence prediction
+arxiv preprint
+

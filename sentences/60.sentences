@@ -1,306 +1,241 @@
-improved spoken document summarization
-with coverage modeling techniques
-kuan yu chen shih hung liu berlin chen hsin min wang
-academia sinica taipei taiwan national taiwan normal university taipei taiwan
-kychen journey abstract extractive summarization aims at selecting a set of indicative sentences from a source document as a summary that can express the major theme of the document
+improved spoken document summarization with coverage modeling techniques kuan yu chen shih hung liu berlin chen hsin min wang academia sinica taipei taiwan national taiwan normal university taipei taiwan kychen journey
+sinica
+edu
+tw
+edu
+tw abstract extractive summarization aims at selecting a set of indicative sentences from a source document as a summary that can express the major theme of the document
 a general consensus on extractive summarization is that both relevance and coverage are critical issues to address
 the existing methods designed to model coverage can be characterized by either reducing redundancy or increasing diversity in the summary
-maximal margin relevance mmr is a
-cited method since it takes both relevance and redundancy into account when generating a summary for a given document
-
+maximal margin relevance mmr is a cited method since it takes both relevance and redundancy into account when generating a summary for a given document
 in addition to mmr there is only a dearth of research concentrating on reducing redundancy or increasing diversity for the spoken document summarization task as far as we are aware
 motivated by these observations two major contributions are presented in this paper
-
 first in contrast to mmr which considers coverage by reducing redundancy we propose two novel coverage based methods which directly increase diversity
-
 with the proposed methods a set of representative sentences which not only are relevant to the given document but also cover most of the important sub themes of the document can be selected automatically
 second we make a step forward to plug in several document sentence representation methods into the proposed framework to further enhance the summarization performance
-
 a series of empirical evaluations demonstrate the effectiveness of our proposed methods
-
 index terms spoken document summarization relevance redundancy diversity
 introduction with the rapid development of the internet exponentially growing multimedia content such as music video broadcast news programs and lecture recordings has been continuously filling our daily life
-
-
 the overwhelming data inevitably leads to an information overload problem
 since speech is one of the most important sources of information in the content by virtue of spoken document summarization sds one can efficiently digest or browse the multimedia content by listening to the associated speech summary
 extractive sds which manages to select a set of indicative sentences from a spoken document according to a target summarization ratio and concatenate them to form a summary has thus been an attractive research topic in recent years
 a general consensus on extractive summarization is that both relevance and coverage are critical issues in a realistic scenario
-
 however most of the existing summarization methods focus on determining only the relevance degree between a given document and one of its sentences
-
-
 as a result the top ranked sentences returned by these methods may only cover partial themes of the given document and fail to interpret the whole picture
-
-summarization result diversification is devoted to covering important aspects
-
-or sub themes
-of a document as many as possible
+summarization result diversification is devoted to covering important aspects or sub themes of a document as many as possible
 the developed methods following this line of research on coverage modeling can be categorized into implicit and explicit methods
 formally an implicit method reduces redundancy in a summary by considering sentence similarities while an explicit method increases diversity of a summary by taking the sub themes of the document into consideration
-maximal margin relevance mmr
-which iteratively selects a sentence that has the highest combination of a similarity score with respect to the given document and a dissimilarity score with respect to those already selected sentences is a canonical representative of the implicit methods
+maximal margin relevance mmr which iteratively selects a sentence that has the highest combination of a similarity score with respect to the given document and a dissimilarity score with respect to those already selected sentences is a canonical representative of the implicit methods
 however aside from mmr there is still little focus on investigating summarization result diversification
 in view of this we propose two novel coverage based methods for extractive spoken document summarization
-
 by leveraging these methods a concise summary can be automatically generated by rendering not only relevance but also coverage
-
 we also explore to incorporate the several document sentence proposed framework the summarization performance
 representation methods to further enhance into
-related work
-the wide spectrum of extractive sds methods developed so far spreads from methods simply based on the sentence position or structure information methods based on unsupervised sentence ranking to methods based on supervised sentence classification
-
+related work the wide spectrum of extractive sds methods developed so far spreads from methods simply based on the sentence position or structure information methods based on unsupervised sentence ranking to methods based on supervised sentence classification
 for the first category important sentences are selected from some salient parts of a spoken document such as the introductory concluding parts
 however such methods can be only applied to some specific domains with limited document structures
 unsupervised sentence ranking methods attempt to select important sentences based on some statistical features of the sentences or of the words in the sentences without human annotation involved
-
-popular methods include but are not limited to vector space model
-latent semantic analysis
-markov random walk
-mmr sentence significant score method language model based framework
-lexrank linear submodularity based method sm
-and programming based method ilp
+popular methods include but are not limited to vector space model latent semantic analysis markov random walk mmr sentence significant score method language model based framework lexrank linear submodularity based method sm and programming based method ilp
 the statistical features may include for example the term word frequency linguistic score recognition confidence measure and prosodic information
-in contrast supervised sentence classification methods such as gaussian mixture model
-bayesian classifier
-support vector machines svm
-and conditional random fields crf
-usually formulate sentence selection as a binary classification problem a sentence can either be included in a integer summary or not
+in contrast supervised sentence classification methods such as gaussian mixture model bayesian classifier support vector machines svm and conditional random fields crf usually formulate sentence selection as a binary classification problem i
+e
+a sentence can either be included in a integer summary or not
 interested readers may refer to for comprehensive reviews and new insights into the major methods that have been developed and applied with good success to a wide range of text and spoken document summarization tasks
-
 in addition to mmr the ability of reducing redundancy or increasing diversity has also been aptly incorporated into sm ilp and the structured svm method
 however sm and ilp are not readily suited for large scale problems since they involve a rather time consuming process in important sentence selection
-
-on the other hand the structured svm method needs a set of training documents along with their corresponding handcrafted summaries which is difficult to collect because manual annotation is both
-consuming and labor intensive for training the classifiers or summarizers
-
+on the other hand the structured svm method needs a set of training documents along with their corresponding handcrafted summaries which is difficult to collect because manual annotation is both consuming and labor intensive for training the classifiers or summarizers
 in view of this we are intended to develop an unsupervised summarization framework that can simultaneously take both relevance and coverage into account in a principled and effective manner
 
-coverage modeling techniques
-perhaps the most common belief in the document summarization community is that relevance and coverage are two key issues for generating a concise summary
+coverage modeling techniques perhaps the most common belief in the document summarization community is that relevance and coverage are two key issues for generating a concise summary
+for the idea to go a principled realization of progressively selecting important sentences can be formulated as s arg max s ds sdrel sdcov s where d denotes a given document to be summarized s is a set of sentences that have already been selected and s is one of the candidate sentences in d
+is a similarity function used to determine the relevance degree between the source document and one of its sentences and denotes a coverage function
+in the context of mmr the coverage score for a candidate sentence may be computed by cov mmr sd s ss
+s rel s s intuitively mmr iteratively selects a sentence that is not only relevant to the document but also dissimilar to the already selected sentences
 
-for the idea to go a principled realization of progressively selecting important sentences can be formulated as s arg
-max s ds sdrel
-
-sdcov
-s where d denotes a given document to be summarized s is a set of sentences that have already been selected and s is one of the candidate sentences in is a similarity function used to determine the relevance degree between the source document and one of its sentences and denotes a coverage function
-in
-the context of mmr the coverage score for a candidate sentence may be computed by cov mmr sd s ss
-s rel s
-s
-intuitively mmr iteratively selects a sentence that is not only relevant to the document but also dissimilar to the already selected sentences
 
 the xdtd method as opposed to mmr which reduces redundancy by using similarities between summary sentences another promising direction to consider coverage is to increase the diversity of a summary
-formally given a document d the probability that a sentence s meets the gold summary s can be written as p s sd sp
-d pd
-
-s s sdp
-sp
-s d
-
+formally given a document d the probability that a sentence s meets the gold summary s can be written as p s sd sp d pd s s sdp sp s d
 since will not affect the ranking of a sentence and the prior probability of a sentence can be assumed identical for all sentences in the document we can thus omit and s in eq
 and evaluate the sentence by
-
 next it is reasonable that the gold summary covers all the important sub themes of the document
-therefore by taking themes of the document into consideration we obtain sp
-s d
-k tptsp
-s
-d where tk is the k th sub theme in d stands for the coverage degree of sentence s under the k th sub theme and can be seen as a relative importance measure of the sub theme tk
+therefore by taking themes of the document into consideration we obtain sp s d k tptsp s d where tk is the k th sub theme in d stands for the coverage degree of sentence s under the k th sub theme and can be seen as a relative importance measure of the sub theme tk
 although the gold summary s subject to can not be obtained at the test stage it is generally agreed upon that a concise summary for a document should cover most of the important aspects of the document
+consequently the coverage score can further be simplified as cov xdtd sd s k dtptsp
+k we name the model explicit document sub theme diversification xdtd for short hereafter
+in our practical implementation is computed by tsp tsrel rel ts ds and is estimated in a similar manner
 
-consequently the coverage score can further be simplified as
-cov xdtd sd s
-k
-
-dtptsp
-k
-we name the model explicit document sub theme diversification
-xdtd for short hereafter
-
-in our practical implementation is computed by tsp tsrel
-rel ts ds and is estimated in a similar manner
 
 the j xdtd method on top of mmr and xdtd which implicitly and explicitly model coverage by considering redundancy and diversity respectively a more comprehensive method can be proposed
-as an extension from we hence define the coverage score as cov xdtd sd s
-sp ss
-d which interprets the likelihood of observing a candidate sentence s
-but not those already selected sentences denoted as
-again by explicitly considering the sub themes inherent in the given document d the likelihood can be decomposed as sp ss d
-k
-k sp s
-tpt
-s
-d
+as an extension from we hence define the coverage score as cov xdtd sd s sp ss d which interprets the likelihood of observing a candidate sentence s but not those already selected sentences denoted as
+again by explicitly considering the sub themes inherent in the given document d the likelihood can be decomposed as sp ss d k k sp s tpt s d
 next by assuming that s and s are conditionally independent given a sub theme we obtain sp s t ptsp s t
-obviously the former term is used to model
-the coverage of sentence s with respect to each sub theme tk and the latter provides a novelty measure to determine the dissatisfaction degree of the sub theme tk for those already selected sentences
-by assuming that sentences in s are independent given a sub theme we can estimate the dissatisfied degree by
-p s t s
-s
-
+obviously the former term i
+e
+is used to model the coverage of sentence s with respect to each sub theme tk and the latter provides a novelty measure to determine the dissatisfaction degree of the sub theme tk for those already selected sentences
+by assuming that sentences in s are independent given a sub theme we can estimate the dissatisfied degree by p s t s s
 since the method extends the concept of xdtd by jointly taking redundancy and diversity into consideration we refer to it as xdtd hereafter
+
 
 analytic comparisons implementation details several analytic comparisons can be made among the aforementioned three coverage modeling techniques
 first the coverage based methods can be characterized by either reducing redundancy or increasing diversity
 mmr belongs to the first category and xdtd can be classified into the second category while j xdtd takes both redundancy and diversity into account simultaneously
-on one hand a marked difference between mmr and j xdtd is that the former compares a sentence to every already selected sentence whereas the latter leverages
-s to estimate the dissatisfied degree for each sub theme at each sentence selection iteration
-
+on one hand a marked difference between mmr and j xdtd is that the former compares a sentence to every already selected sentence whereas the latter leverages s to estimate the dissatisfied degree for each sub theme at each sentence selection iteration
 on the other hand the major distinction between the proposed two coverage based methods is that xdtd determines the importance degree for each sub theme by only referring to the document itself while j xdtd considers both those already selected sentences and the document
 to sum up the importance degree for each sub theme is dynamically determined at each sentence selection iteration for j xdtd but is kept fixed during the sentence selection process for xdtd
-
 next both mmr and j xdtd select the indicative sentences in a recursive manner while xdtd generates a summary through a one pass process
 thus in practical implementation mmr and j xdtd are slightly slower than xdtd
 moreover xdtd and j xdtd have their roots in the information retrieval community
 this is the first time that xdtd and xdtd are formally introduced adapted and evaluated in the sds task as far as we are aware
-
-noticeably sub themes play a fundamental role within
-the proposed coverage based methods cf
-sections and
+noticeably sub themes play a fundamental role within the proposed coverage based methods
+sections
+and
 
 however in reality the syntactic semantic sub themes of a document are hard to determine
 as a pilot study on empirical comparison of coverage based methods in this paper we treat each sentence in a document as a sub theme
-the similarity function involved in mmr and the proposed methods is estimated based on the cosine similarity measure
-
-we normalize the document sentence sub theme representations cf
+the similarity function i
+e
+involved in mmr and the proposed methods is estimated based on the cosine similarity measure
+we normalize the document sentence sub theme representations
 section to unit vectors to speed up the calculation and make the resulting similarity scores range between and
 
-
 document sentence representations
+
 bag of words representation the bag of words bow representation has long been a basis for most of the natural language processing related tasks
-
 the major advantage of bow is that it is not only simple and intuitive but also efficient and effective
-in bow each document sentence is represented by a high dimensional vector where each dimension specifies the occurrence statistics associated with an index term word subword or their n grams in the document sentence
+in bow each document sentence is represented by a high dimensional vector where each dimension specifies the occurrence statistics associated with an index term e
 
-to eliminate the noisy words the function words and promote the discriminative words
-the content words the statistics is usually estimated with the term frequency tf weighted by
-the inverse document frequency idf
+word subword or their n grams in the document sentence
+to eliminate the noisy words e
+
+the function words and promote the discriminative words e
+
+the content words the statistics is usually estimated with the term frequency tf weighted by the inverse document frequency idf
+
 
 distributed representation on the other hand representation learning has emerged as a newly favorite research subject because of its excellent performance
 however as far as we are aware there are relatively few studies investigating its use in extractive text or spoken document summarization
-
-well known methods for document sentence embedding include the distributed memory dm model
-and the distributed bag of words dbow model
-to name just a few
-
-the distributed memory model
-the dm model is inspired and hybridized by the traditional
-forward neural network language model nnlm
+well known methods for document sentence embedding include the distributed memory dm model and the distributed bag of words dbow model to name just a few
 
 
+the distributed memory model the dm model is inspired and hybridized by the traditional forward neural network language model nnlm
 formally based on the nnlm the idea underlying the dm model is that a given paragraph and a predefined number of context words should jointly contribute to the prediction of the next word
-to this end the objective function is defined as d
-i d
-i
-j log wwp
-j
-nj w d i
-
-j where is the number of paragraphs in the training corpus d di denotes the i paragraph and is the length of di
+to this end the objective function is defined as d i d i j log wwp j nj w d i j where is the number of paragraphs in the training corpus d di denotes the i paragraph and is the length of di
 since the model acts as a memory unit that remembers what is missing from the current context it is named the distributed memory dm model
-in our implementation given a document each sentence in the document and the document itself are considered as a paragraph di and the vector representations of the document and all its sentences are obtained by maximizing the objective function depicted in eq
+in our implementation given a document each sentence in the document and the document itself are considered as a paragraph i
+e
+di and the vector representations of the document and all its sentences are obtained by maximizing the objective function depicted in eq
 
 
-the distributed bag of words model
-a simplified version of the dm model is to merely draw on
-the paragraph representations to predict all of the words in the paragraphs
-the objective function is then defined as d
-i d
-i
-j log dwp
-j i
 
+
+the distributed bag of words model a simplified version of the dm model is to merely draw on the paragraph representations to predict all of the words in the paragraphs
+the objective function is then defined as d i d i j log dwp j i
 since the simplified model ignores the contextual words at the input layer it is named the distributed bag of words dbow model
 the document sentence representations can be obtained in a similar manner as the dm model
 
-experimental setup
-the dataset used in this study is the matbn broadcast news corpus collected by the academia sinica and the public television service foundation of taiwan between november and april
-
-
+experimental setup the dataset used in this study is the matbn broadcast news corpus collected by the academia sinica and the public television service foundation of taiwan between november and april
 the corpus has been segmented into separate stories and transcribed manually
-each story contains the speech of one studio anchor as
-well as several field reporters and interviewees
-
+each story contains the speech of one studio anchor as well as several field reporters and interviewees
 a subset of broadcast news documents compiled between november and august was reserved for the summarization experiments
 we chose documents as the test set while the remaining documents as the held out development set
-
 the reference summaries were generated by ranking the sentences in the manual transcript of a spoken document by importance without assigning a score to each sentence
-
 each document has three reference summaries annotated by three subjects
-
 for the assessment of summarization performance we adopted the widely used rouge metrics
-
 all the experimental results reported hereafter are obtained by calculating the f scores of these rouge metrics
-
 the summarization ratio was set to
 a subset of hour speech data from matbn compiled from november to december was used to bootstrap acoustic model training with a minimum phone error rate mpe criterion and a training data selection scheme
 the vocabulary size is about thousand words
 the average word error rate of automatic transcription is about
 
-experimental results
-in the first set of experiments we evaluate the utilities of different paragraph embedding methods bow dm and dbow for document sentence representation in extractive summarization task
-
+experimental results in the first set of experiments we evaluate the utilities of different paragraph embedding methods i
+e
+bow dm and dbow for document sentence representation in extractive summarization task
 sentences in a given document to be summarized are ranked solely by the similarity degree between each sentence and the document and in turn be selected to form the final summery
 the results are shown in table where td denotes the results obtained based on the manual transcripts of spoken documents and sd denotes the results using the speech recognition transcripts that may contain recognition errors
-
 from the results several observations can be made
 first although bow is a simple and intuitive representation method it outperforms dm and dbow in both the td and sd cases
-
 second dbow outperforms dm in both cases although the former is a simplified variant of the latter
 third although the simple and efficient ability of bow has been evidenced an obvious shortcoming of bow is that it can not address synonymy and polysemy words well
 as such simply matching words occurring in a sentence and a document may not capture the semantic intent within them
 distributed representation methods are capable of mitigating the difficulty to some extent
 an intuitive strategy is to concatenate both together
-
 the experimental results are also shown in table cf
 and
-
 as expected the combinative representations outperform their respective component representation methods by a large margin in both the td and sd cases
-
 an interesting observation is that the performance gap between dm and dbow representations types of seems to be reduced when they are combined with bow
-incorporate bow and
-accordingly we will with mmr and the proposed coverage based methods respectively in the following experiments
-
-in the next set of experiments we evaluate the proposed coverage based methods xdtd and j xdtd
+incorporate bow and accordingly we will with mmr and the proposed coverage based methods respectively in the following experiments
+in the next set of experiments we evaluate the proposed coverage based methods i
+e
+xdtd and j xdtd
 the celebrated mmr method which considers both relevance and redundancy when generating a summary is treated as the baseline system
 the results are shown in table
 from the viewpoint of the representation method when pairing with both xdtd and j xdtd perform quite well while seems to be better suited for mmr
-
-the combinative representation methods and outperform the bow method again when in conjugated with the enhanced summarization methods
-
-it seems that the summarization results can not be further improved when is incorporated with the based methods mmr xdtd and j xdtd in both the td and sd cases
+the combinative representation methods i
+e
+and outperform the bow method again when in conjugated with the enhanced summarization methods
+it seems that the summarization results can not be further improved when is incorporated with the based methods i
+e
+mmr xdtd and j xdtd in both the td and sd cases
 the reason should be further studied
 lastly when compared with the baseline mmr system the proposed methods demonstrate their superiority in the td case while they only achieve comparable results with mmr in the sd case
-
 a possible reason might be that imperfect speech recognition may drift the estimation for the sub themes of each document
 thus xdtd and j xdtd may not benefit from taking sub themes into account
 however the results still confirm the capabilities of the proposed methods in the td case especially when pairing with
-
-in the last set of experiments we assess the performance levels of several well practiced or and state of the art summarization methods for extractive summarization including the variations of the vector space model latent semantic analysis lsa continuous bag of words model cbow skip gram model sg and global vector model glove the language model based summarization method unigram language model ulm the graph based methods markov random walk mrw and lexrank and
-the combinatorial optimization methods sm and ilp
+in the last set of experiments we assess the performance levels of several well practiced or and state of the art summarization methods for extractive summarization including the variations of the vector space model i
+e
+latent semantic analysis lsa continuous bag of words model cbow skip gram model sg and global vector model glove the language model based summarization method i
+e
+unigram language model ulm the graph based methods i
+e
+markov random walk mrw and lexrank and the combinatorial optimization methods i
+e
+sm and ilp
 the results are presented in table
 several noteworthy observations can be drawn from the table
-
-first lsa which represents the sentences of a spoken document and the document itself in the latent semantic space instead of the index term word space performs slightly better than bow in both the td and sd cases cf
+first lsa which represents the sentences of a spoken document and the document itself in the latent semantic space instead of the index term word space performs slightly better than bow in both the td and sd cases
 table
-next the three word embedding methods cbow sg and glove though with disparate model structures and learning strategies achieve comparable results to one another in both the td and sd cases
-note here that they are also concatenated with
-the bow representation method in our implementation
-
+next the three word embedding methods i
+e
+cbow sg and glove though with disparate model structures and learning strategies achieve comparable results to one another in both the td and sd cases
+note here that they are also concatenated with the bow representation method in our implementation
 an interesting comparison is that and outperform them as expected in the td case but offer only a small performance gain in the sd case cf
 table
-third the two based methods mrw and lexrank are quite competitive with each other and perform better than the vector space methods lsa cbow sg and glove in the td case
+third the two based methods i
+e
+mrw and lexrank are quite competitive with each other and perform better than the vector space methods i
+e
+lsa cbow sg and glove in the td case
 however in the sd case the situation is reversed
 it reveals that imperfect speech recognition may negatively affect the graph based methods more than the vector space methods a possible reason for such a phenomenon is that the speech recognition errors may lead to inaccurate similarity measures between each pair of sentences
 the pagerank like procedure of the graph based methods in turn will be performed based on these problematic measures potentially leading to degraded results
 fourth ulm shows results comparable to other state of the art methods in both the td and sd cases
 finally sm and ilp stand out in performance in the td case but only deliver results on par with the other methods in the sd case
-
 when pairing with the proposed methods can achieve comparable results with the combinatorial optimization methods in table
 summarization results achieved by document sentence representations with different paragraph embedding methods
-method bow dm dbow text documents td spoken documents sd
-rouge l rouge l
+method bow dm dbow text documents td spoken documents sd rouge l rouge l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -308,207 +243,342 @@ rouge l rouge l
 
 table
 summarization results achieved by the proposed summarization framework with different representation methods
-
-text documents td
-spoken documents sd method rouge l rouge l bow bow dm bow dbow mmr xdtd
-j xdtd mmr
+text documents td spoken documents sd method rouge l rouge l bow bow dm bow dbow mmr
 xdtd
-j xdtd mmr xdtd
-j xdtd table
-summarization results achieved by several well studied or and state of the art unsupervised methods
+j xdtd
+mmr
+xdtd
+j xdtd
+mmr
+xdtd
+j xdtd
 
-text documents td spoken documents sd rouge l rouge l sm ilp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table
+summarization results achieved by several well studied or and state of the art unsupervised methods
+text documents td spoken documents sd rouge l rouge l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sm ilp
+
+
+
+
+
+
+
 the td case and outperform them in the sd case cf
 tables
-
 although both sm and ilp aptly integrate the ability of reducing redundancy or increasing diversity for summarization they are heavyweight methods cf
 section
 thus the results support the potential of the proposed methods in practical applications
 
+
+
+
+
 conclusions future work integrated in this paper two novel coverage based methods have been proposed and extensively evaluated for extractive sds
 in addition several document and sentence representation methods have also been compared in this study
 finally these methods have been further into a formal summarization framework
-
 experimental results demonstrate the effectiveness of the proposed coverage based methods in relation to several state of the art baselines compared in the paper thereby indicating the potential of such a new summarization framework
-
-for future work we will explore other feasible ways to enrich the representations of documents sentences and integrate extra cues
-such as speaker identities or prosodic emotional
-information into the proposed framework
-
+for future work we will explore other feasible ways to enrich the representations of documents sentences and integrate extra cues such as speaker identities or prosodic emotional information into the proposed framework
 we also plan to investigate more elegant and robust to estimate sub themes of a given document
-techniques
-furthermore how to accurately estimate the component models involved in the proposed methods will be one of the interesting research directions
-method lsa cbow sg glove ulm
-mrw lexrank
-references furui
+techniques furthermore how to accurately estimate the component models involved in the proposed methods will be one of the interesting research directions
+method lsa cbow sg glove ulm mrw lexrank
+references s
+furui al
+fundamental technologies in modern speech recognition ieee signal processing magazine pp
 
-al fundamental technologies in modern speech recognition ieee signal processing magazine pp
-
-
+m
 ostendorf speech technology and information access ieee signal processing magazine pp
 
-
-
-lee and
+l
+s
+lee and b
 chen spoken document understanding and organization ieee signal processing magazine vol
-no pp
-
-
-lee
-al spoken content retrieval beyond cascading speech recognition with text retrieval ieee acm
-transactions on audio speech and
-language processing vol
 no
 pp
 
+l
+s
+lee al
+spoken content retrieval beyond cascading speech recognition with text retrieval ieee acm transactions on audio speech and language processing vol
+no
+pp
 
-liu and hakkani tur speech summarization chapter in spoken language understanding
-systems for
-extracting semantic information from speech tur and mori eds new york wiley
-penn and zhu
-a critical reassessment of evaluation baselines for speech summarization in proc
+y
+liu and d
+hakkani tur speech summarization chapter in spoken language understanding systems for extracting semantic information from speech g
+tur and r
+d
+mori eds new york wiley
+g
+penn and x
+zhu a critical reassessment of evaluation baselines for speech summarization in proc
 of acl pp
 
-nenkova and mckeown automatic summarization
-foundations and trends in information retrieval vol
+a
+nenkova and k
+mckeown automatic summarization foundations and trends in information retrieval vol
 no
 pp
 
-mani and
-maybury eds advances in automatic text summarization cambridge ma mit press
+i
+mani and m
+t
+maybury eds
+advances in automatic text summarization cambridge ma mit press
+j
 
+torres moreno eds
+automatic text summarization wiley iste
+j
+carbonell and j
+goldstein the use of mmr diversity based reranking for reordering documents and producing summaries in proc
+of sigir pp
 
+t
+nomoto and y
+matsumoto a new approach to unsupervised text summarization in proc
+of sigir pp
 
-torres moreno
-eds automatic text summarization wiley iste
+h
+takamura and m
+okumura text summarization model based on maximum coverage problem and its variant in proc
+of acl pp
 
-carbonell and goldstein the use of mmr diversity based reranking for reordering documents and producing summaries in proc of sigir pp
+l
+li al
+enhancing diversity coverage and balance for summarization through structure learning in proc
+of www pp
 
+z
+cao al
+learning summary prior representation for extractive summarization in proc
+of acl pp
 
+s
+harabagiu and a
+hickl relevance modeling for microblog summarization in proc
+of icwsm pp
 
-nomoto and matsumoto a new approach to unsupervised text summarization in proc of sigir pp
+r
+mihalcea graph based ranking algorithms for sentence extraction applied to text summarization in proc
+of acl
+k
+y
+chen al
+extractive broadcast news summarization leveraging language modeling techniques ieee acm transactions on audio speech and language processing vol
+no
+pp
 
-
-takamura and okumura text summarization model based on maximum coverage problem and its variant in proc of acl pp
-
-
-
-li al enhancing diversity coverage and balance for summarization through structure learning in proc of www pp
-
-
-
-
-cao
-al learning summary prior representation for extractive summarization in proc of acl pp
-
-
-harabagiu and hickl
-relevance modeling for microblog summarization in proc of icwsm pp
-
-
-
-
-mihalcea graph based ranking algorithms for sentence extraction applied to text summarization in proc of acl
-
-
-
-chen
-al extractive broadcast news summarization leveraging language modeling techniques ieee acm
-transactions on audio speech and language processing vol
-no pp
-
-recurrent neural network
-
-liu
-al
+recurrent neural network s
+h
+liu al
 combining relevance language modeling and clarity measure for extractive speech summarization ieee acm transactions on audio speech and language processing vol
+no
+pp
 
-no pp
+w
+zheng and h
+fang a comparative study of search result diversification methods in proc
+of ddr pp
 
-
-zheng and fang a comparative study of search result diversification methods in proc of ddr pp
-
+r
 santos et al
-exploiting query reformulations for web search result diversification in proc of www pp
+exploiting query reformulations for web search result diversification in proc
+of www pp
 
+y
+gong and x
+liu generic text summarization using relevance measure and latent semantic analysis in proc
+of sigir pp
 
-gong and liu generic text summarization using relevance measure and latent semantic analysis in proc of sigir pp
+x
+wan and j
+yang multi document summarization using cluster based link analysis in proc
+of sigir pp
 
+s
+furui et al
+speech to speech summarization of spontaneous speech ieee transactions on speech and audio processing vol
+no
+pp
 
-wan and yang multi document summarization using cluster based link analysis in proc of sigir pp
-
-
-furui et
-al speech to speech summarization of spontaneous speech ieee transactions on speech and audio processing vol
-no pp
-
-speech to text and erkan and
+speech to text and g
+erkan and d
+r
 radev lexrank graph based lexical centrality as salience in text summarization journal of artificial intelligent research vol
-no pp
+no
+pp
 
-
-lin and bilmes multi document summarization via budgeted maximization of submodular functions in proc
+h
+lin and j
+bilmes multi document summarization via budgeted maximization of submodular functions in proc
 of naacl hlt pp
 
+k
+riedhammer al
+long story short global unsupervised models for keyphrase based meeting summarization speech communication vol
+no
+pp
 
-riedhammer
-al long story short
-global unsupervised models for keyphrase based meeting summarization speech communication vol
-no pp
+m
+a
+fattah and f
+ren ga mr ffnn pnn and gmm based models for automatic text summarization computer speech and language vol
+no
+pp
 
-
-fattah and ren ga mr ffnn pnn and gmm based models for automatic text summarization computer speech and language vol
-no pp
-
+j
 kupiec et al
-a trainable document summarizer in proc of sigir pp
+a trainable document summarizer in proc
+of sigir pp
 
+j
+zhang and p
+fung speech summarization without lexical features for mandarin broadcast news in proc
+of naacl hlt companion volume pp
 
-zhang and fung speech summarization without lexical features for mandarin broadcast news in proc of naacl hlt companion volume pp
+r
+sipos al
+large margin learning of submodular summarization models in proc
+of eacl pp
 
-sipos
-al large margin learning of submodular summarization models in proc of eacl pp
+m
+galley skip chain conditional random field for ranking meeting utterances by importance in proc
+of emnlp pp
 
+k
+y
+chen al
+leveraging word embeddings for spoken document summarization in proc
+of interspeech pp
 
-galley skip chain conditional random field for ranking meeting utterances by importance in proc of emnlp pp
+k
+y
+chen al
+incorporating paragraph embeddings and density peaks clustering for spoken document summarization in proc
+of asru
+q
+le and t
+mikolov distributed representations of sentences and documents in proc
+of icml pp
 
-
-
-
-chen
-al leveraging word embeddings for spoken document summarization in proc of interspeech pp
-
-
-
-chen
-al
-incorporating paragraph embeddings and density peaks clustering for spoken document summarization in proc of asru
-
-le and mikolov distributed representations of sentences and documents in proc of icml pp
-
+k
+y
 chen et al
-i vector based language modeling for spoken document retrieval in proc of icassp pp
+i vector based language modeling for spoken document retrieval in proc
+of icassp pp
 
-
+y
 bengio et al
 a neural probabilistic language model journal of machine learning research pp
+
+h
+m
 wang et al
 matbn a mandarin chinese broadcast news corpus international journal of computational linguistics and chinese language processing vol
-no pp
+no
+pp
 
-
-lin rouge
-recall oriented understudy for gisting
-available
+c
+y
+lin rouge recall oriented understudy for gisting available
 evaluation
 
+isi
+edu
+g
+heigold al
+discriminative training for automatic speech recognition modeling criteria optimization implementation and performance ieee signal processing magazine vol
+no
+pp
 
-heigold
-al discriminative training for automatic speech recognition modeling criteria optimization implementation and performance ieee signal processing magazine vol
-no pp
-
-
-
+d
 yin et al
-diversifying search results with popular subtopics in proc of trec
+diversifying search results with popular subtopics in proc
+of trec
 

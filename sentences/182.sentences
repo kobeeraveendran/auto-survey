@@ -1,0 +1,2246 @@
+summarization and visualization of large volumes of broadcast video data a report submitted in partial fulllment of the requirements for the degree of bachelor of technology by and kumar abhishek yogi ashok sunil under the guidance of dr
+prithwijit guha n a j v c
+s c v
+v i x r a department of electronics electrical engineering indian institute of technology guwahati april certificate this is to certify that the work contained in this project report entitled summarization and visualization of large volumes of broadcast video data submitted by kumar abhishek and yogi ashok sunil to department of electronics and electrical engineering dian institute of technology guwahati under my supervision and that it has not been submitted elsewhere for a degree
+guwahati april dr
+prithwijit guha assistant professor eee dept
+ii acknowledgement we would like to express our deepest appreciation to our thesis supervisor dr
+prithwijit guha who constantly motivated us to work in this direction and valued our ideas
+we would like to thank him for the freedom he gave us to carry out research in the eld of our interest
+we are indebted to mr
+raghvendra kannao for the constant support and technical help
+we would also like to thank mr
+rajul gupta and mr
+rajesh ratnakaram for their valuable suggestions
+finally we would like to thank our parents and friends for their immense love and support during our entire student life
+iii abstract over the past few years there has been an astounding growth in the number of news channels as well as the amount of broadcast news video data
+as a result it is imperative that automated methods need to be developed in order to eectively summarize and store this voluminous data
+format detection of news videos plays an important role in news video analysis
+our problem involves building a robust and versatile news format detector which identies the dierent band elements in a news frame
+probabilistic progressive hough transform has been used for the detection of band edges
+the detected bands are classied as natural images computer generated graphics non text and text bands
+a contrast based text detector has been used to identify the text regions from news frames
+two classifers have been trained and evaluated for the labeling of the detected bands as natural or articial support vector machine svm classifer with rbf kernel and extreme learning machine elm classier
+the classiers have been trained on a dataset of images images of each class
+the elm classier reports a balanced accuracy of
+while the svm classier outperforms it with a balanced accuracy of
+using fold cross validation
+the detected bands which have been fragmented due to the presence of gradients in the image have been merged using a three tier hierarchical reasoning model
+the bands were detected with a jaccard index of
+when compared to manually marked ground truth data
+we have also presented an extensive literature review of previous work done towards news videos format detection element band classication and associative reasoning
+iv contents acknowledgement abstract list of figures introduction iii iv vii
+motivation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+proposed approach
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+outline
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+literature review
+element band detection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+element band classication
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+qualitative spatial reasoning
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+hough lines and low level bands generation text detector the feature space
+feature analysis for classier design
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+color features
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+spatial features
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+classication scheme
+support vector machine
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extreme learning machine
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+theory
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+v band identication through change detection
+pixels based change detection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+histogram based change detection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+associative reasoning
+merging rules
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+merging of the bands with similar histograms
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+merging of the natural bands
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+merging of the text bands
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+results
+element band detection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+element band classication
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+performance measures
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+precision
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+recall
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+f measure
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+balanced accuracy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+performance analysis
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+svm performance analysis
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+elm performance analysis
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+conclusion future work appendix bibliography
+improving the classication accuracy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+color correlogram
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+spatial gray level dependence
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+local binary patterns
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+better algorithm for labeling the bands
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ground truth marking tool
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+dataset generating tool
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+vi list of figures
+example of news format detection for the newshour debate show original news video frame expected output format of the news video frame
+
+
+
+
+
+
+video frame shots illustrating dynamic and static bands
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+illustrating the proposed approach for news video format detection
+
+
+
+
+
+
+
+
+pictorial representation of the relations
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+output of progressive probabilistic hough transform
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+detected text bands in dierent news frames
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+generalized single layer feedforward network
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+output of the change detection a rectanglular bands detected from hough lines output of the pixels based change detection with n c output of the histogram based change detection with n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+output after merging of the bands containig text a rectanglular bands detected from hough lines output after the application of associative reasoning
+
+
+
+performance analysis of the designed svm classier on individual features and their combination
+the comparison of precisions recalls and measures for both natural images and graphics categories are shown
+note that the hsv histogram dominates as a feature
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+performance analysis of concatenated features with varying data size
+
+
+
+
+
+
+performance analysis of distinct color metric with varying data size
+
+
+
+
+
+
+performance analysis of prevalent color metric with varying data size
+
+
+
+
+
+
+performance analysis of saturation metric with varying data size
+
+
+
+
+
+
+
+
+
+performance analysis of farthest neighbor metric with varying data size
+
+
+
+
+performance analysis of gray histogram smoothness with varying data size
+
+
+vii
+performance analysis of saturation average with varying data size
+
+
+
+
+
+
+
+
+performance analysis of average color histogram metric with varying data size
+performance analysis of farthest neighbor histogram metric with varying data size
+performance analysis of ranked histogram with varying data size
+
+
+
+
+
+
+
+
+performance analysis of hsv histogram with varying data size
+
+
+
+
+
+
+
+
+
+
+performance analysis of concatenated features with varying data size
+
+
+
+
+
+
+performance analysis of the designed elm classier trained on varying dataset of varying size
+the variation of f measure of both the classes and the balanced accuracy according to the training dataset size is plotted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+lbp computation considering an neighborhood
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+single band split into multiple fragments because of the extension of hough lines
+viii chapter introduction classication of broadcast news videos is the rst step towards news content analytics and understanding
+the exponentially increasing amount of digital news broadcast videos makes it practically impossible to manually classify the news videos
+this demands for an automatic and ecient method of classifying news videos
+various techniques of classifying and analyzing the news videos had been proposed in the past
+most of these methods use prior knowledge about the news format and hence fails to classify the videos whose format is unknown
+format detection is the detection of relevant element bands from a video frame viz
+anchor shot eld shot news ticker channel logo news headline
+and create a format prole using these bands
+arguably format detection is a precursor for any video content analysis and hence the result of format detection directly aects the eciency of further video analysis and classication
+figure
+example of news format detection for the newshour debate show a original news video frame expected output format of the news video frame
+
+motivation multimedia streaming requires a large bandwidth especially if the content being transmitted is of very high quality
+one page of text can require to bytes while a single full screen image may require to bytes
+these gures indicate that text can be transferred very eectively compared to the images
+hence transmitting machine encoded news ticker text instead of the text image can remarkably reduce the bandwidth requirement
+most of the news video frame comprises of individual element bands
+dynamic bands are the ones which gets changed in each frame while static bands are the ones which are constant for a specic time interval fig
+
+
+transmission of only the dynamic bands in the news video can help in further lowering the bandwidth requirement
+figure
+video frame shots illustrating dynamic and static bands
+storage requirement is another constraint which could be reduced by storing only the relevant bands from the video
+detection of irrelevant bands like advertisement ticker and images could be done after detecting the prole format and these bands can then be eliminated while storing the news videos for future reference
+finally format detection can also play an important role in automatic censoring of the videos
+
+proposed approach in this project we aim to build a robust news format detector which can accurately split a news video frame into dierent element bands and create a format prole using these bands
+fig
+
+summarizes the format detection scheme
+firstly hough transform has been used to detect lines from the video frame
+the hough lines are then extended to the frame boundaries and all the intersection point of the lines are used to generate low level rectangles
+a contrast based text detector is used to detect the text bands and a svm classier is used to classify the natural and articial bands
+the similar low level rectangular bands are further merged using the classier s output to generate the nal high level bands
+finally these bands are combined together using three tier associative reasoning to form a format prole
+figure
+illustrating the proposed approach for news video format detection
+
+outline the next chapter throws light on the extensive literature review on the methods of news format detection and band classication
+in chapter we describe the generation of lines using hough transform and the formation of rectangular bands
+chapter describes the text detector for detecting the text regions in the image
+in chapter we discuss the features used for designing the band classier
+chapter elaborates the eciency of the two classiers used
+in chapter we propose a change detection based approach to detect the band type
+chapter discusses the three tier reasoning model used for merging the low level bands
+in chapter we have mentioned the accuracy of various sub models and the overall approach
+chapter concludes the report
+chapter presents the future work
+an appendix at the end briey describes the data marking tools created for generating the ground truth data and the training data
+chapter literature review this chapter discusses the literature that provides with the work that has been done related with this project
+literature review is divided into two parts namely element band detection and element band classication
+
+element band detection most of the work in the eld of news video analytics and summarization is based on prior knowledge of the video format
+in some of the news video analysis method video frames as a whole are directly used for analyzing the videos without dividing it into dierent format bands
+zhang et al
+proposed a method for frame detection to be used in automatic parsing of news video
+however the approach required comparing the video frames with dened news format models and classifying it based on the nearest match
+as this method is based on the prior knowledge of the format of news show and news channel it fails to detect the format in cases where the apriori information is unavailable
+hence to the best of our knowledge no previous work has been done in detecting the format of unknown news video and without considering any prior knowledge
+
+element band classication previous work done to classify images has been primarily with an aim to index the images on the web for search engine optimization seo of web image search
+vassilis athitsos michael j
+swain and charles frankel worked on the classication of images into photographs and graphics on the world wide web
+the designed classier was used by webseer an image search engine
+the features incorporated were total number of dierent colors the fraction of pixels having the prevalent color farthest neighbor metric the fraction of pixels with a saturation greater than a certain threshold color histogram metric farthest neighbor histogram metric dimension ratio metric and smallest dimension metric
+multiple binary decision trees were used for classication and the reported accuracy was
+on a dataset comprising of graphics and photographs
+jing huang et al
+introduced a new feature known as color correlogram for the purposes of image indexing and comparison
+ever since color correlograms have been used widely used for the image classication amongst other purposes
+the correlogram is a robust feature and is used to utilize the information from the spatial correlation of colors in an image
+rainer lienhart and alexander hartmann worked on heirarchical classication of images on the web into broad categories and then each category was divided into two categories
+images were classied as photographs and graphical images
+the photographs were then categorized into actual photographs and articial but photo like images
+the graphical images were categorized into presentation slides scientic posters and comics cartoons
+the features considered for classication were total number of dierent colors after representing each color channel by only bits colors the prevalent color fraction of pixels from the farthest neighbor metric having a distance greater than zero fraction of pixels with a distance greater than some chosen higher threshold and the ratio
+these features were trained on images using adaboost algorithm and the algorithm achieved an accuracy of
+
+yuanhao chen et al
+worked on the classication of images into photographs and graphics for the purpose of web image search as well as personal photograph management
+the features used were ranked histogram color moments mean standard deviation and skewness in the hsv color space color correlogram farthest neighbor histogram and the relative size of the largest region the number of regions of color constancy or within a certain tolerance threshold with a relative size bigger than a certain threshold
+adaboost learning algorithm was used as the classier and it was trained over a dataset of graphics and natural images
+five fold cross validation was used to validate the algorithm and an accuracy of
+was reported
+tian tsong ng et al
+also worked on the same problem as leinhart and hartmann i
+e
+distinguishing photographic images and graphics but instead of using low level image features they looked at the fundamental dierences between the two classes arising due to their generation process
+they proposed a geometry based image model to classify images into photographic images pim and photorealistic computer graphics prcg
+the overall accuracy reported was
+
+fei wang and min yen kan worked on npic an image classication system that uses both metadata based textual features as well as content based image retrieval cbir features to classify images into two categories natural and synthetic
+the metadata based textual features include the lename le extension comments in the image metadata header image url and the page where the image is located url
+the visual features include the image specications such as the image height width and the x and y resolutions number of pixels per inch i
+e
+dpi along the x and y dimensions as well as information extracted from the image such as the most common color the fraction of pixels with the most common color fraction of pixels from the farthest neighbor metric having a distance greater than zero fraction of pixels with a distance greater than some chosen higher threshold the ratio the and distances of the image histogram from the average histogram of each category
+the training dataset consisted of images graphics and photographs
+a boosted decision list learner boostexter was used as the classier and rounds of boosting were performed
+the nal reported testing accuracy was
+
+
+qualitative spatial reasoning qualitative spatial reasoning is used to represent the relative arrangements of multiple interacting objects
+for describing the basic spatial relationship of overlapping objects the rcc relation proves eective
+the rcc relations shows the extent of overlap between two
+partial overlap po if a c a x a y x y x y spatial gures
+these ve relations fig
+
+are
+disconnected dc if x y
+proper part pp if x y
+proper part inverse ppi if x y
+equal eq if x y figure
+pictorial representation of the relations
+since the rcc reasoning model is used when the spatial regions are merged together which is unlikely in our case a three tier spatial reasoning model is proposed for further reasoning of the detected bands
+chapter generation hough lines and low level bands most of the bands on the news video frame are made up of basic shapes like square rectangle or in some cases trapezium
+hence to precisely detect these bands detection of straight lines from the frame is one of the most important steps
+hough transform is a method used to isolate dened shapes from an image
+the method works by considering the duality between points on the dened curve and its parameters
+hough transform implements a voting scheme for all potential curves in the image
+each detected edge point votes for the parameter pairs of all the curves to which it belongs
+finally the curves that have high voting score are the ones which exists in the image
+the progressive probabilistic hough transform is the variation of the standard hough transform which uses the dierence in the fraction of votes to precisely detect lines
+as a result progressive probabilistic hough transform is computationally less expensive compared to the standard hough transform
+the progressive probabilistic hough transform algorithm suggested by matas et al
+for detecting lines can be summarized as
+check the input image if it is empty then nish
+
+update the accumulator with a single pixel randomly selected from the input image
+
+remove the selected pixel from input image
+
+check if the highest peak in the accumulator that was modied by the new pixel is higher than threshold
+if not goto
+
+look along a corridor specied by the peak in the accumulator and nd the longest segment that either is continuous or exhibits a gap not exceeding a given threshold
+
+remove the pixels in the segment from input image
+unvote from the accumulator all the pixels from the line that have previously voted
+
+if the line segment is longer than the minimum length add it into the output list
+
+goto
+original image detected hough lines generated rectangular c bands figure
+output of progressive probabilistic hough transform the lines detected using ppht are then extended to image boundaries
+this is done to account for the lines which could not be detected due to poor gradient
+the intersection points obtained from the extended hough lines are then used to form the rectangular bands
+these low level rectangular bands divides the entire image into dierent mented proles
+in the post processing step the smaller proles from the same class gets merged together to form the nal image prole
+the nal image prole consists of non overlapping angular bands which denes the prole format which is created by merging the bands using associative reasoning
+chapter text detector raghvendra et
+al
+proposed a two stage contrast enhancement based pre processing scheme for the performance improvement of gradient based text detectors followed by the text band detection using rst and second order derivatives of the gradient projection proles
+the threshold for gradient magnitude image to generate edge map is a very important cursor for the basic text detection approaches
+as stated by raghvendra it is practically impossible to dene a threshold which precisely separates all the text gradient values from those of non text
+due to this generally a lower threshold is chosen to eliminate denitely non text regions followed by renement of edge map using text specic features to obtain the text edges from edge map
+scharr operator is used to compute the normalized gradient magnitude image i m due to its isotropic nature
+the suppression of small non zero gradient magnitude is done using the linear contrast enhancement given by y otherwise
+where y
+
+decides the extent of enhancement and is the malization constant the image imc obtained is further processed with the histogram equilization to obtain ce which is the contrast enhanced edge map
+horizontal projection prole php is computed using the trast enhanced edge map by pwidth y
+the horizontal line y y is considered to be the member of horizontal text band hband if exceeds a threshold
+vertical projection prole pvp is computed within each horizontal band
+for the horizontal test band pvp is calculated by y y
+once again the vertical line x is considered to be the member of vertical text band vband if exceeds a threshold
+the localization of and leads to the formation of the bounding text rectangle
+figure
+detected text bands in dierent news frames chapter the feature space after the elements of a frame from a video have been extracted it is impertive that they be classied so as to help in a better understanding of the video format discovery
+for this purpose the images have been classied into two categories natural images and graphics
+natural images as the name quite clearly suggests include images captured by cameras such as news reporters eld shots
+graphics comprise mainly of logo animations text boxes ticker texts and the news channel logo
+
+feature analysis for classier design this section details the features that have been used for the classication and also highlights the intuition behind each feature
+the chapter has been divided into two subsections corresponding to the color features and the spatial features
+
+
+color features the color features are based on the color information stored in the image pixels
+although this may seem quite trivial the color intensities of the image pixels contain a lot of information and the features extracted from them can be eectively used for the purpose of classication
+number of dierent colors in general graphics have large areas of constant color whereas natural photographs do nt
+as a result the number of distinct colors in a graphic image is more than that in a natural photograph
+however the number of dierent colors in an image is not an eective metric to consider as it depends on the size of the image
+a more accurate metric is the ratio of the number of the dierent colors to the total number of pixels in an image
+this score is generally low for graphics as compared to natural images
+distinctcolorscore number of dierent pixels total number of pixels prevalent color metric since graphics tend to have a small number of colors and large regions of color constancy the number of pixels having the most prevalent color is higher in graphics than natural images
+again we can not use the exact number of pixels for this metric therefore we use the ratio of the number of pixels having the most prevalent color to the total number of pixels in an image as a classication metric
+this score is generally higher for graphics as compared to natural images
+saturation average prevalentcolorscore number of pixels having the most prevalent color total number of pixels photographs depict objects of the real world and highly saturated objects are not very common
+certain colors are much more likely to appear in graphics than in photographs
+for example animations maps charts and logos often have large regions covered with highly saturated ors
+those colors are much less frequent in photographs
+the saturation average of graphics is expected to be greater than that of natural images
+given rgb values the saturation level of a pixel is dened as the greatest absolute ence of values between red green and blue channel intensities
+the saturation average is then calculted as the average of the saturation levels of all the pixels in the image
+saturationaverage total number of pixels p max blue green red saturation metric this metric is also based on the assumption that highly saturated colors are more common in graphics than in photographs
+the saturation metric is calculated as the ratio of the number of pixels with a saturation level greater then a threshold to the total numer of pixels
+the saturation metric is expected to be more for the graphics than the natural images
+number of pixels having saturation threshold total number of pixels color histogram metric this metric is based on the assumption that certain colors occur more frequently in graphics than in photographs
+in contrast to the saturation metric here we do not assume anything about the nature of those colors
+we simply collect statistics from a large number of graphics and photographs and construct histograms which show how often each color occurs in images of each type
+the score of an image depends om the correlation of its color histogram to the graphics histogram and the photographs histogram
+a set of images of each class was taken to compute the average color histogram of each class
+the color histogram metric is calculated as the correlation of the image histogram with the average graphics histogram divided by the sum of the correlations of the image histogram with the average graphics histogram and the average natural image histogram
+colorhistm etric n ranked histogram this metric is based on the same assumption as the prevalent color metric graphics tend to have fewer colors than photographs and the percentage of the pixels of the prevalent colors for graphics is higher
+however it is quite possible that an image can contain more than one prevalent color
+in such cases the prevalent color metric is not very ecient and the ranked histogram feature prevails
+to begin with each color image which initially consists of bins for each of the three r g and b channels is quantized into bins for each channel
+a bin histogram is then created which gives the count of each quantized color presented in the image
+the histogram is normalized to unit length in norm
+the histogram is sorted in descending order by the value of the elements
+finally the m largest elements are used as the ranked histogram feature
+hsv histogram information
+the choice of saturation value color space instead of rgb can be attributed to the fact that rgb information is usually much more noisy than the hsv information
+this is because unlike rgb hsv separates luma or the image intensity from chroma or the color previous work done by yuanhao chen et al
+used the moments mean standard deviation and skewness of the histogram data from each of the three channels h s and v
+however it is not possible to encompass all the data using only these three moments
+therefore it is proposed to use the entire bin bins per channel channels histogram as a feature for classication purpose
+
+
+spatial features the color analysis gives some pretty good features that can be used for the classication of images
+however it does not take in account the spatial correlation of pixels
+for example graphics tend to have sharp color gradients which is not quite the case with natural images
+also because of the way the natural images are acquired they tend to have some inherent noise which is hardly present in graphics
+dierent spatial features have been implemented and discussed below
+farthest neighbor metric this metric is based on the assumption about how color transitions are dierent in graphics and natural images
+graphics have comparatively sharp color transitions and large regions of constant colors as compared to natural images which have smoother color transitions
+for any pixel and its neighbor with their color vectors in the rgb color space given as r g b and respectively their color distance d is dened as since the pixel intensity values go from to the value of d can go from to
+a threshold between and is specied and the farthest neighbor score of an image is the fraction of pixels having a color distance d greater than or equal to the threshold
+this score is generally higher for graphics as compared to natural images
+arthestn eighbourscore number of pixels for which d threshold total number of pixels farthest neighbor histogram metric this metric is based on similar assumptions as the farthest neighbor metric
+however this is a dierent metric as it utilizes the correlation between the farthest neighbor histogram of the test image with the average farthest neighbor histograms of the graphics and the natural images
+the farthest neighbor histogram of an image is a one dimensional histogram with bins
+the i th bin contains the fraction of pixels with transition value equal to i
+the possible of transition values are for each of the three channels total transition values
+using the same dataset of images for each class that was used to generate the average color histogram for the computation of the color histogram metric we nd the average farthest neighbor histogram for each class and denote them by f n hnatural for natural images and f n hgraphics for graphics
+we dene the correlation between two histograms x and y as y xiyi x where xi and yi are the bins of x and y respectively
+let f n himage be the farthest neighbor histogram of a test image
+the farthest neighbor togram score of the image is calculated as arthestn eighbourhistm etricscore nat nat graph where nat n himage f n hnatural and graph n himage f n hgraphics
+similar to the farthest neighbor metric the farthest neighbor histogram metric is expected to be higher for the natural images than for the graphics
+gray histogram smoothness as mentioned in the earlier subsubsections graphics generally tend to have sharper color sitions than natural images
+this is also reected in the gray histogram data
+the graphics histogram shows some narrow and sharp peaks because of the selective use of some dominant colors while this trend is not quite visible on a natural image histogram
+the gray histogram smoothness of an image is calculated as the gray level histogram of the image is rst calculated
+the histogram is then normalized by dividing the value of all bins by the number of pixels
+the smoothness is the absolute sum of the bin value transitions for all bins in the gray histogram
+smoothness x edge magnitude histogram the underlying principle as to why this feature has been incorporated in the classier is that the graphics tend to have strong prominent edges and they are less in number
+on the other hand the natural images generally have weaker edges and they are comparatively more in number
+for a given image its edge magnitude histogram is calculated and the result is stored in bins
+this bin histogram is then used as a feature for the classier
+chapter classication scheme
+support vector machine a support vector machine svm with a radial basis function rbf kernel has been chosen as the classier and the svm parameter estimation was optimised using grid search with fold cross validation
+
+extreme learning machine while using feedforward anns articial neural networks all the parameters need to be tuned and thus a dependency exists between the parameters the weights and the biases of the dierent layers
+gradient descent based learning methods have been used for learning these parameters but they are very slow and may give inaccurate results because of convergence to local minima
+proposed by guang bing huang et al
+in extreme learning machine elm is a learning algorithm for slfns single layer feedforward networks having order of nitudes times faster learning speed and better generalization performance than the classical feedforward network learning algorithms like the back propagation algorithm
+
+
+theory for a generalized slfn the hidden layer can be described as learning machine towards tuning free learning
+ntu
+edu
+sg home pdf elm general
+pdf figure
+generalized single layer feedforward network output function of slfns pl bi the hidden layer output function
+
+
+bl the output functions of the hidden nodes can be but are not limited to sigmoid bi bi radial basis function bi kx aik where is the weight vector connecting the ith hidden node and the output nodes
+
+
+l ai is the weight vector connecting the input nodes and the ith hidden node i
+
+
+l bi is the bias vector connecting the ith hidden node and the input nodes
+
+
+l algorithm extreme learning machine training given training set xi rn ti rm i
+
+
+n hidden node output function mumber of hidden nodes l assign randomly generated values to the hidden node parameters ai bi
+
+
+l
+calculate the hidden layer output matrix h the ith column of which is the output of the ith hidden node with respect to the inputs
+
+
+xn
+calculate the output weight matrix is calculated as ht where h is the pseudoinverse of h and t tt
+
+
+tt n t tj pl bi
+the salient features and advantages of elms are as listed below the learning speed of elm is extremely fast
+the hidden node parameters ais and bis are independent of the data and also of each other
+elm does not encounter traditional gradient based learning issues such as local minima improper learning rate overtting etc
+chapter detection band identication through change one of the main factors that distinguish articial bands from the natural bands is that the content of the articial bands tends to be static over certain range of frames
+this is because of the fact that natural bands contain images captures from cameras such as news reporters eld shots
+which is updated in each frame while the articial bands contain computer generated graphics like logo animations text boxes and ticker texts which remain static over a certain range of frames
+this information is used to dierentiate between the two bands
+two types of change detection methods were used
+
+pixels based change detection
+
+histogram based change detection
+
+pixels based change detection for pixels based change detection a dierence image is created for each frame which is the pixel wise dierence between the current frame grey image and the previous frame grey image
+i i y
+where dk is the dierence image for the kth frame while i k and i are the kth and k frame respectively
+next the dierence image is binarized using a threshold
+if the absolute value of dierence pixel is greater than the threshold it is labeled as otherwise
+this binarized image is further divided into n xn sub images and the sub image is labeled according to the majority of the pixels in that sub image
+the natural sub image is the one with its label as and the articial sub image is one with its label as
+
+histogram based change detection for histogram based change detection rst of all the image is converted into a monochrome image according to the equation
+
+for the change detection on the kth frame the kth and the k frame are each divided into n xn sub images
+then the histogram is calculated for these sub images
+corresponding to each sub image bhattacharya distance equation
+is calculated between the histogram of current frame s sub image and the histogram of the vious frame s sub image
+if the distance is greater than a given threshold then the sub image is labeled as natural image otherwise it is labeled as articial
+figure
+output of the change detection a rectanglular bands detected from hough lines output of the pixels based change detection with n output of the histogram based change detection with n
+in addition to the classier output the change based band identication is used to improve the accuracy and provide better result after associative reasoning
+chapter associative reasoning the low level rectangular bands after the hough transformation are obtained by using hough lines extended till the image boundaries
+these bands can be broadly categorized into three categories channel logo
+
+synthetic bands synthetic bands are the bands generated articially using computer graphics
+they usually includes logo animations text boxes ticker texts and the news
+natural bands natural bands as the name quite clearly suggests include bands captured by cameras such as news reporters eld shots
+
+text bands text bands are the bands containing texts
+because of the hough lines extended till the image boundaries the entire text band gets split into various smaller bands
+to compensate for this the small rectangular bands need to be merged together using associative reasoning
+the entire reasoning model can be hierarchically divided into three sub reasoning models
+they are
+merging of the bands with similar histograms used for the merging of synthetic bands
+
+merging of the bands labeled as natural bands using the svm classier
+
+merging of the bands labeled as text bands using the text detector
+for the fast and easy implementation of the associative reasoning an adjacency matrix is created for each frame
+an adjacency matrix a is a n xn square matrix where n is the total number of bands detected from the frame
+aij where
+here aij is the element of ith row of a and jth column of a
+aij if the jth band share a boundary with the ith band and is above the ith band
+aij if the jth band share a boundary with the ith band and is to the right of the ith band
+aij if the jth band share a boundary with the ith band and is below the ith band
+aij if the jth band share a boundary with the ith band and is to the left of the ith band
+aij if that is the ith and the jth band does not share a boundary with each other
+
+merging rules if two text bands yi hi wi with its left corner at xi yi width wi and height hi and hbandj xj yj hj wj are merged together to form yk hk wk
+and if
+aij then
+aij then
+aij then
+aij then xk hk hi hj yk wk wj xk xi hk hi yk wi wj xk xi hk hi hj yk wi xk hk yk wi
+merging of the bands with similar histograms in the rst step of associative reasoning the synthetic bands need to be merged together
+this is done by comparing the histograms of two bands
+as the synthetic band is uniformally colored or generally does not have much color gradient its sub divided bands can be identied using a histogram comparison approach
+adjacent bands having similar histograms are the sub bands of the same parent synthetic band and hence are merged together
+for computing the histogram rstly the rgb band image is linearly mapped to have pixel values from to
+then this rgb image is converted to a monochrome image using the function y y y y
+where imc is the monochrome image and ir ig and ib are the red green and blue channels of the rgb image respectively
+next normalized histograms are calculated for both the monochrome images
+the similarity between both the histograms is measured using the bhattacharya distance
+the bhattacharya distance between two histograms and can be calculated
+
+v u u i x q where hk n x j
+similar histograms have a bhattacharya distance close to while two dissimilar histograms have a bhattacharya distance closer to
+hence if the two bands share a boundary and have a bhattacharya distance less than a threshold then they are merged together according to the merging rules mentioned above
+implementation
+opencv
+org doc tutorials imgproc histograms histogram comparison
+html
+merging of the natural bands a svm classier which is described in chapter is used to classify the bands into articial and natural bands
+as mentioned before natural bands are the bands captured by cameras such as news reporters eld shots and hence sub divided natural bands needs to be merged to form a complete natural shot frame
+two bands labeled as natural are merged together only if they both share a common boundary but there is no edge present along that common boundary
+the bands are merged together according to the merging rules mentioned above
+
+merging of the text bands the text detector mentioned in chapter is used to detect the regions of text in the frame
+a low level rectangular band is labeled as text band using the overlap criterion t t
+where t is the text overlap measure of the rectangular band r and text region t t is the area of intersection of band r and text region t while is the area of band r
+two bands with the text overlap measure greater than a given threshold are merged together only if they both share a common boundary and are horizontally adjacent to each other
+the bands are merged together according to the merging rules mentioned above
+figure
+output after merging of the bands containig text a rectanglular bands detected from hough lines output after the application of associative reasoning
+chapter results
+element band detection the format detection approach was tested on images generated from various news channels and dierent shows to measure its robustness on dierent types of format prole
+jaccard index is used as a measure of similarity between the obtained result and the ground truth
+for two rectangular bands and jaccard index j is dened as where is the area of intersection of and and is the area of union of and
+a jaccard index of signies overlap of the two bands
+for the entire image frame if rame the net jaccard index is calculated as igt rj where ires is the output of the format detector containing bands ri for i
+
+
+
+and igt is the ground truth containing bands rj for j
+
+
+
+the average jaccard index of the entire dataset of images was calculated to be
+
+
+element band classication the support vector machine svm with a radial basis function rbf kernel was trained using libsvm tool over a dataset of images with equal number of images from both the classes
+a total of eleven features color features and spatial features were used for tool is available at
+csie
+ntu
+edu
+sier training
+the feature vectors were dimensional each
+the entire process of feature extraction svm training and performance analysis fold cross validation and testing took minutes on an average on an intel core ivy bridge machine running bit ubuntu os with gb of ram when utilizing all the cores in parallel using gnu parallel
+the extreme learning machine elm was also trained on the same dataset of images each feature vector being dimensional
+the training and performance analysis was paratively faster than that of svm
+
+performance measures precision is a measure of the accuracy provided that a specic class has been predicted
+it is where tp and fp are the numbers of true positive and false positive predictions for the precision tp tp fp recall is a measure of the ability of a prediction model to select instances of a certain class from a data set
+since we are dealing with binary classication here the recall is also called as sensitivity
+the recall or sensitivity corresponds to the true positive rate and is dened as recall sensitivity tp tp fn where tp and fn are the numbers of true positive and false negative predictions for the considered class
+thus tp fn corresponds to the total number of test examples of the the f measure also known as score is a more accurate metric of classier performance than either precision or recall alone
+in binary classication the f measure is the harmonic mean of the precision and the recall as is calculated as f measure precision
+recall precision recall
+
+precision dened as sidered class
+
+
+recall considered class
+
+
+f measure
+
+balanced accuracy evaluating the performance of a classication by averaging the accuracies obtained on individual cross validation folds is not a very good approach due to two main reasons
+firstly it does not allow for the derivation of meaningful condence intervals
+secondly it leads to an optimistic estimate when a biased classier is tested on an imbalanced dataset
+balanced accuracy which is dened as the arithmetic mean of the sensitivity and the specicity of the classier does away with inated performance estimates on imbalanced datasets
+balanced accuracy sensitivity specicity
+tp fn
+tn fp where tp tn fp and fn are the numbers of true positive true negative false positive and false negative predictions
+
+performance analysis
+
+svm performance analysis a graphical representation of the classier performance for each of the features has been attached in the next page
+a more detailed analysis follows
+figure
+performance analysis of the designed svm classier on individual features and their combination
+the comparison of precisions recalls and measures for both natural images and graphics categories are shown
+note that the hsv histogram dominates as a feature
+fold cross validation and testing was performed on the dataset to analyse the performance of individual features as well as the concatenated features
+the results have been plotted for all of them and are as shown below
+
+
+
+
+
+
+natural imagesrecall natural imagesf measure natural imagesprecision graphicsrecall measure graphicsbalanced accuracy figure
+performance analysis of concatenated features with varying data size figure
+performance analysis of distinct color metric with varying data size figure
+performance analysis of prevalent color metric with varying data size
+
+
+
+
+
+
+
+data size precision cross validationrecall cross validationf measure cross validationprecision testingrecall testingf measure testingbalanced accuracy
+
+
+
+
+
+
+
+
+
+
+
+data size precision cross validationrecall cross validationf measure cross validationprecision testingrecall testingf measure testingbalanced accuracy
+
+
+
+
+
+
+
+data size precision cross validationrecall cross validationf measure cross validationprecision testingrecall testingf measure testingbalanced accuracy figure
+performance analysis of saturation metric with varying data size figure
+performance analysis of farthest neighbor metric with varying data size figure
+performance analysis of gray histogram smoothness with varying data size
+
+
+
+
+
+
+
+data size precision cross validationrecall cross validationf measure cross validationprecision testingrecall testingf measure testingbalanced accuracy
+
+
+
+
+
+
+data size precision cross validationrecall cross validationf measure cross validationprecision testingrecall testingf measure testingbalanced accuracy
+
+
+
+
+
+
+
+
+data size precision cross validationrecall cross validationf measure cross validationprecision testingrecall testingf measure testingbalanced accuracy figure
+performance analysis of saturation average with varying data size figure
+performance analysis of average color histogram metric with varying data size figure
+performance analysis of farthest neighbor histogram metric with varying data size
+
+
+
+
+
+
+
+
+
+data size precision cross validationrecall cross validationf measure cross validationprecision testingrecall testingf measure testingbalanced accuracy
+
+
+
+
+
+
+
+
+data size precision cross validationrecall cross validationf measure cross validationprecision testingrecall testingf measure testingbalanced accuracy
+
+
+
+
+
+
+
+data size precision cross validationrecall cross validationf measure cross validationprecision testingrecall testingf measure testingbalanced accuracy figure
+performance analysis of ranked histogram with varying data size figure
+performance analysis of hsv histogram with varying data size figure
+performance analysis of concatenated features with varying data size
+
+
+
+
+
+
+
+data size precision cross validationrecall cross validationf measure cross validationprecision testingrecall testingf measure testingbalanced accuracy
+
+
+
+
+
+
+data size precision cross validationrecall cross validationf measure cross validationprecision testingrecall testingf measure testingbalanced accuracy
+
+
+
+
+
+
+
+data size precision cross validationrecall cross validationf measure cross validationprecision testingrecall testingf measure testingbalanced accuracy the concatenated features have a balanced accuracy of
+
+the hsv histogram and the farthest neighbor metric fared the best and worst in individual performance with balanced accuracies of
+and
+respectively
+
+
+elm performance analysis as mentioned previously the elm was trained on feature vectors of each class dimensional each
+the input weight matrix and the bias matrix were composed of values chosen randomly between and
+the following gure plots the f measure for both the classes and the overall balanced accuracy of the elm classier
+figure
+performance analysis of the designed elm classier trained on varying dataset of varying size
+the variation of f measure of both the classes and the balanced accuracy according to the training dataset size is plotted
+from the gure it is clear that the elm classier is inferior to the svm classier for our application
+therefore no detailed performance analysis was done for the elm classier and the svm classifer was used for classication of the extracted bands
+
+
+
+
+
+
+
+
+
+
+
+
+data size f measure natural imagesf measure artificial imagesbalanced accuracy chapter conclusion in our project we have successfully come up with a robust approach to detect the format of broadcast news videos
+unlike previous work done in this eld our approach assumes no prior information about the news video format
+this ensures that our approach works eciently for unknown news formats as well
+a dimensional feature vector is proposed which is used to classify the natural and the articial bands
+a text detector is used to detect the text regions
+finally all the bands are merged together using a three tier hierarchical reasoning to form the nal format prole
+the entire broadcast format is represented in the form of rectangular bands containing either text natural shots or computer generated graphics
+as the entire news information is sented only through the text bands and natural shots by removing the redundant information from computer generated graphics and converting the text images to machine encoded text a signicant reduction in the storage space can be achieved
+chapter future work our current approach accurately detects the prole bands from the video frames
+this approach can be extended so as to track the moving bands in the video with an aim to detect the band animation format
+this could play a very important role in detecting news shows and also in other news video analysis tasks
+further work in this could be to detect non rectangular and overlapping bands as well
+this work when applied to a news video in conjunction with the output of the semantic story segmentation and video shot linking could be used as an eective way to generate the entire news summary
+as of now we are dealing with video data recorded from english news channels namely cnn ibn times now ndtv and bbc world
+to measure the robustness of the nal proposed approach it could also be tested on vernacular as well as other international news channels
+
+improving the classication accuracy the present classier has classication accuracy of around precision recall f measure and balanced accuracy for both the classes
+however there are a few more features that can be incorporated to further improve the classier performance
+
+
+color correlogram a color correlogram is an eective description of the global distribution of the local spatial relation of colors
+as mentioned before because of the way natural images are acquired using a camera they tend to have some inherent noise therefore making them more noisy than graphics
+this property can be exploited using a color correlogram
+a color correlogram of an image is a two dimensional matrix where
+each entry y in the matrix stores the probabilty that the given pixel y has the same color or within a certain threshold as its neighbors
+this kind of feature is not possible to obtain using a simple color histogram since it only gives only information about the color distribution in an image but no information about spatial correlation of the colors
+
+
+spatial gray level dependence a spatial gray level dependence sgld henceforth histogram also known as co occurence matrix is an eective representation of the image texture and in particular the image ness
+a sgld histogram is a two dimensional histogram
+it denotes the joint probabilty of the occurence of two gray levels i and j with a dened spatial relation in terms of distance d and angle
+for each image a gray level transformation is obtained and it obtained by averaging the intensity values of the three r g and b channels
+brightness red green blue for each pixel in the image if the pair the pixel under consideration and its neighbor belong to an area of color constancy i
+e
+having the same brightness an entry on the sgld matrix diagonal is incremented by one
+however if the pair being considered lies on an edge i
+e
+the two pixels belong to two dierent regions the brightness levels might be similar but not the same in case of a weak edge or they can be quite signicantly dierent in case of a strong sharp edge
+in the latter case an entry far from the diagnonal of the sgld matrix is incremented while in the former case an entry not so far from the diagnonal is incremented
+
+
+local binary patterns ever since their rst use in local binary patterns lbps henceforth have remained a cient feature for texture description and classication
+since there is a good amount of textural information that can be levaraged in the binary classication being dealt with here lbps can prove to be a powerful feature
+the lbp feature vector for an image is created by comparing the pixel intensity values of all the neighbors of a particular pixel
+a value of is assigned to the neighbor if it has an intensity greater than that of the centre pixel else a value of is assigned
+the assigned values are then read clockwise starting from the top left and the binary number thus obtained is converted to decimal representation
+this number is then assigned to the centre pixel
+this process is repeated for the entire image and has been illustrated below figure
+lbp computation considering an neighborhood the algorithm for the same has been detailed below
+better algorithm for labeling the bands one of the shortcomings encountered while labeling the extracted bands is that because of the bands breaking up into multiple fragments one or more of the natural band fragments tend to be labeled as articial
+this poses a problem because since adjacent bands are assigned dierent labels it is not possible to merge them
+note that the converse of this is not true i
+e
+no articial bands are ever classied as natural
+most of the face in one image partial face age which gets beled as articial original image figure
+single band split into multiple fragments because of the extension of hough lines
+a better labelling algorithm that can be tried in the future is as described below step extract all the fragmented bands from a frame
+step compute the hsv histogram of all the fragmented bands and perform incremental clustering using the hsv histogram data as the feature vectors
+this clustering of the mented bands based on their similarity ensures that fragments which are part of the same band get assigned to the same cluster
+step assign labels to the bands using the classier as usual
+step for each cluster if any band in the cluster has been classied as natural assign the natural label to all the bands in the cluster
+chapter appendix
+ground truth marking tool as the data used for training and testing of our approach is self generated from various recorded news channels a ground truth marking tool is developed in opencv to eciently generate the ground truth results of all the dataset images
+the tool loads an image and displays it on the screen
+the user has to mark rectangular regions of interest with the mouse by selecting top left and bottom right corner of the rectangular bands
+a text le is created for each image and after marking all the bands both articial and natural the bands positions are dumped in the respective text le
+for calculating the accuracy the result is compared with the ground truth which is obtained by reading the text le of the respective testing image
+
+dataset generating tool the classier has been trained on images of articial and natural categories each
+since the images to be classied are the components of the news frames the training data is also generated from the news frames
+in order to achieve this a simple tool is developed
+given an image the hough rectangles are detected in the image as mentioned earlier
+then a window is shown with the image and the hough rectangles are shown on the image one by one starting from the bottom left of the image
+the user provides input from the keyboard indicating whether the rectangle currently being shown belongs to the articial category or the natural category
+we have assigned two keys one for each class
+upon the user input the rectangle gets dumped into the corresponding folder
+after the dataset has been generated the feature vectors are generated for the images and are then used for classier training
+bibliography s
+eickeler and s
+muller
+content based video indexing of tv broadcast news using hidden markov models
+in acoustics speech and signal processing
+proceedings
+ieee international conference on volume pages vol
+mar
+lie lu and hong jiang zhang
+speaker change detection and tracking in real time news broadcasting analysis
+in proceedings of the tenth acm international conference on timedia multimedia pages new york ny usa
+acm
+david hillman
+multimedia technology and applications
+in golgotia publications pvt
+ltd
+page
+k
+k
+thyagharajan and v
+ramachandran
+performance analysis of media transmission through low bandwidth networks
+in national conference on signal processing intelligent systems and networking
+raghvendra kannao and prithwijit guha
+a novel preprocessing scheme for text detection in broadcast news videos under review
+andrew merlino daryl morey and mark maybury
+broadcast news navigation using story segmentation
+in proceedings of the fifth acm international conference on multimedia multimedia pages new york ny usa
+acm
+dong xu and shih fu chang
+visual event recognition in news video using kernel methods with multi level temporal alignment
+in computer vision and pattern recognition
+cvpr
+ieee conference on pages june
+hangzai luo jianping fan jing yang w
+ribarsky and s
+satoh
+analyzing large scale news video databases to support knowledge visualization and intuitive retrieval
+in visual analytics science and technology
+vast
+ieee symposium on pages oct
+hangzai luo jianping fan jing yang w
+ribarsky and s
+satoh
+exploring large scale video news via interactive visualization
+in visual analytics science and technology ieee symposium on pages oct
+hongjiang zhang yihong gong s
+w
+smoliar and shuang yeo tan
+automatic parsing of news video
+in multimedia computing and systems
+proceedings of the international conference on pages may
+vassilis athitsos michael j swain and charles frankel
+distinguishing photographs and graphics on the world wide web
+in content based access of image and video libraries
+proceedings
+ieee workshop on pages
+ieee
+charles frankel michael j swain and vassilis athitsos
+webseer an image search engine for the world wide web
+
+j
+ross quinlan
+induction of decision trees
+machine learning
+jing huang s ravi kumar mandar mitra wei jing zhu and ramin zabih
+image indexing using color correlograms
+in computer vision and pattern recognition
+proceedings
+ieee computer society conference on pages
+ieee
+rainer lienhart and alexander hartmann
+classifying images on the web automatically
+journal of electronic imaging
+yuanhao chen zhiwei li mingjing li and wei ying ma
+automatic classication of photographs and graphics february
+us patent
+markus a stricker and markus orengo
+similarity of color images
+in spie s posium on electronic imaging science technology pages
+international society for optics and photonics
+yoshua bengio and yves grandvalet
+no unbiased estimator of the variance of k fold validation
+the journal of machine learning research
+tian tsong ng shih fu chang jessie hsu lexing xie and mao pei tsui
+motivated features for distinguishing photographic images and computer graphics
+in ceedings of the annual acm international conference on multimedia pages
+acm
+fei wang and min yen kan
+npic hierarchical synthetic image classication using image search and generic features
+in image and video retrieval pages
+springer
+yossi rubner carlo tomasi and leonidas j guibas
+the earth mover s distance as a metric for image retrieval
+international journal of computer vision
+robert e schapire and yoram singer
+boostexter a boosting based system for text gorization
+machine learning
+a
+g
+cohn
+qualitative spatial representation and reasoning techniques
+in gerhard brewka christopher habel and bernhard nebel editors advances in articial telligence volume of lecture notes in computer science pages
+springer berlin heidelberg
+peter jonsson and thomas drakengren
+a complete classication of tractability in
+journal of articial intelligence research
+richard o
+duda and peter e
+hart
+use of the hough transformation to detect lines and curves in pictures
+commun
+acm january
+c
+galamhos j
+matas and j
+kittler
+progressive probabilistic hough transform for line detection
+in computer vision and pattern recognition
+ieee computer society conference on
+volume pages vol
+
+wonjun kim and changick kim
+a new approach for overlay text detection and extraction from complex video scene
+image processing ieee transactions on feb
+july
+xiaoqing liu and j
+samarabandu
+multiscale edge based text extraction from complex images
+in multimedia and expo ieee international conference on pages m
+r
+lyu jiqiang song and min cai
+a comprehensive method for multilingual video text detection localization and extraction
+circuits and systems for video technology ieee transactions on feb
+p
+geissler b
+jahne and h
+haussecker
+handbook of computer vision and applications
+morgan kauman publishers inc
+
+guang bin huang qin yu zhu and chee kheong siew
+extreme learning machine a new learning scheme of feedforward neural networks
+in neural networks
+proceedings
+ieee international joint conference on volume pages
+ieee
+guang bin huang dianhui wang and yuan lan
+extreme learning machines a survey
+international journal of machine learning and cybernetics
+guang bin huang qin yu zhu and chee kheong siew
+extreme learning machine theory and applications
+neurocomputing
+neural networks selected papers from the brazilian symposium on neural networks sbrn brazilian symposium on neural networks
+paul jaccard
+the distribution of the ora in the alpine zone
+
+new phytologist o
+tange
+gnu parallel the command line power tool
+the usenix magazine
+feb
+kay henning brodersen cheng soon ong klaas enno stephan and joachim m buhmann
+the balanced accuracy and its posterior distribution
+in pattern recognition icpr international conference on pages
+ieee
+

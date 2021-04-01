@@ -1,161 +1,188 @@
 e f g l
-s
-c
-v
-v
-i x r a published as a conference paper at iclr structured neural summarization patrick fernandes carnegie mellon university it
-lisbon portugal miltiadis allamanis marc brockschmidt microsoft research cambridge united kingdom abstract summarization of long sequences into a concise statement is a core problem in ural language processing requiring non trivial understanding of the input
-based on the promising results of graph neural networks on highly structured data we
-velop a framework to extend existing sequence encoders with a graph component that can reason about long distance relationships in weakly structured data such as text
+s c v
+v i x r a published as a conference paper at iclr structured neural summarization patrick fernandes carnegie mellon university it lisbon portugal
+cmu
+edu miltiadis allamanis marc brockschmidt microsoft research cambridge united kingdom miallama
+com abstract summarization of long sequences into a concise statement is a core problem in ural language processing requiring non trivial understanding of the input
+based on the promising results of graph neural networks on highly structured data we velop a framework to extend existing sequence encoders with a graph component that can reason about long distance relationships in weakly structured data such as text
 in an extensive evaluation we show that the resulting hybrid sequence graph models outperform both pure sequence models as well as pure graph models on a range of summarization tasks
 introduction summarization the task of condensing a large and complex input into a smaller representation that retains the core semantics of the input is a classical task for natural language processing systems
 automatic summarization requires a machine learning component to identify important entities and relationships between them while ignoring redundancies and common concepts
-current approaches to summarization are based on the sequence to sequence paradigm over the words of some text with a sequence encoder typically a recurrent neural network but sometimes a cnn narayan al or using self attention mccann et al processing the input and a sequence decoder generating the output
-recent successful implementations of this paradigm have substantially improved performance by focusing on the decoder extending it with an attention mechanism over the input sequence and copying facilities see et al mccann et al
+current approaches to summarization are based on the sequence to sequence paradigm over the words of some text with a sequence encoder typically a recurrent neural network but sometimes a cnn narayan et al
+or using self attention mccann et al
+processing the input and a sequence decoder generating the output
+recent successful implementations of this paradigm have substantially improved performance by focusing on the decoder extending it with an attention mechanism over the input sequence and copying facilities see et al
+mccann et al
 
-however while standard encoders bidirectional lstms theoretically have the ability to handle arbitrary long distance relationships in practice they often fail to correctly handle long texts and are easily distracted by simple noise jia liang
+however while standard encoders e
+
+bidirectional lstms theoretically have the ability to handle arbitrary long distance relationships in practice they often fail to correctly handle long texts and are easily distracted by simple noise jia liang
 in this work we focus on an improvement of sequence encoders that is compatible with a wide range of decoder choices
-to mitigate the long distance relationship problem we draw inspiration from recent work on highly structured objects li et al kipf welling gilmer et al allamanis et al cvitkovic et al
+to mitigate the long distance relationship problem we draw inspiration from recent work on highly structured objects li et al
+kipf welling gilmer et al
+allamanis et al
+cvitkovic et al
+
 in this line of work highly structured data such as entity relationships molecules and programs is modelled using graphs
 graph neural networks are then successfully applied to directly learn from these graph representations
 here we propose to extend this idea to weakly structured data such as natural language
-using existing tools we can annotate accepting some noise such data with additional relationships co references to obtain a graph
-however the sequential aspect of the input data is still rich in meaning and thus we propose a hybrid model in which a standard sequence encoder generates rich input for a graph neural network
+using existing tools we can annotate accepting some noise such data with additional relationships e
 
+co references to obtain a graph
+however the sequential aspect of the input data is still rich in meaning and thus we propose a hybrid model in which a standard sequence encoder generates rich input for a graph neural network
 in our experiments the resulting combination outperforms baselines that use pure sequence or pure graph based representations
-briey the contributions of our work
-are
+briey the contributions of our work are
 a framework that extends standard sequence coder models with a graph component that leverages additional structure in sequence data
 
 plication of this extension to a range of existing sequence models and an extensive evaluation on three summarization tasks from the literature
 
 we release all used code and most data at
+com coderpat structured neural summarization
 the c data is not available but is derived from allamanis et al
-work done while working at microsoft research cambridge published as a conference paper at iclr public void name object value null dbtype dbtype null parameterdirection direction null int
-size null byte
-precision null byte scale
-null new paraminfo name name value value parameterdirection direction
-parameterdirection
-input dbtype dbtype size size precision precision scale scale ground truth lstm bilstm
-lstm
-add a parameter to this dynamic parameter list adds a new parameter to the specied parameter creates a new instance of the dynamic type specied add a parameter to a list of parameters figure an example from the dataset for the methoddoc source code summarization task along with the outputs of a baseline and our models
+work done while working at microsoft research cambridge published as a conference paper at iclr public void name object value null dbtype dbtype null parameterdirection direction null int size null byte precision null byte scale null new paraminfo name name value value parameterdirection direction parameterdirection
+input dbtype dbtype size size precision precision scale scale ground truth lstm bilstm lstm add a parameter to this dynamic parameter list adds a new parameter to the specied parameter creates a new instance of the dynamic type specied add a parameter to a list of parameters figure an example from the dataset for the methoddoc source code summarization task along with the outputs of a baseline and our models
 in the methodnaming dataset this method appears as a sample requiring to predict the name add as a subtoken sequence of length
-structured summarization tasks
-in this work we consider three summarization tasks with different properties
+structured summarization tasks in this work we consider three summarization tasks with different properties
 all tasks follow the common pattern of translating a long structured sequence into a shorter sequence while trying to preserve as much meaning as possible
 the rst two tasks are related to the summarization of source code figure which is highly structured and thus can prot most from models that can take advantage of this structure the nal task is a classical natural language task illustrating that hybrid sequence graph models are applicable for less structured inputs as well
 methodnaming the aim of this task is to infer the name of a function or method in oriented languages such as java python and c given its source code allamanis et al
 
 although method names are a single token they are usually composed of one or more subtokens split using snake case or camelcase and thus the method naming task can be cast as ing a sequence of subtokens
-consequently method names represent an extreme summary of the functionality of a given function on average the names in the java dataset have only subtokens
-
+consequently method names represent an extreme summary of the functionality of a given function on average the names in the java dataset have only
+subtokens
 notably the vocabulary of tokens used in names is very large due to abbreviations and specic but this is mitigated by the fact that of subtokens in names can be copied directly from subtokens in the method s source code
 finally source code is highly structured input data with known semantics which can be exploited to support name prediction
-
 methoddoc similar to the rst task the aim of this task is to predict a succinct description of the functionality of a method given its source code barone sennrich
-such descriptions usually appear as documentation of methods docstrings in python or javadocs in java
+such descriptions usually appear as documentation of methods e
 
-while the task shares many characteristics with the methodnaming task the target sequence is substantially longer on average tokens in our c dataset and only of tokens in the umentation can be copied from the code
+docstrings in python or javadocs in java
+while the task shares many characteristics with the methodnaming task the target sequence is substantially longer on average
+tokens in our c dataset and only
+of tokens in the umentation can be copied from the code
 while method documentation is nearer to standard natural language than method names it mixes project specic jargon code segments and often describes non functional aspects of the code such as performance characteristics and design considerations
+nlsummarization finally we consider the classic summarization of natural language as widely studied in nlp research
+specically we are interested in abstractive summarization where given some text input e
 
-nlsummarization
-finally we consider the classic summarization of natural language as widely studied in nlp research
-specically we are interested in abstractive summarization where given some text input a news article a machine learning model produces a novel natural guage summary
+a news article a machine learning model produces a novel natural guage summary
 traditionally nlp summarization methods treat text as a sequence of sentences and each one of them as a sequence of words tokens
 the input data has less explicitly dened structure than our rst two tasks
-however we recast the task as a structured summarization
-lem by considering additional linguistic structure including named entities and entity coreferences as inferred by existing nlp tools
-published as a conference paper at iclr
-model as discussed above standard neural approaches to summarization follow the sequence to sequence framework
-in this setting most decoders only require a representation h of the complete put sequence
-the nal state of an rnn and per token representations hti for each input token ti
-these token representations are then used as the memories of an attention nism bahdanau al luong et al or a pointer network vinyals et al
-in this work we propose an extension of sequence encoders that allows us to leverage known or inferred relationships among elements in the input data
-to achieve that we combine sequence encoders with graph neural networks gnns li et al gilmer et al kipf welling
-for this we rst use a standard sequential encoder bidirectional rnns to obtain a token representation hti which we then feed into a gnn as the initial node representations
-the resulting per node token representations h ti can then be used by an unmodied decoder
+however we recast the task as a structured summarization lem by considering additional linguistic structure including named entities and entity coreferences as inferred by existing nlp tools
+published as a conference paper at iclr model as discussed above standard neural approaches to summarization follow the sequence to sequence framework
+in this setting most decoders only require a representation h of the complete put sequence e
 
+the nal state of an rnn and per token representations hti for each input token ti
+these token representations are then used as the memories of an attention nism bahdanau et al
+luong et al
+or a pointer network vinyals et al
+
+in this work we propose an extension of sequence encoders that allows us to leverage known or inferred relationships among elements in the input data
+to achieve that we combine sequence encoders with graph neural networks gnns li et al
+gilmer et al
+kipf welling
+for this we rst use a standard sequential encoder e
+
+bidirectional rnns to obtain a token representation hti which we then feed into a gnn as the initial node representations
+the resulting per node i
+e
+per token representations h ti can then be used by an unmodied decoder
 experimentally we found this to surpass models that use either only the sequential structure or only the graph structure see sect
+
 we now discuss the different parts of our model in detail
 gated graph neural networks to process graphs we follow li et al
-and briey
-rize the core concepts of ggnns here
+and briey rize the core concepts of ggnns here
 a graph g v e x is composed of a set of nodes v node features x and a list of directed edge sets e
-ek where k is the number of edge types
-each v v is associated with a real valued vector xv representing the features of the node
-the embedding of a string label of that node which is used for the initial state
-v of a node
 
+
+ek where k is the number of edge types
+each v v is associated with a real valued vector xv representing the features of the node e
+
+the embedding of a string label of that node which is used for the initial state v of a node
 information is propagated through the graph using neural message passing gilmer et al
 
 for this every node v sends messages to its neighbors by transforming its current representation v using an edge type dependent function fk
 here fk can be an arbitrary function we use a simple linear layer
 by computing all messages at the same time all states can be updated neously
-in particular a new state for a node v is computed by aggregating all incoming messages as
-u there is an edge of type k from u to v
-g is an aggregation function we use elementwise summation for
+in particular a new state for a node v is computed by aggregating all incoming messages as u there is an edge of type k from u to v
+g is an aggregation function we use elementwise summation for g
 given the aggregated message v and the current state vector v of node v we can compute the new state v where gru is the recurrent cell function of a gated recurrent unit
-these dynamics are rolled out for a xed number of timesteps t and the state vectors resulting from the nal step are used as output node representations e x v v v v
-sequence gnns
-we now explain our novel combination of ggnns and standard sequence coders
+these dynamics are rolled out for a xed number of timesteps t and the state vectors resulting from the nal step are used as output node representations i
+e
+e x v v v v vv
+sequence gnns we now explain our novel combination of ggnns and standard sequence coders
 as input we take a sequence s
 
+
 sn and k binary relationships
+
+
 rk s s between elements of the sequence
 for example could be the equality relationship sj sj
 the choice and construction of relationships is dataset dependent and will be discussed in detail in sect
 
 given any sequence encoder se that maps s to per element representations
 
-en and a sequence representation a bidirectional rnn we can construct the quence gnn se gn n by simply computing e n
+
+en and a sequence representation e e
+
+a bidirectional rnn we can construct the quence gnn se gn n by simply computing e n
+
+
 rk
+
+
 en
 to
-e
-obtain a graph level representation we use the weighted averaging mechanism from gilmer et al
-
-concretely for each node v in the graph we compute a weight
 
 
-ing a learnable function w and the logistic sigmoid and compute a graph level representation as where is another learnable projection function
+e obtain a graph level representation we use the weighted averaging mechanism from gilmer et al
+
+concretely for each node v in the graph we compute a weight ing a learnable function w and the logistic sigmoid and compute a graph level representation as where is another learnable projection function
 we found that best results were achieved by computing the nal e as w e for some learnable matrix w
+i v this method can easily be extended to support additional nodes not present in the original sequence s after running se e
 
-v this method can easily be extended to support additional nodes not present in the original sequence
-s after running se to accommodate meta nodes representing sentences or non terminal nodes from a syntax tree
+to accommodate meta nodes representing sentences or non terminal nodes from a syntax tree
 the initial node representation for these additional nodes can come from other sources such as a simple embedding of their label
-
 implementation details
-processing large graphs of different shapes efciently requires to
-come some engineering challenges
+processing large graphs of different shapes efciently requires to come some engineering challenges
 for example the cnn dm corpus has on average about nodes per graph
 to allow efcient computation we use the trick of allamanis et al
 where all graphs in a minibatch are attened into a single graph with multiple disconnected components
-
 the varying graph sizes also represent a problem for the attention and copying mechanisms in the published as a conference paper at iclr decoder as they require to compute a softmax over a variable sized list of memories
 to handle this efciently without padding we associate each node in the attened batch graph with the index of the sample in the minibatch from which the node originated
 then using tensorflow s unsorted segment operations we can perform an efcient and numerically stable softmax over the variable number of representations of the nodes of each graph
-evaluation quantitative evaluation
-we evaluate sequence gnns on our three tasks by comparing them to models that use only quence or graph information as well as by comparing them to task specic baselines
+evaluation
+quantitative evaluation we evaluate sequence gnns on our three tasks by comparing them to models that use only quence or graph information as well as by comparing them to task specic baselines
 we discuss the three tasks their respective baselines and how we present the data to the models including the relationships considered in the graph component next before analyzing the results
+
+
 setup for methodnaming datasets metrics and models
 we consider two datasets for the methodnaming task
 first we consider the java small dataset of alon et al
 re using the train validation test splits they have picked
 we additionally generated a new dataset from open source c projects mined from github see below for the reasons for this second dataset removing any duplicates
-more information about these datasets can be found in appendix we follow earlier work on
-naming allamanis et al alon et al and measure performance using the score over the generated subtokens
+more information about these datasets can be found in appendix c
+we follow earlier work on naming allamanis et al
+alon et al
+and measure performance using the score over the generated subtokens
 however since the task can be viewed as a form of extreme marization we also report and rouge l scores lin which we believe to be additional useful indicators for the quality of results
 is omitted since it is equivalent to score
 we note that there is no widely accepted metric for this task and further work identifying the most appropriate metric is required
-we compare to the current state of the art alon et al as well as a sequence to sequence implementation from the opennmt project klein al
-concretely we combine two encoders a bidirectional lstm encoder with layer and hidden units and its sequence gnn sion with hidden units unrolled over timesteps with two decoders an lstm decoder with layer and hidden units with attention over the input sequence and an extension using a pointer network style copying mechanism vinyals et al
-additionally we consider attention as an alternative to rnn based sequence encoding architectures
-for this we use the transformer vaswani et al implementation in opennmt using self attention both for the decoder and the encoder as a baseline and compare it to a version whose encoder is extended with a gnn component
-data representation
-following the work of allamanis et al
+we compare to the current state of the art alon et al
+as well as a sequence to sequence implementation from the opennmt project klein et al
 
+concretely we combine two encoders a bidirectional lstm encoder with layer and hidden units and its sequence gnn sion with hidden units unrolled over timesteps with two decoders an lstm decoder with layer and hidden units with attention over the input sequence and an extension using a pointer network style copying mechanism vinyals et al
+
+additionally we consider attention as an alternative to rnn based sequence encoding architectures
+for this we use the transformer vaswani et al
+implementation in opennmt i
+e
+using self attention both for the decoder and the encoder as a baseline and compare it to a version whose encoder is extended with a gnn component
+data representation following the work of allamanis et al
 alon et al
-we break up all identier tokens variables methods classes in the source code into subtokens by splitting them according to camelcase and pascal case heuristics
+we break up all identier tokens i
+e
+variables methods classes
+in the source code into subtokens by splitting them according to camelcase and pascal case heuristics
 this allows the models to extract information from the information rich subtoken structure and ensures that a copying anism in the decoder can directly copy relevant subtokens something that we found to be very fective for this task
 all models are provided with all belonging to the source code of a method including its declaration with the actual method name replaced by a placeholder symbol
 to construct a graph from the we implement a simplied form of the work of allamanis et al
@@ -163,33 +190,40 @@ to construct a graph from the we implement a simplied form of the work of allama
 first we introduce additional nodes for each full identier token and nect the constituent subtokens appearing in the input sequence using a intoken edge we ally connect these nodes using a nexttoken edge
 we also add nodes for the parse tree and use edges to indicate that one node is a child of another
 finally we add lastlexicaluse edges to connect identiers to their most lexically recent use in the source code
+
+
 setup for methoddoc datasets metrics and models
 we tried to evaluate on the python dataset of barone sennrich that contains pairs of method declarations and their documentation docstring
 however published as a conference paper at iclr sentence munster have signed new zealand international francis saili on a two year deal person person country person duration utility back saili who made his
-sentence token
-entity next in ref figure partial graph of an example input from the cnn dm corpus
+
+
+sentence token entity next in ref figure partial graph of an example input from the cnn dm corpus
 following the work of lopes et al
 we found extensive duplication between different folds of the dataset and were only able to reach comparable results by substantially overtting to the training data that overlapped with the test set
-we have documented details in subsection and in allamanis and decided to instead evaluate on our new dataset of open source c projects from above again removing duplicates and methods without documentation
-following
-barone sennrich we measure the bleu score for all models
+we have documented details in subsection c
+and in allamanis and decided to instead evaluate on our new dataset of open source c projects from above again removing duplicates and methods without documentation
+following barone sennrich we measure the bleu score for all models
 however we also report and rouge l scores which should better reect the summarization aspect of the task
-
 we consider the same models as for the methodnaming task using the same conguration and use the same data representation
+
+
 setup for nlsummarization datasets metrics and models
-we use the cnn dm dataset hermann et al using the exact data and split provided by see et al
+we use the cnn dm dataset hermann et al
+using the exact data and split provided by see et al
 
 the data is constructed from cnn and daily mail news articles along with a few sentences that summarize each article
 to measure performance we use the standard rouge metrics
 we compare our model with the near to state of the art work of see et al
 who use a sequence to sequence model with attention and copying as basis but have additionally substantially improved the decoder component
 as our contribution is entirely on the encoder side and our model uses a standard sequence decoder we are not expecting to outperform more recent models that introduce substantial novelty in the structure or training objective of the decoder chen bansal narayan et al
+
 again we evaluate our contribution using an opennmt based encoder decoder combination
 concretely we use a bidirectional lstm encoder with layer and hidden units and its sequence gnn extension with hidden units unrolled over timesteps
 as decoder we use an lstm with layer and hidden units with attention over the input sequence and an extension using a pointer network style copying mechanism
+data representation we use stanford corenlp manning et al
+version
 
-data representation we use stanford corenlp
-manning al version to enize the text and provide the resulting tokens to the encoder
+to enize the text and provide the resulting tokens to the encoder
 for the graph construction figure we extract the named entities and run coreference resolution using corenlp
 we connect tokens ing a next edge and introduce additional super nodes for each sentence connecting each token to the corresponding sentence node using a in edge
 we also connect subsequent sentence nodes using a next edge
@@ -199,78 +233,174 @@ figure shows a partial graph for an article in the cnn dm dataset
 the goal of this graph construction process is to explicitly annotate important relationships that can be useful for summarization
 we note that in early efforts we experimented with adding dependency parse edges but found that they do not provide signicant benets and that since we retrieve the annotations from corenlp they can contain errors and thus the performance of the our method is inuenced by the accuracy of the upstream annotators of named entities and coreferences
 published as a conference paper at iclr table evaluation results for all models and tasks
-rouge l methodnaming
-java alon et al
+rouge l methodnaming java alon et al
+selfatt selfatt selfatt lstm bilstm lstm bilstm gnn selfatt selfatt selfatt lstm bilstm lstm bilstm gnn c methoddoc c selfatt selfatt selfatt lstm bilstm lstm bilstm gnn nlsummarization cnn dm lstm bilstm lstm see et al
+pointer bilstm see et al
+pointer coverage
 
-selfatt selfatt selfatt lstm bilstm
-lstm bilstm gnn selfatt
-selfatt selfatt lstm bilstm
-lstm bilstm gnn c methoddoc c selfatt
-selfatt selfatt lstm bilstm
-lstm bilstm gnn nlsummarization cnn dm lstm bilstm
-lstm
-see et al
+results analysis rouge l bleu
 
-pointer
-bilstm
 
-see et al
 
-pointer coverage results analysis rouge l bleu
-average pooling
-rouge l we show all results in tab
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+average pooling rouge l we show all results in tab
 
 results for models from the literature are taken from the respective papers and repeated here
-across all tasks the results show the advantage of our hybrid sequence
-gnn encoders over pure sequence encoders
+across all tasks the results show the advantage of our hybrid sequence gnn encoders over pure sequence encoders
 on methodnaming we can see that all gnn augmented models are able to outperform the rent specialized state of the art requiring only simple graph structure that can easily be obtained using existing parsers for a programming language
 the results in performance between the ent encoder and decoder congurations nicely show that their effects are largely orthogonal
-
 on methoddoc the unmodied selfatt selfatt model already performs quite well and the augmentation with graph data only improves the bleu score and worsens the results on rouge
 inspection of the results shows that this is due to the length of predictions
 whereas the ground truth data has on average tokens in each result selfatt selfatt predicts on average tokens and selfatt tokens
-additionally we experimented with an ablation in which a model is only using graph information a setting comparable to a simplication of the architecture of allamanis et al
+additionally we experimented with an ablation in which a model is only using graph information e
+
+a setting comparable to a simplication of the architecture of allamanis et al
 
 for this we congured the gnn to use dimensional representations and unrolled it for timesteps keeping the decoder conguration as for the other models
 the results indicate that this conguration performs less well than a pure sequenced model
-
 we speculate that this is mainly due to the fact that timesteps are insufcient to propagate published as a conference paper at iclr table ablations on cnn dm corpus nlsummarization cnn dm see et al
-base
-see et al
-pointer
-see et al
+base see et al
+pointer see et al
+pointer coverage lstm coref entity annotations bilstm bilstm bilstm lstm only sentence nodes sentence nodes eq edges rouge l
 
-pointer coverage lstm coref entity annotations bilstm
-bilstm bilstm lstm
-only sentence nodes
-sentence nodes eq edges
-rouge l public static bool value span byte destination out int byteswritten standardformat format default return tryformatfloatingpoint destination out byteswritten format
 
-ground truth lstm bilstm lstm
-formats a single as a string formats a number of bytes in a string formats a timespan as a string formats a oat as a string figure an example from the dataset for the methoddoc source code summarization task along with the outputs of a baseline and our models
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public static bool value span byte destination out int byteswritten standardformat format default return tryformatfloatingpoint destination out byteswritten format ground truth lstm bilstm lstm formats a single as a string formats a number of bytes in a string formats a timespan as a string formats a oat as a string figure an example from the dataset for the methoddoc source code summarization task along with the outputs of a baseline and our models
 mation across the whole graph especially in combination with summation as aggregation function for messages in graph information propagation
-
 finally on nlsummarization our experiments show that the same model suitable for tasks on highly structured code is competitive with specialized models for natural language tasks
 while there is still a gap to the best conguration of see et al
 and an even larger one to more recent work in the area we believe that this is entirely due to our simplistic decoder and training objective and that our contribution can be combined with these advances
-
 in table we show some ablations for nlsummarization
 as we use the same ters across all datasets and tasks we additionally perform an experiment with the model of see et al
-
 as implemented in opennmt but using our settings
 the results achieved by these lines trend to be a bit worse than the results reported in the original paper which we believe is due to a lack of hyperparameter optimization for this task
 we then evaluated how much the ditional linguistic structure provided by corenlp helps
 first we add the coreference and entity annotations to the baseline bilstm lstm pointer model by extending the embedding of tokens with an embedding of the entity information and inserting fresh
+
+
 tokens at the sources targets of co references and observe only minimal improvements
 this suggests that our graph based encoder is better suited to exploit additional structured information compared to a bilstm encoder
 we then drop all linguistic structure information from our model keeping only the sentence edges nodes
 this still improves on the baseline bilstm model in the score suggesting that the gnn still yields improvements in the absence of linguistic structure
 finally we add long range dependency edges by connecting tokens with equivalent string representations of their stems and observe further minor improvements indicating that even using only purely syntactical information without a semantic parse can already provide gains
-qualitative evaluation
-we look at a few sample suggestions in our dataset across the tasks
+
+qualitative evaluation we look at a few sample suggestions in our dataset across the tasks
 here we highlight some vations we make that point out interesting aspects and failure cases of our model
-published as a conference paper at iclr
-input arsenal newcastle united and southampton have checked on caen midelder ngolo kante
+published as a conference paper at iclr input arsenal newcastle united and southampton have checked on caen midelder ngolo kante
 born kante is a defensive minded player who has impressed for caen this season and they are willing to sell for around
 marseille have been in constant contact with caen over signing the year old who has similarities with lassana diarra and claude makelele in terms of stature and style
 ngolo kante is attracting interest from a host of premier league clubs including arsenal
@@ -280,16 +410,13 @@ marseille are also keen on the m rated midelder
 kante has been compared to lassana diarra and claude makelele
 click here for the latest premier league news
 see et al
-
 pointer arsenal newcastle united and southampton have checked on caen midelder ngolo kante
 paris born kante is attracting interest from a host of premier league clubs including arsenal
 paris born kante is attracting interest from a host of premier league clubs including arsenal see et al
-
 pointer coverage arsenal newcastle united and southampton have checked on caen midelder ngolo kante
 paris born kante is a defensive minded player who has impressed for caen this season
 marseille have been in constant contact with caen over signing the year old
 lstm marseille have been linked with caen midelder
-
 marseille have been interested from a host of premier league clubs including arsenal
 caen have been interested from a host of premier league clubs including arsenal
 ngolo kante is attracting interest from a host of premier league clubs
@@ -300,30 +427,35 @@ methoddoc figures and illustrate typical results of baselines and our model on t
 the hardness of the task stems from the large number of distractors and the need to identify the most relevant parts of the input
 in figure the token parameter and variations appears many times and identifying the correct relationship is non trivial but is evidently eased by graph edges explicitly denoting these relationships
 similarly in figure many variables are passed around and the semantics of the method require understanding how information ows between them
-
 nlsummarization figure shows one sample summarization
-more samples for this task can be found in appendix first we notice that the model produces natural looking summaries with no noticeable negative impact on the uency of the language over existing methods
-
+more samples for this task can be found in appendix b
+first we notice that the model produces natural looking summaries with no noticeable negative impact on the uency of the language over existing methods
 more the gnn based model seems to capture the central named entity in the article and creates a summary centered around that entity
 we hypothesize that the gnn component that links distance relationships helps capture and maintain a better global view of the article allowing for better identication of central entities
-our model still suffers from repetition of information see appendix b and so we believe that our model would also prot from advances such as taking erage into account see et al or optimizing for rouge l scores directly via reinforcement learning chen bansal narayan et al
+our model still suffers from repetition of information see appendix b and so we believe that our model would also prot from advances such as taking erage into account see et al
+or optimizing for rouge l scores directly via reinforcement learning chen bansal narayan et al
+
 related work natural language processing research has studied summarization for a long time
 most related is work on abstractive summarization in which the core content of a given text usually a news article is summarized in a novel and concise sentence
 chopra et al
 and nallapati et al
 use deep learning models with attention on the input text to guide a decoder that generates a summary
-
 see et al
-and
-mccann et al
-extend this idea with pointer networks vinyals et al to allow for copying tokens from the input text to the output summary
+and mccann et al
+extend this idea with pointer networks vinyals et al
+to allow for copying tokens from the input text to the output summary
 these approaches treat text as a simple token sequences not explicitly exposing additional structure
-in principle deep sequence networks are known to be able to learn the inherent structure of natural language in parsing vinyals et al and entity recognition lample et al but our experiments indicate that explicitly exposing this structure by separating concerns improves performance
-published as a conference paper at iclr
+in principle deep sequence networks are known to be able to learn the inherent structure of natural language e
 
-recent work in summarization has proposed improved training objectives for summarization such as tracking coverage of the input document see et al or using reinforcement learning to directly identify actions in the decoder that improve target measures such as rouge l chen bansal narayan et al
+in parsing vinyals et al
+and entity recognition lample et al
+but our experiments indicate that explicitly exposing this structure by separating concerns improves performance
+published as a conference paper at iclr recent work in summarization has proposed improved training objectives for summarization such as tracking coverage of the input document see et al
+or using reinforcement learning to directly identify actions in the decoder that improve target measures such as rouge l chen bansal narayan et al
+
 these objectives are orthogonal to the graph augmented encoder cussed in this work and we are interested in combining these efforts in future work
 exposing more language structure explicitly has been studied over the last years with a focus on based models tai et al
+
 very recently rst uses of graphs in natural language processing have been explored
 marcheggiani titov use graph convolutional networks to encode single sentences and assist machine translation
 de cao et al
@@ -332,40 +464,44 @@ closer to our work is the work of liu et al
 who use abstract meaning representation amr in which the source document is rst parsed into amr graphs before a summary graph is created which is nally rendered in natural language
 in contrast to that work we do not use amrs but directly encode relatively simple relationships directly on the tokenized text and do not treat summarization as a graph rewrite problem
 combining our encoder with amrs to use richer graph structures may be a promising future direction
-
 finally summarization in source code has also been studied in the forms of method naming ment and documentation prediction
 method naming has been tackled with a series of models
 for example allamanis et al
-use a log bilinear network to predict method names from features and later extend this idea to use a convolutional attention network over the tokens of a method to
-dict the subtokens of names allamanis et al
+use a log bilinear network to predict method names from features and later extend this idea to use a convolutional attention network over the tokens of a method to dict the subtokens of names allamanis et al
+
 raychev et al
 and bichsel et al
 use crfs for a range of tasks on source code including the inference of names for variables and methods
 recently alon et al
 extract and encode paths from the syntax tree of a gram setting the state of the art in accuracy on method naming
 linking text to code can have useful applications such as code search gu et al
-ity guo et al and detection of redundant method comments louis et al
-most proaches on source code either treat it as natural language a token sequence or use a language parser to explicitly expose its tree structure
+ity guo et al
+and detection of redundant method comments louis et al
+
+most proaches on source code either treat it as natural language i
+e
+a token sequence or use a language parser to explicitly expose its tree structure
 for example barone sennrich use a simple sequence to sequence baseline whereas hu et al
 summarize source code by linearizing the abstract syntax tree of the code and using a sequence to sequence model
 wan et al
 instead directly operate on the tree structure using tree recurrent neural networks tai et al
-the use of additional structure on related tasks on source code has been studied recently for example in models that are conditioned on learned traversals of the syntax tree bielik et al and in based approaches allamanis et al cvitkovic et al
-however as noted by liao et al
 
+the use of additional structure on related tasks on source code has been studied recently for example in models that are conditioned on learned traversals of the syntax tree bielik et al
+and in based approaches allamanis et al
+cvitkovic et al
+
+however as noted by liao et al
 gnn based approaches suffer from a tension between the ability to propagate information across large distances in a graph and the computational expense of the propagation function which is linear in the number of graph edges per propagation step
-discussion conclusions
-we presented a framework for extending sequence encoders with a graph component that can age rich additional structure
+discussion conclusions we presented a framework for extending sequence encoders with a graph component that can age rich additional structure
 in an evaluation on three different summarization tasks we have shown that this augmentation improves the performance of a range of different sequence models across all tasks
 we are excited about this initial progress and look forward to deeper integration of mixed sequence graph modeling in a wide range of tasks across both formal and natural languages
 the key insight which we believe to be widely applicable is that inductive biases induced by explicit relationship modeling are a simple way to boost the practical performance of existing deep learning systems
 published as a conference paper at iclr references miltiadis allamanis
 the adverse effects of code duplication in machine learning models of code
 arxiv preprint
-miltiadis allamanis earl t barr christian bird and charles sutton
-suggesting accurate method
-in proceedings of the joint meeting on foundations of software and class names
 
+miltiadis allamanis earl t barr christian bird and charles sutton
+suggesting accurate method in proceedings of the joint meeting on foundations of software and class names
 engineering pp
 
 acm
@@ -376,17 +512,12 @@ in international conference on machine learning pp
 miltiadis allamanis marc brockschmidt and mahmoud khademi
 learning to represent programs with graphs
 in international conference on learning representations
-
 uri alon meital zilberstein omer levy and eran yahav
-a general path based representation
-in proceedings of the acm sigplan conference on for predicting program properties
-
+a general path based representation in proceedings of the acm sigplan conference on for predicting program properties
 programming language design and implementation pp
 
 acm
-
 uri alon omer levy and eran yahav
-
 generating sequences from structured tions of code
 in international conference on learning representations
 dzmitry bahdanau kyunghyun cho and yoshua bengio
@@ -408,22 +539,21 @@ in tional conference on machine learning icml
 yen chun chen and mohit bansal
 fast abstractive summarization with reinforce selected sentence rewriting
 arxiv preprint
+
 sumit chopra michael auli and alexander m rush
 abstractive sentence summarization with attentive recurrent neural networks
 in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies pp
 
-
 milan cvitkovic badal singh and anima anandkumar
 deep learning on code with an unbounded vocabulary
 in machine learning programming
-
 nicola de cao wilker aziz and ivan titov
 question answering by reasoning across documents with graph convolutional networks
 arxiv preprint
+
 justin gilmer samuel s schoenholz patrick f riley oriol vinyals and george e dahl
 neural message passing for quantum chemistry
 in international conference on machine learning pp
-
 
 xiaodong gu hongyu zhang and sunghun kim
 deep code search
@@ -440,38 +570,43 @@ teaching machines to read and comprehend
 in advances in neural information processing systems pp
 
 xing hu yuhan wei ge li and zhi jin
-codesum
-translate program language to natural language
+codesum translate program language to natural language
 arxiv preprint
+
 robin jia and percy liang
 adversarial examples for evaluating reading comprehension systems
 in empirical methods in natural language processing emnlp
-
-thomas kipf and max welling
+thomas n
+kipf and max welling
 semi supervised classication with graph convolutional works
 in international conference on learning representations
-klein kim deng senellart and rush
-
+g
+klein y
+kim y
+deng j
+senellart and a
+m
+rush
 open source toolkit for neural machine translation
 arxiv e prints
 guillaume lample miguel ballesteros sandeep subramanian kazuya kawakami and chris dyer
-
 neural architectures for named entity recognition
 in proceedings the north american chapter of the association for computational linguistics human language technologies
 yujia li daniel tarlow marc brockschmidt and richard zemel
 gated graph sequence neural networks
 arxiv preprint
-renjie liao marc brockschmidt daniel tarlow alexander gaunt raquel urtasun and richard zemel
+
+renjie liao marc brockschmidt daniel tarlow alexander gaunt raquel urtasun and richard s
+zemel
 graph partition neural networks for semi supervised classication
 in international ference on learning representations iclr workshop track
-
 chin yew lin
-rouge
-a package for automatic evaluation of summaries
+rouge a package for automatic evaluation of summaries
 text summarization branches out
 fei liu jeffrey flanigan sam thomson norman sadeh and noah a smith
 toward abstractive summarization using semantic representations
 arxiv preprint
+
 cristina v lopes petr maj pedro martins vaibhav saini di yang jakub zitny hitesh sajnani and jan vitek
 a map of code duplicates on github
 proceedings of the acm on programming languages
@@ -482,9 +617,8 @@ arxiv preprint
 minh thang luong hieu pham and christopher d manning
 effective approaches to based neural machine translation
 arxiv preprint
-christopher manning mihai surdeanu john bauer jenny finkel steven bethard and
-david
-closky
+
+christopher manning mihai surdeanu john bauer jenny finkel steven bethard and david closky
 the stanford corenlp natural language processing toolkit
 in proceedings of annual meeting of the association for computational linguistics system demonstrations pp
 
@@ -495,24 +629,21 @@ in proceedings of the conference on empirical methods in natural language proces
 bryan mccann nitish shirish keskar caiming xiong and richard socher
 the natural language decathlon multitask learning as question answering
 arxiv preprint
-ramesh nallapati bowen zhou cicero dos santos caglar gulcehre and bing xiang
-abstractive
-in proceedings of the text summarization using sequence to sequence rnns and beyond
 
+ramesh nallapati bowen zhou cicero dos santos caglar gulcehre and bing xiang
+abstractive in proceedings of the text summarization using sequence to sequence rnns and beyond
 signll conference on computational natural language learning pp
 
 shashi narayan shay b cohen and mirella lapata
 ranking sentences for extractive summarization with reinforcement learning
 arxiv preprint
-veselin raychev martin vechev and
-andreas krause
-predicting program properties from big code
 
+veselin raychev martin vechev and andreas krause
+predicting program properties from big code
 in principles of programming languages popl
 published as a conference paper at iclr abigail see peter j liu and christopher d manning
 get to the point summarization with generator networks
 in proceedings of the annual meeting of the association for tional linguistics volume long papers volume pp
-
 
 kai sheng tai richard socher and christopher d manning
 improved semantic representations from tree structured long short term memory networks
@@ -533,110 +664,96 @@ improving automatic source code summarization via deep reinforcement learning
 in proceedings of the acm ieee international conference on automated software engineering pp
 
 acm
-published as a conference paper at iclr
-a code summarization samples methoddoc c sample result null try public static bool valuetoconvert type resulttype iformatprovider formatprovider out object result result
-resulttype formatprovider catch invalidcastexception return false catch argumentexception return false return true ground truth lstm bilstm
-lstm
-c sample sets result to valuetoconvert converted to resulttype considering formatprovider for custom conversions calling the parse method and calling convert
+published as a conference paper at iclr a code summarization samples a
+methoddoc c sample result null try public static bool valuetoconvert type resulttype iformatprovider formatprovider out object result result resulttype formatprovider catch invalidcastexception return false catch argumentexception return false return true ground truth lstm bilstm lstm c sample sets result to valuetoconvert converted to resulttype considering formatprovider for custom conversions calling the parse method and calling convert
 changetype
-
 converts the specied type to a primitive type
 sets result to resulttype sets result to valuetoconvert converted to resulttype
 public virtual task name iproviderruntime providerruntime iproviderconfiguration config log providerruntime
 
-
-orleansjsonserializer
+gettype
+fullname this
+serializersettings orleansjsonserializer
 getdefaultserializersettings return taskdone
-done ground truth lstm bilstm
-lstm
-initializes the storage provider creates a grain object initializes the provider provider initialization function to initialize the specied provider
-c sample public void nullparameter taskparameter new
-assert
-wrappedparameter
-assert
-equal taskparametertype
-null parametertype inodepackettranslatable translationhelpers
-getwritetranslator
-taskparameter taskparameter
-factoryfordeserialization translationhelpers
-getreadtranslator
-assert
+done ground truth lstm bilstm lstm initializes the storage provider creates a grain object initializes the provider provider initialization function to initialize the specied provider
+c sample public void nullparameter taskparameter new assert
 
-assert
+wrappedparameter assert
+equal taskparametertype
+null t
+parametertype inodepackettranslatable t
+translate translationhelpers
+getwritetranslator taskparameter taskparameter
+factoryfordeserialization translationhelpers
+getreadtranslator assert
+
+wrappedparameter assert
 
 null
-ground truth lstm bilstm lstm
-veries that construction and serialization with a null parameter is ok tests that the value is a value that is a value to the specied type veries that construction with an parameter parameter veries that construction and serialization with a parameter that is null c sample public override dbgeometrywellknownvalue geometryvalue geometryvalue
-
+parametertype ground truth lstm bilstm lstm veries that construction and serialization with a null parameter is ok tests that the value is a value that is a value to the specied type veries that construction with an parameter parameter veries that construction and serialization with a parameter that is null c sample public override dbgeometrywellknownvalue geometryvalue geometryvalue
 var spatialvalue geometryvalue
-asspatialvalue dbgeometrywellknownvalue result
+dbgeometrywellknownvalue result spatialexceptions
 spatialexceptions
+srid wkb wkt new dbgeometrywellknownvalue coordinatesystemid srid wellknownbinary wkb wellknowntext wkt creates an instance of t system
+data
+spatial
+dbgeometry value using one or both of the standard well known spatial formats
+creates a t system
+data
+spatial
+dbgeography value based on the well known binary value
+creates a new t system
+data
+spatial
+dbgeography instance using the specied well known spatial formats
+creates a new instance of the t system
+data
+spatial
+dbgeometry value based on the provided geometry value and returns the resulting well as known spatial formats
+published as a conference paper at iclr return result ground truth bilstm lstm lstm a
+methodnaming c sample public bool d d return d null d
+val val ground truth lstm bilstm lstm equals foo equals equals c sample object obj null int value int obj internal void string switchname hashtable bag string parametername value
 
-spatialexceptions srid wkb wkt new dbgeometrywellknownvalue coordinatesystemid srid wellknownbinary wkb wellknowntext wkt creates an instance of t value using one or both of the standard well known spatial formats
-creates a t value based on the well known binary value
-creates a new t instance using the specied well known spatial formats
-creates a new instance of the t value based on the provided geometry value and returns the resulting well as known spatial formats
-
-published as a conference paper at iclr return result ground truth bilstm lstm lstm methodnaming c sample public bool d d return d
-null val
-val
-ground truth lstm bilstm lstm
-equals foo equals equals c sample object obj null int value int obj internal void
-string switchname hashtable bag string parametername value
-
-invariantculture
-ground truth lstm
-bilstm lstm
-append switch with integer set string append switch append switch if not null c sample internal static string var currentplatformstring string
-empty
-if runtimeinformation
+invariantculture ground truth lstm bilstm lstm append switch with integer set string append switch append switch if not null c sample internal static string var currentplatformstring string
+empty if runtimeinformation
 
 windows currentplatformstring windows else if runtimeinformation
 
 linux currentplatformstring linux else if runtimeinformation
 
 osx currentplatformstring osx else assert
-unrecognized current platform return currentplatformstring published as a conference paper at iclr ground truth lstm
-bilstm lstm
-get os platform as string get name get platform get current platform string c sample public override dbgeometrywellknownvalue geometryvalue geometryvalue
-
+unrecognized current platform return currentplatformstring published as a conference paper at iclr ground truth lstm bilstm lstm get os platform as string get name get platform get current platform string c sample public override dbgeometrywellknownvalue geometryvalue geometryvalue
 var spatialvalue geometryvalue
-asspatialvalue dbgeometrywellknownvalue result
+dbgeometrywellknownvalue result spatialexceptions
 spatialexceptions
-
-spatialexceptions srid wkb wkt new dbgeometrywellknownvalue coordinatesystemid srid wellknownbinary wkb wellknowntext wkt return result ground truth lstm
-bilstm lstm
-create well known value spatial geometry from xml geometry point get well known value
-java sample public static void string name int expected metricsrecordbuilder rb value for metric name expected rb ground truth lstm bilstm
-lstm
-assert counter assert email value assert header assert int counter published as a conference paper at iclr b natural language summarization samples
-input
-cnn gunshots were red at rapper lil wayne s tour bus early sunday in atlanta
+srid wkb wkt new dbgeometrywellknownvalue coordinatesystemid srid wellknownbinary wkb wellknowntext wkt return result ground truth lstm bilstm lstm create well known value spatial geometry from xml geometry point get well known value java sample public static void string name int expected metricsrecordbuilder rb assert
+value for metric name expected rb ground truth lstm bilstm lstm assert counter assert email value assert header assert int counter published as a conference paper at iclr b natural language summarization samples input cnn gunshots were red at rapper lil wayne s tour bus early sunday in atlanta
 no one was injured in the shooting and no arrests have been made atlanta police spokeswoman elizabeth espy said
 police are still looking for suspects
 ofcers were called to a parking lot in atlanta s buckhead neighborhood espy said
-they arrived at and cated two tour buses that had been shot multiple times
+they arrived at a
+m
+and cated two tour buses that had been shot multiple times
 the drivers of the buses said the incident occurred on interstate near interstate espy said
 witnesses provided a limited description of the two vehicles suspected to be involved a corvette style vehicle and an suv
 lil wayne was in atlanta for a performance at compound nightclub saturday night
 cnn s carma hassan contributed to this report
 reference rapper lil wayne not injured after shots red at his tour bus on an atlanta interstate police say
 no one has been arrested in the shooting see et al
-
 pointer police are still looking for suspects
 the incident occurred on interstate near interstate police say
 witnesses provided a limited description of the two vehicles suspected to be involved a corvette style vehicle and an suv
 see et al
 pointer coverage lil wayne s tour bus was shot multiple times police say
 police are still looking for suspects
-they arrived at and located two tour buses that had been shot
+they arrived at a
+m
+and located two tour buses that had been shot
 lstm the incident occurred on interstate near interstate
 no one was injured in the shooting and no arrests have been made atlanta police spokeswoman says
 gunshots red at rapper lil wayne s tour bus early sunday in atlanta police say
 no one was injured in the shooting and no arrests have been made police say
-
-input tottenham have held further discussions with marseille over a potential deal for midelder
-florian thauvin
+input tottenham have held further discussions with marseille over a potential deal for midelder florian thauvin
 the year old has been left out of the squad for this weekend s game with metz as marseille push for a m sale
 the winger who can also play behind the striker was the subject of enquiries from spurs earlier in the year and has also been watched by chelsea and valencia
 tottenham have held further talks with ligue side marseille over a possible deal for florian thauvin
@@ -657,59 +774,43 @@ the winger has been left out of the squad for this weekend s game with metz
 tottenham have held further discussions with marseille over a potential deal
 the winger has been left out of the squad for this weekend s game
 tottenham have held further talks with marseille over a potential deal
-published as a conference paper at iclr c code datasets information c dataset
-we extract the c dataset from open source projects on github
+published as a conference paper at iclr c code datasets information c
+c dataset we extract the c dataset from open source projects on github
 overall our dataset contains methods of which have a documentation comment
 the dataset is split
-
 the projects and exact state of the repositories used is listed in table table projects in our c dataset
 ordered alphabetically
-name
-git sha description
-actor based concurrent distributed framework
-object to object mapping library
-benchmarking library akka
+name git sha description actor based concurrent distributed framework object to object mapping library benchmarking library akka
 net automapper benchmarkdotnet commonmark
-net markdown parser coreclr corefx dapper entityframework
-humanizer
-lean mono msbuild
-nancy nlog opserver orleans
-polly powershell ravendb roslyn servicestack
-signalr
-
-wox
-core runtime
-foundational libraries object mapper library
-object relational mapper string manipulation and formatting algorithmic trading engine
-implementation
-build engine http service framework logging library monitoring system distributed virtual actor model
-resilience transient fault handling library command line shell document database
-compiler code analysis compilation
-real time web library
-
-push notication framework
-application launcher java method naming datasets
-we use the datasets and splits of alon et al
+net markdown parser coreclr corefx dapper entityframework humanizer lean mono msbuild nancy nlog opserver orleans polly powershell ravendb roslyn servicestack signalr wox
+net core runtime
+net foundational libraries object mapper library object relational mapper string manipulation and formatting algorithmic trading engine
+net implementation build engine http service framework logging library monitoring system distributed virtual actor model resilience transient fault handling library command line shell document database compiler code analysis compilation real time web library push notication framework application launcher c
+java method naming datasets we use the datasets and splits of alon et al
 provided by their website
 upon scanning all methods in the dataset the size of the corpora can be seen in table
 more information can be found at alon et al
 
-
-python method documentation dataset
-we use the dataset as split of barone sennrich provided by their github repository
+c
+python method documentation dataset we use the dataset as split of barone sennrich provided by their github repository
 upon parsing the dataset we get training samples validation samples and test ples
-we note that of the documentation samples in the validation set and of the ples in test set have a sample with the identical natural language documentation on the training table the statistics of the extracted graphs from the java method naming dataset of alon et al
+we note that
+of the documentation samples in the validation set and
+of the ples in test set have a sample with the identical natural language documentation on the training table the statistics of the extracted graphs from the java method naming dataset of alon et al
 
-
-dataset train size valid size test size java small
-published as a conference paper at iclr set
+dataset train size valid size test size java small published as a conference paper at iclr set
 this eludes to a potential issue described by lopes et al
 
 see allamanis for a lengthier discussion of this issue
-graph data statistics
-below we present the data characteristics of the graphs we use across the datasets
+c
+graph data statistics below we present the data characteristics of the graphs we use across the datasets
 table graph statistics for datasets
+dataset avg num nodes avg num edges cnn dm c method names c documentation java small method names
 
-dataset avg num nodes avg num edges cnn dm c method names c documentation
-java small method names
+
+
+
+
+
+
 

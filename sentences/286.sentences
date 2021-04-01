@@ -1,0 +1,531 @@
+r a l c
+s c v
+v i x r a qurious question generation pretraining for text generation shashi narayan google research
+com goncalo simoes google research
+com ji ma google research
+com hannah craighead google
+com abstract recent trends in natural language processing using pretraining have shifted focus towards pretraining and ne tuning approaches for text generation
+often the focus has been on agnostic approaches that generalize the guage modeling objective
+we propose tion generation as a pretraining method which better aligns with the text generation tives
+our text generation models pretrained with this method are better at understanding the essence of the input and are better language models for the target task
+when evaluated on two text generation tasks abstractive rization and answer focused question tion our models result in state of the art formances in terms of automatic metrics
+man evaluators also found our summaries and generated questions to be more natural cise and informative
+introduction or semi supervised song et al
+unsupervised pretrained encoder decoder models are quickly becoming the standard for text generation khandelwal et al
+dong et al
+rothe et al
+lewis et al
+following the success of pretraining methods on popular natural language understanding nlu marks peters et al
+devlin et al
+radford et al
+yang et al
+for text generation most liu et al
+
+models focus on task agnostic pretraining tasks that generalize the language modelling objective by combining the masked language model language modelling objective with left to right objective dong et al
+or reconstructing text using a sequence the corrupted input song et al
+sequence denoising autoencoder lewis et al
+
+these models have set new state of the art results on a wide variety of text generation tasks such as summarization ryan mcdonald google research
+com answer passage mid march is still cold here in europe
+some areas has also snow
+so you need winter clothes
+but have fun fun and fun
+europe is so nice
+question what will be the temperature in europe during march middle figure an example qa pair from yahoo answers
+tence splitting and sentence fusion rothe et al
+lewis et al
+
+in this paper we investigate a pretraining jective that is better tied to challenges involved in text generation specically understanding i
+e
+identifying important content and realization i
+e
+generating the text
+we propose qurious a question generation pretraining objective which pretrains text generation models to ate questions conditioning on an answer passage or a document
+key advantages of our method are that i data for question generation can be ily crawled abundantly from community qa forms such as yahoo answers quora and stack overow and more importantly ii text tors trained to generate a question which can be answered from a document or a passage will ture the salient terms or concepts expressed in the input and will learn to aggregate and paraphrase from the input
+figure shows an example question pair used for our pretraining reecting on the latter point
+checkpoints in this paper we experiment with based sequence to sequence models that are compatible with publicly available pretrained bert devlin et al
+and roberta these liu et al
+models were pretrained for question generation from an associated text
+however the question generation pretraining objective is model agnostic
+improved pretraining objectives have been studied task agnostic yang et al
+before
+
+lan et al
+multilingual pires et al
+except or domain targeted lee et al
+
+perhaps the work closest to ours is baldini soares et al
+who study task specic pretraining objectives for relation extraction
+additionally alberti et al
+use question generation to increase ing data for qa
+however such task specic objectives and specically question generation have not been exploited for generation tasks
+figure demonstrates the benet of our training objective for summarization
+quriousz a zero shot variant of qurious pretrained for question generation and without any supervision for summarization generates questions for ments centered around their reference summaries it appears that quriousz simulates tion experts in terms of selecting what source tent is most relevant for a summary
+we size that the netuning of quriousz for rization will guide models to focus on the salient content in the document and generate summaries that are concise and informative
+we can also serve that qurious generates summaries that are closer to reference summaries than those ated by which does not use training for question generation
+the main contributions of this work are fold
+first we propose question generation as a pretraining objective for text generation
+ond we demonstrate the effectiveness of our method on abstractive summarization by ing a new state of the art result on the extreme summarization task narayan et al
+
+third we experiment with answer focused question eration task focusing on two datasets squad rajpurkar et al
+and natural questions kwiatkowski et al
+and demonstrate that our pretrained model generates questions that are more natural and informative in terms of both tomatic and human evaluations
+finally we pirically demonstrate that the reciprocity of tion generation as a pretraining objective to text generation tasks makes our models robust to resource scenarios
+question generation pretraining qurious is designed for sequence to sequence models and aims to learn improved tions for text generation which requires both understanding and realization as opposed to task agnostic pretraining objectives devlin et al
+
+gold former beatle sir paul mccartney has topped the sunday times rich list of musicians with his m fortune
+sir paul mccartney has been named as britain s richest man in the sunday times rich list
+quriousz who is the richest musician in the world qurious sir paul mccartney has been named the richest man in the uk with his wealth totalling m according to the sunday times rich list
+gold pope francis will go to africa for the rst time this week visiting a refugee camp a slum and a mosque
+pope francis has a big issue with the pope s decision to visit the central african public in the middle of his rst trip to the nent
+quriousz what will pope francis talk about during his trip to kenya qurious pope francis will head to kenya for his rst visit to africa since taking ofce in november
+the figure analysis of summarization models reference summary gold a task agnostic trained model liu et al
+rothe et al
+and one pretrained with a question generation objective qurious and a zero shot variant quriousz
+data for pretraining
+in this work we lect million english question answer pairs from community question answering resources such as stackexchange
+of total subdomains yahoo answers
+of total mains and zhidao baidu
+
+these forums have been widely used before in community tion answering zhang et al
+nakov et al
+nie et al
+
+in particular we low zhang et al
+to mine data from munity qa websites
+main differences are that zhang et al
+mine data from two nity qa websites and train answer passage tion models whereas we use a different set of websites and use it for question generation pretraining
+to ensure the quality of posts we only select english answer question pairs that were itively rated by at least one user
+finally the age lengths of questions and answers in our dataset are
+tokens and
+tokens respectively
+a major advantage of qurious is that large amounts of pretraining data can be obtained for free and annotations grow as long as people ask answer questions on the internet
+over real information seeking questions are ically condense and natural thus better suited for summarization than datasets such as squad rajpurkar et al
+where questions are not naturally occurring and contain high lexical and syntactic overlap with the answer passage
+pretraining text generation models
+we ply qurious to a sequence to sequence tecture where both encoder and decoder are composed of transformer layers vaswani et al
+
+we have experimented with base and large versions of the transformer layer the base model has both encoder and decoder with layers a hidden size of lter size of and attention heads whereas the large model with layers a hidden size of lter size of and attention heads
+during ing the input answers were truncated to kens and the length of the questions was limited to tokens
+we also allow our encoder and coder to warm start the transformer layer using public bert devlin et al
+and its variant roberta liu et al
+checkpoints
+ing rothe et al
+we share the parameters between encoder and decoder for all our models
+we used a global batch size of summary pairs with the standard cross entropy loss
+fine tuning text generation models
+we ne tune our model for two text generation tasks abstractive document summarization and focused question generation
+for abstractive summarization the encoder takes a document as input and generates its summary as output
+for answer focused question generation earlier work duan et al
+subramanian et al
+nema et al
+has mostly focused on the factoid based question answering dataset such as squad rajpurkar et al
+
+unlike our tion generation pretraining the answer passage here can be open ended and not necessarily a rect response to a question
+we follow nema et al
+and use the target answer span together with the passage with a separator between them as input to generate a specic question
+experiments and results
+abstractive document summarization we evaluate our model on the bbc extreme marization xsum narayan et al
+
+models bertsum our models qurious qurious qurious qurious quriousz quriousz
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+rl
+
+
+
+
+
+
+
+
+
+
+
+table rouge scores for extreme tion
+the models in the top block are not pretrained for question generation
+see text for discussion
+l is l
+uments in this dataset are accompanied by their single sentence summaries with a high level of abstractiveness and generating them requires document level inference abstraction and phrasing
+the dataset consists of and document summary training validation and test pairs
+report scores lin and hovy on the automatic evaluation we rouge in table
+our main baseline is a transformer based model initialized with a public bert devlin et al
+checkpoint as reported in rothe et al
+
+we also report numbers for a second bert based transformer model bertsum liu and lapata
+finally we experimented with using a liu et al
+checkpoint
+this model signicantly improves over the state of the art and bertsum
+following the advantages of over qurious initializes with the checkpoint and pretrains with the tion generation objective before ne tuning for extreme summarization
+we also perform an ablation study where we do not initialize our model with the roberta checkpoint roberta
+quriousz is not ne tuned for treme summarization it behaves as a question eration model which takes a document as input and generate a question
+it assesses how close the erated questions get to the reference summary
+as can be seen in table the question ation pretraining in qurious proves over across all rouge scores improvement of
+points on average
+rious with the roberta initialization this forms its counterpart models zhao et al
+nema et al
+qurious qurious
+
+
+
+
+
+squad
+
+
+
+nq
+
+rl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table question generation results on squad and natural questions nq datasets
+for each model we choose its best performing variant from table for this task
+is rl is rouge l
+provement is consistent for both base and large models
+qurious achieves a new state of the art on extreme summarization forming earlier model rothe et al
+by
+average rouge points
+the question generation pretraining estingly evates the performance of roberta initialized model for summarization our ing objective should also supplement recent training schemes dong et al
+song et al
+lewis et al
+for summarization
+
+answer focused question generation for the question generation task we evaluate our models on two factoid based question answering datasets squad rajpurkar et al
+and ural questions nq kwiatkowski et al
+
+for squad we use the whole paragraph as input passage and not just the sentence containing the answer as it often requires the whole paragraph as context in order to generate high quality tions
+in total this dataset is composed of k training examples and k development examples
+for nq we use the provided long answer as input passage
+we only keep those that are paragraphs and lter out list and table based long answers
+we further lter yes no questions and also questions that are not answerable this results in a training set of k examples and a development set
+k examples
+to the best of our knowledge we are the rst to use the nq dataset for the question eration task
+automatic evaluation
+we choose our best forming model from table for this task
+we report on the bleu papineni et al
+and rouge l lin and hovy scores and results are listed in table
+table exhibits a ilar pattern as that in table qurious tently improve model performance over et al
+used the nq dataset to construct thetic question answer corpora to train qa models
+on both squad and nq
+for squad qurious also achieves substantial improvement over previous state of the art nema et al
+
+since both nq and our pre training dataset consist of real information seeking questions we expect qurious to perform better on nq than squad
+it turns out that all models trained on nq achieve much higher scores than their squad counterparts
+this result suggests that naturalness of the question is a more important factor in ing system performance
+
+human evaluations in addition to automatic evaluation using rouge and bleu we also evaluated system output by eliciting human judgments for both the study rization and question generation
+was conducted on the amazon mechanical turk platform using best worst scaling a less labor intensive alternative to paired comparisons louviere and woodworth louviere et al
+
+for summarization participants were sented with a document and summaries generated from two out of ve systems and were asked to cide which summary was better than the other in order of informativeness does the summary ture important information in the document and uency is the summary written in well formed english
+for question generation participants were presented with an answer passage a factoid answer and questions generated from two systems and were asked to decide which question is more i natural is the summary uent and written in well formed english and correct is the tion correct for the factoid answer given the sage
+in all cases we allowed ties when both dictions were the same
+additionally for ness we allowed a tie when both questions were equally correct or incorrect
+we randomly selected documents from the xsum test set for marization and answer passage pairs each for question generation from squad and from ral questions
+we collected judgments from three different participants for each comparison
+the der of summaries were randomized per document and the order of documents per participant
+the score of a system was computed as the percentage of times it was chosen as best minus the age of times it was selected as worst
+the scores range from worst to best
+some of the ple predictions used in human evaluations are sented in the appendix
+qurious outperformed across models nema et al
+qurious gold xsum quality
+
+
+qgen squad nq nat
+
+
+
+
+corr
+
+
+
+
+nat
+
+
+
+corr
+
+
+
+s e r o c s f l e g u o r
+qurious table human evaluation results for summarization assessing summary quality and answer focused tion generation assessing naturalness nat
+and ness corr
+of questions
+in what year was the corliss engine squad passage the acme of the horizontal gine was the corliss steam engine patented in
+
+
+answer qurious when was the corliss steam engine patented prefered gold patented nq passage the last supper
+
+
+is a late century mural painting by leonardo da vinci
+
+
+answer leonardo da vinci qurious who painted the last supper in the louvre gold who painted the world famous painting the last supper prefered figure qurious predictions on the squad and nq datasets
+interestingly it even performed better all tasks
+than human authored summaries or questions with a single exception of the correctness assessment of questions on the nq dataset
+we carried out pairwise comparisons between all models to assess whether system differences are statistically signicant using a one way anova with posthoc tukey hsd tests
+
+for summarization is signicantly different from both qurious and gold
+for squad nema et al
+is signicantly different from all other systems on naturalness and correctness and is signicantly different from qurious on correctness
+for nq is signicantly different from rious on naturalness and from gold on ness
+all other differences are not statistically nicant
+the difference in performance of qurious on squad and nq stem from how these datasets are created
+for squad human annotators started with the passage and wrote the questions many times resorting to paraphrasing with copying for nq the dataset creation process volved
+started with the questions making them more ural and harder for a model to learn by copying
+percentage of training data in log scale figure question generation pretraining is sample cient for summarization
+consequently qurious appears to hallucinate more when ne tuned on nq than when ne tuned on squad see examples in figure
+regardless the differences between qurious and gold are not statistically signicant
+
+sample efciency experiments finally we evaluated how qurious performs in low resource scenarios by performing sample ciency experiments
+we focus on the extreme summarization task
+but test each model when trained using only a subset of the supervised ne tuning data
+figure presents our results
+what is interesting is that both qurious and rious outperform at the very low resource settings suggesting that content selection driven pretraining objectives are more important than task agnostic masking jectives
+even more interesting is that the rious model signicantly outperforms until about of the training data is consumed at which point performance converges though with qurious on top
+this suggests that the optimal conguration is pretraining objectives that include both content selection question ation and knowledge based language model teria
+intuitively this makes sense a good mary should have rich knowledge of content in der to know how to select content and realize it accurately
+conclusion in this paper we proposed a question generation pretraining objective for text generation
+when evaluated for summarization and answer focused question generation tasks our model generated summaries and questions respectively that were more natural and informative in terms of matic and human evaluations
+in the future we would like to explore if the question generation pretraining objective can be benecial for other text generation and language understanding tasks
+references chris alberti daniel andor emily pitler jacob vlin and michael collins
+
+synthetic qa pora generation with roundtrip consistency
+in ceedings of the annual meeting of the ciation for computational linguistics pages florence italy
+association for tional linguistics
+livio baldini soares nicholas fitzgerald jeffrey ling and tom kwiatkowski
+
+matching the blanks distributional similarity for relation in proceedings of the annual meeting ing
+of the association for computational linguistics pages florence italy
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language in proceedings of the conference standing
+of the north american chapter of the association for computational linguistics human language technologies volume long and short papers pages minneapolis minnesota
+ation for computational linguistics
+li dong nan yang wenhui wang furu wei aodong liu yu wang jianfeng gao ming zhou and hsiao wuen hon
+
+unied language model pre training for natural language ing and generation
+corr
+
+nan duan duyu tang peng chen and ming zhou
+
+question generation for question answering
+in proceedings of the conference on cal methods in natural language processing pages copenhagen denmark
+association for computational linguistics
+urvashi khandelwal kevin clark dan jurafsky and lukasz kaiser
+
+sample efcient text marization using a single pre trained transformer
+corr
+
+tom kwiatkowski jennimaria palomaki olivia eld michael collins ankur parikh chris berti danielle epstein illia polosukhin jacob vlin kenton lee kristina toutanova llion jones matthew kelcey ming wei chang andrew m
+dai jakob uszkoreit quoc le and slav petrov
+
+natural questions a benchmark for question swering research
+transactions of the association for computational linguistics
+tom kwiatkowski jennimaria palomaki olivia eld michael collins ankur parikh chris alberti danielle epstein illia polosukhin matthew kelcey jacob devlin kenton lee kristina n
+toutanova llion jones ming wei chang andrew dai jakob uszkoreit quoc le and slav petrov
+
+ral questions a benchmark for question answering research
+transactions of the association of tational linguistics
+zhenzhong lan mingda chen sebastian goodman kevin gimpel piyush sharma and radu soricut
+
+albert a lite bert for self supervised corr learning of
+
+language representations
+jinhyuk lee wonjin yoon sungdong kim donghyeon kim sunkyu kim chan ho so and jaewoo kang
+
+biobert a pre trained biomedical for biomedical text mining
+bioinformatics
+language representation model mike lewis yinhan liu naman goyal jan ghazvininejad abdelrahman mohamed omer levy ves stoyanov and luke zettlemoyer
+
+bart denoising sequence to sequence pre training for natural language generation translation and comprehension
+corr
+
+chin yew lin and eduard hovy
+
+automatic uation of summaries using n gram co occurrence statistics
+in proceedings of the human guage technology conference of the north can chapter of the association for computational linguistics pages
+yang liu and mirella lapata
+
+text in proceedings of tion with pretrained encoders
+the conference on empirical methods in ural language processing and the international joint conference on natural language processing emnlp ijcnlp pages hong kong china
+association for computational linguistics
+yinhan liu myle ott naman goyal jingfei du dar joshi danqi chen omer levy mike lewis luke zettlemoyer and veselin stoyanov
+
+roberta a robustly optimized bert pretraining approach
+corr
+
+jordan j louviere terry n flynn and anthony fred john marley
+
+best worst scaling ory methods and applications
+cambridge sity press
+jordan j louviere and george g woodworth
+
+best worst scaling a model for the largest ence judgments
+university of alberta working per
+preslav nakov doris hoogeveen llus alessandro moschitti hamdy mubarak timothy baldwin and karin verspoor
+
+task community question answering
+in ings of the international workshop on semantic evaluation pages ver canada
+association for computational tics
+shashi narayan shay b
+cohen and mirella lapata
+
+do nt give me the details just the summary topic aware convolutional neural networks for in proceedings of the treme summarization
+conference on empirical methods in natural guage processing pages brussels gium
+association for computational linguistics
+sascha rothe shashi narayan and aliaksei severyn
+
+leveraging pre trained checkpoints for quence generation tasks
+corr
+
+kaitao song xu tan tao qin jianfeng lu and yan liu
+
+mass masked sequence to quence pre training for language generation
+in ceedings of the international conference on machine learning icml
+sandeep subramanian tong wang xingdi yuan saizheng zhang adam trischler and yoshua gio
+
+neural models for key phrase tion and question generation
+in proceedings of the workshop on machine reading for question ing pages melbourne australia
+tion for computational linguistics
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n gomez lukasz kaiser and illia polosukhin
+
+attention is all you need
+in advances in neural information cessing systems pages
+zhilin yang zihang dai yiming yang jaime g
+bonell ruslan salakhutdinov and quoc v
+le
+
+xlnet generalized autoregressive pretraining for language understanding
+corr
+
+kai zhang wei wu haocheng wu zhoujun li and ming zhou
+
+question retrieval with high ity answers in community question answering
+in proceedings of the acm international ence on conference on information and knowledge management page
+association for ing machinery
+yao zhao xiaochuan ni yuanyuan ding and qifa ke
+
+paragraph level neural question ation with maxout pointer and gated self attention in proceedings of the conference networks
+on empirical methods in natural language ing pages brussels belgium
+tion for computational linguistics
+a summarization outputs figure shows examples of bbc articles and their extreme summaries
+b squad outputs figure shows examples of squad input sages answer spans and questions generated from them
+preksha nema akash kumar mohankumar mitesh m
+khapra balaji vasan srinivasan and balaraman ravindran
+
+let s ask again rene network for automatic question generation
+in proceedings of the conference on empirical methods in natural language processing and the tional joint conference on natural language cessing pages hong kong china
+sociation for computational linguistics
+liqiang nie xiaochi wei dongxiang zhang xiang wang zhipeng gao and yi yang
+
+driven answer selection in community qa systems
+ieee transactions on knowledge and data neering
+kishore papineni salim roukos todd ward and jing zhu
+
+bleu a method for automatic in proceedings of uation of machine translation
+the annual meeting of the association for putational linguistics pages philadelphia pennsylvania usa
+association for computational linguistics
+matthew peters mark neumann mohit iyyer matt gardner christopher clark kenton lee and luke zettlemoyer
+
+deep contextualized word in proceedings of the resentations
+ence of the north american chapter of the ation for computational linguistics human guage technologies volume long papers pages new orleans louisiana
+association for computational linguistics
+telmo pires eva schlinger and dan garrette
+
+in how multilingual is multilingual bert ceedings of the annual meeting of the tion for computational linguistics
+association for computational linguistics
+alec radford karthik narasimhan tim salimans and ilya sutskever
+
+improving language standing by generative pre training
+technical port openai
+alec radford jeff wu rewon child david luan dario amodei and ilya sutskever
+
+language models are unsupervised multitask learners
+cal report openai
+pranav rajpurkar robin jia and percy liang
+
+know what you do nt know unanswerable in proceedings of the tions for squad
+nual meeting of the association for computational linguistics volume short papers pages melbourne australia
+association for tational linguistics
+pranav rajpurkar jian zhang konstantin lopyrev and percy liang
+
+squad questions for machine comprehension of text
+in proceedings of the conference on empirical methods in ral language processing pages austin texas
+association for computational linguistics
+gold former beatle sir paul mccartney has topped the sunday times rich list of musicians with his m fortune
+document sir paul is worth an estimated m more than last year and enjoys a signicant boost from his american heiress wife s m stake in her family s us trucking business
+it puts him well ahead of his nearest rival on the list andrew lloyd webber who is estimated to be worth m
+the full list will be published by the newspaper on april
+of the richest people in the uk and the wealthiest in ireland the list puts irish band at third place with m
+pop veteran sir elton john and rolling stones frontman sir mick jagger follow with their fortunes thought to be worth m and m respectively
+
+sir paul mccartney and nancy shevell m rest of the article is abbreviated
+
+
+one of the richest people in the uk has topped the list of the richest people in the world
+qurious the rolling stones have been named the richest young band in the uk this year
+sir paul mccartney has been named as britain s richest man in the sunday times rich list
+qurious sir paul mccartney has been named the richest man in the uk with his wealth talling m according to the sunday times rich list
+gold islanders on skye have demanded greater availability of public toilets after complaints some visitors to the isle are relieving themselves outside
+document there have been incidents reported at scenic spots where public conveniences are lacking or have been closed down
+in uig where many of the complaints have been raised the local authority run toilets have been out of order since the beginning of the year
+highland council said it was seeking quotes for the repair work needed
+the availability of toilets on skye has been raised previously
+in highland council received complaints about people urinating and defecating outdoors at stafn where public toilets were closed as part of cost cutting
+a council has asked people not to keep their toilets in a bid to save money
+qurious highland council is calling on public complaints about a possible route for people to urinating on skye
+highland council has commissioned a review of public toilets and public toilets on skye
+qurious highland council is seeking information about problems with public toilets on skye
+figure example documents and summarization model predictions
+passage under the terms of the scotland act an elected assembly would be set up in edinburgh provided that the majority of the scottish electorate voted for it in a referendum to be held on march that represented at least of the total electorate
+the scottish devolution referendum to establish a devolved scottish assembly failed
+
+
+
+answer failed nema et al
+what happened to the scottish devolution referendum in what percentage of the vote of ireland was interpreted as a result of voting how did the scottish devolution referendum fail qurious what did the scottish assembly of edinburgh vote to pass in qurious what was the result of the scottish devolution referendum gold how did trying to establish a devolved scottish assembly go in passage although lacking historical connections to the middle east japan was the country most dependent on arab oil
+of its imported oil came from the middle east in
+
+
+
+answer refnet what percentage of its imported oil came from japan when did japan make a national inuence how much oil did japan s oil from the middle east come in in qurious how much of the middle east s oil was imported in japan by the middle east qurious how much of japan s imported oil came from the middle east gold how much imported oil came from the middle east figure examples produced by the answer focused question generation models on squad
+

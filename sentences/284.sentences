@@ -1,0 +1,699 @@
+extractive summarization as text matching ming zhong pengfei liu yiran chen danqing wang xipeng qiu xuanjing huang shanghai key laboratory of intelligent information processing fudan university school of computer science fudan university zhangheng road shanghai china
+edu
+cn r a l c
+s c v
+v i x r a abstract this paper creates a paradigm shift with regard to the way we build neural extractive rization systems
+instead of following the monly used framework of extracting sentences individually and modeling the relationship tween sentences we formulate the extractive summarization task as a semantic text ing problem in which a source document and candidate summaries will be extracted from the original text matched in a semantic space
+notably this paradigm shift to tic matching framework is well grounded in our comprehensive analysis of the inherent gap between sentence level and summary level tractors based on the property of the dataset
+besides even instantiating the framework with a simple form of a matching model we have driven the state of the art extractive sult on cnn dailymail to a new level
+in
+experiments on the other ve datasets also show the effectiveness of the matching framework
+we believe the power of this matching based summarization work has not been fully exploited
+to age more instantiations in the future we have released our codes processed dataset as well as generated summaries in
+com maszhongming matchsum
+introduction the task of automatic text summarization aims to compress a textual document to a shorter highlight while keeping salient information on the original text
+in this paper we focus on extractive rization since it usually generates semantically and grammatically correct sentences dong et al
+nallapati et al
+and computes faster
+currently most of the neural extractive rization systems score and extract sentences or smaller semantic unit xu et al
+one by these two authors contributed equally
+corresponding author
+figure matchsum framework
+we match the textual representations of the document with gold mary and candidate summaries extracted from the ument
+intuitively better candidate summaries should be semantically closer to the document while the gold summary should be the closest
+one from the original text model the relationship between the sentences and then select several tences to form a summary
+cheng and lapata nallapati et al
+formulate the tractive summarization task as a sequence ing problem and solve it with an encoder decoder framework
+these models make independent nary decisions for each sentence resulting in high redundancy
+a natural way to address the above problem is to introduce an auto regressive decoder chen and bansal jadhav and rajan zhou et al
+allowing the scoring operations of different sentences to inuence on each other
+trigram blocking paulus et al
+liu and pata as a more popular method recently has the same motivation
+at the stage of selecting tences to form a summary it will skip the sentence that has trigram overlapping with the previously lected sentences
+surprisingly this simple method of removing duplication brings a remarkable formance improvement on cnn dailymail
+the above systems of modeling the relationship between sentences are essentially sentence level extractors rather than considering the semantics documentcandidate summarygold summaryextractsemantic spacebertbertbert of the entire summary
+this makes them more inclined to select highly generalized sentences while ignoring the coupling of multiple sentences
+narayan et al
+bae et al
+utilize reinforcement learning rl to achieve level scoring but still limited to the architecture of sentence level summarizers
+to better understand the advantages and tations of sentence level and summary level proaches we conduct an analysis on six benchmark datasets in section to explore the characteristics of these two methods
+we nd that there is indeed an inherent gap between the two approaches across these datasets which motivates us to propose the following summary level method
+in this paper we propose a novel summary level framework matchsum figure and alize extractive summarization as a semantic text matching problem
+the principle idea is that a good summary should be more semantically similar as a whole to the source document than the unqualied summaries
+semantic text matching is an important research problem to estimate semantic similarity between a source and a target text fragment which has been applied in many elds such as tion retrieval mitra et al
+question ing yih et al
+severyn and moschitti natural language inference wang and jiang wang et al
+and so on
+one of the most ventional approaches to semantic text matching is to learn a vector representation for each text ment and then apply typical similarity metrics to compute the matching scores
+specic to extractive summarization we pose a siamese bert architecture to compute the similarity between the source document and the candidate summary
+siamese bert leverages the pre trained bert devlin et al
+in a siamese network structure bromley et al
+hoffer and ailon reimers and gurevych to rive semantically meaningful text embeddings that can be compared using cosine similarity
+a good summary has the highest similarity among a set of candidate summaries
+we evaluate the proposed matching framework and perform signicance testing on a range of benchmark datasets
+our model outperforms strong baselines signicantly in all cases and improve the state of the art extractive result on cnn dailymail
+besides we design experiments to observe the gains brought by our framework
+we summarize our contributions as follows instead of scoring and extracting sentences one by one to form a summary we formulate tractive summarization as a semantic text ing problem and propose a novel summary level framework
+our approach bypasses the difculty of summary level optimization by contrastive ing that is a good summary should be more mantically similar to the source document than the unqualied summaries
+we conduct an analysis to investigate whether extractive models must do summary level tion based on the property of dataset and attempt to quantify the inherent gap between sentence level and summary level methods
+our proposed framework has achieved rior performance compared with strong baselines on six benchmark datasets
+notably we obtain a state of the art extractive result on cnn dailymail
+in by only using the base version of bert
+moreover we seek to observe where the performance gain of our model comes from
+related work
+extractive summarization recent research work on extractive summarization spans a large range of approaches
+these work ally instantiate their encoder decoder framework by choosing rnn zhou et al
+transformer zhong et al
+wang et al
+or gnn wang et al
+as encoder non auto regressive narayan et al
+arumae and liu or auto regressive decoders jadhav and rajan liu and lapata
+despite the effectiveness these models are essentially sentence level tors with individual scoring process favor the est scoring sentence which probably is not the optimal one to form
+the application of rl provides a means of summary level scoring and brings improvement narayan et al
+bae et al
+
+however these efforts are still limited to auto regressive or non auto regressive architectures
+besides in the non neural approaches the integer linear ming ilp method can also be used for level scoring wan et al
+
+in addition there is some work to solve tive summarization from a semantic perspective fore this paper such as concept coverage gillick will quantify this phenomenon in section
+and favre reconstruction miao and som and maximize semantic volume gatama et al
+
+
+two stage summarization recent studies alyguliyev galanis and droutsopoulos zhang et al
+have attempted to build two stage document tion systems
+specic to extractive summarization the rst stage is usually to extract some fragments of the original text and the second stage is to select or modify on the basis of these fragments
+chen and bansal and bae et al
+follow a hybrid extract then rewrite architecture with policy based rl to bridge the two networks together
+lebanoff et al
+xu and durrett mendes et al
+focus on the then compress learning paradigm namely sive summarization which will rst train an tor for content selection
+our model can be viewed as an extract then match framework which also employs a sentence extractor to prune unnecessary information
+sentence level or summary level a dataset dependent analysis although previous work has pointed out the ness of sentence level extractors there is no tematic analysis towards the following questions for extractive summarization is the level extractor better than the sentence level tor given a dataset which extractor should we choose based on the characteristics of the data and what is the inherent gap between these two extractors in this section we investigate the gap between sentence level and summary level methods on six benchmark datasets which can instruct us to search for an effective learning framework
+it is worth ing that the sentence level extractor we use here does nt include a redundancy removal process so that we can estimate the effect of the level extractor on redundancy elimination
+notably the analysis method to estimate the theoretical fectiveness presented in this section is generalized and can be applicable to any summary level proach
+
+denition we refer to d sn as a single document consisting of n sentences and c sk d as a candidate summary cluding k n sentences extracted from a ment
+given a document d with its gold summary c we measure a candidate summary c by culating the rouge lin and hovy value between c and c in two levels sentence level score c sc where s is the sentence in c and represents the number of sentences
+r denotes the average rouge
+thus indicates the age overlaps between each sentence in c and the gold summary c
+summary level score c where considers sentences in c as a whole and then calculates the rouge score with the gold summary c
+pearl summary we dene the pearl summary to be the summary that has a lower sentence level score but a higher summary level score
+denition a candidate summary c is dened as a pearl summary if there exists another didate summary that satises the inequality while
+clearly if a candidate summary is a pearl summary it is challenging for sentence level summarizers to extract it
+best summary the best summary refers to a summary has highest summary level score among all the candidate summaries
+denition a summary c is dened as the summary when it satises c argmax where c denotes all the candidate summaries of the document
+cc
+ranking of best summary for each document we sort all candidate in descending order based on the level score and then dene z as the rank index of the best summary c
+we use mean of and rouge l
+use an approximate method here take ext see table of ten highest scoring sentences to form candidate maries
+datasets source reddit xsum cnn dm wikihow pubmed multi news social media news news knowledge base scientic paper news type sds sds sds sds sds mds train pairs valid tokens ext test doc
+
+
+
+
+
+
+sum
+
+
+
+
+
+
+table datasets overview
+sds represents single document summarization and mds represents multi document summarization
+the data in doc
+and sum
+indicates the average length of document and summary in the test set respectively
+ext denotes the number of sentences should extract in different datasets
+since the appearance of the pearl summary will bring challenges to sentence level extractors we attempt to investigate the proportion of summary in different datasets on six benchmark datasets
+a detailed description of these datasets is displayed in table
+as demonstrated in figure we can observe that for all datasets most of the best summaries are not made up of the highest scoring sentences
+cally for cnn dm only
+of best summaries are not pearl summary indicating sentence level extractors will easily fall into a local optimization missing better candidate summaries
+different from cnn dm pubmed is most able for sentence level summarizers because most of best summary sets are not pearl summary
+ditionally it is challenging to achieve good mance on wikihow and multi news without a summary level learning process as these two datasets are most evenly distributed that is the appearance of pearl summary makes the selection of the best summary more complicated
+in conclusion the proportion of the summaries in all the best summaries is a erty to characterize a dataset which will affect our choices of summarization extractors
+
+inherent gap between sentence level and summary level extractors above analysis has explicated that the level method is better than the sentence level method because it can pick out pearl summaries but how much improvement can it bring given a specic dataset based on the denition of eq
+and we can characterize the upper bound of the level and summary level summarization systems for a document d as reddit xsum cnn dm wikihow e pubmed multi news figure distribution of on six datasets
+because the number of candidate summaries for each document is different short text may have relatively few dates we use z number of candidate summaries as the x axis
+the y axis represents the proportion of the best summaries with this rank in the test set
+intuitively if c comes rst it means that the best summary is composed of sentences with the highest score if z then the summary is a pearl summary
+and as z increases c gets lower rankings we could nd more didate summaries whose sentence level score is higher than best summary which leads to the ing difculty for sentence level extractors
+inherently unaware of pearl summary so ing the best summary is difcult
+to better utilize the above characteristics of the data we propose a summary level framework which could score and extract a summary directly
+specically we formulate the extractive rization task as a semantic text matching problem in which a source document and candidate maries will be extracted from the original text matched in a semantic space
+the following section will detail how we instantiate our proposed ing summarization framework by using a simple siamese based architecture
+
+siamese bert inspired by siamese network structure bromley et al
+we construct a siamese bert tecture to match the document d and the candidate summary c
+our siamese bert consists of two berts with tied weights and a cosine similarity layer during the inference phase
+unlike the modied bert used in liu bae et al
+we directly use the original bert to derive the semantically meaningful embeddings from document d and candidate summary c since we need not obtain the sentence level tion
+thus we use the vector of the cls token from the top bert layer as the representation of a document or summary
+let rd and rc the embeddings of the document d and candidate summary c
+their similarity score is measured by d c rc
+in order to ne tune siamese bert we use a margin based triplet loss to update the weights
+tuitively the gold summary c should be cally closest to the source document which is the rst principle our loss should follow d c d c where c is the candidate summary in d and is a margin value
+besides we also design a pairwise margin loss for all the candidate summaries
+we sort all candidate summaries in descending order of rouge scores with the gold summary
+naturally the candidate pair with a larger ranking gap should have a larger margin which is the second principle to design our loss function figure for different datasets
+max ccd max ccd where cd is the set of candidate summaries tracted from d
+then we quantify the potential gain for a ument d by calculating the difference between and
+finally a dataset level potential gain can be tained as dd where d represents a specic dataset and is the number of documents in this dataset
+we can see from figure the performance gain of the summary level method varies with the dataset and has an improvement at a imum
+on cnn dm
+from figure and ble we can nd the performance gain is lated to the length of reference summary for ferent datasets
+in the case of short summaries reddit and xsum the perfect identication of pearl summaries does not lead to much ment
+similarly multiple sentences in a long mary pubmed and multi news already have a large degree of semantic overlap making the improvement of the summary level method tively small
+but for a medium length summary cnn dm and wikihow about words the summary level learning process is rewarding
+we will discuss this performance gain with specic models in section
+
+summarization as matching the above quantitative analysis suggests that for most of the datasets sentence level extractors are d cj d ci i j i redditxsumcnn dmwikihowpubmedmulti where ci represents the candidate summary ranked i and is a hyperparameter used to distinguish tween good and bad candidate summaries
+finally our margin based triplet loss can be written as reddit xsum cnn dm wiki pubmed m news ext sel size l
+the basic idea is to let the gold summary have the highest matching score and at the same time a ter candidate summary should obtain a higher score compared with the unqualied candidate summary
+figure illustrate this idea
+in the inference phase we formulate extractive summarization as a task to search for the best mary among all the candidates c extracted from the document d
+c arg max d c
+cc
+candidates pruning curse of combination the matching idea is more intuitive while it suffers from combinatorial explosion problems
+for example how could we determine the size of the candidate summary set or should we score all possible candidates to ate these difculties we propose a simple candidate pruning strategy
+i d
+concretely we introduce a content selection module to pre select salient sentences
+the ule learns to assign each sentence a salience score and prunes sentences irrelevant with the current document resulting in a pruned document similar to much previous work on two stage summarization our content selection module is a parameterized neural network
+in this paper we use bertsum liu and lapata without gram blocking we call it bertext to score each sentence
+then we use a simple rule to obtain the candidates generating all combinations of sel sentences subject to the pruned document and organize the order of sentences according to the original position in the document to form candidate summaries
+therefore we have a total of sel candidate sets
+experiment
+datasets in order to verify the effectiveness of our work and obtain more convicing explanations we perform experiments on six divergent mainstream datasets as follows
+table details about the candidate summary for ferent datasets
+ext denotes the number of sentences after we prune the original document sel denotes the number of sentences to form a candidate summary and size is the number of nal candidate summaries
+cnn dailymail hermann et al
+is a commonly used summarization dataset modied by nallapati et al
+which contains news ticles and associated highlights as summaries
+in this paper we use the non anonymized version
+pubmed cohan et al
+is collected from scientic papers and thus consists of long ments
+we modify this dataset by using the duction section as the document and the abstract section as the corresponding summary
+wikihow koupaee and wang is a verse dataset extracted from an online knowledge base
+articles in it span a wide range of topics
+xsum narayan et al
+is a one sentence summary dataset to answer the question what is the article about
+all summaries are ally written typically by the authors of documents in this dataset
+multi news fabbri et al
+is a document news summarization dataset with a tively long summary we use the truncated version and concatenate the source documents as a single input in all experiments
+reddit kim et al
+is a highly abstractive dataset collected from social media platform
+we only use the tifu long version of reddit which regards the body text of a post as the document and the as the summary
+
+implementation details we use the base version of bert to implement our models in all experiments
+adam optimizer kingma and ba with warming up is used and our learning rate schedule follows vaswani et al
+as lr
+step
+where each step is a batch size of and wm denotes warmup steps of
+we choose and
+
+when
+and r l model r l model lead oracle match oracle
+
+
+
+
+
+
+
+
+banditsum dong et al
+neusum zhou et al
+jecs xu and durrett hibert zhang et al
+pnbert zhong et al
+pnbert rl bertext bertext bertext liu bertext tri blocking bertsum
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+liu and lapata
+
+
+bae et al
+rl bertext ours bertext tri blocking ours matchsum bert base matchsum roberta base
+
+
+
+
+
+
+
+
+
+
+
+table results on cnn dm test set
+the model with indicates that the large version of bert is used
+bertext add an additional pointer network pared to other bertext in this table
+
+
+they have little effect on mance otherwise they will cause performance degradation
+we use the validation set to save three best checkpoints during training and record the performance of the best checkpoints on the test set
+importantly all the experimental results listed in this paper are the average of three runs
+to obtain a siamese bert model on cnn dm we use g gpus for about hours of training
+for datasets we remove samples with empty document or summary and truncate the document to tokens therefore oracle in this paper is calculated on the truncated datasets
+details of candidate summary for the different datasets can be found in table
+
+experimental results results on cnn dm as shown in table we list strong baselines with different learning proaches
+the rst section contains lead acle and match
+because we prune documents before matching match oracle is relatively low
+and oracle are common baselines in the marization task
+the former means extracting the rst eral sentences of a document as a summary the latter is the groundtruth used in extractive models training
+oracle is the groundtruth used to train matchsum
+bertext num bertext num matchsum sel matchsum sel matchsum sel bertext num bertext num matchsum sel matchsum sel matchsum sel reddit xsum
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table results on test sets of reddit and xsum
+n um indicates how many sentences bertext tracts as a summary and sel indicates the number of sentences we choose to form a candidate summary
+we can see from the second section although rl can score the entire summary it does not lead to much performance improvement
+this is ably because it still relies on the sentence level summarizers such as pointer network or sequence labeling models which select sentences one by one rather than distinguishing the semantics of ent summaries as a whole
+trigram blocking is a simple yet effective heuristic on cnn dm even better than all redundancy removal methods based on neural models
+compared with these models our proposed matchsum has outperformed all competitors by a large margin
+for example it beats bertext by
+score when using bert base as the encoder
+additionally even compared with the baseline with bert large pre trained encoder our model matchsum bert base still perform better
+furthermore when we change the encoder to base liu et al
+the mance can be further improved
+we think the provement here is because roberta introduced million english news articles during pretraining
+the superior performance on this dataset strates the effectiveness of our proposed matching framework
+results on datasets with short summaries reddit and xsum have been heavily evaluated by abstractive summarizer due to their short maries
+here we evaluate our model on these two datasets to investigate whether matchsum could achieve improvement when dealing with model lead oracle match oracle bertext blocking blocking matchsum bert base wikihow
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+
+
+
+
+
+
+pubmed
+
+
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+multi news r l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table results on test sets of wikihow pubmed and multi news
+matchsum beats the state of the art bert model with ngram blocking on all different domain datasets
+summaries containing fewer sentences compared with other typical extractive models
+when taking just one sentence to match the inal document matchsum degenerates into a re ranking of sentences
+table illustrates that this degradation can still bring a small ment compared to bertext num
+on reddit
+on xsum
+ever when the number of sentences increases to two and summary level semantics need to be taken into account matchsum can obtain a more markable improvement compared to bertext num
+on reddit
+on xsum
+in addition our model maps candidate summary as a whole into semantic space so it can exibly choose any number of sentences while most other methods can only extract a xed number of tences
+from table we can see this advantage leads to further performance improvement
+results on datasets with long summaries when the summary is relatively long level matching becomes more complicated and is harder to learn
+we aim to compare the difference between trigram blocking and our model when dealing with long summaries
+table presents that although trigram blocking works well on cnn dm it does not always tain a stable improvement
+ngram blocking has little effect on wikihow and multi news and it causes a large performance drop on pubmed
+we think the reason is that ngram blocking not really understand the semantics of sentences or summaries just restricts the presence of entities with many words to only once which is obviously not suitable for the scientic domain where entities may often appear multiple times
+on the contrary our proposed method does not have these strong constraints but aligns the original document with the summary from semantic space
+experiment results display that our model is robust on all domains especially on wikihow sum beats the state of the art bert model by
+score
+
+analysis in the following our analysis is driven by two tions whether the benets of matchsum are sistent with the property of the dataset analyzed in section why have our model achieved different formance gains on diverse datasets dataset splitting testing typically we choose three datasets xsum cnn dm and wikihow with the largest performance gain for this iment
+we split each test set into roughly equal numbers of ve parts according to z described in section
+and then experiment with each subset
+figure shows that the performance gap tween matchsum and bertext is always the smallest when the best summary is not a summary
+the phenomenon is in line with our understanding in these samples the ability of the summary level extractor to discover summaries does not bring advantages
+as z increases the performance gap ally tends to increase
+specically the benet of matchsum on cnn dm is highly consistent with the appearance of pearl summary
+it can only bring an improvement of
+in the subset with the smallest z but it rises sharply to
+when z reaches its maximum value
+wikihow is similar to cnn dm when best summary consists entirely of highest scoring sentences the performance gap is obviously smaller than in other samples
+xsum xsum cnn dm wikihow figure datasets splitting experiment
+we split test sets into ve parts according to z described in section
+
+the x axis from left to right indicates the subsets of the test set with the value of z from small to large and the y axis represents the rouge improvement of matchsum over bertext on this subset
+bertext on dataset d
+moreover compared with the inherent gap between sentence level and summary level extractors we dene the ratio that matchsum can learn on dataset d as where is the inherent gap between level and summary level extractos
+it is clear from figure the value of pends on z see figure and the length of the gold summary see table
+as the gold summaries get longer the upper bound of summary level proaches becomes more difcult for our model to reach
+matchsum can achieve
+on xsum
+words summary however is less than
+in pubmed and multi news whose summary length exceeds
+from another spective when the summary length are similar our model performs better on datasets with more summaries
+for instance z is evenly distributed in multi news see figure so higher
+can be obtained than pubmed
+which has the least pearl summaries
+a better understanding of the dataset allows us to get a clear awareness of the strengths and itations of our framework and we also hope that the above analysis could provide useful clues for future research on extractive summarization
+conclusion we formulate the extractive summarization task as a semantic text matching problem and propose a novel summary level framework to match the source document and candidate summaries in the semantic space
+we conduct an analysis to show how our model could better t the characteristic of the data
+experimental results show matchsum figure of different datasets
+reddit is excluded because it has too few samples in the test set
+is slightly different although the trend remains the same our model does not perform well in the samples with the largest z which needs further improvement and exploration
+from the above comparison we can see that the performance improvement of matchsum is concentrated in the samples with more summaries which illustrates our semantic based summary level model can capture sentences that are not particularly good when viewed individually thereby forming a better summary
+intuitively comparison across datasets provements brought by matchsum framework should be associated with inherent gaps presented in section
+
+to better understand their relation we introduce as follows s dd where cm s and cbe represent the candidate mary selected by matchsum and bertext in the document d respectively
+therefore can indicate the improvement by matchsum over
+
+
+
+
+
+
+
+
+
+
+
+
+
+dmwikihowpubmedmulti
+
+
+
+
+
+
+outperforms the current state of the art extractive model on six benchmark datasets which strates the effectiveness of our method
+we believe the power of this matching based summarization in the framework has not been fully exploited
+future more forms of matching models can be plored to instantiated the proposed framework
+acknowledgment we would like to thank the anonymous reviewers for their valuable comments
+this work is ported by the national key research and ment program of china no
+national natural science foundation of china no
+and shanghai nicipal science and technology major project no
+and zjlab
+references rm alyguliyev
+
+the two stage unsupervised proach to multidocument summarization
+automatic control and computer sciences
+kristjan arumae and fei liu
+
+reinforced tive summarization with question focused rewards
+in proceedings of acl student research workshop pages
+sanghwan bae taeuk kim jihoon kim and goo lee
+
+summary level training of sentence rewriting for abstractive summarization
+in ings of the workshop on new frontiers in marization pages
+jane bromley isabelle guyon yann lecun eduard sackinger and roopak shah
+
+signature cation using a siamese time delay neural network
+in advances in neural information processing tems pages
+yen chun chen and mohit bansal
+
+fast tive summarization with reinforce selected sentence rewriting
+in proceedings of the annual ing of the association for computational linguistics volume long papers volume pages
+jianpeng cheng and mirella lapata
+
+neural in marization by extracting sentences and words
+proceedings of the annual meeting of the sociation for computational linguistics volume long papers volume pages
+arman cohan franck dernoncourt doo soon kim trung bui seokhwan kim walter chang and nazli goharian
+
+a discourse aware attention model for abstractive summarization of long documents
+in proceedings of the conference of the north american chapter of the association for tional linguistics human language technologies volume short papers volume pages
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language standing
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language nologies volume long and short papers pages
+yue dong yikang shen eric crawford herke van hoof and jackie chi kit cheung
+
+sum extractive summarization as a contextual dit
+in proceedings of the conference on pirical methods in natural language processing pages
+alexander richard fabbri irene li tianwei she suyi li and dragomir r
+radev
+
+multi news a large scale multi document summarization dataset in acl and abstractive hierarchical model
+pages
+association for computational linguistics
+dimitrios galanis and ion androutsopoulos
+
+an extractive supervised two stage method for sentence in human language technologies compression
+the annual conference of the north american chapter of the association for computational guistics pages
+association for tional linguistics
+dan gillick and benoit favre
+
+a scalable global in proceedings of the model for summarization
+workshop on integer linear programming for ural language processing pages
+karl moritz hermann tomas kocisky edward stette lasse espeholt will kay mustafa suleyman and phil blunsom
+
+teaching machines to read in advances in neural and comprehend
+tion processing systems pages
+elad hoffer and nir ailon
+
+deep metric learning using triplet network
+in international workshop on similarity based pattern recognition pages
+springer
+aishwarya jadhav and vaibhav rajan
+
+tive summarization with swap net sentences and in words from alternating pointer networks
+ceedings of the annual meeting of the tion for computational linguistics volume long papers volume pages
+byeongchang kim hyunwoo kim and gunhee kim
+
+abstractive summarization of reddit posts in with multi level memory networks
+ings of the conference of the north american chapter of the association for computational guistics human language technologies volume long and short papers pages
+diederik kingma and jimmy ba
+
+adam a method for stochastic optimization
+arxiv preprint
+
+mahnaz koupaee and william yang wang
+
+ihow a large scale text summarization dataset
+arxiv preprint
+
+logan lebanoff kaiqiang song franck dernoncourt doo soon kim seokhwan kim walter chang and scoring sentence singletons and fei liu
+
+pairs for abstractive summarization
+arxiv preprint
+
+chin yew lin and eduard hovy
+
+matic evaluation of summaries using n gram occurrence statistics
+in proceedings of the man language technology conference of the north american chapter of the association for tional linguistics pages
+yang liu
+
+fine tune bert for extractive rization
+arxiv preprint
+
+yang liu and mirella lapata
+
+text in proceedings of tion with pretrained encoders
+the conference on empirical methods in ural language processing and the international joint conference on natural language processing emnlp ijcnlp pages
+yinhan liu myle ott naman goyal jingfei du dar joshi danqi chen omer levy mike lewis luke zettlemoyer and veselin stoyanov
+
+roberta a robustly optimized bert pretraining proach
+arxiv preprint
+
+alfonso mendes shashi narayan sebastiao miranda zita marinho andre ft martins and shay b hen
+
+jointly extracting and compressing uments with summary state representations
+in ceedings of the conference of the north ican chapter of the association for computational linguistics human language technologies ume long and short papers pages
+yishu miao and phil blunsom
+
+language as a latent variable discrete generative models for tence compression
+in proceedings of the ference on empirical methods in natural language processing pages
+bhaskar mitra fernando diaz and nick craswell
+
+learning to match using local and distributed representations of text for web search
+in ings of the international conference on world wide web pages
+international world wide web conferences steering committee
+ramesh nallapati feifei zhai and bowen zhou
+
+summarunner a recurrent neural network based quence model for extractive summarization of ments
+in thirty first aaai conference on articial intelligence
+ramesh nallapati bowen zhou cicero dos santos c a glar and bing xiang
+
+tive text summarization using sequence to sequence rnns and beyond
+conll page
+shashi narayan shay b cohen and mirella lapata
+
+do nt give me the details just the summary topic aware convolutional neural networks for in proceedings of the treme summarization
+conference on empirical methods in natural guage processing pages
+shashi narayan shay b cohen and mirella lapata
+
+ranking sentences for extractive tion with reinforcement learning
+in proceedings of the conference of the north american ter of the association for computational linguistics human language technologies volume long pers volume pages
+romain paulus caiming xiong and richard socher
+
+a deep reinforced model for abstractive marization
+arxiv preprint
+
+nils reimers and iryna gurevych
+
+bert sentence embeddings using siamese networks
+in proceedings of the conference on empirical methods in natural language processing and the international joint conference on ral language processing emnlp ijcnlp pages
+aliaksei severyn and alessandro moschitti
+
+learning to rank short text pairs with convolutional deep neural networks
+in proceedings of the ternational acm sigir conference on research and development in information retrieval pages
+acm
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n gomez ukasz kaiser and illia polosukhin
+
+attention is all you need
+in advances in neural information cessing systems pages
+xiaojun wan ziqiang cao furu wei sujian li and ming zhou
+
+multi document tion via discriminative summary reranking
+arxiv preprint
+
+danqing wang pengfei liu yining zheng xipeng qiu and xuan jing huang
+
+heterogeneous graph neural networks for extractive document marization
+in proceedings of the conference of the association for computational linguistics
+danqing wang pengfei liu ming zhong jie fu xipeng qiu and xuanjing huang
+
+exploring domain shift in extractive text summarization
+arxiv preprint
+
+shuohang wang and jing jiang
+
+learning ral language inference with lstm
+in proceedings of the conference of the north american ter of the association for computational linguistics human language technologies pages
+zhiguo wang wael hamza and radu florian
+
+bilateral multi perspective matching for natural guage sentences
+in proceedings of the national joint conference on articial intelligence pages
+aaai press
+jiacheng xu and greg durrett
+
+neural tive text summarization with syntactic compression
+in proceedings of the conference on cal methods in natural language processing hong kong china
+association for computational guistics
+jiacheng xu zhe gan yu cheng and jingjing discourse aware neural extractive arxiv preprint liu
+
+model for text summarization
+
+
+wen tau yih ming wei chang christopher meek and andrzej pastusiak
+
+question answering using enhanced lexical semantic models
+in proceedings of the annual meeting of the association for computational linguistics volume long papers pages
+dani yogatama fei liu and noah a smith
+
+tractive summarization by maximizing semantic in proceedings of the conference on ume
+empirical methods in natural language processing pages
+haoyu zhang yeyun gong yu yan nan duan jun xu ji wang ming gong and ming zhou
+language
+arxiv preprint eration for text summarization
+
+
+pretraining based natural xingxing zhang furu wei and ming zhou
+
+hibert document level pre training of hierarchical bidirectional transformers for document tion
+in acl
+ming zhong pengfei liu danqing wang xipeng qiu and xuan jing huang
+
+searching for tive neural extractive summarization what works and what s next
+in proceedings of the ence of the association for computational tics pages
+ming zhong danqing wang pengfei liu xipeng qiu and xuanjing huang
+
+a closer look at data bias in neural extractive summarization models
+emnlp ijcnlp page
+qingyu zhou nan yang furu wei shaohan huang ming zhou and tiejun zhao
+
+neural ment summarization by jointly learning to score and select sentences
+in proceedings of the annual meeting of the association for computational guistics volume long papers volume pages
+

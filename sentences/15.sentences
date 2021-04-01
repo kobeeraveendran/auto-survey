@@ -1,40 +1,32 @@
-pbm
-a new dataset for blog mining typical text mining application muhammad rafi
-national university of computer emerging sciences mehwish
-aziz fast national university of computer emerging sciences
-abstract
-text mining is becoming vital as web offers collaborative content creation and sharing
+pbm a new dataset for blog mining typical text mining application muhammad rafi national university of computer emerging sciences mehwish aziz fast national university of computer emerging sciences abstract text mining is becoming vital as web
+offers collaborative content creation and sharing
 now researchers have growing interest in text mining methods for discovering knowledge
-
 text mining researchers come from variety of areas like natural language processing computational linguistic machine involves learning and statistics
-
 a preprocessing of text stemming and lemmatization tagging and annotation deriving knowledge patterns evaluating and interpreting the results
-
 there are numerous approaches for performing text mining tasks like clustering categorization sentimental analysis and summarization
-
 there is a growing need to standardize the evaluation of these tasks
-
 one major component of establishing standardization is to provide standard datasets for these tasks
 although there are various standard datasets available for traditional text mining tasks but there are very few and expensive datasets for blog mining task
-blogs a new genre in web is a digital diary of web user which has chronological entries and contains a lot of useful knowledge thus offers a lot of challenges and opportunities for text mining
+blogs a new genre in web
+is a digital diary of web user which has chronological entries and contains a lot of useful knowledge thus offers a lot of challenges and opportunities for text mining
 in this paper we report a new indigenous dataset for pakistani political blogosphere
 the paper describes the process of data collection organization and standardization
 we have used this for carrying out various text mining tasks for blogosphere like search political sentiments analysis and tracking identification of influential blogger and clustering of the blog posts
 we wish to offer this dataset free for others who aspire to pursue further in this domain
-key words web blogosphere text mining clustering natural language processing introduction sharing collaboration interoperability the emergence of web raised standard associated with web applications
+key words web
+blogosphere text mining clustering natural language processing introduction sharing collaboration interoperability the emergence of web
+raised standard associated with web applications
 these standards are proposed to support variant services for information and user centered applications
-web web sites are capable of allowing users to interact and contribute in web sites content as user generated content
-web sites offers the most adaptable internet knowledge creation processes which triggers many internet virtual community based hosted services social networking sites wikis and blogs
+web
+web sites are capable of allowing users to interact and contribute in web sites content as user generated content
+web
+sites offers the most adaptable internet knowledge creation processes which triggers many internet virtual community based hosted services social networking sites wikis and blogs
 the main subject of this paper is blogs
 blogs online digital diary like application helps users to connect in the virtual community by creating reviewing commenting or tagging the user generated blog post
-
 blog post is simply a web page with updates in its contents and archives of previously created content linked with other blog posts of other users under the same category
-this sharing of blogs by different users over the same categories fall under
-one big umbrella termed as blogosphere at times helping awareness building social entities light
-
+this sharing of blogs by different users over the same categories fall under one big umbrella termed as blogosphere at times helping awareness building social entities light
 blogosphere s blogs differs from other collections of documents in internet on three levels content structure and timeline
-the
-blogosphere is indeed a collection of all blogs which is further sub divided to different genres like important to bring issues lime the in sports politics media and culture
+the blogosphere is indeed a collection of all blogs which is further sub divided to different genres like important to bring issues lime the in sports politics media and culture
 the most popular among all these genres are media and politics
 media blogs are related to fashion music actors and movies
 political blogs are uncensored political bias over a political issue posted by an individual who may be an ordinary human or a news person or may be a political leader himself herself
@@ -42,219 +34,179 @@ in comparison to media related blogs influence of political blogs have strong im
 opinion by a journalist analyst politician or a common man may shift the thinking pattern of users three sixty degrees
 political blogs is one the most popular categories in blogosphere
 it has generated a power of opinion that is experienced several times in different parts of the world
-
 one of the most famous real life examples is the us presidential election of and
-
 prior to these elections bloggers of political blogs created the opinion in blog posts
-
 these opinions not only affected the online community but also the mainstream media
-
 the mainstream media utilized the bloggers opinion to cover top dominant politicians in the presidential election
-
-one famous study of political blogosphere is
-which reports this phenomenon
-
+one famous study of political blogosphere is which reports this phenomenon
 it also reports that there was a distinct difference in the blogging behavior of liberal and conservatives
 the importance of political blogs blogosphere and bloggers is realized since then
 the dataset reported in this paper comprises of a subset of political blogosphere of pakistani politics
-
 the geopolitical importance of pakistan is now widely accepted and its role in war against terrorism is greatly acknowledged
-
-this political blog dataset has been utilized in our previous research on topics like blog search blog similarity
-finding influence bloggers
-opinion mining and tracking
-
+this political blog dataset has been utilized in our previous research on topics like blog search blog similarity finding influence bloggers opinion mining and tracking
 a dataset is essential to carry out research in the realm of blogosphere
-
 the major contribution of this paper is collecting processing standardizing and publishing a of political blogosphere of pakistani politics
 the rest of the paper is organized as follow in section we discussed the similar work from other researchers in section construction process in section discussion of the application we developed so far based on this dataset
-
 in the last section we report the conclusion and possible future work
 
-related work
-the collections of data for the sake of performing data text mining experiments have a long history
-in the area of text mining specifically for blog mining task the first attempt to form a collection of blog s dataset was made by
-this collection was used for trec blog track which was introduced very
-first time in trec conference in the same year
-
+related work the collections of data for the sake of performing data text mining experiments have a long history
+in the area of text mining specifically for blog mining task the first attempt to form a collection of blog s dataset was made by this collection was used for trec blog track which was introduced very first time in trec conference in the same year
 the cost of the trec dataset was about to which was way beyond the purchasing power of the university in the third world
-the cost of the data collection was the major reason that very few
-universities has actually participated in this track of trec
-
+the cost of the data collection was the major reason that very few universities has actually participated in this track of trec
 the dataset reported in this paper which in deed was a motivation to prepare a dataset which can be offered free to researchers
 weblog is an online user diary like application where users keep their daily writing pertinent to any topic of his like dislike
-
 a special genre of blogs that comments on politics are termed as political blogs and a collection of all such political blogs comprises political blogosphere
-
 the political blog post usually has a clear cut political bias
-
 we have collected a subset of pakistani political blogosphere for the sake of building a dataset where researchers can carry out research in the realm of political blog mining
-
 the research in blogosphere started way back in during the us presidential election the paper discusses the collection of blogs from liberal and conservative communities their interaction and overlap on various topics
 it also collected blog post of a single day to capture and study the blog rolls cross link of bloggers
-
 the study was carried out on a very limited dataset but still very valuable
 it has been proved in that blogs are very proactive in changing thoughts making readers on agreement or on disagreement on certain issues disseminating and echoing ones voice related to any matter
 this study also used blog posts from of the world s top blogs
 opinion mining from blogs is another area where few of the researchers have developed few datasets example of such dataset is
-
 a dataset that has been very recently used for detecting gender of bloggers is reported in
-
-the very latest and freely available dataset is from
-international aaai conference on weblog and social media icwsm which has been used on a wide varity of mining tasks
-
-the dataset is provided by is a set of million blog posts made collected from august october
-
+the very latest and freely available dataset is from international aaai conference on weblog and social media icwsm which has been used on a wide varity of mining tasks
+the dataset is provided by
+com is a set of million blog posts made collected from august october
 our dataset is very different from this dataset as our dataset contains only political blogs related to political issues of pakistan
-
 the icwsm dataset covers a lot of big events occurred during the same duration like olympics and us presidential nomination
-
 our dataset is more rigorous and homogeneous as far as topic of the research is concerned
 the collected dataset is very rich on news reported event and issues erupted from the news as well as from personal reviews on these news
 we believe that this offers a lot of opportunity for researchers from social science and computer science domains
-dataset construction
-in this section we describe the experience of generating the dataset and the prime features of the dataset that can be used by the researchers
+dataset construction in this section we describe the experience of generating the dataset and the prime features of the dataset that can be used by the researchers
 also the discussion will lead further to constraints that are existent in the dataset with reference to the identified features
-
 in order to help the researchers in understanding what are the possible ways this dataset can be used for research we will explain the key areas that we find it useful for
 and which areas of research have we worked on by using this dataset
-experience of data gathering the collection of rss feeds by using rss feeder started from march and continued till sept which brings about blog posts and comments from referred blog sites
 
+experience of data gathering the collection of rss feeds by using rss feeder started from march and continued till sept which brings about blog posts and comments from referred blog sites
 the collected blog posts are and comments collected over few blog sites are
 covering all the blog posts in perspective of pakistani politics we could not combine those blog sites which are originating for political discussion but with some other country s perspectives
 therefore the collected blog sites seem to be limited
-
 the dataset is gathered by a pre developed rss feeder which allows to gather xml format rss feeds from any site
-
 we selected only pakistani political blog sites
-the top most active sources used for blog posts collection is given in below
-top blog sites used for collection of blog posts with reference to pakistani political issues only
-serial no
+the top most active sources used for blog posts collection is given in tab
+below
+tab
+top blog sites used for collection of blog posts with reference to pakistani political issues only serial no
 blog site
+bbc
+co
+uk rss rss
+xml
+feedburner
+com dawn news xml
+feedburner
+com blogspot tzao
+feedburner
+com awazapnibaatapni
+feedburner
+com pakspectator xml number of blog posts
 
-number of blog posts
-features the dataset so far gathered is stored in an ms access
-database with the database design that has two relational tables titled as source channels and rss feeds
+features the dataset so far gathered is stored in an ms access database with the database design that has two relational tables titled as source channels and rss feeds
 these tables are automatically created as soon as rss feeder is installed
-
-amongst the two tables
-channels are storing the channel id title and for defining the profile of the feed channels used as a source of data gathering
-
-the source channel status is covered by frequency last updated and
-next
-update is updated in the database whenever the aggregator pushes a request and
-source response is pulled out
-
+amongst the two tables channels are storing the channel id title and for defining the profile of the feed channels used as a source of data gathering
+the source channel status is covered by frequency last updated and next update is updated in the database whenever the aggregator pushes a request and source response is pulled out
 the folderpath is maintaining the source collected posts final path
 the number of posts from the source is referred from itemcount and unreadcount
-
 the second table is titled as rssfeeds and its fields like guid and channelid refers to the source feed links
 xml holds the entire blog post which includes title publication date source links as well
 but this information is separately provided as title and pubdate by the aggregator as well
 also the xml field is stored as item only but it holds the entire blog posts in rssfeeds table
-this xml format data shows
-that title and data of the blog post is in english using roman words as well
+this xml format data shows that title and data of the blog post is in english using roman words as well
 the blog post xml data also show that all outlinks and inlinks are also specified within actual blog content
-
 the blog posts collected are of variant length with variant number of outlinks and inlinks used
-dataset constraints the dataset so far collected has fewer numbers of comments as all the feed links used do not have a separate comment source channels dedicated
 
+dataset constraints the dataset so far collected has fewer numbers of comments as all the feed links used do not have a separate comment source channels dedicated
 the collected blog posts are not completely separated as individual fields like author name total count of comments for each blog post
 also the blog posts linked over the same title from the same source channel are not linked with each other
 
-dataset analysis
-this dataset is analyzed in terms of collection pattern from different blogs and the way authors publish blogs
 
-over the years from till posts collection from selected blog sites is shown in given below year wise posts coverage by bloggers over blog sites blog posts coverage on that daily basis
+dataset analysis this dataset is analyzed in terms of collection pattern from different blogs and the way authors publish blogs
+over the years from till posts collection from selected blog sites is shown in fig
+given below fig
+year wise posts coverage by bloggers over blog sites fig
+blog posts coverage on that daily basis
 showing bloggers do nt follow any specific days to blog
 in fact on an average it has been found that bloggers mostly post blogs on mid weeks that is by wednesday
-
+fig
 each month s first day has been noticed to be used by bloggers to post more blogs either to pre view the previous their month s in expected pakistani politics
-consequences effects and usage in blogs each blog post hold individual s perception over particular issues
-
+consequences effects and
+usage in blogs each blog post hold individual s perception over particular issues
 these perceptions are generally entailing positive negative or neutral opinion
 this influences the reviewers that can be identified in comments added over the blog post
 these opinions can be used very effectively to identify the sentiments of an online community
 bloggers and their reviewers normally post an opinion in a blog or a comment in either direct or comparative manner
-
 from direct manner opinion can be semantically classified as positive negative or neutral
-
 and in comparative opinion semantics can be classified as either good or bad
-
 this extraction and analysis of opinion can be termed as sentiment analysis and opinion mining
 thus opinion mining can be performed using this dataset specific to pakistani politics
 this dataset can also be used in blog search engines and blog ranking systems for pakistani political blogs as opinion retrieval and analysis plays a vital role to give results of a searched entity or judging relevancy of a blog post over many other blog posts on a particular topic
 
 our applications we have used this dataset to test few criteria of semantic blog search
-for
-this purpose the dataset has been utilized to cluster the blogs into related categories based on semantic similarity measurement criteria
-
-for clustering initially we used an algorithm termed as bpsm
-which utilized blog posts title and their content to measure the sentence wise semantic similarity amongst blog posts of various blog sites
-
+for this purpose the dataset has been utilized to cluster the blogs into related categories based on semantic similarity measurement criteria
+for clustering initially we used an algorithm termed as bpsm which utilized blog posts title and their content to measure the sentence wise semantic similarity amongst blog posts of various blog sites
 we have also utilized the same dataset on identifying influential bloggers in the pakistani political blogosphere using the semantic influence measuring criteria like posts quality in terms of its length and number of outlinks along with the uniqueness of the posts content
-
 the algorithm we built to get the results by using this dataset is termed as siib
-
-another criterion in which this dataset has been used is to ranks and search for semantically relevant blogs of influential bloggers by using the influence flow inlinks and outlinks along with the semantics of the blog posts
-
-to perform all the above tasks we have parsed xml blog posts content over part of
-this dataset collection around from nov till feb
+another criterion in which this dataset has been used is to ranks and search for semantically relevant blogs of influential bloggers by using the influence flow i
+e
+inlinks and outlinks along with the semantics of the blog posts
+to perform all the above tasks we have parsed xml blog posts content over part of this dataset collection around from nov till feb
 this parsed data is stored further in the database as a table titled as parsed rssfeeds
 this table provides a refinement of the rss feeds xml data into certain data fields which were used for performing text mining based techniques for different problems
-few problems with the xml content identified involve data fields like bloggers
-comments count and category
-
+few problems with the xml content identified involve data fields like bloggers comments count and category
 blogger s name is not always extracted from xml as few sites allow bloggers to remain anonymous for posting up the blog posts even therefore they have been assigned as anonymous in our used dataset
 the data fields specified as comments count does not necessarily be updated by all the blog sites rss
-
 the category data field is not always indicating the actual category as each blog site has put these categories on their own standards which is not a convention
 
-conclusion future work
-the main contribution of this research is to bring into being a standard dataset in the realm of political blog mining
-the dataset is specific to a single genre of blog and topic that is political blogosphere to the best of our knowledge
-this is very first attempt in this area
+conclusion future work the main contribution of this research is to bring into being a standard dataset in the realm of political blog mining
+the dataset is specific to a single genre of blog and topic that is political blogosphere to the best of our knowledge this is very first attempt in this area
 we have observed that this dataset has an immense density to be utilized for research purpose
 our applications based on this dataset is a proof of this we have utilized this dataset into semantic search sentiment analysis finding influential blogger and semantic clustering of post
 we wish to offer this dataset for others to collaborate and research on further possibilities
 in future work we would like to pursue the questions like whether an ordinary man s political expression can be delve into main stream politics and hence common man participation to politics is possible or not
-references
+references lada a
+adamic and natalie glance
 
-lada adamic and natalie glance
-
-
-the political blogosphere and
-the election divided they blog
+the political blogosphere and the u
+s
+election divided they blog
 in proceedings of the international workshop on link discovery linkkdd
 acm new york ny usa
-mishne and rijke
+dcs
+gla
+ac
+uk
+html g
+mishne and m
+rijke
 a study of blog search
 proceedings of ecir
-
-
 mehwish aziz muhammad rafi sentence based semantic similarity measure for blog posts international conference on digital content multimedia technology and its applications idc aug ieee seoul
-
-mehwish aziz muhammad rafi identifying influential
-bloggers using blogs semantics frontier of information technology dec acm islamabad
-
-gilbert bergstrom karahalios blogs are
-echo chambers blogs are
-echo chambers system sciences
-
+mehwish aziz muhammad rafi identifying influential bloggers using blogs semantics frontier of information technology dec acm islamabad gilbert e
+bergstrom t
+karahalios k
+blogs are echo chambers blogs are echo chambers system sciences
+hicss
+hawaii international conference on vol
+no
+pp
+jan
+doi
 hicss
 
-hawaii
-
-international conference on vol no doi kushal dave steve lawrence david pennock
+kushal dave steve lawrence david m
+pennock
 
 mining the peanut gallery opinion extraction and semantic classification of product reviews
 in proceedings of international conference on world wide web www
 acm new york ny usa
-
-mukherjee and liu
+mukherjee and b
+liu
 improving gender classification of blog authors
-emnlp
-burton java and soboroff
+emnlp k
+burton a
+java and i
+soboroff
 the icwsm dataset
 in proceedings of the third annual conference on weblogs and social media icwsm san jose ca may
 

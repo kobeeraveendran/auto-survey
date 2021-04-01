@@ -1,0 +1,2194 @@
+p e s l c
+s c v
+v i x r a neural abstractive text summarization with sequence to sequence models tian shi virginia tech yaser keneshloo virginia tech naren ramakrishnan virginia tech chandan k
+reddy virginia tech in the past few years neural abstractive text summarization with sequence to sequence models have gained a lot of popularity
+many interesting techniques have been proposed to improve models making them capable of handling different challenges such as saliency fluency and human readability and generate high quality summaries
+generally speaking most of these techniques differ in one of these three categories network structure parameter inference and decoding generation
+there are also other concerns such as efficiency and parallelism for training a model
+in this paper we provide a comprehensive literature survey on different models for abstractive text summarization from the viewpoint of network structures training strategies and summary generation algorithms
+several models were first proposed for language modeling and generation tasks such as machine translation and later applied to abstractive text summarization
+hence we also provide a brief review of these models
+as part of this survey we also develop an open source library namely neural abstractive text summarizer nats toolkit for the abstractive text summarization
+an extensive set of experiments have been conducted on the widely used cnn daily mail dataset to examine the effectiveness of several different neural network components
+finally we benchmark two models implemented in nats on the two recently released datasets namely newsroom and bytecup
+ccs concepts information systems summarization computing methodologies natural language processing natural language generation neural networks theory of computation reinforcement learning
+additional key words and phrases abstractive text summarization sequence to sequence models attention model pointer generator network deep reinforcement learning beam search
+acm reference format tian shi yaser keneshloo naren ramakrishnan and chandan k
+reddy
+
+neural abstractive text summarization with sequence to sequence models
+acm trans
+data sci
+article january pages
+
+
+introduction in the modern era of big data retrieving useful information from a large number of textual ments is a challenging task due to the unprecedented growth in the availability of blogs news articles and reports are explosive
+automatic text summarization provides an effective solution for summarizing these documents
+the task of the text summarization is to condense long uments into short summaries while preserving the important information and meaning of the authors addresses tian shi
+edu virginia tech yaser keneshloo
+edu virginia tech naren ishnan
+vt
+edu virginia tech chandan k
+reddy
+vt
+edu virginia tech
+permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page
+copyrights for components of this work owned by others than acm must be honored
+abstracting with credit is permitted
+to copy otherwise or republish to post on servers or to redistribute to lists requires prior specific permission a fee
+request permissions from
+org
+association for computing machinery
+
+
+
+acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+documents
+having such short summaries the text content can be retrieved processed and digested effectively and efficiently
+generally speaking there are two ways to perform text rization extractive and abstractive
+a method is considered to be extractive if words phrases and sentences in the summaries are selected from the source articles
+they are relatively simple and can produce grammatically correct sentences
+the generated maries usually persist salient information of source articles and have a good performance w
+
+t
+human written summaries
+on the other hand abstractive text summarization has attracted much attention since it is capable of generating novel words using language generation models conditioned on representation of source documents
+thus they have a strong potential of producing high quality summaries that are verbally innovative and can also easily incorporate external knowledge
+in this category many deep neural network based models have achieved better performance in terms of the commonly used evaluation measures such as rouge score compared to traditional extractive approaches
+in this paper we ily focus on the recent advances of recurrent neural network rnn based sequence to sequence models for the task of abstractive text summarization
+
+rnn based models and pointer generator network models see fig
+have been successfully applied to a variety of natural language processing nlp tasks such as machine translation headline generation text summarization and speech recognition
+inspired by the success of neural machine translation nmt rush et al
+first introduced a neural attention model with an attention based encoder and a neural network language model nnlm decoder to the abstractive sentence summarization task which has achieved a significant performance improvement over conventional methods
+chopra et al
+further extended this model by replacing the feed forward nnlm with a recurrent neural network rnn
+the model is also equipped with a convolutional attention based encoder and a rnn elman or lstm decoder and outperforms other state of the art models on commonly used benchmark datasets i
+e
+the gigaword corpus
+nallapati et al
+introduced several novel elements to the rnn encoder decoder architecture to address critical problems in the abstractive text summarization including using the following i feature rich encoder to capture keywords a switching generator pointer to model out of vocabulary oov words and the hierarchical attention to capture hierarchical document structures
+they also established benchmarks for these models on a cnn daily mail dataset which consists of pairs of news articles and multi sentence highlights summaries
+before this dataset was introduced many abstractive text summarization models have concentrated on compressing short documents to single sentence summaries
+for the task of summarizing long documents into multi sentence summaries these models have several shortcomings they can not accurately reproduce the salient information of source documents
+they can not efficiently handle oov words
+they tend to suffer from and sentence level repetitions and generating unnatural summaries
+to tackle the first two challenges see et al
+proposed a pointer generator network that implicitly combines the abstraction with the extraction
+this pointer generator architecture can copy words from source texts via a pointer and generate novel words from a vocabulary via a generator
+with the pointing copying mechanism factual information can be reproduced accurately and oov words can also be taken care in the summaries
+many subsequent studies that achieved state of the art performance have also demonstrated the effectiveness of the pointing copying mechanism
+the third problem has been addressed by the coverage mechanism intra temporal and intra decoder attention mechanisms and some other heuristic approaches like forcing a decoder to never output the same trigram more than once during testing
+acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models
+training strategies there are two other non trivial issues with the current framework i
+e
+exposure bias and inconsistency of training and testing measurements
+based on the neural bilistic language model models are usually trained by maximizing the likelihood of ground truth tokens given their previous ground truth tokens and hidden states teacher forcing algorithm see fig
+
+however at testing time see fig
+previous ground truth tokens are unknown and they are replaced with tokens generated by the model itself
+since the generated tokens have never been exposed to the decoder during training the decoding error can accumulate quickly during the sequence generation
+this is known as exposure bias
+the other issue is the mismatch of measurements
+performance of models is usually estimated with non differentiable evaluation metrics such as rouge and bleu scores which are inconsistent with the log likelihood function cross entropy loss used in the training phase
+these problems are alleviated by the curriculum learning and reinforcement learning rl approaches
+
+
+training with curriculum and reinforcement learning approaches
+bengio et al
+proposed a curriculum learning approach known as scheduled sampling to slowly change the input of the decoder from ground truth tokens to model generated ones
+thus the proposed meta algorithm bridges the gap between training and testing
+it is a practical solution for avoiding the exposure bias
+ranzato et al
+proposed a sequence level training algorithm called mixer mixed incremental cross entropy reinforce which consists of the cross entropy training reinforce and curriculum learning
+reinforce can make use of any user defined task specific reward e
+
+non differentiable evaluation metrics therefore combining with curriculum learning the proposed model is capable of addressing both issues of models
+however reinforce suffers from the high variance of gradient estimators and instability during training
+bahdanau et al
+proposed an actor critic based rl method which has relatively lower variance for gradient estimators
+in the actor critic method an additional critic network is trained to compute value functions given the policy from the actor network a model and the actor network is trained based on the estimated value functions assumed to be exact from the critic network
+on the other hand rennie et al
+introduced a self critical sequence training method scst which has a lower variance compared to reinforce and does not need the second critic network
+
+
+applications to abstractive text summarization
+rl algorithms for training models have achieved success in a variety of language generation tasks such as image captioning machine translation and dialogue generation
+specific to the abstractive text summarization lin et al
+introduced a coarse to fine attention framework for the purpose of summarizing long documents
+their model parameters were learned with reinforce algorithm
+zhang et al
+used reinforce algorithm and the curriculum learning strategy for the sentence simplification task
+paulus et al
+first applied the self critic policy gradient algorithm to training their model with the copying mechanism and obtained the state of the art performance in terms of rouge scores
+they proposed a mixed objective function that combines the rl loss with the traditional cross entropy loss
+thus their method can both leverage the non differentiable evaluation metrics and improve the readability
+celikyilmaz et al
+introduced a novel deep communicating agents method for abstractive summarization where they also adopted the rl loss in their objective function
+pasunuru et al
+applied the self critic policy gradient algorithm to train the pointer generator network
+they also introduced two novel rewards i
+e
+saliency and entailment rewards in addition to rouge metric to keep the generated summaries salient and logically entailed
+li et al
+proposed a training framework based on the actor critic method where the actor network is an attention based model and the critic network consists of a maximum likelihood estimator and a global summary quality estimator that is used to distinguish acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+the generated and ground truth summaries via a neural network binary classifier
+chen et al
+proposed a compression paraphrase multi step procedure for abstractive text summarization which first extracts salient sentences from documents and then rewrites them
+in their model they used an advantage actor critic algorithm to optimize the sentence extractor for a better extraction strategy
+keneshloo et al
+conducted a comprehensive summary of various rl methods and their applications in training models for different nlp tasks
+they also implemented these rl algorithms in an open source library
+com yaserkl constructed using the pointer generator network as the base model
+
+beyond rnn based models most of the prevalent models that have attained state of the art performance for sequence modeling and language generation tasks are rnn especially long short term memory lstm and gated recurrent unit gru based encoder decoder models
+standard rnn models are difficult to train due to the vanishing and exploding gradients problems
+lstm is a solution for vanishing gradients problem but still does not address the exploding gradients issue
+this issue is recently solved using a gradient norm clipping strategy
+another critical problem of rnn based models is the computation constraint for long sequences due to their inherent sequential dependence nature
+in other words the current hidden state in a rnn is a function of previous hidden states
+because of such dependence rnn can not be parallelized within a sequence along the time step dimension see fig
+during training and evaluation and hence training them becomes major challenge for long sequences due to the computation time and memory constraints of gpus
+recently it has been found that the convolutional neural network cnn based decoder models have the potential to alleviate the aforementioned problem since they have better performance in terms of the following three considerations
+a model can be parallelized during training and evaluation
+the computational complexity of the model is linear with respect to the length of sequences
+the model has short paths between pairs of input and output tokens so that it can propagate gradient signals more efficiently
+kalchbrenner et al
+introduced a bytenet model which adopts the one dimensional convolutional neural network of fixed depth to both the encoder and the decoder
+the decoder cnn is stacked on top of the hidden representation of the encoder cnn which ensures a shorter path between input and output
+the proposed bytenet model has achieved state of the art performance on a character level machine translation task with parallelism and linear time computational complexity
+bradbury et al
+proposed a quasi recurrent neural network qrnn encoder decoder architecture where both encoder and decoder are composed of convolutional layers and so called dynamic average pooling layers
+the convolutional layers allow computations to be completely parallel across both mini batches and sequence time step dimensions while they require less amount of time compared with computation demands for lstm despite the sequential dependence still presents in the pooling layers
+this framework has demonstrated to be effective by outperforming lstm based models on a character level machine translation task with a significantly higher computational speed
+recently gehring et al
+attempted to build cnn based models and apply them to large scale benchmark datasets for sequence modeling
+in the authors proposed a convolutional encoder model in which the encoder is composed of a succession of convolutional layers and demonstrated its strong performance for machine translation
+they further constructed a convolutional architecture by replacing the lstm decoder with a cnn decoder and bringing in several novel elements including gated linear units and multi step attention
+the model also enables computations of all network elements parallelized thus training and decoding can be much faster than the rnn models
+it also achieved competitive performance acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models fig
+
+an overall taxonomy of topics on models for neural abstractive text summarization
+on several machine translation benchmark datasets
+more rencently model has been applied to the abstractive document summarization and outperforms the pointer generator network on the cnn daily mail dataset
+vaswani et al
+constructed a novel network architecture called transformer which only depends on feed forward networks and a multi head attention mechanism
+it has achieved superior performance in machine translation task with significantly less training time
+currently large transformers which are pre trained on a massive text corpus with self supervised objectives have achieved superior results in a variety of downstream nlp tasks such as machine understanding question answering and abstractive text summarization
+zhang et al
+demonstrated that their pre trained encoder decoder model can outperform previous state of the art results on several datasets by fine tuning with limited supervised examples which shows that pre trained models are promising candidates in zero shot and low resource summarization tasks
+
+other studies so far we primarily focused on the pointer generator network training neural networks with rl algorithms cnn based architectures and transformers
+there are many other studies that aim to improve the performance of rnn models for the task of abstractive text summarization from different perspectives and broaden their applications
+
+
+network structure and attention
+the first way to boost the performance of models is to design better network structures
+zhou et al
+introduced an information filter namely a selective gate network between the encoder and decoder
+this model can control the information flow from the encoder to the decoder via constructing a second level representation of the source texts with the gate network
+zeng et al
+introduced a read again mechanism to improve the quality of the representations of the source texts
+tan et al
+built a graph ranking model upon a hierarchical encoder decoder framework which enables the model to capture the salient information of the source documents and generate accurate fluent and non redundant summaries
+xia et al
+proposed a deliberation network that passes the decoding process multiple times liberation process to polish the sequences generated by the previous decoding process
+li et al
+incorporated a sequence of variational auto encoders into the decoder to capture the latent structure of the generated summaries
+
+
+extraction abstraction
+another way to improve the abstractive text summarization is to make use of the salient information from the extraction process
+hsu et al
+proposed a unified acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+framework that takes advantage of both extractive and abstractive summarization using a novel attention mechanism which is a combination of the sentence level attention based on the extractive summarization and the word level attention based on the pointer generator network inspired by the intuition that words in less attended sentences should have lower attention scores
+chen et al
+introduced a multi step procedure namely compression paraphrase for abstractive summarization which first extracts salient sentences from documents and then rewrites them in order to get final summaries
+li et al
+introduced a guiding generation model where the keywords in source texts is first retrieved with an extractive model
+then a guide network is applied to encode them to obtain the key information representations that will guide the summary generation process
+long documents
+compared to short articles and texts with moderate lengths there are many
+
+challenges that arise in long documents such as difficulty in capturing the salient information
+nallapati et al
+proposed a hierarchical attention model to capture hierarchical structures of long documents
+to make models scale up to very long sequences ling et al
+introduced a coarse to fine attention mechanism which hierarchically reads and attends long documents a document is split into many chunks of texts
+
+by stochastically selecting chunks of texts during training this approach can scale linearly with the number of chunks instead of the number of tokens
+cohan et al
+proposed a discourse aware attention model which has a similar idea to that of a hierarchical attention model
+their model was applied to two large scale datasets of scientific papers i
+e
+arxiv and pubmed datasets
+tan et al
+introduced a graph based attention model which is built upon a hierarchical encoder decoder framework where the pagerank algorithm was used to calculate saliency scores of sentences
+
+
+multi task learning
+multi task learning has become a promising research direction for this problem since it allows models to handle different tasks
+pasunuru et al
+introduced a multi task learning framework which incorporates knowledge from an entailment generation task into the abstractive text summarization task by sharing decoder parameters
+they further proposed a novel framework that is composed of two auxiliary tasks i
+e
+question generation and entailment generation to improve their model for capturing the saliency and entailment for the abstractive text summarization
+in their model different tasks share several encoder decoder and attention layers
+mccann et al
+introduced a natural language decathlon a challenge that spans ten different tasks including question answering machine translation summarization and so on
+they also proposed a multitask question answering network that can jointly learn all tasks without task specific modules or parameters since all tasks are mapped to the same framework of question answering over a given context
+
+
+beam search
+beam search algorithms have been commonly used in the decoding of different language generation tasks
+however the generated candidate sequences are usually lacking in diversity
+in other words top k candidates are nearly identical where k is size of a beam
+li et al
+replaced the log likelihood objective function in the neural probabilistic language model with maximum mutual information mmi in their neural conversation models to remedy the problem
+this idea has also been applied to neural machine translation nmt to model the bi directional dependency of source and target texts
+they further proposed a simple yet fast decoding algorithm that can generate diverse candidates and has shown performance improvement on the abstractive text summarization task
+vijayakumar et al
+proposed generating diverse outputs by optimizing for a diversity augmented objective function
+their method referred to as diverse beam search dbs algorithm has been applied to image captioning machine translation and visual question generation tasks
+cibils et al
+introduced a algorithm that first uses dbs to generate summaries and then picks candidates according to acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models maximal marginal relevance under the assumption that the most useful candidates should be close to the source document and far away from each other
+the proposed algorithm has boosted the performance of the pointer generator network on cnn daily mail dataset
+despite many research papers that are published in the area of neural abstractive text tion there are few survey papers that provide a comprehensive study
+in this paper we systematically review current advances of models for the abstractive text summarization task from various perspectives including network structures training strategies and sequence generation
+in addition to a literature survey we also implemented some of these methods in an open source library namely nats
+com nats
+extensive set of experiments have been conducted on various benchmark text summarization datasets in order to examine the importance of different network components
+the main contributions of this paper can be summarized as follows provide a comprehensive literature survey of current advances of models with an emphasis on the abstractive text summarization
+conduct a detailed review of the techniques used to tackle different challenges in rnn decoder architectures
+review different strategies for training models and approaches for generating summaries
+provide an open source library which implements some of these models and systematically investigate the effects of different network elements on the summarization performance
+the rest of this paper is organized as follows an overall taxonomy of topics on models for neural abstractive text summarization is shown in fig
+
+a comprehensive list of papers published till date on the topic of neural abstractive text summarization have been summarized in table and
+in section we introduce the basic framework along with its extensions including attention mechanism pointing copying mechanism repetition handling improving encoder or decoder summarizing long documents and combining with extractive models
+section summarizes different training strategies including word level training methods such as cross entropy training and sentence level training with rl algorithms
+in section we discuss generating summaries using the beam search algorithm and other diverse beam decoding algorithms
+in section we present details of our implementations and discuss our experimental results on the cnn daily mail newsroom and bytecup
+biendata
+com competition datasets
+we conclude this survey in section
+the rnn encoder decoder framework in this section we review different rnn based encoder decoder models for the neural abstractive text summarization
+we will start with the basic framework and attention mechanism
+then we will describe more advanced network structures that can handle different challenges in the text summarization such as repetition and out of vocabulary oov words
+we will highlight various existing problems and proposed solutions
+
+framework basics a vanilla framework for abstractive text summarization is composed of an encoder and a decoder
+the encoder reads a source article denoted by
+
+
+j and transforms it to hidden states he he j while the decoder takes these hidden states as the context input and outputs a summary y
+
+
+yt
+here xi and yj are one hot representations of the tokens in the source article and summary respectively
+we use j and t to represent the number of tokens document length of the original source document and the summary respectively
+a summarization task is defined as inferring a summary y from a given source article
+
+
+
+he he acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+fig
+
+the basic model
+sos and eos represent the start and end of a sequence respectively
+encoders and decoders can be feed forward networks cnn or rnn
+rnn architectures especially long short term memory lstm and gated recurrent unit gru have been most widely adopted for models
+fig
+shows a basic rnn model with a bi directional lstm encoder and an lstm decoder
+the bi directional lstm is considered since it usually gives better document representations compared to a forward lstm
+the encoder reads a sequence of input tokens and turns them into a sequences of hidden states
+
+
+h j
+for the he where the right and left arrows bi directional lstm the input sequence is encoded as denote the forward and backward temporal dependencies respectively
+superscript e is the shortcut notation used to indicate that it is for the encoder
+during the decoding the decoder takes the ce encoded representations of the source article i
+e
+hidden and cell states as the input and generates the summary
+in a simple encoder decoder model encoded vectors are used to initialize hidden and cell states of the lstm decoder
+for example we can initialize them as follows h e he and tanh ce j h e he j ce j he ce cd j hd here superscript d denotes the decoder and is a concatenation operator
+at each decoding step we first update the hidden state hd t conditioned on the previous hidden states and input tokens i
+e
+hd t eyt
+hereafter we will not explicitly express the cell states in the input t and output of lstm since only hidden states are passed to other parts of the model
+then the vocabulary distribution can be calculated with pvocab t where pvocab t t is a vector whose dimension is the size of the vocabulary v and for each element vt of a vector v
+therefore the probability of generating the target token w in the vocabulary v is denoted as pvocab t w
+this lstm based encoder decoder framework was the foundation of many neural abstractive text summarization models
+however there are many problems with this model
+for example the encoder is not well trained via back propagation through time since the paths from encoder to the output are relatively far apart which limits the propagation of gradient signals
+the accuracy and human readability of generated summaries is also very low with a lot of oov and repetitions
+the rest of this section will discuss different models that were proposed in the literature to resolve these issues for producing better quality summaries
+
+attention mechanism the attention mechanism has achieved great success and is commonly used in models for different natural language processing nlp tasks such as machine translation image captioning and neural abstractive text summarization
+in an attention based encoder decoder architecture shown in fig
+the decoder not only takes the encoded the rest of this paper we will use unk i
+e
+unknown words to denote oov words
+acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models representations i
+e
+final hidden and cell states of the source article as input but also selectively focuses on parts of the article at each decoding step
+for example suppose we want to compress the source input kylian mbappe scored two goals in four second half minutes to send france into the world cup quarter finals with a thrilling win over argentina on saturday
+to its short version france beat argentina to enter quarter finals
+
+when generating the token beat the decoder may need to attend a thrilling win than other parts of the text
+this attention can be achieved by an alignment mechanism which first computes the attention distribution of the source tokens and then lets the decoder know where to attend to produce a target token
+in the encoder decoder framework depicted in fig
+and given all the hidden states of the encoder i
+e
+he he he the attention distribution e he
+
+
+he j t over the source tokens is calculated as follows j and the current decoder hidden state hd he j and he j e t j t j t k where the alignment score t j has three alternatives as suggested in hd t is obtained by the content based score function which j hd t hd he j walignhd he tanh walign j hd t balign dot general concat j t and it should be noted that the number of additional parameters for dot general and concat t respectively
+here represents proaches are the dimension of a vector
+the general and concat are commonly used score functions in the abstractive text summarization
+one of the drawbacks of dot method is that it requires he and hd to have the same dimension
+with the attention distribution we can naturally define the source side context vector for the target word as j j ze t e t jhe j together with the current decoder hidden state hd wz hd t t we get the attention hidden state t hd t finally the vocabulary distribution is calculated by hd t pvocab t softmax when t the decoder hidden state hd t is updated by t eyt hd lstm hd t hd where the input is concatenation of eyt and hd t
+
+pointing copying mechanism the pointing copying mechanism represents a class of approaches that generate target tokens by directly copying them from input sequences based on their attention weights
+it can be naturally applied to the abstractive text summarization since summaries and articles can share the same vocabulary
+more importantly it is capable of dealing with out of vocabulary oov words
+a variety of studies have shown a boost in performance after incorporating acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+fig
+
+an attention based model
+the pointer generator network
+the pointing copying mechanism into the framework
+in this section we review several alternatives of this mechanism for the abstractive text summarization
+
+
+pointer softmax
+the basic architecture of pointer softmax is described as follows
+it consists of three fundamental components short list softmax location softmax and switching network
+at decoding step t a short list softmax pvocab t calculated by eq
+is used to predict target tokens in the vocabulary
+the location softmax gives locations of tokens that will be copied from the source article to the target yt based on attention weights e t
+with these two components a switching network is designed to determine whether to predict a token from the vocabulary or copy one from the source article if it is an oov token
+the switching network is a multilayer mlp with a sigmoid activation function which estimates the probability pgen t of generating tokens from the vocabulary based on the context vector ze t and hidden state hd with pgen t ws zze t ws hhd t bs where pgen t is a scalar and a a is a sigmoid activation function
+the final probability of producing the target token yt is given by the concatenation of vectors pgen t pvocab t and t e t
+switching generator pointer
+similar to the switching network in pointer softmax
+
+the switching generator pointer is also equipped with a switch which determines whether to generate a token from the vocabulary or point to one in the source article at each decoding step
+the switch is explicitly modeled by pgen t ws zze t ws hhd t ws eeyt bs if the switch is turned on the decoder produces a word from the vocabulary with the distribution pvocab t see eq
+
+otherwise the decoder generates a pointer based on the attention distribution t see eq
+i
+e
+pj arg maxj
+
+
+j e e t j where pj is the position of the token in the source article
+when a pointer is activated embedding of the pointed token ex j will be used as an input for the next decoding step
+
+
+copynet
+copynet has a differentiable network architecture and can be easily trained in an end to end manner
+in this framework the probability of generating a target token is a combination of the probabilities of two modes i
+e
+generate mode and copy mode
+first copynet represents unique tokens in the vocabulary and source sequence by v and x respectively and builds an extended vocabulary vext v x unk
+then the vocabulary distribution over the extended vocabulary is calculated by p vext yt pc yt acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models where p and pc are also defined on vext i
+e
+z v unk otherwise pc yt z j expc xj yt x otherwise and xj is obtained by eq
+
+here z is a normalization factor shared by both the above equations
+is calculated with t
+
+pointer generator network
+pointer generator network also has a differentiable network architecture see fig
+
+similar to copynet the vocabulary distribution over an extended vocabulary vext is calculated by p pgen t pgen t pc yt where pgen t is obtained by eq
+
+vocabulary distribution and attention distribution pc yt are defined as follows pvocab t yt v unk otherwise pc yt j yt e t j yt x otherwise the pointer generator network has been used as the base model for many abstractive text summarization models see table and
+finally it should be noted that pgen t in copynet and pointer generator network can be viewed as a soft switch to choose between generation and copying which is different from hard switch i
+e
+pgen t in pointer softmax and switching generator pointer
+
+repetition handling one of the critical challenges for attention based models is that the generated sequences have repetitions since the attention mechanism tends to ignore the past alignment information
+for summarization and headline generation tasks model generated summaries suffer from both word level and sentence level repetitions
+the latter is specific to summaries which consist of several sentences such as those in cnn daily mail dataset and newsroom dataset
+in this section we review several approaches that have been proposed to overcome the repetition problem
+
+
+temporal attention
+temporal attention method was originally proposed to deal with the attention deficiency problem in neural machine translation nmt
+nallapati et al
+have found that it can also overcome the problem of repetition when generating multi sentence summaries since it prevents the model from attending the same parts of a source article by tracking the past attention weights
+more formally given the attention score t j in eq
+we can first define a temporal attention score as then the attention distribution and context vector see eq
+are calculated with exp t j exp s e t j exp s e j otherwise stemp t j if t temp t j stemp t j k stemp t k ze t temp t j he
+j it can be seen from eq
+that at each decoding step the input tokens which have been highly attended will have a lower attention score via the normalization in time dimension
+as a result the decoder will not repeatedly attend the same part of the source article
+acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+intra decoder attention
+intra decoder attention is another technique to handle the
+
+repetition problem for long sequence generations
+compared to the regular attention based models it allows a decoder to not only attend tokens in a source article but also keep track of the previously decoded tokens in a summary so that the decoder will not repeatedly produce the same information
+t can be calculated in the same manner for t intra decoder attention scores denoted by sd as the attention score t j
+then the attention weight for each token is expressed as t t t k with attention distribution we can calculate the decoder side context vector by taking linear combination of the decoder hidden states i
+e
+hd
+the decoder side and encoder side context vector will be both used to calculate the vocabulary distribution
+t as zd t d t hd
+
+coverage
+the coverage model was first proposed for the nmt task to address the problems of the standard attention mechanism which tends to ignore the past alignment information
+recently see et al
+introduced the coverage mechanism to the abstractive text summarization task
+in their model they first defined a coverage vector ue t as the sum of attention distributions of the previous decoding steps i
+e
+ue e t j
+thus it contains the accumulated t attention information on each token in the source article during the previous decoding steps
+the coverage vector will then be used as an additional input to calculate the attention score j t j tanh walign j hd ue t balign as a result the attention at current decoding time step is aware of the attention during the previous decoding steps
+moreover they defined a novel coverage loss to ensure that the decoder does not repeatedly attend the same locations when generating multi sentence summaries
+here the coverage loss is defined as covlosst e t j ue t j j which is upper bounded by
+
+
+distraction
+the coverage mechanism has also been used in known as distraction for the document summarization task
+in addition to the distraction mechanism over the attention they also proposed a distraction mechanism over the encoder context vectors
+both mechanisms are used to prevent the model from attending certain regions of the source article repeatedly
+formally
+
+
+ze given the context vector at current decoding step ze see eq
+the distracted context vector ze dist is defined by ze dist ze j j where both wdist z and whist z are diagonal parameter matrices
+t and all historical context vectors ze ze t whist zze t t
+improving encoded representations although lstm and bi directional lstm have been commonly used in the models for the abstractive text summarization representations of the source articles are still believed to be sub optimal
+in this section we review some approaches that aim to improve the encoding process
+have to replace he and bi directional gru are also often seen in abstractive summarization papers
+in eq
+where
+
+
+t
+with hd acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models selective encoding
+the selective encoding model was proposed for the abstractive
+
+sentence summarization task
+built upon an attention based encoder decoder framework it introduces a selective gate network into the encoder for the purpose of distilling salient information from source articles
+a second layer representation namely distilled representation of a source article is constructed over the representation of the first lstm layer a bi directional gru encoder in this work
+
+formally the distilled representation of each token in the source article is defined as he sel j where gatesel denotes the selective gate for token xj and is calculated as follows gatesel he j gatesel j wsel hhe j wsel senhe sen bsel he j where he he
+the distilled representations are then used for the decoding
+such a gate network can control information flow from an encoder to a decoder and can also select salient information therefore it boosts the performance of the sentence summarization task
+sen
+
+read again encoding
+intuitively read again mechanism is motivated by human readers who read an article several times before writing a summary
+to simulate this cognitive process a read again encoder reads a source article twice and outputs two level representations
+in the first read an lstm encodes tokens and the article as respectively
+in the second read we use another lstm to encode the source text based on the outputs of the first read
+formally the encoder hidden state of the second read
+
+
+is updated by and sen j j j the hidden states generation
+j
+
+
+j ex j j sen of the second read will be passed into decoders for summary j
+improving decoder
+
+embedding weight sharing
+sharing the embedding weights with the decoder is a practical approach that can boost the performance since it allows us to reuse the semantic and syntactic information in an embedding matrix during summary generation
+suppose the embedding matrix is represented by wemb we can formulate the matrix used in the summary generation see eq
+as wproj
+by sharing model weights the number of emb parameters is significantly less than a standard model since the number of parameters for wproj is t while that for is t where represents the dimension of vector h and denotes size of the vocabulary
+
+
+deep recurrent generative decoder drgd
+conventional encoder decoder models calculate hidden states and attention weights in an entirely deterministic fashion which limits the capability of representations and results in low quality summaries
+incorporating variational auto encoders vaes into the encoder decoder framework provides a practical solution for this problem
+inspired by the variational rnn proposed in to model the highly structured sequential data li et al
+introduced a model with drgd that aims to capture latent structure information of summaries and improve the summarization quality
+this model employs gru as the basic recurrent model for both encoder and decoder
+however to be consistent with this survey paper we will explain their ideas using lstm instead
+there are two lstm layers to calculate the decoder hidden state is updated by t
+at the decoding step t the t eyt
+then the attention weights are calculated with the encoder hidden state he and the first layer t using eqs
+and
+for the second layer the hidden state first layer hidden state t j and the context vector e decoder hidden state t t t t acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+is updated with t hd t t t t eyt t
+finally the decoder hidden state is obtained by where hd is also referred to as the deterministic hidden state
+vae is incorporated into the decoder to capture latent structure information of summaries which is represented by a multivariate gaussian distribution
+by using a reparameterization trick latent variables can be first expressed as t t where the noise variable n i and gaussian parameters t and t in the network are calculated by t wvae henc bvae is a hidden vector of the encoding process of the vae and defined as t wvae henc bvae t t where henc t wenc hhd t with the latent structure variables the output hidden states hdec wenc wenc yeyt henc t benc can be formulated as hdec t wdec t t bdec finally the vocabulary distribution is calculated by pvocab t
+t we primarily focused on the network structure of drgd in this section
+the details of vae and its derivations can be found in
+in drgd vae is incorporated into the decoder of a model more recent works have also used vae in the attention layer and for the sentence compression task
+
+summarizing long document compared to sentence summarization the abstractive summarization for very long documents has been relatively less investigated
+recently attention based models with pointing copying mechanism have shown their power in summarizing long documents with and tokens
+however performance improvement primarily attributes to copying and repetition redundancy avoiding techniques
+for very long documents we need to consider several important factors to generate high quality summaries such as saliency i
+e
+significance fluency coherence and novelty
+usually models combined with the beam search decoding algorithm can generate fluent and human readable sentences
+in this section we review models that aim to improve the performance of long document summarization from the perspective of saliency
+models for long document summarization usually consists of an encoder with a chical architecture which is used to capture the hierarchical structure of the source documents
+the top level salient information includes the important sentences chunks of texts sections and paragraphs while the lower level salient information represents keywords
+hereafter we will use the term chunk to represent the top level information
+the hierarchical encoder first encodes tokens in a chunk for the chunk representation and then encodes ent chunks in a document for the document representation
+in this paper we only consider the single layer forward for both word and chunk encoders
+suppose the hidden states of chunk i and word j in this chunk are represented by hchk hidden state hd at decoding step t we can calculate word level attention weight wd t wd t i j l wd t chk t i chk t t with wd t by chk t i i j i j kl i attention weight chk t and schk i i i hd t can be calculated using eq
+
+in this section we will review four where both alignment scores swd t i j k hd at the same time we can also calculate chunk level and hwd i j i for the current decoder
+deep communicating agents model which requires multiple layers of bi directional lstm falls out of the scope of this survey
+acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models different models that are based on the hierarchical encoder for the task of long document text summarization
+
+
+hierarchical attention
+the intuition behind a hierarchical attention is that words in less important chunks should be less attended
+therefore with chunk level attention distribution chk t and word level attention distribution wd we first calculate re scaled word level attention distribution by scale t i j chk t wd i j i l chk t wd t kl i j scale t i j this re scaled attention will then be used to calculate the context vector using eq
+i
+e
+ze t
+it should be noted that such hierarchical attention framework is different from the hierarchical attention network proposed in where the chunk representation is obtained using zwd t i instead of the last hidden state of the word encoder
+i i j j wd t hwd i j
+
+discourse aware attention
+the idea of the discourse aware attention is similar to that of the hierarchical attention giving eq
+
+the main difference between these two attention models is that the re scaled attention distribution in the discourse aware attention is calculated by scale t i j chk t swd t i i j l chk t swd t kl k where swd t i j is an alignment score instead of an attention weight
+
+
+coarse to fine attention
+the coarse to fine attention was proposed for tational efficiency
+similar to the hierarchical attention the proposed model also has both chunk level attention and word level attention
+however instead of using word level hidden states in all chunks for calculating the context vector the attention method first samples a chunk i from the chunk level attention distribution and then calculates the context vector using j scale t ze
+at the test time the stochastic sampling of the chunks will be replaced by a t i j greedy search
+hwd i j
+
+graph based attention
+the aforementioned hierarchical attention mechanism itly captures the chunk level salient information where the importance of a chunk is determined solely by its attention weight
+in contrast the graph based attention framework allows us to late the saliency scores explicitly using the pagerank algorithm on a graph whose vertices and edges are chunks of texts and their similarities respectively
+formally at the decoding time step t saliency scores for all input chunks are obtained by f t w t where adj adjacent matrix w adj similarity of chunks is calculated by w adj
+dadj is a diagonal i j matrix with its i equal to the sum of the ith column of w adj
+is a damping factor
+the i wparhchk hchk j vector t is defined as t where t is a topic see for more details
+t i t otherwise finally the graph based attention distribution over a chunk can be obtained by chk t i t t i t i t where i on chunks that rank higher than the previous decoding step i
+e
+t an efficient way to select salient information from source documents
+is initialized with
+it can be seen that the graph based attention mechanism will focus
+therefore it provides i f t i acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+table
+an overview of different models for the neural abstractive text summarization
+year reference rush et al
+highlights attention based summarization abs lopyrev et al
+ranzato et al
+simple attention sequence level training chopra et al
+nallapati et al
+miao et al
+chen et al
+gulcehre et al
+gu et al
+zeng et al
+takase et al
+see et al
+paulus et al
+zhou et al
+xia et al
+nema et al
+tan et al
+ling et al
+recurrent attentive summarizer switch generator pointer temporal attention hierarchical attention auto encoding sentence compression forced attention sentence compression pointer network distraction pointer softmax copynet read again copy mechanism abstract meaning representation amr based on abs
+pointer generator network coverage a deep reinforced model intra temporal and intra decoder attention weight sharing selective encoding abstractive sentence summarization deliberation networks query based diversity based attention graph based attention framework bag of words convolution attention neural network language model nnlm lstm lstm xent elman lstm elman lstm xent dad mixer xent convolution encoder attentive encoder elman lstm rnn feature rich encoder rnn xent training optimizer datasets xent sgd duc gigaword metrics rouge rmsprop sgd gigaword gigaword bleu rouge bleu sgd duc gigaword rouge adadelta duc gigaword cnn dm rouge adam gigaword rouge encoder compressor decoder gru gru gru gru gru gru lstm gru hierarchical read again encoder lstm attention based amr encoder nnlm lstm lstm lstm lstm gru gru xent sgd lstm lstm gru query encoder document encoder gru hierarchical encoder lstm xent xent xent xent xent xent xent adadelta adadelta sgd sgd cnn lcsts gigaword lcsts duc gigaword rouge rouge rouge rouge xent sgd duc gigaword rouge xent adadelta cnn dm xent rl adam cnn dm duc gigaword msr atc gigaword debatepedia cnn dm cnn dailymail cnn dm newsela wikismall wikilarge duc lcsts adadelta adam adam sgd adam adadelta rl rl xent vae gan rouge meter rouge human rouge rouge rouge rouge rouge ppl bleu fkgl sari rouge rouge human rouge meteor bleu cider d rouge rouge human coarse to fine attention lstm lstm zhang et al
+sentence simplification reinforcement learning lstm lstm li et al
+liu et al
+deep recurrent generative decoder drgd adversarial training pasunuru et al
+multi task with entailment generation gehring et al
+fan et al
+convolutional position embeddings gated linear unit multi step attention convolutional controllable gru gru vae pointer generator network adadelta cnn dm lstm document encoder and premise encoder lstm summary and entailment decoder cnn cnn objective adam duc gigaword snli xent adam duc gigaword cnn cnn xent adam duc cnndm
+extraction abstraction extractive summarization approaches usually show a better performance comparing to the tive approaches especially with respect to rouge measures
+one of the advantages of the extractive approaches is that they can summarize source articles by extracting salient snippets and sentences directly from these documents while abstractive approaches rely on word level attention mechanism to determine the most relevant words to the target words at each decoding step
+in this section we review several studies that have attempted to improve the performance of the abstractive summarization by combining them with extractive models
+
+
+extractor pointer generator network
+this model proposes a unified framework that tries to leverage the sentence level salient information from an extractive model and incorporate them into an abstractive model a pointer generator network
+more formally inspired by the hierarchical attention mechanism they replaced the attention distribution e t in the abstractive acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models table
+an overview of different models for the neural abstractive text summarization
+chen et al
+hsu et al
+li et al
+li et al
+lin et al
+song et al
+cohan et al
+year reference highlights celikyilmaz et al
+deep communicating agents framework lstm lstm semantic cohesion loss reinforce selected sentence rewriting abstraction extraction inconsistency loss lstm encoder extractor abstractor extractor gru
+abstractor pointer generator network actor critic gru gru cnn dm nyt duc cnn dm sgd adam training optimizer datasets objective xent rl objective rl rl adadelta adadelta cnn dm duc cnn dm lcsts cnn dm pasunuru et al
+multi reward optimization for lstm lstm rl adam abstraction extraction key information guide network kign global encoding convolutional gated unit rl rouge saliency and entailment
+structured infused copy mechanisms discourse aware attention kign lstm
+framework pointer generator network xent adadelta lstm lstm xent adam gigaword lcsts rouge duc cnn dm snli multinli squad gigaword pointer generator network adam objective xent objective hierarchical rnn lstm encoder lstm multi task encoder decoder framework adagrad pubmed arxiv adam duc gigaword squad snli rouge meteor pointer generator network xent adagrad cnn dm rouge metrics rouge human rouge human rouge human rouge rouge rouge human rouge human rouge guo et al
+cibils et al
+wang et al
+multi task summarization with entailment and question generation diverse beam search plagiarism and extraction scores topic aware attention kryciski et al
+improve abstraction gehrmann et al
+zhang et al
+jiang et al
+bottom up attention abstraction extraction learning to summarize radiology findings closed book training chung et al
+main pointer generator chen et al
+iterative text summarization cnn cnn rl lstm encoder decoder contextual model and language model xent rl pointer generator network pointer generator network background encoder pointer generator network closed book decoder pointer generator network document encoder gru encoder gru decoder iterative unit objective xent objective rl xent objective gigaword cnn dm lcsts cnn dm cnn dm nyt radiology reports duc cnn dm asynchronous gradient descent optimizer adagrad adam adam rouge rouge novel n gram test human rouge novel rouge rouge meteor adadelta cnn dm rouge adam duc cnn dm rouge model with a scaled version scale t k wd here extra is the sentence level salient score of the sentence at word position j and decoding step t
+different from the salient scores sentence level attention weights are obtained from another deep neural network known as extractor
+where the attention weights are expressed by scale t j t j t
+t t j wd extra t j extra during training in addition to cross entropy and coverage loss used in the pointer generator network this paper also proposed two other losses i
+e
+extractor loss and inconsistency loss
+the n log n extractor loss is used to train the extractor and is defined by lext n n where n is the ground truth label for the nth sentence and n is the total number of sentences
+the inconsistency loss is expressed as linc where k t is the set of the top k attended words and t is the total number of words in a summary
+intuitively the inconsistency loss is used to ensure that the sentence level attentions in the extractive model and word level attentions in the abstractive model are consistent with each other
+in other words when word level attention weights are high the corresponding sentence level attention weights should also be high
+t log j extra t j j k e
+
+key information guide network kign
+this approach uses a guiding generation anism that leverages the key salient information i
+e
+keywords to guide decoding process
+this is a two step procedure
+first keywords are extracted from source articles using the textrank algorithm
+second a kign encodes the key information and incorporates them into the decoder to guide the generation of summaries
+technically speaking we can use a bi directional lstm acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+j t w d alignhe alignhd w key hkey hkey n ws hhd t to encode the key information and the output vector is the concatenation of hidden states i
+e
+hkey where n is the length of the key information sequence
+then the alignment e anism is modified as alignhkey
+similarly the soft switch t j ws keyhkey bs
+in the pointer generator network is calculated using pgen t ws zze t
+
+reinforce selected sentence rewriting
+most models introduced in this survey are built upon the encoder decoder framework in which the encoder reads source articles and turns them into vector representations and the decoder takes the encoded vectors as input and generates summaries
+unlike these models the reinforce selected sentence rewriting model consists of two models
+the first one is an extractive model extractor which is designed to extract salient sentences from a source article while the second is an abstractive model abstractor which paraphrases and compresses the extracted sentences into a short summary
+the abstractor network is a standard attention based model with the copying mechanism for handling oov words
+for the extractor network an encoder first uses a cnn to encode tokens and obtains representations of sentences and then it uses an lstm to encode the sentences and represent a source document
+with the sentence level representations the decoder another lstm is designed to recurrently extract salient sentences from the document using the pointing mechanism
+this model has achieved the state of the art performance on cnn daily mail dataset and was demonstrated to be computationally more efficient than the pointer generator network
+training strategies in this section we review different strategies to train the models for abstractive text summarization
+as discussed in there are two categories of training methodologies i
+e
+level and sequence level training
+the commonly used teacher forcing algorithm and entropy training belong to the first category while different rl based algorithms fall into the second
+we now discuss the basic ideas of different training algorithms and their applications to models for the text summarization
+a comprehensive survey of deep rl for models can be found in
+
+word level training the word level training for language models represents methodologies that try to optimize tions of the next token
+for example in the abstractive text summarization given a source article a model generates a summary y with the probability p where represents model parameters e
+
+weights w and bias
+in a neural language model this probability can be expanded to p p t t t where each multiplier p t known as likelihood is a conditional probability of the next token yt given all previous ones denoted by y t
+
+
+
+intuitively the text generation process can be described as follows
+starting with a special token sos start of sequence the model generates a token yt at a time t with the probability p t pvocab t yt
+this token can be obtained by a sampling method or a greedy search i
+e
+yt arg maxyt pvocab t see fig
+
+the generated token will then be fed into the next decoding step
+the generation is stopped when the model outputs eos end of sequence token or when the length reaches a user defined maximum threshold
+in this section we review different approaches for learning model parameters i
+e
+
+we will start with the commonly used end to end training approach i
+e
+cross entropy training and then move on to two different methods for avoiding the problem of exposure bias
+acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models a fig
+
+generation process with a greedy search
+training with the teacher forcing algorithm
+c illustration of the scheduled sampling
+c
+
+cross entropy training xent
+to learn model parameters xent maximizes the log likelihood of observed sequences ground truth yt
+
+
+i
+e
+log p log p yt y t t t which is equivalent to minimizing the cross entropy xent loss lossxent log p
+we show this training strategy in fig
+
+the algorithm is also known as the teacher forcing algorithm
+during training it uses observed tokens ground truth as input and aims to improve the probability of the next observed token at each decoding step
+however during testing it relies on predicted tokens from the previous decoding step
+this is the major difference between training and testing see fig
+and
+since the predicted tokens may not be the observed ones this discrepancy will be accumulated over time and thus yields summaries that are very different from ground truth summaries
+this problem is known as exposure bias
+scheduled sampling
+scheduled sampling algorithm also known as data as
+
+demonstrator dad has been proposed to solve the exposure bias problem
+as shown in fig
+during training the input at each decoding step comes from a sampler which can decide whether it is a model generated token yt from the last step or an observed token yt from training data
+the sampling is based on a bernoulli distribution pi yt y yt where pdad is the probability of using a token from training data and i y yt is a binary indicator function
+in the scheduled sampling algorithm pdad is an annealing scheduling function and decreases with training time from to
+as suggested by bengio et al
+scheduling function can take different forms e
+
+dad pdad k k linear decay exponential decay inverse sigmoid decay where k is training step and is a parameter that guarantees pdad
+this strategy is often referred to as a curriculum learning algorithm
+the main intuition behind this algorithm is that at the beginning stage a model with random parameters can not generates relevant correct tokens therefore a decoder takes ground truth tokens from training data as input
+as the training proceeds the model gradually reduces the probability of using ground truth tokens
+by the end of the training the model assumes that it has been well trained and can generate reasonable tokens thus the decoder can completely rely on its own predictions
+acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+
+
+end to end backprop
+this algorithm is another method that exposes a model to its own predictions during training
+at each decoding step it still uses xent to train the model parameters
+however the input is neither a ground truth token nor a model generated token
+instead it is a fusion of top k tokens from the last decoding step where k is a hyper parameter
+
+
+
+ysampk more specifically the model first samples the top k tokens denoted as t from the vocabulary distribution pvocab t
+then it can re scale their probabilities as follows t t psamp t ysampi t pvocab t ysampi t sampj j pvocab t y t and obtain a vector in the embedding space by esamp t
+this fused vector will be served as the input for the next decoding step
+it should be noted that also makes use of dad in practice where a sampler is used to determine whether to take fused vectors or embeddings of ground truth tokens as input
+psamp t ysampi ey sampi t t
+sequence level training the sequence level training with deep rl algorithms has recently received a lot of popularity in the area of neural abstractive text summarization due to its ability to incorporate any user defined metrics including non differentiable rouge scores to train neural networks
+in this section we review several different policy gradient algorithms that have been used to train abstractive text summarization models
+for actor critic algorithms and related work the readers are encouraged to go through these publications
+in rl setting generating a sequence of tokens in a summary can be considered as a sequential decision making process where an encoder decoder model is viewed as an agent which first reads a source article and initializes its internal state hidden and cell states for lstm
+at the decoding step t it updates the state and takes an action y t v i
+e
+picking a token from the vocabulary according to a policy p t
+here the vocabulary is viewed as an action space
+by the end of the decoding it will produce a sequence of actions y t and observe a reward t which is usually rouge scores in the context of text summarization
+then rl algorithms will be used to update the agent by comparing the action sequence based on current policy with the optimal action sequence i
+e
+the ground truth summary
+in this section we will start with the commonly used reinforce for training models
+then we will introduce the mixer algorithm which can improve the convergence rate and stability of the training and the self critic sequence training approach which shows low variance for the gradient estimator
+
+
+
+y
+
+
+y y y
+
+reinforce
+the goal of reinforce is to find parameters that maximize the expected rewards
+therefore the loss function is defined as negative expected reward i
+e
+l t
+the above equation can also be rewritten as t represents y t where y
+
+
+y y t l y t y y t t where y represents a set that contains all possible sequences
+to optimize policy with respect to model parameters we take the derivative of the loss function and obtain l y t y y t y y t t y t log y t t acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models in the abstractive text summarization task the policy is expressed as p y according to eq
+the above equation can be expressed as follows and l y t y t t p t log p t t t ey p y ey p y ey t p y t t log p t t t t t ey t p y t log p t t t t t the reward above gradient estimator
+with the gradient the model parameters are updated by t will be back propagated to every node of the computational graph via the l where is the learning rate
+as it can be seen from eq
+computing gradient requires us to sample all sequences which is not practical due to the presence of possible number of sequences
+instead reinforce approximates the expectation with a single sample thus the gradient is expressed as follows l log p t t t t t one of the problems associated with this method is high variance of gradient estimator because it makes use of only one sample to train the model
+a practical solution to alleviate this problem is introducing a baseline reward denoted by to the gradient i
+e
+l ey t p y t log p t t t t t the baseline b is arbitrary function but should not depend on y t
+in this way it will not t b
+change the expectation of the gradient since ey t the complete derivations of the above equation can be found in
+in practice the gradient with the baseline is approximated with t log p t p y t l t b log p t t t t better ways of sampling a sequence and different approaches to calculate the baseline can be found in
+
+
+mixer
+training models using reinforce may suffer from slow convergence and can also fail due to the large action space and poor initialization which refers to randomly initialize parameters and start with random policy
+to alleviate this problem ranzato et al
+modified reinforce by incorporating the idea of curriculum learning strategy and proposed a mixer algorithm
+in this algorithm they first trained a model for n to ensure rl starts with a better policy
+afterwards in each batch and for each sequence they used the cross entropy loss for the first t steps and reinforce for the remaining steps where is an integer number
+training was continued for another n where n is also an integer number
+then they increased reinforce steps to and continued training for another n
+acm trans
+data sci
+vol
+no
+article
+publication date january
+t t t t shi al
+this process will repeat until the whole sequence is trained by reinforce
+this algorithm has shown a better performance for greedy generation compared to xent dad and in the task of abstractive text summarization
+self critic sequence training scst
+the main idea of scst is to use
+
+testing time inference algorithm as the baseline function in reinforce
+suppose the greedy search see fig
+is used to sample actions during testing
+then at each training iteration the model generates two action sequences in which the first one y greedy is from greedy search while the second one y t
+according to scst baseline is defined as reward greedy to the first sequence
+therefore the gradient of the loss function in scst is expressed as t is sampled from a distribution p t t l t greedy t log p t t according to eq
+
+the scst has shown low variance and can be effectively optimized with mini batch sgd compared to reinforce
+it has also been demonstrated to be effective in improving the performance of models for the task of abstractive text summarization
+in this work the authors used the following rl loss to train their model
+lrl t greedy t log p t t although the model performs better than those trained with xent in terms of rouge scores human readability of generated summaries is low
+to alleviate this problem the authors also defined a mixed loss function of rl and xent i
+e
+lmixed lrl lxent where is a hyper parameter
+the model trained with the mixed loss can achieve better human readability and rouge scores are still better than those obtained with xent
+they also used scheduled sampling to reducing exposure bias in which the scheduling function is a constant pdad
+
+we have reviewed different rnn encoder decoder architectures and training strategies in the last two sections
+now we are at the position to generate summaries for given source articles
+summary generation generally speaking the goal of summary generation is to find an optimal sequence y t such that y t arg max y t y log p t arg max t y log p t t t where y represents a set that contains all possible sequences summaries
+however since it has elements the exact inference is intractable in practice
+here v represents the output vocabulary
+in this section we review the beam search algorithm and its extensions for approximating the exact inference
+
+greedy and beam search as shown in fig
+we can generate a sub optimal sequence with greedy search i
+e
+y t arg max v log p yt t at each decoding step t
+although greedy search is computationally efficient human readability of generated summaries is low
+acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models algorithm beam search algorithm for decoding models
+input source article beam size b summary length t model parameters output b best summaries initialize output sequences q seq accumulated probabilities q prob
+the last decoded tokens q word states hidden and cell states for lstm q states
+t context vectors q ctx
+t j with encoder he
+
+
+he compute he update q states with encoder states for t do initialize candidates q cand seq q cand prob q cand word q cand states q cand ctx by repeating q seq q prob q word q states and q ctx b times respectively for b do t using decoder lstm cell with input he he
+
+
+he j q word t b b where
+
+
+b t b t hidden states hd t b b cell states compute p ycand t q states and q ctx select the top b candidate words ycand select corresponding probability p ycand t b b and context vector ze cd update elements of q cand seq update elements of q cand states update elements of q cand ctx update q cand prob t b b q cand word with hd with eq
+with ze t b b t t b b with ycand t b b and cd t b b end flatten q cand prob and choose b best hypotheses update q seq t q prob q word q states q ctx with corresponding candidates
+end beam search algorithm is a compromise between greedy search and exact inference and has been commonly employed in different language generation tasks
+beam search is a search algorithm that generates sequences from left to right by retaining only b top scoring top b sequence fragments at each decoding step
+more formally we denote decoded top b sequence fragments also known as hypotheses at time step t as y y
+
+
+y t b and their scores as s bm t which determines b most probable words ycand t b b to expand it
+the score for each expanded fragment i
+e
+new hypotheses ycand t b
+for each fragment t we first calculate p ycand t b t
+
+
+ycand
+
+
+s bm t ycand s bm b can then be updated with either t b b s bm s cand t p ycand t b b t where s bm t b is initialized with
+here b and b are labels of a current hypothesis and a word candidate respectively
+this t b is initialized with or s cand t b b t where s bm log p ycand t b s bm t acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+yields b b expanded fragments i
+e
+new hypotheses in which only the top b of them along with their scores are retained for the next decoding step
+this procedure will be repeated until eos token is generated
+in algorithm we show pseudo codes of a beam search algorithm for generating summaries with models given the beam size of b and batch size of
+
+diversity promoting algorithms despite widespread applications beam search algorithm suffered from lacking of diversity within a beam
+in other words the top b hypotheses may differ by just a couple tokens at the end of sequences which not only limits applications of summarization systems but also wastes computational resources
+therefore it is important to promote the diversity of generated sequences
+ippolito et al
+performed an extensive analysis of different post training decoding algorithms that aim to increase the diversity during decoding
+they have also shown the power of oversampling i
+e
+first sampling additional candidates and then filtering them to the desired number
+in improving the diversity without sacrificing performance
+in this section we briefly introduce some studies that aim to increase the diversity of the beam search algorithm for abstractive summarization models
+
+
+maximum mutual information mmi
+the mmi based methods were originally proposed for neural conversation models and then applied to other tasks such as machine translation and summarization
+the basic intuition here is that a desired model should not only take into account the dependency of a target on a source but also should consider the likelihood of the source for a given target which is achieved by replacing the log likelihood of the target i
+e
+log p in eq
+with pairwise mutual information of the source and target defined by log p y p p y
+during the training model parameters are learned by maximizing mutual information
+when generating sequences the objective is expressed as follows y arg max y log p y p y arg max y y log p log p y however it is obvious that calculating p y is intractable
+thus several approximation methods have been proposed in the literature to alleviate this problem
+these approximation method can be summarized by the following three steps train two models one for and the other for where and are the model parameters
+generate a diverse n list of sequences based on
+to achieve this goal the method for calculating the scores for beam search algorithm has been modified as k t k log p yt t k s beam by adding the last term k the model explicitly encourages hypotheses from different parents i
+e
+different k which results in more diverse results
+therefore parameter is also known as the diversity rate which indicates the degree of diversity integrated into beam search algorithm
+re rank n list by linearly combining and
+the ranking score for each candidate in the n list is defined as follows log log where is a task specific auxiliary term
+and are parameters that can be learned using minimum error rate training on the development dataset
+acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models
+
+diverse beam search dbs
+dbs is another approach that aims to increase the diversity of standard beam search algorithm
+it first partitions the hypotheses into g groups
+then at each decoding step it sequentially performs a beam search on each group based on a dissimilarity augmented scoring function t b b log p ycand t b b t b t t
+
+
+t b s cand s cand where is a parameter
+t represents a diversity function which measures the dissimilarity or distance between candidate ycand t b in group and sequences in groups from to
+standard beam search is applied to group
+intuitively the generated sequences in different groups are very different from each other due to the penalty of diversity functions
+in dbs has been combined with pointer generator network to improve the diversity of the model produced summaries
+
+
+
+implementations and experiments apart from a comprehensive literature survey and a detailed review of different techniques for network structures training strategies and summary generations we have also developed an open source library namely nats
+com nats based on rnn framework for abstractive text summarization
+in this section we first introduce the details of our implementations and then systematically experiment with different network elements and hyper parameters on three public available datasets i
+e
+cnn daily mail newsroom and bytecup
+
+implementations the nats is equipped with following important features attention based framework
+we implemented the attention based model shown in fig
+
+encoder and decoder can be chosen to be either lstm or gru
+the attention scores can be calculated with one of three alignment methods given in eq
+
+pointer generator network
+based on the attention based framework we implemented pointer generator network discussed in section
+
+
+intra temporal attention mechanism
+the temporal attention can work with all three ment methods
+intra decoder attention mechanism
+the alignment method for intra decoder attention is the same as that for the attention mechanism
+coverage mechanism
+to handle the repetition problem we implemented the coverage anism discussed in section
+
+
+if coverage is switched off coverage loss will be set to
+weight sharing mechanism
+as discussed in section
+
+weight sharing mechanism can boost the performance using significantly fewer parameters
+beam search algorithm
+we implemented an efficient beam search algorithm that can also handle the case when the batch size
+unknown words replacement
+similar to we implemented a heuristic unknown words replacement technique to boost the performance
+theoretically a pointer generator network may generate oov words even with the copying mechanism because unk is still in the extended vocabulary
+thus after the decoding is completed we manually check unk in summaries and replace them with words in source articles using attention weights
+this meta algorithm can be used for any attention based model
+
+datasets
+
+cnn daily mail dataset
+cnn daily mail dataset
+com abisee cnn dailymail consists of more than k news articles and each of them is paired with several highlights known acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+table
+basic statistics of the cnn daily mail dataset
+pairs article length headline length summary length cnn daily mail dev train test newsroom dev train test bytecup dev test train as multi sentence summaries
+we have summarized the basic statistics of the dataset in table
+there are primarily two versions of this dataset
+the first version anonymizes name entities while the second one keeps the original texts
+in this paper we used the second version and obtained processed data from see et al
+
+com jafferwilson data of cnn dailymail
+
+
+newsroom dataset
+the cornell newsroom dataset
+was recently released and consists of
+million article summary pairs out of which
+million of them are publicly available for training and evaluating summarization systems
+we first used newsroom library
+com clic lab newsroom to scrape and extract the raw data
+then texts were tokenized with spacy package
+we developed a data processing tool to tokenize texts and prepare input for nats
+in this survey we created two datasets for text summarization and headline generation respectively
+the basic statistics of them are shown in table
+
+
+bytecup dataset
+byte cup international machine learning contest
+biendata
+com competition released a new dataset which will be referred to as bytecup dataset in this survey for the headline generation task
+it consists of
+million pieces of articles out of which
+million are released for training
+in our experiments we create training development and testing sets
+
+
+based on this training dataset
+texts are tokenized using stanford corenlp package and prepared with our data processing tool
+the basic statistics of the dataset are shown in table
+
+parameter settings in all our experiments we set the dimension of word embeddings and hidden states for both encoder and decoder as and respectively
+during training the embeddings are learned from scratch
+adam with hyper parameter
+
+and is used for stochastic optimization
+learning rate is fixed to
+and mini batches of size are used
+gradient clipping is also used with a maximum gradient norm of
+
+for all datasets the vocabulary consists of k words and is shared between source and target
+for the cnn daily mail dataset we truncate source articles to tokens and limit the length of summaries to tokens
+for the newsroom dataset source articles summaries and headlines are truncated to and respectively
+for the bytecup dataset lengths of source articles and headlines are also limited to and tokens respectively
+during training we run epochs for the cnn daily mail dataset and epochs for the newsroom and bytecup dataset
+during testing we set the size of a beam to
+
+rouge evaluations recall oriented understudy for gisting evaluation rouge scores were first introduced in and have become standard metrics for evaluating abstractive text summarization models
+they determine the quality of summarization by counting the number of overlapping units i
+e
+n grams word sequences and word pairs between machine generated and golden standard human written summaries
+within all different rouge measures unigram bigram and rouge l longest common subsequence have been most widely used for single document abstractive summarization
+in this paper different models are evaluated using pyrouge
+python
+org pypi
+
+package which provides precision recall and f score for these measures
+acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models table
+rouge scores on the cnn daily mail dataset in our experiments
+model id attention coverage r l general general general general general general dot dot dot concat concat concat concat concat concat concat generator temporal decoder weight sharing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+experiments on cnn daily mail dataset in the past few years the cnn daily mail dataset has become a standard benchmark dataset used for evaluating the performance of different summarization models that can generate sentence summaries for relatively longer documents
+in our experiments we systematically investigated the effects of six network components in the framework on summarization performance including i alignment methods in the attention mechanism pointing mechanism intra temporal attention iv intra decoder attention v weight sharing and vi coverage mechanism
+our experimental results are shown in table
+to effectively represent different models id of each model consists of a letter followed by five binary indicators corresponding to the six important components
+the letters g d and c denote alignment methods general dot and concat respectively
+and indicates if a component is switched on or off respectively
+at first it can be clearly seen that the performance of three basic attention based models i
+e
+are close to each other
+in these tests we still keep the oov tokens in generated summaries when performing the rouge evaluations which results in relatively lower rouge precision scores
+therefore rouge f scores may be lower than those reported in the literature
+comparing with and with we find that pointing mechanism significantly improves the performance of attention based models
+by analyzing summaries we observed that most of the tokens are copied from source articles which results in summaries that are similar to the ones generated by the extractive
+as discussed in section
+
+another advantage of pointing mechanism is that it can effectively handle oov tokens
+the remaining four components are tested upon the pointer generator network
+by comparing and we see that the intra temporal attention increases almost rouge points
+this might be because of its capability of reducing repetitions
+however most of our models that combine intra temporal attention with concat failed during training after a few epochs
+thus we did not report these results
+as to intra decoder attention we observe from and that it does not boost the performance of the model before adding weight sharing mechanism
+however in the case of concat the models with intra decoder attention have a better performance
+weight sharing mechanism does not always boost the performance of the models according to the comparison of and
+however as aforementioned models extractive models attempt to extract sentences from the source articles
+acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+table
+rouge scores on newsroom and bytecup datasets
+newsroom summary model
+
+newsroom title r l
+
+
+
+
+
+that adopt weight sharing mechanism have much fewer parameters
+finally we find the coverage mechanism can significantly boost performance by at least rouge points which is consistent with the results presented in
+it should be noted that the coverage mechanism can only work with the concat attention mechanism according to section
+
+
+bytecup
+
+
+
+r l
+
+r l
+
+
+
+
+experiments on newsroom and bytecup datasets we also tested nats toolkit on the newsroom dataset which was released recently
+in our ments we tokenized the raw data with three different packages and generated three versions of the dataset for the task of text summarization and three versions for the task of headline generation
+experimental results obtained with the models and on the released testing set are shown in table
+it can be observed that performs better than on cnn daily mail data from table however achieves better rouge scores in both text summarization and headline generation tasks on newsroom dataset
+finally we summarize our results for the bytecup headline generation dataset in table
+achieves slightly better scores than
+conclusion and future directions being one of the most successful applications of models neural abstractive text marization has become a prominent research topic that has gained a lot of attention from both industry and academia
+in this paper we provided a comprehensive survey on the recent advances of models for the task of abstractive text summarization
+this work primarily focuses on the challenges associated with neural network architectures model parameter inference mechanisms and summary generation procedures and the solutions of different models and algorithms
+we also provided a taxonomy of these topics and an overview of different models for the abstractive text summarization
+as part of this survey we developed an open source toolkit namely nats which is equipped with several important features including attention pointing mechanism repetition handling and beam search
+in our experiments we first summarized the experimental results of different models in the literature on the widely used cnn daily mail dataset
+we also conducted extensive experiments on this dataset using nats to examine the effectiveness of different neural network components
+finally we established benchmarks for two recently released datasets i
+e
+newsroom and bytecup
+despite advances of models in the abstractive text summarization task there are still many research challenges that are worth pursing in the future
+large transformers
+these large scale models are first pre trained on massive text corpora with self supervised objectives and then fine tuned on downstream tasks
+they have achieved state of the art performance on a variety of summarization benchmark datasets
+in the pre trained encoder decoder model can outperform previous state of the art results on several datasets by fine tuning with limited supervised examples which shows that pre trained models are promising candidates for zero shot and low resource summarization
+reinforcement learning rl
+rl based training strategies can incorporate any user defined metrics including non differentiable ones as rewards to train summarization models
+these metrics can be rouge bertscore or saliency and entailment rewards inferred from the natural language inference task
+therefore we may improve current models with rl by leveraging external resources and characteristics of different datasets
+summary generation
+most based summarization models rely on beam search algorithm to generate summaries
+recently based approaches have achieved success in open ended language generation since they can acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models increase the diversity of the generated texts
+it is a promising research direction that can potentially increase the novelty of the generated summaries without sacrificing their quality
+datasets
+based summarization models are widely trained and evaluated on news corpora
+however the journalistic writing style promotes the leading paragraphs of most news articles as summaries which causes the models to favor extraction rather than abstraction
+to alleviate this problem researchers have introduced several datasets from other domains
+in the future many new datasets will likely be released to build better abstractive summarization systems
+evaluation
+most automatic evaluation protocols e
+
+rouge and bertscore are not sufficient to evaluate the overall quality of generated summaries
+we still have to access some critical features like factual correctness fluency and relevance of generated summaries by human experts
+thus a future research direction along this line is building better evaluation systems that go beyond current metrics to capture the most important features which agree with humans
+for example some attempts have been made for generic text generation
+acknowledgments this work was supported in part by the us national science foundation grants and
+references mehdi allahyari seyedamin pouriyeh mehdi assefi saeid safaei elizabeth d trippe juan b gutierrez and krys kochut
+
+text summarization techniques a brief survey
+arxiv preprint
+
+dzmitry bahdanau philemon brakel kelvin xu anirudh goyal ryan lowe joelle pineau aaron courville and yoshua bengio
+
+an actor critic algorithm for sequence prediction
+arxiv preprint
+
+dzmitry bahdanau kyunghyun cho and yoshua bengio
+
+neural machine translation by jointly learning to align and translate
+arxiv preprint
+
+dzmitry bahdanau jan chorowski dmitriy serdyuk philemon brakel and yoshua bengio
+
+end to end attention based large vocabulary speech recognition
+in acoustics speech and signal processing icassp ieee international conference on
+ieee
+lalit bahl peter brown peter de souza and robert mercer
+
+maximum mutual information estimation of hidden markov model parameters for speech recognition
+in acoustics speech and signal processing ieee international conference on
+vol
+
+ieee
+hareesh bahuleyan lili mou olga vechtomova and pascal poupart
+
+variational attention for sequence sequence models
+in coling
+david balduzzi and muhammad ghifary
+
+strongly typed recurrent neural networks
+in proceedings of the international conference on international conference on machine learning volume
+jmlr
+org
+samy bengio oriol vinyals navdeep jaitly and noam shazeer
+
+scheduled sampling for sequence prediction with recurrent neural networks
+in advances in neural information processing systems
+
+yoshua bengio rjean ducharme pascal vincent and christian jauvin
+
+a neural probabilistic language model
+journal of machine learning research feb
+yoshua bengio patrice simard and paolo frasconi
+
+learning long term dependencies with gradient descent is difficult
+ieee transactions on neural networks
+adam l berger vincent j della pietra and stephen a della pietra
+
+a maximum entropy approach to natural language processing
+computational linguistics
+neelima bhatia and arunima jaiswal
+
+automatic text summarization and it s methods a review
+in cloud system and big data engineering confluence international conference
+ieee
+samuel bowman gabor angeli christopher potts and christopher d manning
+
+a large annotated corpus for learning natural language inference
+in proceedings of the conference on empirical methods in natural language processing
+
+james bradbury stephen merity caiming xiong and richard socher
+
+quasi recurrent neural networks
+arxiv preprint
+
+asli celikyilmaz antoine bosselut xiaodong he and yejin choi
+
+deep communicating agents for abstractive summarization
+in proceedings of the conference of the north american chapter of the association for computational acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+linguistics human language technologies volume long papers vol
+
+
+danqi chen jason bolton and christopher d manning
+
+a thorough examination of the cnn daily mail reading comprehension task
+in proceedings of the annual meeting of the association for computational linguistics volume long papers vol
+
+
+qian chen xiaodan zhu zhenhua ling si wei and hui jiang
+
+distraction based neural networks for modeling documents
+in proceedings of the twenty fifth international joint conference on artificial intelligence
+aaai press
+xiuying chen shen gao chongyang tao yan song dongyan zhao and rui yan
+
+iterative document representation learning towards summarization with polishing
+in proceedings of the conference on empirical methods in natural language processing
+
+yen chun chen and mohit bansal
+
+fast abstractive summarization with reinforce selected sentence rewriting
+in proceedings of the annual meeting of the association for computational linguistics volume long papers
+association for computational linguistics
+jianpeng cheng and mirella lapata
+
+neural summarization by extracting sentences and words
+in proceedings of the annual meeting of the association for computational linguistics volume long papers vol
+
+
+kyunghyun cho bart van merrienboer caglar gulcehre dzmitry bahdanau fethi bougares holger schwenk and yoshua bengio
+
+learning phrase representations using rnn encoder decoder for statistical machine translation
+in proceedings of the conference on empirical methods in natural language processing emnlp
+
+sumit chopra michael auli and alexander m rush
+
+abstractive sentence summarization with attentive recurrent neural networks
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies
+
+junyoung chung caglar gulcehre kyunghyun cho and yoshua bengio
+
+empirical evaluation of gated recurrent neural networks on sequence modeling
+in nips workshop on deep learning december
+junyoung chung kyle kastner laurent dinh kratarth goel aaron c courville and yoshua bengio
+
+a recurrent latent variable model for sequential data
+in advances in neural information processing systems
+
+tong lee chung bin xu yongbin liu and chunping ouyang
+
+main point generator summarizing with a focus
+in international conference on database systems for advanced applications
+springer
+andr cibils claudiu musat andreea hossman and michael baeriswyl
+
+diverse beam search for increased novelty in abstractive summarization
+arxiv preprint
+
+kevin clark minh thang luong quoc v le and christopher d manning
+
+electra pre training text encoders as discriminators rather than generators
+in international conference on learning representations
+arman cohan franck dernoncourt doo soon kim trung bui seokhwan kim walter chang and nazli goharian
+
+a discourse aware attention model for abstractive summarization of long documents
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies volume short papers vol
+
+
+vipul dalal and latesh g malik
+
+a survey of extractive and abstractive text summarization techniques
+in emerging trends in engineering and technology icetet international conference on
+ieee
+dipanjan das and andr ft martins
+
+a survey on automatic text summarization
+literature survey for the language and statistics ii course at cmu
+yann n dauphin angela fan michael auli and david grangier
+
+language modeling with gated convolutional networks
+in international conference on machine learning
+
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language understanding
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies volume long and short papers
+
+carl doersch
+
+tutorial on variational autoencoders
+arxiv preprint
+
+li dong nan yang wenhui wang furu wei xiaodong liu yu wang jianfeng gao ming zhou and hsiao wuen hon
+
+unified language model pre training for natural language understanding and generation
+in advances in neural information processing systems
+
+jeffrey l elman
+
+finding structure in time
+cognitive science
+alexander richard fabbri irene li tianwei she suyi li and dragomir radev
+
+multi news a large scale multi document summarization dataset and abstractive hierarchical model
+in proceedings of the annual meeting of the association for computational linguistics
+
+angela fan david grangier and michael auli
+
+controllable abstractive summarization
+arxiv preprint
+
+acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models angela fan david grangier and michael auli
+
+controllable abstractive summarization
+in proceedings of the workshop on neural machine translation and generation
+
+mahak gambhir and vishal gupta
+
+recent automatic text summarization techniques a survey
+artificial intelligence review
+jonas gehring michael auli david grangier and yann dauphin
+
+a convolutional encoder model for neural machine translation
+in proceedings of the annual meeting of the association for computational linguistics volume long papers vol
+
+
+jonas gehring michael auli david grangier denis yarats and yann n dauphin
+
+convolutional sequence to sequence learning
+in international conference on machine learning
+
+sebastian gehrmann yuntian deng and alexander rush
+
+bottom up abstractive summarization
+in proceedings of the conference on empirical methods in natural language processing
+
+kevin gimpel dhruv batra chris dyer and gregory shakhnarovich
+
+a systematic exploration of diversity in machine translation
+in proceedings of the conference on empirical methods in natural language processing
+
+alex graves and navdeep jaitly
+
+towards end to end speech recognition with recurrent neural networks
+in international conference on machine learning
+
+max grusky mor naaman and yoav artzi
+
+newsroom a dataset of
+million summaries with diverse extractive strategies
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies volume long papers vol
+
+
+jiatao gu zhengdong lu hang li and victor ok li
+
+incorporating copying mechanism in sequence sequence learning
+in proceedings of the annual meeting of the association for computational linguistics volume long papers vol
+
+
+caglar gulcehre sungjin ahn ramesh nallapati bowen zhou and yoshua bengio
+
+pointing the unknown words
+in proceedings of the annual meeting of the association for computational linguistics volume long papers vol
+
+
+han guo ramakanth pasunuru and mohit bansal
+
+soft layer specific multi task summarization with entailment and question generation
+in proceedings of the annual meeting of the association for computational linguistics volume long papers
+association for computational linguistics
+shengbo guo and scott sanner
+
+probabilistic latent maximal marginal relevance
+in proceedings of the international acm sigir conference on research and development in information retrieval
+acm
+taher h haveliwala
+
+topic sensitive pagerank
+in proceedings of the international conference on world wide web
+acm
+karl moritz hermann tomas kocisky edward grefenstette lasse espeholt will kay mustafa suleyman and phil blunsom
+
+teaching machines to read and comprehend
+in advances in neural information processing systems
+
+sepp hochreiter yoshua bengio paolo frasconi jrgen schmidhuber al
+
+gradient flow in recurrent nets the difficulty of learning long term dependencies
+
+sepp hochreiter and jrgen schmidhuber
+
+long short term memory
+neural computation
+ari holtzman jan buys li du maxwell forbes and yejin choi
+
+the curious case of neural text degeneration
+arxiv preprint
+
+wan ting hsu chieh kai lin ming ying lee kerui min jing tang and min sun
+
+a unified model for extractive and abstractive summarization using inconsistency loss
+arxiv preprint
+
+dichao hu
+
+an introductory survey on attention mechanisms in nlp problems
+arxiv preprint
+
+luyang huang lingfei wu and lu wang
+
+knowledge graph augmented abstractive summarization with semantic driven cloze reward
+arxiv preprint
+
+hakan inan khashayar khosravi and richard socher
+
+tying word vectors and word classifiers a loss framework for language modeling
+arxiv preprint
+
+daphne ippolito reno kriz joao sedoc maria kustikova and chris callison burch
+
+comparison of diverse decoding methods from conditional language models
+in proceedings of the annual meeting of the association for computational linguistics
+
+yichen jiang and mohit bansal
+
+closed book training to improve summarization encoder memory
+in proceedings of the conference on empirical methods in natural language processing
+
+nal kalchbrenner lasse espeholt karen simonyan aaron van den oord alex graves and koray kavukcuoglu
+
+neural machine translation in linear time
+arxiv preprint
+
+yaser keneshloo naren ramakrishnan and chandan k reddy
+
+deep transfer reinforcement learning for text summarization
+in proceedings of the siam international conference on data mining
+siam
+acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+yaser keneshloo tian shi naren ramakrishnan and chandan k
+reddy
+
+deep reinforcement learning on sequence to sequence models
+arxiv preprint arxiv
+byeongchang kim hyunwoo kim and gunhee kim
+
+abstractive summarization of reddit posts with level memory networks
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies volume long and short papers
+
+diederik p kingma and jimmy ba
+
+adam a method for stochastic optimization
+arxiv preprint
+
+diederik p kingma and max welling
+
+auto encoding variational bayes
+arxiv preprint
+
+guillaume klein yoon kim yuntian deng jean senellart and alexander rush
+
+open source toolkit for neural machine translation
+proceedings of acl system demonstrations
+mahnaz koupaee and william yang wang
+
+wikihow a large scale text summarization dataset
+arxiv preprint
+
+jonathan krause justin johnson ranjay krishna and li fei fei
+
+a hierarchical approach for generating descriptive image paragraphs
+in proceedings of the ieee conference on computer vision and pattern recognition
+
+alex krizhevsky ilya sutskever and geoffrey e hinton
+
+imagenet classification with deep convolutional neural networks
+in advances in neural information processing systems
+
+wojciech kryscinski nitish shirish keskar bryan mccann caiming xiong and richard socher
+
+neural text summarization a critical evaluation
+in proceedings of the conference on empirical methods in natural language processing and the international joint conference on natural language processing emnlp ijcnlp
+
+wojciech kryciski romain paulus caiming xiong and richard socher
+
+improving abstraction in text summarization
+in proceedings of the conference on empirical methods in natural language processing
+
+mike lewis yinhan liu naman goyal marjan ghazvininejad abdelrahman mohamed omer levy ves stoyanov and luke zettlemoyer
+
+bart denoising sequence to sequence pre training for natural language generation translation and comprehension
+arxiv preprint
+
+chenliang li weiran xu si li and sheng gao
+
+guiding generation for abstractive text summarization based on key information guide network
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies volume short papers vol
+
+
+jiwei li michel galley chris brockett jianfeng gao and bill dolan
+
+a diversity promoting objective function for neural conversation models
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies
+
+jiwei li and dan jurafsky
+
+mutual information and diverse decoding improve neural machine translation
+arxiv jiwei li will monroe and dan jurafsky
+
+a simple fast diverse decoding algorithm for neural generation
+arxiv preprint
+
+preprint
+
+jiwei li will monroe alan ritter dan jurafsky michel galley and jianfeng gao
+
+deep reinforcement learning for dialogue generation
+in proceedings of the conference on empirical methods in natural language processing
+
+piji li lidong bing and wai lam
+
+actor critic based training framework for abstractive summarization
+arxiv preprint
+
+piji li wai lam lidong bing and zihao wang
+
+deep recurrent generative decoder for abstractive text summarization
+in proceedings of the conference on empirical methods in natural language processing
+
+chin yew lin
+
+rouge a package for automatic evaluation of summaries
+text summarization branches out
+junyang lin xu sun shuming ma and qi su
+
+global encoding for abstractive summarization
+in proceedings of the annual meeting of the association for computational linguistics volume short papers
+association for computational linguistics
+jeffrey ling and alexander rush
+
+coarse to fine attention models for document summarization
+in proceedings of the workshop on new frontiers in summarization
+
+linqing liu yao lu min yang qiang qu jia zhu and hongyan li
+
+generative adversarial network for abstractive text summarization
+arxiv preprint
+
+xiaodong liu pengcheng he weizhu chen and jianfeng gao
+
+multi task deep neural networks for natural language understanding
+in proceedings of the annual meeting of the association for computational linguistics
+
+yang liu and mirella lapata
+
+text summarization with pretrained encoders
+in proceedings of the conference on empirical methods in natural language processing and the international joint conference on natural language processing emnlp ijcnlp
+
+acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models yinhan liu myle ott naman goyal jingfei du mandar joshi danqi chen omer levy mike lewis luke zettlemoyer and veselin stoyanov
+
+roberta a robustly optimized bert pretraining approach
+arxiv preprint
+
+elena lloret and manuel palomar
+
+text summarisation in progress a literature review
+artificial intelligence konstantin lopyrev
+
+generating news headlines with recurrent neural networks
+arxiv preprint
+review
+
+thang luong hieu pham and christopher d manning
+
+effective approaches to attention based neural machine translation
+in proceedings of the conference on empirical methods in natural language processing
+
+inderjeet mani and mark t maybury
+
+advances in automatic text summarization
+mit press
+joshua maynez shashi narayan bernd bohnet and ryan mcdonald
+
+on faithfulness and factuality in abstractive summarization
+arxiv preprint
+
+bryan mccann nitish shirish keskar caiming xiong and richard socher
+
+the natural language decathlon multitask learning as question answering
+arxiv preprint
+
+yishu miao and phil blunsom
+
+language as a latent variable discrete generative models for sentence compression
+in proceedings of the conference on empirical methods in natural language processing
+
+yajie miao mohammad gowayyed and florian metze
+
+eesen end to end speech recognition using deep rnn models and wfst based decoding
+in automatic speech recognition and understanding asru ieee workshop on
+ieee
+rada mihalcea and paul tarau
+
+textrank bringing order into text
+in proceedings of the conference on empirical methods in natural language processing
+n moratanch and s chitrakala
+
+a survey on abstractive text summarization
+in circuit power and computing technologies iccpct international conference on
+ieee
+ramesh nallapati feifei zhai and bowen zhou
+
+summarunner a recurrent neural network based sequence model for extractive summarization of documents
+ramesh nallapati bowen zhou cicero dos santos a glar gulehre and bing xiang
+
+abstractive text summarization using sequence to sequence rnns and beyond
+conll
+courtney napoles matthew gormley and benjamin van durme
+
+annotated gigaword
+in proceedings of the joint workshop on automatic knowledge base construction and web scale knowledge extraction
+association for computational linguistics
+shashi narayan shay b cohen and mirella lapata
+
+dont give me the details just the summary aware convolutional neural networks for extreme summarization
+in proceedings of the conference on empirical methods in natural language processing
+
+preksha nema mitesh m khapra anirban laha and balaraman ravindran
+
+diversity driven attention model for query based abstractive summarization
+in proceedings of the annual meeting of the association for computational linguistics volume long papers vol
+
+
+ani nenkova kathleen mckeown al
+
+automatic summarization
+foundations and trends in information retrieval
+franz josef och
+
+minimum error rate training in statistical machine translation
+in proceedings of the annual meeting on association for computational linguistics volume
+association for computational linguistics
+lawrence page sergey brin rajeev motwani and terry winograd
+
+the pagerank citation ranking bringing order to the web
+technical report
+stanford infolab
+kishore papineni salim roukos todd ward and wei jing zhu
+
+bleu a method for automatic evaluation of machine translation
+in proceedings of the annual meeting on association for computational linguistics
+association for computational linguistics
+razvan pascanu tomas mikolov and yoshua bengio
+
+on the difficulty of training recurrent neural networks
+in international conference on machine learning
+
+ramakanth pasunuru and mohit bansal
+
+multi reward reinforced summarization with saliency and entailment
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies volume short papers vol
+
+
+ramakanth pasunuru han guo and mohit bansal
+
+towards improving abstractive summarization via entailment generation
+in proceedings of the workshop on new frontiers in summarization
+
+romain paulus caiming xiong and richard socher
+
+a deep reinforced model for abstractive summarization
+arxiv preprint
+
+pavan kartheek rachabathuni
+
+a survey on abstractive summarization techniques
+in inventive computing and informatics icici international conference on
+ieee
+acm trans
+data sci
+vol
+no
+article
+publication date january
+shi al
+dragomir r radev eduard hovy and kathleen mckeown
+
+introduction to the special issue on summarization
+computational linguistics
+colin raffel noam shazeer adam roberts katherine lee sharan narang michael matena yanqi zhou wei li and peter j liu
+
+exploring the limits of transfer learning with a unified text to text transformer
+arxiv preprint
+
+marcaurelio ranzato sumit chopra michael auli and wojciech zaremba
+
+sequence level training with recurrent neural networks
+arxiv preprint
+
+steven j rennie etienne marcheret youssef mroueh jerret ross and vaibhava goel
+
+self critical sequence training for image captioning
+in computer vision and pattern recognition cvpr ieee conference on
+ieee
+danilo jimenez rezende shakir mohamed and daan wierstra
+
+stochastic backpropagation and approximate inference in deep generative models
+in international conference on machine learning
+
+alexander m rush sumit chopra and jason weston
+
+a neural attention model for abstractive sentence summarization
+in proceedings of the conference on empirical methods in natural language processing
+
+horacio saggion and thierry poibeau
+
+automatic text summarization past present and future
+in multi source multilingual information extraction and summarization
+springer
+baskaran sankaran haitao mi yaser al onaizan and abe ittycheriah
+
+temporal attention model for neural machine translation
+corr
+
+abigail see peter j
+liu and christopher d
+manning
+
+get to the point summarization with pointer generator networks
+in proceedings of the annual meeting of the association for computational linguistics volume long papers
+association for computational linguistics
+thibault sellam dipanjan das and ankur p parikh
+
+bleurt learning robust metrics for text generation
+arxiv preprint
+
+eva sharma chen li and lu wang
+
+bigpatent a large scale dataset for abstractive and coherent summarization
+in proceedings of the annual meeting of the association for computational linguistics
+
+shiqi shen yong cheng zhongjun he wei he hua wu maosong sun and yang liu
+
+minimum risk training for neural machine translation
+in proceedings of the annual meeting of the association for computational linguistics volume long papers vol
+
+
+shi qi shen yan kai lin cun chao tu yu zhao zhi yuan liu mao song sun al
+
+recent advances on neural headline generation
+journal of computer science and technology
+tian shi ping wang and chandan k reddy
+
+leafnats an open source toolkit and live demo system for neural abstractive text summarization
+in proceedings of the conference of the north american chapter of the association for computational linguistics demonstrations
+
+kaiqiang song lin zhao and fei liu
+
+structure infused copy mechanisms for abstractive summarization
+in proceedings of the international conference on computational linguistics
+association for computational linguistics
+ilya sutskever
+
+training recurrent neural networks
+university of toronto toronto ontario canada
+ilya sutskever oriol vinyals and quoc v le
+
+sequence to sequence learning with neural networks
+in advances in neural information processing systems
+
+richard s sutton and andrew g barto
+
+reinforcement learning an introduction
+mit press
+sho takase jun suzuki naoaki okazaki tsutomu hirao and masaaki nagata
+
+neural headline generation on abstract meaning representation
+in proceedings of the conference on empirical methods in natural language processing
+
+jiwei tan xiaojun wan and jianguo xiao
+
+abstractive document summarization with a graph based attentional neural model
+in proceedings of the annual meeting of the association for computational linguistics volume long papers vol
+
+
+zhaopeng tu zhengdong lu yang liu xiaohua liu and hang li
+
+modeling coverage for neural machine translation
+in proceedings of the annual meeting of the association for computational linguistics volume long papers vol
+
+
+aron van den oord sander dieleman heiga zen karen simonyan oriol vinyals alex graves nal kalchbrenner andrew senior and koray kavukcuoglu
+
+d
+
+wavenet a generative model for raw audio
+in isca speech synthesis workshop
+
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n gomez ukasz kaiser and illia polosukhin
+
+attention is all you need
+in advances in neural information processing systems
+
+arun venkatraman martial hebert and j andrew bagnell
+
+improving multi step prediction of learned time series models
+in twenty ninth aaai conference on artificial intelligence
+acm trans
+data sci
+vol
+no
+article
+publication date january
+neural abstractive text summarization with sequence to sequence models rakesh m
+verma and daniel lee
+
+extractive summarization limits compression generalized model and heuristics
+computacin y sistemas
+ashwin k vijayakumar michael cogswell ramprasath r selvaraju qing sun stefan lee david crandall and dhruv batra
+
+diverse beam search decoding diverse solutions from neural sequence models
+arxiv preprint
+
+oriol vinyals meire fortunato and navdeep jaitly
+
+pointer networks
+in advances in neural information processing systems
+
+li wang junlin yao yunzhe tao li zhong wei liu and qiang du
+
+a reinforced topic aware tional sequence to sequence model for abstractive text summarization
+in proceedings of the international joint conference on artificial intelligence
+aaai press
+lex weaver and nigel tao
+
+the optimal reward baseline for gradient based reinforcement learning
+in proceedings of the seventeenth conference on uncertainty in artificial intelligence
+morgan kaufmann publishers inc
+
+fei liu yang gao christian m
+meyer steffen eger wei zhao maxime peyrard
+
+moverscore text generation evaluating with contextualized embeddings and earth mover distance
+in proceedings of the conference on empirical methods in natural language processing
+association for computational linguistics hong kong china
+paul j werbos
+
+backpropagation through time what it does and how to do it
+proc
+ieee
+ronald j williams
+
+simple statistical gradient following algorithms for connectionist reinforcement learning
+ronald j williams and david zipser
+
+a learning algorithm for continually running fully recurrent neural in reinforcement learning
+springer
+networks
+neural computation
+yuxiang wu and baotian hu
+
+learning to extract coherent summary via deep reinforcement learning
+
+yonghui wu mike schuster zhifeng chen quoc v le mohammad norouzi wolfgang macherey maxim krikun yuan cao qin gao klaus macherey et al
+
+google s neural machine translation system bridging the gap between human and machine translation
+arxiv preprint
+
+yingce xia fei tian lijun wu jianxin lin tao qin nenghai yu and tie yan liu
+
+deliberation networks sequence generation beyond one pass decoding
+in advances in neural information processing systems
+
+kelvin xu jimmy ba ryan kiros kyunghyun cho aaron courville ruslan salakhudinov rich zemel and yoshua bengio
+
+show attend and tell neural image caption generation with visual attention
+in international conference on machine learning
+
+yu yan weizhen qi yeyun gong dayiheng liu nan duan jiusheng chen ruofei zhang and ming zhou
+
+prophetnet predicting future n gram for sequence to sequence pre training
+arxiv preprint
+
+zhilin yang zihang dai yiming yang jaime carbonell russ r salakhutdinov and quoc v le
+
+xlnet generalized autoregressive pretraining for language understanding
+in advances in neural information processing systems
+
+zichao yang diyi yang chris dyer xiaodong he alex smola and eduard hovy
+
+hierarchical attention networks for document classification
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies
+
+wojciech zaremba and ilya sutskever
+
+reinforcement learning neural turing machines revised
+arxiv preprint
+
+wenyuan zeng wenjie luo sanja fidler and raquel urtasun
+
+efficient summarization with read again and copy mechanism
+arxiv preprint
+
+jingqing zhang yao zhao mohammad saleh and peter j liu
+
+pegasus pre training with extracted sentences for abstractive summarization
+arxiv preprint
+
+tianyi zhang varsha kishore felix wu kilian q weinberger and yoav artzi
+
+bertscore evaluating text generation with bert
+arxiv preprint
+
+xingxing zhang and mirella lapata
+
+sentence simplification with deep reinforcement learning
+in proceedings of the conference on empirical methods in natural language processing
+
+xingxing zhang mirella lapata furu wei and ming zhou
+
+neural latent extractive document summarization
+in proceedings of the conference on empirical methods in natural language processing
+
+yuhao zhang daisy yi ding tianpei qian christopher d manning and curtis p langlotz
+
+learning to summarize radiology findings
+emnlp
+qingyu zhou nan yang furu wei shaohan huang ming zhou and tiejun zhao
+
+neural document rization by jointly learning to score and select sentences
+in proceedings of the annual meeting of the association for computational linguistics volume long papers vol
+
+
+qingyu zhou nan yang furu wei and ming zhou
+
+selective encoding for abstractive sentence summarization
+in proceedings of the annual meeting of the association for computational linguistics volume long papers vol
+
+
+acm trans
+data sci
+vol
+no
+article
+publication date january
+

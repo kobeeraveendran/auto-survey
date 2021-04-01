@@ -1,0 +1,395 @@
+unsupervised abstractive summarization of bengali text documents radia rayan chowdhury ahsanullah univ of science tech dhaka bangladesh radiarayan
+
+com mir tafseer nayeem ahsanullah univ of science tech dhaka bangladesh mir
+
+uleth
+ca tahsin tasnim mim ahsanullah univ of science tech dhaka bangladesh
+com md
+saifur rahman chowdhury ahsanullah univ of science tech dhaka bangladesh saif
+
+com tauqul jannat ahsanullah univ of science tech dhaka bangladesh
+com abstract abstractive summarization systems ally rely on large collections of summary pairs
+however the performance of abstractive systems remains a challenge due to the unavailability of the parallel data for low resource languages like bengali
+to come this problem we propose a graph based unsupervised abstractive summarization tem in the single document setting for bengali text documents which requires only a of speech pos tagger and a pre trained guage model trained on bengali texts
+we also provide a human annotated dataset with document summary pairs to evaluate our stractive model and to support the comparison of future abstractive summarization systems of the bengali language
+we conduct iments on this dataset and compare our system with several well established unsupervised tractive summarization systems
+our vised abstractive summarization model forms the baselines without being exposed to any human annotated reference summaries
+introduction the process of shortening a large text document with the most relevant information of the source is known as automatic text summarization
+a good summary should be coherent non redundant and grammatically readable while retaining the original document s most important contents nenkova and mckeown nayeem et al
+
+there are equal contribution
+listed by alphabetical order
+make our code dataset publicly available
+com tafseer at bengalisummarization for reproduciblity
+two types of summarizations extractive and stractive
+extractive summarization is about ing important sentences from the original text
+the abstractive method generates human like sentences using natural language generation techniques
+ditionally used abstractive techniques are sentence compression syntactic reorganization sentence sion and lexical paraphrasing lin and ng
+compared to extractive abstractive summary eration is indeed a challenging task
+a cluster of sentences uses multi sentence pression msc to summarize into one single sentence originally called sentence fusion lay and mckeown nayeem and chali
+the success of neural sequence sequence models with attention danau et al
+luong et al
+provides an effective way for text generation which has been extensively applied in the case of abstractive marization of english language documents rush et al
+chopra et al
+nallapati et al
+miao and blunsom paulus et al
+nayeem et al
+
+these models are usually trained with lots of gold summaries but there is no large scale human annotated abstractive maries available for low resource language like bengali
+in contrast the unsupervised approach reduces the human effort and cost for collecting and annotating large amount of paired training data
+therefore we choose to create an effective bengali text summarizer with an unsupervised approach
+the summary of our contributions to the best of our knowledge our bengali text summarization model bensumm is e f l c
+s c v
+v i x r a the very rst unsupervised model to generate abstractive summary from bengali text ments while being simple yet robust
+we also introduce a highly abstractive dataset with document summary pairs to evaluate our model which is written by professional mary writers of national curriculum and book board nctb
+we design an unsupervised abstractive tence generation model that performs sentence fusion on bengali texts
+our model requires only pos tagger and a pre trained language model which is easily reproducible
+related works many researchers have worked on text rization and introduced different extractive and stractive methods
+nevertheless very few attempts have been made for bengali text summarization spite bangla being the most spoken language
+das and bandyopadhyay developed bengali opinion based text summarizer using given topic which can determine the information on sentiments of the original texts
+haque et al
+worked on extractive bengali text summarization using pronoun replacement sentence ranking with term frequency numerical gures and overlapping of title words with the document sentences
+tunately the methods are limited to extractive marization which ranks some important sentences from the document instead of generating new tences which is challenging for an extremely low resource language like bengali
+moreover there is no human annotated dataset to compare abstractive summarization methods of this language
+jing and mckeown worked on sentence compression sc which has received able attention in the nlp community
+potential utility for extractive text summarization made sc very popular for single or multi document marization nenkova and mckeown
+trank mihalcea and tarau and lexrank erkan and radev are graph based methods for extracting important sentences from a ment
+clarke and lapata filippova showed a rst intermediate step towards tive summarization which compresses original tences for a summary generation
+the word graph
+nctb
+gov
+
+based approaches were rst proposed by filippova which require only a pos tagger and a list of stopwords
+boudin and morin improved ippova s approach by re ranking the compression paths according to keyphrases which resulted in more informative sentences
+nayeem et al
+developed an unsupervised abstractive tion system that jointly performs sentence fusion and paraphrasing
+bensumm model we here describe each of the steps involved in our bengali unsupervised abstractive text summarization model bensumm for single ument setting
+our preprocessing step includes kenization removal of stopwords part of speech pos tagging and ltering of punctuation marks
+we use the and to preprocess each sentence and obtain a more accurate representation of the information
+
+sentence clustering the clustering step allows us to group similar tences from a given document
+this step is critical to ensure good coverage of the whole document and avoid redundancy by selecting at most one tence from each cluster nayeem and chali
+the term frequency inverse document frequency tf idf measure does not work well aggarwal and zhai
+therefore we calculate the cosine similarity between the sentence vectors obtained from ulmt pre trained language model howard and ruder
+we use hierarchical ative clustering with the ward s method murtagh and legendre
+there will be a minimum of and a maximum of n clusters
+here n denotes the number of sentences in the document
+we measure the number of clusters for a given ument using the silhouette value
+the clusters are highly coherent as it has to contain sentences lar to every other sentence in the same cluster even if the clusters are small
+the following formula can measure silhouette score silhouette score y y where y denotes mean distance to the other stances of intra cluster and is the mean distance to the instances of the next closest cluster
+
+nltk
+org
+readthedocs
+io
+word graph wg construction textual graphs to generate abstractive summaries provide effective results ganesan et al
+
+we chose to build an abstractive summarizer with a tence fusion technique by generating word graphs filippova boudin and morin for the bengali language
+this method is entirely vised and needs only a pos tagger which is highly suitable for the low resource setting
+given a ter of related sentences we construct a word graph following filippova boudin and morin
+let a set of related sentences s
+
+
+sn we construct a graph g v e by atively adding sentences to it
+the words are resented as vertices along with the parts of speech pos tags
+directed edges are formed by ing the adjacent words from the sentences
+after the rst sentence is added to the graph as word nodes punctuation included words from the other related sentences are mapped onto a node in the graph with the same pos tag
+each sentence of the cluster is connected to a dummy start and end node to mark the beginning and ending sentences
+after constructing the word graph we can generate m paths from the dummy start node to the end node in the word graph see figure
+figure output of wg given two related sentences
+the underlined sentence is the top ranked sentence to be included in the nal summary
+word graph is created for each cluster to get tive fusions from these related sentences
+we get multiple weighted sentences see figure form the clusters using the ranking strategy boudin and morin
+we take the top ranked sentence from each cluster to present the summary
+we generate the nal summary by merging all the ranked sentences
+the overall process is presented in figure
+we also present a detailed illustration of our framework with an example source ment in the appendix
+figure sample wg of two related sentences
+figure presents two sentences which is one of the source document clusters and the possible paths with their weighted values are generated ing the word graph approach
+figure illustrates an example wg for these two sentences
+after constructing clusters given a document a figure overview of our bensumm model
+from cluster be happy to see the beautiful faces of are not satisfied with beautiful paths with their
+are not satisfied with the beautiful faces of people are not satisfied with the beautiful be happy to see the beautiful faces of be happy to see the beautiful document
+
+
+preprocessingclusteringcluster ncluster graph generationsentence fusionrankingword graph generationsentence fusionrankingsentence selectionsentence selectionmergesummary nctb bnlpc total samples source document length human reference length summary copy rate
+
+
+
+table statistics of the datasets used for our ment
+length is expressed as avg
+tokens
+nctb r l random baseline greedykl lexrank textrank sumbasic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bensumm ours
+
+
+bnlpc r l random baseline greedykl lexrank textrank sumbasic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bensumm ours
+
+
+table results on our nctb dataset and bnlpc
+automatic evaluation we evaluate our system bensumm using an automatic evaluation ric rouge lin without any limit of words
+we extract best sentences from our tem and the systems we compare as baselines
+we report unigram and bigram overlap and to measure informativeness and the longest common subsequence rouge l to sure the summaries uency
+since rouge putes scores based on the lexical overlap at the face level there is no difference in implementation for summary evaluation of the bengali language
+baseline systems we compare our system with various well established baseline systems like lexrank erkan and radev textrank mihalcea and tarau greedykl haghighi and vanderwende and sumbasic nenkova and vanderwende
+we use an open source of these summarizers and adapted it for bengali language
+it is important to note that these summarizers are completely extractive and figure example output of our bensumm model with english translations
+experiments this section presents our experimental details for assessing the performance of the proposed summ model
+dataset we conduct experiments on our dataset which consists of samples of human written abstractive document summary pairs written by professional summary writers of the national riculum and textbook board nctb
+the nctb is responsible for the development of the lum and distribution of textbooks
+the majority of bangladeshi schools follow these books
+we collected the human written document summary pairs from the several printed copy of nctb books
+the overall statistics of the datasets are presented in table
+from the dataset we measure the copy rate between the source document and the human summaries
+it s clearly visible from the table that our dataset is highly abstractive and will serve as a robust benchmark for this task s future works
+moreover to provide our proposed framework s fectiveness we also experiment with an extractive dataset haque et al
+
+we remove the abstractive sentence fusion part to compare with the baselines for the extractive evaluation
+
+wiki zwj
+bnlpc
+org research
+php
+io
+io systemsummary
+peoplehatehisnature histouch hiscustoms
+weneedhardworkandpursuittoformthenature otherwiseitisnotpossibletodefeatthedevil
+
+humanreference notexternalbeauty isthemeasureofhumanjudgment
+peoplewithbadtemperscanalsohaveexternalbeauty
+andthosewhoarebadinnaturealsolikepeoplewhoaregoodinnature
+soyouhavetohaveabeautifulnaturethroughhardworkandpursuit
+figure interface of our bengali document summarization tool
+for an input document d with n sentences our tool can provide both extractive and abstractive summary for the given document
+the translations of both the document and summary are provided in the appendix see figure
+designed for english language
+on the other hand our model is unsupervised and abstractive
+results we report our model s performance pared with the baselines in terms of scores of and r l in table
+according to ble our abstractive summarization model forms all the extractive baselines in terms of all the rouge metrics even though the dataset itself is highly abstractive reference summary contains most new words
+moreover we compare our extractive version of our model bensumm out the sentence fusion component
+we get better scores in terms of and rl compared to the lines
+finally we present an example of our model output in figure
+moreover we design a bengali document summarization tool see figure pable of providing both extractive and abtractive summary for an input document
+human evaluation though rouge lin has been shown to correlate well with human judgments it is biased towards surface level cal similarities and this makes it inappropriate for the evaluation of abstractive summaries
+therefore we assign three different evaluators to rate each summary generated from our abstractive system bensumm considering three different pects i
+e
+content readability and overall ity
+they have evaluated each system generated demonstration of our tool can be accessed from
+be lrnskktixcg summary with scores ranges from to where represents very poor performance and represents very good performance
+here content means how well the summary can convey the original input document s meaning and readability represents the grammatical correction and the overall mary sentence coherence
+we get an average score of
+
+and
+in content readability and overall quality respectively
+conclusion and future work in this paper we have developed an unsupervised abstractive text summarization system for bengali text documents
+we have implemented a based model to fuse multiple related sentences quiring only a pos tagger and a pre trained guage model
+experimental results on our proposed dataset demonstrate the superiority of our approach against strong extractive baselines
+we design a bengali document summarization tool to provide both extractive and abstractive summary of a given document
+one of the limitations of our model is that it can not generate new words
+in the ture we would like to jointly model multi sentence compression and paraphrasing in our system
+acknowledgments we want to thank all the anonymous reviewers for their thoughtful comments and constructive tions for future improvements to this work
+references charu c aggarwal and chengxiang zhai
+
+a survey of text clustering algorithms
+in mining text data pages
+springer
+dzmitry bahdanau kyunghyun cho and yoshua gio
+
+neural machine translation by jointly in learning to align and translate
+national conference on learning representations iclr san diego ca usa may conference track proceedings
+regina barzilay and kathleen r
+mckeown
+
+sentence fusion for multidocument news rization
+comput
+linguist
+
+florian boudin and emmanuel morin
+
+keyphrase extraction for n best reranking in multi sentence compression
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies pages atlanta georgia
+association for computational linguistics
+sumit chopra michael auli and alexander m
+rush
+
+abstractive sentence summarization with tentive recurrent neural networks
+in proceedings of the conference of the north american ter of the association for computational linguistics human language technologies pages san diego california
+association for computational linguistics
+james clarke and mirella lapata
+
+global ference for sentence compression an integer j
+artif
+int
+res
+ear programming approach
+
+amitava das and sivaji bandyopadhyay
+
+in coling based bengali opinion summarization
+posters pages beijing china
+ing organizing committee
+gunes erkan and dragomir r
+radev
+
+lexrank graph based lexical centrality as salience in text summarization
+j
+artif
+int
+res
+
+katja filippova
+
+multi sentence compression finding shortest paths in word graphs
+in ings of the international conference on tational linguistics coling pages beijing china
+coling organizing committee
+kavita ganesan chengxiang zhai and jiawei han
+
+opinosis a graph based approach to tive summarization of highly redundant opinions
+in proceedings of the international conference on computational linguistics coling pages beijing china
+coling organizing committee
+aria haghighi and lucy vanderwende
+
+ing content models for multi document tion
+in proceedings of human language gies the annual conference of the north american chapter of the association for tational linguistics pages boulder orado
+association for computational linguistics
+md haque suraiya pervin zerina begum al
+
+an innovative approach of bangla text tion by introducing pronoun replacement and journal of information proved sentence ranking
+processing systems
+md majharul haque suraiya pervin and zerina gum
+
+automatic bengali news documents summarization by introducing sentence frequency and clustering
+in international ence on computer and information technology cit pages
+ieee
+jeremy howard and sebastian ruder
+
+universal language model ne tuning for text classication
+in proceedings of the annual meeting of the sociation for computational linguistics volume long papers pages melbourne australia
+association for computational linguistics
+hongyan jing and kathleen r
+mckeown
+
+cut in and paste based text summarization
+ings of the north american chapter of the sociation for computational linguistics conference naacl page usa
+association for computational linguistics
+chin yew lin
+
+rouge a package for matic evaluation of summaries
+in text tion branches out pages barcelona spain
+association for computational linguistics
+hui lin and vincent ng
+
+abstractive in the rization a survey of the state of the art
+thirty third aaai conference on articial gence aaai the thirty first innovative plications of articial intelligence conference iaai the ninth aaai symposium on educational advances in articial intelligence eaai olulu hawaii usa january february pages
+aaai press
+thang luong hieu pham and christopher d
+ning
+
+effective approaches to attention based in proceedings of the neural machine translation
+conference on empirical methods in ral language processing pages bon portugal
+association for computational guistics
+yishu miao and phil blunsom
+
+language as a latent variable discrete generative models for tence compression
+in proceedings of the ference on empirical methods in natural language processing pages austin texas
+tion for computational linguistics
+rada mihalcea and paul tarau
+
+textrank bringing order into text
+in proceedings of the conference on empirical methods in natural guage processing pages barcelona spain
+association for computational linguistics
+a appendix a detailed illustration of our bensumm model with outputs from each step for a sample input document is presented in figure
+fionn murtagh and pierre legendre
+
+ward s erarchical agglomerative clustering method which algorithms implement ward s criterion j
+classif
+
+ramesh nallapati bowen zhou cicero dos santos c aglar and bing xiang
+
+tive text summarization using sequence to sequence in proceedings of the rnns and beyond
+signll conference on computational natural guage learning pages berlin germany
+association for computational linguistics
+mir tafseer nayeem and yllias chali
+
+tract with order for coherent multi document marization
+in proceedings of the workshop on graph based methods for natural guage processing pages vancouver canada
+association for computational linguistics
+mir tafseer nayeem and yllias chali
+
+phrastic fusion for abstractive multi sentence in proceedings of the pression generation
+acm on conference on information and knowledge management cikm page new york ny usa
+association for computing ery
+mir tafseer nayeem tanvir ahmed fuad and lias chali
+
+abstractive unsupervised document summarization using paraphrastic in proceedings of the tence fusion
+national conference on computational linguistics pages santa fe new mexico usa
+sociation for computational linguistics
+mir tafseer nayeem tanvir ahmed fuad and yllias chali
+
+neural diverse abstractive sentence in advances in compression generation
+tion retrieval european conference on ir search ecir cologne germany april proceedings part ii volume of lecture notes in computer science pages
+springer
+ani nenkova and kathleen mckeown
+
+a in mining vey of text summarization techniques
+text data pages
+springer
+ani nenkova and lucy vanderwende
+
+the pact of frequency on summarization
+microsoft search redmond washington tech
+rep
+msr
+romain paulus caiming xiong and richard socher
+
+a deep reinforced model for abstractive marization
+in international conference on ing representations
+alexander m
+rush sumit chopra and jason weston
+
+a neural attention model for abstractive in proceedings of the tence summarization
+conference on empirical methods in natural guage processing pages lisbon portugal
+association for computational linguistics
+figure a detailed illustration with outputs from each step of our bengali abstractive summarization model for a sample input document
+input document do not be happy to see the beautiful faces of people
+he she is not beautiful by nature although he she is beautiful to look at people hate his her nature touch and manners
+people with bad temper irritate and hurt people hearts
+people are not satisfied with the beautiful face
+ignorant people are fascinated by the human form and suffer in the long run
+the one whose nature is evil he is mischievous a liar and evil
+man himself is not beautiful by nature but he loves the beauty of people nature
+we need hard work and pursuit to form nature otherwise it is impossible to defeat the devil
+sentence clustering cluster sentence sentence cluster sentence sentence sentence cluster sentence cluster sentence sentence sentence fusion ranking cluster cluster cluster cluster final summary evil people are fascinated by human form and enjoy its fruits
+people hate his nature his touch and his customs
+we need hard work and pursuit to form the nature otherwise it is not possible to defeat the devil
+do be happy to see the beautiful faces
+

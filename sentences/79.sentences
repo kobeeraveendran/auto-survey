@@ -1,36 +1,35 @@
 p e s e h
-
-h
-o r t s a
-v
-v
-i x r a neutrino cristina volpe astro particule et cosmologie apc cnrs universite denis diderot alice domon et leonie duquet paris cedex france
+h o r t s a v
+v i x r a neutrino astrophysics
+cristina volpe astro particule et cosmologie apc cnrs universite denis diderot alice domon et leonie duquet paris cedex france
 we summarize the progress in neutrino astrophysics and emphasize open issues in our understanding of neutrino avor conversion in media
-
 we discuss solar neutrinos core collapse supernova neutrinos and conclude with ultra high energy neutrinos
 pacs numbers
 
-introduction nature has provided us with a variety of neutrino sources from the not yet observed k cosmological background to the icecube pev neutrinos
-whose origin is still mysterious
+
+
+
+
+
+
+jd
+introduction nature has provided us with a variety of neutrino sources from the not yet observed
+k cosmological background to the icecube pev neutrinos whose origin is still mysterious
 neutrinos are intriguing weakly ing particles
 after many unknown properties have been determined thanks to the discovery of neutrino oscillations rst proposed in and served by the super kamiokande experiment using atmospheric neutrinos
-
 this discovery is fundamental for particle physics for astrophysics and for cosmology
 neutrino oscillations is an interference phenomenon among the mass eigenstates that occurs if neutrinos are massive and if the mass tion basis and the avor interaction basis do not coincide
 the nakagawa sakata pontecorvo matrix relates these two basis
-within three active avors such a matrix depends on three mixing angles one
-dirac and two majorana cp violating phases
-in the last two decades lar reactor and accelerator experiments have precisely determined most of the oscillation parameters including the so called atmospheric and solar squared dierences
-moreover the sign of has been measured since neutrinos undergo the mikheev smirnov wolfenstein msw eect
-in the sun
+within three active avors such a matrix depends on three mixing angles one dirac and two majorana cp violating phases
+in the last two decades lar reactor and accelerator experiments have precisely determined most of the oscillation parameters including the so called atmospheric
+
+and solar squared dierences
+moreover the sign of has been measured since neutrinos undergo the mikheev smirnov wolfenstein msw eect in the sun
 the sign of is still unknown either lectures presented at winter school of theoretical physics volpe printed on september and the lightest mass eigenstate is normal ordering or hierarchy or it is inverted ordering
 most of neutrino oscillation iments can be interpreted within the framework of three active neutrinos
-
 however a few measurements present anomalies that require further cation
 sterile neutrinos that do not couple to the gauge bosons but mix with the other active species could be the origin of the anomalies
 ing experiments such as stereo or cesox will cover most of the mixing parameters identied in particular by the reactor anomaly
-
-
 among the fundamental properties yet to be determined are the anism for the neutrino mass the absolute mass value and ordering the neutrino nature dirac versus majorana the existence of cp violation in the lepton sector and of sterile neutrinos
 the combined analysis of available experimental results shows a preference for normal ordering and for a zero cp violating phase currently favouring although statistical signicance is still low
 in the coming experiments will aim at determining the mass ordering the dirac cp violating phase the neutrino absolute mass and hopefully nature as well
@@ -38,13 +37,14 @@ moreover super kamiokande with gadolinium should have the sensitivity to discove
 
 solar neutrinos electron neutrinos are constantly produced in our sun and in low mass main sequence stars through the proton proton pp nuclear reaction chain that produces of their energy by burning hydrogen into
 the corresponding solar neutrino ux receives contributions from both fusion reactions and beta decays of and figure
-first measured by
+first measured by r
 davis pioneering experiment such ux was found to be nearly a factor of three below predictions
 over the decades solar neutrino experiments have precisely measured electron neutrinos from the dierent pp branches usually referred to as the pp pep and and hep neutrinos
 the measurement of a reduced solar neutrino ux compared to standard solar model predictions the so called the solar neutrino decit problem has been conrmed by experiments mainly sensitive to electron neutrinos but with some sensitivity to the other avors
-the advocated solutions included unknown neutrino properties vor oscillations a neutrino magnetic moment coupling to the solar magnetic elds neutrino decay the msw eect and questioned the standard solar model
-in particular the msw eect is due to the neutrino interaction with matter while they traverse a medium
+the advocated solutions included unknown neutrino properties e
 
+vor oscillations a neutrino magnetic moment coupling to the solar magnetic elds neutrino decay the msw eect and questioned the standard solar model
+in particular the msw eect is due to the neutrino interaction with matter while they traverse a medium
 the solar puzzle is denitely solved by the discovery of the neutrino oscillation phenomenon and the results obtained by the sno and volpe printed on september fig
 
 the left gure shows the proton proton pp nuclear reaction chain with its three branches
@@ -52,21 +52,15 @@ the pp chain is responsible for energy production in our sun and low mass stars
 the theoretical branching percentages dene the relative rates of the competing reactions
 the right gure shows the cn i cycle which is thought to play an important role for energy production in massive stars
 the and neutrinos have not been observed yet
-
 land experiments see for a review on solar neutrino physics
-
 in fact using elastic scattering and current neutrino actions on heavy water the sno experiment has showed that the surement of the total solar neutrino ux is consistent with the tions of the standard solar model solar electron neutrinos convert into the other active avors
-
 in particular the muon and tau neutrino ponents of the solar ux has been measured at
 moreover the reactor experiment kamland has denitely identied the large mixing angle lma solution by observing reactor electron anti neutrino pearance at an average distance of km
-the ensemble of these observations shows that low energy solar neutrinos are suppressed by
-aged vacuum oscillations while neutrinos having more than mev energy are suppressed because of the msw eect figure
+the ensemble of these observations shows that low energy solar neutrinos are suppressed by aged vacuum oscillations while neutrinos having more than mev energy are suppressed because of the msw eect figure
 theoretically one expects p e e
-
 with for mev solar neutrinos for high energy portion of the spectrum the dominated survival probability is p e density
 see
 the precise determination of the transition between the vacuum averaged and the lma solution brings valuable information since deviations from the simplest vacuum lma transition could point to new physics such as non standard neutrino interactions
-
 the borexino experiment has precisely measured the low energy part of the solar neutrino ux namely the pep
 moreover by ing challenging reduced backgrounds the collaboration has reported the volpe printed on september fig
 
@@ -75,54 +69,46 @@ the results are compared to averaged vacuum oscillation prediction e mev and the
 figure from
 rst direct measurement of pp neutrino the keystone of the fusion process in the sun
 the measured ux is consistent with the standard solar model predictions
-
-the ensemble of solar observations has established that the sun produces ergs s via the pp chain
+the ensemble of solar observations has established that the sun produces
+ergs s via the pp chain
 moreover the occurrence of the msw eect for the high energy solar neutrinos shows that these particles change avor in vacuum in a very dierent way than in matter
-
 in fact in the central high density regions of the star the avor coincide with the matter eigenstates
 during their propagation towards the edge of the sun they encounter a resonance if the msw resonance condition is fullled and evolve adiabatically through it depending on the neutrino energies mass dierence value and the gradient of the matter density
 adiabaticity implies that the matter eigenstates mixing is suppressed at the resonance
-
 in the latter case electron neutrinos can eciently convert into muon and tau neutrinos
 the msw phenomenon is analogous to the two level system in quantum mechanics
 it occurs in numerous contexts including the early universe at the epoch of the primordial elements formation massive stars like core collapse supernovae accretion disks aroung black holes and the earth
-
 future measurements will aim at observing solar neutrinos produced in the carbon nitrogen oxygen cno cycle which is thought to be the volpe printed on september main mechanism for energy production in massive main sequence stars
-
 borexino experiment has provided the strongest constraint on the cno cycle which represents of energy production in the sun consistent with standard solar model predictions
 the achievement of increased purity both by borexino and could allow to reach the sensivity for this challenging measurement
 beyond furnishing conrmation of stellar evolutionary models the servation of cno neutrinos could help solving the so called solar ity problem
 standard solar models predict solar neutrino uxes from the pp cycle in agreement with observations
 however the sfii and sfii models dier for their treatment of the metal element tributions elements heavier than he
-the rst model uses older dances for volatile elements that are obtained by an absorption line
-
-ysis in which the photosphere is treated as one dimensional that yields a metallicity of z
+the rst model uses older dances for volatile elements that are obtained by an absorption line ysis in which the photosphere is treated as one dimensional that yields a metallicity of z
 z and x being the metal and hydrogen abundances respectively with solar fusion ii cross sections sfii
-
 the second model takes abundances from a three dimensional photospheric model z
 sfii
 the latter produces a cooler core by and lower uxes of temperature sensitive neutrinos such as ones
+a comparison of the solar parameters used in the two models and sponding predictions on the neutrino uxes are given in tables and of ref
 
-a comparison of the solar parameters used in the two models and sponding predictions on the neutrino uxes are given in tables and of
 the solar opacity problem is the inconsistency between that uses the best description of the solar photosphere while has the best agreement with helioseimic data that are sensitive to the interior position
 since there is approximately dierence between c and n abundances in the two models a measurement of cno neutrinos with precision which could be achieved in the future will allow to determine the solar opacity
 
 supernova neutrinos
+
 core collapse supernovae and core collapse supernovae sne are stars with mass m msun msun being the sun s mass whose core undergoes gravitational collapse at the end of their life
 these include types ii and ib c depending on their spectral properties
 they are of type ii if they exhibit h lines in their spectra and of type i if they do nt because the star has lost the h envelope
 sne iib have a thin h envelope type ii p and ii l present a plateau or a linear decay of the light curves after the peak
 the sne ib shows he and si lines while sne ic shows none of these indicating that before collapse the star has lost both the h envelope and he shells
 the supernova can still appear as bright if the h envelope is present otherwise it can be invisible type ib c
-
 volpe printed on september fig
+
 picture of years after its explosion with its three rings
 the inner blowing ring was formed years before the explosion
 in hoyle and fowler proposed that stellar death of snii and i b happens because of the implosion of the core
 the same year colgate and johnson suggested that a bounce of the neutron star forming launches a shock that ejects the matter to make it unbound the prompt model
-
-it was realised by colgate and white
-that a gravitational binding energy of the order of e gm n s rn s erg associated with the collapse of the star core to a neutron star ns would be released as neutrinos that would deposit energy to trigger the explosion
+it was realised by colgate and white that a gravitational binding energy of the order of e gm n s rn s erg associated with the collapse of the star core to a neutron star ns would be released as neutrinos that would deposit energy to trigger the explosion
 arnett and wilson critized the model because it would not give enough energy
 wilson revisited the model and developed it further the ejection of the mantle would be preceded by an accreting phase in the so called delayed neutrino heating mechanism
 the fate of a massive star is mainly determined by the initial mass and composition and the history of its mass loss
@@ -131,26 +117,22 @@ their initial masses range from to solar masses msun
 stars having msun develop an o ne mg core while those with m msun possess an iron core before collapse
 hypernovae are asymmetric stellar explosions with high ejecta velocities they are very bright producing a large amount of nickel
 they are often associated with long duration gamma ray bursts
-collapsars are all massive stars whose core collapse to a black hole and that have sucient angular momentum to form a disk see
+collapsars are all massive stars whose core collapse to a black hole and that have sucient angular momentum to form a disk see e
+
 
 on february sk exploded producing the rst naked eye supernova since kepler s one in
 it was located in the large volpe printed on september magellanic cloud a satellite galaxy of the milky way
 the determined tance is kpc from the earth based on the expanding photosphere method from dierent groups which agree within see table i of
 this method to establish extragalactic distances allows to cover a wide range from kpc to mpc
 from the observed light curve and simulations it appears that the core mass of progenitor was around msun and total mass msun and the progenitor radius about cm
-
 is unique because it was observed in all wavelengths from gamma rays to radio and for the rst time neutrinos were observed from the lapse of the stellar core
-the neutrinos was rst discovered by kamiokande ii
-then by imb
-and baksan
+the neutrinos was rst discovered by kamiokande ii then by imb and baksan
 the number of detected electron anti neutrinos events were in kamiokande ii in imb and in baksan
-
 time energy sn angle and background rate for all the events is given in table i of the recent review
 several hours before events were seen in lsd detector that could be due to a speculative emission phase preceding the ones seen in the other detectors
 such events are often discarded in the analysis of data since their are object of debate
 the earliest observations of optical brightening were recorded hours after neutrino s arrival
 an enthusiastic description of discovery is reported in
-
 three puzzling features concerning has set constraints on lar evolutionary models and supernova simulations
 the progenitor was a blue supergiant rather than a red supergiant while type ii supernovae were thought to be produced by red supergiants
 large mixing processes had transported radioactive nuclei from the deep core far into the h envelope of the progenitor and in the ejecta producing anomalous chemical abundances
@@ -159,26 +141,22 @@ ious explanations have been suggested for the presence of these rings the inner 
 they might have originated by a binary merger event of that epoch showing that rotation might have played a signicant role in the dying star
 however the prolate deformation of the supernova ejecta at the center of the ring system might have a very dierent origin figure
 in fact the presence of large mixing and the asymmetric ejecta indicates breaking of spherical symmetry due to hydrodynamical instabilities such as the bipolar standing accretion shock instability sasi
-
 remnant is likely not a black hole since the progenitor was light enough to be stabilised by nuclear equation of states consistent with measured neutron star masses
-
 there is currently no sign as well of a bright pulsar as the one born from the supernova explosion in the crab nebula in
-
 volpe printed on september neutrino observations have been used to derive constraints on fundamental physics and the properties of neutrinos axions majorons light supersymmetric particles and on unparticles
 these are derived by the absence of non standard signatures by using the intrinsic neutrino signal dispersion or by the cooling time of the newborn neutron star
 many such limits have been superseded by direct measurements with controlled sources on earth while other remain valuable constraints
-for example from the three hours delay in the transit time of neutrinos and photons a tight limit can be on the dierence between the speed of neutrinos c and light c is obtained c
+for example from the three hours delay in the transit time of neutrinos and photons a tight limit can be on the dierence between the speed of neutrinos c and light c is obtained i
+e
+c
 neutrinos have also conrmed the basic features of core collapse supernova predictions concerning the neutrino uence time integrated ux and spectra
 from a comparative analysis of the observed neutrino events one gets as a best t point e erg and t mev for the total gravitational energy radiated in electron anti neutrinos and their ature respectively
 accoding to expectations of the gravitational binding energy should be converted in e neutrinos and anti neutrinos in the several tens of mev energy range
-such neutrinos are produced by pair annihilation electron capture and neutron bremstrahlung
-e a z e a z n n a z a z e n n n n
-
-if one considers that ergy equipartition among the neutrino avors is rather well satised one gets about ergs and the emission time is also found to be of
+such neutrinos are produced by pair annihilation electron capture and neutron bremstrahlung e a z e a z n n a z a z e n n n n
+if one considers that ergy equipartition among the neutrino avors is rather well satised one gets about ergs and the emission time is also found to be of s
 considering that the neutrino spectra are to a fairly good approximation thermal one gets for the average electron anti neutrino energy e t ing mev at the best t point
 this appears currently more compatible with supernova simulations based on realistic neutrino transport although it has appeared much lower than the expected value of mev claimed for a long time
-supernova neutrinos are tightly connected with two major questions in astrophysics namely what is the mechanism that makes massive stars
-plode and what is are the where the heavy elements are formed through the so called rapid neutron capture process or r process
+supernova neutrinos are tightly connected with two major questions in astrophysics namely what is the mechanism that makes massive stars plode and what is are the where the heavy elements are formed through the so called rapid neutron capture process or r process
 nos would contribute in neutrino driven winds in core collapse supernovae accretion disks around black holes and neutron star mergers
 in fact the teraction of electron neutrinos and anti neutrinos with neutrons and protons in such environments determines the neutron to proton ratio a key eter of the r process
 obviously astrophysical conditions and the properties of exotic nuclei like masses decay half lives or ssion are crucial in mining the abundances
@@ -188,125 +166,91 @@ various mechanisms for the sn blast are investigated including a monuclear a bou
 since the kinetic energy in sn events goes from erg for sne up to several erg for hypernovae the explosion driving mechanism have to comply among others with providing such energies
 the neutrino heating mechanism with radial hydrodynamical instabilities convective overturn with sasi appear to be a good candidate to drive iron core collapse supernova explosions while the more energetic hypernovae events could be driven by the tohydrodynamical mechanism
 note that a new neutrino hydrodynamical instability termed lesa lepton number emission self sustained metry has been identied
-
 simulations of the lighter o ne mg collapse supernovae do explode while this is not yet the case for iron core collapse ones
 successful explosions for two dimensional simulations with alistic neutrino transport have been obtained for several progenitors while the rst three dimensional explosion are being obtained
 
-neutrino avor conversion in astrophysical environments neutrino propagation in cosmological or astrophysical environments is often described using eective neutrino amplitudes the density matrix approach the path integral formalism or many body green s functions see
-and for a review
+
+neutrino avor conversion in astrophysical environments neutrino propagation in cosmological or astrophysical environments is often described using eective neutrino amplitudes the density matrix approach the path integral formalism or many body green s functions see and for a review
 note that the spin formalism gives a rical representation of neutrino evolution in avor space
 here we briey describe how to derive neutrino evolution equations useful for astrophysical applications based on the approximation
-to this aim we use the density matrix formalism and follow the derivation in
+to this aim we use the density matrix formalism and follow the derivation in ref
 
-the evolution equations in the mass basis at each time the spatial fourier decomposition of a dirac neutrino eld reads s s with s s b
-and s where we note ing to mass eigenstates i are normalized as no sum over i
-i t s
 
-the dirac spinors u
-i v i
 
+
+the evolution equations in the mass basis at each time the spatial fourier decomposition of a dirac neutrino eld reads s s with s s b and s where we note ing to mass eigenstates i are normalized as no sum over i i t s s
+the dirac spinors u i v i
 volpe printed on september the standard particle and antiparticle annihilation operators in the berg picture for neutrinos of mass mi momentum and helicity s satisfy the canonical equal time anticommutation relations
-s a
-s a i t s a and similarly for the anti particle operators
-
-in the avor basis the eld operator is obtained as
-ui with u the maki nakagawa sakata pontecorvo unitary matrix
+s a s a i t s a and similarly for the anti particle operators
+in the avor basis the eld operator is obtained as ui with u the maki nakagawa sakata pontecorvo unitary matrix
 note that the indices can refer to active as well as to sterile neutrinos
 in the framework of three active neutrinos the three mixing angles of u are now determined
 two are almost maximal while the third one is small
-
 the dirac and majorana cp violating phases are still unknown
-the avor evolution of a neutrino or of an antineutrino in a background can be determined using one body density matrices namely expectation values of bilinear products of creation and annihilation operators h
-h
-i t where the brackets quantum and statistical average over the medium through which neutrino are propagating
+the avor evolution of a neutrino or of an antineutrino in a background can be determined using one body density matrices namely expectation values of bilinear products of creation and annihilation operators h h i t where the brackets quantum and statistical average over the medium through which neutrino are propagating
 for particles without mixings only diagonal elements are necessary and relations correspond to the expectation values of the number operators
-
 if particles have mixings as is the case for neutrinos the contributions i j of and account for the coherence among the mass eigenstates
-the equations employed so far to investigate avor evolution in astrophysical environments evolve the particle and anti particle
-tors and
+the equations employed so far to investigate avor evolution in astrophysical environments evolve the particle and anti particle tors and
 however the most general description includes further correlators
-first densities with wrong helicity states such as
-are present
+first densities with wrong helicity states such as are present
 these have already been shown to impact neutrino evolution in presence of magnetic elds
 they also give non zero tions if non zero mass corrections are included
+moreover two point correlators called abnormal or pairing densities h volpe printed on september and the hermitian conjugate also exist
+equations of motion including if neutrinos are majorana them have rst been derived in ref
 
-moreover two point correlators called abnormal or pairing densities h
-volpe printed on september and the hermitian conjugate also exist
-equations of motion including
-if neutrinos are majorana
-them have rst been derived in
 ticles correlators similar to can be dened as done in ref
-such as or
-i t that violate total lepton number
-the most general evolution equations for dirac or rana neutrinos evolving in an inhomogeneous medium is derived in
+such as or i t that violate total lepton number
+the most general evolution equations for dirac or rana neutrinos evolving in an inhomogeneous medium is derived in ref
 
-the eective most general hamiltonian takes the general b linear form h c he t where i denotes the i th component of the neutrino eld in the mass basis
+the eective most general hamiltonian takes the general b linear form h c he t where i denotes the i th component of the neutrino eld in the mass basis eq
+
 the explicit expression of the kernel depends on the kind of teraction considered or neutral current interactions non standard interactions eective coupling to magnetic elds
+
+
+
 it does not need to be specied to obtain the general structure of the equations but for practical applications
-equations of motion for the neutrino density matrix can be obtained from the ehrenfest theorem i h
-h he
-and similarly for the other correlators
-spinor products can be introduced ij t h
-
-ij t h
-ij t h
-ij t h
-where the fourier transform of the in is dened as
-
-
-if we neglect the contribution from pair correlators it is straightforward to show that the neutrino evolution for massive neutrinos propagating in a inhomogeneous medium is determined through the liouville von neumann equations of motion for the neutrino and antineutrino density matrices i
-
-
-i volpe printed on september
-such equations become more explicit when one makes assumptions about the background
+equations of motion for the neutrino density matrix eqs
+can be obtained from the ehrenfest theorem i h h he and similarly for the other correlators
+spinor products can be introduced ij t h ij t h ij t h ij t h where the fourier transform of the in eqs
+is dened as
+if we neglect the contribution from pair correlators it is straightforward to show that the neutrino evolution for massive neutrinos propagating in a inhomogeneous medium is determined through the liouville von neumann equations of motion for the neutrino and antineutrino density matrices i i volpe printed on september such equations become more explicit when one makes assumptions about the background
 a common hypothesis of interest for applications is the one of a homogeneous unpolarised medium
-such a condition correspond to
-where here corresponds to the particle composing the background trons neutrinos
-using one gets the following evolution equations for massless neutrinos i
-i
+such a condition correspond to where here corresponds to the particle composing the background trons neutrinos
 
 
-the equations for single particle density matrices can be rigorously derived from the exact many body description using the bogoliubov green kirkwood yvon bbgky hierarchy by truncating the hierarchy to lowest order
-in absence of contributions from the trino mass the pairing correlations and magnetic moments the hamiltonian reduces to the well known form
-where is the vacuum contribution the second is the neutrino matter term and the last comes from neutrino self whose contribution was rst introduced by pantaleone
 
-the explicit expressions for the matter hamiltonian is
-
-with the particle number densities e n stands for electron and neutron of the particles composing the medium
-
-nf t f t
-and neutrino neutrino interaction hamiltonian h
-
-
-the hamiltonian for anti neutrinos is the same as for neutrinos but with a dierent sign for the vacuum part
-
+using eqs
+one gets the following evolution equations for massless neutrinos i i the equations for single particle density matrices eqs
+can be rigorously derived from the exact many body description using the bogoliubov green kirkwood yvon bbgky hierarchy by truncating the hierarchy to lowest order
+in absence of contributions from the trino mass the pairing correlations and magnetic moments the hamiltonian reduces to the well known form where is the vacuum contribution the second is the neutrino matter term and the last comes from neutrino self whose contribution was rst introduced by pantaleone
+the explicit expressions for the matter hamiltonian is with the particle number densities e n stands for electron and neutron of the particles composing the medium nf t f t and neutrino neutrino interaction hamiltonian h
+the hamiltonian for anti neutrinos is the same as for neutrinos but with a dierent sign for the vacuum part i
+e
 
 extended equations including contributions from wrong helicity note that in the case of our sun the neutrino self interaction contribution is negligible and the medium is at a good approximation homogeneous and isotropic
-volpe printed on september correlators such as or from pair correlators can be cast in a compact matrix form i
-where h and r are the generalised hamiltonian and density matrix tively
-
+volpe printed on september correlators such as eq
+or from pair correlators eq
+can be cast in a compact matrix form i where h and r are the generalised hamiltonian and density matrix tively
 if neutrinos are majorana particles in these extended equations the neutrino and anti neutrino sectors are coupled if mass netic moments or pair correlators contributions are implemented
 if nos are dirac particles the wrong helicity contributions from the mass or in presence of magnetic moments couple the neutrino or anti neutrino sectors with the sterile one
 with mass contributions only h is a nf nf scalar with avour and helicity structure
 also the neutrino antineutrino mixing associated with the vector term of h gives a tion perpendicular to the neutrino momentum
 therefore an anisotropic medium is required for such contributions to be non zero
 
+
+
 neutrino avor conversion phenomena and open issues important progress has been achieved in our understanding of how neutrinos change their avor in massive stars a case which is much more complex than the one of our sun
 the msw eect in supernovae is well established
-since
-the star is very dense the msw resonance condition can be fullled three times for typical supernova density proles
+since the star is very dense the msw resonance condition can be fullled three times for typical supernova density proles
 at high density the resonance depending on takes place but does not produce any spectral modication
-at lower densities two further resonances can
-cur that depend on and usually termed as the high resonance and the low resonances
+at lower densities two further resonances can cur that depend on and usually termed as the high resonance and the low resonances
 the sign of the neutrino mass squared dierences determines if neutrinos or anti neutrinos undergo a resonant version
 the sign of produces a low resonance in the neutrino sector
-
 the one of keeps unknown the hierarchy problem
 the adiabaticity of the evolution at the resonances depends also on the neutrino energy and on the gradient of the matter density which is fullled for typical power laws that accord with simulations
 recent calculations have shown the emergence of new phenomena due to the neutrino neutrino interaction the presence of shock waves and of turbulence see for a review
 steep changes of the stellar density prole due to shock waves induce multiple msw resonances and ence phenomena among the matter eigenstates
 as a consequence the trino evolution can become completely non adiabatic when the shock passes through the msw region
-
 as for the neutrino self interaction it can produce collective stable and unstable modes of the gas and a swapping of the neutrino volpe printed on september uxes with spectral changes
 various models have been studied to tigate the impact of the self interactions on the neutrino spectra and the occurrence of collective instabilities that trigger avour modications in the star
 the rst model so called bulb model was assuming that the ical and azymuthal symmetries for neutrino propagation from the neutrino sphere homogeneity and
@@ -320,444 +264,742 @@ one should keep in mind that the solution of the full dynamical problem should i
 to make the problem numerically computable the models involve various imations
 these are usually non stationarity homogeneity the spherical azymuthal symmetries
 however it has been shown that even if tial conditions have some symmetry the solutions of the evolution equations does not necessarily retain it
-to avoid the demanding solution of the equations often the instabilities are determined by employing a linearised stability analysis see
+to avoid the demanding solution of the equations often the instabilities are determined by employing a linearised stability analysis see e
+
 
 such analysis are useful to tify the location of the instability while they do not inform of the spectral modications
-the neutrino spectral swapping turned out to be signicant in the text of the bulb model while they could well reveal minor modications in simulations including non stationarity inhomogeneities and a realistic
-scription of the neutrino sphere see
+the neutrino spectral swapping turned out to be signicant in the text of the bulb model while they could well reveal minor modications in simulations including non stationarity inhomogeneities and a realistic scription of the neutrino sphere see e
 
-for the latter has in fact shown that fast conversions can occur very close to the neutrino sphere even if mixings are not taken into account
-many general features are tablished but important questions remain in particular on the conditions for the occurrence of avor modications and its impact on the neutrino spectra another open question is the role of corrections beyond the usual eld in the transition region
-this is between the dense region within the
-the neutrino sphere is the avour and energy dependent location deep inside the star from which neutrinos start free streaming
+
+for the latter ref
+has in fact shown that fast conversions can occur very close to the neutrino sphere even if mixings are not taken into account
+many general features are tablished but important questions remain in particular on the conditions for the occurrence of avor modications and its impact on the neutrino spectra
+another open question is the role of corrections beyond the usual eld in the transition region
+this is between the dense region within the the neutrino sphere is the avour and energy dependent location deep inside the star from which neutrinos start free streaming
 volpe printed on september neutrinosphere which is boltzmann treated to the diluted one outside the neutrinosphere where collective avor conversion occurs
-so far this sition has been treated as a sharp boundary where the neutrino uxes and spectra obtained in supernova simulations is used as initial conditions in
-avour studies
-extended descriptions describing neutrino evolution in a dense medium have recently been derived using a coherent state path
-gral
-the born bogoliubov green kirkwood yvon hierarchy or the two particle irreducible eective action formalism see also
-
+so far this sition has been treated as a sharp boundary where the neutrino uxes and spectra obtained in supernova simulations is used as initial conditions in avour studies
+extended descriptions describing neutrino evolution in a dense medium have recently been derived using a coherent state path gral the born bogoliubov green kirkwood yvon hierarchy or the two particle irreducible eective action formalism see also
 sides collisions two kinds of corrections in an extended tion are identied spin or helicity coherence and neutrino antineutrino pairing correlations
 such corrections are expected to be tiny but the non linearity of the equations could introduce signicant changes of neutrino evolution in particular in the transition region
 numerical calculations are needed to investigate the role of spin coherence or neutrino antineutrino pairing correlations or of collisions
 a rst calculation in a simplied model shows that helicity coherence might have an impact
 neutrino avor conversion also occurs in accretion disks around black holes and binary compact objects such as black hole neutrons star and neutron star neutron star mergers
-
 in particular avour cation can be triggered by a cancellation of the neutrino matter and interaction contributions in these scenarios
 this produces a resonant nomenon called the neutrino matter resonance
 another interesting theoretical development is the establishment of nections between neutrino avor conversion in massive stars and the ics or behaviour of many body systems in other domains
-using algebraic methods has shown that the neutrino neutrino interaction tonian can be rewritten as a reduced bardeen cooper schrieer bcs
-hamiltonian for superconductivty
-as mentioned above has included neutrino antineutrino correlations of the pairing type which are formally analogous to the bcs correlations
+using algebraic methods ref
+has shown that the neutrino neutrino interaction tonian can be rewritten as a reduced bardeen cooper schrieer bcs hamiltonian for superconductivty
+as mentioned above ref
+has included neutrino antineutrino correlations of the pairing type which are formally analogous to the bcs correlations
 the linearisation of the sponding neutrino evolution equations has highlighted the formal link tween stable and unstable collective neutrino modes and those in atomic nuclei and metallic clusters
 
-supernova neutrino observations the observation of the neutrino luminosity curve from a future explosion would closely follow the dierent phases of the explosion
-ing a crucial test of supernova simulation predictions and information on the star and unknown neutrino properties
+
+supernova neutrino observations the observation of the neutrino luminosity curve from a future explosion would closely follow the dierent phases of the explosion ing a crucial test of supernova simulation predictions and information on the star and unknown neutrino properties
 in particular the occurrence of the msw eect in the outer layer of the star and collective eects depends on the value of the third neutrino mixing angle and the neutrino mass volpe printed on september ing
 the precise measurement of the last mixing angle reduces the number of unknowns
 still the neutrino signal from a future supernova explosion could tell us about the mass ordering either from the early time signal in icecube or by measuring the positron time and energy signal in cherenkov or scintillator detectors associated with the passage of the shock wave in the msw region
 several other properties can impact the neutrino uxes such as the neutrino magnetic moment standard interactions sterile neutrinos
 cp violation eects from the dirac phase exist but appear to be small
-in spite of the range of predictions the combination of future observations from detection channels with dierent avor sensitivities energy threshold and time measurements can pin down degenerate solutions and bring key information to this domain see
-the supernova early warning system snews and numerous other neutrino detectors around the world can serve as supernova neutrino vatories if a supernova blows up in the milky way or outside our galaxy
+in spite of the range of predictions the combination of future observations from detection channels with dierent avor sensitivities energy threshold and time measurements can pin down degenerate solutions and bring key information to this domain see e
 
+
+the supernova early warning system snews and numerous other neutrino detectors around the world can serve as supernova neutrino vatories if a supernova blows up in the milky way or outside our galaxy
 large scale detectors based on dierent technologies including liquid argon water cherenkov and scintillator are being considered
 upcoming observatories are the large scale scintillator detector juno and fully the water cherenkov hyper kamiokande
 these have the potential to detect neutrinos from a galactic and an extragalactic explosion as well as to discover the diuse supernova neutrino background produced from supernova explosions up to cosmological redshift of
-the latter could be observed by egads the super kamiokande detector with the addition of gadolinium for a review see
+the latter could be observed by egads i
+e
+the super kamiokande detector with the addition of gadolinium for a review see
 
 ultra high energy neutrinos the main mission of high energy neutrino telescopes is to search for galactic and extra galactic sources of high energy neutrinos to elucidate the source of cosmic rays and the astrophysical mechanisms that produce them
-
 these telescopes also investigate neutrino oscillations dark matter and pernova neutrinos for icecube
 the events collected in icecube with deposited energies ranging from to pev is consistent with the discovery of high energy astrophysical neutrinos at
+
 the pev event is the highest energy neutrino ever observed
-high energy neutrino telescopes
-are currently also providing data on neutrino oscillations measuring atmospheric neutrinos commonly a ground for astrophysical neutrino searches
-using low energy samples both antares and icecube deepcore
-have measured the ters and in good agreement with existing data
-orca
-and pingu icecube extension in the gev energy range could volpe printed on september sure the mass hierarchy by exploiting the occurrence of the matter eect from neutrinos both from the msw and the parametric resonance ring in the earth
+high energy neutrino telescopes are currently also providing data on neutrino oscillations measuring atmospheric neutrinos commonly a ground for astrophysical neutrino searches
+using low energy samples both antares and icecube deepcore have measured the ters and in good agreement with existing data
+orca and pingu icecube extension in the gev energy range could volpe printed on september sure the mass hierarchy by exploiting the occurrence of the matter eect from neutrinos both from the msw and the parametric resonance ring in the earth
 neutrino telescopes are also sensitive to other fundamental properties such as lorentz and cpt violation or sterile neutrinos
 fig
 
-references
-references
+references references m
+g
 aartsen et al
 observation of high energy astrophysical nos in three years of icecube data phys
+rev
 lett
 
 
-
+b
 pontecorvo mesonium and anti mesonium sov
 phys
-jetp
+jetp zh
 eksp
 teor
 fiz
 
-fukuda al
+y
+fukuda et al
 evidence for oscillation of atmospheric neutrinos phys
+rev
 lett
-
 hep
-maki nakagawa and sakata remarks on the unied model of mentary particles prog
+z
+maki m
+nakagawa and s
+sakata remarks on the unied model of mentary particles prog
 theor
 phys
 
-
+k
+a
 olive et al
 particle data group collaboration review of particle physics chin
 phys
 c
+l
 wolfenstein neutrino oscillations in matter phys
+rev
 d
-mikheev and smirnov resonance amplication of oscillations in matter and spectroscopy of solar neutrinos sov
+s
+p
+mikheev and a
+y
+smirnov resonance amplication of oscillations in matter and spectroscopy of solar neutrinos sov
+j
 nucl
 phys
 yad
 fiz
 
-volpe printed on september ahmad et al
+volpe printed on september q
+r
+ahmad et al
 direct evidence for neutrino avor transformation from neutral current interactions in the sudbury neutrino observatory phys
+rev
 lett
 
+k
 eguchi et al
 first results from kamland evidence for reactor neutrino disappearance phys
+rev
 lett
 
-haxton hamish robertson and serenelli solar
-trinos status and prospects ann
+w
+c
+haxton r
+g
+hamish robertson and a
+m
+serenelli solar trinos status and prospects ann
+rev
 astron
 astrophys
 
 
-
+g
 mention et al
 the reactor antineutrino anomaly phys
+rev
 d
+a
 marrone talk given at july london
-
-xu super kamiokande collaboration current status of sk gd project and egads phys
+c
+xu super kamiokande collaboration current status of sk gd project and egads j
+phys
 conf
 ser
 no
-davis harmer and homan search for neutrinos from the sun phys
+
+r
+davis jr
+d
+s
+harmer and k
+c
+homan search for neutrinos from the sun phys
+rev
 lett
 
-bahcall bahcall and shaviv present status of the theoretical predictions for the solar neutrino experiment phys
+j
+n
+bahcall n
+a
+bahcall and g
+shaviv present status of the theoretical predictions for the solar neutrino experiment phys
+rev
 lett
 
-friedland lunardini and pena garay solar neutrinos as probes of neutrino matter interactions phys
+a
+friedland c
+lunardini and c
+pena garay solar neutrinos as probes of neutrino matter interactions phys
 lett
-b
-hep
-
+b hep
+g
 bellini et al
 first evidence of pep solar neutrinos by direct detection in borexino phys
+rev
 lett
 
 
+c
 arpesella et al
-
 direct measurement of the solar neutrino flux with days of borexino data phys
+rev
 lett
 
 
+g
 bellini et al
 neutrinos from the primary proton proton fusion process in the sun nature no
 
-
+h
+a
 bethe energy production in stars phys
+rev
 
+a
+heger c
+l
+fryer s
+e
+woosley n
+langer and d
+h
+hartmann how massive single stars end their life astrophys
+j
 
-heger fryer woosley langer and hartmann how massive single stars end their life astrophys
-
-
-hoyle and fowler nucleosynthesis in supernovae astrophys
-
+f
+hoyle and w
+a
+fowler nucleosynthesis in supernovae astrophys
+j
 erratum astrophys
+j
 
-
-colgate and johnson hydrodynamic origin of cosmic rays phys
+s
+a
+colgate and m
+h
+johnson hydrodynamic origin of cosmic rays phys
+rev
 lett
-colgate and white the hydrodynamic behavior of supernovae explosions astrophys
 
+s
+a
+colgate and r
+h
+white the hydrodynamic behavior of supernovae explosions astrophys
+j
 
+w
+d
 arnett gravitational collapse and weak interactions can
-
+j
+j
+r
 wilson a numerical study of gravitational stellar collapse phys
+
 phys
+j
 
-bethe and wilson revival of a stalled supernova shock by trino heating astrophys
+h
+a
+bethe and j
+wilson r
+revival of a stalled supernova shock by trino heating astrophys
+j
 
-volpe printed on september janka explosion mechanisms of core collapse supernovae ann
+volpe printed on september h
+t
+janka explosion mechanisms of core collapse supernovae ann
+rev
 nucl
 part
 sci
 
 
-see the hubble telescope site schmidt kirshnerm and eastman expanding photospheres of type ii supernovae and the extragalactic distance scale
+see the hubble telescope site
+spacetelescope
+org news
+b
+p
+schmidt r
+p
+kirshnerm and r
+g
+eastman expanding photospheres of type ii supernovae and the extragalactic distance scale
 astrophys
+j
 astro
-
+p
 podsiadlowski the progenitor of astronomical society of the pacic
+k
 hirata et al
 kamiokande ii collaboration observation of a trino burst from the supernova sn phys
+rev
 lett
 
-
-bionta blewitt bratton casper ciocio claus cortez and crouch et al
+r
+m
+bionta g
+blewitt c
+b
+bratton d
+casper a
+ciocio r
+claus b
+cortez and m
+crouch et al
 observation of a neutrino burst in dence with supernova sn in the large magellanic cloud phys
+rev
 lett
 
-alekseev alekseeva krivosheina and volchenko tection of the neutrino signal from in the lmc using the inr baksan
-underground scintillation telescope phys
+e
+n
+alekseev l
+n
+alekseeva i
+v
+krivosheina and v
+i
+volchenko tection of the neutrino signal from in the lmc using the inr baksan underground scintillation telescope phys
 lett
 b
-vissani comparative analysis of antineutrino uence phys
+f
+vissani comparative analysis of antineutrino uence j
+phys
 g
 
-aglietta badino bologna castagnoli castellina fulgione galeotti and saavedra et al on the event observed in the mont blanc
-underground neutrino observatory during the occurrence of supernova europhys
+m
+aglietta g
+badino g
+bologna c
+castagnoli a
+castellina w
+fulgione p
+galeotti and o
+saavedra et al
+on the event observed in the mont blanc underground neutrino observatory during the occurrence of supernova europhys
 lett
 
-suzuki the anniversary of phys
+a
+suzuki the anniversary of j
+phys
 conf
 ser
 
-
-podsiadlowski morris and ivanova the progenitor of sn aip conf
+p
+podsiadlowski t
+s
+morris and n
+ivanova the progenitor of sn aip conf
 proc
 
-janka marek and kitaura neutrino driven explosions twenty years after aip conf
+h
+
+janka a
+marek and f
+
+kitaura neutrino driven explosions twenty years after aip conf
 proc
 
 
-sato and suzuki total energy of neutrino burst from the supernova
-and the mass of neutron star just born phys
+k
+sato and h
+suzuki total energy of neutrino burst from the supernova and the mass of neutron star just born phys
 lett
 b
+m
+j
 longo tests of relativity from phys
+rev
 d
-volpe and balantekin nucleosynthesis and the role of neutrinos state of the art and open issues focus issues phys
+c
+volpe and a
+b
+balantekin nucleosynthesis and the role of neutrinos state of the art and open issues focus issues j
+phys
 g
+i
 tamborra et al
 self sustained asymmetry of lepton number emission a new phenomenon during the supernova shock accretion phase in three sions astrophys
+j
 
 
-janka melson and summa physics of core collapse supernovae in three dimensions a sneak preview
-giunti and kim fundamentals of neutrino physics and physics oxford uk univ
+h
+
+janka t
+melson and a
+summa physics of core collapse supernovae in three dimensions a sneak preview
+
+c
+giunti and c
+w
+kim fundamentals of neutrino physics and physics oxford uk univ
 pr
 
-volpe printed on september volpe neutrino quantum kinetic equations int
+volpe printed on september c
+volpe neutrino quantum kinetic equations int
+j
 mod
 phys
-e
-no
+e no
 
+
+
+j
 serreau in dense anisotropic media phys
+rev
 d no
 
+physrevd
 
-neutrino antineutrino and volpe correlations lobanov and studenikin neutrino oscillations in moving and polarized matter under the inuence of electromagnetic elds phys
+
+
+neutrino antineutrino and c
+volpe correlations a
+e
+lobanov and a
+i
+studenikin neutrino oscillations in moving and polarized matter under the inuence of electromagnetic elds phys
 lett
 b
 hep
-de gouvea and shalgar eect of transition magnetic moments on collective supernova neutrino oscillations jcap
+a
+gouvea and s
+shalgar eect of transition magnetic moments on collective supernova neutrino oscillations jcap
 
-
-
-vlasenko fuller and cirigliano neutrino quantum kinetics phys
+a
+vlasenko g
+m
+fuller and v
+cirigliano neutrino quantum kinetics phys
+rev
 d
 
+a
+vlasenko g
+m
+fuller and v
+cirigliano prospects for antineutrino transformation in astrophysical environments
 
-vlasenko fuller and cirigliano prospects for
-antineutrino transformation in astrophysical environments
-volpe vaananen and espinoza extended evolution equations for trino propagation in astrophysical and cosmological environments phys
+c
+volpe d
+vaananen and c
+espinoza extended evolution equations for trino propagation in astrophysical and cosmological environments phys
+rev
 d
 
-
+j
+t
 pantaleone neutrino oscillations at high densities phys
 lett
 b
-banerjee dighe and raelt linearized avor stability analysis of dense neutrino streams phys
+a
+banerjee a
+dighe and g
+raelt linearized avor stability analysis of dense neutrino streams phys
+rev
 d
 
-vaannen and volpe linearizing neutrino evolution equations including neutrino antineutrino pairing correlations phys
+d
+vaannen and c
+volpe linearizing neutrino evolution equations including neutrino antineutrino pairing correlations phys
+rev
 d
 hep
+s
+chakraborty r
+s
+hansen i
+izaguirre and g
+raelt self induced avor conversion of supernova neutrinos on small scales jcap no
 
-chakraborty hansen izaguirre and raelt self induced avor conversion of supernova neutrinos on small scales jcap no
 
-
-
-
-dighe and smirnov identifying the neutrino mass spectrum from the neutrino burst from a supernova phys
+a
+s
+dighe and a
+y
+smirnov identifying the neutrino mass spectrum from the neutrino burst from a supernova phys
+rev
 d
-
-
-duan fuller and qian collective neutrino oscillations ann
+h
+duan g
+m
+fuller and y
+z
+qian collective neutrino oscillations ann
+rev
 nucl
 part
 sci
 
 
-
-duan and kneller neutrino avor transformation in supernovae phys
+h
+duan and j
+p
+kneller neutrino avor transformation in supernovae j
+phys
 g
 
-
-raelt and smirnov adiabaticity and spectral splits in collective neutrino transformations phys
+g
+g
+raelt and a
+y
+smirnov adiabaticity and spectral splits in collective neutrino transformations phys
+rev
 d
 
-
-galais and volpe the neutrino spectral split in core collapse
-
-novae a magnetic resonance phenomenon phys
+s
+galais and c
+volpe the neutrino spectral split in core collapse novae a magnetic resonance phenomenon phys
+rev
 d
 
-esteban pretel mirizzi pastor tomas raelt serpico and sigl role of dense matter in collective neutrino
-mations phys
+a
+esteban pretel a
+mirizzi s
+pastor r
+tomas g
+g
+raelt p
+d
+serpico and g
+sigl role of dense matter in collective neutrino mations phys
+rev
 d
 
-volpe printed on september capozzi dasgupta and mirizzi self induced temporal instability from a neutrino antenna jcap no
+volpe printed on september f
+capozzi b
+dasgupta and a
+mirizzi self induced temporal instability from a neutrino antenna jcap no
 
 
 
-raelt sarikas and de sousa seixas axial symmetry breaking in self induced flavor conversionof supernova neutrino fluxes phys
-lett no erratum phys
+g
+raelt s
+sarikas and d
+de sousa seixas axial symmetry breaking in self induced flavor conversionof supernova neutrino fluxes phys
+rev
+lett
+no
+erratum phys
+rev
 lett
 no
 
 
+r
+f
 sawyer neutrino cloud instabilities just above the neutrino sphere of a supernova phys
+rev
 lett
 no
 
 
-sigl and raelt general kinetic description of relativistic mixed trinos nucl
+g
+sigl and g
+raelt general kinetic description of relativistic mixed trinos nucl
 phys
 b
-
-mckellar and thomson oscillating doublet neutrinos in the early universe phys
+b
+h
+j
+mckellar and m
+j
+thomson oscillating doublet neutrinos in the early universe phys
+rev
+d
+a
+malkus j
+p
+kneller g
+c
+mclaughlin and r
+surman neutrino cillations above black hole accretion disks disks with emission phys
+rev
 d
 
-malkus kneller mclaughlin and surman neutrino cillations above black hole accretion disks disks with emission phys
+y
+l
+zhu a
+perego and g
+c
+mclaughlin matter neutrino resonance transitions above a neutron star merger remnant
+
+m
+frensel m
+r
+wu c
+volpe and a
+perego neutrino flavor evolution in binary neutron star merger remnants
+
+y
+pehlivan a
+b
+balantekin t
+kajino and t
+yoshida invariants of lective neutrino oscillations phys
+rev
 d
 
+j
+bardeen l
+n
+cooper and j
+r
+schrieer theory of superconductivity phys
+rev
 
-zhu perego and mclaughlin matter neutrino resonance transitions above a neutron star merger remnant
-frensel wu volpe and perego neutrino flavor evolution in binary neutron star merger remnants
-
-pehlivan balantekin kajino and yoshida invariants of lective neutrino oscillations phys
-d
-
-bardeen cooper and schrieer theory of superconductivity phys
-
+y
 abe et al
-indication for the disappearance of reactor electron
-trinos in the double chooz experiment phys
+indication for the disappearance of reactor electron trinos in the double chooz experiment phys
+rev
 lett
 
 
-
-
+f
+p
 an et al
 observation of electron antineutrino disappearance at daya bay phys
+rev
 lett
 
 
-
-ahn et al observation of reactor electron antineutrino
-pearance in the reno experiment phys
+j
+k
+ahn et al
+observation of reactor electron antineutrino pearance in the reno experiment phys
+rev
 lett
 
 
+p
+d
 serpico et al
-
 probing the neutrino mass hierarchy with the rise time of a supernova burst phys
+rev
 d
 
-gava kneller volpe and mclaughlin
-a dynamical collective calculation of supernova neutrino signals phys
+j
+gava j
+kneller c
+volpe and g
+c
+mclaughlin a dynamical collective calculation of supernova neutrino signals phys
+rev
 lett
 
 
-balantekin gava and volpe possible cp violation eects in collapse supernovae phys
+a
+b
+balantekin j
+gava and c
+volpe possible cp violation eects in collapse supernovae phys
 lett
 b
 
-gava and volpe
-collective neutrinos oscillation in matter and violation phys
+j
+gava and c
+volpe collective neutrinos oscillation in matter and violation phys
+rev
 d
 
-kneller and mclaughlin three flavor neutrino oscillations in
-matter flavor diagonal potentials the adiabatic basis and the cp phase phys
+j
+p
+kneller and g
+c
+mclaughlin three flavor neutrino oscillations in matter flavor diagonal potentials the adiabatic basis and the cp phase phys
+rev
 d
 
-volpe printed on september pehlivan balantekin and kajino neutrino magnetic moment cp
-violation and flavor oscillations in matter phys
+volpe printed on september y
+pehlivan a
+b
+balantekin and t
+kajino neutrino magnetic moment cp violation and flavor oscillations in matter phys
+rev
 d
 
-vaananen and volpe the neutrino signal at halo learning about the primary supernova neutrino uxes and neutrino properties jcap
+d
+vaananen and c
+volpe the neutrino signal at halo learning about the primary supernova neutrino uxes and neutrino properties jcap
 
-
+k
 scholberg supernova neutrino detection ann
+rev
 nucl
 part
 sci
 
 
+f
 an et al
-juno collaboration neutrino physics with juno phys
+juno collaboration neutrino physics with juno j
+phys
 g
-det
-yano hyper kamiokande proto collaboration neutrino astrophysics with hyper kamiokande phys
+physics
+ins det
+t
+yano hyper kamiokande proto collaboration neutrino astrophysics with hyper kamiokande j
+phys
 conf
 ser
 no
 
+j
+f
 beacom the diuse supernova neutrino background ann
+rev
 nucl
-
+c
 lunardini diuse supernova neutrinos at underground laboratories part
 sci
 
 
 
+s
 adrian martinez et al
 measurement of atmospheric neutrino tions with the antares neutrino telescope phys
 lett
 b
 
-
+a
 gross atmospheric neutrino oscillations in icecube nucl
 phys
 proc
 suppl
 
 
-
+s
 adrian martinez et al
-collaboration letter of intent for phys
+collaboration letter of intent for
+j
+phys
 g no
 
 
+m
+g
 aartsen et al
 icecube collaboration pingu a vision for neutrino and particle physics at the south pole
 hep
-
+e
 kh
 akhmedov parametric resonance of neutrino oscillations and passage of solar and atmospheric neutrinos through the earth nucl
 phys
 b
-
+s
+t
 petcov diractive like or parametric resonance like enhancement of the earth day night eect for solar neutrinos crossing the earth core phys
 lett
 b
-
+r
 abbasi et al
 search for a lorentz violating sidereal signal with atmospheric neutrinos in icecube phys
+rev
 d
 
 

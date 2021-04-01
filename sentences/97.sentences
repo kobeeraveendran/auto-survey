@@ -1,17 +1,15 @@
-query adaptive video summarization via quality aware relevance estimation
-arun balajee vasudevan michael gygli anna volokitin luc van gool eth
-zurich ku leuven p e s v c
-s
-c
-v
-v
-i x r a abstract
-although the problem of automatic video summarization has cently received a lot of attention the problem of creating a video summary that also highlights elements relevant to a search query has been less studied
+query adaptive video summarization via quality aware relevance estimation arun balajee vasudevan michael gygli anna volokitin luc van gool eth zurich ku leuven gifs
+com arunv gygli anna
+volokitin
+ee
+ethz
+ch p e s v c
+s c v
+v i x r a abstract although the problem of automatic video summarization has cently received a lot of attention the problem of creating a video summary that also highlights elements relevant to a search query has been less studied
 we address this problem by posing relevant summarization as a video frame subset selection problem which lets us optimise for summaries which are simultaneously diverse representative of the entire video and relevant to a text query
 we quantify relevance by measuring the distance between frames and queries in a common textual visual semantic ding space induced by a neural network
 in addition we extend the model to capture query independent properties such as frame quality
 we compare our method against previous state of the art on textual visual embeddings for thumbnail selection and show that our model outperforms them on relevance prediction
-
 more we introduce a new dataset annotated with diversity and query specific relevance labels
 on this dataset we train and test our complete model for video summarization and show that it performs standard baselines such as maximal marginal relevance
 introduction video recording devices have become omnipresent
@@ -19,26 +17,28 @@ most of the videos taken with smartphones surveillance cameras and wearable came
 however most raw videos never end up getting curated and remain too long shaky redundant and boring to watch
 this raises new challenges in searching both within and across videos
 the problem of making videos content more accessible has spurred research in automatic tagging and video rization
-
 in automatic tagging the goal is to predict meta data in form of tags which makes videos searchable via text queries
 video summarization on the other hand aims at making videos more accessible by reducing them to a few interesting and representative frames or shots
-
 this paper combines the goals of summarising videos and makes them searchable with text
 specifically we propose a novel method that generates video summaries adapted to a text query see fig
+
 authors contributed equally permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page
 copyrights for components of this work owned by others than the must be honored
 abstracting with credit is permitted
 to copy otherwise or republish to post on servers or to redistribute to lists requires prior specific permission a fee
 request permissions from
-
+org
 october mountain view ca usa
-
 copyright held by the owner
 publication rights licensed to acm
-
 isbn
 
-doi figure our query adaptive video summarization model picks frames that are relevant to the query while also giving a sense of entire video
+
+
+doi
+
+
+figure our query adaptive video summarization model picks frames that are relevant to the query while also giving a sense of entire video
 we want to summarise a video of an ironman competition in which participants swim bike and run
 query adapted summaries are representative by showing all three sports while placing more focus on the frames matching the query
 our approach improves previous works in the area of textual visual embeddings and proposes an extension of an existing video summarization method using submodular mixtures for creating summaries that are query adaptive
@@ -49,41 +49,32 @@ while the embedding captures semantic similarity between video frames and text q
 we train this model on a large dataset of image search data and our newly introduced relevance and diversity dataset section
 the second part of the summarization system is a framework for optimising the selected set of frames not only for relevance but also for representativeness and diversity using a submodular mixture of objectives
 figure shows an overview of our complete pipeline
-we publish our codes and demos and make the following contributions several improvements on learning a textual visual ding for thumbnail selection compared to the work by liu et
-
-al
+we publish our codes and demos and make the following contributions several improvements on learning a textual visual ding for thumbnail selection compared to the work by liu et al
 
 these include better alignment of the learning jective to the task at test time and modeling the text queries using lstms fetching significant performance gains
-arunbalajeev query video summary
 
-a way to model semantic similarity and quality aspects of frames jointly leading to better performance compared to using the similarity to text queries only
-
+com arunbalajeev query video summary a way to model semantic similarity and quality aspects of frames jointly leading to better performance compared to using the similarity to text queries only
 we adapt the submodular mixtures model for video marization by gygli et al
 to create query adaptive and diverse summaries using our frame based relevance model
-
 a new video thumbnail dataset providing query relevance and diversity labels
 as the judgements are subjective we collect multiple annotations per video and analyse the consistency of the obtained labelling
-related work
-the goal of video summarization is to select a subset of frames that gives a user an idea of the video s content at a glance
+related work the goal of video summarization is to select a subset of frames that gives a user an idea of the video s content at a glance
 to find informative frames for this task two dominant approaches exist i modelling generic frame interestingness or using additional information such as the video title or a text query to find relevant frames
 in this work we combine the two into one model and make several contributions for query adaptive relevance prediction
-such models are related to automatic
-ging textual visual embeddings and image description
+such models are related to automatic ging textual visual embeddings and image description
 in the following we discuss approaches for video summarization generic interestingness diction models and previous works for obtaining embeddings
 video summarization
 video summarization methods can be broadly classified into abstractive and extractive approaches
+stractive or compositional approaches transform the initial video into a more compact and appealing representation e
 
-
-stractive or compositional approaches transform the initial video into a more compact and appealing representation lapses montages or video synopses
+lapses montages or video synopses
 the goal of extractive methods is instead to select an informative subset of keyframes or video segments from the tial video
 our method is extractive
 extractive methods need to optimise at least two properties of the summary the quality of the selected frames and their diversity
 sometimes additional objectives such as temporal uniformity and vance are also optimised
 the simplest approach to obtain a representative and diverse summary is to cluster videos into events and select the best frame per event
-more sophisticated proaches jointly optimise for importance and diversity by using determinantal point process dpps
-or submodular tures
-most related to our paper is the work of sharghi et
-al
+more sophisticated proaches jointly optimise for importance and diversity by using determinantal point process dpps or submodular tures
+most related to our paper is the work of sharghi et al
 who present an approach for query adaptive video rization using dpps
 their method however limits to a small fixed set of concepts such as car or flower
 the authors leave handling of unconstrained queries as in our approach for future work
@@ -91,23 +82,19 @@ in this work we formulate video summarization as a maximisation problem over a s
 frame quality interestingness
 most methods that predict frame interestingness are based on supervised learning
 the prediction problem can be formulated as a classification regression or as is now most common as a ranking problem
-
 to simplify the task some approaches assume the domain of the video given and train a model for each domain
 an alternative approach based on unsupervised learning posed by xiong et al
 detects snap points by using a web image prior
 their model considers frames suitable as keyframes if the composition of the frames matches the composition of the web images regardless of the frame content
-our approach is
-tially inspired by this work in that it predicts relevance even in the absence of a query but relies on supervised learning
+our approach is tially inspired by this work in that it predicts relevance even in the absence of a query but relies on supervised learning
 unconstrained textual visual models
 several methods exist that can retrieve images given unconstrained text or vice
 these typically project both modalities into a joint embedding space where semantic similarity can be compared using a measure like cosine similarity
-
 and glove are popular choices to obtain the embeddings of text
 deep image features are then mapped to the same space via a learned projection
 once both modalities are in the same space they may be easily compared
 a multi modal semantic embedding space is often used by zero shot learning approaches to predict test labels which are unseen in the training
-habibian et
-al
+habibian et al
 in the same spirit propose zero shot recognition of events in videos by learning a video representation that aligns text dio and video features
 similarly liu et al
 use textual visual embeddings for video thumbnail selection
@@ -115,47 +102,44 @@ our relevance model is based on liu et al
 but we provide several important provements
 i rather than keeping the word representation fixed we jointly optimise the word and image projection
 instead of embedding each word separately we train an lstm model that combines a complete query into one single embedding vector thus it even learns multi word combinations such as visit to lake and star wars movie
-
 in contrast to liu et al
-we directly optimise
-the target objective
+we directly optimise the target objective
 our experiments show that these changes lead to significantly better performance in predicting relevant nails
-method for relevance prediction
-the goal of this work is to introduce a method to automatically select a set of video thumbnails that are both relevant with respect to a query but also diverse enough to represent the video
+method for relevance prediction the goal of this work is to introduce a method to automatically select a set of video thumbnails that are both relevant with respect to a query but also diverse enough to represent the video
 to later optimise relevance and diversity jointly we first need a way to evaluate the relevance of frames
 our relevance model learns a projection of video frames v and text queries t into the same embedding space
 we denote the tion of t and v as t and v respectively
 once trained the relevance of a frame v given a query t can be estimated via some similarity measure
 as we use the cosine similarity v t v
-while this lets us assess the semantic relevance of a frame
+while this lets us assess the semantic relevance of a frame w
+
+t
 a query it is also possible to make a prediction on the suitability as thumbnails a based on the frame quality composition
 
-thus we propose to extend above notion of relevance and model the quality aspects of thumbnails explicitly by computing the final relevance as the sum of the embedding similarity and the query independent frame quality term t v
-v qv where qv is a query independent score determining the suitability of v as a thumbnail based on the quality of a frame
-
+thus we propose to extend above notion of relevance and model the quality aspects of thumbnails explicitly by computing the final relevance as the sum of the embedding similarity and the query independent frame quality term i
+e
+t v v qv where qv is a query independent score determining the suitability of v as a thumbnail based on the quality of a frame
 figure overview of our approach
 we show how a summary is created from an example video and the query cooking channel
-
-we obtain a query adaptive summary by selecting a set of keyframes from the video using our quality aware relevance model and submodular mixtures as explained in sec and
-
+we obtain a query adaptive summary by selecting a set of keyframes from the video using our quality aware relevance model and submodular mixtures as explained in sec
+and
 in the following we investigate how to formulate the task of obtaining the embeddings t and v as well as qv
-training objective
-intuitively our model should be able to answer what is the best thumbnail for this query
-thus the problem of picking the best thumbnail for a video is naturally formulated as a ranking problem
 
-we desire that the embedding vectors of a query and frame that are a good match are more similar than ones of the same query and a non relevant
+training objective intuitively our model should be able to answer what is the best thumbnail for this query
+thus the problem of picking the best thumbnail for a video is naturally formulated as a ranking problem
+we desire that the embedding vectors of a query and frame that are a good match are more similar than ones of the same query and a non relevant frame
 thus our model should learn to satisfy the rank constraint that given a query t the relevance score of is higher than the relevance score of the the relevant frame v irrelevant frame v t v r t v
 alternatively we can train the model by requiring that both the similarity score and the quality score of the relevant frame are higher than for the irrelevant frame explicitly rather than imposing a constraint only on their sum as above
 in this case we would be imposing the two following constraints v v qv qv
 experimentally we find that training with these explicit constraints leads to slightly improved performance see tab
 
-in order to impose these constraints and train the model we define the loss as v v v lp max
-qv qv where lp is a cost function and is a margin parameter
-we
-low and use a huber loss for lp the robust version of an loss
+in order to impose these constraints and train the model we define the loss as v v v lp max qv qv where lp is a cost function and is a margin parameter
+we low and use a huber loss for lp i
+e
+the robust version of an loss
 next we describe how to parametrize the t v and qv so that they can be learned
-text and frame representation
-we use a convolutional neural network cnn for predicting v and qv while t is obtained via a recurrent neural network
+
+text and frame representation we use a convolutional neural network cnn for predicting v and qv while t is obtained via a recurrent neural network
 to jointly learn the parameters of these networks we use a siamese v where the weights ing network trained with triplets of t v and v are shared
 we provide the for the subnets predicting v model architecture in supplementary material
 we now describe the textual representation t and the image representations v and qv in more detail
@@ -169,73 +153,59 @@ image representation
 to represent the image we leverage the feature representations of a pre trained network on imagenet
 we replace the softmax nodes of network with a linear layer m with dimensions
 the first dimensions are used as the embedding v while the last dimension represents the quality score qv
-summarization model
+summarization model we use the framework of submodular optimization to create maries that take into account multiple objectives
+in this work summarization is posed as the problem of selecting a subset in our case of frames y that maximizes a linear combination of submodular objective functions y y
 
-we use the framework of submodular optimization to create maries that take into account multiple objectives
-in this work summarization is posed as the problem of selecting a subset
-in our case of frames y that maximizes a linear combination of submodular objective functions y
 
-y fn xv
-
-specifically y arg max yyv t w y liu al
+fn xv
+specifically y arg max yyv t w y liu et al
 does the inverse
 it poses the problem as learning to assign a higher similarity to corresponding frame and query than to the same frame and a random query
 thus the model learns to answer the question what is a good query for this image
-where yv denote the set of all possible solutions y and xv the features of video
-in this work we assume that the cardinality is fixed to some value
-we use k in our experiments
+where yv denote the set of all possible solutions y and xv the features of video v
+in this work we assume that the cardinality is fixed to some value we use k in our experiments
 frame level featuressemantic embedding
 
-cooking channelquality scorequery spacediversity scoresimilarityqualitydiversityrepresentativeness
-scorereprsubmodularmaximizationsummary
-framesobjectives for non negative weights w the objective in eq
-is lar
-meaning that it can be optimized near optimally in an cient way using a greedy algorithm with lazy evaluations
+cooking channelquality scorequery spacediversity scoresimilarityqualitydiversityrepresentativeness scorereprsubmodularmaximizationsummary framesobjectives for non negative weights w the objective in eq
+is lar meaning that it can be optimized near optimally in an cient way using a greedy algorithm with lazy evaluations
 objective functions
 we choose a small set of objective functions each capturing different aspects of the summary
-
 query similarity v y where t is the query embedding v is frame embedding and s denotes the cosine similarity defined in eq
 
-quality score
-v y qv where qv represents score that is based on the quality of v as a thumbnail
+quality score v y qv where qv represents score that is based on the quality of v as a thumbnail
 this model scores the image relevance in a query independent manner based on properties such as contrast composition
-diversity of the elements in the summary min
-j i
-
-dxv i j according to some larity measure
-
-we use the euclidean distance in of the
-features of the network for d i y
+diversity of the elements in the summary min j i dxv i j according to some larity measure d
+we use the euclidean distance in of the features of the network for d i y
 representativeness
 this objective favors selecting the medoid frames of a video such that the visually frequent frames in the video are represented in the summary
-
 weight learning
 to learn the weights w in eq
 ground truth summaries for query video pairs are required
 previous methods typically only optimized for relevance or used small datasets with limited vocabularies
 thus to be able to train our model we collected a new dataset with relevance and diversity annotations which we introduce in the next section
 if relevance and diversity labels are known we can estimate the optimal mixing weights of the submodular functions through subgradient descent
-in order to directly optimize for the score used at test time we use a locally modular approximation based on the procedure of and optimize the weights using
-adagrad
-relevance and diversity dataset
-rad
-
-we collected a dataset with query relevance and diversity tion to let us train and evaluate query relevant summaries
+in order to directly optimize for the score used at test time we use a locally modular approximation based on the procedure of and optimize the weights using adagrad
+relevance and diversity dataset rad we collected a dataset with query relevance and diversity tion to let us train and evaluate query relevant summaries
 our dataset consists of videos each of which was retrieved given a different query
 using amazon mechanical turk amt we first annotate the video frames with query relevance labels and then partition the frames into clusters according to visual similarity
-these kind of labels were used previously in the mediaeval diverse social images challenge
-and enabled evaluation of the automatic methods for creating relevant and diverse summaries
+these kind of labels were used previously in the mediaeval diverse social images challenge and enabled evaluation of the automatic methods for creating relevant and diverse summaries
 to select a representative sample of queries and videos for the dataset we used the following procedure we take the top youtube queries between and from different categories as seed
 these queries are typically rather short and generic concepts so to obtain longer more realistic queries we use youtube auto complete to suggest phrases
 using this approach we collect queries
 some examples are brock lesnar vs big show taylor derivation of submodularity of this objective is provided in the suppl
-trends explore swift out of the woods
+
+google
+com trends explore swift out of the woods
 for each query we take the top video result with a duration of to minutes
 to annotate the videos we set up two consecutive tasks on amt
 all videos are sampled at one frame per second
-in the first task a worker is asked to label each frame with its relevance
+in the first task a worker is asked to label each frame with its relevance w
+
+t
 the given query
-options for answers are very not good and trash where trash indicates that the frame is both irrelevant and low quality blurred bad contrast
+options for answers are very not good and trash where trash indicates that the frame is both irrelevant and low quality e
+
+blurred bad contrast
 
 after annotating the relevance the worker is asked to distribute the frames into clusters according to their visual similarity
 we obtain one clustering per worker where each clustering consists of mutually exclusive subsets of video frames as clusters
@@ -243,41 +213,59 @@ the number of clusters in the clustering is chosen by the worker
 each video is annotated by different people and a total of subjects participated in the annotation
 to ensure high quality annotations we defined a qualification task where we check the results manually to ensure the workers provide good annotations
 only workers who pass this test are allowed to take further assignments
-analysis
 
-we now analyse the two kinds of annotations obtained through this procedure and describe how we merge these annotations into one set of ground truth labels per video
+analysis we now analyse the two kinds of annotations obtained through this procedure and describe how we merge these annotations into one set of ground truth labels per video
 label distributions
-the distribution of relevance labels is very good good not good and trash
-the minimum maximum and mean number of clusters per video are and respectively over all videos of rad
+the distribution of relevance labels is very good
+good
+not good
+and trash
+
+the minimum maximum and mean number of clusters per video are
+
+and
+respectively over all videos of rad
 relevance annotation consistency
 given the inherent tivity of the task we want to know whether annotators agree with each other about the query relevance of frames
 to do this we follow previous work and compute the spearman rank correlation between the relevance scores of different subjects splitting five annotations of each video into two groups of two and three raters each
 we take all split combination to find mean for a video
-our dataset has an average correlation of over all videos where is a perfect correlation while would indicate no consistency in the scores
+our dataset has an average correlation of
+over all videos where is a perfect correlation while would indicate no consistency in the scores
 on the related task of event specific image importance using five annotators consistency is only
 
 thus we can be confident that our relevance labels are of high quality
 cluster consistency
 to the best of our knowledge we are the first to annotate multiple clusterings per video and look into the consistency of multiple annotators
 mediaeval for example used multiple relevance labels but only one clustering
-various ways of measuring the consistency of clusterings exist variation of information normalised mutual information or the rand index see wagner and wagner
-for an excellent overview
-in the following we propose to use normalised mutual information nmi an information theoretic measure which is the ratio of the mutual information between two clusterings i c c and the sum of entropies of the clusterings h c h c n mi c c
-i c c
+various ways of measuring the consistency of clusterings exist e
 
-h c h c settings metrics cost lstm quality vg or g spear corr
+variation of information normalised mutual information or the rand index see wagner and wagner for an excellent overview
+in the following we propose to use normalised mutual information nmi an information theoretic measure which is the ratio of the mutual information between two clusterings i c c and the sum of entropies of the clusterings h c h c n mi c c i c c h c h c settings metrics cost lstm quality vg or g spear corr
 map method random loss of liu et al
+ours ours huber loss of liu et al
+lstm ours huber lstm ours frame quality only qexpli ours huber lstm qimpli ours huber lstm qexpli lhuber lhuber lhuber lhuber lhuber
 
-ours
-ours
-huber
-loss of liu et al
 
-lstm
-ours huber lstm
-ours frame quality only qexpli
-ours huber lstm qimpli
-ours huber lstm qexpli lhuber lhuber lhuber lhuber lhuber
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -287,57 +275,55 @@ we report the fraction of times we select a very good or good thumbnail the spea
 the model performs best
 we chose nmi over the more recently proposed variation of mation vi as nmi has a fixed range while still being closely related to vi see supplementary material
 our dataset has a cluster consistency of
+
 since nmi is if two clusterings are independent and iff they are identical we see that our annotators have a high degree of agreement
 ground truth for evaluation on the test videos we create a single ground truth annotation for each video
 we merge the five relevance annotations as well as the clustering of each query video pair
-for
-the final ground truth of relevance prediction we require the labels be either positive or negative for each video frame
-we map all very good labels to good labels to and not good and trash labels to
-we compute the mean of the five relevance annotation labels and label the frame as positive if the mean is and as negative otherwise
-to merge clustering annotations we calculate nmi between all pairs of clustering and choose the clustering with the highest mean nmi the most prototypical cluster
+for the final ground truth of relevance prediction we require the labels be either positive or negative for each video frame
+we map all very good labels to good labels to
+and not good and trash labels to
+we compute the mean of the five relevance annotation labels and label the frame as positive if the mean is
+and as negative otherwise
+to merge clustering annotations we calculate nmi between all pairs of clustering and choose the clustering with the highest mean nmi i
+e
+the most prototypical cluster
 an example of relevance and clustering annotation is provided in fig
 
-configuration testing
-before comparing our proposed relevance model against state of the art in sec
+configuration testing before comparing our proposed relevance model against state of the art in sec
 we first analyze our model performance using different objectives cost functions and text representation
 for evaluation we use query dependent thumbnail selection dataset qts vided by
 the dataset contains candidate thumbnails for each video each of which is labeled one of the five very good vg good g fair f bad b or very bad vb
 we evaluate on the available query video pairs
 to transform the categorical labels to numerical values we use the same mapping as
 evaluation metrics
-as evaluation metrics we are using
-and mean average precision map as reported and defined in liu et al
+as evaluation metrics we are using and mean average precision map as reported and defined in liu et al
 as well as the spearman s rank correlation
 is computed as the hit ratio for the highest ranked thumbnail
-
 training dataset
 for training we use two datasets i the bing clickture dataset and the rad dataset sec
+
 clickture is a large dataset consisting of queries and retrieved images from bing image search
-the annotation is in form of triplets k q c meaning that the image k was clicked c times in the search results of the query
+the annotation is in form of triplets k q c meaning that the image k was clicked c times in the search results of the query q
 this dataset is well suited for training our relevance model since our task is the retrieval of relevant keyframes from a video given a text query
 it is however from the image and not the video domain
 thus we additionally fine tune the models on the complete rad dataset consisting of query video pairs
 from each query video pair we sample an equi number of positive and negative frames to give equal weight to each video
-in total we use m triplets as in sec
-from the clickture and k triplets from the rad for training
+in total we use
+m triplets as in sec
 
+from the clickture and k triplets from the rad for training
 implementation details
 we preprocess the images as in
-
-we truncate the number of words in the query at as a off between the mean and maximum query length in clickture
-and respectively
-
+we truncate the number of words in the query at as a off between the mean and maximum query length in clickture and respectively
 we set the margin parameter in the loss in eq
-to and the tradeoff parameter for the huber loss to as in
+to and the tradeoff parameter for the huber loss to
+as in
 the lstm consists of a hidden layer with units
-we train the parameters of the lstm and projection layer
-m using stochastic gradient descent with adaptive weight updates adagrad
-
+we train the parameters of the lstm and projection layer m using stochastic gradient descent with adaptive weight updates adagrad
 we add an penalty on the weights with a of
 we train for epochs using minibatches of triplets
-tested components
-we discuss three important components of our model next
 
+tested components we discuss three important components of our model next
 objective
 we compare our proposed training objective to that of liu et al
 
@@ -346,38 +332,72 @@ in contrast our method is trained to rank a positive frame higher than a negativ
 cost function
 we also investigate the importance of modeling frame quality
 in particular we compare different cost functions
-
-we enforce two ranking constraints one for the quality term and one for the embedding similarity as in qexpli we sum the quality and similarity term into one output score for which we enforce the rank constraint as in
+i we enforce two ranking constraints one for the quality term and one for the embedding similarity as in eq
+qexpli we sum the quality and similarity term into one output score for which we enforce the rank constraint as in eq
 qimpl i or we do nt model quality at all
-hit method
-spear
+hit method spear
 map method vg vg or g spear
 map queries liu et al
-titles qar without qexpli qar ours table comparison of thumbnail selection performance against the state of the art on the qts evaluation dataset
+titles qar without qexpli qar ours
 
+
+
+
+
+
+
+
+
+
+
+table comparison of thumbnail selection performance against the state of the art on the qts evaluation dataset
 note that uses queries for their method which are not publicly available see text
-no textual input random
-
-
-ours frame quality qexpl i
-titles liu et al
-lstm qar without qexpl i qar ours queries
-liu et al
+no textual input random ours frame quality qexpl i titles liu et al
+lstm qar without qexpl i qar ours queries liu et al
 lstm qar without qexpl i qar ours
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 table performance of our relevance models on the rad dataset in comparison with previous methods
 figure precision recall curve of qts evaluation dataset for different methods
 text representation
 as mentioned in sec
+
 we represent the words of the query using word vectors
 to combine the ual word representations into single vector we investigate two approaches averaging the word embedding vectors and ing an lstm model that learns to combine the individual word embeddings
-results
-we show the results of our detailed experiments in tab
+
+results we show the results of our detailed experiments in tab
 
 they give insights on several important points
 text representation
 modeling queries with an lstm rather than averaging the individual word representations improves mance significantly
-this is not surprising as this model can learn to ignore words that are not visually informative
+this is not surprising as this model can learn to ignore words that are not visually informative e
+
+
 objective and cost function
 the analysis shows that training with our objective leads to better performance compared to using the objective of liu et al
 
@@ -386,46 +406,69 @@ thus formulating the thumbnail task in a way that the model can learn about thes
 using the appropriate triplets for training boosts performance substantially correlation with the figure recall precision curve of the rad testet for ent methods
 our method blue performs high in terms of map
 loss of liu et al
-lstm ours huber lstm
+lstm
+ours huber lstm
 
 when including a quality term in the model performance improves further where an explicit loss performs slightly better ours huber lstm qexpli in tab
 
-somewhat surprisingly modeling quality alone already
-forms liu et al
+somewhat surprisingly modeling quality alone already forms liu et al
 in terms of map despite not using any textual information
 quality adds a significant boost to performance in the video domain
 interestingly this is different in the image domain due to the difference in quality statistics
 images returned by a search engine are mostly of good quality thus explicitly accounting for it does not improve performance see supplementary material
-
 to conclude we see that the better alignment of the objective to the keyframe retrieval task the addition of an lstm and modeling quality of the thumbnails improves performance
 together they provide an substantial improvement compared to liu et al
 s model
+our method achieves an absolute improvement of
+in
+in map and an improvement in correlation from
+to
 
-our method achieves an absolute improvement of in in map and an improvement in correlation from to
 these gains are even more significant when we consider the possible ranges of these metrics
-for spearman correlation recall qts evaluation
-datasetliu et alqar qexpliqar recall curve rad datasetliu et qexpliqar ours liu et al
+e
+
+for spearman correlation
 
 
-ours e n a r g a n a i r
-a s u o r e g n a d a n o
-c a n a n o
-i
-l s v g u t k
-c u r t a w e v i l a y b a b figure qualitative results of top ranked keyframes on rad
-a
+
+
+
+
+
+
+
+
+
+
+
+recall qts evaluation datasetliu et alqar qexpliqar
+
+
+
+
+
+
+
+
+
+
+
+
+recall curve rad datasetliu et qexpliqar ours liu et al
+ours e n a r g a n a i r a s u o r e g n a d a n o c a n a n o i l s v g u t k c u r t a w e v i l a y b a b figure qualitative results of top ranked keyframes on rad
 liu et al
-
 our model from left
 video titles are shown on the left
 ground truth relevance labels are shown in blue
 p positive n negative
-human agreement is at on the rad dataset
+human agreement is at
+on the rad dataset c
+
 sec
+
 thus providing an upper bound
 similarly and map have small effective ranges given their high scores for a random model
-experiments
-in the previous section we have determined that our objective embedding queries with an lstm and explicitly modelling quality performs best
+experiments in the previous section we have determined that our objective embedding queries with an lstm and explicitly modelling quality performs best
 we call this model qar quality aware relevance in the following and compare against state of the o a models on the qts and rad datasets
 we also evaluate the full rization model on rad
 for these experiments we split rad into videos for training for validation and for testing
@@ -436,77 +479,87 @@ to evaluate video summaries on rad we additionally use scores
 the score is the harmonic mean of precision of relevance prediction and cluster recall
 it is high if a method selects relevant frames from diverse clusters
 
-evaluating the relevance model
-we evaluate our model qar and compare it to liu et al
+evaluating the relevance model we evaluate our model qar and compare it to liu et al
 and
-
-query dependent thumbnail selection dataset qts
-we compare against the s o a on the qts evaluation dataset in tab
+query dependent thumbnail selection dataset qts we compare against the s o a on the qts evaluation dataset in tab
 
 we report the performance of liu et al
 from their paper
-
 note however that the results are not directly comparable as they use query video pairs for predicting relevance while only the titles are shared publicly
 thus we use the titles instead which is an important difference
 relevance is annotated with respect to the queries which often differ from the video titles
 we compare the re implementation of using titles in detail in tab
 
 encouragingly our model performs well even when just using the titles and outperforms them on most metrics
-it improves map by over and correlation by a margin of
+it improves map by
+over and correlation by a margin of
+c
+
 table
-method pr cr f
-similarity diversity quality repr
+method pr cr f similarity diversity quality repr mmr hecate ours upper bound
 
 
 
 
 
-mmr
-hecate ours upper bound
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 table performance of summarization methods on the rad dataset
 repr means representativeness
-and
-pict whether an objective was used or not
+and pict whether an objective was used or not
 mmr and ours learn their corresponding weights
 percentage in ses the normalized learnt weights
 upper bound refers to the best possible performance obtained using the ground truth annotations of rad
 figure shows the precision recall curve for the experiment
 as can be seen qar outperforms for all recall ratios
 to better understand the effects of using titles or queries we quantify the value of the two on the rad dataset below
-our dataset rad
-we also evaluate our model on the rad test set tab
+our dataset rad we also evaluate our model on the rad test set tab
+
 qar ours significantly outperforms the previous s o a of even when augmenting liu et al
 with an lstm
+qar improves map by
+when using titles and
+when using queries over our implementation of liu et al
 
-qar improves map by when using titles and when using queries over our implementation of liu et al
-
-
-we also see that modeling quality leads to significant gains in terms of map when using titles or queries in both cases
-
+we also see that modeling quality leads to significant gains in terms of map when using titles or queries
+in both cases
 for query relevance however is lower when including ity
 we believe that the reason for this is that when the query is given the textual visual similarity is a more reliable signal to mine the single best keyframe
 while including quality improves the overall ranking on map it is solely based on appearance and thus seems to inhibit the fine grained ranking results at low
 
 however when only the title is used the frame quality becomes a stronger predictor for thumbnail selection and improves performance on all metrics
-we present some qualitative results of different methods for relevance prediction in fig evaluating the summarization model
-as mentioned in sec
+we present some qualitative results of different methods for relevance prediction in fig
+
+
+evaluating the summarization model as mentioned in sec
 we use four objectives for our tion model
 referring to tab
 we use qar model to get similarity and quality scores while diversity and representativeness scores are obtained as described in sec
 
-we compare the performance of our full model with each individual objective a baseline based on maximal marginal relevance mmr
-and hecate
-mmr greedily builds a set that maximises the weighted sum of two terms i
-the similarity of the selected elements to a query and the dissimilarity to previously selected elements
+we compare the performance of our full model with each individual objective a baseline based on maximal marginal relevance mmr and hecate
+mmr greedily builds a set that maximises the weighted sum of two terms i the similarity of the selected elements to a query and the dissimilarity to previously selected elements
 to estimate the larity to the query we use our own model qar without qexpli and for dissimilarity the diversity as defined in sec
 
-finally we query
-hairstyles for men e t a c e h r m m y t
-i r a
-l i m
-i
-s s r u o figure we show video summaries created by hecate mmr our similarity model and our full summarization proach
+finally we query hairstyles for men e t a c e h r m m y t i r a l i m i s s r u o figure we show video summaries created by hecate mmr our similarity model and our full summarization proach
 the green number on the images depicts the frame number
 we plot the ground truth relevance scores marking the selected frames for the shown methods and cluster annotations over the video in the bottom two rows
 for cluster annotation each color represents a unique cluster
@@ -518,123 +571,125 @@ while fig
 shows qualitative results
 as can be seen combining all objectives with our model works best
 it outperforms all single objectives as well as the mmr baseline even though mmr also uses our performing similarity estimation
-similarity alone has the highest precision but tends to pick frames that are visually similar
-fig thus resulting in low cluster recall
-diversification objectives
-diversity and representativeness have a high cluster recall but the frames are less relevant
+similarity alone has the highest precision but tends to pick frames that are visually similar c
+
+fig
+thus resulting in low cluster recall
+diversification objectives diversity and representativeness have a high cluster recall but the frames are less relevant
 somewhat surprisingly hecate is a relatively strong baseline
 in particular it performs well in terms of relevance despite using a simple quality score
 this further highlights the importance of quality for the thumbnail selection task
 it also indicates that the used architecture might be suboptimal for predicting quality
 cnns for classification use small input resolutions thus making it difficult to predict quality aspects such as blur
-finding better architectures for that task is actively researched and might be used to improve our method
-when analysing the learned weights
+finding better architectures for that task is actively researched e
+
+and might be used to improve our method
+when analysing the learned weights c
+
 tab
 we find that the similarity prediction is the most important objective which matches our expectations
 quality gets a lower but non zero weight thus showing that it provides information that is complementary to query similarity
 thus it helps predicting the relevance of a frame
-
 the reader should however be aware that differences in the variance of the objectives can affect the weights learned
 thus they should be taken with a grain of salt and only be considered tendencies
-conclusion
-we introduced a new method for query adaptive video rization
+conclusion we introduced a new method for query adaptive video rization
 at its core lies a textual visual embedding which lets us select frames relevant to a query
 in contrast to earlier works such as this model allows us to handle unconstrained queries and even full sentences
 we proposed and empirically evaluated different improvements over for learning a relevance model
-
 our empirical evaluation showed that a better training objective a more sophisticated text model and explicitly modelling quality leads to significant performance gains
-in particular we showed that quality plays an important role in the absence of high quality relevance information such as queries when only the title can be used
+in particular we showed that quality plays an important role in the absence of high quality relevance information such as queries i
+e
+when only the title can be used
 finally we introduced a new dataset for thumbnail tion which comes with query relevance labels and a grouping of the frames according to visual and semantic similarity
 on this data we tested our full summarization framework and showed that it compares favourably to strong baselines such as mmr and
-
 we hope that our new dataset will spur further research in query adaptive video summarization
-scorespositivenegativemmr acknowledgements
-this work has been supported by toyota via the project
-zurich
+scorespositivenegativemmr acknowledgements this work has been supported by toyota via the project zurich
 we also acknowledge the support by the chist era project muster
 mg was supported by the european research council under the project varcity
-references
-i arev hs park and yaser sheikh
+references i arev hs park and yaser sheikh
 
 automatic editing of footage from multiple social cameras
 acm transactions on graphics tog
-
 lamberto ballan marco bertini giuseppe serra and alberto del bimbo
 
 a data driven approach for tag refinement and localization in web videos
 computer vision and image understanding
 andrei barbu alexander bridge zachary burchill dan coroian sven dickinson sanja fidler aaron michaux sam mussman siddharth narayanaswamy dhaval salvi lara schmidt jiangnan shangguan jeffrey mark siskind jarrell waggoner song wang jinlian wei yifan yin and zhiqi zhang
 
-video
-in sentences
-out
+video in sentences out
 uai
 arxiv
 jaime carbonell and jade goldstein
 
 the use of mmr diversity based reranking for reordering documents and producing summaries
 in acm sigir
-
 xinlei chen and c lawrence zitnick
 
 learning a recurrent visual sentation for image caption generation
 proceedings of corr
-pradipto das chenliang xu richard doell and jason corso
+pradipto das chenliang xu richard f
+doell and jason j
+corso
 
 a thousand frames in just a few words lingual description of videos through latent topics and sparse object stitching
 cvpr
-sandra de avila ana lopes da luz and de albuquerque araujo
+sandra e
+f
+avila ana p
+b
+lopes a
+da luz and a
+de albuquerque araujo
 
-
-vsumm
-a mechanism designed to produce static video summaries and a novel evaluation method
+vsumm a mechanism designed to produce static video summaries and a novel evaluation method
 pattern recognition letters
 jia deng wei dong richard socher li jia li kai li and li fei fei
 
-genet
-
-a large scale hierarchical image database
+genet a large scale hierarchical image database
 in cvpr
-donahue lisa hendricks guadarrama rohrbach venugopalan
-darrell and saenko
+j
+donahue lisa a
+hendricks s
+guadarrama m
+rohrbach s
+venugopalan t
+darrell and k
+saenko
 
 long term recurrent convolutional networks for visual recognition and description
 cvpr
-
 john duchi elad hazan and yoram singer
 
 adaptive subgradient methods for online learning and stochastic optimization
-journal of machine learning
-research
-hao fang saurabh gupta forrest iandola rupesh k srivastava li deng piotr
-dollar jianfeng gao xiaodong he margaret mitchell john c platt al
+journal of machine learning research
+hao fang saurabh gupta forrest iandola rupesh k srivastava li deng piotr dollar jianfeng gao xiaodong he margaret mitchell john c platt al
 
 from captions to visual concepts and back
 in cvpr
-
-ana fred and anil jain
+ana l
+n
+fred and anil k
+jain
 
 robust data clustering
 cvpr
-
 andrea frome gs corrado and jonathon shlens
+
 devise a deep semantic embedding model
 nips
-arxiv boqing gong wei lun chao kristen grauman and fei sha
+arxiv
+boqing gong wei lun chao kristen grauman and fei sha
 
 diverse sequential subset selection for supervised video summarization
 in nips
-
 michael gygli helmut grabner and luc van gool
 
 video summarization by learning submodular mixtures of objectives
 in cvpr
-
 m gygli h grabner h riemenschneider f nater and l van gool
 
 the interestingness of images
 in iccv
-
 michael gygli yale song and liangliang cao
 
 automatic generation of animated gifs from video
@@ -643,16 +698,13 @@ amirhossein habibian thomas mensink and cees gm snoek
 
 videostory embeddings recognize events when examples are scarce
 tpami
-
 sepp hochreiter and jurgen schmidhuber
 
 long short term memory
 neural computation
-
 xs hua l yang m ye k wang y rui and j li
 
-clickture
-a large scale real world image dataset
+clickture a large scale real world image dataset
 technical report
 msr
 bogdan ionescu adrian popescu mihai lupu alexandru lucian ginsca and henning muller
@@ -663,17 +715,17 @@ phillip isola devi parikh antonio torralba and aude oliva
 
 understanding the intrinsic memorability of images
 in nips
-jain jan c van gemert mensink and gm snoek
-
+m
+jain jan c van gemert t
+mensink and c
+gm snoek
 
 classifying and localizing actions without any video example
 in iccv
-
 andrej karpathy armand joulin and fei fei li
 
 deep fragment embeddings for bidirectional image sentence mapping
 nips
-
 andrej karpathy and fei fei li
 
 deep visual semantic alignments for generating image descriptions
@@ -686,7 +738,6 @@ gunhee kim leonid sigal and eric p xing
 
 joint summarization of scale collections of web images and videos for storyline reconstruction
 in cvpr
-
 ryan kiros ruslan salakhutdinov and richard s zemel
 
 unifying semantic embeddings with multimodal neural language models
@@ -696,10 +747,11 @@ johannes kopf michael f cohen and richard szeliski
 
 first person lapse videos
 acm transactions on graphics
-krause and golovin
+a
+krause and d
+golovin
 
 submodular function maximization
-
 
 yong jae lee joydeep ghosh and kristen grauman
 
@@ -718,7 +770,6 @@ wu liu tao mei yongdong zhang c che and jiebo luo
 
 multi task deep visual semantic embedding for video thumbnail selection
 cvpr
-
 xin lu zhe lin xiaohui shen radomir mech and james z wang
 
 deep multi patch aggregation network for image style aesthetics and quality tion
@@ -731,7 +782,6 @@ long mai hailin jin and feng liu
 
 composition preserving deep photo aesthetics assessment
 in cvpr
-
 junhua mao wei xu yi yang jiang wang and alan l yuille
 
 explain ages with multimodal recurrent neural networks
@@ -746,11 +796,15 @@ marina meila
 comparing clusterings by the variation of information
 in learning theory and kernel machines
 springer
-
-mikolov chen corrado and dean
+t
+mikolov k
+chen g
+corrado and j
+dean
 
 efficient estimation of word representations in vector space
 arxiv preprint
+
 t mikolov and j dean
 
 distributed representations of words and phrases and their compositionality
@@ -759,7 +813,6 @@ m minoux
 
 accelerated greedy algorithms for maximizing submodular set functions
 optimization techniques
-
 jonas mueller and aditya thyagarajan
 
 siamese recurrent architectures for learning sentence similarity
@@ -768,26 +821,35 @@ mukund narasimhan and jeff a bilmes
 
 a submodular supermodular procedure with applications to discriminative structure learning
 arxiv preprint
+
 gl nemhauser la wolsey and ml fisher
 
-an analysis of approximations for maximizing submodular set functions mathematical programming
-
-norouzi mikolov bengio singer shlens frome corrado and dean
+an analysis of approximations for maximizing submodular set functions i
+mathematical programming
+m
+norouzi t
+mikolov s
+bengio y
+singer j
+shlens a
+frome g
+s
+corrado and j
+dean
 
 zero shot learning by convex combination of semantic embeddings
 arxiv preprint
 
 jeffrey pennington richard socher and christopher d manning
 
-glove
-global vectors for word representation
+glove global vectors for word representation
+
 in emnlp
 danila potapov matthijs douze zaid harchaoui and cordelia schmid
 
 category specific video summarization
 in eccv
 springer
-
 yael pritch alex rav acha and shmuel peleg
 
 nonchronological video synopsis and indexing
@@ -810,28 +872,29 @@ richard socher andrej karpathy quoc v le christopher d manning and drew y ng
 
 grounded compositional semantics for finding and describing images with sentences
 acl
-song redi vallmitjana and jaimes
+y
+song m
+redi j
+vallmitjana and a
+jaimes
 
 to click or not to click automatic selection of beautiful thumbnails from videos
 in cikm
 acm
-
 yale song jordi vallmitjana amanda stent and alejandro jaimes
 
-tvsum
-summarizing web videos using titles
+tvsum summarizing web videos using titles
 in cvpr
-
 min sun ali farhadi and steve seitz
 
 ranking domain specific highlights by analyzing edited videos
 eccv
-
 min sun ali farhadi ben taskar and steve seitz
 
 salient montages from unconstrained videos
 eccv
 min sun kuo hao zeng yenchen lin and farhadi ali
+
 semantic highlight retrieval and term prediction
 ieee transactions on image processing
 ba tu truong and svetha venkatesh
@@ -850,28 +913,27 @@ wayne wolf
 
 key frame selection by motion analysis
 acoustics speech and signal processing
+
 bo xiong and kristen grauman
 
 detecting snap points in egocentric video with a web photo prior
 in eccv
-
 ting yao tao mei and yong rui
 
 highlight detection with pairwise deep ranking for first person video summarization
 in cvpr
-
 gloria zen paloma de juan yale song and alejandro jaimes
+
 mouse activity as an indicator of interestingness in video
 in icmr
-
 kuo hao zeng yen chen lin ali farhadi and min sun
 
 semantic highlight ke zhang wei lun chao fei sha and kristen grauman
 
 video rization with long short term memory
 eccv
-
 bin zhao and eric p xing
+
 quasi real time summarization for consumer retrieval
 in icip
 videos

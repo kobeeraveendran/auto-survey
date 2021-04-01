@@ -1,21 +1,27 @@
-n a j
-l c
-s
-c
-v
+n a j l c
+s c v
 v i x r a pilot study for the cost action reassembling the republic of letters language driven network analysis of letters from the hartlib s papers barbara mcgillivray federico sangati april context and goals the applications of social network analysis scott to literary and historical texts have attracted a growing interest in the scholarly community as powerful tools to investigate social structures
 at the same time the increased access to large amounts of digitized historical texts and the availability of tools and computational methods for analysing those data in automatic ways oer new answers to humanistic research questions
-over the past decades an increasing number of academic projects have focused on the role played by corpora in historical investigations and several studies have shown that historical corpora contribute eectively to the progress of historical research cf
+over the past decades an increasing number of academic projects have focused on the role played by corpora in historical investigations and several studies have shown that historical corpora contribute eectively to the progress of historical research
+e
+
 knooihuizena and dediub piotrowski
 the present report summarizes an exploratory study which we carried out in the context of the cost action reassembling the republic of letters and which is relevant to the activities of working group texts and topics and working group people and networks
-in this study we investigated the use of natural language processing nlp and network text sis popping and roberts diesner and carley on a small sample of seventeenth century letters selected from hartlib papers whose records are in one of the catalogues of early modern letters online
-and whose online edition is available on the website of the humanities research institute at the university of we will outline the nlp pipeline used to automatically process the texts into a network sentation following the approach by sudhahar et al
-van de camp and van den bosch in order to identify the texts narrative centrality the most central entities in the texts and the relations between them
+in this study we investigated the use of natural language processing nlp and network text sis popping and roberts diesner and carley on a small sample of seventeenth century letters selected from hartlib papers whose records are in one of the catalogues of early modern letters online and whose online edition is available on the website of the humanities research institute at the university of sheeld
+we will outline the nlp pipeline used to automatically process the texts into a network sentation following the approach by sudhahar et al
+van de camp and van den bosch in order to identify the texts narrative centrality i
+e
+the most central entities in the texts and the relations between them
 network text analysis is typically applied to a large quantity of text hence our goal is not to provide a complete analysis of the letters under investigation
 we will instead aim to make an initial assessment of the validity of this approach to suggest how it can scale up to a much larger set of letters and to dene which infrastructure would be needed to extend this process to a potentially multilingual historical corpus of epistolary texts
 
-preprocessing steps in our study we have worked on the following selected from the archive of the hartlib
-
+bodleian
+ox
+ac
+uk samuel hartlib
+hrionline
+ac
+uk preprocessing steps in our study we have worked on the following selected from the archive of the hartlib
 dury hartlib
 dury hartlib
 dury hartlib
@@ -31,130 +37,156 @@ hartlib worthington
 hartlib worthington
 we have chosen these texts because they span over the chronological range of the hartlib papers and they cover a relatively wide range of addressees
 moreover these texts are written in this language has the largest number of resources and nlp tools even considering historical varieties of modern languages and therefore provided the best conditions for the linguistic processing
+in the rest of this section we describe the letters acquisition procedure the general nlp processing steps and the nlp tools we have adopted to prepare the text for the network text analysis described in section
 
-in the rest of this section we describe the letters acquisition procedure the general nlp processing steps and the nlp tools we have adopted to prepare the text for the network text analysis described in section letters acquisition
-although all letters were digitized and transcribed we had to apply some manual polishing to the text removing transcription notes formatting tags
+letters acquisition although all letters were digitized and transcribed we had to apply some manual polishing to the text e
+
+removing transcription notes formatting tags
+
 this procedure would not be trivial to do automatically because the text formatting is not consistent across all sources
 moreover the letters had to be imported manually one by one from the website
 a much simpler alternative procedure which would be paramount for a larger study is to obtain access to the raw textual data of the letters as stored in the database
 are all letters apart from number which is a summary text written by samuel hartlib
-
 letters are available on the website
+hrionline
+ac
+uk hartlib browse
 we refer to the letters with the last name of the sender followed by the last name of the addressee and the date of attribution of the text
-
 is with the exception of dury hartlib which contains german text in its nal part
-we have excluded this part from the manual syntactic analysis described in section pre processing steps we have applied the following ve textual pre processing steps to each of the acquired letters
-sentence splitting the typical contextual unit of reference in nlp analysis is a sentence and therefore sentence boundaries need to be detected
-this is a rather simple procedure whereby language specic rules are normally used to decide in which cases certain punctuation marks full stops question marks identify the end of the
+we have excluded this part from the manual syntactic analysis described in section
+
+pre processing steps we have applied the following ve textual pre processing steps to each of the acquired letters sentence splitting the typical contextual unit of reference in nlp analysis is a sentence and therefore sentence boundaries need to be detected
+this is a rather simple procedure whereby language specic rules are normally used to decide in which cases certain punctuation marks e
+
+full stops question marks
+identify the end of the sentence
 tokenization the basic units of reference for automatic textual analyses are word tokens
+these are identied by language specic rules and separated by adjacent elements such as ation marks or other word tokens in agglutinative languages e
 
-these are identied by language specic rules and separated by adjacent elements such as ation marks or other word tokens in agglutinative languages the german compound erlinguistik computational linguistics can be tokenized as two tokens computer and linguistik
-part of speech pos
-tagging each token is analyzed and assigned with a specic category depending on its syntactic role verb noun adjective adverb
+the german compound erlinguistik computational linguistics can be tokenized as two tokens computer and linguistik
+part of speech pos tagging each token is analyzed and assigned with a specic category depending on its syntactic role e
 
-lemmatization
-in order to reduce data sparsity automatic textual analysis often resorts in lemmatizing the text turning each inected or variant word token form into its basic form
+verb noun adjective adverb
+lemmatization in order to reduce data sparsity automatic textual analysis often resorts in lemmatizing the text i
+e
+turning each inected or variant word token form into its basic form e
+
 eating eat
+dependency parsing the nal step is to derive the full syntactic structure of each sentence e
 
-dependency parsing the nal step is to derive the full syntactic structure of each sentence
 in terms of its subjects predicates and objects
-this is important in order to identify the argument structure of a sentence which can be used to derive the actions actors and patients
-who does what to whom in the sentence
+this is important in order to identify the argument structure of a sentence which can be used to derive the actions actors and patients who does what to whom in the sentence
 this is preliminary to a full semantic analysis which falls outside the scope of this study
-nlp tools
-we have adopted and compared two dierent nlp processing tools to analyze the letters
 
-stanford core nlp tools this is one of the most complete state of the art nlp libraries
-manning al which implements all ve pre processing steps for several modern languages
-since it has no ready model for early modern english we used the model for modern
+nlp tools we have adopted and compared two dierent nlp processing tools to analyze the letters
+stanford core nlp tools this is one of the most complete state of the art nlp libraries manning et al
+which implements all ve pre processing steps for several modern languages
+since it has no ready model for early modern english we used the model for modern english
 it is however in principle possible to train new language models and therefore a model for early modern english provided enough annotated materials for such languages
-
-morphadorner
-this tool burns is one of the most commonly used tools for nlp processing of historical english
+morphadorner this tool burns is one of the most commonly used tools for nlp processing of historical english
 it requires the text to be in tei text encoding initiative format therefore we manually added a tei header for epistolary texts to each text
 this step can be easily automated
-morphadorner performs all the pre processing steps described above except for the most common exception in which a full stop is not a sentence boundary is when it is used for abbreviations has caused several pos tagging errors such as bee in gure classied as a noun instead of a form of the verb be
+morphadorner performs all the pre processing steps described above except for the most common exception in which a full stop is not a sentence boundary is when it is used for abbreviations has caused several pos tagging errors such as bee in gure classied as a noun instead of a form of the e
+
+mr
+mrs
+
+verb be
 sentence splitting and the last one dependency parsing
 the sentence splitting can be automated
-
 in the next section we describe an alternative method to identify the basic argument structure of a sentence without dependency parsing this method is based on subject verb object triplets obtained from their relative positions in the sentence
 we will also describe how we constructed the networks
-building the networks
-in this section we describe the procedure we followed to build a network or graph from a processed text
-a selected set of networks from the texts under investigation is reported in the appendix
-these were built with automatic codes that use the gephi library bastian et al for rendering the networks in a graphical mode
-the basic elements in our networks are lemmatized word tokens represented as circles nodes
-with specic colors depending on their pos categories red for verbs blue for nouns and green for adjectives
+building the networks in this section we describe the procedure we followed to build a network or graph from a processed text
+a selected set of networks from the texts under investigation is reported in the appendix a
+these were built with automatic codes that use the gephi library bastian et al
+for rendering the networks in a graphical mode
+the basic elements in our networks are lemmatized word tokens represented as circles nodes with specic colors depending on their pos categories red for verbs blue for nouns and green for adjectives
 the lines arcs connecting two nodes represent a specic relation between them
 all code is open source and available at
-word relations
-we illustrate two basic methodologies for building the networks one based on word co occurrences and the other based on their syntactic relations
-co occurrences the simplest way to build a network from a text is to rely on co occurrence information that is two word tokens a noun and a verb are connected if they co occur in the same textual context
+com kercos
+
+word relations we illustrate two basic methodologies for building the networks one based on word co occurrences and the other based on their syntactic relations
+co occurrences the simplest way to build a network from a text is to rely on co occurrence information that is two word tokens e
+
+a noun and a verb are connected if they co occur in the same textual context
 additionally we want to keep track of the frequency of these connections to distinguish word token pairs which co occur more or less often
 we have performed an automatic occurrence extraction using our own code starting both from the stanford and the morphadorner preprocessed texts
-
 in the current analysis we consider the sentence as the contextual unit to extract co occurrences
 a common alternative is to restrict the contextual region to a window of a specic number of words typically or
-syntactic relations
-a more rened way to represent connections between entities in a given text is to visualize their syntactic relations tanev and magnini mcgillivray et al
+syntactic relations a more rened way to represent connections between entities in a given text is to visualize their syntactic relations tanev and magnini mcgillivray et al
 
 in the current study we focused on a subject verb object triplet representation and extracted such triplets by hand for one letter see section
+
 in order to automate this step we would need a dependency parsing processing
 the stanford nlp tools provide a dependency parser for modern english
 for what concerns historical english it is possible to develop a parser based on manually annotated texts and some research has already been done in this direction as summarized in piotrowski
-since the texts pre processed with morphadorner lacked the syntactic information required to extract the subject verb object triplets we devised a workaround to obtain a similar representation based on the typical word order of english for every verb in the sentence we identied the closest noun on its left as the candidate subject with a maximum distance of four words and the closest noun on its right as the candidate object with a maximum distance of four for example let us consider the following sentence from the letter from john dury to samuel hartlib i begin to shew what prudency care a tutour must vse to move little children
-from we extracted the following pairs the verb and noun lemmas are listed show prudency
-tutour use move children in the list above we note that we did not extract pronouns but we will consider pronouns in the manual analysis reported on in section moreover instead of triplets we were only able to extract pairs of candidate subjects and verbs or verbs and candidate objects
+since the texts pre processed with morphadorner lacked the syntactic information required to extract the subject verb object triplets we devised a workaround to obtain a similar representation based on the typical word order of english for every verb in the sentence we identied the closest noun on its left as the candidate subject with a maximum distance of four words and the closest noun on its right as the candidate object with a maximum distance of four words
+for example let us consider the following sentence from the letter from john dury to samuel hartlib i begin to shew what prudency care a tutour must vse to move little children
+
+
+from we extracted the following pairs the verb and noun lemmas are listed show prudency tutour use move children in the list above we note that we did not extract pronouns but we will consider pronouns in the manual analysis reported on in section
+moreover instead of triplets we were only able to extract pairs of candidate subjects and verbs or verbs and candidate objects
 finally note that prudency is not a direct object of show because of the indirect clause following this verb showing that the context based triplets do not perfectly reect the syntactic relationships between items
-in section we will suggest how this can be improved thanks to a manual syntactic analysis which can be automated
+in section
+we will suggest how this can be improved thanks to a manual syntactic analysis which can be automated
 
 pruning the networks the number of nodes and connections tends to grow extremely large with the size of the text
-it is therefore necessary to show only the most representative ones those occurring more frequently
-
+it is therefore necessary to show only the most representative ones i
+e
+those occurring more frequently
 this is accomplished by removing pruning less frequent nodes and connections which tend to also be the less reliable ones
 as a matter of fact although the methodology is prone to detect a number of erroneous connections in a very large text these errors will tend to have a low frequency
-we have adopted two basic pruning strategies number based we select only nodes and arcs whose frequency is above a predened threshold freq selects only elements with frequency greater than
-mean based we select only nodes and arcs whose frequency is above the mean of the respective frequency distribution plus a certain number of standard deviations mean selects only elements with frequency greater than the mean plus two standard deviations
-analysis
-as detailed in section we created a number of dierent networks showing the various steps of our approach
-in this section we will focus on two groups networks relative to the collection of all letters figures and we explain in section this workaround is unlikely to work well for languages with a freer word order such as latin
-networks relative to the letter sent by john dury to samuel hartlib around and available at figures and given the small size of the corpus considered we do not provide a quantitative analysis of the data
-therefore we will limit ourselves to general observations and focus on the methodological implications of our approach and its potential for broader applications
-networks from the collection of letters
-we derived the rst group of networks in a fully automatic way by rst pre processing the letters tokenization sentence segmentation and lemmatization and then by automatically extracting co occurrence patterns
+we have adopted two basic pruning strategies number based we select only nodes and arcs whose frequency is above a predened threshold e
 
+freq selects only elements with frequency greater than
+mean based we select only nodes and arcs whose frequency is above the mean of the respective frequency distribution plus a certain number of standard deviations e
+
+mean selects only elements with frequency greater than the mean plus two standard deviations
+analysis as detailed in section we created a number of dierent networks showing the various steps of our approach
+in this section we will focus on two groups networks relative to the collection of all letters figures and we explain in section this workaround is unlikely to work well for languages with a freer word order such as latin
+networks relative to the letter sent by john dury to samuel hartlib around and available at
+hrionline
+ac
+uk hartlib browse
+figures and given the small size of the corpus considered we do not provide a quantitative analysis of the data
+therefore we will limit ourselves to general observations and focus on the methodological implications of our approach and its potential for broader applications
+
+networks from the collection of letters we derived the rst group of networks in a fully automatic way by rst pre processing the letters tokenization sentence segmentation and lemmatization and then by automatically extracting co occurrence patterns
 the nodes in the network in figure correspond to the lemmas of nouns blue nodes verbs red nodes and adjectives green nodes occurring in the letters and their size is proportional to the frequency of the lemmas in the corpus if two nodes are connected it means that they occur in the same sentence
 as the sentences in the letters are often long these networks display the most frequent entities nouns and actions verbs mentioned in the letters
 figure summarizes the main topics that the letters are concerned with church man god lord time and work regarding nouns and come make take and nd regarding verbs
 by contrast figure was obtained by considering a narrower context of co occurrences for verbs and nouns which led to results that are closer to an actor action model
 the red edges link verbs to the nouns occurring before them in a window of four words candidate subjects and the blue edges link verbs to the nouns occurring after them in the same four word window candidate objects
 this approach to detecting candidate subjects and objects is not always accurate as we explain below
-
 let us consider the noun truth connected to the verb see by a blue edge indicating a candidate object role
+in fact truth follows a form of see twice in the corpus in both cases in the letter from john dury to joseph st amand available at
+hrionline
+ac
+uk browse
+by this then wee see what trueth is
 
-in fact truth follows a form of see twice in the corpus in both cases in the letter from john dury to joseph st amand available at by this then wee see what trueth is
 
 
 first the congregation it selfe is to bee seene and secondly the trueth or the falshood of the service perfourmed to christ in the congregation
-
 in the verb governs a clause introduced by what whose subject is truth so trueth is not strictly speaking the direct object of see even though from a semantic point of view this is not completely inaccurate
 in however the algorithm ignores sentence boundaries marked by colons as we only considered full stops as sentence delimiters
 one simple way to avoid these kinds of errors would be to use colons to identify the clause boundaries and impose this as a constraint for the algorithm
-
 in other cases the errors concern other syntactic phenomena which are more dicult to address in absence of a full syntactic parsing
 for example in the same letter we nd because before luthers time the church which is now called the protestant church had no being nor visibilitie
+
+
+
 in this case church is the subject of a passive form of call and therefore even though it occurs before the verb it is not a subject
 in order to partially remedy these problems we have included syntactic information for one of the letters as we show in the next section
-networks from the letter from dury to
-hartlib figure shows the network for the letter from dury to hartlib obtained from data processed with the stanford parser
+
+networks from the letter from dury to hartlib figure shows the network for the letter from dury to hartlib obtained from data processed with the stanford parser
 we can notice that the pronouns wee we and hee he are incorrectly lemmatized and tagged as nouns and that the verb bee be is incorrectly lemmatized and tagged as a noun
-figure shows the network derived from the letter preprocessed with morphadorner the edges correspond to the co occurences analysis and the network was pruned based onmean based pruning
-the for nodes and for arcs
-figure contains the network with the context based denitions of candidate subjects and objects of the verbs occurring in the letter from john dury to samuel hartlib while figure displays manually annotated subjects and objects and their verbs
+figure shows the network derived from the letter preprocessed with morphadorner the edges correspond to the co occurences analysis and the network was pruned based onmean based pruning the for nodes and for arcs figure contains the network with the context based denitions of candidate subjects and objects of the verbs occurring in the letter from john dury to samuel hartlib while figure displays manually annotated subjects and objects and their verbs
 as we can see from the comparison of the two gures the latter is denitely a more accurate representation of the entities and actions mentioned in the letter
 while keeping in mind that this is the analysis of a single letter and that we need to be cautious in any generalization we will make some general remarks that support the validity and potential of this approach
+in addition to some known e
 
-in addition to some known see light please god we can identify active and passive entities from the point of view of their syntactic role in the sentences
+see light please god we can identify active and passive entities from the point of view of their syntactic role in the sentences
 for example we observe that the noun child is object of the verbs move and lead suggesting a patient role
 this may be opposed to the active role of tutor subject of come
 the lord predominantly appears as an actor subject of assist stir up and send possibly suggesting the idea of an interventionist god
@@ -164,64 +196,67 @@ figure is derived from an additional anaphora resolution which contributes to ma
 for example we notice that now the nodes child and tutor are connected because tutor is the subject of move and lead which have child as their object
 let us look at the relevant passages i begin to shew what prudency care a tutour must vse to move little children that are vncapable of the precepts of christianity to a custome of naturall vertues
 
+
+
+
+
 seeking to enter into a particular consideracion of the whole duty of a tutour how hee ought to bee tted prepared for the charge what hee ought to doe to leade a child from his infancy as it were by the hand through an insensible custome of well doeing vnto a perfect degree of all vertues as the excerpts above attest the tutor is the entity performing the action of moving and leading respectively in and in
 in specically after the anaphora resolution step the pronoun hee he is resolved to refer to tutour tutor
 of course only a systematic quantitative analysis on a larger scale would be able to conrm the preliminary observations done here
 however we have shown that the networks are able to provide some insights into the content of the letters as we summarize in the next section
 collocation is a sequence of two or more words that tend to occur often together
-
 a linguistic context anaphora resolution refers to the resolution of an expression based on another expression occurring before or after it its antecedent or postcedent respectively
-final remarks
-the results we have achieved show that the approach is promising and if extended in its scope can lead to positive results for historical research on correspondence texts
+final remarks the results we have achieved show that the approach is promising and if extended in its scope can lead to positive results for historical research on correspondence texts
 we have also shown that methodologies developed to analyse contemporary texts have the potential to be successfully applied in a historical context with specic adjustments
-
 since the nature of this pilot study was methodological and exploratory we have focused the analysis on a limited set of letters
 however the automatic procedures we have followed can be applied to a signicantly higher number of letters
-
 in fact it is on large datasets that certain patterns can be detected and analyzed statistically which is one of the strengths of computational approaches such as the present one
-possible extensions
-in addition to applying the processing and analysis to a larger set of letters this study can be extended in a number of directions as we outline below
 
-languages
-this pilot study focused on english
+possible extensions in addition to applying the processing and analysis to a larger set of letters this study can be extended in a number of directions as we outline below
+languages this pilot study focused on english
 however thanks to the automatic procedures followed it can in principle be applied to data in other languages as well
 this would suit the high degree of multilinguality in the hartlib s papers well and capture possible interesting associations between the semantic content and the languages used
-nevertheless the specic features of the languages might require adjustments in the syntactic processing and extraction of
+nevertheless the specic features of the languages might require adjustments in the syntactic processing and extraction of triplets
 
 preprocessing a number of steps could increase the accuracy of the preprocessing steps
-
 relying on syntactically parsed texts would make the subject verb object triples more accurate
 in section
-
 labelling nouns and verbs according to their semantic classes such as persons and vehicles for nouns and communication and motion for verbs just to give a few examples would allow us to group the triplets in larger categories and detect possible patterns in larger networks
-
-performing the anaphora resolution automatically would enrich the analysis as shown
-following the approach presented in trampus and mladenic rather than focusing on subject verb object triplets we could extract full event patterns from the letters and therefore derive semantic graphs where nodes represent actors and edges represent actions
-
-evaluation
-a systematic evaluation of the annotation of the texts would be necessary to assess the quality of the data from which the networks were built
+performing the anaphora resolution automatically would enrich the analysis as shown following the approach presented in trampus and mladenic rather than focusing on subject verb object triplets we could extract full event patterns from the letters and therefore derive semantic graphs where nodes represent actors and edges represent actions
+evaluation a systematic evaluation of the annotation of the texts would be necessary to assess the quality of the data from which the networks were built
 this can be done by comparing the automatically extracted triples with a manually created gold standard
 example as the word order in latin is freer than in english and latin morphology is richer the extraction of triplets based on the nouns occurring before after verbs as candidate subjects objects is unlikely to lead to good results
-by contrast constraints on the morphological case of the nouns nominative for subjects and accusative for objects and morphological agreement of the verb with the candidate subject noun are more promising lacking a full syntactic processing
-similar arguments hold for morphologically richer languages like german or italian network analysis
-a systematic and quantitative analysis of the networks based on centrality measures such as in degree and out degree measures would highlight particularly active actors and actions as well as connections between them
+by contrast constraints on the morphological case of the nouns e
+
+nominative for subjects and accusative for objects and morphological agreement of the verb with the candidate subject noun are more promising lacking a full syntactic processing
+similar arguments hold for morphologically richer languages like german or italian network analysis a systematic and quantitative analysis of the networks based on centrality measures such as in degree and out degree measures would highlight particularly active actors and actions as well as connections between them
 further replacing static networks with dynamic networks extracted from the full epistolary corpus would help to identify the change in importance of actors over time as outlined in agarwal et al
 
-further analysis
-it is possible to combine the linguistic features explored in this study with the metadata of the letters which capture historically relevant information such as date location sender and addressee as well as other text metadata length structure complexity of letter
+further analysis it is possible to combine the linguistic features explored in this study with the metadata of the letters which capture historically relevant information such as date location sender and addressee as well as other text metadata e
+
+length structure complexity of letter
 this has the potential to oer new insights into the context content and structure of the letters and support further research on this material
 networks figure network of the letter from dury to hartlib from stanford preprocessing with occurences analysis and mean based for nodes and arcs
 englandbeeworkegoresolutionheecomeweekinghaddeleftlordmee muchhaue businessebookemrtrauellwriteletterhaddegodbeenehandminegoddogoodtakemanspiritboatfindfavourmakeuppeshewmanydayenightgracecourseleavegreatwagoncompanieconversationhauinglodgingramsaybeetellstettincornellwirtzburgseesirwayotherperiodnothingunderstandotherconcernmatterbringagainehoureheetookeweeweesouldierkeepcatchworddeletekingsuppeyowlittleoccasionoutwardaccordthinkprosecutedifficultytymemeanefurthernewownehorsegiuecausecauseiourneythoughtpeacethinghopeablesendletpastmilecastdaywantcallsuchaskneereordinarieleisurefullnextchancelouragreementmindmarchanswerfreinddoeusebackeparticularsstaytowneknowtookeforcewordselfprouidesayfollowcommandpromisespenselightenquireacquaintancedownehamburgseekmoneyfallgetplacegeneralldesireeffectpointsetoffersideheartassistancesouldiersdauidiamesswedencounsellfrenchprussialongintentionthemselueuntohearduewholepreacherdrfirstpassagedrummondpurposemaine figure network of the letter from dury to hartlib from morphadorner preprocessing with co occurences analysis and mean based pruning for nodes and for arcs
+goodgodwritemattercatchwordletterthinkshowtimegivekingpromisetakegomanfindmakelordworkmr
+comechurchvisibilitytruestatecausechiefconcernthingprosecuteotherdesiretelldaystettincoursepartmeanhandleavespiritwaygreatcompanyknowsendlutheranothersaysetendgraceconsciencegetsoldieralterchristservicedeleteresolutionacquaintancebringfollowstaydivineseekchancelloroccasionwordvisibleundertakeasktowneffectdietcongregationseesirdesirehearpurposeanothercallprinceplace figure network of all letters from morphadorner preprocessing with co occurences analysis and mean based pruning for nodes and for arcs
 
-figure network of all letters from morphadorner preprocessing with co occurences analysis and mean based pruning for nodes and for arcs
-figure network of all letters from morphadorner preprocessing with triplet analysis and number based pruning for nodes and for arcs
-figure unpruned network of the letter from dury to hartlib the preprocessing was performed with morphadorner and was followed by an automatic extraction of triplets
-figure unpruned network of the letter from dury to hartlib the preprocessing was performed with morphadorner and was followed by a manual extraction of triplets
+chancellorothergreatsaybringfollowdivinesend figure network of all letters from morphadorner preprocessing with triplet analysis and number based pruning for nodes and for arcs
+englandcomeresolutiontakeaudiencegiveagreementshowbringadvancementhinderwindkeepgodpleaseleavethanktrymakepromisehandinformationleaveconversationfindchristcallperformsayservevisibilitycapitalisealterlodgingtruthseewirtzburgserviceladymarrycollegeobedienceyieldpropertyenduematterconcernthinksatisfactionboatacquaintancecontinuanceinterruptcatchwordcausefavourunityseeklandbvisinesdesirestatelayletterwritemomentoughtthingbelongcastletowndoubtnamenewshearwaygotimegetcoastobserveguardcloudgatheraffairdaylandstaykingfollowcausekindknowparticularanswerstockholmdecembereffectpartfaithdietappointmeanusemustsavecourtdealchargebearpurseoccasionbrandenburgviz
+companysirnoticedivinebendreformmovehopeobtainsaxonymarchfranctfortreturnmanletusewhileresideinfallibilitystettincarrymercymeaningchancellorpresentlordunderstandpraisebeseechrulewalkassistancemoneyprofessionworkaffectrecommendlabourundertakesetprosecutemr
+
+dobjdobjdobjdobjdobjdobjnsubjdobjdobjdobjdobjdobjdobjnsubjnsubjdobjdobjnsubjdobjdobjdobjdobjnsubjdobjnsubjdobjdobjdobjnsubjnsubjnsubjnsubjdobjdobjdobjdobjdobjdobjdobjdobjdobjdobjdobjnsubjnsubjdobjdobjnsubjdobjnsubjnsubjnsubjdobjnsubjdobjnsubjnsubjdobjdobjdobjdobjdobjdobjnsubjnsubjdobjnsubjnsubjnsubjdobjdobjnsubjdobjdobjdobjdobjnsubjdobjdobjdobjdobjnsubjdobjdobjnsubjnsubjdobjdobjnsubjnsubjdobjdobjnsubjdobjdobjdobjnsubjdobjdobjdobjdobjdobjdobjdobjdobjdobjnsubjdobjdobjnsubjdobjdobjdobjdobjdobjdobjdobjdobjdobjdobjdobjdobjdobjdobjdobjnsubjdobjdobjdobjdobjdobjdobjnsubjdobjdobjnsubjdobjdobjnsubjdobjdobjdobjdobjdobjdobjdobjdobjdobjdobjnsubjnsubjnsubjdobjnsubjdobjnsubjnsubjnsubjnsubjnsubjdobjnsubjdobjnsubjnsubjdobjdobjdobjnsubjdobjdobjnsubjnsubjdobjdobjdobjdobjdobjdobjdobjdobjnsubjdobj figure unpruned network of the letter from dury to hartlib the preprocessing was performed with morphadorner and was followed by an automatic extraction of triplets
+reasonfindhalfseeeducationbelongariadnesorderthoughtsubjectenglandsendprojectblessmannersethopediscourageprudencybegindecembercomemidstbreakactionintricatenesaffairtakecounselhelpworkfitprosecutepleasehearttutoroughtcareintentionprocurelightethicpersonjudgeconcernmoorprovokeletterwritepeaceexercitationunderstanddifferenceshowconsiderationenterreformatorcorrectionchildleadusecaresatisfyoccasionfallfearjudgementlabourerstirchurchtroublebookthanklordestablishmustsumexpectationfullfilmatterdetermineassistanceheadgatherviz
+makecounselortreatisegracetroubleplacevirtueloosegodleisurestretchsideneglectchargepreparemotionabusebabyloncallwayprayerhopemeditationambassadorpacificationregardofferinformationneedlethinggodagelabirinthndobjdobjdobjnsubjdobjdobjdobjdobjnsubjdobjdobjnsubjdobjnsubjdobjdobjnsubjdobjdobjdobjnsubjdobjnsubjdobjnsubjdobjnsubjdobjdobjdobjnsubjnsubjdobjdobjdobjdobjnsubjnsubjdobjdobjnsubjnsubjnsubjnsubjdobjnsubjnsubjdobjdobjnsubjdobjdobjnsubjnsubjdobjdobjnsubjnsubjnsubjdobjdobjnsubjnsubjdobjnsubjdobjnsubjnsubjdobjnsubjnsubjdobjdobjdobjdobjdobjnsubjdobjnsubjdobjdobjnsubjnsubjdobjnsubjdobjnsubjdobjnsubjdobj figure unpruned network of the letter from dury to hartlib the preprocessing was performed with morphadorner and was followed by a manual extraction of triplets
 otherprovokethoughtorderlabourerstir upsubjecttakepartmakesumset downexpectationfullfilheadgatherprudencyshowprovocationcomehourtake upjoytroubleconcerngodpleaserestunderstandmindsatisfymotionabuseworkprosecutetutoruselordsendassistlightseemeditationletterwritepacificationexercitationdifferenceinformationthingofferbelongchildleadmovecaredobjdobjdobjdobjdobjdobjnsubjpassdobjdobjnsubjdobjnsubjpassnsubjdobjdobjdobjdobjdobjdobjnsubjdobjnsubjnsubjnsubjdobjnsubjpassnsubjpassdobjdobjdobjnsubjnsubjnsubjdobjdobjdobjdobj figure unpruned network of the letter from dury to hartlib the preprocessing was performed with morphadorner and was followed by a manual extraction of triplets and anaphora resolution
-otherprovokethoughtorderlabourerstir downexpectationfullfilheadgatherprudencyshowprovocationcomecounselorhourtake upjoytroubleconcernswallow upaffairgodpleaseblessrestunderstandmindsatisfymotionabuseworkprosecutetutorleadmoveuselordassistlightseemeditationletterwritepacificationexercitationdifferenceinformationreformatorthingofferbelongchildcaredobjdobjdobjdobjdobjdobjdobjdobjnsubjpassdobjdobjnsubjnsubjdobjnsubjpassnsubjnsubjpassnsubjdobjnsubjdobjdobjdobjdobjdobjnsubjnsubjnsubjdobjnsubjnsubjnsubjdobjnsubjpassnsubjpassdobjdobjdobjnsubjdobjdobjnsubjnsubjdobjdobjdobjdobj references scott
+otherprovokethoughtorderlabourerstir upsubjecttakepartmakebooksendms
+sumset downexpectationfullfilheadgatherprudencyshowprovocationcomecounselorhourtake upjoytroubleconcernswallow upaffairgodpleaseblessrestunderstandmindsatisfymotionabuseworkprosecutetutorleadmoveuselordassistlightseemeditationletterwritepacificationexercitationdifferenceinformationreformatorthingofferbelongchildcaredobjdobjdobjdobjdobjdobjdobjdobjnsubjpassdobjdobjnsubjnsubjdobjnsubjpassnsubjnsubjpassnsubjdobjnsubjdobjdobjdobjdobjdobjnsubjnsubjnsubjdobjnsubjnsubjnsubjdobjnsubjpassnsubjpassdobjdobjdobjnsubjdobjdobjnsubjnsubjdobjdobjdobjdobj references j
+scott
 social network analysis
 sage london edition
-knooihuizena and dediub
+r
+knooihuizena and d
+dediub
 historical demography and historical sociolinguistics the role of migrant integration in the development of dunkirk french in the century
 language dynamics and change
 michael piotrowski
@@ -230,12 +265,15 @@ synthesis lectures on human language technologies
 morgan claypool publishers
 roel popping and carl w roberts
 network approaches in text analysis
-in klar opitz o eds classication and knowledge organization pages
+in klar r
+opitz o eds
+classication and knowledge organization
+pages
 springer berlin heidelberg
-jana diesner and kathleen carley
+jana diesner and kathleen m
+carley
 using network text analysis to detect the organizational structure of covert networks
-in proceedings of the north american association for computational
-social and organizational science naacsos conference
+in proceedings of the north american association for computational social and organizational science naacsos conference
 saatviga sudhahar gianluca de fazio roberto franzosi and nello cristianini
 network analysis of narrative content in large corpora
 natural language engineering
@@ -243,20 +281,32 @@ matje van de camp and antal van den bosch
 a link to the past constructing historical social networks
 in proceedings of the workshop on computational approaches to subjectivity and sentiment analysis wassa pages stroudsburg pa usa
 association for computational linguistics
-christopher manning mihai surdeanu john bauer jenny finkel steven bethard and david mcclosky
+christopher d
+manning mihai surdeanu john bauer jenny finkel steven j
+bethard and david mcclosky
 the stanford corenlp natural language processing toolkit
 in association for computational linguistics acl system demonstrations pages
-url http anthology p
-philip burns
+url http
+aclweb
+org anthology p
+philip r
+burns
 morphadorner a java library for the morphological adornment of english language texts
 northwestern university
 url
-edu morphadorner download
+northwestern
+edu morphadorner download morphadorner
+pdf
 mathieu bastian sebastien heymann and mathieu jacomy
 gephi an open source software for exploring and manipulating networks
 in international aaai conference on weblogs and social media
 url
-tanev and magnini
+aaai
+org ocs index
+php paper
+h
+tanev and b
+magnini
 weakly supervised approaches for ontology population
 in proceedings of the conference on ontology learning and population bridging the gap between text and knowledge pages amsterdam
 ios press
@@ -266,6 +316,9 @@ in proceedings of the textgraphs workshop on graph based algorithms for natural 
 sociation for computational linguistics
 isbn
 url
+acm
+citation
+
 
 mitja trampus and dunja mladenic
 learning event patterns from text
@@ -275,4 +328,6 @@ social network analysis of alice in wonderland
 in proceedings of the naacl hlt workshop on computational guistics for literature pages montreal canada june
 association for computational linguistics
 url
+aclweb
+org anthology
 

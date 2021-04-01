@@ -1,0 +1,972 @@
+wikiasp a dataset for multi domain aspect based summarization hiroaki peng chris raj graham prashant technologies institute carnegie mellon university hiroakih
+cmu
+edu pbudania pwang cackerson sense
+com v o n l c
+s c v
+v i x r a abstract aspect based summarization is the task of generating focused summaries based on cic points of interest
+such summaries aid efcient analysis of text such as quickly derstanding reviews or opinions from ent angles
+however due to large differences in the type of aspects for different domains e
+
+sentiment product features the velopment of previous models has tended to be domain specic
+in this paper we propose a large scale dataset for multi domain aspect based summarization that attempts to spur research in the tion of open domain aspect based rization
+specically we build the dataset using wikipedia articles from different domains using the section titles and aries of each article as a proxy for aspect notation
+we propose several straightforward baseline models for this task and conduct periments on the dataset
+results highlight key challenges that existing summarization models face in this setting such as proper pronoun handling of quoted sources and sistent explanation of time sensitive events
+introduction aspect based summarization is a subtask of marization that aims to provide targeted summaries of a document from different perspectives titov and mcdonald lu et al
+wang and ling yang et al
+angelidis and pata
+unlike generic summarization this gives more concise summaries that are separated cording to specic points of interest allowing ers to fulll focused information needs more easily and quickly
+however existing aspect based marization work is somewhat narrowly focused for example a great majority of the work focuses
+com neulab wikiasp figure in wikiasp given reference documents cited by a target article a summarization model must produce targeted aspect based summaries that correspond to sections
+specically on the domain of product or rant reviews
+in contrast generic summarization models are tested on a much wider variety of res from newswire nallapati et al
+grusky et al
+to academic papers kang et al
+kedzie et al
+to movie scripts gorinski and lapata
+for each genre the types and acteristics of aspects that will need to be touched upon in a good summary will differ greatly
+one natural source of such multi domain cles is wikipedia and the section boundaries and titles in each article form natural annotations of pects and corresponding text
+there have recently been a number of attempts to generate the lead tion of wikipedia articles from the linked external sites in the reference section liu et al
+fan et al
+liu and lapata an approach that does not explicitly consider the different pects covered by the article
+perez beltrachini et al
+also examine domain differences in wikipedia text summarization
+however existing datasets and analyses lack structure broad domain coverage or both
+we argue that generating structured summaries is of inherent interest as these will allow humans consuming the tion to browse specic aspects of interest more readily and the structure will vary across mains with different domains demonstrating very different characteristics
+in this paper we construct a dataset for domain aspect based summarization that allows us to train models for this unique variety of rization task and examine the challenges posed therein
+figure illustrates the overview of our task
+specically we turn to section titles of wikipedia articles and construct sets of aspects through steps of automatic extraction curation and ltering
+the section texts then serve as ing aspect based summaries
+we devise a baseline two stage method ing of aspect identication and summarization ing extractive and abstractive models and conduct experiments on the proposed dataset
+the sis of experimental results and the generated maries reveals the unique challenges posed by our multi domain and multi document setting
+for ample aspects that require summarizing contents in a particular order e
+
+time series events in a multi document setting adds extra difculty cause of the need for correctly ordering scattered and possibly duplicate pieces of information from different sources
+certain domains that involve terviews or quotes of people also exhibit challenges in correctly modifying pronouns based on the tionship to the topic of interest
+generating wikipedia as aspect based summarization wikipedia articles exhibit a specic way of ing information about a focused topic
+an article s consists of two parts section titles a and their tents p
+the contents are further split into sections where each section describes information about the main topic from different viewpoints
+table shows an example article about the topic barack obama with several sections early life and reer presidency and legacy
+in practice the contents included in each section can take many forms from text tables and images to more cialized content such as brackets of a tournament
+in this work we focus only on sections that mainly consist of textual content see section for how we dene this
+importantly the content in wikipedia articles is required to be veriable other people using the title barack obama aspect early life and career obama was born on august at kapiolani cal center for women and children in honolulu hawaii
+
+
+
+aspect presidency the inauguration of barack obama as the president took place on january
+in his rst few days in ofce obama issued
+
+
+aspect legacy obama s most signicant legacy is generally considered to be the patient protection and affordable care act ppaca
+
+
+table example wikipedia article about barack obama
+our goal is to generate texts given the cited references and the specied aspects
+r encyclopedia can check that the information comes from a reliable source
+to ensure this articles contain citations from a set of references so that readers can check the validity of the content
+in other words citations supposedly contain the jority of the information written in the articles
+liu et al
+took advantage of this fact by ing a summarization task using cited references as source documents for summarization
+citations include published material such as books and websites but because only web based citations can easily and automatically be mined via crawling we consider only web based citations as source ments in this work and ignore the rest of non web based citations following liu et al
+
+the goal of our task is to learn a model r s which can identify and gather information from cited references and generate a section section summary where each section contains the appropriate type of information
+formally let be a collection of m cited
+
+
+rm erences for an article s of n sections
+each section si is essentially a ple of a section title and one or more paragraphs
+
+
+sn r
+while there is a fair amount of variety in section titles across different articles articles that belong to the same domain tend to share aspects that are particularly salient for that domain
+because of this we select a xed size subset of all section titles that that appear in each domain as the set of aspects we will target details on how we select this subset a ai pi
+wikipedia
+org wiki wikipedia veriability infrastructure software history route description facilities services future route location construction connections description reception gameplay development plot history features story release overview legacy table frequency of ltered aspects that are tual in domains
+due to space constraint the statistics for the rest of domains will be available in the appendix c
+will be elucidated in the following section
+hence our task is cast as multi document aspect based summarization
+the wikiasp dataset in this section we describe our concrete steps to create our dataset
+
+data collection as the base data we build upon the data lection strategy from the wikisum dataset liu et al
+a dataset for generating lead sections of wikipedia from referenced web pages
+lowing the wikisum data generation we rst crawled cited references covered by crawl for each wikipedia article
+we then recover all the of the target wikipedia articles from wikisum which was unused in wikisum dataset and obtain pairs of section title section paragraph
+an example for this is shown in ble
+
+domain separation articles in different domains focus on different salient topics as observed by perez beltrachini et al
+
+for example the discography tion is common for articles about singers but is not appropriate for articles about infrastructure
+to characterize such structural differences we rate the set of articles obtained in the previous step s wikisum generator was used
+to the design of wikisum dataset the rst section title of any article is automatically renamed to lead
+fore we could not recover rst sections of the wikipedia cles
+we suggest editing the data generation scripts for future wikisum users if section title information is necessary
+into sets in particular domains
+specically we low perez beltrachini et al
+in assigning one category for each article using dbpedia auer et al
+
+dbpedia stores structured information for each wikipedia article including the domain labels and info boxes
+additionally it denes a topical erarchy of the domains ontology classes
+we rst map between articles and the domain labels from the corresponding dbpedia dump
+obtained main labels however have mixed granularity e
+
+person and its sub class dancer which causes balance in the number of examples in each domain as well as domain overlap between high level and low level domains in the domain hierarchy
+we igate this by recursively merging domains at level into coarser ones according to the tioned topical hierarchy from the ontology classes
+we repeat the merging procedure until a branch in the hierarchy includes more than articles and picked domains at the leaf of the merged hierarchy
+
+aspect selection next we perform aspect selection on each set of articles in the domains extracted during the ous step
+as previously noted articles in the same domain tend to share similar set of section titles
+motivated by this observation we construct the set of aspects from the most frequent section titles
+from the frequency distribution of section titles in a domain we manually lter ones that are not textual that is more than half portion of section consists of text
+for each section title we take randomly sampled sections and include it in the set of aspects only if of samples consist of textual paragraphs
+following the steps above we construct the most frequent aspects for each domain
+however the choice of words in section titles vary depending on the editors within the same domain which leads to missing relevant aspects that are moderately frequent but not present in
+for example one of the common section titles in writtenwork domain are summary and plot summary which should be merged together to form a single aspect
+we handle these cases by inspecting the frequent distribution further down and manually identifying semantically equivalent
+dbpedia
+org server ontology articles are labeled directly as person in which case the domain is high level at the hierarchy
+we do not select this domain because lower level domains such as artist or soccerplayer already have enough number articles
+dataset domain dom
+train doc
+length sum
+length asp
+asp
+
+oposum amazon rottentomatoes movie review ma news product review product review news wikiasp encyclopedia
+
+
+
+table training set statistics comparisons against previous aspect based summarization datasets
+for multi domain datasets the sum of all the examples are reported
+asp
+
+represents the average number of aspects that a model has to summarize on each example
+review saliency is treated as aspects
+asp
+represents the number of aspects per domain if the number of domains is more than one
+compared datasets are the work of angelidis and lapata yang et al
+wang and ling frermann and klementiev respectively
+titles to merge
+the resulting dataset consists of instances in domains where each domain has pre dened aspect classes
+we show statistics comparisons of the dataset to existing aspect based summarization datasets in table and examples of obtained pects for two domains in table
+appendix a and c summarizes the data size for each domain and the obtained aspects for the rest of domains respectively
+baseline models next in this section we describe two baseline els for solving this task
+both of these models decompose the overall process into two stages pect discovery and aspect based summarization of classied sentences
+both baseline models share the same methodology for aspect discovery but fer in terms of summarization models
+the model overview is shown in figure
+
+aspect discovery the rst stage consists of labeling sentences in cited reference texts according to aspects
+having training data that contains sentences in the ence documents labeled with target aspects would be the ideal case but these do not exist a priori
+therefore we instead create training data by ing each sentence in the target articles with aspect labels corresponding to the aspect to which the sentence belongs
+for example the article about barack obama in table yields training instances consisting of sentences labeled with early life and career presidency and legacy depending on which paragraph a sentence comes from
+this data makes it possible to train a classier that learns to dict aspects from the texts at sentence level
+at test time cited reference sentences are fed into the learned classier and are labeled with their most likely aspects
+however the discrepancy of inputs at train test time is problematic because the model is not posed to any noisy sentences that do not belong to any of the relevant aspects at training time while cited reference texts do contain such sentences
+for example an article in the company domain may have a citation to the company website self which contains commercial messages that may not be appropriate in encyclopedic text such as wikipedia
+we manage such cases by ing an auxiliary label other at training time and let the model learn to identify noisy sentences as well
+to do so sentences labeled with other are randomly sampled from texts in different domains and added to training data
+we ne tune the trained roberta liu et al
+model on this classication dataset for each domain
+logits tained from the model are then passed through the sigmoid function to obtain probabilities of each pect for a given sentence
+finally we assign labels to a sentence by taking the aspects ai whose bilities are greater than the threshold p ai
+the lower we set the threshold the more but tially noisy sentences we include as the input to the summarization model
+we tune independently for each domain based on the performance on idation sets and set
+for group
+for album animal building film and
+for the remaining domains as the threshold values
+
+summarization sentences that are labeled with the same aspect are then grouped in order of occurrence in cited references to form a chunked paragraph that cusses the same aspect
+this forms aspect based clusters of relevant sentences which become the j from references figure two stage model diagram
+the aspect classier assigns aspect labels for each reference sentence ri with a threshold
+sentences are then grouped according to the assigned labels which are fed to the summarization model
+groups about irrelevant aspects i
+e
+is ignored
+finally the summarization model outputs summaries for each relevant aspect
+r input to a summarization model
+on the contrary aspects that are never labeled due to low bilities are deemed irrelevant and thus will not be summarized
+we consider both an extractive and an abstractive summarization model in our line implementation
+for the extractive model we use textrank mihalcea and tarau barrios et al
+a graph based ranking model for tracting important sentences
+for the abstractive model we use presumm liu and lapata a transformer based summarizer with ne tuned bert as the source encoder
+for each domain presumm is ne tuned and trained on the pairs of grouped sentences target aspect paragraph to learn to produce summaries given the relevant sentences
+evaluation we evaluate models along two axes aspect ery and summarization
+we note that the primary task in this dataset is aspect based summarization thus aspect discovery evaluation discussed below is only for diagnostic purposes
+since the aspect sets differ in different domains evaluation is performed separately for each domain
+aspect discovery models have to correctly dict the right set of aspects about which they erate summaries
+the aspect discovery criterion aims to evaluate the similarity between the set of aspects about which a model decides to generate summaries and the set of aspects that appear in the target article
+for comparing these two sets we that there are two potential reasons an aspect does not appear in the target article it may not be appropriate the controversy aspect in for that particular entity e
+
+use precision recall and scores
+aspect based summarization gold standard summaries only exist for each of the aspects that appear in an article
+therefore in this evaluation we focus on evaluating the model s ability to marize inputs particularly on these aspects
+ically generated summaries are paired to sponding reference summaries with the same pects and are evaluated using rouge lin
+since rouge is a recall based measure the ber of tokens in the model outputs directly affect the performance
+controlling the length is ticularly important for our dataset because age summary length for each aspect in different domains varies e
+
+description and location from historicplace domain has and average tokens respectively
+we take this into account by explicitly setting the maximum number of words for extractive and abstractive summaries to be the average number of words in the target summaries in the training set for each aspect and for each main
+experiments we provide two baseline models for the task and evaluate on the proposed dataset
+the company domain should not exist if that company has legitimately never had a controversy or the article may not be complete
+for this evaluation we make the simplifying assumption that all articles are complete and thus missing aspects are an indication of failure to recall information but relaxing this assumption in some way may result in more accurate evaluation
+
+implementation details domain prec rec
+results table aspect discovery results on the test set
+we aspect for used classication roberta model and ne tuned for epochs on the created surrogate dataset above
+for each domain with the learning rate for the extractive summarization we specify the summary length for textrank according to the mean length of target summaries for each aspect in each domain
+we re train the presumm summarizer on our dataset for each domain the encoder is initialized with the weights of pre trained bert devlin et al
+and the decoder is trained from scratch
+the total number of training steps is
+for some domains we further tuned the decoder dropout rate to
+to stabilize training
+at inference time we specify maximum summary lengths for each aspect for each domain using the average summary lengths from computed from the training set
+in this section we discuss the experimental results on each stage
+
+
+aspect discovery we show the aspect discovery results in table
+we see a general trend of high recall predictions made by the model
+while varying thresholds could balance precision and recall the results exhibited high recall after hyperparameter search
+this gests that the learned classier is poorly calibrated
+class imbalance also plays a role here predicting the major classes give high recall due to skew pect frequency distributions
+among others the classier performed best with the town domain by achieving the highest precision and the score
+
+
+summarization the automatic evaluation results are shown in ble
+neither baseline unanimously outperformed the other on all domains but we observe that summ abstractive performs better than textrank extractive on average
+the low and r l scores by both models despite the oracle being relatively higher suggest that important phrases to be rized do not appear rarely
+to understand the upper bound of model mance for the task we also show summarization used huggingface s implementation wolf et al
+for obtaining and ne tuning the weights
+that textrank connects nodes according to content overlap thus isolated sentences are not selected
+album animal artist building company educationalinstitution event film group historicplace infrastructure meanoftransportation ofceholder plant single soccerplayer software televisionshow town writtenwork
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+results of the extractive oracle model in table
+sentences were chosen directly from cited ence texts to maximize the rouge score against summaries thus bypassing the aspect tion stage
+the oracle performance shows that a summarization model can indeed perform itively on the dataset if the model is given with the full input information
+the contrasting results between the oracle and two stage models suggests the importance of accurate content selection before performing summarization
+analysis we discuss the model outputs and analysis below
+
+aspect by aspect evaluation not all the aspects are equally hard to summarize some might require summarization of a broad range of information while others require only specic concepts to be summarized
+we further investigate this by looking into summarization performance for both models on per aspect basis
+table shows the best performing aspects sorted in descending order by scores for two summarization els on the validation set
+through manual tigation of the generated samples for each aspect we observed that the aspects where the abstractive model performed well tend to have common plates and similar choice of vocabulary more so than other aspects
+for example out of textrank presumm extractive oracle r l r l r l album animal artist building company educationalinstitution event film group historicplace infrastructure meanoftransportation ofceholder plant single soccerplayer software televisionshow town writtenwork
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+avg
+
+
+
+
+
+
+
+
+table aspect based summarization results on the test set
+the last row shows the average performance
+samples of the target summaries for government in town shared the identical summaries despite the fact that articles discuss different townships
+ilar but less prevalent patterns were observed in other aspects as well
+aspects where the extractive summarization model performed better contain much larger bers of tokens in the summaries than average
+specically the average summary length for aspects where textrank performed the best was while that for aspects where presumm formed the best was
+naturally abstractive models have issues with maintaining coherence over long decoding results but the extractive model has few issues gathering relevant sentences at the cost of incoherent transitions from sentence to tence
+as for the content extractive summaries exhibited the advantage of being able to correctly include mentions related to numbers and dates
+
+quality of generated summaries we then examined the generated summaries from the two models and compared them qualitatively
+samples are in table from some of the domains listed in table
+from other domains are in appendix b
+manual inspection of the generated summaries revealed pros and cons of the two models both models are successful at discussing on topic content
+for all the summaries spected both models were able to generate on topic content in spite of the source ments potentially being noisy
+abstractive summaries underperform at generating exact entity mentions
+almost all the samples require generation of entities because the task targets at generating pedic texts
+except for the title topic entity abstractive models either generated no entities or wrong ones
+
+aspect classication accuracy we observed a general trend of low precision for aspect discovery
+we hypothesize that this is due to limited target aspects for each article correctly extracted aspects affect negatively to precision if they do not exist in the target article
+to quantify this random articles are selected from the idation set in software domain
+for each article we extract sentences labeled with the highest condence for each of the aspects resulting in dom
+aspect presumm textrank dom
+aspect tow
+eve
+inf
+bui
+mea
+his
+ani
+pla
+edu
+alb
+eve
+eve
+sof
+eve
+eve
+bui
+sof
+edu
+wri
+fil
+government format facilities exterior background heritage listing habitat taxonomy and nm
+rankings commercial perf
+battle report gameplay background aftermath history plot rankings plot summary plot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table list of aspects sorted in descending order of score according to presumm top half and textrank bottom half
+performance and naming are abbreviated to perf
+and nm
+respectively
+domain names shortened to the rst three letters
+sentences in total
+each sentence is annotated with binary labels indicating whether it is correctly associated with the aspect or not
+with the old set to
+we achieved the precision of
+which shows that the aspect discovery has the ity to extract aspects but not as good at extracting relevant aspects for the article
+we observed that the model predictions tend to be polarized to treme values i
+e
+near or
+we also show the relationship between ranges and the precision in figure which indicates that the classier is not well calibrated
+
+domain specic challenges one of the benets of having many domains for the same task is to be able to characterize the ferences and challenges that are unique to certain domains
+we analyzed the generated summaries the entity in discussion by the sentence is not clear
+in this case we annotate it correct if the sentence could correspond to the target aspect of any entity
+figure precision differences in varying threshold ranges
+from both of the summarization models and ed some of them below
+
+
+pronoun resolution for opinion based inputs this is particularly important in domains and pects with subjective reviews such as artist group and single or software
+source uments in these domains often include quotes by artists or critics which are often written from ent person perspective
+these are usually converted by the wikipedia editors into more encyclopedic text citing the source of the information and ing in the third person
+by design extractive maries have issues with this problem because of the lack of ability to transform the input sentences in any way
+for example the rst extractive summary in table describes a game in a subjective way
+we veried this by randomly selecting summaries for gameplay aspect in software domain
+we spected pronouns in extractive summaries and mark ones with or second person pronouns if the gold summaries do not contain them
+we found of the samples contained those undesirable pronouns that do not align with the format of gold summaries
+
+
+chronological explanation this variety of content is often found in certain aspects such as history and event which tend to appear across multiple domains but are most lent in event historicplace and non human ties like company and building
+it is essential in these aspects to describe key information in the right chronological order for better ity
+this would not be a hard task for single ment summarization as the model could perform
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+reasonably by following the order of the original document
+however since our input is of document form maintaining chronological order when aggregating information across multiple mains becomes non trivial
+indeed neither of the models were successful at being truthful to the der even when there are enough clues in the original references
+for example multiple sentences start with in year
+
+
+but the generated summary jumps around in time
+we randomly picked ples of extractive summaries with history aspect from company domain and found that of the samples have inconsistent timeline explanations
+related work aspect based summarization aspect based summarization has been widely vestigated primarily on product or restaurant views titov and mcdonald lu et al
+yang et al
+wang and ling
+angelidis and lapata proposed a weakly supervised method for aspect based opinion summarization that discovers aspects with a topic model and does not require gold aspect annotation
+tac held a shared task of guided based summarization on newswire domain which resembles aspect based summarization in terms of topic guidance
+cently the task has been extend to news domain by generating articial datasets for aspect based marization to address the lack of large scale data with aspect annotation frermann and klementiev krishna and srinivasan
+our work also builds an aspect based summarization dataset automatically and is most similar to krishna and srinivasan but utilizes naturally available online encyclopedia entries and their sections in multiple domains
+wikipedia as a summarization dataset wikipedia has been studied as a target resource for generation
+an early attempt on generating full wikipedia articles relied on web search results for target entities as inputs sauper and barzilay which simulates an authoring process of mans searching information over the internet
+liu et al
+formulate a sub task of generating lead sections as summarization of reference web pages to target articles
+the resulting wikisum dataset is accompanied by rich metadata about articles and inspired different uses of the dataset beltrachini et al
+
+our work also builds upon the wikisum dataset and aims to evaluate aspect based summarization models using ent sections from wikipedia articles
+compared to sauper and barzilay our dataset is an order of magnitude larger both in the amount of articles and in the number of domains covered
+multi document summarization extractive methods have shown effective for multi document summarization in previous work nenkova et al
+cao et al
+yasunaga et al
+but abstractive methods have ingly adopted for the task lebanoff et al
+fabbri et al
+
+our task is based on the idea of liu et al
+which treats references as source documents for the multi document summarization task and we experimented with both types of marization models in our experiments
+conclusion and future work in this paper we propose a large scale domain multi aspect summarization dataset derived from wikipedia
+through experiments we form an extensive analysis of performance across different genres and aspect types
+our analysis has demonstrated that there are both general challenges regarding summarization into various aspects as well as specic challenges in particular genres such as time consistent mentions and proper pronoun conversion depending on the writer of the original content
+because of this the proposed dataset also vides a testbed for several potential directions for future work
+for example better aspect ery models may take into account the coherence of the discourse in the original documents when extracting aspects
+better summarization models may take into account the provenance of the mation appropriately determining when the mation is written by a rst or third party
+wikiasp also invites a focus on domains of interest to vestigate various problems of text summarization such as correct pronoun handling and description of chronological timeline
+acknowledgment we would like to thank anonymous reviewers for insightful comments
+hh and gn were supported by a grant from alphasense
+references stefanos angelidis and mirella lapata
+
+marizing opinions aspect extraction meets sentiment prediction and they are both weakly supervised
+in proceedings of the ference on empirical methods in natural guage processing pages brussels belgium
+association for computational guistics
+sren auer christian bizer georgi kobilarov jens lehmann richard cyganiak and zachary ives
+
+dbpedia a nucleus for a web of open data
+in the semantic web pages
+springer
+federico barrios federico lpez luis argerich and rosa wachenchauzer
+
+variations of the similarity function of textrank for automated summarization
+corr
+
+ziqiang cao furu wei li dong sujian li and ming zhou
+
+ranking with recursive neural networks and its application to document summarization
+in twenty ninth aaai conference on articial intelligence
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language understanding
+in proceedings of the ference of the north american chapter of the association for computational linguistics man language technologies volume long and short papers pages lis minnesota
+association for computational linguistics
+alexander fabbri irene li tianwei she suyi li and dragomir radev
+
+multi news a large scale multi document summarization dataset and abstractive hierarchical model
+in proceedings of the annual meeting of the association for computational linguistics pages florence italy
+association for computational linguistics
+angela fan claire gardent chlo braud and antoine bordes
+
+using local edge graph construction to scale els to multi document inputs
+in proceedings of the conference on empirical ods in natural language processing and the international joint conference on natural language processing emnlp ijcnlp pages hong kong china
+association for computational linguistics
+lea frermann and alexandre klementiev
+
+inducing document structure for aspect based summarization
+in proceedings of the nual meeting of the association for tional linguistics pages florence italy
+association for computational linguistics
+philip john gorinski and mirella lapata
+
+movie script summarization as graph based in proceedings of the scene extraction
+conference of the north american chapter of the association for computational linguistics human language technologies pages denver colorado
+association for putational linguistics
+max grusky mor naaman and yoav artzi
+
+newsroom a dataset of
+million summaries with diverse extractive strategies
+in ings of the conference of the north ican chapter of the association for tional linguistics human language gies volume long papers pages new orleans louisiana
+association for putational linguistics
+dongyeop kang waleed ammar bhavana dalvi madeleine van zuylen sebastian kohlmeier uard hovy and roy schwartz
+
+a dataset of peer reviews peerread collection insights in proceedings of the and nlp applications
+conference of the north american chapter of the association for computational tics human language technologies volume long papers pages new orleans louisiana
+association for computational guistics
+chris kedzie kathleen mckeown and hal daum iii
+
+content selection in deep in learning models of summarization
+ceedings of the conference on empirical methods in natural language processing pages brussels belgium
+association for computational linguistics
+kundan krishna and balaji vasan srinivasan
+
+generating topic oriented summaries using neural attention
+in proceedings of the conference of the north american chapter of the association for computational tics human language technologies volume long papers pages new orleans louisiana
+association for computational guistics
+rada mihalcea and paul tarau
+
+textrank in proceedings of bringing order into text
+the conference on empirical methods in natural language processing pages barcelona spain
+association for tational linguistics
+logan lebanoff kaiqiang song and fei liu
+
+adapting the neural encoder decoder work from single to multi document rization
+in proceedings of the conference on empirical methods in natural language cessing pages brussels belgium
+association for computational linguistics
+chin yew lin
+
+rouge a package for matic evaluation of summaries
+in text rization branches out pages barcelona spain
+association for computational tics
+peter j
+liu mohammad saleh etienne pot ben goodrich ryan sepassi lukasz kaiser and noam shazeer
+
+generating wikipedia by summarizing long sequences
+
+
+iclr
+yang liu and mirella lapata
+
+hierarchical transformers for multi document summarization
+in proceedings of the annual meeting of the association for computational linguistics pages florence italy
+association for computational linguistics
+yang liu and mirella lapata
+
+text in marization with pretrained encoders
+ceedings of the conference on empirical methods in natural language processing and the international joint conference on ural language processing emnlp ijcnlp pages hong kong china
+tion for computational linguistics
+yinhan liu myle ott naman goyal jingfei du mandar joshi danqi chen omer levy mike lewis luke zettlemoyer and veselin stoyanov
+
+roberta a robustly optimized bert pretraining approach
+
+
+yue lu chengxiang zhai and neel sundaresan
+
+rated aspect summarization of short ments
+in proceedings of the international conference on world wide web www page madrid spain
+acm press
+ramesh nallapati bowen zhou cicero dos tos aglar gulehre and bing xiang
+
+stractive text summarization using sequence in proceedings sequence rnns and beyond
+of the signll conference on tional natural language learning pages berlin germany
+association for tional linguistics
+ani nenkova lucy vanderwende and kathleen mckeown
+
+a compositional context tive multi document summarizer exploring the in factors that inuence summarization
+ceedings of the annual international acm sigir conference on research and development in information retrieval pages
+acm
+laura perez beltrachini yang liu and mirella pata
+
+generating summaries with topic templates and structured convolutional coders
+in proceedings of the annual ing of the association for computational guistics pages florence italy
+sociation for computational linguistics
+christina sauper and regina barzilay
+
+tomatically generating wikipedia articles a structure aware approach
+in proceedings of the joint conference of the annual ing of the acl and the international joint conference on natural language processing of the afnlp pages suntec singapore
+association for computational linguistics
+ivan titov and ryan mcdonald
+
+a joint model of text and aspect ratings for ment summarization
+in proceedings of hlt pages columbus ohio
+tion for computational linguistics
+lu wang and wang ling
+
+neural based abstract generation for opinions and guments
+in proceedings of the conference of the north american chapter of the tion for computational linguistics human guage technologies pages san diego california
+association for computational guistics
+thomas wolf lysandre debut victor sanh julien chaumond clement delangue anthony moi pierric cistac tim rault remi louf morgan funtowicz and jamie brew
+
+face s transformers state of the art natural guage processing
+arxiv
+
+min yang qiang qu ying shen qiao liu wei zhao and jia zhu
+
+aspect and sentiment aware abstractive review summarization
+in ceedings of the international conference on computational linguistics pages santa fe new mexico usa
+association for computational linguistics
+michihiro yasunaga rui zhang kshitijh meelu ayush pareek krishnan srinivasan and dragomir radev
+
+graph based in ral multi document summarization
+ceedings of the conference on tational natural language learning conll pages vancouver canada
+sociation for computational linguistics
+domain title software cyberpunk aspect gameplay gold cyberpunk is a role playing video game played from either a rst person or third person perspective
+it is set in an open world metropolis called night city
+the game will feature non english speaking characters
+players who do not speak the languages can buy translator implants to better comprehend them
+
+
+ext
+cyberpunk takes place in you guessed it the year
+for just a few hours you can be rich successful and popular with your preferred gender
+cyberpunk will be a aaa rpg but whether it will come to resemble the witcher in any way remains unclear
+how braindances will be used by or on the protagonist is
+
+
+abs
+the game is an action role playing game in which the player assumes the role of an unnamed protagonist runabout who lives in a large metropolis known as the black city
+the game s narrative is told through procedurally generated procedurally generated
+during the course of the game the player is briefed into
+
+
+domain title event battle of the saintes aspect aftermath gold the british lost killed and wounded and two captains out of were killed
+the french loss in killed and wounded has never been stated but six captains out of were killed
+it is estimated that the french may have lost as much as and more than french soldiers and sailors were captured
+
+
+ext
+battle of the saintes april in the american revolution major naval victory for britain in the west indies that restored british naval mastery in the area and ended the french threat to nearby british possessions
+the valiant was subsequently present at the relief of gibraltar on april
+
+
+abs
+the immediate aftermath of the battle of the niles meant the british eet could not be able to deliver a great strategic victory in the kingdom of france and had also declared war on great britain with the royal navy to france
+the outcome was the subject of a strategic victory for the british
+in the meantime the british navy had captured the french navy
+
+
+aspect battle gold on april the copper hulled british eet soon caught up with the french who were surprised by their speed
+grasse ordered the french convoy to head into guadeloupe for repair forcing him to escort two fty gun ships er and experiment and placing his eet in line of battle in order to cover the retreat
+
+
+
+ext
+after some initial maneuvers and minor clashes a full scale battle was joined on april by which time the british had thirty six ships of the line in action against thirty french ones
+he turned his ships ninety degrees and sailed through the broken french line of battle splitting the french line into four segments
+in doing this the guns on each side of the british ships were brought to bear on the french with little risk of return re
+
+
+
+abs
+the battle started as the shock
+the battle progressed when the british forces reached the north eastern ank of the battle of weidman kingdom in a battle
+he had begun to return to the eld and moved his forces toward the mouth of the river
+in the battle the rst contingent of the french navy ships got off from a small contingent of british soldiers as well as the third rate under the command of general sir henry sturgis
+
+
+
+table generated summaries from multiple domains
+ext
+and abs
+represent summaries from textrank and presumm
+a domain statistics domain train valid test album animal artist building company educationalinstitution event film group historicplace infrastructure meanoftransportation ofceholder plant single soccerplayer software televisionshow town writtenwork title pride and glory lm aspect plot gold assistant chief francis tierney sr
+is the head of a multigenerational new york city police department nypd family which includes his sons francis franny jr
+ray and his son in law jimmy egan
+deputy inspector franny is the commanding ofcer of the precinct where sergeant jimmy is a patrol ofcer
+
+
+ext
+as we know under the macho code this means that after two people who love each other end up beaten and bloody they will somehow arrive at a catharsis
+the plot involves how and why the four cops were killed
+a family of police ofcers patriarch two sons and a son in law deals with corruption in a precinct in washington heights
+
+
+
+abs
+in the year before the events of the rst lm the movie takes place in washington heights
+
+a
+army sergeant in law ray s wife and sister abby living in washington city
+they have a romantic relationship with one of their ofcers
+while the four ofcers are called to the mental patient
+
+
+table generated summaries from film domain
+table the list of domains and the number of wikipedia articles in each domain that contain at least one salient aspect
+b additional samples title dimitri soudas aspect career title recomposed by max richter vivaldi the four seasons aspect critical reception gold recomposed by max richter vivaldi the four seasons received widespread acclaim from rary classical music critics
+ivan hewett of the telegraph gave the album a very positive review stating as you would expect of a composer who once studied with the great modernist luciano berio richter is very self aware
+
+
+
+ext
+listen to recomposed by max richter vivaldi i am highly impressed with the four seasons now
+recomposed
+the music then propels the audience into an atmosphere of isolation a delicate harmony that is sustained whilst hope takes centre stage
+
+
+
+abs
+the allmusic review by michael g
+nastos awarded the album stars stating this is an album that generally considered for fans of the genre
+
+
+
+table generated summaries from album main
+gold soudas served for one term as a school trustee at the western quebec school board from to
+between and soudas was a high prole member of prime minister stephen harper s munication team and one of the prime minister s closest and most faithful aides
+initially serving as a press secretary and later as an associate director of communications for the prime minister s ofce
+
+
+ext
+april after serving as a press secretary in the prime minister s ofce soudas was promoted to director of communications
+to full the opportunities afforded by social media directors of communication need to be aware of this trend and engage with it dimitri soudas writes in his master s thesis a copy of which has been obtained by cbc news
+
+
+
+abs
+in he was elected to the canadian house of commons as a member of the people s action party pc for the riding of yorkshire
+he was re elected in and
+in he was
+table generated summaries from holder domain
+c aspect statistics table and shows aspect frequency statistics
+perf
+hist
+dist
+ext
+desc
+dev
+edu
+nm
+and intl
+correspond to performance history bution extracurricular description development education naming and international respectively
+album animal reception critical reception background commercial perf
+release chart positions recording promotion history overview artist career biography early life personal life music career death life and career early life edu
+early years exhibitions history products operations services controversy overview background subsidiaries company history technology event company background aftermath history battle format prelude event report summary casualties description distribution dist
+habitat taxonomy habitat behavior ecology diet reproduction biology building history architecture desc
+hist
+description location interior construction exterior design facilities educationalinstitution history athletics academics campus sports student life ext
+activities curriculum facilities rankings film plot reception production release box ofce critical reception critical response synopsis home media lming table aspect frequency for domains
+group historicplace history biography career musical style background formation early years legacy style inuences meanoftransportation history design operational hist
+design dev
+service history development construction fate background description history description desc
+hist
+heritage listing architecture location historic uses preservation geography interior ofceholder personal life political career early life career biography education background death legacy early life career single plant description dist
+habitat uses distribution cultivation taxonomy ecology conservation etymology taxonomy nm
+intl
+career club career career personal life playing career early career early life professional style of play football career town geography demographics history education government census census transportation economy name and history music video critical reception background reception composition cover versions content release commercial perf
+live performance plot production reception synopsis premise history format broadcast overview critical reception writtenwork plot reception plot summary history background adaptations critical reception manga history and prole anime soccerplayer televisionshow table aspect frequency for domains
+

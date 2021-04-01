@@ -1,83 +1,87 @@
-r
-a
-i a
-s
-c
-v
+r a i a
+s c v
+v i x r a abstractive tabular dataset summarization via knowledge base semantic embeddings paul azunre craig corcoran david sullivan garrett honke rebecca ruppel sandeep verma jonathon morgan new knowledge rst
 
-v
-i x r a abstractive tabular dataset summarization via knowledge base semantic embeddings paul azunre craig corcoran david sullivan garrett honke rebecca ruppel sandeep verma
-jonathon morgan
-new knowledge abstract
-this paper describes an abstractive summarization for tabular data which employs a knowledge base semantic embedding to generate the summary
+io abstract this paper describes an abstractive summarization for tabular data which employs a knowledge base semantic embedding to generate the summary
 assuming the dataset contains tive text in headers columns some augmenting metadata the system employs the embedding to recommend a subject type for each text segment
 recommendations are aggregated into a small collection of super types considered to be descriptive of the dataset by exploiting the hierarchy of types in a prespecied ogy
-using february wikipedia as the knowledge base and a corresponding dbpedia ontology as types we present
-tal results on open data taken from several sources openml ckan and to illustrate the eectiveness of the proach ccs concepts computing methodologies machine learning keywords
-dataset summarization type recommendation semantic dings acm reference format paul azunre craig corcoran david sullivan garrett honke rebecca pel sandeep verma jonathon morgan
+using february wikipedia as the knowledge base and a corresponding dbpedia ontology as types we present tal results on open data taken from several sources openml ckan and data
+world to illustrate the eectiveness of the proach
+ccs concepts computing methodologies machine learning keywords dataset summarization type recommendation semantic dings acm reference format paul azunre craig corcoran david sullivan garrett honke rebecca pel sandeep verma jonathon morgan
 
 abstractive tabular dataset summarization via knowledge base semantic embeddings
 in ings of acm conference washington dc usa july pages
-doi introduction
-the motivation of this work is to develop a method for
-ing the content of tabular datasets
+doi
+introduction the motivation of this work is to develop a method for ing the content of tabular datasets
 one can imagine the potential utility of automatically assigning a set of tags to each member of a large collection of datasets that would indicate the potential ject being addressed by the dataset
 this can allow for semantic querying over the dataset collection to extract all available data pertinent to some specic task subject at scale
-code is available for download at permission to make digital or hard copies of part or all of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for prot or commercial advantage and that copies bear this notice and the full tion on the rst page
+code is available for download at
+com newknowledge duke permission to make digital or hard copies of part or all of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for prot or commercial advantage and that copies bear this notice and the full tion on the rst page
 copyrights for third party components of this work must be honored
 for all other uses contact the owner
+washington dc usa copyright held by the owner
 
-washington dc usa
-copyright held by the owner
 
-doi we make the assumption that the dataset contains some text
-that is semantically descriptive of the dataset subject whether pearing in columns headers or some augmenting metadata
+
+
+doi
+we make the assumption that the dataset contains some text that is semantically descriptive of the dataset subject whether pearing in columns headers or some augmenting metadata
 as opposed to an extractive approach that would merely select some exact words and phrases from the available text we propose an stractive approach that builds an internal semantic representation and produces subject tags that may not be explicitly present in the text augmenting the dataset
-
 the result of this work is duke dataset understanding via knowledge base embeddings a method that employs a pretrained knowledge base kb semantic embedding to perform type mendation within a prespecied ontology
 this is achieved by gregating the recommended types into a small collection of super types predicted to be descriptive of the dataset by exploiting the hierarchical structure of the various types in the ontology
-
 tively the method represents employing an existing kb embedding to extensionally generate a embedding
-using a ruary wikipedia knowledge base and a corresponding pedia ontology to specify types we present experimental results on open data taken from several sources openml ckan and to illustrate the eectiveness of the approach
-related work
-the distributional semantics concept has been recently widely employed as a natural language processing nlp tool to embed various nlp concepts into vector spaces
+using a ruary wikipedia knowledge base and a corresponding pedia ontology to specify types we present experimental results on open data taken from several sources openml ckan and data
+world to illustrate the eectiveness of the approach
+related work the distributional semantics concept has been recently widely employed as a natural language processing nlp tool to embed various nlp concepts into vector spaces
 this rather intuitive pothesis states that the meaning of a word is determined by its text
 by far the most pervasive application of the hypothesis has been the model which employs neural networks on large corpora to embed words that are contextually similar to be close to each other in a high dimensional vector space
-arithmetic operations on the elements of the vector space produce cally meaningful results king queen
+arithmetic operations on the elements of the vector space produce cally meaningful results e
+
+king queen
 since the original model various incremental nations of it have been employed to embed sentences paragraphs and even knowledge graphs into vector spaces via and respectively
 a topic domain is typically expressed as a manually curated tology
 a basic element of an ontology is a type and a type assertion statement links specic entities of the knowledge graph to specic types
 these statements can be used to augment a semantic ding space with type information in order to add high level context of the graph to the embedding space
 for instance it was recently shown that one can extend a pretrained knowledge graph ding kge to contain types of a specic ontology if those were not already present as entities given a list of assertion
-
 thus it can be assumed that a semantic embedding is typed for our purposes
+we note that the abstractive tabular dataset summarization lem is closely related to the well studied problem of type mendation where the type is a super tag for all text segments in the dataset within a prespecied ontology that needs to be predicted
+systems for type recommendation using both manually curated and automated features e
 
-we note that the abstractive tabular dataset summarization
-lem is closely related to the well studied problem of type mendation where the type is a super tag for all text segments in the dataset within a prespecied ontology that needs to be predicted
-
-systems for type recommendation using both manually curated and automated features via typed for individual entities have been previously explored
+via typed for individual entities have been previously explored
 to the best of our knowledge this is the rst application of typed semantic embeddings to abstractive tabular dataset summarization
-approach framework
-in this subsection we present a pair of denitions to aid tion
+approach
+framework in this subsection we present a pair of denitions to aid tion
 denition models utilize a large corpus of documents to build a vector space mapping words to points in a space where proximity implies semantic
 this allows us to calculate distances between words in the dataset and the set of types in our ontology
 denition when discussed in this paper a model is a form of model trained on a corpus of wikipedia kb
 training on this data ensures that the list of types in the dbpedia ontology are included in the vocabulary of the model and increases the likelihood that topics are discussed in context with their super types
 note that is dierent from a kge which is typically trained on relationship triples between entities in a knowledge graph such as
 
-generating type recommendations
-the method for summarizing a tabular dataset can be broken down into three distinct steps collect a set of types and an ontology to use for abstraction extract any text data from the tabular dataset and embed it into a vector space to calculate the distance to all the types in our ontology aggregate the distance vectors for every keyword in the dataset into a single vector of distances type ontology
+generating type recommendations the method for summarizing a tabular dataset can be broken down into three distinct steps collect a set of types and an ontology to use for abstraction extract any text data from the tabular dataset and embed it into a vector space to calculate the distance to all the types in our ontology aggregate the distance vectors for every keyword in the dataset into a single vector of distances
+
+type ontology
 in order to generate an abstract term to describe the dataset we must rst collect an ontology of types to select a descriptive term from
 we use an ontology provided by which contains approximately dened types including everything from sound to video game and historic place
-dbpedia also contains dened parent child relationships for the that we use to build a complete hierarchy of types
+dbpedia also contains dened parent child relationships for the that we use to build a complete hierarchy of types e
+
 that tree is a sub type of plant which is a sub type of eukaryote
+
+
 word embedding
 with the set of topics collected extract each word from the dataset embed it in a vector space and calculate the distance between that word and every type in the ontology
-if a single cell in a column contains more than one word from
-parent child type relationships can be found at take the average of the corresponding embedded vectors
+if a single cell in a column contains more than one word
+com idio from
+dbpedia
+dbpedia
+nt parent child type relationships can be found at
+org take the average of the corresponding embedded vectors
 this sults in a collection of distance vectors representing all text in the dataset
-collect the vectors according to their source within the dataset words in the same column are collected into a matrix of distances for each column
+collect the vectors according to their source within the dataset i
+e
+words in the same column are collected into a matrix of distances for each column
 if column headers are provided treat them as an additional column in the dataset
+
+
 distance aggregation
 the previous steps produce a set of matrices containing distances between every text segment in the dataset and the set of types
 the goal of this step is to reduce them to a single vector of distances
@@ -89,133 +93,165 @@ for instance we need to update the score for means of transportation based on th
 the third aggregation is formed over the set of distance vectors computed for each column producing a single vector of distances to every dened type
 we tested two simple functions for each aggregation step mean and max as well as a variety of more complex aggregations for the tree aggregation step
 tree aggregation allows for additional ity because the updated distance for each type was dependent on the original distance for that type and the vector of scores for all the children
-we found that the most successful tree aggregation functions were those that utilized dierent functions for ing the child scores and the original type score type childn
+we found that the most successful tree aggregation functions were those that utilized dierent functions for ing the child scores and the original type score e
+
+type
+
+
+childn
+
 aggregation function selection
 to select the best tion for each aggregation we hand labelled a collection of datasets with types from our ontology to use as a sort of training set
 then for each labelled dataset and each combination of aggregation tions we computed the percentage of true labels found in the top three labels predicted by duke with results shown in figure
-
 this gure clearly shows that using mean for column aggregation meanmax tree aggregation described in equation and then mean for the nal dataset aggregation step produces the best results
-results and discussion
-the goal of this section is to illustrate the eectiveness of the
-posed approach to the tabular dataset summarization problem in the context of some widely available open data sets for which ually curated summary types tags are available to facilitate comparison and evaluation
+results and discussion the goal of this section is to illustrate the eectiveness of the posed approach to the tabular dataset summarization problem in the context of some widely available open data sets for which ually curated summary i
+e
+types tags are available to facilitate comparison and evaluation
 links to every dataset used is provided to facilitate verication by the reader
-for each dataset we ated one subject tag using the duke program as described in the previous sections and grade it manually using low for low
-curacy medium for medium accuracy where the automatically generated tag is related to but is not exactly one of the manual tags and high for high accuracy where the automatically ated tag is exact in the sense that it is one of manually generated mean meanmax
-mean max meanmax
-mean mean max
-mean max max
-mean mean meanmax max mean max max max max max max meanmax max model congurations table openml tabular dataset summarization results
-e e k e t a r h c t a m e v i t
-i s o p figure match rate between true labels and top predicted labels for the best performing aggregation function nations
-the labels for each bar describe the three tested gregation functions in the order column tree dataset tags
-also please note that each prediction took roughly onds to perform approximately seconds of which was spent loading the model on a cpu gb azure
-cloud vm executing serially
-example ckan datasets
-four randomly selected ckan datasets were used class size annual survey
-bc liquor store product price list
-oct and coalle
+for each dataset we ated one subject tag using the duke program as described in the previous sections and grade it manually using low for low curacy medium for medium accuracy where the automatically generated tag is related to but is not exactly one of the manual tags and high for high accuracy where the automatically ated tag is exact in the sense that it is one of manually generated mean meanmax mean max meanmax mean mean max mean max max mean mean meanmax max mean max max max max max max meanmax max model congurations table openml tabular dataset summarization results
+
+
+
+e e k e t a r h c t a m e v i t i s o p figure match rate between true labels and top predicted labels for the best performing aggregation function nations
+the labels for each bar describe the three tested gregation functions in the order column tree dataset
+tags
+also please note that each prediction took roughly onds to perform approximately seconds of which was spent loading the model on a cpu gb azure cloud vm executing serially
+
+example ckan datasets four randomly selected ckan datasets were used class size annual survey bc liquor store product price list oct and coalle
 manually curated ject tags were available for each dataset see table
 the match between the predicted tags and the manual tags for each dataset is depicted in table
-
 for the rst two datasets duke predicts an exact tag
 for the next two datasets the accuracy is medium with wine region being very close to wine and river being a common semantic theme in coal eld names examples include elk river hat creek and peace river
-specically the top tags returned by duke in ing order for the fourth example were river stream body of water natural place and natural region words that are semantically
-
-scriptive of the kind of names typically possessed by coal elds
-
+specically the top tags returned by duke in ing order for the fourth example were river stream body of water natural place and natural region words that are semantically scriptive of the kind of names typically possessed by coal elds
 moreover we plot the top duke predicted tags and the ual tags for the third example in figure demonstrating an exact match
-table ckan tabular dataset summarization results dataset class size manual tags predicted tag score school high class size public school
-students in classes annual survey questions annual survey library public library public library library high bc liquor store product price
-list oct bc liquor stores alcohol beer price beverage wine spirits wine region medium coalle report assessment reports coal data maps river medium dataset manual tags predicted tag score baseball baseball player high engine high baseball player play statistics database city cycle miles per gallon fuel consumption personality prediction from text personae person medium spectrometer measurement sky red band blue band spectrum database ux band medium example openml datasets
-four simple openml datasets were obtained through the m darpa program the and datasets
+table ckan tabular dataset summarization results dataset class size manual tags predicted tag score school high class size public school students in classes annual survey questions annual survey library public library public library library high bc liquor store product price list oct bc liquor stores alcohol beer price beverage wine spirits wine region medium coalle report assessment reports coal data maps river medium dataset manual tags predicted tag score baseball baseball player high engine high baseball player play statistics database city cycle miles per gallon fuel consumption personality prediction from text personae person medium spectrometer measurement sky red band blue band spectrum database ux band medium
+example openml datasets four simple openml datasets were obtained through the m darpa program the and datasets
 the results for these datasets are shown in table
-
 for the rst two datasets duke predicts an exact tag
-note that for the second dataset we consider engine to be an exact tag since
-the manual tags are essentially attributes of engines
+note that for the second dataset we consider engine to be an exact tag since the manual tags are essentially attributes of engines
 for the next two datasets the accuracy is medium with person being very close to personality and band being descriptive of red band and blue band manual tags
 to verify that bands here referred to the right context we looked at the top tags returned by duke which in decreasing order are band brown dwarf inhabitants per square kilometer star and celestial body words that are fairly consistent with the context suggested by the manual tags
 moreover we plot these tags and the manual tags for this dataset in figure demonstrating that while an exact match is not attained nontrivial subsets of both tag types are very close to each other in the embedding space
 at
+data
+gov
+bc
+ca dataset bc schools class size
+data
+gov
+bc
+ca dataset bc public libraries at
+data
+gov
+bc
+ca dataset bc liquor store product list historical prices at
+data
+gov
+bc
+ca dataset coalle database for download at
+openml
+org for download at
+openml
+org for download at
+clips
 
-at list historical prices at for download at for download at for download at for download at n o
-
-i s n e m d e n s
-t i table tabular dataset summarization results dataset manual tags predicted tag score us terrorist origins terrorism usa politics person medium occupational employment growth employment economics site of scientic interest medium cafod activity le for haiti funding haiti grants donors aid transparency human development index high queensland gambling data expenditure gambling queensland casino high example datasets
-the names of some randomly selected datasets are as follows us terrorist occupational employment cafod activity le for haiti and queensland gambling data
-
-the results for this representative set of four datasets are shown in table
-
+ac
+be datasets personae corpus for download at
+openml
+org n o i s n e m d e n s t i table tabular dataset summarization data
+world results dataset manual tags predicted tag score us terrorist origins terrorism usa politics person medium occupational employment growth employment economics site of scientic interest medium cafod activity le for haiti funding haiti grants donors aid transparency human development index high queensland gambling data expenditure gambling queensland casino high
+example data
+world datasets the names of some randomly selected data
+world datasets are as follows us terrorist occupational employment cafod activity le for haiti and queensland gambling data
+the results for this representative set of four data
+world datasets are shown in table
 for the rst two datasets duke achieves medium accuracy
-to see the justication for this note that the top tags returned by duke for the rst dataset in decreasing order are person still age legal case supreme court of the usa and military person words fairly descriptive of the dataset which is a list of terrorists
-ability of a headshot and details of their legal charges
+to see the justication for this note that the top tags returned by duke for the rst dataset in decreasing order are person still age legal case supreme court of the usa and military person words fairly descriptive of the dataset which is a list of terrorists ability of a headshot and details of their legal charges
 moreover we plot these tags and the manual tags for this dataset in figure demonstrating that while an exact match is not attained trivial subsets of both tag types are very close to each other in the embedding space
 the second dataset provides a list of occupations many of which are scientic and corresponding wages at various locations which leads us to believe that site of entic interest is fairly descriptive of the semantics represented in the dataset
 for the next two datasets the accuracy is high which should be self explanatory to the reader from table
-conclusion and future work
-a method for abstractive summarization of tabular datasets der the assumption that it contains some descriptive text was sented
-results of numerical experiments on openml ckan and datasets show good agreement between manual and tomatically generated tags by our system duke
+conclusion and future work a method for abstractive summarization of tabular datasets der the assumption that it contains some descriptive text was sented
+results of numerical experiments on openml ckan and data
+world datasets show good agreement between manual and tomatically generated tags by our system duke
 these results can be signicantly improved by more extensive ontologies included in the model in place of the dbpedia ontology
-additionally retraining on a more complete version of dbpedia tentially augmented using an automatic knowledge base tion or akbc algorithm
-will help improve the accuracy of our system
+additionally retraining on a more complete version of dbpedia tentially augmented using an automatic knowledge base tion or akbc algorithm will help improve the accuracy of our system
 more sophisticated handling of multi word phrases also needs to be explored
-for download at for download at for download at at dataset example
+for download at
+world tommyblanchard u s terrorist origins for download at
+world tommyblanchard u s terrorist origins for download at
+world cafod cafod for haiti at
+world queenslandgov all gambling data queensland dataset example example
 example
 example
-example tag type duke prediction exact match
-manual tag t sne dimension figure concept embedding space for three of the ined datasets
+tag type duke prediction exact match manual tag t sne dimension figure concept embedding space for three of the ined datasets
 point shape depicts duke predictions and manual tags
 t sne dimension reduction was used to project the dimension concept embeddings into a space for presentation
-acknowledgements work was supported by the defense vanced research projects agency darpa under contract
-ber m
+acknowledgements work was supported by the defense vanced research projects agency darpa under contract ber m
 views opinions and ndings tained in this report are those of the authors and should not be construed as an ocial department of defense position policy or decision
-references
-paul groth sujit pal darin mcbeath brad allen and ron daniel
-
+references paul t
+groth sujit pal darin mcbeath brad allen and ron daniel
 
 applying universal schemas for domain specic ontology expansion
 in proceedings of the workshop on automated knowledge base tion hlt san diego ca usa june
 
-mayank kejriwal and pedro szekely
-supervised typing of big graphs
-using semantic embeddings
+
+org anthology w
+pdf mayank kejriwal and pedro szekely
+
+supervised typing of big graphs using semantic embeddings
 in proceedings of the international workshop on semantic big data sbd
 acm new york ny usa article pages
 
 
-quoc le and tomas mikolov
+
+quoc v
+le and tomas mikolov
 
 corr
-distributed representations of sentences and documents
-ma tran and bicer
 
-typier
-inferring the type semantics of structured data
-in ieee international conference on data engineering
+distributed representations of
+sentences and documents
+
+org
+y
+ma t
+tran and v
+bicer
+
+typier inferring the type semantics of structured data
+in ieee international conference on data engineering icde
+
+
+
 icde
 
 tomas mikolov ilya sutskever kai chen greg s corrado and je dean
 
 distributed representations of words and phrases and their compositionality
-
 in nips
-curran associates
+curran associates inc
+
 matteo pagliardini prakhar gupta and martin jaggi
 
 unsupervised ing of sentence embeddings using compositional n gram features
 corr
 
+
+
+org
 jerey pennington richard socher and christopher d manning
 
 glove global vectors for word representation
+
 in emnlp vol
+
 
 petar ristoski and heiko paulheim
 
 rdf graph embeddings for data mining
 in the semantic web iswc paul groth elena simperl alasdair gray marta sabou markus krotzsch freddy lecue fabian flock and yolanda gil eds
-springer international publishing cham
 
+springer international publishing cham
 magnus sahlgren
 
 the distributional hypothesis
@@ -223,13 +259,14 @@ italian journal of guistics
 marieke van erp and piek vossen
 
 entity typing using distributional mantics and dbpedia
-in knowledge graphs and language technology marieke van erp sebastian hellmann john mccrae christian chiarcos key sun choi jorge gracia yoshihiko hayashi seiji koide pablo mendes heiko heim and hideaki takeda eds
-springer international publishing cham
+in knowledge graphs and language technology marieke van erp sebastian hellmann john p
+mccrae christian chiarcos key sun choi jorge gracia yoshihiko hayashi seiji koide pablo mendes heiko heim and hideaki takeda eds
 
+springer international publishing cham
 quan wang bin wang and li guo
 
 knowledge base completion using embeddings and rules
 in proceedings of the twenty fourth international joint conference on articial intelligence ijcai buenos aires argentina july
 
 
-
+org

@@ -1,187 +1,214 @@
-real time web scale event summarization using sequential decision making chris kedzie
-columbia university
-dept of computer science
-fernando diaz
-microsoft research
-kathleen mckeown
-columbia university
-dept of computer science a m l c
-s
-c
-v
-v
-i x r a abstract we present a system based on sequential sion making for the online summarization of sive document streams such as those found on the web
-given an event of interest boston marathon bombing our system is able to lter the stream for relevance and produce a series of short text updates describing the event as it unfolds over time
+real time web scale event summarization using sequential decision making chris kedzie columbia university dept
+of computer science
+columbia
+edu fernando diaz microsoft research
+com kathleen mckeown columbia university dept
+of computer science
+columbia
+edu a m l c
+s c v
+v i x r a abstract we present a system based on sequential sion making for the online summarization of sive document streams such as those found on the web
+given an event of interest e
+
+boston marathon bombing our system is able to lter the stream for relevance and produce a series of short text updates describing the event as it unfolds over time
 unlike previous work our approach is able to jointly model the relevance comprehensiveness novelty and timeliness required by time sensitive queries
-we demonstrate a improvement in summary and a improvement in sensitive metrics
+we demonstrate a
+improvement in summary and a
+improvement in sensitive metrics
 introduction tracking unfolding news at web scale continues to be a lenging task
 crisis informatics monitoring of breaking news and intelligence tracking all have difculty in fying new relevant information within the massive quantities of text that appear online each second
 one broad need that has emerged is the ability to provide realtime event specic updates of streaming text data which are timely relevant and comprehensive while avoiding redundancy
-
 unfortunately many approaches have adapted standard tomatic multi document summarization techniques that are inadequate for web scale applications
 typically such tems assume full retrospective access to the documents to be summarized or that at most a handful of updates to the summary will be made dang and owczarzak
 thermore evaluation of these systems has assumed reliable and relevant input something missing in an inconsistent namic noisy stream of web or social media data
 as a result these systems are poor ts for most real world applications
 in this paper we present a novel streaming document summarization system based on sequential decision making
+specically we adopt the learning to search approach a technique which adapts methods from reinforcement learning for structured prediction problems iii et al
+ross et al
 
-specically we adopt the learning to search approach a technique which adapts methods from reinforcement learning for structured prediction problems iii et al ross et al
 in this framework we cast streaming marization as a form of greedy search and train our system to imitate the behavior of an oracle summarization system
+p
+m
+two explosions shattered the euphoria of the boston marathon nish line on monday sending authorities out on the course to carry off the injured while the stragglers were rerouted away
 
-two explosions shattered the euphoria of the boston marathon nish line on monday sending authorities out on the course to carry off the injured while the stragglers were rerouted away police in new york city and london are stepping up security following explosions at the boston marathon
 
-a senior intelligence ofcial says two more explosive devices have been found near the scene of the boston marathon where two bombs detonated earlier
+p
+m
+police in new york city and london are stepping up security following explosions at the boston marathon
+p
+m
+a senior u
+s
+intelligence ofcial says two more explosive devices have been found near the scene of the boston marathon where two bombs detonated earlier
+p
+m
 several candidates for massachusetts senate cial election have suspended campaign activity in response to the explosions
-figure excerpt of summary for the query boston marathon bombing generated from an input stream
 
-given a stream of sentence segmented news webpages and an event query boston marathon bombing our tem monitors the stream to detect relevant comprehensive novel and timely content
+
+figure excerpt of summary for the query boston marathon bombing generated from an input stream
+given a stream of sentence segmented news webpages and an event query e
+
+boston marathon bombing our tem monitors the stream to detect relevant comprehensive novel and timely content
 in response our summarizer duces a series of short text updates describing the event as it unfolds over time
 we present an example of our realtime update stream in figure
 we evaluate our system in a crisis informatics setting on a diverse set of event queries covering severe storms social unrest terrorism and large accidents
-
-we demonstrate a improvement in summary and a improvement in time sensitive metrics against eral state of the art baselines
+we demonstrate a
+improvement in summary and a
+improvement in time sensitive metrics against eral state of the art baselines
 related work multi document summarization mds has long been ied by the natural language processing community
-we
-cus specically on extractive summarization where the task is to take a collection of text and select some subset of tences from it that adequately describes the content subject to some budget constraint the summary must not exceed k words
+we cus specically on extractive summarization where the task is to take a collection of text and select some subset of tences from it that adequately describes the content subject to some budget constraint e
+
+the summary must not exceed k words
 for a more in depth survey of the eld see nenkova and mckeown
 because labeled training data is often scarce unsupervised approaches to clustering and ranking predominate the eld
-
-popular approaches involve ranking sentences by various notions of input similarity or graph centrality radev et al erkan and radev
-other ranking based methods use coverage of topic natures
-lin and hovy or kl divergence between input summary word distributions haghighi and wende as the ranking possibly adding some diversity penalty to ensure broader coverage
-update summarization research has primarily focused on producing a word summary from a set of documents assuming the reader is familiar with a different initial set of documents
-dang and owczarzak
+popular approaches involve ranking sentences by various notions of input similarity or graph centrality radev et al
+erkan and radev
+other ranking based methods use coverage of topic natures lin and hovy or kl divergence between input summary word distributions haghighi and wende as the ranking possibly adding some diversity penalty to ensure broader coverage
+update summarization research has primarily focused on producing a word summary from a set of documents assuming the reader is familiar with a different initial set of documents dang and owczarzak
 generally the approaches to update summarization have adapted the above techniques
-top performers at the text analysis conference the last year update summarization was a task made use of graph ranking algorithms and
-topic model signature style importance estimates du al mason and charniak conroy et al
-streaming or temporal summarization was rst explored in the context of topic detection and tracking allan et al and more recently at the text retrieval conference trec
-aslam et al
-top performers at trec included an afnity propagation clustering approach kedzie et al and a ranking mds system combination method mccreadie et al
+top performers at the text analysis conference the last year update summarization was a task made use of graph ranking algorithms and topic model signature style importance estimates du et al
+mason and charniak conroy et al
+
+streaming or temporal summarization was rst explored in the context of topic detection and tracking allan et al
+and more recently at the text retrieval conference trec aslam et al
+
+top performers at trec included an afnity propagation clustering approach kedzie et al
+and a ranking mds system combination method mccreadie et al
+
 both methods are unfortunately constrained to work in hourly batches introducing potential latency
-haps most similar to our work is that of guo et al which iteratively ts a pair of regression models to predict ngram recall and precision of candidate updates to a model summary
+haps most similar to our work is that of guo et al
+which iteratively ts a pair of regression models to predict ngram recall and precision of candidate updates to a model summary
 however their learning objective fails to account for errors made in subsequent prediction steps
-problem denition
-a streaming summarization task is composed of a brief text query q including a categorical event type earthquake hurricane as well as a document stream
+problem denition a streaming summarization task is composed of a brief text query q including a categorical event type e
+
+earthquake hurricane as well as a document stream
+
+
+
 in practice we assume that each document is segmented into a sequence of sentences and we therefore consider a sentence stream
 
 
+
 a streaming summarization algorithm then selects or skips each sentence as it is observed such that the end user is provided a ltered stream of sentences that are relevant comprehensive low redundancy and timely see section
+
 we refer to the selected sentences as dates and collectively they make up an update summary
-we show a fragment of an update summary for the query boston marathon bombing in figure streaming summarization as sequential decision making we could navely treat this problem as classication and dict which sentences to select or skip
-however this would make it difcult to take advantage of many features tence novelty
+we show a fragment of an update summary for the query boston marathon bombing in figure
+streaming summarization as sequential decision making we could navely treat this problem as classication and dict which sentences to select or skip
+however this would make it difcult to take advantage of many features e
+
+tence novelty w
+
+t
 previous updates
 what is more ing however is that the classication objective for this task is somewhat ill dened successfully predicting select on one sentence changes the true label from select to skip for tences that contain the same information but occur later in the stream
-
 in this work we pose streaming summarization as a greedy search over a binary branching tree where each level stream position c t e l e s skip figure search space for a stream of size two
 the depth of the tree corresponds to the position in the stream
 left branches indicate selecting the current sentence as an update
 right branches skip the current sentence
-the path in green
-corresponds to one trajectory through this space consisting of a select sentence one then skip sentence
+the path in green corresponds to one trajectory through this space consisting of a select sentence one then skip sentence
 the state sented by the hollow dot corresponds to the stream at sentence position with the update summary containing sentence
 sponds to a position in the stream see figure
 the height of the tree corresponds to the length of stream
-a path through
-the tree is determined by the system select and skip decisions
-
-when treated as a sequential decision making problem our task reduces to dening a policy for selecting a tence based on its properties as well as properties of its cestors all of the observed sentences and previous sions
+a path through the tree is determined by the system select and skip decisions
+when treated as a sequential decision making problem our task reduces to dening a policy for selecting a tence based on its properties as well as properties of its cestors i
+e
+all of the observed sentences and previous sions
 the union of properties also known as the features represents the current state in the decision making process
 the feature representation provides state abstraction both within a given query s search tree as well as to states in other queries search trees and also allows for complex interactions between the current update summary candidate sentences and stream dynamics unlike the classication approach
-
 in order to learn an effective policy for a query q we can take one of several approaches
 we could use a simulator to provide feedback to a reinforcement learning algorithm
-
 ternatively if provided access to an evaluation algorithm at training time we can simulate approximately optimal sions
 that is using the training data we can dene an oracle policy that is able to omnisciently determine which sentences to select and which to skip
 moreover it can make these terminations by starting at the root or at an arbitrary node in the tree allowing us to observe optimal performance in states unlikely to be reached by the oracle
-we adopt locally
-timal learning to search to learn our model from the oracle policy chang et al
+we adopt locally timal learning to search to learn our model from the oracle policy chang et al
+
 in this section we will begin by describing the learning algorithm abstractly and then in detail for our task
 we will conclude with details on how to train the model with an oracle policy
-algorithm
-in the induced search problem each search state st responds to observing the rst t sentences in the stream
+
+algorithm in the induced search problem each search state st responds to observing the rst t sentences in the stream
+
+
 xt and a sequence of t actions
 
-for all states s s the set of actions is a with
-ing we add the t th sentence to our update summary and
-dicating we ignore it
-for simplicity we assume a xed length stream of size t
-but this is not strictly necessary
-from each input stream
-xt we produce a corresponding output a
-we use t to indicate the rst t elements of
-input q qq number of iterations n and a mixture parameter for roll out
-output initialize
-i for n
-n do for q q do for t
-t do roll in by executing i for t rounds and reach st
-for a do let o
-compute by rolling out with o a q with probability else i
-update cost sensitive
-i i return i
-algorithm locally optimal learning to search
 
+
+for all states s s the set of actions is a with ing we add the t th sentence to our update summary and dicating we ignore it
+for simplicity we assume a xed length stream of size t but this is not strictly necessary
+from each input stream
+
+
+xt we produce a corresponding output a
+we use x t to indicate the rst t elements of
+input q qq number of iterations n and a mixture parameter for roll out
+output initialize i for n
+
+
+n do for q q do for t
+
+
+t do roll in by executing i for t rounds and reach st
+for a do let o compute by rolling out with o a q with probability else i
+update cost sensitive i i return i
+algorithm locally optimal learning to search
 for a training query q a reference policy q can be structed from the training data
 specically with access to the relevance and novelty of every xi in the stream we can omnisciently make a decision whether to select or skip based on a long term metric see section
-the goal then is to learn a policy that imitates the reference well across a set of training queries
-we encode each state as a vector in rd with a feature function and our learned policy is a mapping
-rd a of states to actions
-we train using locally optimal learning to search chang et al presented in algorithm
-the algorithm erates by iteratively updating a cost sensitive classier
-for each training query we construct a query specic training set by simulating the processing of the training input stream
-the instances in are triples comprised of a feature tor derived from the current state s a candidate action a and the cost associated with taking action a in state structing consists of selecting states and actions and computing the cost for each state action pair
 
+the goal then is to learn a policy that imitates the reference well across a set of training queries q
+we encode each state as a vector in rd with a feature function and our learned policy is a mapping rd a of states to actions
+we train using locally optimal learning to search chang et al
+presented in algorithm
+the algorithm erates by iteratively updating a cost sensitive classier
+for each training query we construct a query specic training set by simulating the processing of the training input stream xq
+the instances in are triples comprised of a feature tor derived from the current state s a candidate action a and the cost associated with taking action a in state s
+structing consists of selecting states and actions and computing the cost for each state action pair
 the number of states is exponential in t so constructing using the full set of states may be computationally hibitive
 beyond this the states in would not be tative of those visited at test time
 in order to address this we sample from s by executing the current policy out the training simulation resulting in t state samples for lines
-
 given a sampled state s we need to compute the cost of taking actions a
-with access to a query specic acle
-q we can observe it s preferred decision at s and
-ize choosing the other action
-the magnitude of this penalty is proportional to the difference in expected performance
-
-tween
-the oracle decision and the alternative decision
+with access to a query specic acle q we can observe it s preferred decision at s and ize choosing the other action
+the magnitude of this penalty is proportional to the difference in expected performance tween the oracle decision and the alternative decision
 the performance of a decision is derived from a loss function to be introduced in section
-importantly our loss function is dened over a complete update summary incorporating the implications of selecting an action on future decisions
 
-fore our cost needs to incorporate a sequence of decisions ter taking some action in state
+importantly our loss function is dened over a complete update summary incorporating the implications of selecting an action on future decisions
+fore our cost needs to incorporate a sequence of decisions ter taking some action in state s
 the algorithm accomplishes this by rolling out a policy after a until the stream has been exhausted line
 as a result we have a prex dened by an action and then a sufx dened by the roll out icy
 in our work we use a mixture policy that combines both the current model and the oracle line
 this mixture policy encourages learning from states that are likely to be visited by the current learned policy but not by the oracle
 after our algorithm has gathered for a specic q using i we train on the data to produce
-here i is implemented as a cost sensitive classier a linear regression of the costs on features and actions the natural policy is to select the action with lowest predicted cost
+here i is implemented as a cost sensitive classier i
+e
+a linear regression of the costs on features and actions the natural policy is to select the action with lowest predicted cost
 with each query we update the regression with stochastic gradient descent on the newly sampled state action cost tuples line
 we repeat this process for n passes over all queries in the training set
+in the following sections we specify the feature function the loss and our reference policy
 
-in the following sections we specify the feature function the loss and our reference policy features
-as mentioned in the previous section we represent each state as a feature vector
-in general at time t these features are functions of the current sentence xt the stream history t the decision history a
+features as mentioned in the previous section we represent each state as a feature vector
+in general at time t these features are functions of the current sentence i
+e
+xt the stream history i
+e
+t the decision history a
 we refer to features only determined by xt as static features and all others as dynamic features
 static features basic features our most basic features look at the length in words of a sentence its position in the document and the tio of specic named entity tags to non named entity tokens
-
 we also compute the average number of sentence tokens that match the event query words and synonyms using wordnet
-
-language model features similar to kedzie et al we compute the average token log probability of the sentence on two language models an event type specic language model and ii a general newswire language model
-
-the rst language model is built from wikipedia articles
-evant to the event type domain
+language model features similar to kedzie et al
+we compute the average token log probability of the sentence on two language models an event type specic language model and ii a general newswire language model
+the rst language model is built from wikipedia articles evant to the event type domain
 the second model is built from the new york times and associate press sections of the corpus graff and cieri
 single document summarization features these tures are computed using the current sentence s document as a context and are also commonly used as ranking features in other document summarization systems
 where a similarity or distance is need we use either a tf idf bag of words or dimensional latent vector representation
 the latter is derived by projecting the former onto a k dimensional space using the weighted textual matrix factorization method guo and diab
-we compute sumbasic features nenkova and wende the average and sum of unigram
-ties in a sentence
-we compute the arithmetic and geometric means of the sentence s cosine distance to the other sentences of the document guo al
+we compute sumbasic features nenkova and wende the average and sum of unigram ties in a sentence
+we compute the arithmetic and geometric means of the sentence s cosine distance to the other sentences of the document guo et al
+
 we refer to this quantity as novelty and compute it with both vector representations
 we have attempted to use a comprehensive set of static features used in ous summarization systems
 we omit details for space but source code is available at
-we also compute the centroid rank
-radev et al and
-lexrank of each sentence erkan and radev again using both vector representations
-
+com kedz we also compute the centroid rank radev et al
+and lexrank of each sentence erkan and radev again using both vector representations
 summary content probability for a subset of the stream sentences we have manual judgements as to whether they match to model summary content or not see sec
+
 panding relevance judgments
 we use this data restricted to sentences from the training query streams to train a sion tree classier using the sentences term ngrams as sier features
 as this data is aggregated across the training queries the purpose of this classier is to capture the tance of general ngrams predictive of summary worthy tent
@@ -189,79 +216,76 @@ using this classier we obtain the probability that the rent sentence contains su
 dynamic features stream language models we maintain several unigram guage models that are updated with each new document in the stream
 using these counts we compute the sum age and maximum token probability of the non stop words in the sentence
 we compute similar quantities restricted to the person location and organization named entities
-
-update similarity
-the average and maximum cosine ilarity of the current sentence to all previous updates is puted under both the tf idf bag of words and latent vector representation
-we also include indicator features for when the set of updates is empty at the beginning of a run and when either similarity is
-
+update similarity the average and maximum cosine ilarity of the current sentence to all previous updates is puted under both the tf idf bag of words and latent vector representation
+we also include indicator features for when the set of updates is empty i
+e
+at the beginning of a run and when either similarity is
 document frequency we also compute the hour to hour percent change in document frequency of the stream
 this feature helps gauge breaking developments in an unfolding event
 as this feature is also heavily affected by the daily news cycle larger average document frequencies in the ing and evening we compute the mean unit variance of this feature using the training streams to nd the mean and ance for each hour of the day
-feature interactions
-many of our features are helpful for determining the importance of a sentence with respect to its document
+feature interactions many of our features are helpful for determining the importance of a sentence with respect to its document
 however they are more ambiguous for ing importance to the event as a whole
 for example it is not clear how to compare the document level pagerank of tences from different documents
 to compensate for this we leverage two features which we believe to be good global dicators of update selection the summary content probability and the document frequency
 these two features are ies for detecting a good summary sentences regardless of novelty with respect to other previous decisions and when an event is likely to be producing novel content
 we compute the conjunctions of all previously mentioned features with the summary content probability and document frequency rately and together
-oracle policy and loss function
-much of the multi document summarization literature ploys greedy selection methods
-we adopt a greedy oracle that selects a sentence if it improves our evaluation metric
-see section
+
+oracle policy and loss function much of the multi document summarization literature ploys greedy selection methods
+we adopt a greedy oracle that selects a sentence if it improves our evaluation metric see section
+
 we design our loss function to penalize policies that severely or under generate
-given two sets of decisions usually one from the oracle and another from the candidate model we dene the loss as the complement of the dice efcient between the decisions
-
-i
-i
-i ai
-
-i
-
+given two sets of decisions usually one from the oracle and another from the candidate model we dene the loss as the complement of the dice efcient between the decisions i i i ai i
 this encourages not only local agreement between policies the numerator of the second term but that the learned and oracle policy should generate roughly the same number of updates the denominator in the second term
-materials and methods data
+materials and methods
+data we evaluate our method on the publicly available trec poral summarization track data
+this data is comprised of three parts
+the corpus consists of a
+terabyte set of
+billion timestamped documents crawled from the web between tober and february frank et al
 
-we evaluate our method on the publicly available trec
-poral summarization track this data is comprised of three parts
-the corpus consists of a terabyte set of billion timestamped documents crawled from the web between tober and february frank et al
-the crawl includes news articles forum data weblogs as well as a riety of other crawled web the queries consist of a set of events which occurred during the timespan of the corpus
+the crawl includes news articles forum data weblogs as well as a riety of other crawled web pages
+the queries consist of a set of events which occurred during the timespan of the corpus
 each query has an sociated time range to limit the experiment to a timespan of interest usually around two weeks
-in addition each query is associated with an event category earthquake ricane
+in addition each query is associated with an event category e
+
+earthquake ricane
 each query is also associated with an ideal mary a set of short timestamped textual descriptions of facts about the event
 the items in this set also known as nuggets are considered the completed and irreducible sub events sociated with the query
 for example the phrases ple people have been injured and at least three people have been killed are two of the nuggets extracted for the query boston marathon bombing
-on average nuggets were extracted for each event
-
+on average
+nuggets were extracted for each event
 the relevance judgments consist of a sample of sentences pooled from participant systems each of which has been manually assessed as related to one or more of a query s nuggets or not
 for example the following sentence two explosions near the nish line of the boston marathon on monday killed three people and wounded scores matches the nuggets mentioned above
-the relevance judgments can be used to compute evaluation metrics section and as a result to also dene our oracle policy section
-expanding relevance judgments
-because of the large size of the corpus and the limited size of the sample many good candidate sentences were not ually reviewed
-after aggressive document ltering see low less than of the sentences received manual review
+the relevance judgments can be used to compute evaluation metrics section
+and as a result to also dene our oracle policy section
 
+expanding relevance judgments because of the large size of the corpus and the limited size of the sample many good candidate sentences were not ually reviewed
+after aggressive document ltering see low less than of the sentences received manual review
 in order to increase the amount of data for training and uation of our system we augmented the manual judgements with automatic or soft matches
 a separate gradient ing classier was trained for each nugget with more than
+trec ts
+
 manual sentence matches
 manually matched sentences were used as positive training data and an equal number of manually judged non matching sentences were used as tive examples
 sentence ngrams percentage of nugget terms covered by the sentence semantic similarity of the tence to nugget were used as features along with an action term between the semantic similarity and coverage
-
 when augmenting the relevance judgments with these nugget match soft labels we only include those that have a ability greater than under the classier
 overall these additional labels increase the number of matched sentences by
-
 for evaluation the summarization system only has access to the query and the document stream without knowledge of any nugget matches manual or automatic
-document filtering
-for any given event query most of the documents in the pus are irrelevant
+document filtering for any given event query most of the documents in the pus are irrelevant
 because our queries all consist of news events we restrict ourselves to the news section of the pus consisting of documents
-these documents are raw web pages mostly from local news outlets running stories from syndication services reuters in a variety of layouts
+these documents are raw web pages mostly from local news outlets running stories from syndication services e
+
+reuters in a variety of layouts
 in order to normalize these inputs we ltered the raw stream for relevancy and dancy with the following three stage process
-we rst preprocessed each document s raw html using an article extraction
+we rst preprocessed each document s raw html using an article extraction library
 articles were truncated to the rst sentences
 we then removed any articles that did not tain all of the query keywords in the article text resulting in one document stream for each query
-finally documents whose cosine similarity to any previous document was were removed from the stream
-metrics
-we are interested in measuring a summary relevance prehensiveness redundancy and latency the delay in ing nugget information
-the temporal summarization track adopts three principle metrics which we review here
+finally documents whose cosine similarity to any previous document was
+were removed from the stream
 
-plete details can be found in the track s ofcial metrics
+metrics we are interested in measuring a summary relevance prehensiveness redundancy and latency the delay in ing nugget information
+the temporal summarization track adopts three principle metrics which we review here
+plete details can be found in the track s ofcial metrics ument
 we use the ofcial evaluation code to compute all metrics
 given a system s update summary a and our sentence level relevance judgments we can compute the number of ing nuggets found
 importantly a summary only gets credit for the number of unique matching nuggets not the number of matching sentences
@@ -270,79 +294,134 @@ we refer to the number of unique matching nuggets as the gain
 we can also penalize a system which retrieves a sentence matching a nugget far after the timestamp of the nugget
 the latency penalized gain discounts each match s contribution to the gain proportionally to the delay of the rst matching sentence
 the gain value can be used to compute latency and redundancy penalized analogs to precision and recall
-ically the expected gain divides the gain by the number of system updates
+ically the expected gain divides the gain by the number of
+com grangier python goose
+trec ts
+org ts metrics
+pdf system updates
 this precision oriented metric can be sidered the expected number of new nuggets in a sentence lected by the system
 the comprehensiveness divides the gain by the number of nuggets
 this recall oriented metric can be considered the completeness of a user s information after the termination of the experiment
-finally we also compute the harmonic mean of expected gain and comprehensiveness
+finally we also compute the harmonic mean of expected gain and comprehensiveness i
+e
+
 we present results using either gain or latency penalized gain in order to better understand system behavior
-
 to evaluate our model we randomly select ve events to use as a development set and then perform a leave one out style evaluation on the remaining events
-model training
-even after ltering each training query s document stream is still too large to be used directly in our combinatorial search space
 
+model training even after ltering each training query s document stream is still too large to be used directly in our combinatorial search space
 in order to make training time reasonable yet resentative we downsample each stream to a length of sentences
 the downsampling is done uniformly over the tire stream
 this is repeated times for each training event to create a total of training streams
 in the event that a downsample contains no nuggets either human or cally labeled we resample until at least one exists in the ple
-
 in order to avoid we select the model iteration for each training fold based on its performance in score of expected gain and comprehensiveness on the development set
-baselines and model variants
 
-we refer to our learning to search model in the results as ls
+baselines and model variants we refer to our learning to search model in the results as ls
 we compare our proposed model against several lines and extensions
-cosine similarity
-threshold one of the top ing systems in temporal summarization at trec was a heuristic method that only examined article rst sentences selecting those that were below a cosine similarity threshold to any of the previously selected updates
+cosine similarity threshold one of the top ing systems in temporal summarization at trec was a heuristic method that only examined article rst sentences selecting those that were below a cosine similarity threshold to any of the previously selected updates
 we implemented a variant of that approach using the latent vector representation used throughout this work
 the development set was used to set the threshold
 we refer to this model as cos team waterlooclarke at trec
-afnity propagation
-the next baseline was a top former at the previous year s trec evaluations kedzie et al
-this system processes the stream in non overlapping windows of time using afnity propagation ap clustering
-frey and dueck to identify update sentences tences that are cluster centers
-as in the cos model a larity threshold is used to lter out updates that are too similar to previous updates previous clustering outputs
+afnity propagation the next baseline was a top former at the previous year s trec evaluations kedzie et al
+
+this system processes the stream in non overlapping windows of time using afnity propagation ap clustering frey and dueck to identify update sentences i
+e
+tences that are cluster centers
+as in the cos model a larity threshold is used to lter out updates that are too similar to previous updates i
+e
+previous clustering outputs
 we use the summary content probability feature as the preference or salience parameter
 the time window size similarity old and an offset for the cluster preference are tuned on the development set
 we use the authors publicly available plementation and refer to this method as apsal
-
-similarity threshold
-in this model which we refer to as lscos we run ls as before but lter the resulting updates using the same cosine exp
-gain l unpenalized comp
-
-
-c l apsal cos ls lscos latency penalized exp
+similarity threshold in this model which we refer to as lscos we run ls as before but lter the resulting updates using the same cosine exp
 gain
-c l comp
 
-c c l num updates c figure average system performance and average number of updates per event
-superscripts indicate signicant ments p between the run and competing algorithms using the paired randomization test with the bonferroni correction for multiple comparisons apsal c cos l ls lscos
+
+
+l unpenalized comp
+
+
+
+
+
+
+
+
+l apsal cos ls lscos latency penalized exp
+gain
+
+
+
+l comp
+
+
+
+
+
+
+
+
+c l num
+updates
+
+
+
+c figure average system performance and average number of updates per event
+superscripts indicate signicant ments p
+between the run and competing algorithms using the paired randomization test with the bonferroni correction for multiple comparisons apsal c cos l ls lscos
 latency penalized exp
-gain comp
+gain
+
+
+comp
+
+
+
+
 
 
 cos lsfs lscosfs figure average system performance
 lsfs and lscosfs runs are trained and evaluated on rst sentences only like the cos system
 unpenalized results are omitted for space but the rankings are consistent
 miss miss lead body empty dupl
-total apsal cos lsfs lscosfs ls lscos figure percent of errors made and total errors on test set
+total
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+apsal cos lsfs lscosfs ls lscos figure percent of errors made and total errors on test set
 ity threshold method as in cos
 the threshold was also tuned on the development set
 results results for system runs are shown in figure
 on average ls and lscos achieve higher scores than the baseline systems in both latency penalized and unpenalized tions
-for lscos the difference in mean score was
-nicant compared to all other systems for both latency tings
+for lscos the difference in mean score was nicant compared to all other systems for both latency tings
 apsal achieved the overall highest expected gain tially because it was the tersest system we evaluated
-
 ever only cos was statistically signicantly worse than it on this measure
-
 in comprehensiveness ls recalls on average a fth of the nuggets for each event
 this is even more impressive when compared to the average number of updates produced by each system figure while cos achieves similar siveness it takes on average about more updates than ls and almost more updates than lscos
 the output size of cos stretches the limit of the term summary which is typically shorter than sentences in length
-this is
-pecially important if the intended application is negatively fected by verbosity crisis monitoring
-discussion
-since cos only considers the rst sentence of each ment it may miss relevant sentences below the article s lead
+this is pecially important if the intended application is negatively fected by verbosity e
 
+crisis monitoring
+discussion since cos only considers the rst sentence of each ment it may miss relevant sentences below the article s lead
 in order to conrm the importance of modeling the oracle we also trained and evaluated the ls based approaches on rst sentence only streams
 figure shows the latency penalized results of the rst sentence only runs
 the ls approaches still dominate cos and receive larger positive effects from the latency penalty despite also being restricted to the rst sentence
@@ -356,141 +435,111 @@ an empty error indicates an update was selected that contained no nugget
 duplicate errors occur when an update contains nuggets but none are novel
 overall errors of the miss type are most common and gest future development effort should focus on summary tent identication
 about a fth to a third of all system error comes from missing content in the lead sentence alone
-
 after misses empty errors false positives are the next largest source of error
 cos was especially prone to empty rors of its total errors
-ls is also vulnerable to empties but after applying the similarity lter and restricting to rst sentences these errors can be reduced dramatically to
+ls is also vulnerable to empties
+but after applying the similarity lter and restricting to rst sentences these errors can be reduced dramatically to
 surprisingly duplicate errors are a minor issue in our uation
 this is not to suggest we should ignore this nent however as efforts to increase recall reduce miss rors are likely to require more robust redundancy detection
-conclusion
-in this paper we presented a fully online streaming document summarization system capable of processing web scale data efciently
+conclusion in this paper we presented a fully online streaming document summarization system capable of processing web scale data efciently
 we also demonstrated the effectiveness of ing to search algorithms for this task
 as shown in our error analysis improving the summary content selection especially in article body should be the focus of future work
-we would like to explore deeper linguistic analysis coreference and discourse structures to identify places likely to contain content rather than processing whole documents
-acknowledgements
+we would like to explore deeper linguistic analysis e
 
-we would like to thank hal daume iii for answering our questions about learning to search
+coreference and discourse structures to identify places likely to contain content rather than processing whole documents
+acknowledgements we would like to thank hal daume iii for answering our questions about learning to search
 the research described here was supported in part by the national science tion nsf under
 any opinions ndings and conclusions or recommendations expressed in this paper are those of the authors and do not necessarily reect the views of the nsf
-
-references
-allan et al james allan rahul gupta and vikas khandelwal
+references allan et al
+james allan rahul gupta and vikas khandelwal
 temporal summaries of new topics
-in ceedings of the annual international acm sigir ference on research and development in information trieval pages acm
-
-aslam et al javed aslam matthew
-abueg virgil pavlu fernado diaz and tetsuya sakai
-
+in ceedings of the annual international acm sigir ference on research and development in information trieval pages
+acm
+aslam et al
+javed aslam matthew abueg virgil pavlu fernado diaz and tetsuya sakai
 trec temporal summarization
 in proceedings of the text retrieval conference trec november
-
 chang et al
-kai wei chang akshay
-murthy alekh agarwal hal daume and john langford
-
+kai wei chang akshay murthy alekh agarwal hal daume and john langford
 learning to search better than your teacher
-
 in david blei and francis bach editors proceedings of the icml pages
 jmlr workshop and conference proceedings
-
-conroy et al john m conroy judith d schlesinger jeff kubina peter a rankel and dianne p oleary
+conroy et al
+john m conroy judith d schlesinger jeff kubina peter a rankel and dianne p oleary
 classy at tac guided and multi lingual summaries and uation metrics
 in proceedings of the text analysis ference
-dang and owczarzak
-hoa trang dang and karolina owczarzak
+dang and owczarzak hoa trang dang and karolina owczarzak
 overview of the tac update tion task
 in proceedings of text analysis conference pages
 iii et al
 hal daume iii john langford and daniel marcu
 search based structured prediction
-
 chine learning
-
-du al pan du jipeng yuan xianghui lin
-jin zhang jiafeng guo and xueqi cheng
+du et al
+pan du jipeng yuan xianghui lin jin zhang jiafeng guo and xueqi cheng
 decayed divrank for guided summarization
-in proceedings of text analysis conference erkan and radev gunes erkan and dragomir r radev
+in proceedings of text analysis conference
+erkan and radev gunes erkan and dragomir r radev
 lexrank graph based lexical centrality as salience in text summarization
 jair pages
-
-frank et al john r frank max kleiman weiner daniel a roberts feng niu ce zhang christopher re and ian soboroff
+frank et al
+john r frank max kleiman weiner daniel a roberts feng niu ce zhang christopher re and ian soboroff
 building an entity centric stream ing test collection for trec
 technical report dtic document
-
 frey and dueck brendan j frey and delbert dueck
 clustering by passing messages between data points
-
 ence
-
 graff and cieri david graff and c cieri
-english
-gaword corpus
+english gaword corpus
 linguistic data consortium
-
 guo and diab weiwei guo and mona diab
 a ple unsupervised latent semantics based approach for tence similarity
 in proceedings of the sixth international workshop on semantic evaluation semeval pages stroudsburg pa usa
 association for computational linguistics
-
-guo al
-qi guo fernando diaz and elad
-tov
+guo et al
+qi guo fernando diaz and elad tov
 updating users about time critical events
 in ecir ecir pages berlin heidelberg
 verlag
 haghighi and vanderwende aria haghighi and lucy vanderwende
-
 exploring content models for document summarization
 in proceedings of human guage technologies the annual conference of the north american chapter of the association for tional linguistics pages
 association for putational linguistics
-
-kedzie et al chris kedzie kathleen mckeown and
-predicting salient updates for fernando diaz
-
+kedzie et al
+chris kedzie kathleen mckeown and predicting salient updates for fernando diaz
 in proceedings of the annual ter summarization
-
 meeting of the association for computational tics and the international joint conference on natural language processing pages
 association for computational linguistics july
-
-lin and hovy
-chin yew lin and eduard hovy
+lin and hovy chin yew lin and eduard hovy
 the automated acquisition of topic signatures for text rization
 in acl pages
 acl
-
 mason and charniak rebecca mason and eugene charniak
 extractive multi document summaries should explicitly not contain document specic content
 in ceedings of the workshop on automatic summarization for different genres media and languages pages
-
 association for computational linguistics
-
-mccreadie et al richard mccreadie craig
-
-donald and iadh ounis
-incremental update tion
-adaptive sentence selection based on prevalence and novelty
+mccreadie et al
+richard mccreadie craig donald and iadh ounis
+incremental update tion adaptive sentence selection based on prevalence and novelty
 in cikm pages
 acm
-
 nenkova and mckeown ani nenkova and kathleen mckeown
 a survey of text summarization techniques
 in mining text data pages
 springer
-
-nenkova and vanderwende nenkova and
-
+nenkova and vanderwende a
+nenkova and l
 derwende
-
 the impact of frequency on tion
 technical report msr msr january
-
 radev et al
 dragomir r radev hongyan jing and malgorzata budzikowska
 centroid based tion of multiple documents sentence extraction based evaluation and user studies
 in proceedings of the naacl anlp workshop on automatic tion
 association for computational linguistics
-
-ross et al stephane ross geoffrey gordon and drew bagnell
+ross et al
+stephane ross geoffrey j
+gordon and drew bagnell
 a reduction of imitation learning and tured prediction to no regret online learning
 in ings of the fourteenth international conference on tats pages
 

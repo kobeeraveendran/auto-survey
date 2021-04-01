@@ -1,0 +1,818 @@
+reference and document aware semantic evaluation methods for korean language summarization dongyub myeongcheol taesun seungwoo byeongil daniel eunggyun jaechoon corp
+jude
+
+com enterprise corp
+index
+sh john
+w kobi
+k daniel
+e json
+
+com university south korea
+ac
+kr university south korea
+ac
+kr abstract text summarization refers to the process that generates a shorter form of text from the source ument preserving salient information
+many existing works for text summarization are generally evaluated by using recall oriented understudy for gisting evaluation rouge scores
+however as rouge scores are computed based on n gram overlap they do not reect semantic meaning correspondences between generated and reference summaries
+because korean is an native language that combines various morphemes into a word that express several meanings rouge is not suitable for korean summarization
+in this paper we propose evaluation metrics that reect semantic meanings of a reference summary and the original document reference and document aware semantic score rdass
+we then propose a method for improving the correlation of the metrics with human judgment
+evaluation results show that the correlation with human judgment is signicantly higher for our evaluation metrics than for rouge scores
+introduction the task of text summarization is to generate a reference summary that conveys all the salient information of an original document
+there are two strategies for this type of summarization i
+e
+extractive and abstractive summarization
+with the extractive approach the most noticeable key sentences are extracted from the source and compiled into a reference zhong et al
+wang et al
+xiao and carenini
+the second approach is abstractive with which a paraphrased summary is generated from the source zhang et al
+guo et al
+wenbo et al
+
+the generated summary may not contain the same words that appear in the source document
+therefore measuring factual alignment between the generated summary and source document is important kryscinski et al
+
+most summarization models are evaluated using recall oriented understudy for gisting evaluation rouge lin which measures n gram overlaps between generated and reference maries
+rouge has proven to have a high correlation with manual evaluation methods such as mid nenkova et al
+and tac aesop owczarzak and dang
+however louis showed that the correlation signicantly decreased when only one reference summary was provided
+additionally considering the process by which a person manually summarizes a document rouge is limited because it does not reect semantic meanings between generated and reference summaries
+for example when a person summarizes a document they tend to use words that are implicit while not ways using the explicit words from the original document
+as the rouge score is computed based on an n gram overlap the score can be low even if two words have the same semantic meaning
+table shows an example of the rouge limitation when applied to a korean summarization
+this tendency is ularly prevalent in korean which is an agglutinative language that combines various morphemes into a word to express several meanings and grammatical functions unlike english
+in this process complex morphological variations can occur
+therefore leveraging rouge scores produces inaccurate results
+corresponding author v o n l c
+s c v
+v i x r a article
+tvn iptv
+
+
+the tv program sage doctor life set an all time record for its highest viewer ratings
+on the tvn thursday special sage doctor life aired on the recorded an average household rating of
+and a maximum of on a paid platform incorporating cable iptv and satellite
+the ratings have been rising for three consecutive weeks
+reference summary
+
+
+the tv program sage doctor life breaks its all time high viewer ratings for consecutive episodes
+wrong candidate
+
+
+the tv program sage doctor life reached the lowest viewing rate of for times in a row
+rouge scores with reference summary r l
+
+
+ours rdass
+correct candidate
+
+
+the tv program sage doctor life set an all time record for its highest viewer ratings for consecutive episodes
+rouge scores with reference summary r l
+
+
+ours rdass
+table an example showing the limitations of rouge in korean summarization
+the incorrectly generated summary has a high rouge score but has the opposite semantic meaning
+text areas marked in blue and red serve as indicators for distinguishing the factualness of the semantic comparisons as reected by the our metrics shown
+to overcome this limitation an evaluation method that considers the semantic information of both the generated and reference summary is required
+it is important to examine the factuality between the generated summary and source document because the generated summary may contain false tion
+each person summarizes information in different manners and it is difcult to agree even after cross checking kryscinski et al
+
+therefore the source document should also be considered with generated and reference summary
+in this study we propose metrics for evaluating a summarization model that consider both the source document and reference summary together with the generated summary see table
+our contributions can be summarized as follows we propose the evaluation metrics that can be applied to a summarization model using deep we propose methods to improve the correlation between the proposed evaluation metrics and human via extensive evaluation we demonstrate that the correlation with human judgment is signicantly higher for our proposed evaluation metrics than for rouge scores
+tic information
+judgment
+related work evaluation methods of text summarization are divided into two strategies manual and automatic
+manual evaluation is expensive and difcult nenkova and passonneau passonneau et al
+
+several studies have been conducted to develop automatic methods that facilitate fast and low cost evaluations
+there are two types of automatic evaluation methods extrinsic and intrinsic
+an extrinsic automatic method evaluates a summarization model based on how it affects the completion of tasks comprising the judgment of document relevance dorr et al
+
+the intrinsic automatic method evaluates quality via a property analysis or by calculating its similarity to a manually generated summary
+intrinsic methods include the pyramid method nenkova et al
+the basic elements method hovy et al
+and rouge lin
+the pyramid method inspects various human made summaries and creates summary content units each with a scoring weight
+the basic elements method is similar to the pyramid method
+rouge evaluates the similarity of the lexical overlap between the candidate and reference summary
+as the rouge score is computed based on the n gram overlap it does not account for mous words or phrases
+many approaches have been proposed to overcome this limitation
+paraeval zhou et al
+rouge we ng and abrecht rouge
+ganesan and rouge g shaeibavani et al
+have been used to extend rouge to support synonymous constructs
+val uses a matching method based on paraphrase tables
+rouge we uses a lexical matching method with a semantic similarity measure and the cosine distances between tokens
+rouge
+uses wordnet as a synonym dictionary and computed token overlaps with all synonyms of matched words
+g uses lexical and semantic matching from wordnet
+these approaches have limitations because they require hand crafted lexical and synonym dictionaries which are particularly difcult to construct in korean
+our research is similar to zhang et al
+which utilized bert to compute semantic score between the generated and reference sentence
+however zhang et al
+does not consider the ument whereas our research considers the document to be characterized in the evaluation of tion tasks
+overall our research is different from previous approaches in that we propose a method to evaluate generated summary by considering documents as well as reference summary
+in addition our evaluation model is robust to out of vocabulary oov words because it leverages a pre trained neural network sbert based on byte pair encoding bpe gage tokenization method from vised learning
+considering the fact that korean is an agglutinative language this feature is essential
+finally our evaluation model can be further trained to capture more contextualized information both on reference summary and document
+text summarization models can be divided into abstractive extractive and hybrid
+abstractive els reword phrases and create summaries having novel phrases constructed from the original document
+recent text summarization approaches have leveraged multi task and multi reward training jiang and bansal paulus et al
+pasunuru and bansal guo et al
+attention with copying mechanisms tan et al
+see et al
+cohan et al
+and unsupervised training strategies schumann chu and liu
+the extractive method extracts the most suitable sentences or words from the source document and copies them directly into the summary
+many researchers neto et al
+colmenares et al
+filippova and altun have utilized domain expertise to velop heuristics for rening summary texts
+recently neural based text summarization models have been proposed to train the model for predicting whether a span of text should be included in the summary nallapati et al
+narayan et al
+xu and durrett liu et al
+
+reinforcement learning based summarization models have also been proposed to directly optimize models wu and hu dong et al
+narayan et al
+
+the hybrid approach uses both abstractive and extractive methods
+with this approach the summarization process is divided into two phases content selection and paraphrasing gehrmann et al
+hsu et al
+chen and bansal liu et al
+
+methodology from table we can observe the importance of considering both the document and reference summary together for proper evaluation of the summarization model
+in subsection
+we propose a method for evaluating the generated summary with the reference summary to reect deep semantic meaning
+next we propose a method for evaluating the generated summary with the original document and reference summary together
+the reference document aware evaluation metric model can be further trained to ture more contextualized information from both on reference summary and document subsection
+
+
+reference and document aware semantic evaluation let us dene the generated summary from the summarization model as yp
+
+
+and ence summary as yr
+
+
+where wi indicates each word
+then each summary representation vp and vr can be constructed using sentence embedding methods
+neural based sentence embedding methods have been broadly studied
+conneau trained a siamese bidirectional long short term memory model with a max pooling strategy on the stanford natural language inference snli bowman et al
+and the multigenre natural language inference nli dataset williams et al
+
+cer proposed the universal sentence encoder to train a transformer on the snli dataset
+reimers recently proposed sentence which leverages a pre trained bert vlin et al
+trained with a combination of the snli and multi genre nli and showed state of art sentence embedding performance
+sbert is suitable for semantic similarity searches and showed faster inference speeds than previous state of the art approaches including bert roberta liu et al
+and the universal sentence encoder
+we leverage a pre trained sbert to construct summary representations
+each word representation is obtained from sbert as e ecls
+
+
+en esep
+
+
+wn
+sep
+subsequently mean pooling is performed to construct vp as where j represents an index of a word embedding dimension and n represents a length of e
+vr can also be obtained in the same manner
+the semantic similarity score r between vp and vr can be obtained as follows n n r vr vt vr
+d vd vt vd
+rdass r
+recall that it is important to consider factual consistency of generated summary with the source ument and given the same document the method of summarizing important information varies from person to person owczarzak et al
+kryscinski et al
+
+therefore the source document should also be considered with the generated summary when evaluating the summarization model
+given a document d
+
+
+wk the document representation vd can be obtained using eqs
+and
+thus the similarity score between vp and vd can be dened as given a reference and source document the reference document aware semantic score rdass of the generated summary is dened by averaging r and d we also experimented with a sum max and min operation between r and d but averaging the two scores reports highest correlation with human judgment
+
+fine tuning sbert with the abstractive summarization model as sbert is a trainable metric model it can be further trained to capture more contextualized tion about the reference summary and source document
+we propose a ne tuning method for sbert that uses the abstractive summarization model
+most neural approaches for abstractive summarization are based on an encoder decoder ture see et al
+
+formally given a document d
+
+
+wk the objective is to generate a summary yp
+
+
+from a hidden representation hp
+
+
+
+the hidden representation is the output vector of the decoder
+we leverage the hidden representation of the decoder to ne tune the sbert
+following reimers and gurevych we adopt a triplet objective to ne tune the sbert
+given r and a euclidean an anchor hp a positive reference representation vp tance d the triplet objective for generated and reference summaries r is then dened as r a negative representation vn r vp where represents a margin that ensures hp is closer to vp objective for generated summary and document can be dened as r vn r than vn r
+we set as
+similarly the triplet vp vn
+thus the nal objective for sbert is to minimize the combined two triplet objectives as j r
+the objective function sbert j is jointly optimized with the abstractive summarization objective
+ally the negative log likelihood objective between the generated and reference summaries is used for abstractive summarization see et al
+narayan et al
+
+we refer to the ne tuned sbert with abstractive summarization model as fwa sbert
+experimental setup
+dataset we trained and evaluated our models using the korean daum news comprising topics such as politics economy international culture information technology and others
+from this we extracted million news articles
+the number of articles for training validating and testing was
+m
+m and
+m respectively
+we refer to this dataset as daum news
+we used daum news to fully stand the content of the article and conduct a proper evaluation
+the dataset contains articles from newspapers each having different summary styles and the effectiveness of the proposed methods is exemplied using it
+therefore we expect that our research can be applied to different languages
+
+summarization model we adopted abstractive summarization model of liu and lapata
+liu leveraged trained bert as an encoder and a six layered transformer as a decoder showing state of the art sults on cable news network dailymail hermann et al
+new york times sandhaus and xsum narayan et al
+datasets
+we set all environments according to liu and lapata except that we leveraged the pre trained bert trained on korean dataset subsection
+instead of english bert base uncased
+we trained the abstractive summarization model on korean daum news dataset
+
+sbert to leverage sbert we rst pre trained bert bert base uncased on korean dataset comprising m sentences and
+m documents including wiki sejong corpus and web documents
+next we trained sbert with classication and regression objectives from nli bowman et al
+williams et al
+and the semantical textual similarity sts benchmark stsb cer et al
+
+because nli and stsb datasets are in english we leveraged the korean nli and sts dataset ham et al
+which translated from kakao machine translator
+evaluation of the sts benchmark test dataset was conducted showing an
+spearman s rank correlation result
+subsequently the pre trained sbert model was ne tuned with the abstractive summarization model to capture more contextualized mation of the reference summary and source document with a generated summary subsection
+
+all training was conducted on the kakao brain cloud with tesla graphical processing units
+
+daum
+
+com nlpyang presumm
+com kakaobrain kornludatasets
+kakao
+com
+human judgment to demonstrate the effectiveness of the reference document aware semantic metric we evaluated its correlation with human judgment
+following kryscinski et al
+we asked annotators to score relevance consistency and uency
+relevance represents the degree of appropriateness of the document consistency represents the degree of factualness and uency represents the degree of the quality of generated summary
+additionally human avg represents the average value of the scores for the three indicators
+given a document reference summary and generated summary each annotator scored in the range of to points for the evaluation indicator i
+e
+relevance consistency uency
+the human judgment was conducted by judges having a phd judges or a ms judges degree in computer science
+the averaged human score of relevance was
+consistency was
+and uency was
+for sampled summaries from korean daum news test dataset
+results in this section we rst report the performance of the summarization model using the rouge and posed evaluation metrics subsection
+
+next we report how the proposed evaluation metrics lated to human judgment
+we also report the correlation of the proposed evaluation metrics to rouge to show that the proposed methods complement rouge
+finally through qualitative evaluation we demonstrate the limitations of rouge and the superiority of the proposed evaluation metrics
+
+performance of the summarization model model reference summary bertsumabs liu and lapata proposed evaluation metrics r
+
+
+
+rdass
+
+
+
+
+
+
+
+rouge
+
+
+
+l
+
+
+
+
+
+
+
+table performance of the summarization model on the daum news dataset
+the abstractive summarization model is based on the neural architecture of liu and lapata
+we trained the summarization model on the daum news dataset
+to evaluate the summarization model we used rouge and the proposed evaluation metrics
+the ne tuned fwa sbert was then used to evaluate the proposed semantic scores r d and rdass
+table shows the performance of the summarization model with baseline methods reference summary lead and on the daum news dataset
+we set the reference summary as upper bound
+in the case of the reference summary the reporter tends to use implicit words when summarizing the document so the d score is relatively low compared to the lead baselines
+however because the r score is
+the reference summary shows the highest rdass score
+for r shows higher performance than d and for d shows higher performance than r
+the reason for this performance is that contains more sentences from the document so the similarity with the reference summary r is low but the similarity with the document d is increased
+in the case of rouge performance of lead baselines relatively low formance can be conrmed compared to other researches kryscinski et al
+conducted in english dataset
+the reason is that in the case of korean the same semantic meaning is expressed differently cause of the nature of the language of the agglutinative language
+a detailed example of this is described in table below
+however it can be seen that the rdass score of lead baselines is similar to that of the reference summary
+through this we can conrm that the proposed evaluation method can reect the semantic meaning of the reference summary and document well
+in the case of the liu and lapata it shows higher similarity with the reference summary than the lead baselines but since it is based on the generation model it does not extract the sentence from the document as the lead baselines
+as a result it shows the relatively low d score
+we describe how these results are correlated with human judgment in the next section
+
+correlation with human judgment pearson correlations kendall rank figure pearson correlations and kendall rank of the proposed evaluation metrics with human ment
+figures and show the pearson correlation and kendall rank respectively of the proposed evaluation metrics with human judgment on the sampled summaries
+pearson correlation measure whether the two variables are linearly related where indicates positive linear correlation and dicates negative linear correlation
+and kendall rank measure the rank correlation of the two variables where indicates two variables are similar and indicates dissimilar
+both correlation measure methods are widely used in summarization task to analyze correlation with human judgment
+in the pearson correlation matrix the correlation with human judgment was signicantly higher for the proposed evaluation metrics than for rouge scores
+additionally in the kendall rank matrix the proposed evaluation metrics showed highest correlation with human judgment than did the rouge scores
+among the proposed evaluation metrics r showed higher performance than d and rdass showed the highest correlation with human judgment
+these results indicate that the proposed evaluation metrics can reect deep semantic meaning overcoming the limitations of rouge which based on n gram overlap
+to demonstrate the effectiveness of ne tuning sbert with an abstractive summarization model we set baseline methods depending on which sentence representation methods to use for the proposed methods subsection
+as follows multilingual universal sentence encoder muse muse yang et al
+is a multilingual sentence encoder that embeds text from languages into a single semantic space using multi task relevanceconsistencyfluencyhuman avghuman
+
+
+
+
+
+lrelevanceconsistencyfluencyhuman avghuman
+
+
+
+
+
+sbert avghuman
+
+
+
+
+
+
+lrelevanceconsistencyfluencyhuman avghuman
+
+
+
+
+
+
+sbert sentence representation relevance consistency fluency human avg pearson kendall pearson kendall pearson kendall pearson kendall muse p sbert fwa sbert r d rdass r d rdass r d rdass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table performance comparison depended upon which sentence representation was used
+learning
+this model was trained on more than billion question answer pairs and showed competitive state of the art results on semantic gillick et al
+bitext retrival ziemski et al
+and retrieval question answering yang et al
+
+pre trained sbert we only leveraged pre trained sbert without ne tuning
+we refer to this as p sbert
+table show the performance comparison depended upon which sentence representation was used
+sbert shows the high correlation coefcient with humans than muse
+overall when the fwa sbert was used it showed the closest correlation with human judgment
+through quantitative evaluation we demonstrated that the proposed evaluation metrics had a high correlation with human judgment and that the method of ne tuning sbert improved the performance of the proposed evaluation metrics
+we also experimented to understand how each evaluation metric was correlated to each other
+as shown in table there was a high correlation among the rouge metrics
+however the proposed uation metrics had a relatively low correlation with rouge
+this indicates that the proposed evaluation metrics reected semantic meaning in our case that rouge could not
+thus we believe it complements rouge metrics
+rouge l r d rdass
+rouge l r
+
+
+
+
+
+
+
+
+rdass
+
+
+
+
+
+
+
+
+
+
+table pearson correlation of rouge and the proposed evaluation metrics
+
+qualitative analysis in this section through qualitative analysis we demonstrate the effectiveness of our evaluation metrics
+table shows rouge rdass and human evaluation results for the generated summaries for the two articles
+in the generated summary on the birthday of messi he had a good time with his family has the same semantic meaning as the reference summary messi s birthday with his wife and son
+however since the sentence having the same semantic meaning can be variously expressed in korean which has the characteristics of agglutinative language the rouge score is low while human evaluation scores are high
+likewise the generated summary samsung electronics launches new qled tv in brazil in has a same semantic meaning as the reference summary samsung electronics
+
+
+lionel messi fc barcelona spent his thirtieth birthday with his family
+messi who turned thirty on the posted a picture of his birthday on instagram with his family at home
+messi was tenderly photographed by his longtime girlfriend antonella rokujo and his son thiago
+reference summary messi s birthday with his wife and son
+generated summary on the birthday of messi he had a good time with his family
+l
+
+
+rdass
+human evaluation uency
+
+
+qled tv qled tv
+qled tv
+tv tv
+tv tv tv
+uhd tv
+samsung electronics announced on the that it held a qled tv launching event at the palacio tangara hotel in sao paulo brazil on the local time and introduced the qled tv lineup
+in april it launched the qled tv in mexico for the rst time in latin america and then expanded to panama colombia
+this time it launched the product in brazil the largest market in latin america
+brazil is an important tv market accounting for more than of total latin american tv market
+in january april this year the brazilian tv market grew in quantity from the same period last year
+in particular the uhd ultra high denition tv a premium tv market was larger than last year
+in particular samsung electronics took the dominant position in the uhd tv market in brazil with based on quantity in january april this year
+reference summary qled tv samsung electronics launches qled tv in brazil the largest market in latin america
+generated summary qled tv samsung electronics launches new qled tv in brazil
+l
+
+
+rdass
+human uency
+
+
+table example articles from the daum news test dataset
+rouge rdass and human evaluation results for the generated summaries are represented
+launches qled tv in brazil the largest market in latin america
+the generated summary in both articles is correct but the rouge score is low
+on the other hand the rdass score indicates a higher score and indicates that the generated summary is the correct answer
+conclusion in this paper we pointed out the limitation of the widely used rouge evaluation metric when adopting korean summarization
+since korean is an agglutinative language the generated summary having the same semantic meaning with reference summary can be variously expressed
+therefore only ing rouge metric can produce inaccurate evaluation results
+to overcome this limitation we proposed rdass reference and document aware semantic score evaluation metric
+the rdass can reect deep semantic relationships of a generated reference summary and document
+through extensive ations we demonstrated that the correlation with human judgment is higher for the proposed evaluation metric rdass than for rouge scores
+in future work we will demonstrate the effectiveness of the proposed method in english summarization dataset
+acknowledgements this research was supported by the of science and ict korea under the technology research center support program vised by the for information communications technology planning evaluation
+also thanks to gyoungeun han of the kakao enterprise nlp team for giving linguistic advice in writing this paper
+references samuel r bowman gabor angeli christopher potts and christopher d manning
+
+a large annotated corpus for learning natural language inference
+arxiv preprint
+
+daniel cer mona diab eneko agirre inigo lopez gazpio and lucia specia
+
+task mantic textual similarity multilingual and cross lingual focused evaluation
+arxiv preprint
+
+daniel cer yinfei yang sheng yi kong nan hua nicole limtiaco rhomni st john noah constant mario arxiv preprint
+universal sentence encoder
+guajardo cespedes steve yuan chris tar et al
+
+
+yen chun chen and mohit bansal
+
+fast abstractive summarization with reinforce selected sentence ing
+arxiv preprint
+
+eric chu and peter j liu
+
+unsupervised neural multi document abstractive summarization
+arxiv preprint
+
+arman cohan franck dernoncourt doo soon kim trung bui seokhwan kim walter chang and nazli ian
+
+a discourse aware attention model for abstractive summarization of long documents
+arxiv preprint
+
+carlos a colmenares marina litvak amin mantrach and fabrizio silvestri
+
+heads headline generation as sequence prediction using an abstract feature rich space
+alexis conneau douwe kiela holger schwenk loic barrault and antoine bordes
+
+supervised learning of universal sentence representations from natural language inference data
+arxiv preprint
+
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep tional transformers for language understanding
+arxiv preprint
+
+yue dong yikang shen eric crawford herke van hoof and jackie chi kit cheung
+
+banditsum extractive summarization as a contextual bandit
+arxiv preprint
+
+bonnie dorr christof monz douglas oard david zajic and richard schwartz
+
+extrinsic evaluation of automatic metrics for summarization
+technical report maryland univ college park inst for advanced computer studies
+katja filippova and yasemin altun
+
+overcoming the lack of parallel data in sentence compression
+in proceedings of the conference on empirical methods in natural language processing pages
+philip gage
+
+a new algorithm for data compression
+c users journal
+kavita ganesan
+
+rouge
+updated and improved measures for evaluation of summarization tasks
+arxiv sebastian gehrmann yuntian deng and alexander m rush
+
+bottom up abstractive summarization
+arxiv preprint
+
+preprint
+
+daniel gillick alessandro presta and gaurav singh tomar
+
+end to end retrieval in continuous space
+arxiv preprint
+
+han guo ramakanth pasunuru and mohit bansal
+
+soft layer specic multi task summarization with entailment and question generation
+arxiv preprint
+
+jiyeon ham yo joong choe kyubyong park ilji choi and hyungjoon soh
+
+kornli and korsts new benchmark datasets for korean natural language understanding
+arxiv preprint
+
+karl moritz hermann tomas kocisky edward grefenstette lasse espeholt will kay mustafa suleyman and phil blunsom
+
+teaching machines to read and comprehend
+in advances in neural information ing systems pages
+eduard h hovy chin yew lin liang zhou and junichi fukumoto
+
+automated summarization evaluation with basic elements
+in lrec volume pages
+citeseer
+wan ting hsu chieh kai lin ming ying lee kerui min jing tang and min sun
+
+a unied model for extractive and abstractive summarization using inconsistency loss
+arxiv preprint
+
+yichen jiang and mohit bansal
+
+closed book training to improve summarization encoder memory
+arxiv preprint
+
+wojciech kryscinski nitish shirish keskar bryan mccann caiming xiong and richard socher
+
+neural in proceedings of the conference on empirical methods in text summarization a critical evaluation
+natural language processing and the international joint conference on natural language processing emnlp ijcnlp pages
+chin yew lin
+
+rouge a package for automatic evaluation of summaries
+in text summarization branches out pages barcelona spain july
+association for computational linguistics
+chin yew lin
+
+rouge a packagefor automatic evaluation of summaries
+in proceedingsofworkshop on text summarization branches out workshop of acl
+yang liu and mirella lapata
+
+text summarization with pretrained encoders
+arxiv preprint
+
+peter j liu mohammad saleh etienne pot ben goodrich ryan sepassi lukasz kaiser and noam shazeer
+
+generating wikipedia by summarizing long sequences
+arxiv preprint
+
+jingyun liu jackie ck cheung and annie louis
+
+what comes next extractive summarization by sentence prediction
+arxiv preprint
+
+yinhan liu myle ott naman goyal jingfei du mandar joshi danqi chen omer levy mike lewis luke zettlemoyer and veselin stoyanov
+
+roberta a robustly optimized bert pretraining approach
+arxiv preprint
+
+annie louis and ani nenkova
+
+automatically assessing machine summary content without a gold standard
+computational linguistics
+ramesh nallapati bowen zhou and mingbo ma
+
+classify or select neural architectures for extractive document summarization
+arxiv preprint
+
+shashi narayan nikos papasarantopoulos shay b cohen and mirella lapata
+
+neural extractive rization with side information
+arxiv preprint
+
+shashi narayan shay b cohen and mirella lapata
+
+do nt give me the details just the summary aware convolutional neural networks for extreme summarization
+arxiv preprint
+
+shashi narayan shay b cohen and mirella lapata
+
+ranking sentences for extractive summarization with reinforcement learning
+arxiv preprint
+
+ani nenkova and rebecca j passonneau
+
+evaluating content selection in summarization the pyramid method
+in proceedings of the human language technology conference of the north american chapter of the association for computational linguistics hlt naacl pages
+ani nenkova rebecca passonneau and kathleen mckeown
+
+the pyramid method incorporating human content selection variation in summarization evaluation
+acm transactions on speech and language ing tslp
+joel larocca neto alex a freitas and celso aa kaestner
+
+automatic text summarization using a machine learning approach
+in brazilian symposium on articial intelligence pages
+springer
+jun ping ng and viktoria abrecht
+
+better summarization evaluation with word embeddings for rouge
+arxiv preprint
+
+karolina owczarzak and hoa trang dang
+
+overview of the tac summarization track guided task and aesop task
+in proceedings of the text analysis conference tac gaithersburg maryland usa november
+karolina owczarzak hoa trang dang peter a rankel and john m conroy
+
+assessing the effect of sistent assessors on summarization evaluation
+in proceedings of the annual meeting of the association for computational linguistics short papers volume pages
+association for computational linguistics
+rebecca j passonneau emily chen weiwei guo and dolores perin
+
+automated pyramid scoring of summaries using distributional semantics
+in proceedings of the annual meeting of the association for computational linguistics volume short papers pages
+ramakanth pasunuru and mohit bansal
+
+multi reward reinforced summarization with saliency and ment
+arxiv preprint
+
+tion
+arxiv preprint
+
+preprint
+
+
+romain paulus caiming xiong and richard socher
+
+a deep reinforced model for abstractive nils reimers and iryna gurevych
+
+sentence bert sentence embeddings using siamese bert networks
+arxiv evan sandhaus
+
+the new york times annotated corpus
+linguistic data consortium philadelphia raphael schumann
+
+unsupervised abstractive sentence summarization using length controlled variational autoencoder
+arxiv preprint
+
+abigail see peter j liu and christopher d manning
+
+get to the point summarization with generator networks
+arxiv preprint
+
+elaheh shaeibavani mohammad ebrahimi raymond wong and fang chen
+
+a graph theoretic summary in proceedings of the conference on empirical methods in natural language evaluation for rouge
+processing pages
+jiwei tan xiaojun wan and jianguo xiao
+
+abstractive document summarization with a graph based in proceedings of the annual meeting of the association for computational attentional neural model
+linguistics volume long papers pages
+hong wang xin wang wenhan xiong mo yu xiaoxiao guo shiyu chang and william yang wang
+
+self supervised learning for contextualized extractive summarization
+arxiv preprint
+
+wang wenbo gao yang huang heyan and zhou yuxiang
+
+concept pointer network for abstractive summarization
+arxiv preprint
+
+adina williams nikita nangia and samuel r bowman
+
+a broad coverage challenge corpus for sentence understanding through inference
+arxiv preprint
+
+yuxiang wu and baotian hu
+
+learning to extract coherent summary via deep reinforcement learning
+in thirty second aaai conference on articial intelligence
+wen xiao and giuseppe carenini
+
+extractive summarization of long documents by combining global and local context
+arxiv preprint
+
+jiacheng xu and greg durrett
+
+neural extractive text summarization with syntactic compression
+arxiv preprint
+
+yinfei yang daniel cer amin ahmad mandy guo jax law noah constant gustavo hernandez abrego steve yuan chris tar yun hsuan sung al
+
+multilingual universal sentence encoder for semantic retrieval
+arxiv preprint
+
+fang fang zhang jin ge yao and rui yan
+
+on the abstractiveness of neural document summarization
+in proceedings of the conference on empirical methods in natural language processing pages
+tianyi zhang varsha kishore felix wu kilian q weinberger and yoav artzi
+
+bertscore evaluating text generation with bert
+arxiv preprint
+
+ming zhong pengfei liu danqing wang xipeng qiu and xuanjing huang
+
+searching for effective neural extractive summarization what works and what s next
+arxiv preprint
+
+liang zhou chin yew lin dragos stefan munteanu and eduard hovy
+
+paraeval using paraphrases to in proceedings of the main conference on human language technology evaluate summaries automatically
+conference of the north american chapter of the association of computational linguistics pages
+association for computational linguistics
+micha ziemski marcin junczys dowmunt and bruno pouliquen
+
+the united nations parallel
+
+in proceedings of the tenth international conference on language resources and evaluation pages
+

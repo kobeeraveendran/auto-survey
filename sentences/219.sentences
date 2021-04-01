@@ -1,0 +1,748 @@
+text summarization with pretrained encoders yang liu and mirella lapata institute for language cognition and computation school of informatics university of edinburgh yang
+
+ac
+uk
+ed
+ac
+uk p e s l c
+s c v
+v i x r a abstract bidirectional encoder representations from transformers bert devlin et al
+resents the latest incarnation of pretrained guage models which have recently advanced a wide range of natural language processing tasks
+in this paper we showcase how bert can be usefully applied in text tion and propose a general framework for both extractive and abstractive models
+we duce a novel document level encoder based on bert which is able to express the semantics of a document and obtain representations for its sentences
+our extractive model is built on top of this encoder by stacking several sentence transformer layers
+for abstractive summarization we propose a new ne tuning schedule which adopts different optimizers for the encoder and the decoder as a means of leviating the mismatch between the two the former is pretrained while the latter is not
+we also demonstrate that a two staged ne tuning approach can further boost the quality of the generated summaries
+experiments on three datasets show that our model achieves of the art results across the board in both tractive and abstractive settings
+introduction language model pretraining has advanced the state of the art in many nlp tasks ranging from sentiment analysis to question answering ral language inference named entity recognition and textual similarity
+state of the art pretrained models include elmo peters et al
+gpt radford et al
+and more recently tional encoder representations from ers bert devlin et al
+
+bert combines both word and sentence representations in a single very large transformer vaswani et al
+it is code is available at
+nlpyang presumm
+pretrained on vast amounts of text with an pervised objective of masked language modeling and next sentence prediction and can be ne tuned with various task specic objectives
+in most cases pretrained language models have been employed as encoders for and paragraph level natural language understanding problems devlin et al
+involving various classication tasks e
+
+predicting whether any two sentences are in an entailment relationship or determining the completion of a sentence among four alternative sentences
+in this paper we amine the inuence of language model ing on text summarization
+different from ous tasks summarization requires wide coverage natural language understanding going beyond the meaning of individual words and sentences
+the aim is to condense a document into a shorter sion while preserving most of its meaning
+thermore under abstractive modeling tions the task requires language generation pabilities in order to create summaries containing novel words and phrases not featured in the source text while extractive summarization is often ned as a binary classication task with labels dicating whether a text span typically a sentence should be included in the summary
+we explore the potential of bert for text marization under a general framework passing both extractive and abstractive ing paradigms
+we propose a novel level encoder based on bert which is able to encode a document and obtain representations for its sentences
+our extractive model is built on top of this encoder by stacking several sentence transformer layers to capture level features for extracting sentences
+our stractive model adopts an encoder decoder tecture combining the same pretrained bert coder with a randomly initialized transformer coder vaswani et al
+
+we design a new training schedule which separates the optimizers of the encoder and the decoder in order to modate the fact that the former is pretrained while the latter must be trained from scratch
+finally motivated by previous work showing that the bination of extractive and abstractive objectives can help generate better summaries gehrmann et al
+we present a two stage approach where the encoder is ne tuned twice rst with an extractive objective and subsequently on the stractive summarization task
+we evaluate the proposed approach on three single document news summarization datasets representative of different writing conventions e
+
+important information is concentrated at the beginning of the document or distributed more evenly throughout and summary styles e
+
+bose vs
+more telegraphic extractive vs
+tive
+across datasets we experimentally show that the proposed models achieve state of the art results under both extractive and abstractive tings
+our contributions in this work are fold we highlight the importance of document encoding for the summarization task a variety of recently proposed techniques aim to enhance summarization performance via copying nisms gu et al
+see et al
+ati et al
+reinforcement learning narayan et al
+paulus et al
+dong et al
+and multiple communicating encoders likyilmaz et al
+
+we achieve better results with a minimum requirement model without using any of these mechanisms we showcase ways to effectively employ pretrained language models in summarization under both extractive and tive settings we would expect any improvements in model pretraining to translate in better rization in the future and the proposed models can be used as a stepping stone to further improve summarization performance as well as baselines against which new proposals are tested
+background
+pretrained language models pretrained language models peters et al
+radford et al
+devlin et al
+dong et al
+zhang et al
+have recently emerged as a key technology for achieving pressive gains in a wide variety of natural guage tasks
+these models extend the idea of word embeddings by learning contextual sentations from large scale corpora using a guage modeling objective
+bidirectional encoder representations from transformers bert vlin et al
+is a new language representation model which is trained with a masked language modeling and a next sentence prediction task on a corpus of m words
+the general architecture of bert is shown in the left part of figure
+input text is rst cessed by inserting two special tokens
+cls is appended to the beginning of the text the output representation of this token is used to aggregate formation from the whole sequence e
+
+for sication tasks
+and token sep is inserted after each sentence as an indicator of sentence aries
+the modied text is then represented as a sequence of tokens x
+each token wi is assigned three kinds of embeddings token embeddings indicate the meaning of each token segmentation embeddings are used to criminate between two sentences e
+
+during a sentence pair classication task and position beddings indicate the position of each token within the text sequence
+these three embeddings are summed to a single input vector xi and fed to a bidirectional transformer with multiple layers hl where are the input vectors ln is the layer normalization operation ba et al
+mhatt is the multi head attention operation vaswani et al
+superscript l indicates the depth of the stacked layer
+on the top layer bert will erate an output vector ti for each token with rich contextual information
+pretrained language models are usually used to enhance performance in language understanding tasks
+very recently there have been attempts to apply pretrained models to various generation problems edunov et al
+rothe et al
+
+when ne tuning for a specic task unlike elmo whose parameters are usually xed parameters in bert are jointly ne tuned with additional specic parameters
+
+extractive summarization extractive summarization systems create a mary by identifying and subsequently nating the most important sentences in a ument
+neural models consider extractive figure architecture of the original bert model left and bertsum right
+the sequence on top is the input document followed by the summation of three kinds of embeddings for each token
+the summed vectors are used as input embeddings to several bidirectional transformer layers generating contextual vectors for each token
+bertsum extends bert by inserting multiple cls symbols to learn sentence representations and using interval segmentation embeddings illustrated in red and green color to distinguish multiple sentences
+marization as a sentence classication problem a neural encoder creates sentence representations and a classier predicts which sentences should be selected as summaries
+summarunner lapati et al
+is one of the earliest neural approaches adopting an encoder based on rent neural networks
+refresh narayan et al
+is a reinforcement learning based system trained by globally optimizing the rouge metric
+more recent work achieves higher performance with more sophisticated model structures
+tent zhang et al
+frames extractive marization as a latent variable inference problem instead of maximizing the likelihood of gold standard labels their latent model directly imizes the likelihood of human summaries given selected sentences
+sumo liu et al
+talizes on the notion of structured attention to duce a multi root dependency tree representation of the document while predicting the output mary
+neusum zhou et al
+scores and lects sentences jointly and represents the state of the art in extractive summarization
+
+abstractive summarization neural approaches to abstractive summarization conceptualize the task as a sequence to sequence problem where an encoder maps a sequence of tokens in the source document
+
+
+xn to a sequence of continuous representations z
+
+
+and a decoder then generates the target summary y
+
+
+ym token by token in an auto regressive manner hence modeling the ditional probability
+
+
+
+
+
+xn
+rush et al
+and nallapati et al
+were among the rst to apply the neural decoder architecture to text summarization
+see et al
+enhance this model with a generator network ptgen which allows it to copy words from the source text and a coverage mechanism cov which keeps track of words that have been summarized
+celikyilmaz et al
+propose an abstractive system where multiple agents encoders represent the document together with a hierarchical attention mechanism over the agents for decoding
+their deep ing agents dca model is trained end to end with reinforcement learning
+paulus et al
+also present a deep reinforced model drm for abstractive summarization which handles the erage problem with an intra attention mechanism where the decoder attends over previously erated words
+gehrmann et al
+follow a bottom up approach bottomup a content lector rst determines which phrases in the source document should be part of the summary and a copy mechanism is applied only to preselected phrases during decoding
+narayan et al
+propose an abstractive model which is larly suited to extreme summarization i
+e
+single sentence summaries based on convolutional ral networks and additionally conditioned on topic distributions
+fine tuning bert for summarization
+summarization encoder although bert has been used to ne tune ous nlp tasks its application to summarization layersinput documenttoken embeddingssegment embeddingsposition bertbert for summarization is not as straightforward
+since bert is trained as a masked language model the output vectors are grounded to tokens instead of sentences while in extractive summarization most models nipulate sentence level representations
+although segmentation embeddings represent different tences in bert they only apply to pair inputs while in summarization we must code and manipulate multi sentential inputs
+ure illustrates our proposed bert architecture for summarization which we call bertsum
+in order to represent individual sentences we insert external cls tokens at the start of each sentence and each cls symbol collects features for the sentence preceding it
+we also use terval segment embeddings to distinguish ple sentences within a document
+for senti we assign segment embedding ea or eb depending on whether i is odd or even
+for example for document we would assign embeddings ea eb ea eb ea
+this way document representations are learned hierarchically where lower transformer layers represent adjacent sentences while higher ers in combination with self attention represent multi sentence discourse
+position embeddings in the original bert model have a maximum length of we come this limitation by adding more position beddings that are initialized randomly and tuned with other parameters in the encoder
+
+extractive summarization let d denote a document containing sentences sentm where senti is the i th sentence in the document
+extractive tion can be dened as the task of assigning a label to each senti indicating whether the it sentence should be included in the summary
+is assumed that summary sentences represent the most important content of the document
+with bertsum vector ti which is the vector of the i cls symbol from the top layer can be used as the representation for senti
+several inter sentence transformer layers are then stacked on top of bert outputs to capture document level features for extracting summaries hl where t denotes the tence vectors output by bertsum and tion posemb adds sinusoid positional dings vaswani et al
+to t indicating the position of each sentence
+the nal output layer is a sigmoid classier yi i where hl is the vector for senti from the top i layer the l layer of the transformer
+in experiments we implemented transformers with l and found that a transformer with l performed best
+we name this model bertsumext
+the loss of the model is the binary tion entropy of prediction yi against gold label yi
+inter sentence transformer layers are jointly tuned with bertsum
+we use the adam mizer with
+and
+
+our ing rate schedule follows vaswani et al
+with warming up warmup lr min step
+step warmup
+
+abstractive summarization we use a standard encoder decoder framework for abstractive summarization see et al
+
+the encoder is the pretrained bertsum and the coder is a layered transformer initialized domly
+it is conceivable that there is a match between the encoder and the decoder since the former is pretrained while the latter must be trained from scratch
+this can make ne tuning unstable for example the encoder might overt the data while the decoder underts or vice versa
+to circumvent this we design a new ne tuning schedule which separates the optimizers of the coder and the decoder
+we use two adam optimizers with
+and
+for the encoder and the decoder spectively each with different warmup steps and learning rates lre lre
+step
+lrd
+step
+e d where lre and warmupe for the encoder and lrd
+and for the decoder
+this is based on the assumption that the pretrained encoder should be ne tuned with a smaller learning rate and smoother decay so that the encoder can be trained with more accurate gradients when the decoder is becoming stable
+datasets docs train val test cnn dailymail nyt xsum words
+
+
+
+avg
+doc length sentences words
+
+
+
+
+
+
+
+avg
+summary length novel bi grams in gold summary
+
+
+
+sentences
+
+
+
+table comparison of summarization datasets size of training validation and test sets and average document and summary length in terms of words and sentences
+the proportion of novel bi grams that do not appear in source documents but do appear in the gold summaries quanties corpus bias towards extractive methods
+in addition we propose a two stage ne tuning approach where we rst ne tune the encoder on the extractive summarization task section
+and then ne tune it on the abstractive tion task section
+
+previous work gehrmann et al
+li et al
+suggests that using extractive objectives can boost the performance of abstractive summarization
+also notice that this two stage approach is conceptually very ple the model can take advantage of information shared between these two tasks without mentally changing its architecture
+we name the default abstractive model bertsumabs and the two stage ne tuned model bertsumextabs
+experimental setup in this section we describe the summarization datasets used in our experiments and discuss ous implementation details
+
+summarization datasets we evaluated our model on three benchmark datasets namely the cnn dailymail news lights dataset hermann et al
+the new york times annotated corpus nyt sandhaus and xsum narayan et al
+
+these datasets represent different summary styles ing from highlights to very brief one sentence summaries
+the summaries also vary with respect to the type of rewriting operations they exemplify e
+
+some showcase more cut and paste tions while others are genuinely abstractive
+ble presents statistics on these datasets test set example gold standard summaries are provided in the supplementary material
+cnn dailymail contains news articles and sociated highlights i
+e
+a few bullet points giving a brief overview of the article
+we used the dard splits of hermann et al
+for training validation and testing cnn documents and dailymail documents
+we did not anonymize entities
+we rst split sentences with the stanford corenlp toolkit manning et al
+and pre processed the dataset following see et al
+
+input uments were truncated to tokens
+nyt contains articles with abstractive summaries
+following durrett et al
+we split these into training test ples based on the date of publication the test set contains all articles published from january onward
+we used examples from the training as validation set
+we also followed their ltering procedure documents with summaries less than words were removed from the dataset
+the ltered test set includes amples
+sentences were split with the stanford corenlp toolkit manning et al
+and processed following durrett et al
+
+input documents were truncated to tokens
+xsum contains news articles nied with a one sentence summary answering the question what is this article about
+we used the splits of narayan et al
+for training tion and testing and lowed the pre processing introduced in their work
+input documents were truncated to tokens
+aside from various statistics on the three datasets table also reports the proportion of novel bi grams in gold summaries as a measure of their abstractiveness
+we would expect els with extractive biases to perform better on datasets with mostly extractive summaries and abstractive models to perform more rewrite erations on datasets with abstractive summaries
+cnn dailymail and nyt are somewhat tive while xsum is highly abstractive
+
+implementation details for both extractive and abstractive settings we used pytorch opennmt klein et al
+and the bert base version of bert to plement bertsum
+both source and target texts
+io fhbjq were tokenized with bert s subwords tokenizer
+extractive summarization all extractive els were trained for steps on gpus gtx ti with gradient accumulation every two steps
+model checkpoints were saved and ated on the validation set every steps
+we selected the checkpoints based on the ation loss on the validation set and report the eraged results on the test set
+we used a greedy gorithm similar to nallapati et al
+to obtain an oracle summary for each document to train tractive models
+the algorithm generates an oracle consisting of multiple sentences which maximize the score against the gold summary
+when predicting summaries for a new ment we rst use the model to obtain the score for each sentence
+we then rank these sentences by their scores from highest to lowest and select the sentences as the summary
+during sentence selection we use trigram blocking to reduce redundancy paulus et al
+
+given summary s and candidate tence c we skip c if there exists a trigram lapping between c and s
+the intuition is lar to maximal marginal relevance mmr bonell and goldstein we wish to minimize the similarity between the sentence being ered and sentences which have been already lected as part of the summary
+abstractive summarization in all abstractive models we applied dropout with probability
+before all linear layers label smoothing szegedy et al
+with smoothing factor
+was also used
+our transformer decoder has hidden units and the hidden size for all feed forward ers is
+all models were trained for steps on gpus gtx ti with gradient cumulation every ve steps
+model checkpoints were saved and evaluated on the validation set ery steps
+we selected the checkpoints based on their evaluation loss on the validation set and report the averaged results on the test set
+during decoding we used beam search size and tuned the for the length penalty wu et al
+between
+and on the validation set we decode until an end of sequence token is emitted and repeated trigrams are blocked paulus et al
+
+it is worth noting that our decoder plies neither a copy nor a coverage mechanism see et al
+despite their popularity in stractive summarization
+this is mainly because model oracle rl
+
+
+
+
+
+extractive summarunner nallapati et al
+
+
+
+
+
+
+refresh narayan et al
+
+
+
+latent zhang et al
+
+
+
+neusum zhou et al
+
+
+
+sumo liu et al
+
+
+
+transformerext abstractive ptgen see et al
+see et al
+drm paulus et al
+bottomup gehrmann et al
+dca celikyilmaz et al
+transformerabs bert based
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bertsumext
+
+
+bertsumext interval embeddings
+
+
+
+
+
+bertsumext large
+
+
+bertsumabs
+
+
+bertsumextabs table rouge results on cnn dailymail test set and are shorthands for unigram and bigram overlap rl is the longest common subsequence
+sults for comparison systems are taken from the thors respective papers or obtained on our data by ning publicly released software
+we focus on building a minimum requirements model and these mechanisms may introduce ditional hyper parameters to tune
+thanks to the subwords tokenizer we also rarely observe sues with out of vocabulary words in the put moreover trigram blocking produces diverse summaries managing to reduce repetitions
+results
+automatic evaluation we evaluated summarization quality cally using rouge lin
+we report unigram and bigram overlap and as a means of assessing tiveness and the longest common subsequence rouge l as a means of assessing uency
+table summarizes our results on the cnn dailymail dataset
+the rst block in the ble includes the results of an extractive oracle system as an upper bound
+we also present the baseline which simply selects the rst three sentences in a document
+the second block in the table includes various extractive models trained on the cnn dailymail dataset see section
+for an overview
+for model oracle extractive compress durrett et al
+sumo liu et al
+transformerext abstractive ptgen see et al
+ptgen cov see et al
+drm paulus et al
+transformerabs bert based bertsumext bertsumabs bertsumextabs
+
+
+
+
+
+
+
+
+
+
+
+
+
+rl
+
+model oracle lead
+
+rl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+abstractive ptgen see et al
+see et al
+narayan et al
+transformerabs
+
+
+
+
+
+
+
+
+
+
+
+bert based bertsumabs bertsumextabs
+
+
+
+
+
+table rouge results on the xsum test set
+results for comparison systems are taken from the thors respective papers or obtained on our data by ning publicly released software
+table rouge recall results on nyt test set
+sults for comparison systems are taken from the thors respective papers or obtained on our data by ning publicly released software
+table cells are lled with whenever results are not available
+comparison to our own model we also mented a non pretrained transformer baseline transformerext which uses the same ture as bertsumext but with fewer parameters
+it is randomly initialized and only trained on the summarization task
+transformerext has ers the hidden size is and the feed forward lter size is
+the model was trained with same settings as in vaswani et al
+
+the third block in table highlights the formance of several abstractive models on the cnn dailymail dataset see section
+for an overview
+we also include an abstractive former baseline which has the same decoder as our abstractive bertsum els the encoder is a layer transformer with hidden size and feed forward lter size
+the fourth block reports results with ne tuned bert models bertsumext and its two ants one without interval embeddings and one with the large version of bert abs and bertsumextabs
+bert based els outperform the baseline which is not a strawman on the cnn dailymail corpus it is indeed superior to several extractive pati et al
+narayan et al
+zhou et al
+and abstractive models see et al
+
+bert models collectively outperform all previously proposed extractive and abstractive systems only falling behind the oracle upper bound
+among bert variants bertsumext performs best which is not entirely surprising cnn dailymail summaries are somewhat tive and even abstractive models are prone to ing sentences from the source document when trained on this dataset see et al
+
+perhaps unsurprisingly we observe that larger versions of bert lead to performance improvements and that interval embeddings bring only slight gains
+table presents results on the nyt dataset
+following the evaluation protocol in durrett et al
+we use limited length rouge recall where predicted summaries are truncated to the length of the gold summaries
+again we report the performance of the oracle upper bound and baseline
+the second block in the table contains previously proposed extractive models as well as our own transformer baseline
+press durrett et al
+is an ilp based model which combines compression and anaphoricity constraints
+the third block includes abstractive models from the literature and our transformer baseline
+bert based models are shown in the fourth block
+again we observe that they perform previously proposed approaches
+on this dataset abstractive bert models generally form better compared to bertsumext almost approaching oracle performance
+table summarizes our results on the xsum dataset
+recall that summaries in this dataset are highly abstractive see table consisting of a gle sentence conveying the gist of the document
+extractive models here perform poorly as orated by the low performance of the lead line which simply selects the leading sentence from the document and the oracle which lects a single best sentence in each document in table
+as a result we do not report results for extractive models on this dataset
+the second lrd lre
+
+
+
+
+
+
+
+
+
+
+table model perplexity cnn dailymail tion set under different combinations of encoder and decoder learning rates
+block in table presents the results of various stractive models taken from narayan et al
+and also includes our own abstractive transformer baseline
+in the third block we show the results of our bert summarizers which again are rior to all previously reported models by a wide margin
+
+model analysis learning rates recall that our abstractive model uses separate optimizers for the encoder in table we examine whether and decoder
+the combination of different learning rates lre and lrd is indeed benecial
+specically we port model perplexity on the cnn dailymail idation set for varying encoder decoder learning rates
+we can see that the model performs best with lre and lrd
+
+position of extracted sentences in addition to the evaluation based on rouge we also lyzed in more detail the summaries produced by our model
+for the extractive setting we looked at the position in the source document of the tences which were selected to appear in the mary
+figure shows the proportion of selected summary sentences which appear in the source document at positions and so on
+the analysis was conducted on the cnn dailymail dataset for oracle summaries and those produced by sumext and the transformerext
+we can see that oracle summary sentences are fairly smoothly distributed across documents while summaries created by transformerext mostly concentrate on the rst document sentences
+bertsumext puts are more similar to oracle summaries cating that with the pretrained encoder the model relies less on shallow position features and learns deeper document representations
+novel n grams we also analyzed the output of abstractive systems by calculating the proportion of novel n grams that appear in the summaries but not in the source texts
+the results are shown in figure
+in the cnn dailymail dataset the figure proportion of extracted sentences according to their position in the original document
+portion of novel n grams in automatically ated summaries is much lower compared to ence summaries but in xsum this gap is much smaller
+we also observe that on cnn dailymail bertextabs produces less novel n ngrams than bertabs which is not surprising
+bertextabs is more biased towards selecting sentences from the source document since it is initially trained as an extractive model
+the supplementary material includes examples of system output and additional ablation studies
+
+human evaluation in addition to automatic evaluation we also ated system output by eliciting human judgments
+we report experiments following a answering qa paradigm clarke and lapata narayan et al
+which quanties the degree to which summarization models retain key information from the document
+under this paradigm a set of questions is created based on the gold summary under the assumption that it highlights the most important document content
+participants are then asked to answer these tions by reading system summaries alone without access to the article
+the more questions a tem can answer the better it is at summarizing the document as a whole
+moreover we also assessed the overall ity of the summaries produced by abstractive tems which due to their ability to rewrite content may produce disuent or ungrammatical output
+specically we followed the best worst ing kiritchenko and mohammad method where participants were presented with the output of two systems and the original document and
+
+
+
+
+
+
+cnn dailymail dataset abstractive lead ptgen bottomup gold bertsum cnn dm qa rank
+
+
+
+
+
+
+
+nyt qa rank
+
+
+
+
+
+xsum qa rank
+
+
+
+
+
+
+
+table qa based and ranking based evaluation
+models with are signicantly different from sum using a paired student t test p
+
+table cells are lled with whenever system output is not available
+gold is not used in qa setting and lead is not used in rank evaluation
+results for extractive and abstractive systems are shown in tables and respectively
+we compared the best performing bertsum model in each setting extractive or abstractive against various state of the art systems whose output is publicly available the lead baseline and the gold standard as an upper bound
+as shown in both tables participants overwhelmingly fer the output of our model against comparison systems across datasets and evaluation paradigms
+all differences between bertsum and son models are statistically signicant p
+with the exception of see table xsum in the qa evaluation setting
+in this paper we showcased how pretrained bert can be usefully applied in text summarization
+we introduced a novel document level encoder and proposed a general framework for both tive and extractive summarization
+experimental results across three datasets show that our model achieves state of the art results across the board under automatic and human based evaluation tocols
+although we mainly focused on ment encoding for summarization in the future we would like to take advantage the capabilities of bert for language generation
+acknowledgments this research is supported by a google phd lowship to the rst author
+we gratefully edge the support of the european research cil lapata award number translating multiple modalities into text
+we would also like to thank shashi narayan for providing us with the xsum dataset
+xsum dataset figure proportion of novel n grams in model ated summaries
+extractive lead neusum sumo transformer bertsum cnn dm nyt
+
+
+
+
+
+
+
+
+table qa based evaluation
+models with are nicantly different from bertsum using a paired dent t test p
+
+table cells are lled with whenever system output is not available
+conclusions asked to decide which one was better according to the criteria of informativeness fluency and cinctness
+both types of evaluation were conducted on the amazon mechanical turk platform
+for the cnn dailymail and nyt datasets we used the same documents in total and questions from previous work narayan et al
+liu et al
+
+for xsum we randomly selected documents and their questions from the release of narayan et al
+
+we elicited sponses per hit
+with regard to qa evaluation we adopted the scoring mechanism from clarke and lapata correct answers were marked with a score of one partially correct answers with
+and zero otherwise
+for quality based evaluation the rating of each system was puted as the percentage of times it was chosen as better minus the times it was selected as worse
+ratings thus range from worst to best
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+grams references jimmy lei ba jamie ryan kiros and geoffrey e arxiv preprint ton
+
+layer normalization
+
+
+sebastian gehrmann yuntian deng and alexander rush
+
+bottom up abstractive summarization
+in proceedings of the conference on cal methods in natural language processing pages brussels belgium
+jaime g carbonell and jade goldstein
+
+the use of mmr and diversity based reranking for in ing documents and producing summaries
+ceedings of the annual international acl gir conference on research and development in information retrieval pages melbourne australia
+jiatao gu zhengdong lu hang li and victor o
+k
+incorporating copying mechanism in li
+
+in proceedings of sequence to sequence learning
+the annual meeting of the association for putational linguistics volume long papers pages berlin germany
+association for computational linguistics
+asli celikyilmaz antoine bosselut xiaodong he and yejin choi
+
+deep communicating agents for in proceedings of the abstractive summarization
+conference of the north american chapter of the association for computational linguistics man language technologies volume long pers pages new orleans louisiana
+james clarke and mirella lapata
+
+discourse constraints for document compression
+tional linguistics
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language standing
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language nologies volume long and short papers pages minneapolis minnesota
+li dong nan yang wenhui wang furu wei xiaodong liu yu wang jianfeng gao ming zhou and hsiao wuen hon
+
+unied language model pre training for natural language arxiv preprint understanding and generation
+
+
+yue dong yikang shen eric crawford herke van hoof and jackie chi kit cheung
+
+sum extractive summarization as a contextual dit
+in proceedings of the conference on pirical methods in natural language processing pages brussels belgium
+greg durrett taylor berg kirkpatrick and dan klein
+
+learning based single document tion with compression and anaphoricity constraints
+in proceedings of the annual meeting of the sociation for computational linguistics volume long papers pages berlin germany
+sergey edunov alexei baevski and michael auli
+
+pre trained language model representations in proceedings of the for language generation
+conference of the north american chapter of the association for computational linguistics man language technologies volume long and short papers pages minneapolis nesota
+karl moritz hermann tomas kocisky edward grefenstette lasse espeholt will kay mustafa leyman and phil blunsom
+
+teaching chines to read and comprehend
+in advances in ral information processing systems pages
+svetlana kiritchenko and saif mohammad
+
+best worst scaling more reliable than rating scales a case study on sentiment intensity annotation
+in proceedings of the annual meeting of the sociation for computational linguistics volume short papers pages vancouver canada
+guillaume klein yoon kim yuntian deng jean senellart and alexander rush
+
+opennmt open source toolkit for neural machine translation
+in proceedings of acl system tions pages vancouver canada
+wei li xinyan xiao yajuan lyu and yuanzhuo wang
+
+improving neural abstractive ment summarization with explicit information in proceedings of the tion modeling
+ference on empirical methods in natural language processing pages brussels belgium
+chin yew lin
+
+rouge a package for matic evaluation of summaries
+in text tion branches out pages barcelona spain
+yang liu ivan titov and mirella lapata
+
+single document summarization as tree induction
+in ceedings of the conference of the north ican chapter of the association for computational linguistics human language technologies ume long and short papers pages minneapolis minnesota
+christopher manning mihai surdeanu john bauer jenny finkel steven bethard and david mcclosky
+
+the stanford corenlp natural language in proceedings of annual cessing toolkit
+meeting of the association for computational guistics system demonstrations pages timore maryland
+ramesh nallapati feifei zhai and bowen zhou
+
+summarunner a recurrent neural network based sequence model for extractive summarization of abigail see peter j
+liu and christopher d
+manning
+
+get to the point summarization with generator networks
+in proceedings of the nual meeting of the association for computational linguistics volume long papers pages vancouver canada
+christian szegedy vincent vanhoucke sergey ioffe jon shlens and zbigniew wojna
+
+ing the inception architecture for computer vision
+in proceedings of the ieee conference on puter vision and pattern recognition cvpr pages las vegas nevada
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n gomez ukasz kaiser and illia polosukhin
+
+attention is all you need
+in advances in neural information cessing systems pages
+yonghui wu mike schuster zhifeng chen quoc v le mohammad norouzi wolfgang macherey maxim krikun yuan cao qin gao klaus macherey et al
+
+google s neural machine translation system bridging the gap between in arxiv preprint man and machine translation
+
+
+xingxing zhang mirella lapata furu wei and ming zhou
+
+neural latent extractive document marization
+in proceedings of the conference on empirical methods in natural language cessing pages brussels belgium
+xingxing zhang furu wei and ming zhou
+
+bert document level pre training of hierarchical bidirectional transformers for document in proceedings of the annual meeting tion
+of the association for computational linguistics pages florence italy
+association for computational linguistics
+qingyu zhou nan yang furu wei shaohan huang ming zhou and tiejun zhao
+
+neural ment summarization by jointly learning to score and select sentences
+in proceedings of the annual meeting of the association for computational guistics volume long papers pages melbourne australia
+documents
+in proceedings of the aaai ference on articial intelligence pages san francisco california
+ramesh nallapati bowen zhou cicero dos santos c aglar gulcehre and bing xiang
+
+stractive text summarization using sequence sequence rnns and beyond
+in proceedings of the signll conference on computational natural language learning pages berlin many
+shashi narayan shay b
+cohen and mirella lapata
+
+do nt give me the details just the summary topic aware convolutional neural networks for in proceedings of the treme summarization
+conference on empirical methods in natural guage processing pages brussels gium
+shashi narayan shay b
+cohen and mirella lapata
+
+ranking sentences for extractive in rization with reinforcement learning
+ings of the conference of the north american chapter of the association for computational guistics human language technologies volume long papers pages new orleans louisiana
+romain paulus caiming xiong and richard socher
+
+a deep reinforced model for abstractive marization
+in proceedings of the international conference on learning representations ver canada
+matthew peters mark neumann mohit iyyer matt gardner christopher clark kenton lee and luke zettlemoyer
+
+deep contextualized word in proceedings of the resentations
+ence of the north american chapter of the ation for computational linguistics human guage technologies volume long papers pages new orleans louisiana
+alec radford karthik narasimhan tim salimans and ilya sutskever
+
+improving language in corr derstanding by generative pre training
+
+
+sascha rothe shashi narayan and aliaksei leveraging pre trained checkpoints arxiv preprint eryn
+
+for sequence generation tasks
+
+
+alexander m
+rush sumit chopra and jason weston
+
+a neural attention model for abstractive in proceedings of the tence summarization
+conference on empirical methods in natural guage processing pages lisbon portugal
+evan sandhaus
+
+the new york times annotated corpus
+linguistic data consortium philadelphia
+

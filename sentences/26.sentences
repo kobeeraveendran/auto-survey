@@ -1,29 +1,29 @@
 a m l c
-s
-c
-v
-v
-i x r a new alignment methods for discriminative book summarization work in progress david bamman and noah smith
-
-school of computer science carnegie mellon university pittsburgh pa usa abstract
-we consider the unsupervised alignment of the full text of a book with a human written summary
+s c v
+v i x r a new alignment methods for discriminative book summarization work in progress david bamman and noah a
+smith school of computer science carnegie mellon university pittsburgh pa usa dbamman
+cmu
+edu abstract we consider the unsupervised alignment of the full text of a book with a human written summary
 this presents challenges not seen in other text alignment problems including a disparity in length and consequent to this a violation of the expectation that individual words and phrases should align since large passages and chapters can be distilled into a single summary phrase
 we present two new methods based on hidden markov els specically targeted to this problem and demonstrate gains on an extractive book marization task
 while there is still much room for improvement unsupervised ment holds intrinsic value in offering insight into what features of a book are deemed thy of summarization
 introduction the task of extractive summarization is to select a subset of sentences from a source document to present as a summary
-supervised approaches to this problem make use of training data in the form of source documents paired with existing summaries
-marcu osborne jing and mckeown ceylan and mihalcea
+supervised approaches to this problem make use of training data in the form of source documents paired with existing summaries marcu osborne jing and mckeown ceylan and mihalcea
 these methods learn what features of a source sentence are likely to result in that sentence appearing in the summary for news articles for example strong predictive tures include the position of a sentence in a ment earlier is better the sentence length shorter is better and the number of words in a sentence that are among the most frequent in the document
 supervised discriminative summarization relies on an alignment between a source document and its summary
-for short texts and training pairs where a one to one alignment between source and abstract sentences can be expected standard niques from machine translation can be applied cluding word level alignment brown et al vogel et al
+for short texts and training pairs where a one to one alignment between source and abstract sentences can be expected standard niques from machine translation can be applied cluding word level alignment brown et al
+vogel et al
 och and ney and longer phrasal alignment daum and marcu cially as adapted to the monolingual setting quirk et al
+
 for longer texts where inference over all possible word alignments becomes intractable effective approximations can be made such as stricting the space of the available target alignments to only those that match the identity of the source word jing and mckeown
 the use of alignment techniques for book rization however challenges some of these tions
 the rst is the disparity between the length of the source document and that of a summary
-while the ratio between abstracts and source documents in the benchmark ziff davis corpus of newswire
-marcu is approximately words words the length of a full text book greatly overshadows the length of a simple summary
-figure illustrates this with a dataset comprised of books from project gutenberg paired with plot summaries extracted from wikipedia for a set of books scribed more fully in below
+while the ratio between abstracts and source documents in the benchmark ziff davis corpus of newswire marcu is approximately words vs
+words the length of a full text book greatly overshadows the length of a simple summary
+figure illustrates this with a dataset comprised of books from project gutenberg paired with plot summaries extracted from wikipedia for a set of books scribed more fully in
+below
 the average ratio between a summary and its corresponding book is
+
 this disparity in size leads to a potential violation of a second assumption that we expect words and phrases in the source document to align with words and phrases in the target
 when the disparity is so great we might rather expect that an entire graph page or even chapter in a book aligns to a single summary sentence
 method of jing and mckeown to a set of literary novels
@@ -31,63 +31,70 @@ methods we present two methods both of which involve timating the parameters of 
 the hmms differ in their denitions of states observations and parameterizations of the emission distributions
 we present a generic hmm then instantiate it with each of our two models discussing their respective inference and learning gorithms in turn
 let s be the set of hidden states and k
-an observation sequence t each
-v is assigned probability n n zsn
-where z is the sequence of hidden states k is the distribution over start states and for all s s s and s k are s s emission and transition distributions respectively
-note that we avoid stopping probabilities by always conditioning on the sequence length
-passage model in the passage model
-each hmm state corresponds to a contiguous passage in the source document
+an observation sequence t
 
-the intuition behind this approach is the following while word and phrasal alignment attempts to ture ne grained correspondences between a source and target document longer documents that are tilled into comparatively short summaries
-may stead have long topically coherent passages that are summarized into a single sentence
-for example the following summary sentence in a wikipedia plot synopsis summarizes several long episodic passages in the adventures of tom sawyer after playing hooky from school on friday and dirtying his clothes in a ght
-tom is made to whitewash the fence as punishment all of the next day
+
+each v is assigned probability n n zsn where z is the sequence of hidden states k is the distribution over start states and for all s s s and s k are s s emission and transition distributions respectively
+note that we avoid stopping probabilities by always conditioning on the sequence length
+
+passage model in the passage model each hmm state corresponds to a contiguous passage in the source document
+the intuition behind this approach is the following while word and phrasal alignment attempts to ture ne grained correspondences between a source and target document longer documents that are tilled into comparatively short summaries may stead have long topically coherent passages that are summarized into a single sentence
+for example the following summary sentence in a wikipedia plot synopsis summarizes several long episodic passages in the adventures of tom sawyer after playing hooky from school on friday and dirtying his clothes in a ght tom is made to whitewash the fence as punishment all of the next day
 our aim is to nd the sequence of passages in the source document that aligns to the sequence of mary sentences
 therefore we identify each hmm figure size disparity between summaries and full texts
 summaries average the size of the ing book
-the mean is with a quantile of
+the mean is
+with a quantile of
+
 
 to help adapt existing methods of supervised document summarization to books we present two alignment techniques that are specically adapted to the problem of book alignment one that aligns sages of varying size in the source document to tences in the summary guided by the unigram guage model probability of the sentence under that passage and one that generalizes the hmm ment model of och and ney to the case of long but sparsely aligned documents
-related work
-this work builds on a long history of unsupervised word and phrase alignment originating in the chine translation literature both for the task of ing alignments across parallel text brown et al vogel et al och and ney ero et al and between monolingual quirk et al and comparable corpora barzilay and elhadad
-
+related work this work builds on a long history of unsupervised word and phrase alignment originating in the chine translation literature both for the task of ing alignments across parallel text brown et al
+vogel et al
+och and ney ero et al
+and between monolingual quirk et al
+and comparable corpora barzilay and elhadad
 for the related task of ment abstract alignment we draw on work in ment summarization marcu osborne daum and marcu
-past approaches to tional summarization including both short stories
-kazantseva and szpakowicz and books halcea and ceylan have tended toward discriminative methods one notable exception is ceylan which applies the viterbi alignment of summary length of bookdensity states s observations transitions emissions passage model source document passages summary sentences by passage order difference unigram distribution token model source document tokens summary tokens by distance bin lexical identity synonyms table summary of the passage model and the token model
+past approaches to tional summarization including both short stories kazantseva and szpakowicz and books halcea and ceylan have tended toward discriminative methods one notable exception is ceylan which applies the viterbi alignment
+
+
+
+
+of summary length of bookdensity states s observations transitions emissions passage model source document passages summary sentences by passage order difference unigram distribution token model source document tokens summary tokens by distance bin lexical identity synonyms table summary of the passage model
+and the token model
+
 state in s s with source document positions is and js
 when a summary sentence
 
 
 is sampled from state s its emission probability is dened as follows s punigram bis js where bis js is the passage in the source document from position is to position js again we avoid a stop symbol by implicitly assuming lengths are xed exogenously
-the unigram distribution punigram bis js is estimated directly from the source
-ment passage bis js
-
+the unigram distribution punigram bis js is estimated directly from the source ment passage bis js
 the transition distribution from state s s s is operationalized following the hmm word alignment formulation of vogel et al
 
-the transition events between ordered pairs of states are binned by the difference in two passages ranks within the source we give the formula for relative frequency estimation of the transition distributions the boundary positions for states in advance we must estimate them alongside the traditional hmm parameters
+the transition events between ordered pairs of states are binned by the difference in two passages ranks within the source document
+we give the formula for relative frequency estimation of the transition distributions the boundary positions for states in advance we must estimate them alongside the traditional hmm parameters
 figure illustrates this scenario with a sequence of words in the source document
+
 
 and sentences in the target summary a b c
 in this case the states correspond to
 
 
 
+
+
 and
 
-inference
-given a source document b and a target summary t our aim is to infer the most likely passage for each sentence
-this depends on the parameters
-and and the passages associated with each state so we estimate those as well seeking to imize likelihood
-our approach is an em like
-rithm dempster et al after initialization it iterates among three steps e step
+
+
+
+
+inference given a source document b and a target summary t our aim is to infer the most likely passage for each sentence
+this depends on the parameters and and the passages associated with each state so we estimate those as well seeking to imize likelihood
+our approach is an em like rithm dempster et al
+after initialization it iterates among three steps e step
 calculate and the posterior butions t for each sentence tk
 this is done using the forward backward algorithm
-s
-
-s
-
-
-m step
+s s m step
 estimate and from the posteriors using the usual hmm m step
 where c denotes the count of jumps of a particular length measured as the distance between the rank order of two passages within a document the count of a jump between passage and passage is the same as that between passage and namely
 note that this distance is signed so that the distance of a backwards jump from passage to passage is not the same as a jump from to
@@ -95,179 +102,167 @@ the hmm states spans are constrained not to overlap with each other and they nee
 because we do not know ranks are xed our inference procedure does not low passages to overlap or to leapfrog over each other across iterations
 s step
 sample new passages for each state
+the sampling distribution considers for each state s moving is subject to the no overlapping constraint and js and then moving js subject to the no overlapping constraint and is denero et al
 
-the sampling distribution considers for each state s moving is subject to the no overlapping constraint and js and then moving js subject to the no overlapping constraint and is denero al
-see for more details
+see
+
+for more details
 the emission distribution s is updated whenever is and js change through equation
-
 for the experiments described in section each source document is initially divided into k length passages k from which initial sion probabilities are dened and are both tialized to uniform distribution
 boundary samples are collected once for each iteration after one e step and one m step for a total of iterations
 figure illustration of the passage hmm
 hmm states correspond to passages in the source document top each emission is a summary sentence bottom
-sampling chunk boundaries in the summary during the s step we sample the boundaries of each hmm state s passage favoring stochastically
-those boundaries that make the observations more likely
+
+
+sampling chunk boundaries in the summary during the s step we sample the boundaries of each hmm state s passage favoring stochastically those boundaries that make the observations more likely
 we expect that early on most chunks will be radically reduced to smaller spans that match closely the target sentences aligned to them with high ability
 over subsequent iterations longer spans should be favored when adding words at a ary offsets the cost of adding the non essential words between the old and new boundary
-
 a greedy step analogous to the m step use to estimate parameters is one way to do this we could on each s step move each span s boundaries to the positions that maximize likelihood under the revised language model
 good local choices ever may lead to suboptimal global results so we turn instead to sampling
 note that if our model dened a marginal distribution over passage ary positions in the source document this sampling step could be interpreted as part of a markov chain monte carlo em algorithm wei and tanner
-
-as it is we do not have such a distribution this equates to a xed uniform distribution over all valid
-non overlapping passage boundaries
-the implication is that the probability of a ular state s s passage s or end position is portional to the probability of the observations
-erated given that span
+as it is we do not have such a distribution this equates to a xed uniform distribution over all valid non overlapping passage boundaries
+the implication is that the probability of a ular state s s passage s or end position is portional to the probability of the observations erated given that span
 following any e step the signment of observations to s will be fractional
-this means that the likelihood as a function of particular values of is and js depends on all of the sentences js
-s n n
-punigram bis js
-for example in figure the start position of the second span word might move anywhere from word just past the end of the previous span to word just before the end of its own span js
-each of the values should be sampled with probability proportional to equation so that the sampling distribution is calculating l for different boundaries requires recalculating the emission probabilities s as the language model changes
+this means that the likelihood as a function of particular values of is and js depends on all of the sentences js s n n punigram bis js for example in figure the start position of the second span word might move anywhere from word just past the end of the previous span to word just before the end of its own span js
+each of the values should be sampled with probability proportional to equation so that the sampling distribution is
+
+
+calculating l for different boundaries requires recalculating the emission probabilities s as the language model changes
 we can do this efciently in linear time by decomposing the language model probability
 here we represent a state by its ary positions in the source document i and we use the relative frequency estimate for punigram
-log i j log bi j
-j i
-now consider the change if we remove the rst word from s s passage so that its boundaries are i
-
+log i j log bi j j i now consider the change if we remove the rst word from s s passage so that its boundaries are i
 i log bi j
-let bi denote the source document s word at position log
-i log log i j log bi bi j log
-j i
-j i
-this recurrence is easy to solve for all possible left boundaries respecting the no overlap constraints
-if we keep track of the word frequencies in each span of the source document something we must do anyway to calculate punigram
+
+
+
+
+
+let bi denote the source document s word at position i
+log i log log i j log bi bi j log j i j i this recurrence is easy to solve for all possible left boundaries respecting the no overlap constraints if we keep track of the word frequencies in each span of the source document something we must do anyway to calculate punigram
 a similar rence holds for the right boundary of a passage
-figure illustrates the result of this sampling
-cedure on the start and end positions for a single source passage in heart of darkness
+figure illustrates the result of this sampling cedure on the start and end positions for a single source passage in heart of darkness
 after erations the samples can be seen to uctuate over a span of approximately words however the modes are relatively peaked with the most likely start position at and the most likely end sition at yielding a span of words
 figure density plot of accumulated samples for one passage hmm state in heart of darkness
 the left boundary is shown in black and solid the right ary in red and dashed
+
 token model jing and mckeown introduced an hmm whose states correspond to tokens in the source ument
 the observation is the sequence of target summary tokens restricting to those types found in the source document
 the emission ities are xed to be one if the source and target words match zero if they do not
 hence each stance of v v in the target summary is assumed to be aligned to an instance of v in the source
-the transition parameters were xed manually to
-late a ranked set of transition types transitions within the same sentence are more likely than
-tions between sentences
+the transition parameters were xed manually to late a ranked set of transition types e
+
+transitions within the same sentence are more likely than tions between sentences
 no parameter estimation is used the viterbi algorithm is used to nd the most probable alignment
 the allowable transition space is bounded by f where f is the frequency of the most common token in the source document
-the sulting model is scalable to large source documents
-ceylan and mihalcea ceylan
-one potential issue with this model is that it lacks the concept of a null source not articulated in the original hmm alignment model of vogel
-al
+the sulting model is scalable to large source documents ceylan and mihalcea ceylan
+one potential issue with this model is that it lacks the concept of a null source not articulated in the original hmm alignment model of vogel al
 but added by och and ney
-
 out such a null source every word in the summary must be generated by some word in the source ument
 the consequence of this decision is that a viterbi alignment over the summary must pick a perhaps distant low probability word in the source document if no closer word is available
 ally while the choice to enforce lexical identity strains the state space it also limits the range of ical variation captured
 our second model extends jing s approach in three ways
-
-first we introduce parameter inference to learn the values of start probabilities and transitions that
-maximize the likelihood of the data using the em algorithm
+first we introduce parameter inference to learn the values of start probabilities and transitions that maximize the likelihood of the data using the em algorithm
 we operationalize the transition bilities again following vogel et al
 but strain the state space by only measuring transititions between xed bucket lengths rather than between the absolute position of each source word
-the tive frequency estimator for transitions is s
-s
+the tive frequency estimator for transitions is s s s as above c denotes the count of an event and here is a function that transforms the difference between two token positions into a coarser set of bins for example may transform a distance of
 
-s
-as above c denotes the count of an event and here is a function that transforms the difference between two token positions into a coarser set of bins for example may transform a distance of in source documentdensity into its own bin a distance of into a different bin a distance in the range
-into a third bin a difference of into a fourth
+
+
+in source documentdensity into its own bin a distance of into a different bin a distance in the range into a third bin a difference of into a fourth
 
 future work may include dynamically learning timizal bin sizes much as boundaries are learned in the passage hmm
-
 second we introduce the concept of a null source that can generate words in the target sentence
 in the sentence to sentence translation setting for a source sentence that is m words long och and ney add m corresponding null tokens one for each source word position to be able to adequately model transitions to from and between null tokens in an alignment
 for a source document that is ca
 words long this is clearly infeasible since the plexity of even a single round of forward backward inference is where n is the number of words in the target summary t
-however we can solve this problem by noting that the transition
-ability as dened above is not measured between dividual words but rather between the positions of coarser grained chunks that contain each word by coarsing the transitions to model the jump between a xed set of b bins
-where b m we effectively only need to add b null tokens making inference tractable
-as a nal restriction we disallow tions between source state positions i and j
-where
+however we can solve this problem by noting that the transition ability as dened above is not measured between dividual words but rather between the positions of coarser grained chunks that contain each word by coarsing the transitions to model the jump between a xed set of b bins where b m we effectively only need to add b null tokens making inference tractable
+as a nal restriction we disallow tions between source state positions i and j where
 in the experiments described in section
-third we expand the emission probabilities to allow the translation of a source word into a xed set of synonyms as derived from roget s
+third we expand the emission probabilities to allow the translation of a source word into a xed set of synonyms e
+
+as derived from roget s saurus
 this expands the coverage of important lexical variants while still constraining the allowable emission space to a reasonable size
-all synonyms of a word are available as potential translations the exact translation probability purchase buy is learned during inference
+all synonyms of a word are available as potential translations the exact translation probability e
+
+purchase buy is learned during inference
 experiments to evaluate these two alignment methods and pare with past work we evaluate on the downstream task of extractive book summarization
-data the available data includes book plot maries extracted from the november dump of english language and english language books from project
+
+data the available data includes book plot maries extracted from the november dump of english language and english language books from project gutenberg
 
 we restrict the book summary pairs to only those where the full text of the book contains at least words and the paired abstract contains least words stopwords and punctuation at excluded
-
 this results in a dataset of book summary pairs where the average book length is words and the average summary length is words again not counting stopwords and tuation
-the ratio between summaries and full books in
-this dataset is approximately much smaller than that used in previous work for any domain even for past work involving literary novels
-ceylan makes use of a collection of books paired with relatively long summaries from sparknotes cliffsnotes and gradesaver where the average summary length is words
+the ratio between summaries and full books in this dataset is approximately
+much smaller than that used in previous work for any domain even for past work involving literary novels ceylan makes use of a collection of books paired with relatively long summaries from sparknotes cliffsnotes and gradesaver where the average summary length is words
 we focus instead on the more concise case targeting summaries that distill an entire book into approximately words
-discriminative summarization
-we follow a standard approach to discriminative summarization
+
+discriminative summarization we follow a standard approach to discriminative summarization
 all experiments described below use fold cross validation in which we partition the data into ten disjoint sets train on nine of them and then test on the remaining held out partition
-
-ten evaluations are conducted in total with the
-ported accuracy being the average across all ten sets
-
+ten evaluations are conducted in total with the ported accuracy being the average across all ten sets
 first all source books and paired summaries in the training set are aligned using one of the three pervised methods described above passage hmm token hmm jing
 next all of the sentences in the source side of the book summary pairs are featurized all sentences that have been aligned to a sentence in the summary are assiged a label of appearing in summary and otherwise not appearing in summary
 using this featurized representation we then train a binary gistic regression classier with regularization on the training data to learn which features are the most
+gutenberg
+org
+wikimedia
+org
+gutenberg
+org indicative of a source sentence appearing in a mary
+following previous work we devise level features that can be readily computed in parison both with the document in which the tence in found and in comparison with the tion of documents as whole yeh et al
+shen et al
 
-indicative of a source sentence appearing in a mary
-following previous work we devise level features that can be readily computed in parison both with the document in which the tence in found and in comparison with the tion of documents as whole yeh et al shen et al
 all feature values are binary sentence position within document discretized into membership in each of ten deciles
 tures
-
 sentence contains a salient name
 we tionalize salient name as the capitalized words in a document with the highest tf idf score in comparison with the rest of the data only non sentence initial tokens are used for calculate counts
 features
 contains lexical item most frequent words
 this captures the tendency for some actions such as kills dies to be more likely to appear in a summary
 tures
-
 contains the rst mention of lexical item most frequent words
 tures
-contains a word that is among the top
-words having the highest tf idf scores for that book
+contains a word that is among the top words having the highest tf idf scores for that book
 features
 with a trained model and learned weights for all features we next featurize each sentence in a test book according to the same set of features described above and predict whether or not it will appear in the summary
-sentences are then ranked by
-ability and the top sentences are chosen to create a summary of words
+sentences are then ranked by ability and the top sentences are chosen to create a summary of words
 to create a summary tences are then ordered according to their position in the source document
-evaluation
-document summarization has a standard if fect evaluation in the rouge score lin and hovy which as an n gram recall measure stresses the ability of the candidate summary to recover the words in the reference
+evaluation document summarization has a standard if fect evaluation in the rouge score lin and hovy which as an n gram recall measure stresses the ability of the candidate summary to recover the words in the reference
 to evaluate the cally generated summary we calculate the rouge score between the generated summary and the out reference summary from wikipedia for each book
 we consider both which measures the overlap of unigrams and which sures bigram overlap
 for the case of a single erence translation rouge n is calculated as the following where w ranges over all unigrams or grams in the reference summary depending on n and c is the count of the n gram in the text
-wref
-wref
-figure lists the results of a fold test on the available book summary pairs
+wref wref figure lists the results of a fold test on the available book summary pairs
 both alignment models described above show a moderate ment over the method of jing et al
 for comparison we also present a baseline of simply choosing the rst words in the book as the summary
-model block hmm
-word hmm
-jing
-first table rouge summarization scores
-how well does this method actually work in tice however at the task of generating summaries
+model block hmm word hmm jing first
 
-manually inspecting the generated summaries veals that automatic summarization of books still has great room for improvement for all alignment methods involved
+
+
+
+
+
+
+table rouge summarization scores
+how well does this method actually work in tice however at the task of generating summaries manually inspecting the generated summaries veals that automatic summarization of books still has great room for improvement for all alignment methods involved
 appendix a shows the sentences extracted as a summary for heart of darkness
-
 independent of the quality of the generated maries on held out test data one practical benet of training binary log linear models is that the resulting feature weights are interpretable providing a driven glimpse into the qualities of a sentence that make it conducive to appearing in human created summary
 table lists the strongest features predicting inclusion in the summary rank averaged over all ten training splits
-the presence of a name in a sentence is highly predictive as is its position at the beginning of a book decile or at the very end
-decile and
-the strongest lexical features trate the importance of a character s persona
-ticularly in their relation with others father son as well as the natural importance of major life events death
+the presence of a name in a sentence is highly predictive as is its position at the beginning of a book decile or at the very end decile and
+the strongest lexical features trate the importance of a character s persona ticularly in their relation with others father son
+as well as the natural importance of major life events death
 the importance of these features in the generated summary of heart of darkness is clear nearly every sentence contains one name and the most important plot point captured is indeed one such life event mistah kurtz he dead
 
 
 
 
 tf idf
-mr
 
+mr
 
 tf idf
 father
-love son
-brother years
+love
+son
+brother
+years
 young
 mother
 family
@@ -282,211 +277,192 @@ house
 chapter
 child
 sir table strongest features predicting inclusion in a mary
-conclusion we present here two new methods optimized for aligning the full text of books with comparatively much shorter summaries where the assumptions of the possibility of an exact word or phrase
-ment may not always hold
+conclusion we present here two new methods optimized for aligning the full text of books with comparatively much shorter summaries where the assumptions of the possibility of an exact word or phrase ment may not always hold
 while these methods perform competitively in a downstream evaluation book summarization clearly remains a challenging task
 nevertheless improved book summary ments hold intrinsic value in shedding light on what features of a work are deemed summarizable by human editors and may potentially be exploited by tasks beyond summarization as well
-a generated summary for heart of darkness
-
-and this also said marlow suddenly has been one of the dark places of the earth
+a generated summary for heart of darkness and this also said marlow suddenly has been one of the dark places of the earth
 he was the only man of us who still followed the sea
 the worst that could be said of him was that he did not represent his class
-
 no one took the trouble to grunt even and presently he said very slow i was thinking of very old times when the romans rst came here nineteen hundred years ago the other day
-light came out of this river since you say knights
-we looked on waiting patiently there was nothing else to do till the end of the ood but it was only after a long silence when he said in a hesitating voice
-i suppose you fellows remember i did once turn fresh water sailor for a bit that we knew we were fated before the ebb began to run to hear about one of marlow s inconclusive experiences
 
+
+
+light came out of this river since you say knights we looked on waiting patiently there was nothing else to do till the end of the ood but it was only after a long silence when he said in a hesitating voice i suppose you fellows remember i did once turn fresh water sailor for a bit that we knew we were fated before the ebb began to run to hear about one of marlow s inconclusive experiences
 i know the wife of a very high personage in the ministration and also a man who has lots of inuence with
 she was determined to make no end of fuss to get me appointed skipper of a river steamboat if such was my fancy
-
 he shook hands i fancy murmured vaguely was satised with my french
-
 i found nothing else to do but to offer him one of my good swede s kurtz was
+
+
 i felt weary and irritable
-
-
 kurtz was the best agent he had an exceptional man of the greatest importance to the company therefore i could understand his anxiety
-
-
 i heard the name of kurtz pronounced then the words take advantage of this unfortunate accident
 one of the men was the manager
 kurtz i continued severely is general manager you won t have the opportunity
 he blew the candle out suddenly and we went outside
+the approach to this kurtz grubbing for ivory in the wretched bush was beset by as many dangers as though he had been an enchanted princess sleeping in a lous castle
+in a moment he came up again with a jump possessed himself of both my hands shook them continuously while he gabbled brother sailor
 
-the approach to this kurtz grubbing for ivory in the wretched bush was beset by as many dangers as though
-he had been an enchanted princess sleeping in a lous castle
 
-in a moment he came up again with a jump possessed himself of both my hands shook them continuously while he gabbled brother sailor honour
-sure delight introduce myself
-russian son of an arch priest
+honour
+
+
+sure
+
+
+delight
+
+
+introduce myself
+
+
+russian
+
+
+son of an arch priest
+
+
 government of tambov
-what
-
-where s a sailor that does not smoke
-the pipe soothed him and gradually i made out he had run
-would they have fallen i wonder if i had rendered kurtz that justice which was his due
-away from school had gone to sea in a russian ship ran away again served some time in english ships was now reconciled with the arch priest
 
 
-
+what where s a sailor that does not smoke the pipe soothed him and gradually i made out he had run would they have fallen i wonder if i had rendered kurtz that justice which was his due away from school had gone to sea in a russian ship ran away again served some time in english ships was now reconciled with the arch priest
 he informed me lowering his voice that it was kurtz who had ordered the attack to be made on the steamer
-
-
 we had carried kurtz into the pilot house there was more air there
-
-
 suddenly the manager s boy put his insolent black head in the doorway and said in a tone of scathing contempt mistah kurtz he dead
 all the pilgrims rushed out to see
-
 that is why i have remained loyal to kurtz to the last and even beyond when a long time after i heard once more not his own voice but the echo of his icent eloquence thrown to me from a soul as cently pure as a cliff of crystal
-kurtz s knowledge of unexplored regions must have been necessarily extensive and peculiar owing to his great abilities and to the deplorable circumstances in which he had been placed therefore i assured him
-mr there are only private letters
+kurtz s knowledge of unexplored regions must have been necessarily extensive and peculiar owing to his great abilities and to the deplorable circumstances in which he had been placed therefore i assured him mr
+there are only private letters
 he withdrew upon some threat of legal proceedings and i saw him no more but another fellow calling himself kurtz s cousin appeared two days later and was anxious to hear all the details about his dear relative s last ments
-
 incidentally he gave me to understand that kurtz had been essentially a great musician
-
 i had no reason to doubt his statement and to this day i am unable to say what was kurtz s profession whether he ever had any which was the greatest of his talents
-
 this visitor informed me kurtz s proper sphere ought to have been politics on the popular side
-he had furry straight eyebrows bristly hair cropped short an eyeglass on a broad ribbon and becoming expansive confessed his opinion that kurtz really couldn t write a bit but heavens
-how that man could talk
-
+he had furry straight eyebrows bristly hair cropped short an eyeglass on a broad ribbon and becoming expansive confessed his opinion that kurtz really couldn t write a bit but heavens how that man could talk
 all that had been kurtz s had passed out of my hands his soul his body his station his plans his ivory his career
-
-and by jove
-the impression was so powerful that for me too he seemed to have died only yesterday nay this very minute
-
+and by jove the impression was so powerful that for me too he seemed to have died only yesterday nay this very minute
 he had given me some reason to infer that it was his impatience of comparative poverty that drove him out there
-who was not his friend who had heard him speak once
-she was saying
-references barzilay and regina barzilay and noemie
-elhadad
+
+
+
+who was not his friend who had heard him speak once she was saying
+references barzilay and regina barzilay and noemie elhadad
 
 sentence alignment for monolingual comparable corpora
 in proceedings of the ference on empirical methods in natural language cessing emnlp pages stroudsburg pa usa
 association for computational linguistics
-brown et peter brown john cocke stephen della pietra vincent della pietra fredrick
-linek john lafferty robert mercer and paul roossin
+brown et al
+peter f
+brown john cocke stephen a
+della pietra vincent j
+della pietra fredrick linek john d
+lafferty robert l
+mercer and paul s
+roossin
 
 a statistical approach to machine translation
 comput
 linguist
 june
-
 ceylan and hakan ceylan and rada halcea
 
 the decomposition of human written book summaries
 in pages
-
 hakan ceylan
 
-investigating the
-tractive summarization of literary novels
+investigating the tractive summarization of literary novels
+ph
+d
 sis university of north texas
-
-daum and
-hal daum iii and daniel marcu
-
+daum and hal daum iii and daniel marcu
 
 induction of word and phrase ments for automatic document summarization
-
 put
 linguist
 december
-
-dempster et dempster laird and rubin
+dempster et al
+a
+p
+dempster m
+n
+laird and d
+b
+rubin
 
 maximum likelihood from plete data via the em algorithm
 journal of the royal statistical society series b statistical methodology
-
-denero et john denero alexandre
+denero et al
+john denero alexandre
 sampling alignment ct and dan klein
 structure under a bayesian translation model
-
 in proceedings of the conference on empirical ods in natural language processing emnlp pages stroudsburg pa usa
 association for computational linguistics
+jing and hongyan jing and kathleen r
+mckeown
 
-jing and hongyan jing and kathleen mckeown
-
-
-the decomposition of
-in proceedings of the written summary sentences
+the decomposition of in proceedings of the written summary sentences
 annual international acm sigir conference on research and development in information retrieval sigir pages new york ny usa
 acm
-
 kazantseva and anna kazantseva and stan szpakowicz
 
 summarizing short stories
-
 computational linguistics
+lin and chin yew lin and eduard hovy
 
-lin and
-chin yew lin and eduard hovy
-
-
-automatic evaluation of summaries using
-in proceedings of the gram co occurrence statistics
-
-
+automatic evaluation of summaries using in proceedings of the gram co occurrence statistics
 conference of the north american chapter of the association for computational linguistics on human language technology volume naacl pages stroudsburg pa usa
 association for putational linguistics
-
 daniel marcu
 
-the automatic struction of large scale corpora for summarization
-in proceedings of the annual search
-tional acm sigir conference on research and velopment in information retrieval sigir pages new york ny usa acm
-
+the automatic struction of large scale corpora for summarization in proceedings of the annual search
+tional acm sigir conference on research and velopment in information retrieval sigir pages new york ny usa
+acm
 mihalcea and rada mihalcea and hakan ceylan
 
 explorations in automatic book marization
-in proceedings of the joint ence on empirical methods in natural language cessing and computational natural language
-ing emnlp conll pages prague czech republic june
+in proceedings of the joint ence on empirical methods in natural language cessing and computational natural language ing emnlp conll pages prague czech republic june
 association for computational guistics
-
 och and franz josef och and hermann ney
-
 
 a systematic comparison of various statistical alignment models
 comput
-linguist march
-
+linguist
+march
 miles osborne
 
 using maximum entropy for sentence extraction
 in proceedings of the workshop on automatic summarization ume as pages stroudsburg pa usa
 sociation for computational linguistics
-
-quirk chris quirk chris brockett and william dolan
+quirk et al
+chris quirk chris brockett and william dolan
 
 monolingual machine lation for paraphrase generation
 in dekang lin and dekai wu editors proceedings of emnlp pages barcelona spain july
 association for computational linguistics
-
-shen
-dou shen jian tao sun hua li qiang
-yang and zheng chen
+shen et al
+dou shen jian tao sun hua li qiang yang and zheng chen
 
 document tion using conditional random elds
 in proceedings of the international joint conference on artical intelligence pages san cisco ca usa
-morgan kaufmann publishers
-vogel stephan vogel hermann ney and christoph tillmann
-hmm based word
-in proceedings of the ment in statistical translation
+morgan kaufmann publishers inc
+vogel et al
+stephan vogel hermann ney and christoph tillmann
+
+hmm based word in proceedings of the ment in statistical translation
 conference on computational linguistics ume coling pages stroudsburg pa usa
 association for computational linguistics
-wei and
-greg wei and martin ner
+wei and greg c
+g
+wei and martin a
+ner
 
 a monte carlo implementation of the em algorithm and the poor man s data augmentation gorithms
 journal of the american statistical ation
-
-yeh jen yuan yeh hao ren ke wei pang
-yang and i heng meng
+yeh et al
+jen yuan yeh hao ren ke wei pang yang and i heng meng
 
 text summarization using a trainable summarizer and latent semantic ysis
 inf
 process
-manage january
+manage
+january
 

@@ -1,133 +1,94 @@
-extractive text summarization using neural networks aakash sinha department of computer science and engineering
-indian institute of technology delhi
-new delhi india
-abhishek yadav
-department of computer science and engineering indian institute of technology delhi
-new delhi india
-akshay gahlot department of computer science and engineering indian institute of technology delhi
-new delhi india
-
-abstract text summarization has been an extensively studied problem
-
+extractive text summarization using neural networks aakash sinha department of computer science and engineering indian institute of technology delhi new delhi india
+ac
+in abhishek yadav department of computer science and engineering indian institute of technology delhi new delhi india
+ac
+in akshay gahlot department of computer science and engineering indian institute of technology delhi new delhi india
+ac
+in abstract text summarization has been an extensively studied problem
 traditional approaches to text summarization rely heavily on feature engineering
 in contrast to this we propose a fully data driven approach using feedforward neural networks for single document summarization
 we train and evaluate the model on standard duc dataset which shows results comparable to the state of the art models
 the proposed model is scalable and is able to produce the summary of arbitrarily sized documents by breaking the original document into fixed sized parts and then feeding it recursively to the network
-keywords neural networks recursive extractive summarization introduction
-text
-summarization is a well known task in natural language understanding
+keywords neural networks recursive extractive summarization i
+introduction text summarization is a well known task in natural language understanding
 summarization in general refers to the task of presenting information in a concise manner focusing on the most important parts of the data whilst preserving the meaning
 the main idea of summarization is to find a subset of data which contains the information of the entire set
 in today s world data generation and consumption are exploding at an exponential rate
-
 due to this text summarization has become the necessity of many applications such as search engine business analysis market review
 automatic document summarization involves producing a summary of the given text document without any human help
 this is broadly divided into two classes extractive summarization and abstractive summarization
 extractive summarization picks up sentences directly from the document based on a scoring function to form a coherent summary
-
 on the other hand abstractive summarization to produce a bottom up tries summary parts of which may not appear as part of the original document
-
 such a summary might include verbal innovations although in most cases vocabulary of the summary is same as that of the original document
 in general building abstract summaries is a difficult task and involves complex language modeling
-text summarization finds its applications in various nlp related tasks such as question
-answering text classification and other related fields
+text summarization finds its applications in various nlp related tasks such as question answering text classification and other related fields
 generation of summaries is integrated into these systems as an intermediate stage which helps to reduce the length of the document
 this in turn leads to faster access for information searching
 news summarization and headline generation is another important application
 most of the search engines use machine generated headlines for displaying news articles in feeds
-the objects
-in this paper we focus on extractive summarization
-
+the objects in this paper we focus on extractive summarization
 it focuses on extracting objects directly from the entire collection themselves
-
-extractive
-without modifying summarizers take sentences as input and produce a probability vector as output
-
+extractive without modifying summarizers take sentences as input and produce a probability vector as output
 the entries of this vector represent the probability of the sentence being included in the summary
 to produce the final summary best sentences are chosen according to the required summary length
 various models based on graphs linguistic scoring and machine learning have been proposed for this task till date
-most of these approaches model
-this problem as a classification problem which outputs whether to include the sentence in the summary or not
+most of these approaches model this problem as a classification problem which outputs whether to include the sentence in the summary or not
 this is achieved using a standard naive bayes classifier or with support vector machines
 supervised learning based models rely on human engineered features such as word position sentence position word frequency and many more
 based on these features each sentence is assigned a score
-
 various scoring functions including tf idf centroid based metrics
 
 have been used to date
 sentences are then ranked according to their importance and similarity using a ranking algorithm
-
 the similarity between sentences can be calculated using cosine similarity
-
 this is done to prevent the occurrence of repetitive information
-trained identify specific feature engineering based models have proved to be much more successful for domain or genre specific summarization
-such as for medical reports or specific news articles where classifiers can be types of to information
+trained identify specific feature engineering based models have proved to be much more successful for domain or genre specific summarization such as for medical reports or specific news articles where classifiers can be types of to information
 these techniques give poor results for general text summarization
 in this work we propose a fully driven approach using neural networks which gives reliable results irrespective of the document type
-
 this does not require predecided features for classifying the sentences
 the proposed model is capable of producing summaries corresponding to documents of varying lengths
 we have used a recursive approach to produce summaries of variable length documents
-
 we trained the model using duc datasets
-we evaluated the proposed model using
-rouge automatic evaluator on duc dataset and compare the and two variants of rouge scores with existing models
+we evaluated the proposed model using rouge automatic evaluator on duc dataset and compare the and two variants of rouge scores with existing models
 experimental results show that the proposed model achieves performance comparable to state of the art systems without any access to linguistic information
 rest of the paper is presented as follows
 in section we formulate the problem
-
 section conceptualizes the proposed model and describes the neural network in detail
-
 we have presented some information on datasets used and experimental details in section
 comparison with various existing models has also been provided
-
 the results of our experiments are shown in section and the paper is concluded in section
 ii
-problem formulation
-in this section we describe the summarization task in a formal manner
+problem formulation in this section we describe the summarization task in a formal manner
 given a document x with a sequence of sentences ax we want to generate a summary at the sentence level
-
 extractive methods yield naturally grammatical summaries and require relatively little linguistic analysis
-we create an extractive summary of the document by selecting a set of sentences ay from the document such that the number of sentences in the summary is less than that in the original document
-
+we create an extractive summary of the document by selecting a set of sentences ay from the document such that i
+e
+the number of sentences in the summary is less than that in the original document
 we will assume that the output length is fixed and the summarizer knows the length of the summary before generation
 the selection process involves scoring each sentence in document x and predicting a label wl which indicates whether the sentence should be included in the summary
-
 since we use a supervised learning technique the objective is to maximize the likelihood of the sentence labels wlx given the input document and model parameters
-log log
-for this purpose a scoring function is used which assigns a value to each sentence denoting
-the probability with which it will get picked up in the summary
+log log for this purpose a scoring function is used which assigns a value to each sentence denoting the probability with which it will get picked up in the summary
 because the summary length is fixed and known top according to the summary length sentences are chosen to be included in the summary
-thus we obtain an optimal k
-sentence subset of the document which represents our summary
-
+thus we obtain an optimal k sentence subset of the document which represents our summary
 quality of the summary depends upon the choice of these sentences
 iii
-
-proposed model
-the proposed model is based on a neural network which consists of one input layer one hidden layer and one output layer
+proposed model the proposed model is based on a neural network which consists of one input layer one hidden layer and one output layer
 the document is fed to the input layer computations are carried in the hidden layer and an output is generated at the final layer
 in this section we talk about input vector generation processing taking place in the network and summary generation from the output of the neural network
 sentences of the document were to be fed as input to the network
-since the input to neural networks has to be numbers the sentences have to be converted and represented in
-some numerical form
-
+since the input to neural networks has to be numbers the sentences have to be converted and represented in some numerical form
 for this purpose model was used
-
 this model provides vector representation for words of the english language
 a language model is trained on large datasets and each of the words in the vocabulary is assigned a vector of some fixed dimension based on the context in which it appears
 note that this dimension is fixed for each word
-
 the model basically tries to predict the next word from given context words
 these vectors have some important properties for example closely related words have similar representations which are more representative of the language
-
 for more details on how these vectors are generated the reader is advised to refer to by
 fig
 
 proposed neural network with
 after obtaining the word vectors vector representation for sentences had to be created
 this representation should be such that it is able to reflect the sentence in the best possible manner
-
 one of the most intuitive approaches is that of averaging the word vectors
 this does nt turn out to be very useful and leads to poor results because of lack of consideration of order and relationship among the words
 for generating a meaningful representation some kind of contextual relation among the words has to be taken care of
@@ -135,169 +96,184 @@ for this an approach based on grams was used
 in this model we used the fasttext library provided by facebook to convert our sentences to vectors
 the model takes input as sentences of the english language vector representation of words and converts the sentences to fixed dimension vectors in our case
 the size of the input layer is fixed and can not be varied for different documents
-
 since each of the sentences has already been converted to fixed dimensional vectors we need not worry about variation in length of sentences
 but one problem that still remains is that of variation in length of documents
-
 every document has different length in terms of the number of sentences and a summarizer should work well for all sizes
-because of this various approaches using recurrent neural networks and
-end to
-end learning have been proposed
-
+because of this various approaches using recurrent neural networks and end to end learning have been proposed
 although they have been proven to work well a lot of computation is needed for such models and they are fairly difficult to implement
 instead we propose a simpler approach of summarizing the text recursively and show that the proposed model has a performance comparable to these complex systems
 where pages let the number of sentences in the document be
-
 now we divide the document into segments each having a fixed number of sentences
 each such segment is called a page and let this fixed number be
-
 in this way we obtain to
 thus for each run of the network sentences of a page are converted into their corresponding vectors each having entries
-
 all such vectors are concatenated in order to form a dimension vector which is fed to the input layer of the network
 for pages with the number of sentences less than the input vector is padded with zeros
 note that is fixed for the model
-
 later on we test the model for various values of this parameter and report the results
 equals a softmax activation function is applied to the output at the last layer
 each entry of the obtained vector denotes the weight associated with the corresponding sentence which represents the measure of belief of the sentence being included in the summary
-
+fig
 shows the schematic representation of the model
 as it is a supervised learning model we already have the correct labels for the sentences of the document
-
 error loss from the correct prediction is calculated using cross entropy between the predicted output and the correct hot vector
 this error is then fed back into the network for training
 thus the weights and bias matrices are adjusted in each iteration by back propagating the error
 an optimal value of the learning rate the rate at which parameters are updated repeated experiments
 is obtained through fig
 
-
 flow diagram of the proposed model
 for the generation of the summary of a given document the entire text is broken into pages
 the summary length in terms of the number of sentences is fixed and known before summary generation
 let this number be x
 now each of the pages is fed to the network as an input
-
 the network outputs a probability vector from which top x sentences are chosen
-
 thus a summary of length x is generated for each of them
 all such summary segments are concatenated in order to produce another document
 this is then recursively fed to the summarizer till the number of sentences in the document reduces to x see fig
 
 thus using this recursive approach we are able to generate a summary corresponding to the original document which consists of the best x sentences and is a very good representative of the entire text
 using the final output vector corresponding sentences are picked up from the document and concatenated in order to produce the final summary
-
 since this is a single document summarization model we have assumed that x will not exceed
 discussion on the value of is available further on in this paper
 iv
-experimental setup in this section we will explain how we measured
-the performance of the proposed network and how we set the network parameters for optimal performance
+experimental setup in this section we will explain how we measured the performance of the proposed network and how we set the network parameters for optimal performance
 we will also briefly discuss the dataset used for training and evaluation and existing state of the art systems used for comparison
-dataset
-we trained the proposed model on two datasets
+a
+dataset we trained the proposed model on two datasets
 the first is the duc datasets
 the dataset in raw form consisted of xml pages which had to be pre processed
 the preprocessing involved converting the dataset into text documents
 the dataset consisted of document summary pairs divided into clusters
-
 each document had two summaries a word summary and a word summary both extractive
 we used the word summaries for all purposes
 for training we used documents and the rest were used for evaluating the model performance
 we also evaluated the proposed model on a document dataset used by
-
-
 this dataset also consisted of duc documents and extractive summaries
-
 out of these documents we used to train the network and the rest for evaluation purposes
 we based the evaluation of the proposed model for the above training sets on two variants of rouge evaluator namely and
 further details of the evaluation and comparison with existing models can be found in the upcoming sections
-implementation details from which uses data we implemented the proposed model using tensorflow library flow graphs
-
+b
+implementation details from tensorflow
+org which uses data we implemented the proposed model using tensorflow library flow graphs
 tensorflow allowed us to make the most of our available hardware
-it is a flexible and portable library with
-
-the correct differentiation capabilities
+it is a flexible and portable library with the correct differentiation capabilities
 error loss prediction was calculated using cross entropy function
-
 we tested various values of learning rate and hidden layer size to get the best combination of performance and computation time
-
 this allowed us to get saturating accuracy after approximately epochs
-we fixed the number of sentences to be
-the parameter which denotes the number of sentences to be fed to the network at a time
-
+we fixed the number of sentences to be the parameter which denotes the number of sentences to be fed to the network at a time
 apart from the standard implementation mentioned above we needed to set an appropriate value of the above parameter as well
 to do this we tested the performance of the proposed network using various values of the parameter on the entire dataset
-
 the performance comparison is shown using tables below
-table dataset upon varying the parameter value
-performance of the proposed network
-on score fig
+table i
+dataset upon varying the parameter value
+performance of the proposed network on score
 
+
+
+
+
+fig
 
 performance of network on dataset vs parameter
 table ii
 dataset upon varying the parameter value
-performance of the proposed network
-on score numsen score
-numsen score
+performance of the proposed network on score
+
+
+
+
+
+numsen score numsen score
+
+
+
+
+
+
+
+
+
 
 
 the results show that the proposed network achieves maximum performance considering both and results when value is set to
 that is taking the document as input sentences at a time gives best results
 for more details of the rouge evaluator refer to the upcoming sections
-performance evaluation
-we compared the proposed model to various previously published models which are known to show good performance on the dataset
+c
+performance evaluation we compared the proposed model to various previously published models which are known to show good performance on the dataset
 the first one is a model is ilp by
-
 this model operates over a phrase based representation of the source document which is obtained by merging information from pcfg parse trees and dependency graphs
 using an integer linear programming formulation this model learns to select and combine phrases subject to length coverage and grammar constraints
 another model is nn se by
 their approach is based on recurrent neural networks and shows very promising results
-
 the next comparison system is tgraph
-
-
 this approach is based on a weighted graphical representation of documents obtained by topic modeling
 another system is urank
-
 this model proposes a novel unified approach to simultaneous multi document summarizations
 the mutual influences between the two tasks are incorporated into a graph model and the ranking scores of a sentence for the two tasks are obtained in a unified ranking process
 the last two comparison systems namely tgraph and urank produce typical extractive summaries and are considered state of the art
-
 finally we also compared the proposed model with a system gene proposed by
 this approach presents an extraction based single document text summarization technique using genetic algorithms
-single document and results
-in this section we have shown how the proposed model faired against existing systems which are known to show good performance
-we used
-rouge for all evaluation purposes
+single document and v
+results in this section we have shown how the proposed model faired against existing systems which are known to show good performance
+we used rouge for all evaluation purposes
 rouge stands for recall oriented understudy for gisting evaluation
-it is a measure which determines the quality of a summary automatically by comparing it to human
-ideal generated summaries
-
+it is a measure which determines the quality of a summary automatically by comparing it to human ideal generated summaries
 scores are allotted by counting the number of overlapping units between the computer generated and the ideal summaries
-
 the two variants of rouge used by us are and
-
 we have compared the proposed model with others on the basis of these two variants
 table iii
-higher is better
-rouge score
-comparison on dataset score score model ilp tgraph urank proposed model nn se fig
+higher is better rouge score comparison on dataset score score model ilp tgraph urank proposed model nn se
 
+
+
+
+
+
+
+
+
+fig
 
 performance of network on dataset vs parameter
 table iii shows how the proposed model faired when compared to the models mentioned before
-
 these models are known to show good performance on the dataset but are based on complex approaches
-they use recurrent neural networks
-sophisticated constraint optimization ilp sentence ranking mechanisms urank
+they use recurrent neural networks sophisticated constraint optimization ilp sentence ranking mechanisms urank
 these approaches are hard to implement and require a lot of computation
 on the other hand our data driven approach which uses a simple feedforward neural network is both implementationally and computationally light and obtains performance on par with of the art systems evident from the table above
 table iv
 and gene model
-precision comparison between
-the proposed
-model document number gene precision proposed model
+precision comparison between the proposed model document number gene precision proposed model
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -313,10 +289,7 @@ model document number gene precision proposed model
 
 
 table iv shows the comparison of the proposed model s performance with the performance of a genetic algorithm based system gene on a document dataset also used by
-
-the performance measure is a custom precision function used by
-to demonstrate their systems performance
-
+the performance measure is a custom precision function used by to demonstrate their systems performance
 the table shows the performance of the proposed models using the same precision function
 results show that the proposed model easily outperforms this complex genetic algorithm approach as well
 vi
@@ -325,145 +298,105 @@ we proposed and evaluated the model on standard datasets which show results comp
 we demonstrated that a straightforward and a relatively simpler approach in terms of implementation and memory complexity can produce results equivalent to complex deep networks sequence based models
 we have assumed that summary length to be generated should be less than
 so we will try to improve upon this aspect in the future
-references
-
-cheng jianpeng and mirella lapata
-
+references cheng jianpeng and mirella lapata
 neural summarization by extracting sentences and words
-preprint
-
-nallapati ramesh al
-
-abstractive text summarization using to sequence rnns and beyond
 arxiv preprint
 
+nallapati ramesh et al
+abstractive text summarization using to sequence rnns and beyond
+arxiv preprint
 
 mihalcea rada and paul tarau
 textrank bringing order into text
 proceedings of the conference on empirical methods in natural language processing
 
-erkan gnes and
-dragomir
+erkan gnes and dragomir r
 radev
-
 lexrank graph based lexical centrality as salience in text summarization
 journal of artificial intelligence research
-
-
 lin chin yew
-
-rouge
-a package for automatic evaluation of summaries
-text summarization branches out
-proceedings of the workshop
+rouge a package for automatic evaluation of summaries
+text summarization branches out proceedings of the workshop
 vol
-
 
 
 wong kam fai mingli wu and wenjie li
 extractive summarization using supervised and semi supervised learning
-proceedings of the
-international conference on computational linguistics volume
-
+proceedings of the international conference on computational linguistics volume
 association for computational linguistics
 bazrfkan mehrnoosh and muosa radmanesh
 using machine learning methods to summarize persian texts
-indian sci
+indian j
+sci
 res
-freitas and kaestner
-automatic text summarization using a learning approach
-brazilian symposium on artificial machine
-intelligence sbia brazil
 
+freitas n
+and a
+kaestner
+automatic text summarization using a learning approach
+brazilian symposium on artificial machine intelligence sbia brazil
 
 ferreira rafael al
 assessing sentence scoring techniques for extractive text summarization
 expert systems with applications
 
-
-gaikwad deepali and namrata mahender
+gaikwad deepali k
+and c
+namrata mahender
 a review paper on text summarization
+international journal of advanced research in computer and communication engineering
 
-international journal of advanced
-research in computer and communication engineering
-
-fachrurrozi novi yusliani and rizky
-utami yoanita
-
+fachrurrozi m
+novi yusliani and rizky utami yoanita
 frequent term based text summarization for bahasa indonesia
 
-
-
-radev dragomir al centroid based summarization of multiple documents
-
+radev dragomir r
+al
+centroid based summarization of multiple documents
 information processing
-bojanowski grave
-joulin mikolov
-enriching
-word vectors with subword information
 
-
+p
+bojanowski e
+grave a
+joulin t
+mikolov enriching word vectors with subword information
 mikolov tomas al
 distributed representations of words and phrases and their compositionality
-
 advances in neural information processing systems
 
-
 chatterjee niladri amol mittal and shubham goyal
-
 single document extractive text summarization using genetic algorithms
-emerging applications of eait
-third international conference on
+emerging applications of eait third international conference on
 ieee
-information technology
-
-
-woodsend kristian and mirella lapata
+information technology woodsend kristian and mirella lapata
 automatic generation of story highlights
 proceedings of the annual meeting of the association for computational linguistics
-association for
-computational linguistics
-
-
-parveen daraksha hans martin ramsl and
-michael
-strube
-
+association for computational linguistics
+parveen daraksha hans martin ramsl and michael strube
 topical coherence for graph based extractive summarization
-
 
 wan xiaojun
 towards a unified approach to simultaneous document and multi document summarizations
 proceedings of the international conference on computational linguistics
-
 association for computational linguistics
-
 joulin armand for al
 classification
 arxiv preprint
-bag of tricks et efficient text
 
-sarkar kamal mita nasipuri and suranjan ghose
+bag of tricks et efficient text sarkar kamal mita nasipuri and suranjan ghose
 using machine learning for medical document summarization
-
 international journal of database theory and application
 
-fachrurrozi novi yusliani and rizky
-utami yoanita
-
+fachrurrozi m
+novi yusliani and rizky utami yoanita
 frequent term based text summarization for bahasa indonesia
-
-
 
 subramaniam manjula and vipul dalal
 test model for rich semantic graph representation for hindi text using abstractive method
 
-
 kaikhah khosrow
 text summarization using neural networks
 
-
 ar mrs kulkarni
-text summarization using
-neural networks and rhetorical structure theory
+text summarization using neural networks and rhetorical structure theory
 

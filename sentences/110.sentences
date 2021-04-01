@@ -1,8 +1,16 @@
-gold standard online debates summaries and first experiments towards automatic summarization of online debate data nattapong sanchan ahmet aker and kalina bontcheva natural language processing group department of computer science
-the university of shefeld portobello shefeld united kingdom abstract
+gold standard online debates summaries and first experiments towards automatic summarization of online debate data nattapong sanchan ahmet aker and kalina bontcheva natural language processing group department of computer science the university of shefeld portobello shefeld united kingdom
+aker
+
+ac
+
+sheffield
+ac
+dcs abstract
 usage of online textual media is steadily increasing
 daily more and more news stories blog posts and scientic articles are added to the online umes
-these are all freely accessible and have been employed extensively in tiple research areas automatic text summarization information retrieval formation extraction
+these are all freely accessible and have been employed extensively in tiple research areas e
+
+automatic text summarization information retrieval formation extraction
 meanwhile online debate forums have recently become popular but have remained largely unexplored
 for this reason there are no cient resources of annotated debate data available for conducting research in this genre
 in this paper we collected and annotated debate data for an automatic summarization task
@@ -13,20 +21,17 @@ moreover we also implement an extractive summarization system for online debates
 keywords online debate summarization text summarization semantic larity information extraction sentence extraction introduction with the exponential growth of internet usage online users massively publish textual content on online media
 for instance a micro blogging website twitter allows users to post their content in characters length
 a popular social media like facebook allows users to interact and share content in their communities as known as friends
-
 an electronic commercial website amazon allows users to ask questions on their terested items and give reviews on their purchased products
-while these textual data have been broadly studied in various research areas automatic text tion information retrieval information extraction online debate domain which recently becomes popular among internet users has not yet largely explored
-for this reason there are no sufcient resources of annotated debate data available for
-ing research in this genre
-this motivates us to explore online debate data
+while these textual data have been broadly studied in various research areas e
 
+automatic text tion information retrieval information extraction
+online debate domain which recently becomes popular among internet users has not yet largely explored
+for this reason there are no sufcient resources of annotated debate data available for ing research in this genre
+this motivates us to explore online debate data
 in this paper we collected and annotated debate data for an automatic tion task
 there are debate topics collected
-each topic consists of different number g u
-a l c
-s
-c
-v
+each topic consists of different number g u a l c
+s c v
 v i x r a gold standard online debates summaries of debate comments
 in total there are debate comments collected accounting for sentences
 in order to annotate online debate data we developed a web based system which simply runs on web browsers
@@ -39,16 +44,23 @@ based on the pression rate of the annotator needs to choose sentence that summar
 this compression rate was also used in and
 in total we obtained sets of annotated debate data
 each set of data consists of comments with total annotated salient sentences
-inter annotator agreement in terms of cohen s kappa and krippendorff s alpha are and respectively
+inter annotator agreement in terms of cohen s kappa and krippendorff s alpha are
+and
+respectively
 for social media data such low agreements have been also reported by related work
-for instance reports kappa scores between and for human constructed newswire summaries
-reports again kappa scores between and for the conversation transcripts
+for instance reports kappa scores between
+and
+for human constructed newswire summaries
+reports again kappa scores between
+and
+for the conversation transcripts
 our agreement scores are based on strict conditions where agreement is achieved when annotators have selected exact the same sentences
 however such condition does not consider syntactically different sentences bearing the same semantic meaning
 thus we also experimented with a more relaxed version that is based on semantic similarity between sentences
 we regard two sentences as identical when their semantic similarity is above a threshold
-our results revealed that after applying such an approach the averaged cohen s kappa and krippendorff s alpha increase to and respectively
-
+our results revealed that after applying such an approach the averaged cohen s kappa and krippendorff s alpha increase to
+and
+respectively
 finally we report our results of automatic debate data summarization
 we mented an extractive text summarization system that extracts salience sentences from user comments
 among the features the most contributing ones are sentence position debate titles and cosine similarity of the debate title words and sentences
@@ -59,42 +71,35 @@ in section we present our rst results on automatically performing debate data su
 we conclude in section
 gold standard online debates summaries table
 examples of the debate data to be annotated
-task
-is global warming ctitious
-i do not think global warming is ctitious
+task is global warming ctitious i do not think global warming is ctitious
 i understand a lot of people do not trust every source and they need solid proof
 however if you look around us the proof is everywhere
 it began when the seasons started getting harsh and the water levels were rising
 i do not need to go and see the ice caps melting to know the water levels are rising and the weather is changing
-
 i believe global warming is true and we should try and preserve as much of the earth as possible
 table
 examples of paraphrased arguments
 example propositions from the proponents global warming is real
 global warming is an undisputed scientic fact
 global warming is most denitely not a gment of anyone s imagination because the proof is all around us
-
-i believe that global warming is not ctitious based on the observational and comparative
-evidence that is currently presented to us
+i believe that global warming is not ctitious based on the observational and comparative evidence that is currently presented to us
 example propositions from the opponents global warming is bull crap
 global warming is nt a problem at all
-
 just a way for the government to tax people on more things by saying their trying to save energy
-
 yes global warming is a myth because they have not really proven the science behind it
-online debate data and their nature
-the nature of online debate is different from other domains
+online debate data and their nature the nature of online debate is different from other domains
 it gives opportunities to users to discuss ideological debates in which users can choose a stance of a debate express their opinions to support their stance and oppose other stances
-to conduct our experiments we collected debate data from the debate discussion the data are related to an issue of the existence of global warming
+to conduct our experiments we collected debate data from the debate discussion forum
+the data are related to an issue of the existence of global warming
 in the data there are two main opposing sides of the arguments
 a side of proponents believes in the existence of global warming and the other side the opponents says that global warming is not true
 when the proponents and the opponents express their sentiments opinions and evidences to support their propositions the arguments between them arise
-moreover when the arguments are referred across the conversation in the forum they are gold standard online debates summaries quently paraphrased
+moreover when the arguments are referred across the conversation in the forum they are
+debate
+org gold standard online debates summaries quently paraphrased
 table illustrates examples of the arguments being paraphrased
-
 sentences expressing related meaning are written in different context
-annotation procedures
-in this paper we collected and annotated debate data for an automatic summarization task
+annotation procedures in this paper we collected and annotated debate data for an automatic summarization task
 there are debate topics collected
 each topic consists of a different number of debate comments as shown in table
 the annotation was guided through a web based application
@@ -109,34 +114,20 @@ the participants backgrounds were those who are uent in english and aged above y
 we aimed to have annotations sets for each debate topic
 due to a limited number of annotators and a long list of comments to be annotated in each debate topic participants were asked to complete more than one debate topic but were not allowed to annotate the same debate topics in which they had done before
 in total annotation sets were derived debate topics and each with annotation sets
-each annotation set consists of comments with total annotated salient table
+each annotation set consists of comments with total annotated salient sentences
+table
 statistical information of the online debate corpus
-topic id
-debate topics comments sentences words
+topic id debate topics comments sentences words is global warming a myth is global warming ctitious is the global climate change man made is global climate change man made is climate change man made do you believe in global warming does global warming exist can someone prove that climate change is real yes or fake no is global warming real is global warming true is global warming real yes or just a bunch of scientist going to extremes no average total this dataset can be downloaded at
 
-is global warming a myth
-is global warming ctitious
+gold standard online debates summaries
+inter annotator agreement in order to compute inter annotator agreement between the annotators we calculated the averaged cohen s kappa and krippendorff s alpha with a distant metric measuring agreement on set valued items metric masi
+the scores of averaged cohen s kappa and krippendorff s alpha are
+and
+respectively
+according to the scale of our alpha did neither accomplish the reliability scale of
+nor the marginal scales between
+and
 
-is the global climate change man made
-is global climate change man made
-is climate change man made
-do you believe in global warming
-does global warming exist
-can someone prove that climate change is real yes or fake no
-
-is global warming real
-
-is global warming true
-
-is global warming real yes or just a bunch of scientist going to extremes no
-
-
-average
-total this dataset can be downloaded at
-gold standard online debates summaries inter annotator agreement
-in order to compute inter annotator agreement between the annotators we calculated the averaged cohen s kappa and krippendorff s alpha with a distant metric measuring agreement on set valued items metric masi
-the scores of averaged cohen s kappa and krippendorff s alpha are and respectively
-according to the scale of our alpha did neither accomplish the reliability scale of nor the marginal scales between and
 likewise our cohen s kappa only achieved the agreement level of fair agreement as dened by
 however such low agreement scores are also reported by others who aimed creating gold standard summaries from news texts or conversational data
 our analysis shows that the low agreement is caused by different preferences of annotators in the selection of salient sentences
@@ -145,48 +136,98 @@ in a summarization task with a compression threshold such situation causes the a
 depending on each annotator s preference the selection leads to different set of salient sentences
 to address this we relaxed the agreement computation by treating sentences equal when they are semantically similar
 we outline details in the following section
-relaxed inter annotator agreement when an annotator selects a sentence
-other annotators might select other sentences expressing similar meaning
+
+relaxed inter annotator agreement when an annotator selects a sentence other annotators might select other sentences expressing similar meaning
 in this experiment we aim to detect sentences that are semantically similar by applying from the gensim package
 model simultaneously learns the representation of words in sentences and the labels of the sentences
 the labels are numbers or chunks of text which are used to uniquely identify each sentence
 we used the debate data and a richer collections of sentences lated to climate change to train the model
 in total there are sentences used as the training set
-
 to measure how two sentences are semantically referring to the same content we used a function provided in the package to calculate cosine similarity scores among sentences
 a cosine similarity score of means that the two sentences are semantically equal and is when it is opposite the case
 in the experiment we manually investigated pairs of sentences at different threshold values and found that the approach is stable at the threshold level above
-the example below shows a pair of sentences obtained at level
 
+the example below shows a pair of sentences obtained at
+level
 humans are emitting carbon from our cars planes and factories which is a heat trapping particle
-
 so there is no doubt that carbon is a heat trapping particle there is no doubt that our actions are emitting carbon into the air and there is no doubt that the amount of carbon is increasing
-
-in the pair the two sentences mention the same topic carbon emission and express the idea in the same context
-we used the threshold to re compute the gold standard online debates summaries agreement scores
-by applying the semantic approach the inter annotator agreement scores of cohen s kappa and krippendorff s alpha increase from to and from to respectively
+in the pair the two sentences mention the same topic i
+e
+carbon emission and express the idea in the same context
+we used the threshold
+to re compute the gold standard online debates summaries agreement scores
+by applying the semantic approach the inter annotator agreement scores of cohen s kappa and krippendorff s alpha increase from
+to
+and from
+to
+respectively
 the inter annotator agreement results are illustrated in table
 note that in the calculation of the agreement we incremented the threshold by
+
 only particular thresholds are shown in the table due to the limited space
 table
 inter annotator agreement before and after applying the semantic similarity approach
-trial
-threshold
-before after automatic salient sentence selection support vector regression model
-in this experiment we work on extractive summarization problem and aim to select sentences that are deemed important or that summarize the information mentioned in debate comments
+trial threshold before after
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+automatic salient sentence selection
+support vector regression model in this experiment we work on extractive summarization problem and aim to select sentences that are deemed important or that summarize the information mentioned in debate comments
 additionally we aim to investigate the keys features which play the important roles in the summarization of the debate data
 we view this salient sentence selection as a regression task
 a regression score for each sentence is ranged between to
-it is derived by the number annotators selected that sentence divided by the
-ber of all annotators
+it is derived by the number annotators selected that sentence divided by the ber of all annotators
 in this experiment a popular machine learning package which is available in python called scikit learn is used to build a support vector regression model
 we dened different features and the support vector regression model bines the features for scoring sentences in each debate comment
 from each comment sentences with the highest regression scores are considered the most salient ones
+
 feature denition gold standard online debates summaries
 sentence position sp
 sentence position correlates with the important tion in text
 in general humans are likely to mention the rst topic in the earlier sentence and they express more information about it in the later sentences
-
 we prove this claim by conducting a small experiment to investigate which tence positions frequently contain salient sentences
 from our annotated data the majority votes of the sentences are signicantly at the rst three positions imately shaping the assumption that the rst three sentences are considered as containing salient pieces of information
 equation shows the calculation of the score obtained by the sentence position feature
@@ -197,13 +238,11 @@ for this reason a sentence containing title words is likely to contain tant info
 we collected debate titles as shown in table
 in our iment a sentence is considered as important when it contains mutual words as in debate titles
 equation shows the calculation of the score by this feature
-
 t t number of title words in sentence number of words in debate titles
 sentence length sl
 sentence length also indicates the importance of sentence based on the assumption that either very short or very long sentences are unlikely to be included in the summary
 equation is used in the process of extracting salient sentences from debate comments
-sl
-number of words in a sentence number of words in the longest sentence
+sl number of words in a sentence number of words in the longest sentence
 conjunctive adverbs cj
 one possible feature that helps identify salient tence is to determine conjunctive adverbs in sentences
 conjunctive adverbs were proved that they support cohesive structure of writing
@@ -217,22 +256,21 @@ documents will be ranked according to the similarity of the given query
 equation illustrates the equation of cosine similarity where q and d are n dimensional vectors
 cosine similarity is one of our features that is used to nd similarity between two textual units
 the ing features are computed by applying cosine similarity
-gold standard online debates summaries n qidi n
-p i n i s
-p s
-p cosine similarity of debate title words and sentences cos tts
+
+nltk
+org api nltk
+tag
+html gold standard online debates summaries n qidi n p i n i s p s p cosine similarity of debate title words and sentences cos tts
 for each sentence in debate comments we compute its cosine similarity score with the title words
 this is based on the assumption that a sentence containing title words is deemed as important
 cosine similarity of climate change terms and sentences cos ccts
 the climate change terms were collected from news media about climate change
-
 we calculate cosine similarity between the terms and sentences
 in total there are most frequent terms relating to location person organization and chemical compounds
 cosine similarity of topic signatures and sentences cos tps
 topic natures play an important role in automatic text summarization and information retrieval
 it helps identify the presence of complex concepts or the importance in text
 in a process of determining topic signatures words appearing ally in the input text but rarely in other text are considered as topic signatures
-
 they are determined by an automatic predened threshold which indicates scriptive information
 topic signatures are generated by comparing with classied text on the same topic using a concept of likelihood ratio presented by
 it is a statistical approach which calculates a likelihood of a word
@@ -243,46 +281,66 @@ otherwise the word is ignored
 
 semantic similarity of sentence and debate titles cos stt
 since the mentioned features do not semantically capture the meaning of context we create this feature for such purpose
-we compare each sentence to the list of debate
-tles based on the assumption that forum users are likely to repeat debate titles in their comments
+we compare each sentence to the list of debate tles based on the assumption that forum users are likely to repeat debate titles in their comments
 thus we compare each sentence to the titles and then calculate the semantic similarity score by using
-results in order to evaluate the system summaries against the reference summaries we apply
-rouge n evaluation metrics
+
+results in order to evaluate the system summaries against the reference summaries we apply rouge n evaluation metrics
 we report unigram bi grams and rouge skip bigram with maximum gap length of
 the rouge scores as gold standard online debates summaries table
 rouge scores after applying to the salient sentence selection
+rouge n cb r
 
-rouge n cb r cj cos cct cos tts cos tps sl
+
+
+
+
+cj cos cct cos tts cos tps sl
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 sp cos stt tt
 
+
+
+
+
 table
 the statistical information of comparing sentence position and other features after plying
-
 rouge asymp
 sig
 tailed
+z
 
+b
 
+b
+b
 
-
-z b b
-
+c
 
 asymp
 sig
 tailed
 
 
-
-
-
-
-z b
+z
 
 b
 
 b
+
+
 c
 asymp
 sig
@@ -290,70 +348,82 @@ tailed
 
 
 
-
 comparison pairs z
 sp vs cb
-sp vs cj b sp vs cos ccts b sp vs cos tts b sp vs cos tps
-b
-sp vs sl
-sp vs cos stt c sp vs tt
-wilcoxon signed ranks test
+sp vs cj b sp vs cos ccts
+b sp vs cos tts
+b sp vs cos tps
 
+sp vs sl sp vs cos stt
+c
+sp vs tt wilcoxon signed ranks test
 based on negative ranks
-
 based on positive ranks
 shown in table indicate that sentence position feature outperforms other features
 the least performing feature is the cosine similarity of climate change terms and sentences feature
-
 to measure the statistical signicance of the rouge scores generated by the tures we calculated a pairwise wilcoxon signed rank test with bonferroni correction
-
-we report the signicance level of signicance after the correct is applied
-
+we report the signicance p
+level of signicance after the correct is applied
 our results indicate that there is statistically signicance among the features
 table illustrates the statistical information of comparing sentence position and other features
-
 the star indicates that there is a statistical signicance difference between each parison pair
-conclusion
-in this paper we worked on an annotation task for a new annotated dataset online debate data
+conclusion in this paper we worked on an annotation task for a new annotated dataset online debate data
 we have manually collected reference summaries for comments given to global warming topics
 the data consists of comments with total annotated salient sentences
 we have performed ve annotation sets on this data so that in total we have x annotated salient sentences
-we also implemented an extractive text
-tion system on this debate data
+we also implemented an extractive text tion system on this debate data
 our results revealed that the key feature that plays the most important role in the selection salient sentences is sentence position
 other useful features are debate title words feature and cosine similarity of debate title words and sentences feature
 gold standard online debates summaries in future work we aim to investigate further features for the summarization poses
 we also plan to integrate stance information so that summaries with pro contra sides can be generated
-this work was partially supported by the uk epsrc grant
-no
-ep the european union under grant agreements no pheme and the authors would like to thank bankok university of their support
+this work was partially supported by the uk epsrc grant no
+ep the european union under grant agreements no
+pheme and the authors would like to thank bankok university of their support
 acknowledgments references
-morris kasper and adams
-effects and limitations of mated text con densing on reading comprehension performance
+a
+h
+morris g
+m
+kasper and d
+a
+adams
+
+the effects and limitations of mated text con densing on reading comprehension performance
 information systems search
 
-baxendale
+baxendale p
+b
+
 machine made index for technical literature an experiment
-ibm res
+ibm j
+res
 dev
+
+
 chin yew lin and eduard hovy
+
 the auto mated acquisition of topic signatures for text sum marization
 inproceedings of the conferenceon computational linguistics volume pages stroudsburg pa usa
 associ ation for computational linguistics
 
-dunning
+dunning t
+
 accurate methods for the statistics of surprise and coincidence
-comput linguist
+comput
+linguist
 
 
-edmundson
+edmundson h
+p
+
 new methods in automatic extracting
+j
 acm
 
+fabian pedregosa ga el varoquaux alexandre gram fort vincent michel bertrand thirion oliviergrisel mathieu blondel peter prettenhofer ronweiss vincent dubourg jake plas alexan dre passos david cournapeau matthieu brucher matthieu perrot and edouard duchesnay
 
-fabian pedregosa ga el varoquaux alexandre gram fort vincent michel bertrand thirion oliviergrisel mathieu blondel peter prettenhofer ronweiss vincent dubourg jake plas alexan dre passos david cournapeau matthieu brucher matthieu perrot and edouard
-duchesnay
-learn machine learning in python
+scikit learn machine learning in python
+j
 mach
 learn
 res
@@ -365,41 +435,65 @@ correlation betweenrouge and human evaluation of extractive meetingsummaries
 inproceedings of the annualmeeting of the association for tational lin guistics on human language technologies shortpapers hlt short pages strouds burg pa usa
 association for computational lin guistics
 
-goldstein kantrowitz mittal and carbonell
-summarizing text
-ments sentence selection and evaluation metrics
-in proceedings of the annual national acm sigir conference on research and development in information retrieval sigir pages new york ny usa acm
+goldstein j
+kantrowitz m
+mittal v
+and carbonell j
 
-richard landis and gary koch
+summarizing text ments sentence selection and evaluation metrics
+in proceedings of the annual national acm sigir conference on research and development in information retrieval sigir pages new york ny usa
+acm
+
+j
+richard landis and gary g
+koch
 
 the mea surement of observer agreement for
-januliene and dziedraviius
+januliene a
+and dziedraviius j
+
 on the use of conjunctive adverbs in categorical data
 biometrics
 sacademic essays
 verbum
 
-joel larocca neto alex alves freitas and celso
+joel larocca neto alex alves freitas and celso a
+a
+kaestner
 
 automatic text marization us ing a machine learning approach
 inproceedingsof the brazilian sium on articial intel ligence advances in articial intelligence pages london uk uk
 springer verlag
 
 klaus krippendorff
-analysis an intro duction to its methodology
+
+content analysis an intro duction to its methodology
 sage lications inc thousand oaks ca edition
 gold standard online debates summaries
-mandar mitrat amit singhal and chris
+mandar mitrat amit singhal and chris buckleytt
+
 automatic text summarization by paragraphextraction
 inintelligent scalable text summariza tion pages
 
-manning and schtze
+manning c
+d
+and schtze h
+
 foundations of statistical natural language
-nenkova and mckeown
+nenkova a
+and mckeown k
+
 automatic summarization
 foundations and trends ing
-mit press cambridge ma usa in information retrieval
+mit press cambridge ma usa
+in information retrieval
 
-radim rehurek and petr for topic modelling with large cor pora
-inproceedings of the lrec workshopon new challenges for nlp works pages valletta malta
+radim rehurek and petr sojka
+
+softwareframework for topic modelling with large cor pora
+inproceedings of the lrec workshopon new challenges for nlp works pages valletta malta may
+elra
+
+muni
+cz en
 

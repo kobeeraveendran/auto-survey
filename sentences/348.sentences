@@ -1,0 +1,640 @@
+scisummpip an unsupervised scientic paper summarization pipeline jiaxin ming liu longxiang and shirui of information technology monash university australia vic of information technology deakin university australia vic
+monash
+edu m
+liu longxiang
+
+edu
+au shirui
+
+edu abstract the scholarly document processing sdp workshop is to encourage more efforts on ural language understanding of scientic task
+it contains three shared tasks and we pate in the longsumm shared task
+in this paper we describe our text summarization system scisummpip inspired by summpip zhao et al
+that is an unsupervised text summarization system for multi document in news domain
+our scisummpip includes a transformer based language model scibert beltagy et al
+for contextual sentence representation content selection with ank page et al
+sentence graph struction with both deep and linguistic mation sentence graph clustering and graph summary generation
+our work differs from previous method in that content tion and a summary length constraint is plied to adapt to the scientic domain
+the experiment results on both training dataset and blind test dataset show the effectiveness of our method and we empirically verify the ness of modules used in scisummpip with bertscore zhang et al
+
+introduction text summarization aims at automatically ating a uent and coherent summary that mainly contains the salient information from the source
+two main categories are typically involved in the text summarization task one is tractive approach luo et al
+xu and rett which directly extracts salient sentences from the input text as the summary and the other is abstractive approach sutskever et al
+see et al
+sharma et al
+which imitates man behaviour to produce new sentences based on the extracted information from the given document
+in order to meet the requirements of modern data driven methods several large datasets have been presented
+the majority of those datasets are for generic domain but few available corpora from other task specic domains
+most of existing state the art summarization systems liu and pata zhou et al
+wang et al
+target news or simple documents and they are less adequate for summarizing scientic work due to the length and complexity
+those summarization systems can not provide sufcient information veyed in the scientic paper
+the general domain have been paid enough tention whereas the attention in scientic domain is far from enough
+to address this point the arly document processing sdp workshop drasekaran et al
+is held to accelerate tic discovery in research community they appeal to researchers for designing a summarization tem that can generate a relatively long summary for scientic work
+since the release of transformer vaswani et al
+and bert devlin et al
+much search has been carried out on involving them in their system
+liu modied the input quence embedding and built several specic layers for extractive summarization
+ilarly liu and lapata present a novel document level encoder based on bert devlin et al
+for both extractive summarization and abstractive summarization
+in their model structure the lower transformer represents adjacent sentences and the higher layer with self attention mechanism represents the multi sentence discourse
+these works leverage the advantage of deep neural work not taking into account the linguistic mation
+in contrast zhao et al
+construct semantic clusters and sentence graphs for document summarization which involves linguistic information and discourse markers
+in this paper
+com summpip t c o l c
+s c v
+v i x r a we followed the framework of zhao et al
+to construct our own unsupervised text summarization system
+however our model is different from the previous work we modify the pipeline structure of multi document summarization in the eld of news to the single document summarizer for marizing scholarly documents and we introduce two new steps to control the length of generated summary and to remove irrelevant sentences
+our contributions in this work can be rized in the following aspects we highlight the importance of sentence bedding for scientic work
+a variety of works focus on facilitating the process of taining sentence representation from a trained language model on generic domain while less attention is paid on other specic domains
+we compare the performances between pagerank page et al
+and the maximal marginal relevance mmr carbonell and goldstein in the content selection ule
+to our knowledge no previous work pares their performances on scientic long document summarization task with deep ral representation
+we experimentally verify that the ness of the proposed model
+we achieve better rouge results than original model on both training dataset and blind test dataset
+besides our model is also evaluated on the bertscore metric zhang et al
+and the results indicate that our model is more robust to erate high quality summary
+related work text summarization system most of recent text summarization systems leverage the their tages of deep neural networks decoder structures use either recurrent neural works cheng and lapata nallapati et al
+or transformer encoders zhang et al
+khandelwal et al
+
+benet of the sequence to sequence structure a great progress in both extractive and abstractive document rization is achieved
+though abstractive rization has more potentials to generate tions in a human like fashion it has been found that sometimes repeatedly produces the same phrase or sentence suzuki and nagata which greatly reduces the comprehensibility and readability
+in contrast extractive summarization performs better in uency aspect and it can grammatical and curately represent the source text
+one potential issue in extractive summarization is that not all of information from the extracted sentence is tant which leads more redundancy in the generated summary
+in the work of zhao et al
+they apply graph structure and consider the discourse ship between sentences rather than using decoder structure and text compression is mented in the nal stage to reduce the redundancy in the generated sentences
+however their model is designed for multi document summarization in the news domain we extend their summpip to document settings for scientic long articles
+sentence embedding method term quency inverse document frequency tf idf is widely used in traditional nlp but it can not capture the semantic information and contextual lationship between sentences
+mikolov et al
+is used in summpip zhao et al
+to capture contextualized relationship but this embedding method can not solve the polysemous problem
+more recently bert devlin et al
+has achieved better performance in many nlp downstream tasks but it is difcult to derive sentence embeddings
+to solve this limitation single sentences are passed to the bert and two common ways to extract sentence representation are widely used averaging the outputs and using the output of the cls token may et al
+zhang et al
+
+xiao develops a repository bert as which accelerates the process of ing token and sentence embeddings from bert devlin et al
+
+lately in order to nd a better way to derive semantically similar sentence from language models reimers and gurevych present sbert
+however above works help cilitate workload in generic domain rather than task specic domain
+content selection graph is an intuitive structure for utilizing the relation information between tences
+some work mihalcea and tarau erkan and radev focuses on selecting salient sentences by leveraging graph based
+com hanxiao bert as characteristics range of corpus size sentences median value of corpus size sentences range of sentence length words median value of sentence length words extractive abstractive sci p ref s sci p ref s
+test dataset sci p table elementary data statistics for the longsumm shared task of the scholarly document processing emnlp
+sci p and ref s represent scientic paper and reference summary respectively
+ing methods
+inspired by pagerank algorithm page et al
+they consider the document as a graph where sentences are vertices and edges resent the relations between two sentences
+shortly thereafter some researchers carbonell and stein kurmi and jain mao et al
+involved a query biased strategy the imal marginal relevance mmr carbonell and goldstein in their summarizers
+mmr tries to balance the relevance and diversity by ling the trade off parameter
+the rst part of the formula controls query relevance and the second part controls diversity
+m m r argmax q sic argmax sj sj s where c is the set of candidate sentences s is the set of extracted sentences q is the query ding si sj are sentence embeddings of candidate sentences i and j respectively
+sim indicates the cosine similarity between two embeddings
+though this approach have been proved that it outperforms generic summarization approaches in the information retrieval task to our knowledge there is no previous work compared it with ank algorithm on scientic long document rization task
+our work incorporates deep neural representations into both pagerank algorithm and mmr strategy and shows the comparison between these two methods in the eld of scientic work for both extractive and abstractive summarization
+dataset pre processing the training dataset provided by the longsumm shared task consists of scientic papers of which are for extractive method and are for abstractive method
+the reference tive summaries are generated by talksumm lev et al
+that extracts sentences appeared in associated conference videos while the tive summaries are collected from blogs written by researchers
+download paper we download the training pus from the given urls for abstractive and the script for extractive
+paper parsing all of papers are parsed from pdf form into json structure by using
+it outputs a json le for each pdf which contains the title abstract text metadata and the text of each section in the paper
+text processing we concatenate each section text as the paper text
+then sentences are mented by using the nltk library and each tence is tokenized as well
+table reports the result of the statistics analysis for both training dataset and test dataset and we can see that the number of sentences in some reference summaries is far less than required length of generated summary words which may lead a bias in the evaluation
+system overview we adopt the summpip zhao et al
+as our baseline model and we modify the pipeline tecture for summarizing scholarly documents
+two new steps are introduce for adapting scientic main one is to remove irrelevant sentences and the other is to control the length of generated summary
+in the following subsections we will specify each component in the scisummpip
+
+embedding method pretrained language model in this paper we apply a publicly available large scale language model scibert beltagy et al
+which is pretrained based on bert devlin et al
+and extends the idea of word embeddings by learning
+com allenai science parse contextual representations from large scale tic corpora
+this is implemented in pytorch using transformers established by wolf et al
+
+sentence embedding using more accurate tence embeddings can improve the performance of summarization system in language understanding
+in scisummpip we average the output of scibert from the second layer to the last layer
+in addition we also experiment with other embedding methods and the the results show that this is a more accurate way to represent scientic sentences
+
+sentence graph construction content selection not all of sentences should be involved in the summary so we include content selection step before constructing sentence graph
+we build a matrix to store the similarity between each two sentences then pagerank page et al
+algorithm is implemented to rank all of tences
+sentences with lower score will be deleted from the candidate list here we introduce a new step to control the ratio of removed sentences
+graph construction we construct the sentence graph where each node represents a sentence and nodes are connected if they meet the linguistic requirements
+to identify this structure we row the components from the previous work zhao et al
+
+specically this pipeline consists of discovering deverbal noun reference nding the same entity continuation recognizing discourse markers and calculating sentence similarity by ing the cosine similarity
+
+text generation spectral clustering after identifying pairwise sentence connection we involve a new step for termining the number of clusters
+this is to control the length of generated summary so that the mary varies with the length of the original paper
+compression this module multi sentences boudin and morin is to generate a single summary sentence from each sentence cluster
+sentences with similar semantic information will be compressed by building a word graph
+ering the key phrases and discourse structure so that the reconstructed sentence will have higher score
+select the sentence with the highest score as the summary sentence and then combine all reconstructed summary sentences as the generated summary
+experiment setup
+implementation details extractive summarization task we use ert for sentence embedding in our pipeline so for extractive text summarization task we directly use scibert with the xed length range from to words
+abstractive summarization task we ment our pipeline scisummpip in abstractive marization task and we compare the performances of pagerank algorithm and of mmr strategy in the content selection module
+for pagerank gorithm we set a cutoff ratio that is a new duced parameter for removing irrelevant sentences andthe empirical results show that setting it as
+achieves better performance
+for the mmr egy we set
+
+
+for the trade off parameter in the experiment respectively
+to control the erated summary length we introduce another new parameter extended ratio to modify the number of clusters based on the number of ranking sentences
+in our pipeline we set it as
+
+
+comparison systems for extractive task we compare our model with the following unsupervised summarization models textrank barrios al
+textrank halcea and tarau applies a variation of pagerank algorithm page et al
+over a graph based structure and it produces a list of ranked elements in the graph without the need of a training corpus
+textrank implemented in this paper is produced by barrios al
+they change the similarity function to okapi so that the performance is better than the original trank model
+we set the output summary with the xed length words
+lexrank erkan and radev lar with textrank mihalcea and tarau lexrank also applies pagerank algorithm and leverages a graph structure for summarization
+ferently textrank calculate the similarity based on the number of words two sentences have in common while lexrank uses cosine similarity of tf idf vectors
+extractive summarizer
+org project
+com huggingface transformers extractive f r f r rl f rl r extractive dataset scibert summarizer textrank lextrank mmrsci
+abstractive dataset r scisummpipp r scisummpipm m
+scisummpipm m
+scisummpipm m
+blind test dataset scibert summarizer scisummpip summpip
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table rouge scores reported on the training dataset and the blind test dataset
+best results are in boldface
+the reference extractive summary and abstractive summary are generated by talksumm lev et al
+and collected from online blogs respectively
+mmrsci indicates we implement mmr algorithm with sentence embeddings derived from et al
+
+scisummpipp r and scisummpipmm r are our model with different content selection modules and the number follow the mmr is the setting for trade off parameter
+as summpip can not effectively run on large scale corpora of long document we add content selection module and shown as r
+mmr carbonell and goldstein mmr is a query biased summarization approach it tries to balance the relevance and diversity by ling the trade off parameter
+in the previous works the similarity usually calculate based on idf but in our implementation we use sentence embeddings derived from the output of scibert beltagy et al
+
+in addition we set the ument title as the query and the xed length of generated summary is set as words
+for abstractive task we apply different sentence embedding methods in scisummpip scibert beltagy et al
+we ment two common strategies for sentence beddings derived from scibert model eraging the output from the second to the last layer and using cls token embedding
+summpip zhao et al
+we use the same embedding method with the original pipeline to compare the performance
+sbert reimers and gurevych this is a modication of the bert network ing siamese and triplet networks in order to nd semantically similar sentences in vector space
+their empirical results indicate that their method is better than those two common embedding strategies so we incorporate it into scisummpip as a comparison
+evaluation and results
+experiment result on training dataset extractive summaries the training dataset for extractive method consists of papers of which one paper can not be parsed
+thus we evaluate papers with the rouge and hovy in our experiments
+as displayed in table the scibert summarizer achieves better rouge scores than all other pared systems
+we implement mmr algorithm with sentence embedding derived from averaging scibert beltagy et al
+output and we can see it performs better than lexrank erkan and radev but worse than the textrank model barrios al
+with the okapi ity function
+therefore we can verify that ank ranking algorithm performers better than mmr strategy in extractive task
+abstractive summaries for abstractive ments we collect summaries in total as one paper can not be parsed by science parse
+sentence embedding avg
+scibert embeddings special token embedding sbert f f rl f
+
+
+
+
+
+
+
+
+
+
+
+precision recall
+
+scisummpip
+scisummpipm m r
+
+
+r
+
+sbert score
+
+
+
+table rouge scores for scisummpip with ferent sentence embedding methods
+special token bedding method is extracting cls token embedding from scibert beltagy et al
+output
+table bertscore reported on abstractive training dataset to investigate text generation ability of our model
+sbert means we use use sbert sentence bedding method in scisummpip
+sentence embedding avg
+scibert embeddings special token embedding sbert r r rl r
+
+
+
+
+
+
+
+
+
+
+
+table rouge recall results for scisummpip with different sentence embedding methods
+we implement scisummpip with different rameter settings to nd out the best one
+the ber of words in each sentence is set from to then we observe that the summary with words in each sentence achieves the best mance
+we incorporate pagerank algorithm page et al
+and mmr algorithm carbonell and goldstein into scisummpip content tion module respectively
+as displayed in table it is not surprising to see scisummpip with pagerank algorithm outperforms all of settings for scisummpip with mmr algorithm because the performance of textrank is better than that of mmr in the extractive task
+
+experiment result on test dataset the blind test dataset consists of scientic
+it does not declare the blind test data is for extractive summarizer or abstractive summarizer so we implement both scibert summarizer and scisummpip on it
+comparing with the summpip zhao et al
+the experiment results verify that our new pipeline architecture signicantly prove the performance
+in addition we try different number of words generated in each sentence and we nd that setting it closes to the median value of that in scientic papers would gain higher score
+besides although extractive model gains the est rouge score we still can see our scisummpip is competitive
+dataset
+com guyfe longsumm
+different sentence embedding methods to nd out a more accurate method for ing scientic sentences we incorporate different embedding strategies into scisummpip
+mances reported in table and table indicate that our model ranks highest with averaging the output of scibert beltagy et al
+method
+sbert reimers and gurevych shows petitive performance even though it is designed for generic domain
+in fact utilizing sbert cantly reduce the workload of extracting sentence embedding but it is not sufcient enough for resenting scientic sentence
+
+bertscore evaluation we evaluate models on bertscore zhang et al
+an automatic evaluation metric for text generation to investigate the ability of writing stractive summary
+bertscore calculates a ilarity score for each token in the candidate tence with each token in the reference sentence by leveraging contextual embeddings
+as can be seen in table scisummpip achieves highest cision and score while sbert gains the highest recall
+this proves that the summary generated by our model is more informative and tive
+since bertscore utilizes bert devlin et al
+to calculate similarity score the max length of input sequence is tokens which limits the performance of relatively long summary
+we further investigate the distribution of score from bertscore evaluation
+as shown in gure although these models achieve similar formance the score distribution of scisummpip obviously more stable than others
+scisummpip achieve the highest frequency in the range of
+
+which means near generated summaries gain around
+score
+therefore we can say that our model is more robust for summarizing entic work in abstractive task
+figure the histogram distribution of score evaluated by bertscore metric for each model reported in table
+x axis indicates data range of score and y axis indicates the frequency of the data in each bin
+in order to ensure the bin data range for each distribution is same we set the data range of each bin as
+so that the parameter bins is set as range of f
+
+extractive reference summary the analysis of emotions in texts is an important task in nlp
+traditional studies treat this task as a pipeline of two separated sub tasks emotion classication and emotion cause detection
+the former identies the category of an emotion and the latter detects the cause of an emotion
+this separated framework makes each sub task more exible to deal with but it neglects the relevance between the two sub tasks
+in this paper we use the human labeled emotion corpus provided by cheng et al
+as our tal data namely cheng emotion corpus
+cheng emotion corpus can be considered as a collection of subtweets
+for each emotion in a subtweet all emotion keywords ing the emotion are selected and then the class and the cause of the emotion are annotated
+
+
+
+scibert summarizer the analysis of emotions in texts is an important task in nlp
+cheng emotion corpus can be considered as a collection of subtweets
+given an instance which is a pair of an emotion keyword a clause in the subtweet ecause assigns a binary label to the instance to indicates the presence of a causal relation
+the input text of an ecause instance also has three sequences of words the emotion keyword i
+e
+emokw the current clause i
+e
+causecl and the context between emokw and causecl
+the bilstm layer focuses on the extraction of sequence features and the attention layer focuses on the learning of word importance weights
+
+
+
+table example of the generated extractive summary compared with reference summary that is generated by talksumm lev et al
+
+text in the same color indicates the content they describe is the same
+due to the length constraint we omit part of the generated summary and shown as
+
+
+
+
+human analysis we further manually inspect the generated mary to explore if our model can capture the salient information from given document
+table and ble display an example of generated summary compared with the corresponding reference mary in the training dataset
+the abstractive abstractive reference summary the paper proposes a two stage synthesis network that can perform transfer learning for the task of machine hension
+the problem is the following we have a domain ds for which we have labelled dataset of question answer pairs and another domain dt for which we do not have any labelled dataset
+we use the data for domain ds to train synnet and use that to generate synthetic answer pairs for domain dt
+now we can train a machine comprehension model m on ds and netune using the thetic data for dt
+synnet works in two stages answer synthesis given a text paragraph generate an answer
+
+
+
+after the word vector append a if the word was part of the candidate answer else append a
+feed to a bi lstm network encoder decoder where the decoder conditions on the representation generated by the encoder as well as the question tokens generated so far
+
+
+
+scisummpip the ability to quickly use a mc model trained on one main to answer questions over paragraphs from another with no annotated data
+recent work generated synthetic data generated questions leads to improved performance we use a model where the answer synthesis and tion types
+we generate the answer rst because answers are usually key semantic concepts while questions can transfer a mc model trained on another domain
+when we ensemble a bidaf model fs we use the two stage synnet to generate data tuples to directly boost performance boost
+
+
+
+however unlike machine translation for tasks like mc we need to synthesize both the question and answers given the context paragraph
+
+
+
+the rst stage of the model an answer synthesis module uses a bi directional lstm to predict iob tags on the input paragraph which mark out key semantic concepts that are likely answers
+
+
+
+table example of the generated abstractive mary compared with reference summary that is lected from researcher s blog
+text in the same color dicates the content they describe is similar
+due to the length constraint we omit part of the generated mary and shown as
+
+
+
+erence summary is collected from the online blog written by the researcher so it is more difcult to capture the similar description in the generated
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+score from bertscore evaluation summary
+however as shown in table our model successfully write some similar context in the nal output
+notwithstanding we have to say the ability and grammatically of the generated mary still need to be improved
+for blind test dataset we also inspect the tractive summary and abstractive summary for the same paper
+we nd that the scibert summarizer tends to extract the sentence appeared in the early part of the paper and the generated summary ally lack of logicality and consistency
+in contrast the summary produced by scisummpip is more ical and contains more salient information about the methodology and the experiment
+although scibert summarizer gains higher rouge score on the blind test dataset the summary generated by our model is more consistent with the purpose of the longsumm shared task
+conclusion and limitation in this paper we have presented the modied pervised pipeline architecture scisummpip that leverages a transformer based language model for summarizing scientic papers
+we add content lection module and two steps to remove irrelevant sentences and to control the length of generated summary
+after that the linguistic knowledge will be incorporated into the process of multi sentences compression for summarizing scientic work
+the experiment results of automatic evaluation prove that our new pipeline signicantly improves the overall performance on both training and blind test dataset
+besides through manual inspection we nd that our model indeed capture the salient mation from the given source document
+however we have to admit that the readability of generated summary needs to be improved
+we incorporated deep neural representation into both mmr carbonell and goldstein egy and pagerank page et al
+algorithm
+even though mmr strategy performs better in formation retrieval task we empirically veried that it is not sufcient for our model to summarize scientic work
+mmr is a query biased approach and we chose the title as query in our tation thus the potential reason for worse mance may be the query we chose is not effective enough
+to investigate a sentence embedding method for sufciently summarizing scholarly document we compared the performances among several ding strategies and we also evaluated their mances on both rouge metric and bertscore metric
+although averaging the output of scibert beltagy et al
+achieves better performance the workload of using it to extract sentence dings is heavier than that of directly using sbert reimers and gurevych
+there is enough work for generic domain while the attention paid for task specic domain is far from enough fore we appeal to researchers for making more efforts on task specic domain in their further search
+future work as the future we will evaluate our pipeline on larger scientic datasets to show the effectiveness and robustness and we also would like to conduct a analysis on the faithfulness and the level of straction for the generated summary
+acknowledgments we would like to thank the anonymous for helpful comments and suggestions
+references federico barrios federico lopez luis argerich and rosa wachenchauzer
+
+variations of the larity function of textrank for automated tion
+arxiv preprint
+
+iz beltagy arman cohan and kyle lo
+
+scibert pretrained contextualized embeddings for scientic text
+arxiv preprint
+
+florian boudin and emmanuel morin
+keyphrase extraction for n best multi sentence compression
+
+reranking in jaime carbonell and jade goldstein
+
+the use of mmr diversity based reranking for reordering in proceedings uments and producing summaries
+of the annual international acm sigir ence on research and development in information retrieval pages
+maroli krishnayya chandrasekaran guy blat hovy
+eduard anirudh ravichander michal
+shmueli scheuer and anita de waard
+
+overview and insights from scientic document summarization shared tasks cl scisumm summ and longsumm
+in in proceedings of the first workshop on scholarly document processing sdp
+jianpeng cheng and mirella lapata
+
+neural marization by extracting sentences and words
+arxiv preprint
+
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language ing
+arxiv preprint
+
+ramesh nallapati bowen zhou caglar gulcehre bing xiang al
+
+abstractive text tion using sequence to sequence rnns and beyond
+arxiv preprint
+
+gunes erkan and dragomir r radev
+
+lexrank graph based lexical centrality as salience in text summarization
+journal of articial intelligence search
+urvashi khandelwal kevin clark dan jurafsky and lukasz kaiser
+
+sample efcient text marization using a single pre trained transformer
+arxiv preprint
+
+lawrence page sergey brin rajeev motwani and terry winograd
+
+the pagerank citation ing bringing order to the web
+technical report stanford infolab
+nils reimers and iryna gurevych
+
+bert sentence embeddings using siamese networks
+arxiv preprint
+
+rashmi kurmi and pranita jain
+
+text tion using enhanced mmr technique
+in national conference on computer communication and informatics pages
+ieee
+abigail see peter j liu and christopher d to the point summarization arxiv preprint ning
+
+get with pointer generator networks
+
+
+guy lev michal shmueli scheuer jonathan herzig achiya jerbi and david konopnicki
+
+summ a dataset and scalable annotation method for scientic paper summarization based on conference talks
+arxiv preprint
+
+chin yew lin and eduard hovy
+
+matic evaluation of summaries using n gram occurrence statistics
+in proceedings of the man language technology conference of the north american chapter of the association for tional linguistics pages
+yang liu
+
+fine tune bert for extractive rization
+arxiv preprint
+
+yang liu and mirella lapata
+
+text rization with pretrained encoders
+arxiv preprint
+
+ling luo xiang ao yan song feiyang pan min yang and qing he
+
+reading like her human in reading inspired extractive summarization
+ceedings of the conference on empirical ods in natural language processing and the ternational joint conference on natural language processing emnlp ijcnlp pages
+yuning mao yanru qu yiqing xie xiang ren and jiawei han
+
+multi document summarization with maximal marginal relevance guided ment learning
+arxiv preprint
+
+chandler may alex wang shikha bordia samuel r bowman and rachel rudinger
+
+on arxiv suring social biases in sentence encoders
+preprint
+
+rada mihalcea and paul tarau
+
+textrank ing order into text
+in proceedings of the ference on empirical methods in natural language processing pages
+tomas mikolov ilya sutskever kai chen greg s rado and jeff dean
+
+distributed tions of words and phrases and their in advances in neural information processing ity
+systems pages
+eva sharma luyang huang zhe hu and lu wang
+
+an entity driven framework for abstractive summarization
+arxiv preprint
+
+ilya sutskever oriol vinyals and quoc v le
+
+sequence to sequence learning with neural networks
+in advances in neural information processing tems pages
+jun suzuki and masaaki nagata
+
+cutting off dundant repeating generations for neural abstractive summarization
+arxiv preprint
+
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n gomez ukasz kaiser and illia polosukhin
+
+attention is all in advances in neural information you need
+cessing systems pages
+danqing wang pengfei liu yining zheng xipeng qiu and xuanjing huang
+
+heterogeneous graph neural networks for extractive document marization
+arxiv preprint
+
+thomas wolf lysandre debut victor sanh julien chaumond clement delangue anthony moi ric cistac tim rault remi louf morgan icz joe davison sam shleifer patrick von platen clara ma yacine jernite julien plu canwen xu teven le scao sylvain gugger mariama drame quentin lhoest and alexander m
+rush
+
+huggingface s transformers state of the art natural language processing
+arxiv
+
+han xiao
+
+bert as service
+
+com hanxiao bert as service
+jiacheng xu and greg durrett
+
+neural tive text summarization with syntactic compression
+arxiv preprint
+
+tianyi zhang varsha kishore felix wu kilian q weinberger and yoav artzi
+
+bertscore arxiv preprint uating text generation with bert
+
+
+xingxing zhang furu wei and ming zhou
+
+hibert document level pre training of hierarchical bidirectional transformers for document tion
+arxiv preprint
+
+jinming zhao ming liu longxiang gao yuan jin lan du he zhao he zhang and gholamreza haffari
+
+summpip unsupervised document summarization with sentence graph pression
+in proceedings of the international acm sigir conference on research and ment in information retrieval pages
+qingyu zhou furu wei and ming zhou
+
+at which level should we extract an empirical study on extractive document summarization
+arxiv preprint
+
+

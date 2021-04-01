@@ -1,0 +1,752 @@
+automatic generation of headlines for online math questions ke dafang zhuoren liangcai zhi c
+lee institute of computer technology peking university beijing china the pennsylvania state university university park pa usa school of data and computer science sun yat sen university guangzhou china
+edu
+cn
+edu
+sysu
+edu
+cn glc
+edu
+cn
+psu
+edu v o n l c
+s c v
+v i x r a abstract mathematical equations are an important part of tion and communication of scientic information
+students however often feel challenged in reading and ing math content and equations
+with the development of the web students are posting their math questions online
+nevertheless constructing a concise math headline that gives a good description of the posted detailed math question is nontrivial
+in this study we explore a novel summarization task denoted as generating a concise math headline from a detailed math question name
+compared to conventional summarization tasks this task has two extra and essential constraints detailed math questions consist of text and math equations which require a unied framework to jointly model textual and mathematical information unlike text math equations contain semantic and structural features and both of them should be captured together
+to address these issues we propose mathsum a novel summarization model which utilizes a pointer mechanism combined with a head attention mechanism for mathematical representation augmentation
+the pointer mechanism can either copy textual tokens or math tokens from source questions in order to erate math headlines
+the multi head attention mechanism is designed to enrich the representation of math equations by modeling and integrating both its semantic and structural features
+for evaluation we collect and make available two sets of real world detailed math questions along with written math headlines namely and
+experimental results demonstrate that our model mathsum signicantly outperforms state of the art models for both the and datasets
+introduction math equations are widely used in the elds of science technology engineering and mathematics stem
+ever it is often daunting for students to understand math content and equations when they are reading stem lications liu and qin jiang et al
+
+because of the web students post detailed math questions online for help
+recent question systems such as mathematics stack and attempt to address this need
+are the corresponding authors
+stackexchange
+com
+net figure example of a detailed math question along with its headline
+the question is complex and long and the headline is clear and brief
+from the viewpoint of questioners the contents of detailed math questions are usually complex and long
+in order to efciently help those who pose the question it would be helpful to have a headline which is concise and to the point
+correspondingly those who will answer the question swerers also need a clear and brief headline to quickly termine if they should bother to respond
+therefore giving a concise math headline to a detailed question is important and meaningful
+figure illustrates an example of the tion along with its headline posted in mathematics stack
+it s clear that a complicated question can make it difcult for answerers to understand the intent of the tioner while a concise headline can effectively reduce the cost of this operation
+to this end we explore a novel approach for generating a math headline for detailed questions name
+here we dene the name task as a summarization task
+pared to conventional summarization tasks the name task has two extra essential issues that need to be addressed jointly modeling text and math equations in a unied framework
+textual words and mathematical equations
+stackexchange
+com detailed math question while studying the proof of the existence theorem for weak solutions for parabolic equations using the galerkin approximation i encountered the following problem assume that is an open set and is an orthonormal basis of such that l is also orthogonal in
+for every let be the projection onto i
+e
+it is clear that for every and
+however what i need is the following i not even sure it is true but i need it to obtain some a priori estimates
+i appreciate any help
+math headline orthogonal projection in
+
+complex and longclear and brief information are usually coexisting in detailed questions and brief headlines as shown in figure
+as such it is natural and necessary to process in some way text and math tions together schubotz et al
+yasunaga and lafferty
+however it is not evident how to model this in a ed framework
+for instance yasunaga and lafferty sunaga and lafferty attempted to utilize both text and mathematical representations but both were treated as arate components
+we argue that this approach loses much crucial information e
+
+the position and the semantic pendency between text and equations
+capturing tic and structural features of math equations synchronously
+unlike text math equations not only contain semantic tures but also structural features
+for instance equation a and f a have the same semantic tures but different structural features
+however most isting research separately considers only one of these two characteristics
+for instance this work yuan et al
+zanibbi et al
+only considered the structural mation of equations for mathematical information retrieval tasks while other work deng et al
+yasunaga and ferty treated a math equation as basic symbols and modeled them as text which led to structural features loss
+to address these issues we propose mathsum a novel method that combines pointers with multi head attention for mathematical representation augmentation
+the pointer mechanism can either copy textual tokens or math tokens from source questions in order to generate math headlines
+the multi head attention mechanism is designed to enrich the representation of each math equation separately by eling and integrating both semantic and structural features
+for evaluation we construct two large datasets and which contain and detailed questions with corresponding math headlines from matics stack exchange and mathoverow respectively
+we compare our model with several abstractive and extractive baselines
+experimental results demonstrate that our model signicantly outperforms several strong baselines on the name task
+in summary the contributions of our work are an innovative name task for generating a concise math headline in response to giving a detailed math question
+a novel summarization model mathsum that dresses the essential issues of the name task in which the textual and mathematical information can be jointly modeled in a unied framework while both semantic and structural features of math tions can be synchronously captured
+novel math
+to the best of our knowledge these are the rst mathematical content question datasets associated with headline information
+
+com yuankepku mathsum related work mathematical equation representation unlike text math equations are often highly structured
+they not only contain semantic features but also structural tures
+recent work roy upadhyay and roth zanibbi et al
+yuan et al
+jiang et al
+focused mainly on the structural features of math equations and lized tree structures to represent equations for mathematical information retrieval and mathematical word problem ing
+other work gao et al
+krstovski and blei yasunaga and lafferty instead focused mainly on the semantic features of equations
+they processed an equation as a sequence of symbols in order to learn its representation
+mathematical equation generation similar to text generation math equation generation has been widely explored
+recent work deng et al
+zhang bai and zhu le indurkhya and nakagawa utilized an end to end framework to generate tions from mathematical images e
+
+handwritten math equations
+other work roy upadhyay and roth wang et al
+inferred math equations for word problem solving
+however this work only supported limited types of operators i
+e
+
+the work yasunaga and ferty most related to ours created a model to ate equations given specic topics e
+
+electric eld
+our task name instead aims at generating math headlines from both equations and text without clear topics
+thus our name is quite challenging since it requires models to erate correct equations in the correct positions in the ated headlines
+summarization and headline generation summarization a fundamental task in natural language processing nlp can be categorized basically into tractive methods and abstractive methods
+extractive ods mihalcea and tarau nishikawa et al
+tract sentences from the original document to form the mary
+abstractive methods see liu and manning tan wan and xiao narayan cohen and lapata gavrilov kalaidin and malykh aim at ating the summary based on understanding the document
+we view headline generation as a special type of marizaton with the constraint that only a short sequence of words is generated and that it preserves the essential meaning of a math question document
+recently line generation methods with end to end frameworks tan wan and xiao narayan cohen and lapata zhang et al
+gavrilov kalaidin and malykh achieved signicant success
+math headline generation is similar to existing headline generation tasks but still fers in several aspects
+the major difference is that a math headline consists of text and math equations which require jointly modeling and inferring text and math equations
+datasets avg
+math num avg
+text tokens headl
+ques
+headl
+ques
+avg
+math tokens headl
+ques
+avg
+sent
+num text vocab
+size math vocab
+size ques
+ques
+headl
+headl
+headl
+ques
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table statistics of the and where avg
+math num average math equation number
+text tokens average textual token number
+math tokens average math equation token number
+sent
+num average sentence number text vocab
+size text vocabulary size math vocab
+size math vocabulary size ques
+detailed question source headl
+math headline target
+datasets question pairs correct question pairs table statistics of two datasets and with respect to overall number of collected question pairs and the number of correct question pairs
+and from mathoverow for model training and evaluation
+both datasets consist of detailed questions with corresponding math headlines
+in and each question is written in detailed math and the corresponding headline is a written question summary with math equations typically by the questioner
+in mathematics stack exchange and overow math equations are enclosed by the symbols
+we use in our datasets m and to replace in order to indicate the begin and end of an equation
+in dition the toolkit stanford and latex enizer in are used to tokenize separately the text and equations in questions and headlines
+specically we collect pairs of detailed tions math headline from mathematics stack exchange and pairs from mathoverow
+to help with sis and ensure quality we remove pairs which contain math equations that can not be tokenized by latex tokenizer
+this results in pairs from mathematics stack exchange which form and pairs from ow which form
+see table and table for more details
+in on average there are tively
+and
+math equations in the question and headlines
+in contrast contains more math tions in the question
+and less in the headline
+
+in the questions have
+textual tokens and
+math tokens on average while the headline has
+textual tokens and
+math tokens on average
+spondingly in there are on average
+tual tokens and
+math tokens in the question and on average
+textual tokens and
+math tokens in the headline
+compared to contains more tokens textual token and math token in questions and less in headlines
+from figure we also see that has a higher proportion of novel n grams than
+based on the above observations we believe that the constructed datasets are signicantly different and mutually complementary
+approach here we describe our proposed deep model mathsum which we designed for the name task
+figure proportion of novel n grams for the gold standard math headlines in and
+task and dataset task denition let us dene the name task as a summarization one
+let s
+
+
+sn denote the sequence of the input tailed question
+n is the number of tokens in the source sw sw represents the textual token word and indicates the math
+for each input s there is a corresponding output math headline with m tokens y
+
+
+ym where y yw ye and yw ye are textual tokens and math tokens respectively
+the goal of name is to generate a math headline learned from the input question namely s y
+dataset since this name task is new we could nd no public benchmark dataset
+as such we build two real world math datasets from mathematics stack exchange token is the fundamental element which can form a math et al
+
+github
+io
+com harvardnlp figure architecture of mathsum
+for a question each math equation vector representation a multi head attention block to produce a new vector representation
+
+
+s updated vector representation s n is then fed into an update layer one by one
+
+
+
+will pass through which updates the original representation
+the to mathsum model as shown in figure mathsum utilizes a pointer anism with a mutli head attention mechanism for matical representation augmentation
+it consists of two main components an encoder which jointly learns the sentation of math equations and text a decoder which learns to generate headlines from the learned representation
+for the encoder the crucial issue is to build effective resentations for tokens in an input question
+as mentioned in name task there are two different token types i
+e
+textual and math and their characteristics are intrinsically different
+math tokens not only contain the semantic features matical meaning but also the structural features e
+
+per sub script numerator denominator recursive structure
+therefore the representation learning should vary according to the token type
+in this study we introduce a multi head attention mechanism to enrich the representation of math kens
+the token si of the input question s is rst converted into a continuous vector representation so that the vector resentation of the input is s
+
+
+sn where n is the number of tokens in the input and sw are vector resentation of textual and math tokens respectively
+then the vectors of math tokens within an equation are fed into a block with multi head attention vaswani et al
+which then enriches its representation by considering both its mantic and structural features
+please note that each tion in the input will be separately fed into the block since an equation is a fundamental unit for characterizing the mantic and structural features of a series of math tokens
+let j
+
+
+mk denote the initial vector tion of the k th math equation with m math tokens as input
+then the multi head attention block transforms the i to its enriched representation i
+this is calculated by j
+
+
+i i j
+
+j m where fmultihead is the multi head attention block
+j is the beginning index of math equation mk and j m is the end index
+
+
+
+s after that the enriched vector representation of the input sw is fed into the is s date layer a single layer bidirectional lstm one by one
+the hidden state hi is updated according to the previous den state and current token vector s i n where s hi s where f is the dynamic function of lstm unit and hi is the in the step i
+hidden state of token s in the decoder we aggregate the encoder hidden states
+
+
+hn using a weighted sum that then becomes the text vector ct ithi i where t eit h t battn wh and battn are the learnable parameters
+h t is the hidden state of the decoder at time step t
+the attention is the distribution over the input position
+math representations
+
+
+representations
+
+
+update layerattention distributioncontext vectorencoder hidden statesdetailed questiondecoder hidden statespartial math headline interior
+in m c m
+
+
+
+math representationsmulti self attentionlayer normfeed forwardlayer normmulti self attentionlayer normfeed forwardlayer norm multi head attention block multi head attention blocktextual representationupdated math representations at this point the generated math headline may tain textual tokens or math tokens from the source which could be out of vocabulary
+thus we utilize a pointer work see liu and manning to directly copy tokens from source
+considering that the token w maybe copied from the source or generated from the vocabulary we use the copy probability pc as a soft switch to choose copied tokens from the input or generated textual tokens from the vocabulary
+y t it h t ct i wi w pc ct h t xt where f is non linear function and xt is the decoder input at timestep t
+finally the training loss at time step t is dened as the negative log likehood of the target word w t where losst log w t y t experimental setup comparison of methods we compare our model with baseline methods on both the and for the name task
+four tractive methods are implemented as baselines random randomly selects a sentence from the input question
+lead simply selects the leading sentence from the input question while tail selects the last sentence and extracts sentences from the text according to their scores computed by an algorithm similar to pagerank
+in addition three stractive are also used to compare against sum
+is a sequence to sequence model based on the lstm unit and attention mechanism bahdanau cho and bengio
+ptgen is a pointer network which lows copying tokens from the source see liu and manning
+transformer is a neural network model that is signed based on a multi head attention mechanism vaswani et al
+
+experiment settings we randomly split into training validation and testing sets
+in order to get enough testing samples we split in a training validation and testing
+for our experiments the dimensionality of the word bedding is and the number of hidden states for lstm textrank we use the implementation in summanlp
+com summanlp textrank implementation the
+com opennmt opennmt py use of opennmt a fair comparison all models used the same experimental data setup
+for all models are trained and tested on the same dataset
+for in order to achieve better imental results all models are rst trained on the training set of then ne tuned and tested using units for both encoder and decoder is
+the multi head tention block contains heads and dimensional hidden states for the feed forward part
+the model is trained using adagrad duchi hazan and singer with a learning rate of
+an initial accumulator value of
+and a batch size of
+also we set the dropout rate as
+
+the lary size of the question and headline are both
+in dition the encoder and decoder share the token tions
+at test time we decode the math headline using beam search with beam size of
+we set the minimum length as tokens on and tokens on
+we implement our model in pytorch and train on a single titan x gpu
+experimental results quantity performance use three metrics here we standard metrics rouge lin bleu papineni et al
+and meteor denkowski and lavie for evaluation
+the rouge metric measures the summary quality by counting the overlapping units e
+
+n gram between the generated summary and reference summaries
+we report the scores for and rl rouge l
+the bleu score is a widely used as an accuracy measure for machine translation and computes the n gram precision of a candidate sequence to the reference
+meteor is recall oriented and evaluates translation hypotheses by aligning them to reference translations and calculating sentence level similarity scores
+the bleu and meteor scores are calculated by using nlg package and rouge scores are based on rouge package
+we use the edit distance and exact match to check the similarity of the generated equations compared with the gold standard equations in the math headlines
+these two metrics are widely used for the evaluation of equation generation deng et al
+wu et al
+
+edit tance quanties how dissimilar two strings are by ing the minimum number of operations required to form one string into the other
+based on n samples in the test set we use two types of edit distance
+one is edit which is math level dissimilar score and is ned as where minm d is the minimum edit distance between equations in the generated headline and the gold standard headline and are the number of equations in the i erated headline and gold headline
+the other edit is the sentence level dissimilar score and is lated as
+exact match checks the exact match accuracy between the gold standard math tokens and generated math tokens and is calculated as exactm atch where p mi and gmi are the sets of math tokens in the i generated headline and gold standard headline
+minm n minm n
+com maluuba nlg eval
+com sebastiangehrmann rouge baselines models random tail lead textrank ptgen transformer meteor meteor rl rl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mathsum
+
+
+table comparison of different models on the and test sets for scores of rl rouge l and meteor
+edit edit exact match edit edit exact match models random tail lead textrank ptgen transformer mathsum
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table comparison of different models on the and test sets according to math evaluation metrics
+edit and edit evaluate those that are dissimilar the smaller the better
+exact match is the number of math tokens accurately generated in math headlines the larger the better
+results comparisons of models can be found in table
+all models perform better on than
+a possible explanation is that the contains a lower proportion of novel n grams in its gold standard math headlines illustrated in figure
+for extractive models we nd that lead obtains a good performance on while textrank performs well on
+since contains more sentences for each question textrank is more likely to pick out the accurate sentence
+prisingly abstractive models perform better than extractive models on both datasets
+compared to ordinary ptgen gets better performance since it uses a copying egy to directly copy tokens from the source question
+the transformer can outperform ptgen which implies that by utilizing multi head attention mechanism we obtain a ter learning of representation
+mathsum signicantly performs other models for all evaluation metrics on both datasets
+thus mathsum initially addresses some of the challenges of name task and generates satisfactory lines for questions
+in addition we also evaluate the gap between the ated headlines and human written headlines
+the edit edit and exact match scores for ferent models using and are shown in table
+the results show that extractive models perform worse if we use the metric edit instead of edit for evaluation
+since extractive models directly select sentences from source questions some selected tences may not contain math equations
+for abstractive lines the transformer obtains the best performance
+this observation reinforces the claim that a mutli head attention mechanism can construct a better representation for math equations
+on our model mathsum achieves the best performance on all metrics
+on sum gets the best performance for exact match and ond best performance slightly weaker than transformer for edit and edit
+a possible son is that in the lengths of math equations in source questions are usually long while the ones in lines are often short
+compared to the transformer the copying mechanism could cause mathsum to copy long equations from the source questions which may result in a slight decreased performance for edit and edit metrics
+quality analysis jointly modeling quality the heatmap in figure izes the attention weights from mathsum
+figure pares the source detailed question with its human written math headline and the generated math headline from figure heatmap of attention weights for source detailed questions
+mathsum learns to align key textual tokens and math tokens with the corresponding tokens in the source question
+sum
+as figure shows there are both textual tokens and math tokens in the generated headline
+note that both math tokens and textual tokens can be effectively aligned to their corresponding tokens in the source
+for instance the textual tokens coordinate triangle and the math tokens p c are both all successfully aligned
+case study to gain an insightful understanding regarding the generation quality of our method we present three ical examples in table
+the rst two are selected from and the last one is selected from
+from the examples we see that the generated lines and the human written headlines have comparability and similarity
+generally the generated headlines are ent grammatical and informative
+we also observe that it is important to locate the main equations for name task
+if the generation method emphasizes a subordinate equation it will generate an unsatisfactory headline such as the second example in table
+conclusions and future work here we dene and explore the novel name task of matic headline generation for online math questions using a new deep model mathsum
+two new datasets and are constructed for algorithm training and testing and are made available
+our experimental results demonstrate that our model can often generate useful math headlines and signicantly outperform a series of state the art models
+future work could focus on enriched sentations of math equations for mathematical information retrieval and other math related research
+
+stackexchange
+com
+stackexchange
+com
+net partial math detailed question human written mathsum partial math detailed question human written mathsum partial math detailed question human written mathsum examples so i am asked to nd the inverse elements of this set z i know that this is the set of gaussian integers
+i was pretty much do
+
+
+nding the inverse elements of z nding the inverse elements of z suppose that the function r is continuously differentiable
+dene the function g r by
+
+
+using the chain rule in rn nd g s t in the paper of herbert clemens curves on generic hypersurfaces the author shows that for a generic hypersurface v of pn of sufciently high degree there is no rational
+
+
+rational curves in pn and immersion rational curves in pn table examples of generated math headlines given tailed questions
+acknowledgments this work is partially supported by china scholarship cil and projects of national natural science foundation of china no
+and guangdong basic and applied basic research foundation and fundamental research funds for the central ties and the national science foundation
+detailed question in we define coordinate triangle to be the one with sides and
+how would you define its interior what kind of equation should it written math headline interior of a triangle in generated math headline interior of coordinate triangle in
+an example of detailed question attention weights for partial source detailed question tokens
+references bahdanau cho and bengio bahdanau d
+cho k
+and bengio y
+
+neural machine translation by jointly learning to align and translate
+in proceedings of iclr
+et al
+deng y
+kanervisto a
+ling j
+and image to markup generation with rush a
+m
+in proceedings of the coarse attention
+national conference on machine learning volume
+jmlr
+org
+denkowski and lavie denkowski m
+and lavie a
+
+meteor universal language specic translation uation for any target language
+in proceedings of the ninth workshop on statistical machine translation
+duchi hazan and singer duchi j
+hazan e
+and singer y
+
+adaptive subgradient methods for online learning and stochastic optimization
+journal of machine learning research
+gao et al
+gao l
+jiang z
+yin y
+yuan k
+yan z
+and tang z
+
+preliminary exploration of mula embedding for mathematical information retrieval can mathematical formulae be embedded like a natural guage arxiv preprint
+
+gavrilov kalaidin and malykh gavrilov d
+kalaidin p
+and malykh v
+
+self attentive model in european conference on for headline generation
+information retrieval
+springer
+et al
+jiang z
+gao l
+yuan k
+gao z
+tang z
+and liu x
+
+mathematics content in standing for cyberlearning via formula evolution map
+proceedings of the acm international conference on information and knowledge management
+acm
+krstovski and blei krstovski d
+m
+
+
+le indurkhya and nakagawa le a
+d
+indurkhya b
+and nakagawa m
+
+pattern generation strategies for improving recognition of handwritten mathematical pressions
+arxiv preprint
+
+lin lin c
+
+
+rouge a package for automatic evaluation of summaries
+in text summarization branches out
+liu and qin liu x
+and qin j
+
+an tive metadata model for structural descriptive and tial representation of scholarly output
+journal of the ciation for information science and technology
+mihalcea and tarau mihalcea r
+and tarau p
+
+in proceedings of the textrank bringing order into text
+conference on empirical methods in natural language processing
+narayan cohen and lapata narayan s
+cohen s
+b
+and lapata m
+
+do nt give me the details just the summary topic aware convolutional neural networks for extreme summarization
+acl
+nishikawa et al
+nishikawa h
+arita k
+tanaka k
+hirao t
+makino t
+and matsuo y
+
+blei arxiv preprint equation embeddings
+
+and k
+ing to generate coherent summary with discriminative den semi markov model
+in proceedings of coling
+papineni et al
+papineni k
+roukos s
+ward t
+and zhu w
+
+
+bleu a method for automatic tion of machine translation
+in proceedings of the nual meeting on association for computational linguistics
+roy upadhyay and roth roy s
+upadhyay s
+and roth d
+
+equation parsing mapping sentences to grounded equations
+emnlp
+schubotz et al
+schubotz m
+grigorev a
+leich m
+cohl h
+s
+meuschke n
+gipp b
+youssef a
+s
+and markl v
+
+semantication of identiers in ics for better math information retrieval
+in proceedings of the international acm sigir conference on research and development in information retrieval
+acm
+see liu and manning see a
+liu p
+j
+and ning c
+d
+
+get to the point summarization with pointer generator networks
+acl
+tan wan and xiao tan j
+wan x
+and xiao j
+
+abstractive document summarization with a based attentional neural model
+in proceedings of the annual meeting of the association for computational guistics
+tan wan and xiao tan j
+wan x
+and xiao j
+
+from neural sentence summarization to headline in ijcai generation a coarse approach
+
+vaswani et al
+vaswani a
+shazeer n
+parmar n
+uszkoreit j
+jones l
+gomez a
+n
+kaiser
+and sukhin i
+
+attention is all you need
+in advances in neural information processing systems
+wang et al
+wang l
+zhang d
+gao l
+song j
+guo l
+and shen h
+t
+
+mathdqn solving arithmetic word problems via deep reinforcement learning
+in second aaai conference on articial intelligence
+wu et al
+wu j
+
+yin f
+zhang y
+
+zhang image to markup generation x
+
+and liu c
+
+
+in joint european via paired adversarial learning
+ference on machine learning and knowledge discovery in databases
+springer
+yasunaga and lafferty yasunaga m
+and lafferty j
+
+topiceq a joint topic and mathematical equation model for scientic texts
+aaai
+et al
+yuan k
+gao l
+wang y
+yi x
+and tang z
+
+a mathematical information retrieval system based on rankboost
+in proceedings of the acm cs on joint conference on digital libraries
+acm
+et al
+yuan k
+gao l
+jiang
+and tang z
+in proceedings
+formula ranking within an article
+of the acm ieee cs on joint conference on digital libraries
+acm
+zanibbi et al
+zanibbi r
+davila k
+kane a
+and tompa f
+w
+
+multi stage math formula search using in appearance based similarity metrics at scale
+ings of the international acm sigir conference on search and development in information retrieval
+acm
+zhang bai and zhu zhang w
+bai z
+and zhu y
+
+an improved approach based on cnn rnns for matical expression recognition
+in proceedings of the international conference on multimedia systems and signal processing
+acm
+zhang et al
+zhang r
+guo j
+fan y
+lan y
+xu j
+cao h
+and cheng x
+
+question headline tion for news articles
+in proceedings of the acm national conference on information and knowledge agement
+acm
+

@@ -1,0 +1,279 @@
+vizseq a visual analysis toolkit for text generation tasks changhan wang anirudh danlu chen and jiatao gu facebook ai research stanford university changhan danluchen
+com
+edu p e s l c
+s c v
+v i x r a abstract automatic evaluation of text generation tasks e
+
+machine translation text tion image captioning and video description usually relies heavily on task specic metrics such as bleu papineni et al
+and rouge lin
+they however are stract numbers and are not perfectly aligned with human assessment
+this suggests specting detailed examples as a complement to identify system error patterns
+in this paper we present vizseq a visual analysis toolkit for instance level and corpus level system uation on a wide variety of text generation tasks
+it supports multimodal sources and tiple text references providing visualization in jupyter notebook or a web app interface
+it can be used locally or deployed onto public servers for centralized data hosting and ing
+it covers most common n gram based metrics accelerated with multiprocessing and also provides latest embedding based metrics such as bertscore zhang et al
+
+introduction many natural language processing nlp tasks can be viewed as conditional text generation lems where natural language texts are generated given inputs in the form of text e
+
+machine translation image e
+
+image captioning dio e
+
+automatic speech recognition or video e
+
+video description
+their automatic ation usually relies heavily on task specic rics
+due to the complexity of natural language expressions those metrics are not always perfectly aligned with human assessment
+moreover rics only produce abstract numbers and are limited in illustrating system error patterns
+this suggests the necessity of inspecting detailed evaluation amples to get a full picture of system behaviors as figure an overview of vizseq
+vizseq takes modal sources text references as well as model tions as inputs and analyzes them visually in jupyter notebook or in a web app interface
+it can also be used without visualization as a normal python package
+well as seek improvement directions
+a bunch of softwares have emerged to tate calculation of various metrics or ing examples with sentence level scores in an tegrated user interface ibleu madnani mteval mt compareval klejch et al
+nlg eval sharma et al
+vis eval ric viewer steele and specia mt neubig et al
+
+quite a few of them are collections of command line scripts for ric calculation which lack visualization to ter present and interpret the scores
+some of them are able to generate static html reports to present charts and examples but they do not low updating visualization options interactively
+mt compareval is the only software we found that has an interactive user interface
+it is ever written in php which unlike python lacks a complete nlp eco system
+the number of rics it supports is also limited and the software is no longer being actively developed
+support of multiple references is not a prevalent dard across all the softwares we investigated and work carried out during an internship at facebook
+
+com odashi mteval sourcestextimageaudioreferencestext n predictionsmodel textmodel textmodel k text vizseqweb appjupyter notebookvideoevaluate
+pymulti processscorers source type example tasks text image audio video multimodal machine translation text summarization dialog generation grammatical error rection open domain question answering image captioning visual question ing optical character recognition speech recognition speech translation video description multimodal machine translation table example text generation tasks supported by vizseq
+the sources can be from various modalities
+metrics vizseq mt eval eval bleu chrf meteor ter ribes gleu nist rouge cider wer laser bertscore table comparison of vizseq and its counterparts on n gram based and embedding based metric coverage
+none of them supports multiple sources or sources in non text modalities such as image audio and video
+almost all the metric implementations are single processed which can not leverage the tiple cores in modern cpus for speedup and better scalability
+with the above limitations identied we want to provide a unied and scalable solution that gets rid of all those constraints and is enhanced with a user friendly interface as well as the nlp technologies
+in this paper we present vizseq a visual analysis toolkit for a wide riety of text generation tasks which can be used for instance level and corpus level system ror analysis exploratory dataset analysis public data hosting and system benchmarking
+it provides visualization in jupyter notebook or a web app interface
+a system overview can be found in figure
+we open source the software at
+com facebookresearch vizseq
+figure vizseq implements metrics with cessing speedup
+speed test is based on a tion set for bleu meteor and chrf and a one for cider
+cpu intel core
+main features of vizseq
+multimodal data and task coverage vizseq has built in support for multiple sources and references
+the number of references is lowed to vary across different examples and the sources are allowed to come from different ities including text image audio and video
+this exibility enables vizseq to cover a wide range of text generation tasks and datasets far beyond the scope of machine translation which previous wares mainly focus on
+table provides a list of example tasks supported by vizseq
+
+metric coverage and scalability table shows the comparison of vizseq and its counterparts on metric coverage
+n gram based metrics to the extent of our knowledge vizseq has the best coverage of mon n gram based metrics including bleu ineni et al
+nist doddington teor banerjee and lavie ter snover et al
+ribes isozaki et al
+chrf popovic and gleu wu et al
+for machine translation rouge lin for summarization and video description cider vedantam et al
+for image ing and word error rate for speech recognition
+embedding based metrics n gram based rics have difculties in capturing semantic ilarities since they are usually based on act word matches
+as a complement vizseq also integrates latest embedding based metrics such as bertscore zhang et al
+and laser artetxe and schwenk
+this is rarely seen in the counterparts
+scalability we re implemented all the n based metrics with multiprocessing allowing from vizseq
+scorers import name def hypothesis references int verbose bool false return figure vizseq metric api
+users can dene and ister their new metric by implementing this function
+users to fully utilize the power of modern core cpus
+we tested our multi process versions on large evaluation sets and observed signicant speedup against original single process ones see figure
+vizseq s embedding based metrics are implemented using pytorch paszke et al
+framework and their computation is automatically parallelized on cpu or gpu by the framework
+versatility vizseq s rich metric collection is not only available in jupyter notebook or in the web app it can also be used in any python scripts
+a typical use case is periodic metric calculation during model training
+vizseq s implementations save time especially when evaluation sets are large or evaluation is frequent
+to allow dened metrics we designed an open metric api whose denition can be found in figure
+
+user friendly interface given the drawbacks of simple command line terface and static html interface we aim at alized and interactive interfaces for better user perience and productivity
+vizseq provides alization in two types of interfaces jupyter book and web app
+they share the same visual analysis module figure
+the web app interface additionally has a data uploading module ure and a task dataset browsing module ure while the jupyter notebook interface gets data directly from python variables
+the analysis module includes the following parts
+example grouping vizseq uses sentence tags to manage example groups data subsets of ent interest can be overlapping
+it contains both user dened and machine generated tags e
+
+bels for identied languages long sentences tences with rare words or code switching
+rics will be calculated and visualized by different figure vizseq example viewing
+keyword search box tag and model lters sorting and page size tions left example index right user dened tags blue and machine generated tags grey modal sources and google translate integration model predictions with highlighted matched blue and unmatched red n grams sentence level scores highest ones among models in boldface lowest ones in italics with underscore
+example groups as a complement to scores over the entire dataset
+example viewing vizseq presents examples with various sentence level scores and visualized alignments of matched unmatched reference it also has google grams in model predictions
+translate integration to assist understanding of text sources in unfamiliar languages as well as providing a baseline translation model
+ples are listed in multiple pages bookmarkable in web app and can be sorted by various orders for example by a certain metric or source sentence lengths
+tags or n gram keywords can be used to lter out examples of interest
+statistics vizseq provides various dataset including counts of corpus level statistics sentences tokens and characters source and reference length distributions token frequency distribution list of most frequent n grams with links to associated examples distributions of sentence level scores by models figure and
+statistics are visualized in zoomable charts with hover text hints
+data export statistics in vizseq are one click exportable charts into png or svg images with figure vizseq dataset statistics
+sentence ken and character counts for source and reference tences length distributions of source and reference sentences token frequency distribution
+plots are zoomable and exportable to svg or png images
+figure vizseq corpus level metric viewing
+tributions of sentence level scores by models click export of tabular data to csv and latex copied to clipboard corpus level and group level by tence tags scores highest ones among models in face lowest ones in italics with underscore
+figure vizseq dataset statistics most frequent grams
+each listed n gram is clickable to show associated examples in the dataset
+users zooming applied and tables into csv or latex copied to clipboard
+
+data management and public hosting vizseq web app interface gets new data from the data uploading module figure or a ful api
+besides local deployment the web app back end can also be deployed onto public servers and provide a general solution for hosting public benchmarks on a wide variety of text generation tasks and datasets
+in vizseq data is organized by special folder structures as follows which is easy to maintain
+txt zip
+txt
+txt
+txt
+json when new data comes in scores n grams and machine generated tags will be pre computed and cached onto disk automatically
+a le monitoring and versioning system based on le hashes sizes or modication timestamps is employed to detect figure vizseq sentence tag distribution view
+in this example tags are source target language directions in a multilingual machine translation dataset
+le changes and trigger necessary updates on computed results
+this is important for ing evaluation during model training where model predictions change over training epochs
+example use cases of vizseq we validate the usability of vizseq with multiple tasks and datasets which are included as examples in our github repository english a classic size dataset for bilingual machine translation
+a text summarization dataset
+coco captioning lin et al
+a classic image captioning dataset where vizseq can present source images with text targets
+
+statmt
+org translation task
+html
+com harvardnlp sent summary scriptions with presence of video contents
+related work with the thrive of deep learning task agnostic visualization toolkits such as and have emerged in need of monitoring model statistics and debugging model training
+model interpretability is another vation for visualization
+in nlp softwares have been developed to interpret model parameters e
+
+attention weights and inspect prediction tion process lm rong and adar nmt visualization tool klein et al
+and strobelt et al
+
+for machine lation toolkits are made to perform metric lation and error analysis ibleu madnani mteval mt compareval klejch et al
+nlg eval sharma et al
+vis eval metric viewer steele and specia and mt neubig et al
+
+conclusion in this paper we present vizseq a visual ysis toolkit for text image audio text generation system evaluation dataset analysis and benchmark hosting
+it is accessible as a web app or a python package in jupyter notebook or python scripts
+vizseq is currently under active development and our future work includes abling image to text and video to text alignments adding human assessment modules tion with popular text generation frameworks such as and
+acknowledgments we thank the anonymous reviewers for their ments
+we also thank ann lee and pratik shia for helpful discussions on this project
+references mikel artetxe and holger schwenk
+
+sively multilingual sentence embeddings for arxiv shot cross lingual preprint
+
+transfer and beyond
+
+com tensorow tensorboard
+com facebookresearch visdom
+com microsoft tensorwatch
+com odashi mteval
+com pytorch fairseq
+com opennmt opennmt py
+com tensorow figure vizseq data uploading
+users need to nize the les by given folder structures and pack them into a zip le for upload
+vizseq will unpack the les to the data root folder and perform integrity checks
+figure vizseq task dataset browsing
+users need to select a dataset and models of interest to proceed to the analysis module
+multimodal machine translation task english german translation with an image the sentences describe
+vizseq can present both text and image sources and calculate the ofcial bleu meteor and ter metrics
+multilingual machine translation on ted talks dataset ye et al
+translation from languages into english
+vizseq can use guage directions as sentence tags to generate score breakdown by languages
+the test set has as many as examples where vizseq process scorers run signicantly faster than single process ones
+the integrated google translate can help with understanding source sentences in unfamiliar languages
+english german speech vizseq can present english audios with english transcripts and german text translations
+youcook das et al
+video description vizseq enables inspecting generated text
+statmt
+org multimodal task
+html
+google
+com site satanjeev banerjee and alon lavie
+
+meteor an automatic metric for mt evaluation with improved correlation with human judgments
+in proceedings of the acl workshop on intrinsic and extrinsic ation measures for machine translation marization pages
+pradipto das chenliang xu richard f doell and son j corso
+
+a thousand frames in just a few words lingual description of videos through latent topics and sparse object stitching
+in proceedings of the ieee conference on computer vision and pattern recognition pages
+george doddington
+
+automatic evaluation of machine translation quality using n gram occurrence statistics
+in proceedings of the second international conference on human language nology research pages
+morgan mann publishers inc
+hideki isozaki tsutomu hirao kevin duh katsuhito sudoh and hajime tsukada
+
+automatic uation of translation quality for distant language in proceedings of the conference on pairs
+empirical methods in natural language ing pages
+association for computational linguistics
+guillaume klein yoon kim yuntian deng vincent nguyen jean senellart and alexander m
+rush
+
+opennmt neural machine translation toolkit
+ondrej klejch eleftherios avramidis aljoscha chardt and martin popel
+
+mt compareval graphical evaluation interface for machine tion development
+the prague bulletin of matical linguistics
+chin yew lin
+
+rouge a package for matic evaluation of summaries
+text summarization branches out
+tsung yi lin michael maire serge belongie james hays pietro perona deva ramanan piotr dollar and c lawrence zitnick
+
+microsoft coco in european common objects in context
+ence on computer vision pages
+springer
+nitin madnani
+
+ibleu interactively debugging and scoring statistical machine translation systems
+in ieee fifth international conference on mantic computing pages
+ieee
+graham neubig zi yi dou junjie hu paul michel danish pruthi and xinyi wang
+
+compare mt a tool for holistic comparison of language tion systems
+arxiv preprint
+
+kishore papineni salim roukos todd ward and jing zhu
+
+bleu a method for automatic in proceedings of uation of machine translation
+the annual meeting on association for tational linguistics pages
+association for computational linguistics
+adam paszke sam gross soumith chintala gory chanan edward yang zachary devito ing lin alban desmaison luca antiga and adam lerer
+
+automatic differentiation in pytorch
+in nips autodiff workshop
+maja popovic
+
+chrf character n gram score for automatic mt evaluation
+in proceedings of the tenth workshop on statistical machine translation pages
+xin rong and eytan adar
+
+visual tools for bugging neural language models
+in proceedings of icml workshop on visualization for deep ing
+shikhar sharma layla el asri hannes schulz and jeremie zumer
+
+relevance of unsupervised metrics in task oriented dialogue for evaluating ural language generation
+corr
+
+matthew snover bonnie dorr richard schwartz nea micciulla and john makhoul
+
+a study of translation edit rate with targeted human annotation
+in proceedings of association for machine tion in the americas volume
+david steele and lucia specia
+
+vis eval metric viewer a visualisation tool for inspecting and uating metric scores of machine translation output
+in proceedings of the conference of the north american chapter of the association for tional linguistics demonstrations pages
+hendrik strobelt sebastian gehrmann michael behrisch adam perer hanspeter pster and alexander m rush
+
+a visual debugging tool for sequence to sequence models
+ieee transactions on visualization and computer graphics
+ramakrishna vedantam c lawrence zitnick and devi parikh
+
+cider consensus based image in proceedings of the ieee scription evaluation
+conference on computer vision and pattern nition pages
+yonghui wu mike schuster zhifeng chen quoc v le mohammad norouzi wolfgang macherey maxim krikun yuan cao qin gao klaus macherey et al
+
+google s neural chine translation system bridging the gap between arxiv preprint human and machine translation
+
+
+qi ye sachan devendra felix matthieu han sarguna and neubig graham
+
+when and why are pre trained word embeddings useful for neural machine translation
+in hlt naacl
+tianyi zhang varsha kishore felix wu kilian q weinberger and yoav artzi
+
+bertscore arxiv preprint uating text generation with bert
+
+
+
