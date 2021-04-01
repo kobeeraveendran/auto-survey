@@ -1,0 +1,3845 @@
+n a j l c
+s c v
+v i x r a detecting and extracting events from text documents jugal kalita university of colorado colorado springs events of various kinds are mentioned and discussed in text documents whether they are books news articles blogs or microblog feeds
+the paper starts by giving an overview of how events are treated in linguistics and philosophy
+we follow this discussion by surveying how events and associated information are handled in computationally
+in particular we look at how textual documents can be mined to extract events and ancillary information
+these days it is mostly through the application of various machine learning techniques
+we also discuss applications of event detection and extraction systems particularly in summarization in the medical domain and in the context of twitter posts
+we end the paper with a discussion of challenges and future directions
+categories and subject descriptors
+
+
+
+
+
+
+
+
+general terms
+
+
+additional key words and phrases information retrieval event detection introduction
+among the several senses that the oxford english the most venerable dictionary of english provides for the word event are the following
+the actual or contemplated fact of anything happening the occurrence of
+anything that happens or is contemplated as happening an incident occurrence
+in modern use chiey restricted to occurrences of some importance
+although an event may refer to anything that happens we are usually interested in occurrences that are of some importance
+we want to extract such events from textual documents
+in order to extract important events or events of a specic type it is likely that we have to identify all events in a document to start with
+consider the rst paragraphs of the article on the battle of fredericksburg in the english wikipedia accessed on may
+we have highlighted the events in the paragraph
+the battle of fredericksburg was fought december in and around fredericksburg virginia between general robert e
+lee s oed
+com jugal kalita is a professor in the department of computer science university of colorado orado springs co usa
+permission to make digital hard copy of all or part of this material without fee for personal or classroom use provided that the copies are not made or distributed for prot or commercial advantage the acm copyright server notice the title of the publication and its date appear and notice is given that copying is by permission of the acm inc
+to copy otherwise to republish to post on servers or to redistribute to lists requires prior specic permission a fee
+acm
+acm transactions vol
+v no
+n january pages
+
+
+
+federate army of northern virginia and the union army of the tomac commanded by maj
+gen
+ambrose e
+burnside
+the union army s futile frontal assaults on december against entrenched federate defenders on the heights behind the city is remembered as one of the most one sided battles of the american civil war with union casualties more than twice as heavy as those suered by the erates
+the paragraph contains two fairly long sentences with several events tioned using the following words fought commanded assaults entrenched bered casualties and suered
+some of these events are described in terms of verbs whereas the others are in terms of nouns
+here fought commanded assaults tles denitely seem to be events that have durations or are durative
+entrenched seems to talk about a state whereas it is possible that suered talks about thing punctual i
+e
+takes a moment or point of time or can be durative i
+e
+takes a longer period of time as well
+the act of remembering by an individual is usually considered to happen momentarily i
+e
+forgotten things come back to mind at an instant of time
+but in this paragraph it is given in passive voice and hence it is unclear who the actor is possibly a lot dierent people at dierent points of time
+thus depending on who is asked the events picked out may be slightly ferent but the essence is that there are several events mentioned in the paragraph and the objective in event extraction is to extract as many of them as possible in an automated fashion
+for example someone may not pick out remembered as an event that took place
+some others may not want to say that entrenched is an event
+in addition if one is asked to pick an important event responses may vary from person to person
+finally if one is asked to summarize the paragraph depending on the person asked the summary may vary
+a summary prepared by the author of this article is given below
+the battle of fredericksburg fought december was one of the most one sided battles of the american civil war with heavy union casualties
+obviously there are many other possibilities for summarization
+however the idea is that identication of events and their participants may play a signicant role in summarizing a document
+this paper discusses the extraction of events and their attributes from tured english text
+it is an survey of research in extracting event descriptions from textual documents
+in addition we discuss how the idea of event extraction can be used in application domains such as summarization of a document
+we also discuss application of event extraction in the biomedical domain and in the context of twitter messages
+the rest of the paper is organized in the following manner
+section provides a description of research in linguistics and philosophy
+the author believes that such a background at least at a basic level is necessary to understand and develop the approaches and algorithms for automatic computational detection and extraction of events and their participants from textual documents
+section discusses proaches used in extracting events from textual documents
+most approaches these acm transactions vol
+v no
+n january
+
+
+
+days use machine learning techniques
+
+events in linguistics and philosophy real world events are things that take place or happen
+in this section we present an overview of how real events are represented in terms of language
+in particular we discuss classication of events and features necessary for such classication
+we follow this by presenting the preferred way among philosophers to represent events in terms of logic
+we bring this section to an end by presenting some of the structures ascribed to events by linguists or philosophers working at an abstract level
+the reason for the inclusion of this section in the paper is to set the context for the discussions in the following sections on the practical task of extracting events
+practical systems do not usually follow linguistic niceties although they draw inspiration from linguistics or philosophy
+
+classifying events there have been many attempts at classifying linguistic events
+below we briey discuss a few
+the primary focus when linguists discuss events is on the verb present in a sentence
+nouns adjectives and other elements present in a sentence provide arguments for the verb
+aristotle as presented in barnes et al
+classied verbs that thing happening into three classes actuality movement and action
+an actuality represents the existence of a thing or things this is called state by others e
+
+rosen
+an examples of actuality can be seen in the sentence jon is ill
+a movement is an incomplete process or something that takes time but does nt have an inherent end
+an example of movement is seen in the sentence jon is running
+an action is something that takes time and has an inherent end
+an example of an action is present in the sentence jon is building a house
+in other words aristotle distinguished between states and events and then events
+kenny lists verbs that belong to the three aristotelian classes and develops membership criteria for the classes
+kenny renamed the classes as states ties actions without inherent end and performances actions with inherent ends
+kenny s membership criteria are based on semantic entailments about whether the event can be considered to have taken place when it is still in progress
+for example during any point when we say jon is running we can consider that the activity of running has taken place
+in other words jon is running entails jon has run
+thus run is an activity
+in contrast when we say joh is taking the nal we can not say that jon has taken the nal
+in other words the rst does not entail the second
+thus the main dierence between an activity and a performance is what is called delimitation
+a delimited event has a natural end
+vendler developed a way classication scheme for linguistic events and dowty developed a set of criteria for membership in the classes
+the classes enumerated by dowty are states activities achievements and accomplishments
+the denitions are given below
+activities events that take place over a certain period of time but do not necessarily have a xed termination point
+examples jon walked for an hour acm transactions vol
+v no
+n january
+
+
+
+linguist nomenclature used aristotle actuality movement action state activity performance kenny state activity accomplishment achievement dowty state semelfactive activity accomplishment achievement smith table i
+nomenclatures used by linguists to classify events and jon is driving the car
+accomplishments events that happen over a certain period of time and then end
+examples jon built a house in a month and jon is taking the nal
+achievements these are events that occur instantaneously and lack continuous tenses
+examples jon nished the nal in minutes and the vase broke
+states these are non actions that hold for a certain period of time but lack continuous tenses
+examples jon knows the answer and jon likes mary
+smith adopts the same classication as vendler and dowty but divides achievements into two classes
+the rst one is still called achievements but the second one is called semelfactives
+in this new scheme achievements are neous that is the beginning of the event is the same as its end culminating events but semelfactives are events with no duration that result in no change of state
+an example of a semelfactive is jon knocked on the door
+table i presents the nomenclatures introduced by various linguists in one place
+there are many variations of the schemes given here although we do not discuss them in this paper
+in the early work on event classication aristotle vendler and others assume that what needs to be classied is the verb
+however many have concluded that it is impossible to classify a verb into a specic class
+it is more appropriate to say that a clause containing an event has a class and the classication of such a clause depends not only upon the verb but also on other material present in the clause rosen dowty ritter and rosen
+in other words the classication must be compositional or must depend on various features of the clause not exclusively verb based
+there is also substantial evidence that sentence material other than the verb can change the overall event type
+for example addition of a direct object can change an activity to an accomplishment rosen as in the following examples
+bill ran for ve ve minutes activity bill ran the mile for minutes in minutes accomplishment
+parameters of event classes many authors in linguistics have delved deeper into the nature of event classes and have tried to come up with features or characteristics that can be used to identify whether something verb or a clause belongs to a particular event class or not
+these features or characteristics are necessary to describe the structure of events in a theoretical sense
+description of event structure usually refers to the actual words used lexical features or characteristics and also the structure of clause or acm transactions vol
+v no
+n january
+
+
+
+sentence syntactic features or characteristics
+identication of such features may be described as nding parameters of event types or parameterization of event types
+a lot of the work on parameterization of event types classes use the classes espoused by vendler
+these include verkuyl carlson moens hoeksema mourelatos ter meulen and others
+we will only briey touch upon such work in this paper
+our objective is to impress upon the reader that identication of features of event classes is considered an important task by linguists
+for example verkuyl describes vendler s classes with two binary features or parameters continuousness whether an event has duration and boundedness whether an event has a natural terminal point or endpoint
+using these two features the four vendler classes can be parameterized as follows
+state activity continuous achievement bounded accomplishment bounded continuous hoeksema mourelatos introduce the notion of countability while discussing event classes
+this is similar to the mass count opposition in nouns
+terminating events can be counted but non terminating processes can not
+sema introduces two binary features count and duration to obtain vendler s classes as seen below
+the feature duration refers to whether the event takes place over time
+state activity duration achievement count accomplishment count duration moens renes vendler s classes by adding a class much like smith s tives smith
+he suggests that in addition to states there are four event types culmination culminated process point and process
+he uses two binary features or parameters consequence identifying termination or culmination and atomic or non atomic which moens called extended
+atomic is also called momentous or pointed
+moen s classication is given below along with the features and examples
+culmination consequence atomic examples recognize win the race culminated process consequence examples build a house point atomic example hiccup tap wink process example run swim play the piano state examples understand love resemble moens also claims that culminated process is an event class whose members are made up of smaller atomic units
+in particular a culminated process is a process with a consequent state
+this insight that events can be decomposed into sub events was used later by others working on the lexical analysis of events e
+
+pustejovsky acm transactions vol
+v no
+n january
+
+
+
+linguist verkuyl hoeksema moens event features identied bounded continuous count duration consequence atomic table ii
+features used by linguists to classify events
+others such as van voorst grimshaw tenny have claimed that arguments of verbs are related to sub events
+we summarize the various features that linguists have used to classify events in table ii
+of course we do not discuss many other proposals for features in this brief discussion
+classication of events and their parameterization of verbs or predicates or clauses are only the rst steps in developing a deeper linguistic understanding in particular in order to understand the linguistic representation of of events
+events linguists need to go beyond classication schemes
+
+events in logical representation of semantics mathematical logic is used to represent the semantics of language
+in particular we use logic to represent the meaning of single sentences
+early work on events e
+
+panini as discussed by parsons and hamilton et al
+stated that language encodes two kinds of information actions and non actions
+verbs represent actions and nouns represent non actions or things
+davidson proposes that one needs an event variable e to represent events in mathematical logic
+this variable e is used to represent relations represented by the event denoted by the verb and other constituents in the sentence such as modiers
+davidson claims that logically speaking events are like things in that they can be represented by a variable and this variable can be modied and quantied
+a question that arises is how many arguments should an event predicate in logic take kenny just like nominal modiers modify nouns event modiers can modify event predicates
+an event predicate can take any number of modiers just like noun nominal modiers
+examples of event modiers are time place manner and instrument
+davidson proposed that an event predicate may take one or more required arguments is this true and any number of adjuncts or optional modiers
+consider the following examples from davidson
+the english sentence and the corresponding logical representation or logical form is given for each example
+a
+john buttered the toast
+e the toast e b
+john buttered the toast slowly
+e the toast e
+john buttered the toast slowly in the bathroom
+e the toast e in the
+john buttered the toast slowly in the bathroom with a knife
+e the toast the a knif e
+john buttered the toast slowly in the bathroom with a knife at midnight
+e the toast the a knif acm transactions vol
+v no
+n january
+
+
+
+at thus we can see that davidson s approach places the event variable e in the main predicate of a clause and distributes it among the modiers of the clause in logical representation
+in writing the meaning in davidsonian logic the author creates predicates such as the toast and in the bathroom just for illustration without going into details
+davidsonian representation allows events to be represented in logic logical mantics without requiring verbs to have multiple arities i
+e
+without taking ent arguments in dierent situations
+because the event is represented as a variable the event variable e can be included in the representation of logical meaning of each modier or adjunct
+another benet is that using davidson s representation one can analyze events represented syntactically as nouns nominals or verbs parsons
+for example one can refer to an event using the verb to burn or the noun a burn
+parsons also observes that using a variable to represent an event allows tication over events the same way quantication applies to things
+the following examples are from parsons
+a
+in every burning oxygen is consumed
+e oxygen
+agatha burned the wood
+e agatha wood
+oxygen was consumed
+oxygen we do not go into details of containment of events as expressed by in in the rst ample above and also the representation of passives as in the third example above
+in these three examples the author uses predicates such as object and subject which represent more ne grained relationship with the main predicate corresponding to the verb usually than the examples earlier
+extending this work parsons higginbotham vlach have demonstrated that using davidson s e able allows one to express tense dependency between perception verbs and their innitival compliments in a natural way
+parsons extends davidson s approach to logical representation by adding an extra term corresponding to the event type of the predicate
+he distinguishes tween two types of eventualities eventualities that culminate called cul containing achievements and accomplishments and those that do not called hold containing states and activities
+a
+john buttered the toast
+
+mary knows fred
+e jones toast t t now t e m ary f red now in the logical representation in these examples the author uses predicates such as theme agent and experiencer which are usually are called cases in linguistics fillmore
+in addition the author uses a variable t to express time
+now is a special indexical variable
+we do not give detailed discussions of these ne points here
+acm transactions vol
+v no
+n january
+
+
+
+hobbs also proposes a logical form based on davidson s approach
+the main motivation behind hobb s approach is to be able to produce satisfactory semantic representation when an event is expressed as a noun or when we want to express the meaning of tenses modalities and adverbial modiers
+he also explains how so called opaque adverbials like almost in the sentence john is almost a man
+can be represented by the davidsonian approach which hobbs extends
+he also shows how the ambiguity between and de meanings of sentences quine that discuss beliefs can be explained by his approach to logical form representation of sentences
+the representation by hobbs is quite similar to other such representations based on davidson although there are some ne points of dierences that we do not discuss here
+from a practical point of view several research eorts in computational linguistics have adopted hobb s logical form and one such recent approach is by rudinger and van durme who attempt to map stanford dependency parses de marnee et al
+into hobbsian logical form and discover that sometimes it is possible to do so but in other cases the mapping requires semantic information that is not present in such dependencies indentied by the stanford parser
+
+event structure early eorts at identication of event structure in linguistics was usually limited to explaining essential grammatical phenomena
+however others later proposed complex structures that go beyond simple structures such as davidson s approach of representing an event by a single logical variable and its components by additional predicates
+understanding the structure of an event entails understanding the argument structure of the word or phrase used to express the event in surface form understanding the components in the conceptual or semantic description of an event and understanding the relation or mapping between syntactic realization of an event and its conceptual components
+in fact analysis of argument structure includes all three steps and requires nding the relation between meaning of a verb or a clause and the syntactic realization of arguments
+grimshaw williams introduce argument structure as a distinct level of representation in linguistics
+other prominent representations proposed include structures bresnan linear event structures van voorst lexical conceptual structures lcs jackendo rappaport and levin and two related structures event structures and qualia structures for arguments pustejovsky
+there are two sides to event structure syntactic and semantic
+when specifying event structure at the semantic level the description must be richer than semantic role descriptions gruber fillmore
+levin argues that named roles or thematic roles are too coarse grained to provide useful semantic interpretation of a sentence
+it is also necessary to capture semantic distinctions in a much more ne grained manner compared to prior theories of katz and fodor wilks quillian
+a sentence or two on these theories by this time it was clear that sophisticated approaches to specifying event structure must build upon the rich taxonomy of verb classes levin and descriptive vocabulary work talmy and jackendo
+acm transactions vol
+v no
+n january
+
+
+
+
+
+lexicalization patterns by talmy
+talmy discusses the systematic relations in language between meaning and surface expression
+in particular talmy focuses on verbs and in particular verbs that describe motion or location
+he sketches a motion event in order to explore issues in lexicalization
+the basic motion event consists of one object called gure moving or located with respect to another object called the referent or the ground
+the motion event has additional components such as path and motion manner and cause
+talmy gives examples of cases where the verb at once can express in addition to the action or motion one or more of gure path manner or cause
+if a sematic component such as manner or cause is expressed directly by the verb it is called conation of manner or cause into the verb
+some verbs incorporate aspect which represents the pattern of distribution of at ion though time
+in some languages verbs can incorporate personation as well
+personation is a specication of the person involved e
+
+self or non self
+some verbs incorporate what is called valence where in conceptualizing an event that involves several dierent entities in distinct roles a verb is able to direct greater attention to some one of these entities that to the others or perhaps adopt a specic perspective
+sometimes semantic components are not incorporated into the verb but are expressed through what talmy calls satellites
+a satellite is an immediate constituent of the verb root other than inections auxiliaries or nominal arguments
+talmy enumerates dierent semantic components
+in addition to the six listed above these include main purpose result polarity aspect personation temporal and spatial setting gender valence
+talmy also isolates surface elements within a verb complex such as the root verb inections appositions subordinate clauses and satellites
+he then examines which semantic elements are expressed by which surface elements
+he nds that the relationship is mostly not one to one
+a bination of semantic elements may be expressed by a single surface element or a single semantic element by a combination of surface elements
+in a similar manner semantic elements of dierent types can be expressed by the same type of surface elements or by several dierent ones
+talmy s work does not enumerate lexical entries for specic verbs but provides detailed discussion on semantic facets of meanings of a verb
+the main thrust of talmy s work is to demonstrate that semantic elements and surface elements relate to each other in specic patterns both typological and universal
+in work prior to talmy most work has treated language s lexical elements as atomic givens without involving semantic components that comprise them
+these studies treated the properties that such whole forms can manifest in particular word order matical relations and case roles
+talmy s cross linguistic study determines semantic components surface presence site their host constituent or grammatical relation and combination within a site
+in addition talmy s tracing of surface occurrence patterns extends beyond treating single semantic component at a time to treating a concurrent set of components
+lexical semantics must strive to represent at least some of the various tic components that talmy enumerates
+in addition it must incorporate ways of mapping from syntax to semantics or vice versa
+in a very simple system a set of detailed rules may be able to enumerate the mappings from syntax to semantics acm transactions vol
+v no
+n january
+
+
+
+and vice versa
+in a complex modern system it is necessary that a machine ing technique will automatically acquire the mappings
+this usually requires a lot of labeled examples for a machine learning program to learn such mappings
+we discuss some such as eorts later in the paper
+
+
+jackendo s lexical conceptual structure
+
+
+generative lexicon by pustejovsky
+consider the following illustrative amples
+a mary walked
+mary walked to the store
+c mary walked for minutes
+sentence a describes a process which is an activity of of indenite length i
+e
+the sentence does not say how long the activity of walking took
+although b does not give an explicit time duration for the walking event it depicts an accomplishment and provides a logical culmination to the duration of the event of walking because the event is over when mary reached the store
+sentence c talks about a bounded process in which the event of walking terminating although it does not provide an explicit termination point but provides a bound to the time extent of the activity in terms of a duration adverbial
+this example motivates the observation that the use of prepositional phrases or duration adverbials can change the aspectual classication of an event
+to explain such phenomena better it is benecial to have more complex event structures or lexical analysis of event words
+van voorst hypothesizes that the direct object plays a role in delimitation of an event i
+e
+whether it has a culmination or not
+pustejovsky builds upon such observations and hypothesizes that it is necessary to know the how an event can be broken down into sub events
+he provides the following reasons for sub eventual analysis
+sub eventual analysis of predicates allows verbal decomposition leading to more scope of adverbial modication for some adverbials can be explained better complex lexical semantics
+using event sub structures
+semantic arguments of items within a complex event structure can be mapped onto argument structures better
+pustejovsky describes a generative lexicon in the sense that meanings are described in terms of a limited number of so called generative devices or primitives by drawing upon aristotle s species of opposition lloyd
+for example to express the meaning of the word closed as in the door is closed the door closed or john closed the door one needs the concept of opposition between closed and not closed
+this essential opposition in the meaning of a lexical item is described by pustejovsky in terms of what is called the qualia structure of the lexical item
+thus there are three primary components to the event structure proposed by pustejovsky
+event type the event type of the lexical item is given in terms of the classication schemes discussed earlier
+acm transactions vol
+v no
+n january
+
+
+
+rules for event composition since an event may be expressed by more than a single verb the meanings of several lexical items may have to be composed to obtain a description
+for example how does pp attachment change the meaning of the central event in context mapping rules from event structure to argument structure pustejovsky describes a number of rules or principles for such mapping
+these rules describe how how semantic participants are realized syntactically
+pustejovsky provides lexical meaning in terms of four separate structures
+argument structure the behavior of a word as a function with its arity
+this provides the predicate argument structure for a word which species how it maps to syntax
+event structure it identies a specic event type for a word or a phrase following qualia structure it provides the essential attributes of an object that need to be inheritance structure it species how the word is globally related to other vendler
+expressed lexically
+cepts in the lexicon
+in summary pustejovsky endows complexity to lexical entries for verbs as well as non verbs so that semantic weight does not fall on verbs alone in the lexicon and when composing the meaning of a sentence from its constituents
+pustejovsky s approach also reduces the number of lexical entries necessary for individual verbs because the lexical entries become more general
+pustejovosky focuses on creating more muscular compositional semantics rather than decomposing a verb s meaning into a specied number of primitives
+
+semantic arguments and syntactic positions frequently specic semantic arguments of a verb also called thematic arguments appear in characteristic syntactic positions
+this has led to theories or proposals regarding mapping between the two
+these theories state that specic semantic arguments belong in specic syntactic positions and that there is relationship between semantic argument and syntactic position
+such proposals or ories include the universal alignment hypothesis perlmutter and uniformity of theta assignment hypothesis baker
+these are supposed to be universal in that they applied across languages and across verbs
+for example agents appear in subject positions across languages and verbs
+this mapping is thus universal
+however other mappings are not so universal
+for example the theme can appear in object subject or indirect object position and the experiencer can appear in subject or object position
+a theory that explains lexicon to syntax mapping also needs to explain the istence of argument alterations
+in other words it should explain the possibility that the same semantic role can appear in dierent syntactic positions for the same verb
+usually linguists classify verbs into a number of semantic classes dierent syntactic or surface position of a constituent may change under certain circumstances e
+
+when one formulates a question from a canonical or declarative sentence
+acm transactions vol
+v no
+n january
+
+
+
+verb orth abandon subc np pp pval to np noun oath abandon features countable pval with verb orth abstain subc intrans pp pval from in sc pval from verb oath accept subc np that s np as np verb orth promote subc np pp pval to for into from np pp pp pval for to into from as tobe fig
+
+sample comlex verb entries from the ones we talked about earlier and for each class a set of mapping relations and a set of argument alterations are specied levin levin and hovav pinker
+however other researchers claim that such semantic classication is dicult to obtain because semantically similar verbs may behave dierently across languages rosen a given verb in a language may have multiple syntactic realizations rosen and semantically similar verbs may allow several syntactic realizations rosen
+
+lexical resources for action or event representation the discussions on lexical representation of verbs so far have been based on eorts where a small number of examples were studied intently by linguists before making the various proposals
+starting the but more so in the when computer scientists started to focus more on analysis of large text corpora it became evident to some that the lexical analysis of pure linguists can be extended by knowledge gathered from such corpora
+this led to development of the comlex lexicon man et al
+wordnet miller fellbaum verbnet schuler framenet fillmore and baker fillmore et al
+fillmore and other resources
+some of these may have started without an automatic sis of corpora but soon corpora were used to rene and enhance the initial lexical resources
+comlex was a substantial resource whose creators spent a lot of eort in enumerating subcategorization features
+wordnet is a large lexical resource or ontology which encompasses words from all categories
+wordnet includes verbs but is not verb specic
+verbnet of course is focussed on verbs alone
+framenet is also focussed on verbs
+both verbnet and framenet attempt to represent all verbs not only those which are used to represent events
+however the term event itself is not clearly dened and most anything that is described by a verb can be considered an event in some context or another
+
+comlex and nomlex lexicons comlex was created at new york university as a computational lexicon ing detailed syntactic information on approximately words et al
+
+of course not all of these were verbs or words that describe actions
+the feature set comlex provided were more detailed than commerically available tionaries at the time such as the oxford advanced learner s dictionary oald hornby and longman s dictionary of contemporary englisch ldoce pro
+the initial word list was derived from oald
+the lexicon used a lisp like notation for dictionary entries
+we see some sample entries for verbs in comlex in figure
+acm transactions vol
+v no
+n january
+vp frame cs s that comp optional gs subject ex they thought comp that he was always late vp frame to inf sc cs vp mood
+
+
+vp frame to inf rs cs vp mood to infinitlve subject to infinitive features control subject subject ex wanted to come
+comp subject features raising subject subject seemed ex they comp to wilt
+fig
+
+sample comlex subcategorization frames comlex paid particular attention to providing detailed subcategorization or plement information for verbs and nouns and adjectives that take complements
+comlex was inuenced by prior work on lexicon such as the brandeis verb con grimshaw and jackendo the acuilex project sanlippo the nyu lingustic string project sager the oald and the ldoce and it incorporated distinctions made in these dictionaries
+comlex had dierent categorization features for verbs
+the features recorded dierences in grammatical functions as well as constituent structure
+in particular comlex captured four dierent types of control subject control object control variable control and bitrary control
+it was also able to express the fact that a verb may have dierent control features for dierent complement structures or dierent prepositions within the complement
+figure shows a few complements used in comlex
+here cs is the constituent structure gs is the grammatical structure and ex are examples
+the authors created a initial lexicon manually and then rened it using a variety of sources both commercial and based
+the nomlex dictionary of nominalizations was also developed at nyu macleod et al
+meyers et al
+
+it enumerated allowed complements for nalizations and also related nominal complements of the corresponding verbs
+a nominalization is the noun form of a verb
+for example the verb promote is inalized as nominalization
+similarly the nominalizations of the verb appoint are appointment and appointee
+nomlex entries are similar in syntax to comlex tries
+each nomlex entry has a nom type feature which species four types of nominalizations action appointment destruction or state knowledge subject teacher object appointee and verb part for those nominalizations that rate a verbal particle takeover
+meyers et al
+meyers et al
+presented a procedure what mapped syntactic and semantic information for an active clause containing a verb e
+
+ibm appointed alice smith as vice president into a set of patterns for nominalization ibm s appointment of alice smith as vice president or alice smith s appointment as vice president
+the lexical entry for the verb appoint used in comlex is given in figure
+the lexical entry in nomlex for the action nominalization appointment is given in figure
+acm transactions vol
+v no
+n january
+
+
+
+nom orth promotion verb promote nom nom verb subj n n mod det poss verb nom np object det n of nom np as np object det poss pp of nom possing nom p possing pval of nom np pp object det poss n n mod pp of pval into from for to nom np pp pp object det poss n n mod pp of pval for into to from fig
+
+the lexical entry for the action nominalization appointment in nomlex
+the entry for the verb appoint is given in figure
+
+levin s verb classes levin s verb classes levin explicitly provide the syntax for each class but do not provide semantic components
+the classes are based on the ability or inability of a verb to occur in pairs of syntactic frames with the assumption that syntactic frames reect the underlying semantics
+for example break verbs and cut verbs are similar because they can all take part in transitive and middle constructions
+however only break verbs can occur in simple intransitive constructs
+similarly cut verbs can occur in conative constructs and break verbs can not
+the explanation given is that cut describes a sequence of actions that result in the goal of separating an object into pieces
+it is possible that one can perform the actions without achieving the result e
+
+john cut at the loaf
+for break the result is a changed state where the object becomes separated into pieces
+if the result is not achieved we can not say that the action of breaking took place
+the examples below are taken from kipper et al
+
+transitive construction john broke the window
+john cut the bread
+middle construction glass breaks easily
+this loaf cuts easily
+intransitive construction the window broke
+the bread cut
+conative construction john broke at the window
+john valiantly cut at the frozen loaf but his knife was too dull to make a dent in it
+levin s original classes had some inconsistencies
+for example many verbs were listed in multiple classes some of which had conicting syntactic frames
+et al
+rened the original classication to remove some of these problems to build a more ne grained syntactically and semantically coherent rened class called intersective levin classes
+levin s classes also are focussed mostly on verbs taking noun np and prepositional phrase pp complements and are weak on coverage of adjp advp sentential complement
+verbnet is built using these classes
+organization of verbs into such classes capture generalizations about their erties
+such classes also help create better nlp systems
+many nlp systems benet from using the mapping from surface realization of arguments to argument structure that is available in such classes
+these classes also capture abstractions e
+
+syntactic and semantic properties and as a result they are acm transactions vol
+v no
+n january
+
+
+
+helpful in many operational contexts where the available corpora are small in size and thus it is not possible to extract detailed lexical information about verbs from such small corpora
+the predictive power of the classes can compensate for the lack of sucient data
+lexical classes have been helpful in tasks such as rization acquisition dorr prescher et al
+korhonen and briscoe automatic verb acquisition swift semantic role labeling swier and son and word sense disambiguation dang
+add newer citations for application
+look at after proceedings of naacl hlt
+wordnet the wordnet project miller fellbaum started in the at princeton university and over time has become the most widely used lexical source in english especially when one needs a lexical resource that can be used by a program
+wordnet was primarily designed as a semantic network and later modied to be a lexical database
+wordnet groups words into synsets synonym set and contains relations among these synsets
+a synset contains all the word forms that can refer to a given concept or sense
+for each sense of each word wordnet also provides a short general denition called its gloss and example usages
+as the name hints the wordnet can be thought of as a large graph where the words and synsets are nodes
+these nodes linked by edges that represent lexical and semantic conceptual links which we discuss briey below
+individual words may also be linked with antonym links
+superclass subclass relations link entire synsets
+wordnet has entries for verbs nouns adjectives and adverbs
+to get a better feel for what wordnet is like let us look at the online version of at priceton university
+when we search for the word assault in the online wordnet the results come in two parts noun and verb because assault can be either a verb or a noun
+the results that show up for verb are given in figure
+the verb senses of assault belongs to three synsets
+in other words it has three senses or can refer to three dierent concepts
+each sunset is composed of several verbs
+the second of these synsets contains one sense of each of the verbs assail set on and attack
+a verb may have four types of entries in wordnet hypernyms toponyms ment and coordinate terms
+these terms are dened here
+a verb y is a hypernym of the verb x if the activity x is a kind of y
+for example to perceive is an hypernym of to listen
+a verb y is a troponym of the verb x if the activity y is doing x in some manner
+for example to lisp is a troponym of to talk
+a verb y is entailed by x if by doing x one must be doing y
+for example to sleep is entailed by to snore
+coordinate terms are those verbs that share a common hypernym e
+
+to lisp and to yell
+if we want to see the direct troponym of the second synset for the verb meaning of assault we get what we see in figure
+wordnet has been used in many applications
+however it is most commonly used as a computational lexicon or ontology of english or another language for word sense disambiguation a task that assigns the most appropriate senses i
+e
+synsets to words in specic contexts
+although wordnet is large and at
+princeton
+edu acm transactions vol
+v no
+n january
+
+
+
+emotionally writing s v assail assault set on attack attack someone physically or s v rape ravish violate assault dishonor dishonour outrage force someone to have sex against their will s v attack round assail lash out snipe assault attack in speech or fig
+
+online wordnet search for the word attack
+we show only the verb entries with gloss for each entry
+s bait attack with dogs or set dogs upon s v sic set urge to attack someone s v bulldog attack viciously and ferociously s v rush attack suddenly s v blindside attack or hit on or from the side where the attacked person s view is obstructed s v attack brutally and fiercely s v assail again s v jump make a sudden physical attack on s v beset set upon s v rape ravish violate assault dishonor dishonour outrage force someone to have sex against their will s v desecrate profane outrage violate violate the sacred character of a place or language s harass or assault sexually make indecent advances to fig
+
+the direct toponym set for the second sunset for the verb assault seen in figure
+tailed wordnet does not have information required by nlp applications such as predicate argument structure
+although wordnet contains a suciently wide range of common words it does not cover special domain vocabulary
+it is general in nature and therefore dicult to use if specialized vocabulary is needed
+also wordnet senses are sometimes overly ne grained even for human beings and as a results some researcher argue that it can not achieve very high performance in the tasks where it is applied
+although wordnet is the most widely used online lexical database in nlp applications is also limited in its coverage of verbs
+the english wordnet currently contains approximately synsets each sunset corresponding to a sense of a word
+it has verbs that belong to synsets
+it also contains nouns that belong to synsets
+nets have been developed or are being developed in a large number of languages such as catalan french spanish japanese chinese danish korean and russian
+notable collaborative eorts include euro wordnet vossen asian wordnet charoenporn et al
+robkop et al
+sornlertlamvanich et al
+and indo wordnet sinha et al
+projects
+the indo wordnet focuses on major languages of india
+for example as of june there are synsets in the assamese wordnet in bengali in bodo in gujarati and in oriya
+wordnets in most other languages are not as
+wikipedia
+org wiki indowordnet acm transactions vol
+v no
+n january
+
+
+
+sophisticated as the one in english
+
+framenet framenet baker et al
+fillmore et al
+ruppenhofer et al
+is another substantial publicly available lexical resource that has come into existence independently
+it is based on the theory of frame semantics fillmore petruck fillmore and baker fillmore where a frame corresponds to a stereo typical scenario involving an interaction and participants where ipants play some kind of roles
+the idea is that the meanings of most words are best understood in context
+framenet proposes a small context called a semantic frame a description of a type of event relation or entity and the participants in it
+a frame has a name and this name is used to identify a semantic relation that groups together the semantic roles
+although frames mostly correspond to verbs there are frames that can be tied by nouns and adjectives
+framenet also has a large number of annotated tences
+each annotated sentence exemplies a possible syntactic realization of the semantic role associated with a frame for a given target word
+framenet extracts syntactic features and corresponding semantic roles from all annotated sentences in the framenet corpus it builds a large set of rules that encode possible syntactic realizations of semantic frames
+framenet aims to document the range of semantic and syntactic combinatory possibilities valences of each word in each of its senses through computer assisted annotation of example sentences and automatic tabulation of the annotation sults
+the framenet lexical database currently contains more than lexical units dened below more than of which are fully annotated in nearly hierarchically related semantic frames exemplied in more than annotated sentences
+see the framenet for the latest statistics
+framenet has been used as a semantic role labeling used in applications such as information tion machine translation event recognition sentiment analysis
+like the other publicly available lexical resources
+an example of a frame is attack
+this frame has several frame elements
+the core frame elements are assailant and victim
+there are a large number of core frame elements
+these include circumstances containing event direction duration explanation frequency manner means place purpose result time weapon
+for each of these frame elements there can be seen in one or more annotated sentences
+here is an example annotated sentence
+assailant t he gang assau lt ictim him t ime during the drive to lace in hertf ordshire
+
+
+the frame attack is associated with a large number of associated units
+these include verbs and nouns
+example verbs are ambush assail assault attack bomb bombard charge hit inltrate invade raid storm and strike
+examples of nouns are airstrike ambush assailant assault attack
+the frame attack inherits from
+icsi
+berkeley
+edu fndrupal home acm transactions vol
+v no
+n january
+
+
+
+a frame called intentionally aect
+it is inherited by frames besieging tack invading and suicide attack
+framenet annotates each frame element or its representation actually in at least three layers a frame element name e
+
+food a grammatical function e
+
+object and a phrase type e
+
+np
+only the frame elements are shown in the web based interface to reduce visual clutter although all three are available in the xml downloads
+framenet has dened more than semantic frames
+these frames are linked together using frame relations which relate more general frames to specic ones
+this allows for reasoning about events and intentional actions
+because frames are semantic they are often similar across languages
+for ple frames about buying and selling involve frame elements buyer seller goods and money in every language
+framenets have been developed for languages such as portuguese german spanish chinese swedish and japanese
+at the current time there are frames in framenet
+there are approximately
+frame elements per frame
+there are lexical units of which are nouns are verbs are adjectives
+there are
+lexical units per frame
+there have been some attempts at extending the coverage of framenet
+one such eort is by rastogi and van durme who use a new broad coverage semantic resource called ppdb to add lemmas as pontential triggers for a frame and to automatically rewrite existing example sentences with these new triggers
+ppdb the paraphrase database is a lexical phrasal and syntactic paraphrase database ganitkevitch et al
+
+they use ppdb s lexical rules along with a gram kneser ney smoothed language model trained using kenlm heaeld et al
+on the raw english sequence of the annotated gigaword corpus napoles et al
+
+
+propbank propbank kingsbury and palmer palmer et al
+is an annotated corpus of verb propositions and their arguments
+propbank does not annotate events or states of aairs described using nouns
+propbank style annotations ally are closer to the syntactic level whereas framenet style annotations are more semantically motivated although as discussed earlier framenet provides layers of annotations including syntactic parses
+propbank annotates one million words of the wall street journal portion of the penn treebank with predicate argument structure for verbs using semantic role labels for each verb argument
+although the same tags are used across all verbs viz
+these tags have verb specic meaning
+framenet requires that the use of a given argument label is consistent across dierent uses of a specic verb including its syntactic alternations
+thus italicized in john broke the window broke is the same window that is annotated as the in the window broke even though it is the syntactic subject in one case and the syntactic object in another
+framenet does not guarantee that an argument label is used consistently across dierent verbs
+for example is used as label to designate the destination of the verb bring but the extent of the verb rise
+generally the arguments are simply listed in the order of their prominence for each verb
+however propbank tries to use as the consistent label for the prototypical agent and for the prototypical patient as discussed in dowty
+acm transactions vol
+v no
+n january
+
+
+
+propbank role meaning of propbank role verbnet theta role attacker entity attacked attribute agent theme predicate example mr
+baldwin is attacking the greater problem lack of ringers
+propbank role value mr
+baldwin the greater problem lack of ringers table iii
+propbank entry for attack
+a sense of the verb attack buy buyer purchase buyer thing bought thing bought thing sold seller prince paid benefactive seller price paid benefactive buyer price paid benefactive sell seller table iv
+roles for the verbs purchase buy and sell in propbank propbank divides words into lexemes using a very coarse grained sense biguation scheme
+two senses are considered distinct only if their argument labels are dierent
+in propbank each word sense is called a frameset
+propbank s model of predicate argument structure diers from dependency parsing
+in dependency parsing each phrase can be dependent only on one other phrase
+but in bank a single phrase can be arguments to several predicates
+propbank provides a lexicon which divides each word into coarse grained senses or framesets and vides examples usages in a variety of contexts
+for example the to make an attack criticize strongly sense of the predicate lemma or verb attack is given in table iii along with an example
+propbank tries to keep rolesets consistent across related verbs
+thus for ple the buy roleset is similar to the purchase and sell rolesets
+see table iv taken from kingsbury and palmer
+one can clearly see that it may be possible to merge such similar framesets together to obtain something similar to the verb roles in framenet s commerce frameset
+although similar propbank diers from framenet we have discussed earlier in several ways
+propbank is a resource focussed on verbs whereas framenet is focussed on frame semantics that generalizes descriptions across similar verbs as well as nouns and other words e
+
+adjectives as discussed earlier
+propbank was created with the idea of serving as training data to be used with machine learning algorithms for the task of semantic role labeling
+it requires all arguments to a verb to be syntactic constituents in nature
+in addition propbank dierentiates among senses of a verb if the senses take dierent sets of arguments
+there is a claim that due to such dierences semantic role labeling is easier using a corpus annotated with propbank type annotation compared to framenet type annotation
+acm transactions vol
+v no
+n january
+
+
+
+
+verbnet verbnet kipper et al
+kipper et al
+kipper schuler attempts to provide a denitive resource for lexical entries for english verbs
+it is compatible with wordnet but has lexical entries with explicit syntactic and semantic mation about verbs using levin s verb classes levin
+it uses verb classes to capture generalizations and for ecient encoding of the lexicon
+its syntactic frames for verb classes are represented using a ne grained variation of lexicalized tree adjoining grammers joshi schabes dang et al
+augmented with semantic predicates allowing for creating compositional meanings for more complex constituents such as phrases and clauses
+verbnet provides traditional semantic information such as thematic roles and semantic predicates with tic frames and selectional restrictions
+it also allows for extension of verb meaning through adjunction of particular syntactic phrases
+a verb entry corresponds to a set of classes corresponding to the dierent senses of the verb
+for each verb sense there is a verb class as well as specic selectional restrictions and semantic characteristics that may not be captured by class bership
+verbnet also contains references to wordnet synsets
+verb classes capture generalizations about verb behavior
+each verb class lists the thematic roles that the predicate argument structure of its members allows and provides descriptions of the syntactic frames corresponding to allowed constructs with selectional strictions given for each argument in each frame
+verb classes are hierarchically organized
+it required some manual restructuring of levin s classes
+each event e is decomposed into a three part structure according to moens moens and steedman
+vernnet uses a time function for each predicate specifying whether the predicate is true during the preparatory culmination or consequent result stage of an event
+this structure allows verbnet to express the semantics of classes of verbs like change of state verbs
+for example in the case of the verb break it is important to distinguish between the state of the object before the end of the action and the new state that results afterwards
+table v is an example of a simplied verbnet entry from its
+the original verbnet was extended using extensions proposed by korhonen and briscoe
+this resulted in the addition of a large number of new classes and also a much more comprehensive coverage of english verbs
+table vi provides statistics of verbnet s coverage in its initial version verbnet as described in kipper et al
+kipper et al
+kipper et al
+and its current version as in its ocial website
+the absence of any lexicon or resource that provides for accurate and hensive predicate argument structure or semantic role labels for english verbs has been long considered a critical element that was needed to produce robust natural language processors
+this was shown clearly by han et al
+who evaluated an english korean machine translation system
+the authors showed that among several factors impacting on the low quality of translations one that was most ential was the inability to predicate argument structure
+even with a grammatical parse of the source sentence ad complete vocabulary coverage the translation was
+colorado
+projects verbnet
+html acm transactions vol
+v no
+n january
+
+
+
+class
+roles and restrictions control members bang bash hit kick frames name basic tive semantics e directedmotion agent agent agent patient example paula hit the ball syntax agent v patient patient agent table v
+simplied verbnet entry for
+class
+every class is numbered
+first level classes thematic roles semantic predicates selectional restrictions semantic syntactic restrictions lemmas verb senses verbnet now
+verbnet per et al
+table vi
+verbnet statistics frequently bad
+this is because the authors found that although the parser ognized the constituents that are verb arguments it was unable to precisely assign the arguments to appropriate positions
+this led to garbled translations
+ply preserving the proper argument position labels and not changing other things resulted in substantial improvement in acceptable translations
+when using one parser the improvement was with a second parser the improvement was matic
+thus the purpose in developing lexical resources such as framenet and propbank propbank especially so is to provide for training data annotated with predicate argument positions with labels
+such data can be used with machine learning techniques
+
+combining framenet verbnet and wordnet there have been attempts to integrate lexical resources to obtain more robust sources with wider coverage
+we discuss one such eort here
+shi and mihalcea integrate framenet verbnet and wordnet discussed earlier into a single and richer resource with the goal of enabling robust semantic parsing
+the reason for building connections among the three lexical resources is that similar syntactic patterns often introduce dierent semantic interpretations and similar meanings can be realized in many dierent ways
+the improved resource provides three hancements it extends the coverage of framenet it augments verbnet s lexicon with frame semantics and it implements selectional restrictions using wordnet semantic classes
+they use knowledge about words and concepts from wordnet information about dierent situations from framenet and verb lexicon with selectional restrictions from verbnet
+they extract syntactic features and acm transactions vol
+v no
+n january
+
+
+
+corresponding semantic roles from all annotated sentences in framenet to build a large set of rules that encode the possible syntactic realization of semantic frames
+they identify the verbnet verb class that corresponds to a framenet frame and this allows them to parse sentences that include verbs not covered by framenet
+this they do by exploiting a transitivity relation via verbnet classes verbs that belong to the same levin classes are likely to share the same framenet frame and their frame semantics can be analyzed even if not explicitly dened in framenet
+they use information from wordnet in several stages in the parsing process
+the argument constraints encoded in verbnet e
+
+animate concrete are mapped to wordnet semantic classes to provide selectional restrictions for better frame selection and role labeling in a semantic parser
+in addition the mapping between wordnet verb entries and framenet lexical units allows them to extend the parser coverage by assigning common frames to verbs that are related in meaning ing to the wordnet semantic hierarchies
+the authors found that their mapping algorithms produced
+correct assignment of verbnet entries with a correct framenet frame
+they also were able to map
+verbnet predicate argument structures with some syntactic features and selectional restrictions to the sponding framenet semantic roles
+
+ontonotes and other large scale annotated corpora the ontonotes project hovy et al
+sameer et al
+weischedel has created an infrastructure for much richer domain independent representation of shallow meaning for use in natural language processing tasks including event detection and extraction in english chinese and arabic
+ontonotes annotates documents at several layers syntax propositions word senses including izations and eventive noun senses named entities ontology linking and co reference
+it has been designed to be a well annotated large scale corpus from which machine learning programs can learn many dierent aspects of meaning felicitously
+ontonotes uses penn treebank parses marcus et al
+propbank sitional structures kingsbury and palmer palmer et al
+on top of penn treebank and uses the omega ontology philpot et al
+for word sense disambiguation
+as we know the penn treebank is annotated with tion from which one can extract predicate argument structures
+the developers of ontonotes use a parser that recovers these annotations gabbard et al
+
+the penn treebank also has markers for empty categories that represent displaced constituents
+thus to create ontonotes its developers use another parser collins to extract function words
+they also use a maximum entropy learner and voted preceptons to recover empty categories
+propbank as we know tates the one million word wall street journal part of the penn treebank with semantic argument structures for verbs
+as we have noted earlier the creators of ontonote and others have discovered that wordnet s very ne grained sense tinctions make inter annotator agreement or good tagging performance dicult
+to achieve better performance ontonotes uses a method palmer et al
+palmer et al
+for sense inventory creation and annotation that includes links between grouped word senses and the omega ontology philpot et al
+
+ontonotes represents sense distinctions in a hierarchical structure like a decision tree where coarse grained distinctions are made at the root and increasingly ne grained acm transactions vol
+v no
+n january
+
+
+
+strictions until reaching wordnet senses at the leaves
+sets of senses under specic nodes of the tree are grouped together into single entries along with syntactic and semantic criteria for their groupings these are presented to annotators for improved annotation agreement obtaining up to inter annotator agreement
+ontonote follows a similar method for annotation of nouns
+to allow access to additional information such as subsumption property tance predicate frames from other sources links to instances and so on ontonotes also links to an ontology
+this requires decomposing the hierarchical structure of ontonotes into subtrees which then can be inserted at the appropriate tual node in the ontology
+ontonotes represents its terms in the omega ontology philpot et al
+
+has been assembled by merging a variety of sources such as wordnet mikrokosmos mahesh et al
+and a few upper ontologies such as dolce gangemi et al
+sumo niles and pease and penman upper model hovy
+ontonote also includes and cross references verb frames from propbank framenet wordnet and lexical conceptual structures habash and dorr
+ontonotes also has coreferences
+it connects coreferring instances of specic referring expressions primarily nps that introduce or access a discourse entity
+for the purpose of our paper it is important to know that ontonotes tries to annotate nouns that carry predicate structure e
+
+those whose structure is derived from their verbal form
+in particular ontonotes annotates nominalization and eventive senses of nouns
+ontonotes applies two strict criteria for identifying a sense of a noun as a nominalization weischedel
+the noun must relate transparently to a verb and typically display a ing morpheme such as govern government contribute contribution though it allows some zero derived nouns such as kill the noun derived from kill the verb
+the noun must be able to be used in a clausal noun phrase with its core verbal arguments related by semantically empty or very light licensers such as tive markers as in the roman s destruction of the city
+
+or with the verb s usual particle or prepositional satellites as in john s longing for fame and fortune
+
+
+just like nominalization senses ontonotes has strict denition of eventive senses
+they have two denitional criteria and and a diagnostic test for mining if a noun sense is eventive
+activity causing a change of state a noun sense is eventive when it refers to a single unbroken activity or process occurring during a specic time period that eects a change in the world of discourse
+reference to activity proper the noun must refer to the actual activity or process not merely to the result of the activity or the process
+the noun patterns with eventive predicates in the have test belvin describes the following heuristic lexico syntactic diagnostic test to apply to many nouns
+the test has four parts to it as discussed briey below
+
+isi
+edu acm transactions vol
+v no
+n january
+
+
+
+create a natural sounding sentence using the construction x had np where np is a noun phrase headed by the noun in question e
+
+john had a party
+check if the sentence can be used in present progressive as in john is having a party
+if the sentence is felicitous it adds to the noun being inventive
+if it sounds odd it adds to the evidence that the noun is stative
+check if the sentence can be used in a pseudo cleft construction such as what if it is felicitous the noun is more likely to be john did was have a party
+eventive
+if not it is more likely to be stative
+check if the sentence suggests iterative or habitual action using the simple present such as john has a party every friday
+if so it adds evidence that the noun is eventive
+if the sentence suggests that the situation is taking place at that very moment that it is uttered it adds evidence that the noun is stative as in john has a cold
+in addition to ontonotes there have been other eorts at obtaining large scale annotated corpora such at the glarf project meyers et al
+that tries to capture information from various treebanks and superimpose a predicate argument structure
+the unied linguistic annotation ula project pustejovsky et al
+is a collaborative eort that aims to merge propbank nombank the penn discourse treebank prasad et al
+and timebank pustejovsky et al
+with co reference information
+
+extracting events from textual documents dierent models of events have been used in computational linguistics work geared toward information extraction
+a type of model that has been carefully developed over many years treats an event as a word that points to a node in a network of predominantly temporal relations
+an example is the so called timeml event that is found in documents that are annotated using the timeml guidelines pustejovsky et al
+sauri et al
+al
+
+in a timeml annotated corpus every event is annotated
+thus when working with the timeml model an extraction program attempts to extract every event
+a second type of event model enumerates a few types of events to be extracted where the types selected in a somewhat ad manner with an event being described or pointed to by one or more words along with additional associated words or phrases that specify arguments of the event
+an example is the ace model of events where an event is a complex structure with arguments which themselves may be complex structures
+event extraction in the context of are there other related mucs or ace requires one to extract only a limited number of event types e
+
+movement event type conict event type justice event type see section
+
+
+below
+the structure for these event types is provided by the contest organizers
+authors have used very specialized denitions of events when working with biomedical text with details of a few specialized types of biomedical events along with the participants
+acm transactions vol
+v no
+n january
+
+
+
+when detecting events in informal very short text such as microblogs of facebook posts researchers have used denitions that focus on extracting events from many short documents over which an event may be described
+we discuss timeml events next followed by events
+we discuss biomedical event extraction in section and extraction of events from twitter in section
+
+timeml events timeml is a rich specication language for event and temporal expressions in natural language text
+in the timeml pustejovsky et al
+sauri et al
+annotation scheme an event is a general term for situations that happen or occur
+events can be punctual or momentary or last for a period of time
+events in timeml format may also include predicates describing states or circumstances in which something holds true
+only those states that participate in an opposition structure as discussed in subsection
+
+are annotated
+in general an event can be expressed in terms of verbs nominalizations adjectives predicative clauses or prepositional phrases
+timeml allows an event annotated with the event tag to be one of seven types occurrence state report i action i state aspectual and perception
+the rst ve are special cases
+the last two occurrence and state are used for general cases that do not fall in the special ones
+reporting a reporting event describes an action declaring something narrating an event informing about a situation and so on
+some verbs which express this kind of event are say report tell explain and state
+an example sentence with the verb say is punongbayan said that the foot high volcano was spewing gases up to degrees
+i action i stands for
+according to the timeml annotation lines an i action is a dynamic event that takes an event denoting argument which must be explicitly present in the text
+examples of verbs that are used to express i actions include attempt try promise and oer
+an example sentence with the verb try is companies such as microsoft or a combined worldcom mci are trying to monopolize internet access
+i state i state stands for intensional state
+like an i action an i state event takes an argument that expresses an event
+unlike an i action the i state class is used for events which are states
+an example sentence that uses the verb believe is we believe that his words can not distract the world from the facts of iraqi aggression
+other verbs used to express i states include intend want and think
+aspectual an aspectual predicate takes an event as an argument and points to a part of the temporal structure of the event
+such a part may be the beginning the middle or the end of an event
+verbs such as begin nish and continue are such aspectual predicates
+an example sentence with the verb begin is all non essential personnel should begin evacuating the sprawling base
+to the english wikipedia in logic and mathematics an intensional denition gives the meaning of a term by specifying all the properties required to come to that denition that is the necessary and sucient conditions for belonging to the set being dened
+acm transactions vol
+v no
+n january
+
+
+
+perception this class includes events involving the physical perception of other event
+such events are typically expressed by verbs such as see watch glimpse hear listen and overhear
+an example sentence with the verb see is witnesses tell birmingham police they saw a man running
+occurrence an occurrence is a general event that occurs or happens in the world
+an example of an occurrence is given in the following sentence the defense ministry said planes have landed so far with protective equipment against biological and chemical warfare
+the occurrence has been highlighted in bold
+state a state describes circumstances in which something obtains or holds true
+an example sentence that shows two states is it is the us economic and political embargo which has kept cuba in a box
+timeml allows one to mark up temporal expressions using the tag
+temporal expressions are of three types a fully specied temporal expressions such as june underspecied temporal expressions such as monday c durations such as three days
+timeml uses the signal tag to annotate sections of text usually function words that indicate how temporal objects are related to each other
+the material marked by signal may contain dierent types of linguistic elements indicators of temporal relations such as prepositions such as on and during other temporal connectives such as when
+the and signal tags were introduced by setzer and gaizauskas setzer
+a major innovation of timeml is the link tags that encode relations between temporal elements of a document and also help establish ordering between the events in a document
+there are three types of links tlink showing temporal relationships between events or between an event and a time slink or a dination link to show context that introduces relations between two events or an event and a signal alink or an aspectual link to show relationship between an aspectual event and its argument event
+tlink allows for temporal relations introduced by allen
+slink is used to express contexts such as use of modal verbs negatives positive and negative evidential relations factives which require the event argument to be true and counterfactives which require the event argument to be false
+alink expresses initiation culmination termination or tinuation relationships between an event and its argument event
+finally timeml is able to express three types of causal relations an event causing an event an entity causing an event and the special situation where the use of the discourse marker and as a signal to introduce a tlink indicating that one event happened before another as in he kicked the ball and it rose into the air
+the creators of timeml have spent signicant eorts to develop a fairly large corpus annotated with timeml tags
+this corpus is called the timebank pustejovsky et al
+and has annotated articles
+this corpus has been used to learn to extract events and temporal relations among events
+
+ace events in the ace model only interesting events are annotated in corpora and thus extracted by a trained program
+ace annotators specify the event types they want to be extracted
+for example in one information extraction contest an ace acm transactions vol
+v no
+n january
+
+
+
+was of types each with one has one or more sub types
+the types are given below
+maybe give some examples life be born marry divorce injure and die movement transport transaction transfer ownership transfer money business start organization merge organization declare bankruptcy contact meet phone write conict attack demonstrate personnel start position end position nominate elect and justice arrest jail release parole trial hearing charge indict sue convict sentence fine execute extradite acquit appeal pardon
+each event also has four categorial attributes
+the attributes and their values are given below
+modality asserted and other where other includes but is not limited to lieved events hypothetical events commanded and requested events ened proposed and discussed events and promised events
+polarity positive and negative
+genericity specic generic tense past present future and unspecied
+ace events have arguments
+each event type has a set of possible argument roles which may be lled by entities time expressions or other values
+each event type has a set of possible argument roles
+there are a total of role types although no single event can have all roles
+a complete description of which roles go with which event type can be found in the annotation guidelines for ace
+in an ace event time is noted if when explicitly given
+others have dened events or event proles themselves to suit their purpose
+for example cybulska and vossen cybulska and vossen describe an historical information extraction system where they extract event and participant information from dutch historical archives
+they extract information using what they call proles
+for example they have developed proles for event tion although they use only of them in the reported system
+for extraction of participants they use proles
+they also temporal proles and location proles to extract temporal and locational information
+proles are created using semantic and syntactic information as well as information gleaned from wordnet miller
+
+
+additional annotation schemes
+
+ldc
+upenn
+edu ace docs english events
+
+
+pdf
+ldc
+upenn
+edu ace docs english events
+
+
+pdf acm transactions vol
+v no
+n january
+
+
+
+
+
+
+ere annotations
+the ace annotation scheme discussed earlier was developed by nist in and the ere entities relations and events scheme was dened as a simpler version of ace aguilar et al
+
+one of ere s goals is also to make annotating easier and annotations more consistent across annotators
+ere attempts to achieve these goals by removing the most problematic annotations in ace and consolidating others
+we will discuss the three types annotations now entities relations and events
+for example consider entities
+ace and ere both have person organization geo political entity and location as types of entities
+ace has two additional types weapon and vehicle which ere does not have
+ere does nt distinguish between facility and location types and merge them into location
+ere has a type called title for titles honorics roles and professions
+ace has subtypes for entity mentions which ere does not
+in addition to subtypes ace classies entity mentions into classes e
+
+specic generic and underspecied ere has only specic
+ace and ere also have dierences in how extents and heads are marked and levels of entity mentions
+the purpose of relation annotation in both ace and ere is to extract a sentation of the meaning of the text not necessarily tied to the underlying syntactic or lexical representation
+both schemes include physical part whole aliation and social relations although the details are a bit dierent
+both tag relations inside a single sentence and tags only explicit mentions
+nesting of tags is not allowed
+each relation can have up to two ordered argument slots
+neither model tags tive relations
+however ere annotates only asserted real events whereas ace allows others as well e
+
+believed events hypothetical events desired events and requested events
+there is no explicit trigger word in ace which annotates the full clause that serves as the trigger for a relation whereas ere attempts to minimize the annotated span by allowing for the tagging of an optional trigger word or phrase
+ace justies tagging of each relation by assigning syntactic clauses to them such as possessive premod and coordination
+the three types of relations inn ere and ace have sub types physical part whole and social and ation but ere collapses ace types and sub types to make them more concise possibly less specic
+aguilar et al
+discuss the similarities and dierences between ace and ere in detail
+events in both ace and ere are dened as specic occurrences involving specic participants
+like entities and relations ere is less specic and simplied compared to ace
+both annotation schemes annotate the same event types life movement transaction business conict contact personnel and justice
+
+
+
+red annotations
+et al
+use another annotation scheme called richer event description red synthesizing co reference pradhan et al
+lee et al
+and thyme timeml temporal relations styler iv et al
+
+et al
+discusses challenges in annotating documents with the red schema in particular cause eect relations
+the usual way to annotate eect relations is using the counter factual denition of causation in philosophy lewis halpern and pearl x causes y means if x had not occurred y would not have happened
+acm transactions vol
+v no
+n january
+
+
+
+however et al
+found that this denition leads to many dicult and sometimes erroneous annotations and that s why while performing red tions they used another denition menzies which treats causation as a local relation depending on intrinsic properties of the events and what goes on between then and nothing else
+in particular the denition is x causes y means y was inevitable given x
+in fact in the annotations performed by et al
+they use the new denition to make judgements but use the old denition as a precondition to the new one
+
+
+tac kbp annotations
+the knowledge base population track bkp was started by nist in to evaluate knowledge bases kbs created from the output of information extraction systems
+the primary tasks are a tity linking linking extracted entities to entities in knowledge bases and slot lling adding information to entity proles information that is missing from the knowledge base mcnamee et al
+
+wikipedia articles have been used as ence knowledge bases in evaluating tac kbp tasks
+for example given an entity the goal is to identify individual nuggets of information using a xed list of ventory relations and attributes
+for example given a celebrity name the task is to identify attributes such as schools attended occupations important jobs held names of immediate family members
+and then insert them into the knowledge base
+many people compare slot lling to answering a xed set of questions taining the answers and lling in the appropriate slots in the knowledge base
+slot lling in tac kbp diers from extraction in ace and ere notations in several ways such as tac kbp seeks out information for named entities only chiey pers and orgs tac kbp seeks to obtain values for slots and not mentions and events are handled as uncorrelated slots and assessment is like in question answering
+our focus on this paper has been on extracting events and we know that to extract events properly we need to explicitly extract event mentions and also extract associated attributes such as agents locations time of occurrence duration
+rather than explicitly modeling events tac kbp does so implicitly as it captures various relations associated with for example the agent of the event
+for example given a sentence jobs is the founder and ceo of apple tac kbp may pick apple as the focal entity and identify jobs as the ller of its founder slot and jobs as the ller of its ceo slot
+however an ace or ere annotation program will ideally pick the event as founding with jobs as an argument say the rst argument or or the actor of the event and apple as another argument say
+
+extracting events many even extraction systems have been built over the years
+a big motivator for development of event extraction systems seem to be various contests that are held every few years although there has been considerable amount of non contest related research as well
+although we discuss extraction of events represented by various formats the methods are not really dierent from each other
+that is why we discuss timeml events in more detail and present the others briey in this acm transactions vol
+v no
+n january
+
+
+
+section
+
+
+extracting timeml events
+we describe a few of the approaches that have been used for extracting timeml type events
+quite a few papers that tempt to do so have been published saur al
+bethard and martin chambers et al
+llorens et al
+grover et al
+and we pick just a few representative papers
+
+
+
+the evita system
+saur al
+implemented an event and event feature extraction system called evita and showed that a linguistically motivated rule based system with some help using statistical disambiguation perfumed well on this task
+evita is claimed to be a unique tool within the timeml framework in that it is very general being not based on any pre established list of event patterns and being domain independent
+evita can also identify based on linguistic cues grammatical information associated with event referring expressions such as tense aspect polarity and modality as stated in the timeml specication
+evita does not directly identify event participants but can work with named entity taggers to link arguments to events
+evita breaks down the event recognition problem to a number of sub tasks
+evita preprocesses the input text using the alembic workbench pos tagger lemmatizer to nd lexical stems and chunkier to obtain phrase chunks verbal nominal and adjectival the three that are commonly used as event referring expressions
+for each subtask after pre processing it combines and statistically based knowledge
+linguistic knowledge is used in local and limited contexts such as verb phrases and to extract morphological information
+statistical knowledge is used to disambiguate nominal events
+the sub tasks in event recognition in evita are determination of event candidates and then the events identication of grammatical features of events additional clustering of event chunks for event detection and grammatical feature identication in some situations
+for event identication evita looks at the lexical items tagged by the it uses dierent strategies for identifying events in the three cessing step
+gories verbs nouns and adjectives
+for identifying events in a verbal chunk evita performs lexical look up and limited contextual parsing in order to exclude weak stative predicates such as be and generics such as verbs with bare plural subjects
+identifying events expressed by nouns involves a phase of lexical look up and ambiguation using wordnet and by mapping events semcor and timebank
+to wordnet synsets
+evita consults subtrees from wordnet where all the synsets denote events
+one of these the largest is the tree underneath the sunset that contains the word event
+if the result of this lexical look up is not conclusive i
+e
+if a nominal occurs as both event and non event in wordnet a disambiguation step is applied based on rules learned by a bayesian classier trained on semcor
+to identify events from adjectives evita uses a conservative approach where it tags only those adjectives that were annotated as such in timebank
+when such adjectives occur as the head of a predicative complement
+to identify grammatical features e
+
+tense aspect modality polarity and nite morphology of events evita uses dierent procedures based on the part of speech of the event denoting expression
+but in general it involves using acm transactions vol
+v no
+n january
+
+
+
+ogy pattern matching and applying a large number e
+
+such rules for verbal chunks simple linguistic rules
+however to identify the event class it performs ical look up and word sense disambiguation
+clustering is used to identify chunks from the preprocessing stage that contribute information about the same event e
+
+when some modal auxiliaries and use of copular verbs
+clustering is activated by specic triggers such as the presence of a chunk headed by an auxiliary verb or a copular verb
+evaluation of evita was performed by comparing its performance against banck
+
+the reported performance was that evita had
+precision
+recall and an f measure of
+in event detection
+accuracy precision for polarity aspect and modality was over in each case
+
+
+
+bethard and martin s approach
+bethard and martin use timebank annotated events and identify which words and phrases are events
+they consider event identication as a classication task that works on word chunks
+they use the bio formulation that augments each class label with whether the word is the beginning inside or outside of a chunk ramshaw and marcus
+they use a number of features categorized into various classes for machine ing
+these include ax features e
+
+three or four characters from the beginning and end of each word morphological features e
+
+base form of the word and base form of any verb associated with the word if the word is a noun or gerund for example word class features e
+
+pos tags which noun or verb cluster a word belongs to where the clusters are obtained using co occurrence statistics in the manner of pradhan et al
+governing features e
+
+governing light verb determiner type cardinal or genitive for example and temporal features e
+
+a bio label indicating whether the word is contained inside a temporal annotation a governing temporal preposition like since till before
+
+they also use negation features and wordnet hypernyms as features
+for classication they use the tinysvm implementation of svm by kudo and matsumoto
+they perform experiments with timebank documents using a stratied pling for training and for testing
+they obtained precision and recall with an f measure of
+
+they did compare their algorithm with an version of evita they programmed themselves this system obtained
+f measure and thus bethard and martin s approached performed about better
+when bethard and martin s system was extended to identifying semantic class of an event it did not perform as well obtaining precision of recall of and f measure of
+
+however the system was much better at identifying the classes of verbs with f measure of
+compared to nding classes of nouns with an f measure of
+only
+
+
+
+llorens et al
+s approach
+tipsem temporal information processing based on semantic information is a system that participated in the competition verhagen et al
+in which presented several tasks to participants although we are primarily interested in the event extraction task
+tipsem achieved the best score in all the tasks in for spanish and for english it obtained the best metric in the task of extracting events which required the recognition and classication of events as dened by timeml event acm transactions vol
+v no
+n january
+
+
+
+tag
+tipsem learns conditional random field crf models using features for ferent language analysis levels although the approach focuses on semantic tion primarily semantic roles and semantic networks
+conditional random fields present a popular and ecient machine learning technique for supervised sequence labeling laerty et al
+
+the features used for training the crf models are similar to one used by others such as bethard and martin although details vary
+however they add semantic role labels to the mix of features
+in particular they identify roles for each erning verb
+semantic role labeling gildea and jurafsky moreda et al
+punyakanok et al
+identies for each predicate in a sentence semantic roles and determine their arguments agent patient
+and their adjuncts locative temporal
+
+the previous two features were combined in tipsem to capture the relation between them
+the authors think this combination introduces additional information by distinguishing roles that are dependent on dierent verbs
+the importance of this falls especially on the numbered roles
+meaning dierent things when depending on dierent verbs
+the test corpus consists of k words for english and k words for spanish provided by the organizers of
+for english they obtained precision of
+recall of
+and f measure of
+for recognition with event classication accuracy of
+for spanish the numbers were
+
+
+for recognition and
+for classication accuracy
+we provide these numbers although we know that it is dicult to compare one system with another for example bethard and martin s system with tipsem since the corpora used are dierence
+
+
+
+
+as in uzzaman et al
+participants took part in a task where they had to determine the extent of the events in a text as dened by the timeml event tag
+in addition systems may determine the value of the features class tense aspect polarity modality and also identify if the event is a main event or not
+the main attribute to annotate is class
+the dataset was mostly automatically generated using a temporal merging system
+the half million token text corpus from english was automatically annotated using tipsem tipsem b llorens et al
+and trios uzzaman and allen
+these systems were re trained on the timebank and aquaint corpus using the timeml temporal relation set
+the outputs of these three state of the art system were merged using a merging algorithm uzzaman et al
+
+the dataset used comprised about k tokens of silver standard data and about k tokens of gold standard data for training compared to the corpus of roughly k tokens corpus used in tempeval and
+there were seven participants and all the participants except one used machine learning approaches
+the top performing system was jung and stent with precision
+recall and of
+for event recognition and
+for event classication
+close behind was the system jung and stent with precision recall and of
+
+and
+for event recognition respectively and
+for event classication
+both systems used maxent classiers with obviously dierent sets of features impact on the performance of event acm transactions vol
+v no
+n january
+
+
+
+nition and classication adafre and de rijke angeli et al
+rigo and in particular also examined performance based on dierent lavelli
+sizes of n grams in a small scale
+inspired by such work in building the att systems the creators intended to systematically investigate the performance of various models and for each task they trained twelve models exploring these two dimensions three of which we submitted for and of these three performed among the top ten in competition
+the models include lexical syntactic and semantic features els include only lexical and syntactic features and models include only lexical features i
+e
+words
+they experimented with context windows of and words preceding and following the token to be labeled
+for each window size they trained and models
+the models had basic features per token in the context window for up to tokens so up to basic feaures for each token to be labeled
+the models had basic features per token in the context window so up to basic features for each token to be labeled
+the models had just basic feature per token in the context window so up to basic features for each token to be labeled
+for event extraction and classication and event feature classication they used the ecient binary maxent classier for multi class classication available in the machine learning toolkit llama haner
+they also used llama s processor to build unigram bigram and trigram extended features from basic tures
+for event and time expression extraction they trained bio classiers
+it was found that the absence of semantic features causes only small changes in
+the absence of syntactic features causes to drop slightly less than
+for all but the smallest window size with recall decreasing while precision improves somewhat
+is also impacted minimally by the absence of semantic features and about by the absence of syntactic features for all but the smallest window size
+a was surprising that that models that use words only performed well especially in terms of precision precision recall and of
+
+and
+for event recognition and
+for event classication
+it is also surprising that the words only models with window sizes of and performed as well as the models with a window size of
+these results are promising for big data text analytics where there may not be time to do heavy preprocessing of input text or to train large models
+
+
+extracting events using other representations
+we have already cussed several approaches to extraction of events represented by timeml sentation
+extracting events that use other representation is not very dierent but dierent representations have existed and exist and therefore we briey present some such attempts
+some of these predate the time timeml became popular
+for example the various message understanding conferences mucs seven were nize by darpa from to asked participants to extract a small number of relations and events
+for instance the last one called for the extraction of relations person employer maker product and organization location and event spacecraft launches
+for example the and ace events did not attempt to cover all events acm transactions vol
+v no
+n january
+
+
+
+but a limited number of pre specied event types or classes that participants need to detect during a contest period based on which the contestants submit papers for publication
+the number and the type of arguments covered are also limited and are pre specied before the competitions start
+
+
+
+the rees system
+aone and ramos santacruz discuss a tion and event extraction system covering areas such as political nancial ness military and life related topics
+the system consists of tagging modules a co reference resolution module and a temple generation module
+they store the events generated in and marsh format which is not very unlike the ace format
+events are extracted along with their event participants e
+
+who did what to whom when and where for example for a buying event rees extracts the buyer the artifact the seller and the time and location of the buying event
+rees covers types of events
+there are types of relations
+the tagging component consists of three modules nametagger nptagger and eventtagger
+each module relies on the same pattern based extraction engine but uses dierent sets of patterns
+the nametagger recognizes names of ple organizations places and artifacts only vehicles in the implemented system
+the nptagger then takes the output of the nametagger and rst recognizes recursive base noun phrase bnp ramshaw and marcus and then complex nps for only the four main semantic types of nps i
+e
+person organization tion and artifact vehicle drug and weapon
+the eventtagger recognizes events applying its lexicon driven syntactically based generic patterns
+rees uses a declarative lexicon driven approach
+this approach requires a lexicon entry for each event denoting word which is generally a verb
+the lexicon entry species the syntactic and semantic restrictions on the verb s arguments
+after the tagging phase rees sends the output through a rule based co reference resolution module that resolves denite noun phrases of organization person and location types and singular personal pronouns
+rees outputs the extracted information in the form of either muc style templates or xml
+one of the challenges of event extraction is to be able to recognize and merge those event descriptions which refer to the same event
+the template generation module uses a set of declarative customizable rules to merge referring events into a single event
+the system s recall precision and f measure scores for the training set texts and the blind set texts from about a dozen news sources
+on the so called training set the system achieved f measure of
+for event extraction and
+for relation extraction
+the blind set f measure for types of relations
+
+
+
+ahn s approach
+as seen earlier in subsection
+the way ace events ahn are specied they have a lot of details that need to be extracted
+follows several steps to extract events and uses machine learning algorithms at every step
+the steps are pre processing of text data identifying anchors assigning event types extracting arguments identifying attributes of events such as modality polarity genericity and tense and nally identifyings event co referents of the same acm transactions vol
+v no
+n january
+
+
+
+individuated event
+in other words ahn attempts to cover all the steps sequentially making the simplifying assumption that they are unrelated to each other
+a single place in a textual document which may be considered the primary place of reference or discussion about an event is called the event anchor
+ahn treats nding the anchor for an event within a document as a word classication task using a two stage classication process
+he uses a binary classier to classify a word as being an event anchor or not
+he then classies those identied as event anchors into one of the event classes
+ahn used one classier for binary classication and then another classiers to classify only the positive instances
+ahn treats identifying event arguments as a pair classication task
+each event mention is paired with each of the entity time and value mentions occurring in the same sentence to form a single classication instance
+there were role types in the ace task but no event type allows arguments of all types
+each event type had its own set of allowable roles
+the classication experiment run was a multi class classication where a separate multi class classier was used for each event type
+ahn trains a separate classier for each attribute
+genericity modality and polarity are each binary classication tasks while tense is a multi class task
+for event coreference ahn follows the approach given in florian et al
+
+each event mention in a document is paired with every other event mention and a classier assigns to each pair of mentions the probability that the paired mentions corefer
+these probabilities are used in a left to right entity linking algorithm in which each mention is compared with all already established events i
+e
+event mention clusters to determine whether it should be added to an existing event or start a new one
+ahn experimented with various combinations of a maximum entropy classier megam iii and a memory based nearest neighbor classier called timbl daelemans al
+for the various tasks
+the ace specication provided a way to measure the performance of an event extraction system
+the evaluation called ace value is obtained by scoring each of the component tasks individually and then obtaining a normalized summary value
+overall using the best learned classiers for the various subtasks they achieve an ace value score of
+where the maximum score is
+the value is low but other systems at the time had comparable performance
+
+
+
+naughton
+naughton et al
+describe an approach to classify sentences in a document as specifying one or more events from a certain ace class
+they classify each sentence in a document as containing an instance of a certain type or not
+unlike ahn they are not interested in identifying arguments or any additional processing
+also unlike ahn who classies each word as possibly being an event anchor for a specic type of ace event naughton et al
+perform a classication of each sentence in a document as being an event sentence or an sentence
+an on event sentence is a sentence that contains one or more instances of the target event type
+an sentence is a sentence that does not contain any instances of the target event type
+they use several approaches to classify a sentence as on event or
+these include the following svm based machine learning joachims language modeling approaches using count smoothing and a manual approach which looks for wordnet acm transactions vol
+v no
+n january
+
+
+
+synonyms or hypernyms of certain trigger words in a sentence
+naughton et al
+found that use of a large number of features to start but then reduction of these features using information gain and use of svm produces the best results although all versions of svm i
+e
+with all features with no reduction just the terms without complex features or a selection of terms and other features all work very well
+a surprising nding was that the manual trigger based classication approach worked almost as well as the svm based approaches
+
+determining event coreference when an event is mentioned in several places within a document nding which references are to the same event is called determining event coreference
+these are co referents to the event
+determining when two event mentions in text talk about the same event or co refer is a dicult problem
+as hovy et al
+point out that the events may be actual occurrences or hypothetical events
+
+
+florian s approach to coreference resolution
+et al
+present a statistical language independent framework for identifying and tracking named nominal and pronominal references to entities within unrestricted text documents and chaining them into groups corresponding to each logical entity present in the text
+the model can use arbitrary feature types integrating a variety of lexical syntactic and semantic features
+the mention detection model also uses feature streams derived from dierent named entity classiers
+for mention detection the approach used is based on a log linear maximum tropy classier berger et al
+and a linear robust risk minimization classier zhang et al
+
+then they use a maxent model for predicting whether a tion should or should not be linked to an existing entity and to build entity chains
+both classiers can integrate arbitrary types of information and are converted into suitable for sequence classication for both tasks
+for entity tracking the process works from left to right
+it starts with an initial entity consisting of the rst mention of a document and the next mention is cessed by either linking it with one of the existing entities or starting a new entity
+atomic features used by the entity linking algorithm include string match context mention count distance between the two mentions in words and sentences editing distance properties of pronouns such gender number and reexiveness
+the best combination of features was able to obtain slightly more than value using both rrm and maxent algorithms for mention detection
+entity tracking was evaluated in terms of what is called the ace value
+a gauge of the performance of an edt system is the ace value a measure developed especially for this purpose
+it estimates the normalized weighted cost of detection of specic only entities in terms of misses false alarms and substitution errors
+florian et al
+achieved an ace value of
+out of for the maxent classier and
+for the rrm classier
+ahn follows the approach by florian et al
+for entity coreference determination
+he uses a binary classier to determine if any two event mentions in the document refer to the same event
+thus he pairs each event with every other event and the classier assigns each pair a probability that they are the same
+the probability is used with entity linking matching algorithm to determine event acm transactions vol
+v no
+n january
+
+
+
+reference
+event co referencing requires event mentions to be clustered to event clusters
+event mentions in a cluster are the same event
+the system described here obtained an ace value of between where the maximum ace value is
+ahn uses the following features for event co reference determination
+let the candidate be the earlier event mention and the anaphor be the later mention
+the anchors for the candidate and the anaphor the full or original form and also in lowercase and pos tag
+type of the candidate event and the anaphor event
+depth of candidate anchor word in parse tree
+distance between the candidate and anchor measured in sentences
+number heads and roles of shared arguments
+
+
+bejan and harabagiu
+supervised approaches to solving event ence use linguistic properties to decide if a pair of event mentions is tial humphreys et al
+bagga and baldwin ahn chen and ji
+these models depend on labeled training data and annotating a large corpus with event coreference information requires substantial manual eort
+in addition since these models make local pairwise decisions they are unable to ture a global event distribution at topic or document collection level
+bejan and harabagiu present how nonparametric bayesian models can be applied to an open domain event coreference task in an unsupervised manner
+the rst model extends the hierarchical dirichlet process teh et al
+to take into account additional properties associated with event mentions
+the second model overcomes some of the limitations of the rst model and uses the innite factorial hidden markov model gael et al
+coupled to the innite hidden markov model beal et al
+in order to consider a potentially innite number of features associated with observable objects which are event mentions here form an automatic selection of the most salient features and capture the structural dependencies of observable objects or event mentions at the discourse level
+thermore both models can work with a potentially innite number of categorical outcomes or events in this case
+two event mentions corefer if they have the same event properties and share the same event participants
+to nd coreferring event mentions bejan and harabagiu describe words that may be possible event mentions with lexical features class tures such as pos and event classes such pustejovsky et al
+as occurrence state and action wordnet features semantic features obtained by a semantic parse bejan and hathaway and the predicate argument structures encoded in bank annotations palmer et al
+as well as semantic annotations encoded in the framenet baker et al
+
+the rst model represents each event mention by a nite number of feature types and is also inspired by the bayesian model proposed by haghighi and klein
+in this model a dirichlet process dp ferguson is associated with each document and each mixture component i
+e
+event is shared across documents since in the process of generating an event mention an event index z is rst sampled by using a anism that facilitates sampling from a prior for nite mixture acm transactions vol
+v no
+n january
+
+
+
+models called the chinese restaurant franchise crf representation as reported in teh et al
+
+the second model they use is called the ihmm ifhmm model innite hidden markov model innite factorial hidden markov model
+the ifhmm framework uses the markov indian buet process mibp gael et al
+in order to represent each object as a sparse subset of a potentially unbounded set of latent features ghahramani and griths van gael et al
+specically the mibp denes a distribution over an unbounded set of binary markov chains where each chain can be associated with a binary latent feature that evolves over time according to markov dynamics
+the ifhmm allows a exible representation of the latent structure by letting the number of parallel markov chains be learned from data it can not be used where the number of clustering components is innite
+an ihmm represents a nonparametric extension of the hidden markov model hmm rabiner that allows performing inference on an innite number of states
+to further increase the representational power for modeling discrete time series data they develop a nonparametric extension that combines the best of the two models and lets the two parameters m and k be learned from data each step in the new ihmm ifhmm generative process is performed in two phases i the latent feature variables from the ifhmm framework are sampled using the mibp mechanism and ii the features sampled so far which become observable during this second phase are used in an adapted version of the beam sampling algorithm to infer the clustering components i
+e
+latent events
+they report results in terms of recall r precision p and f score f by employing the mention based metric bagga and baldwin the entity based ceaf metric luo and the pairwise pw metric
+their experiments for show that both of these models work well when the feature and cluster numbers are treated as free parameters and the selection of feature values is performed automatically
+
+
+hovy et al
+hovy et al
+argue that events represent complex nomena and can therefore co refer fully being identical like other researchers have discussed or co refer partially being quasi identical or only partially identical
+two event mentions fully co refer if their activity event or state representation is cal in terms of all features used e
+
+agent location or time
+two event mentions are quasi identical if they partially co refer i
+e
+most features are the same but there may be additional details to one or the other
+when two events fully co refer hovy et al
+state they may be lexically identical i
+e
+the same senses of the same word e
+
+destroy and destruction synonymous words one mention is a wider reading of the other e
+
+the attack took place yesterday and the bombing killed four people one mention is a paraphrase of the other with possibly some syntactic dierences e
+
+he went to boston and he came to boston and one mention deictically refers to the other e
+
+the party and that event
+quasi identity or partial co reference may arise in two ways membership identity or subevent identity
+membership identity occurs when one mention say a is a set of multiple instances of the same type of event and the other mention say b is one of the individual events in a e
+
+i attended three parties last week
+the rst one was the best
+
+subevent identity is found when one mention say a acm transactions vol
+v no
+n january
+
+
+
+is a stereotypical sequence or script of events whereas the other mention say b is one of the actions or events within the script e
+
+the family ate at the restaurant
+the dad paid the waitress at the end
+
+hovy et al
+attempt to build a corpus containing event co reference links with high quality annotations i
+e
+annotations with high inter annotator agreement to be useful for machine learning
+they have created two corpora to assist with a project on automated deep reading of texts
+one corpus is in the domain of violent events e
+
+
+bombings killens and wars and the other one containing texts about the lives of famous people
+in both of these corpora they have annotated a limited number of articles with full and partial co references
+
+
+delmonte
+delmonte claims that performing event co reference with high accuracy requires deep understanding of the text and statistically based ods both supervised and unsupervised do not perform well
+he claims that this is the case because because it is absolutely necessary to identify arguments of an event reliably before event co references can be found
+arguments are dicult to identify because many are implicit and linguistically unexpressed
+successful even co reference identication needs determination of spatio temporal anchoring and locations in time and space are also very often implicit
+the system he builds uses a linguistically based semantic module which has a number of dierent submodules which take care of spatio temporal reasoning discourse level anaphora resolution and determining topic hierarchy
+the erence algorithm works as follows for each possible referent it check all possible coreference links at rst using only the semantic features which are wordform and lemma identity then semantic similarity measured on the basis of a number of similarity criteria which are lexically based
+the system searches wordnet synsets and assign a score according to whether the possible referents are directly contained in the same synset or not
+a dierent score is assigned if their relation can be ferred from the hierarchy
+other computational lexical resources they use include framenet and frames hierarchy sumomilo and its semantic classication
+after collecting all possible coreferential relations the system lters out those links that are inconsistent or incompatible
+argument structure and spatiotemporal relations are computed along with dependence relations temporal logical relations as computed using an adaptation of allen s algorithm
+the system also computes semantic similarity where high values are preferred
+the paper does not give any results to support the initial hypothesis although the ideas are interesting
+
+
+cybulska and vossen
+cybulska and vossen use granularity in puting event coreference
+the intuition is that an event with a longer duration that happens on a bigger area and with multiple particpants for instance a war between russia and ukraine might be related to but will probably not fully corefer with a lower level event of shorter duration and with single participants involved e
+
+a russian soldier has shot dead a ukrainian naval ocer
+coreference between mentions of two events is determined by computing ibility of contents of event attributes
+the attributes used are event trigger time location human and non human participant slots cybulska and vossen
+granularity size is mentioned in terms of durations of event actions gusev et al
+acm transactions vol
+v no
+n january
+
+
+
+and granularity levels of event participants time and locations
+granularity is given in terms of partonomic relations or through the part of relation between entities and events using the taxonomy of meronymic relations by winston et al
+
+granularity levels of the human participant slot are contained within stons et al
+member collection relations
+the temporal granularity levels make part of winstons portion mass relationships and locational levels are in line with place area relations in winstons taxonomy
+cybulska and vossen experimented with a decision tree supervised pairwise nary classier to determine coreference of pairs of event mentions
+they also ran experiments with a linear svm and a multinomial naive bayes classier but the decision tree classier outperformed both of them
+for the experiments cybulska and vossen use the dataset cybulska and vossen
+the corpus contains a new corpus component consisting of texts describing dierent instances of event types
+they provide results in terms of several metrics recall precision and f score muc vilain et al
+bagga and baldwin mention based ceaf luo blanc recasens and hovy and conll pradhan et al
+and nd that the introduction of the granularity concept into similarity computation improves results for every metric
+
+biomedical event extraction researchers are interested in extracting information from the huge amount of biomedical literature published on a regular basis
+of course one aspect of formation extraction is event extraction the focus of this paper
+in the biomedical context an event extraction system tries to extract details of bimolecular tions among biomedical entities such as proteins and genes and the processes they take part in as described in terms of textual documents
+manually annotated pora are used to train machine learning techniques and evaluate event extraction techniques
+there have been several workshops on biomedical natural language processing
+we focus on the bionlp shared tasks in recent years that had competitions on event extraction
+there have been three bionlp shared task competitions so far and
+the bionlp shared task kim et al
+was based on the genia corpus kim et al
+which contains abstracts of articles on transcription factors in human blood cells
+there was a second bionlp shared task competition organized in to measure the advances in approaches and associated results kim et al
+
+the third bionlp st was held in
+we discuss some notable systems from bionlp st and
+before the bionlp shared tasks event extraction in the biomedical domain usually classied each pair of named entities usually protein names co occurring in the text as interacting or not
+bionlp shared tasks extended such an approach by adding relations such as direction type and nesting
+an event denes the type of interaction such as phosphorylation and is usually marked in the text with a trigger word e
+
+phosphorylates describing the interaction
+this word forms the core of the event description
+a directed event has roles that have inherent
+ncbi
+nlm
+nih
+gov pubmed acm transactions vol
+v no
+n january
+
+
+
+directionality such as cause or theme the agent or target of the biological process
+in addition events can act as arguments of other events creating complex nested structures
+for example in the sentence phosphorylation is regulated by vav a phosphorylation event is the argument of the regulation event
+the bionlp shared tasks provide task denitions benchmark data and uations and participants compete by developing systems to perform the specied tasks
+the theme of bionlp st was a generalization of the contest generalized in three ways text types event types and subject domains
+the event related tasks were arranged in four tracks genia task ge kim et al
+epigenetics and post translational modications epi ohta et al
+infectious diseases et al
+and the bacteria track bossy et al
+jourde et al
+
+of the four event related shared tasks in bionlp the rst three were related to event extraction
+the genia task was focused on the domain of transcription factors in human blood cell
+trascription is a complex but just the rst step in the process in which the instructions contained in the dna in the nucleus of a cell are used to produce proteins that control most life processes
+transcription factors are proteins that control the transcription process
+the epi task was focused on events related to epigenetics dealing with protein and dna modications with new event types including major protein modication types and their reverse reactions
+epigenesis refers to the development of a plant or animal from a seed spore or egg through a sequence of steps in which cells dierentiate and organs form
+the epi task was designed toward pathway extraction and curation of domain databases wu et al
+ongenaert et al
+
+a biological pathway refers to a sequence of actions among molecules in a cell that leads to a certain product or a change in the cell
+the id task was focused on extraction of events relevant to biomolecular mechanisms of infectious diseases from full length publications
+tasks other than id focused on abstracts only
+in this paper we discuss the systems and approaches for only the ge task
+this is because several of the winning systems for the ge task did well in the other two relevant tasks as well
+the genia task is described in table vii
+the table shows for each event type the primary and secondary arguments to be extracted
+for example a phosphorylation event is primarily extracted with the protein to be phosphorylated which is the addition of a phosphate group to a protein or other organic molecule
+as secondary information the specic site to be phosphorylated may be extracted
+from a computational viewpoint the event types represent dierent levels of complexity
+when only primary arguments are considered the rst ve event types in table vii are classied as simple events requiring only unary arguments
+the binding and regulation types are more complex
+binding requires the detection of an arbitrary number of arguments and regulation requires detection of recursive event structure
+consider the sentence in this study we hypothesized that the phosphorylation of inhibits binding to the cytoplasmic domain
+here there are two protein entity names and
+the word phosphorylation refers to an event this string is a trigger word
+thus the goal of the ge task was to identify in the tables ti represents a a structure like the ones in tables viii and ix
+acm transactions vol
+v no
+n january
+event type primary argument secondary argument
+
+
+gene expression transcription protein catabolism phosphorylation localization binding regulation theme protein theme protein theme protein theme protein theme protein theme theme protein event theme protein event protein event protein event cause toloc entity positive regulation protein event cause negative regulation theme protein event cause table vii
+event types and their arguments in the genia event task
+the type of arguments primary and secondary to be extracted from the text are also given
+table viii
+structure of an event in bionlp contest corresponding to task ge table ix
+structure of an event in bionlp contest corresponding to task epi trigger word and ei represents an event associated with the corresponding trigger word
+there are three events is the phosphorylation event is the binding event and is the negative regulation event
+for each trigger word we see the starting and ending character positions in the entire string
+for each event we see the participants in it
+the second task identies an additional site argument
+table x shows the best results for various tasks in the bionlp contests
+kim et al
+note an improvement of over the basic ge task in task gea compared to
+the results of the ge tasks show that automatic extraction of simple events those with unary arguments e
+
+gene expression acm transactions vol
+v no
+n january
+
+
+
+task bionlp st miwa et al
+lll lll ge abstracts gea ge full texts gef ge phosphorylation gep ge localization gel epi full task epif epi core task epic epi phosphorylation epip id full task idf id core task idc evaluation results
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table x
+best results for various sub tasks in bionlp st
+recall precision f score calization and phosphorylation can be achieved at about in f score but the extraction of complex events e
+
+binding and regulation is very challenging with only performance level
+the ge and id results show that generalization to full papers is possible with just a small loss in performance
+the results of rylation events in ge and ep are similar gep vs
+epip which leads kim et al
+to conclude that removal of the ge domain specicity does not reduce event extraction performance by much
+epic results indicate that there are challenges to extracting similar event types that need to be overcome epif results indicate that there are dicult challenges in extracting additional arguments
+the complexity of the id task is similar to that of the ge task this shows up in the nal results also indicating that it is possible to generalize to new subject domains and new argument entity types
+below we provide a brief description of some of the approaches to biomedical event extraction from the bionlp contests
+
+technical methods used in bionlp shared tasks the team that won the ge task was the faust system riedel et al
+followed by the umass system riedel and mccallum then the uturku system bjorne and salakoski
+the performance of these three systems on the various tasks is given in table xi
+in addition we have the stanford system in the table because it performed fairly well on the tasks
+the umass system riedel and mccallum looks at a sentence as having an event structure and then projects it onto a labeled graph
+see figure for a target event structure and the projected graph for the sentence fragment phosphorylation of inhibits binding to
+the system searches for a structure that connects the event and its participating entities and imposes certain constraints on the structure
+thus the umass system treats the search for such a structure as an optimization problem
+to formulate this optimization problem the system represents the structure in terms of a set of binary variables inspired by the work of riedel et al
+bjorne et al
+
+these binary variables are based on the projection of the events to the labeled graph
+an example of a binary variable is ai l
+to indicate that between positions i and in the sentence there is an edge acm transactions vol
+v no
+n january
+
+
+
+team simple event binding regulation all faust umass uturku stanford w
+
+
+
+
+
+a f
+
+
+w
+
+
+a
+
+
+
+
+
+f w
+
+
+
+
+
+a f
+
+
+w
+
+
+
+
+
+a
+
+
+f
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table xi
+evaluation results recall precision score for task in whole data set w abstracts only a and full papers only f fig
+
+sentence with target event structure projection to labeled graph
+redraw the image labeled r from a set of possible edge labels r
+another such binary variable is ti p q that indicates that at position i there is a binding event with arguments p and q
+given a number of such variables it is possible to write an objective function to optimize in order to obtain events and entity bindings
+the system decomposes the biomedical event extraction task into three sub tasks a event triggers and outgoing edges on arguments b event triggers and incoming edges on arguments and c and protein protein bindings
+the system obtains an objective function it solves the three optimization problems one by one for each of the sub tasks
+in a loop till no changes take place or up to a certain number of iterations
+the approach uses optimizing by dual decomposition komodakis et al
+rush et al
+since the dual of the original optimization problem is solved
+the stanford system mcclosky et al
+exploits the observation that event acm transactions vol
+v no
+n january
+
+
+
+structures bear a close relation to dependency graphs jurafsky and martin chapter
+they cast bimolecular events in terms of these structures which are pseudo syntactic in nature
+they claim that standard parsing tools such as maximum spanning tree parsers and parse rerankers can be applied to perform event extraction with minimum domain specic training
+they use an shelf pendency parser mstparser mcdonald et al
+mcdonald and pereira but extend it with event specic features
+their approach requires conversion to and from dependency trees at the beginning and and at the end
+the features in the mstparser are quite local i
+e
+able to examine a portion of each event at a time the decoding necessary can be performed globally allowing the dependency parser some trade os
+event parsing is performed using three modules anchor detection to identify and label event anchors event parsing to form candidate event structures by linking entries and event anchors and event reranking to select the best candidate event structure
+first they parse the sentences with a reranking parser charniak and johnson with the biomedical parsing model from mcclosky using the set of stanford dependencies de marnee and manning
+after the parsing they perform anchor detection using a technique inspired by techniques for named entity recogntion to label each token with an event type or none using a logistic regression classier
+the classier uses features inspired by bjorne et al
+
+they change a parameter to obtain high recall to overgenerate event anchors
+multiword event anchors are reduced to their syntactic head
+the event anchors and the included entities become a reduced sentence input to the event parser
+thus the event parser gets words that are believed to directly take part in the events
+this stage uses the mstparser with additional event parsing features
+the dependency trees are decoded and converted back to event structures
+finally for event reranking the system gets n best list of event structures from each decoder in the previous step of event parsing
+the reranker uses global features of an event structure to restore and output the highest ing structure
+the reranking approach is based on parse reranking ratnaparkhi but is based on features of event structures instead of syntactic constituency structure
+they use the cvlm estimator charniak and johnson when ing weights for the reranking model
+since the reranker can work with outputs of multiple decoders they use it as an ensemble technique as in johnson and ural
+the faust system riedel et al
+shows that using a straightforward model combination strategy with two competitive systems the umass system riedel and mccallum and the stanford system mcclosky et al
+just described can produce a new system with substantially high accuracy
+the new system uses the framework of stacking alpaydin chapter
+the new system does it by including the predictions of the stanford system into the umass system simply as a feature
+using this simple model of stacking the faust system was able to obtain rst place in three tasks out of four where it participated
+the turku event extraction system bjorne and salakoski bjorne et al
+can be easily adapted to dierent event schemes following the theme of event generalization in bionlp
+the system took part in eight tasks in bionlp and demonstrated the best performance in four of them
+the turku system acm transactions vol
+v no
+n january
+
+
+
+divides event extraction into three main steps perform named entity recognition in the sentence predict argument relations between entities and finally separate entity argument sets into individual events
+the turku system uses a graph notation with trigger and protein gene entities as nodes and relations e
+
+theme as edges
+in particular an event in the graph representation is a trigger node along with its outgoing edges
+the steps are shown in figure
+the turku system uses support vector machines vapnik tsochantaridis et al
+at various stages to perform each of the sub tasks
+to use an svm classier one needs to convert text into features understood by the classier
+the turku system performs a number of analyses on the sentences to obtain features which are mostly binary
+the features are categorized into token features e
+
+porter stem porter penn treebank part of speech tags marcus et al
+character and tri grams presence of punctuation on numeric characters sentence features e
+
+the number of named entities in the sentence dependency chains up to a depth of three to dene the context of the words dependency with n grams joining a token with two anking dependencies as well as each dependency with two anking tokens trigger features e
+
+the trigger word a gene or a protein and external features e
+
+wordnet hypernyms the presence of a word in a list of key terms
+applicable combinations of these features are then used by the three steps in event detection trigger detection edge detection and unmerging
+trigger words are detected by classifying each token as negative or as one of the positive trigger classes using svms
+sometimes several triggers overlap in which case a merged class e
+
+phosphorylation regulation is used
+after trigger prediction triggers of merged classes are split into their component classes
+edge detection is used to predict event arguments or triggerless events and relations all of which are dened as edges in the graph representation
+the edge detector denes one example per direction for each pair of entities in the sentence and uses the svm classier to classify the examples as negatives or as belonging to one of the positive classes
+when edges are predicted between these nodes the result is a merged graph where overlapping events are merged into a single node and its set of outgoing edges
+to produce the nal events these merged nodes need to be pulled apart into valid trigger and argument combinations
+unmerging is also performed using the svm classier
+speculation and negation are detected independently with binary classication of trigger nodes using svms
+the features used are mostly the same as for trigger detection with the addition of a list of speculation related words
+
+extracting events from socially generated documents with the explosive expansion of the internet during the past twenty years the volume of socially generated text has skyrocketed
+socially generated text includes blogs and microblogs
+for example started in has become a social phenomenon
+it allows individuals with accounts to post short messages that are up to characters long
+currently more than million tweets are sent out every
+while a majority of posts are conversational or not particularly meaningful
+twitter
+com
+twitter
+twitter turns six
+htm acm transactions vol
+v no
+n january
+
+
+
+fig
+
+turku bionlp pipeline acm transactions vol
+v no
+n january
+
+
+
+about
+of the posts concern topics of mainstream
+twitter has been credited with providing the most current news about many important events before traditional media such as the attacks in mumbai in november
+twitter also played a prominent role in the unfolding of the troubles in iran in subsequent to a disputed election and the so called twitter in tunisia and egypt in
+most early work on event extraction of information from documents found on the internet has focussed on news articles chambers and jurafsky doddington et al
+gabrilovich et al
+
+however as noted earlier social networking sites such as twitter and facebook have become important complimentary sources of such information
+individual tweets like sms messages are usually short and self contained and therefore are not composed of complex discourse structures as is the case with texts containing narratives
+however extracting structured resentation of events from short or informal texts is also challenging because most tweets are about mundane things without any news value and of interest only to the immediate social network
+individual tweets are also very terse without much context or content
+in addition since twitter users can talk about any topic it is not clear a priori what event types may be appropriate for extraction
+the architecture of the system called twical for event extraction ritter et al
+from twitter messages is given in figure
+given a stream of raw tweets twical extract events with associated named entities and times of occurrence
+first the tweets are pos tagged using a tagger ritter et al
+especially trained with twitter data
+then named entities are recognized ritter et al
+using a ognizer trained with twitter data as well
+after this phrases that mention events or event triggers or event phrases or just events are extracted using supervised learning
+ritter et al
+annotated tweets with event phrases following guidelines for annotation of event tags in timebank pustejovsky et al
+
+the system recognizes event triggers as a sequence labeling task using conditional random fields laerty et al
+
+it uses a contextual dictionary orthographic features features based on the twitter tuned pos tagger and dictionaries of event terms gathered from wordnet al
+
+once a large number of events have been extracted by this crf learner twical categorizes these events into types using an unsupervised approach based on latent variable models inspired by work on modeling selectional preferences ritter et al
+seaghdha kozareva and hovy roberts and harabagiu and unsupervised information traction bejan et al
+chambers and jurafsky yao et al
+
+this automatic discovery of event types is similar to topic modeling where one ically identies the extant topics in a corpus of text documents
+the automatically discovered types topics are quickly inspected by a human eort to lter out coherent ones and the rest are annotated with informative labels
+examples of event types discovered along with top event phrases and top entities are given in table xii
+the resulting set of types are applied to categorize millions of extracted events without the use of any manually annotated examples
+for inference the system uses collapsed gibbs sampling griths and steyvers and prediction
+pearanalytics
+com blog tag
+wikipedia
+org wiki acm transactions vol
+v no
+n january
+
+
+
+fig
+
+twical architecture top event phrases top entities label sports concert tailgate scrimmage tailgating coming concert presale performs tickets perform matinee musical priscilla wicked tv new season season nale nished son episodes espn ncaa tigers eagles taylor swift toronto britney spears rihanna shrek les mis lee evans broadway jersey shore true blood glee dvr hbo table xii
+some of examples of event types extracted by twical entity event phrase date type steve jobs iphone gop amanda knox died announcement debate verdict death trial productlaunch politicalevent table xiii
+examples of events extracted by twical is performed using a streaming approach to inference yao et al
+
+to resolve temporal expressions twical uses tempex mani and wilson which takes as input a reference date some text and pos tags and marks temporal expressions with unambiguous calendar references
+finally the system measures the strength of association between each named entity and date based on the number of tweets they co occur in in order to determine if the event is signicant
+examples of events extracted by twical are given in table xiii
+each event is a tuple including a named entity event phrase calendar date and event type
+the twical system describe above used topic modeling using latent variables as one of the several computational components it is used to capture events captured using supervised learning into types or topics
+weng and lee point out some drawbacks of using such an approach
+the main problem is that frequently the sult generated by latent dirichlet analysis lda is dicult to interpret because it simply gives a list of words associate with the topic
+for example when weng and lee attempt to nd the four most important topics using lda based on a twitter collection emanating from singapore on june they nd the topics listed in table xiv
+therefore weng et al
+present another approach to detect events from a corpus of twitter messages
+their focus is on detection and therefore acm transactions vol
+v no
+n january
+
+
+
+not on extraction of components that describe an event
+event detection is based on the assumption that when an event is taking place some related words show an increase in usage
+in this scheme an event is represented by a number of keywords showing a burst in appearance count yang et al
+kleinberg
+although it is clear that tweets report events but such reports are usually overwhelmed by high ood of meaningless babbles
+in addition the algorithms for event tion must be scalable to handle the torrent of twitter posts
+the edcow event detection with clustering of wavelet based signals system builds signals for dividual words by applying wavelet analysis on frequency based raw signals of words occurring in the twitter posts
+these signals capture only the bursts in the words appearance
+the signals are computed eciently by wavelet analysis kaiser daubechies et al
+
+wavelets are quickly vanishing oscillating functions and unlike sine and cosine functions used in discrete fourier tion dft which are localized in frequency but extend innitely in time wavelets are localized both in time and frequency
+therefore wavelet transformation is able to provide precise measurements about when and to what extent bursts take place in a signal
+weng and lee claim that this makes it a better choice for event detection when building signals for individual words
+wavelet transformation verts signals from time domain to time scale domain where scale can be considered the inverse of frequency
+such signals also take less space for storage
+thus the rst thing edcow does is convert frequencies over time to wavelets using a ing window interval
+it removes trivial words by examining signal auto correlations
+the remaining words are then clustered to form events with a modularity based graph partitioning technique which uses a scalable eigenvalue algorithm
+it tects events by grouping sets of words with similar patterns of burst
+to cluster similarities between words need to be computed
+it does so by using cross tion which is a common measure of similarity between two signals orfanidis
+cross correlation is a pairwise operation
+cross correlation values among a number of signals can be represented in terms of a correlation matrix m which happens to be a symmetric sparse matrix of adjacent similarities
+with this graph setup event detection can be formulated as a graph partitioning problem i
+e
+to cut the graph into subgraphs
+each subgraph corresponds to an event which contains a set of words with high cross correlation and also that the cross correlation between words in dierent subgraphs are low
+the quality of such partitioning is measures using a metric called modularity newman
+the modularity of a graph is dened as the sum of weights of all the edges that fall within subgraphs after partitioning subtracted by the expected edge weight sum if the edges were placed at random
+the main computation task in this component is nding the largest eigenvalue and corresponding eigenvector of the sparse symmetric modularity trix
+this is solved using power iteration which is able to scale up with the increase in the number of words in the tweets ipsen and wills
+edcow requires each individual event to contain at least two words
+to dierentiate big events from ial ones edcow quanties the events signicance which depends on two factors the number of words and cross correlation among the words related to the event
+to make edcow work with twical to see if it improves performance the topic detection module will have to be replaced
+edcow associates fewer words to topics acm transactions vol
+v no
+n january
+
+
+
+topic id top words ood orchard rain spain road weather singapor love cold time don feel sleep love tomorrow happy home hate time love don feel wait watch singapor hope life watch world cup match time love don south goal table xiv
+examples of topics detected by lda from singapore based tweets on june event words event description democrat naoto juju kor greece gre a match between south korea and greece in world cup ruling democratic party of japan elected naoto kan as chief korean popular bands super junior s and s performance on mubank table xv
+examples of events detected by edcow in june because it lters words away before associating with a topic
+table xv gives a few event words obtained by edcow and the corresponding event description
+please note that the event description was created by the authors and not the system
+
+summarization filatova and hatzivassiloglou use event based features to represent sentences and shows that their approach improves the quality of the nal summaries compared to a baseline bag of words approach
+
+question answering event recognition is a core task in question answering since the majority of web questions have been found to be relate to events and situations in the world saur et al
+
+for example to answer the question how many people were killed in baghdad in march or who was the prime minister of india in when china and india fought their only war the question answering system may have to identify events across a bunch of documents before creating an answer
+
+future directions of research it also seems like when doctors take notes on a patient s history or medical record the information is not written in order of events or in temporal order all the time
+it will be good to take notes from here and there and put them in an event ordered fashion or temporally ordered manner
+extracting an event based structure of the medical record would help understand the medical history better
+most systems process sentences in isolation like most event extraction systems at the current time
+therefore events crossing sentence boundaries can not be detected
+references
+longman dictionary of contemporary english
+england longman group limited
+adafre s
+f
+and rijke m
+
+feature engineering and post processing for temporal expression recognition using conditional random elds
+in proceedings of the acl workshop on feature engineering for machine learning in natural language processing
+
+acm transactions vol
+v no
+n january
+
+
+
+aguilar j
+beller c
+mcnamee p
+and van durme b
+
+a comparison of the events and relations across ace ere tac kbp and framenet annotation standards
+workshop on events denition detection coreference and representation naacl hlt
+ahn d
+
+the stages of event extraction
+in proc
+coling acl workshop on annotating and reasoning about time and events
+
+allen j
+f
+
+maintaining knowledge about temporal intervals
+communications of the acm
+
+allen j
+f
+
+towards a general theory of action and time
+articial intelligence alpaydin e
+
+introduction to machine learning
+the mit press
+angeli g
+manning c
+d
+and jurafsky d
+
+parsing time learning to interpret time in proceedings of the conference of the north american chapter of the expressions
+association for computational linguistics human language technologies
+
+aone c
+and ramos santacruz m
+
+rees a large scale relation and event extraction tem
+in proceedings of the sixth conference on applied natural language processing
+association for computational linguistics
+bagga a
+and baldwin b
+
+algorithms for scoring coreference chains
+in the rst national conference on language resources and evaluation workshop on linguistics coreference
+vol
+
+
+bagga a
+and baldwin b
+
+cross document event coreference annotations experiments and observations
+in proceedings of the workshop on coreference and its applications
+
+baker c
+fillmore c
+and lowe j
+
+the berkeley framenet project
+in proceedings of the annual meeting of the association for computational linguistics and national conference on computational linguistics volume
+association for computational linguistics
+baker m
+
+incorporation a theory of grammatical function changing
+university of chicago press chicago
+bollingen foundation
+barnes j
+al
+
+the complete works of aristotle the revised oxford translation
+vol
+
+beal m
+j
+ghahramani z
+and rasmussen c
+e
+
+the innite hidden markov model
+in advances in neural information processing systems
+
+bejan c
+titsworth m
+hickl a
+and harabagiu s
+
+nonparametric bayesian models for unsupervised event coreference resolution
+advances in neural information processing systems
+bejan c
+a
+and harabagiu s
+
+unsupervised event coreference resolution with rich linguistic features
+in proceedings of the annual meeting of the association for tational linguistics
+
+bejan c
+a
+and hathaway c
+
+utd srl a pipeline architecture for extracting frame mantic structures
+in proceedings of the international workshop on semantic evaluations
+
+belvin r
+
+the two causative haves are the two possessive haves
+mit working papers in linguistics
+berger a
+l
+pietra v
+j
+d
+and pietra s
+a
+d
+
+a maximum entropy approach to natural language processing
+computational linguistics
+bethard s
+and martin j
+
+identication of event mentions and their semantic class
+in proceedings of the conference on empirical methods in natural language processing
+association for computational linguistics
+bjorne j
+ginter f
+and salakoski t
+
+university of turku in the shared task
+bmc bioinformatics suppl
+bjorne j
+heimonen j
+ginter f
+airola a
+pahikkala t
+and salakoski t
+
+extracting complex biological events with rich graph based feature sets
+in proceedings of the workshop on current trends in biomedical natural language processing shared task
+association for computational linguistics
+acm transactions vol
+v no
+n january
+
+
+
+bjorne j
+and salakoski t
+
+generalizing biomedical event extraction
+in proceedings of the bionlp shared task workshop
+association for computational linguistics
+bossy r
+jourde j
+bessieres p
+van guchte m
+and nedellec c
+
+bionlp shared task bacteria biotope
+in proceedings of the bionlp shared task shop
+association for computational linguistics
+bresnan j
+
+the mental representation of grammatical relations
+vol
+
+mit press cambridge ma
+carlson l
+
+aspect and quantication in tense and aspect
+ed
+by philip tedeschi and annie zaenen
+syntax and semantics ann arbor mich
+
+chambers n
+and jurafsky d
+
+template based information extraction without the templates
+in proceedings of acl
+chambers n
+wang s
+and jurafsky d
+
+classifying temporal relations between events
+in proceedings of the annual meeting of the acl on interactive poster and demonstration sessions
+association for computational linguistics
+charniak e
+and johnson m
+
+coarse n best parsing and maxent tive reranking
+in proceedings of the annual meeting on association for computational linguistics
+association for computational linguistics
+charoenporn t
+sornlertlamvanich v
+mokarat c
+and isahara h
+
+automatic compilation of asian wordnet
+in annual meeting of the association for natural language processing
+
+chen z
+and ji h
+
+graph based event coreference resolution
+in proceedings of the workshop on graph based methods for natural language processing
+
+chinchor n
+and marsh e
+
+information extraction task denition
+in proceeding of the seventh message understanding conference appendices
+
+collins m
+
+head driven statistical models for natural language parsing
+ph
+d
+thesis collins m
+
+head driven statistical models for natural language parsing
+computational university of pennsylvania
+linguistics
+cybulska a
+and vossen p
+
+event models for historical perspectives determining relations between high and low level events in text based on the classication of time location and participants
+in proceedings of lrec
+
+cybulska a
+and vossen p
+
+historical event extraction from text
+acl hlt workshop on language technology for cultural heritage social sciences and humanities latech
+cybulska a
+and vossen p
+
+guidelines for annotation of events and their ence
+tech
+rep
+technical report technical report vu university amsterdam
+cybulska a
+and vossen p
+
+using a sledgehammer to crack a nut lexical diversity and event coreference resolution
+in proceedings of the ninth international conference on language resources and evaluation
+
+cybulska a
+and vossen p
+
+translating granularity of event slots into features for event coreference resolution
+in proceedings of the workshop on events at the naacl hlt
+
+daelemans w
+zavrel j
+van der sloot k
+and van den bosch a
+
+timbl tilburg memory based learner
+tilburg university
+dang h
+
+investigations into the role of lexical semantics in word sense disambiguation ph
+
+dissertation university of pennsylvania
+dang h
+kipper k
+palmer m
+and rosenzweig j
+
+investigating regular sense tensions based on intersective levin classes
+in proceedings of the international conference on computational linguistics volume
+association for computational linguistics
+daubechies i
+al
+
+ten lectures on wavelets
+vol
+
+siam
+daume iii h
+
+notes on cg and lm bfgs optimization of per available at
+
+name bfgs
+name megam
+logistic regression
+implementation available at acm transactions vol
+v no
+n january
+
+
+
+davidson d
+
+essays on actions and events
+vol
+
+oxford university press usa
+de marneffe m
+
+maccartney b
+and manning c
+d
+
+generating typed dency parses from phrase structure parses
+in proceedings of lrec
+vol
+
+
+de marneffe m
+
+and manning c
+d
+
+the stanford typed dependencies tation
+in coling proceedings of the workshop on cross framework and cross domain parser evaluation
+association for computational linguistics
+delmonte r
+
+coping with implicit arguments and events coreference
+naacl hlt
+doddington g
+mitchell a
+przybocki m
+ramshaw l
+strassel s
+and weischedel r
+
+the automatic content extraction ace program tasks data and evaluation
+in proceedings of lrec
+vol
+
+
+dorr b
+
+large scale dictionary construction for foreign language tutoring and interlingual machine translation
+machine translation
+dowty d
+
+word meaning and montague grammar the semantics of verbs and times in generative semantics and in montague s ptq
+vol
+
+springer
+dowty d
+
+thematic proto roles and argument selection
+language
+fellbaum c
+
+wordnet
+theory and applications of ontology computer applications
+statistics
+ferguson t
+s
+
+a bayesian analysis of some nonparametric problems
+the annals of filatova e
+and hatzivassiloglou v
+
+event based extractive summarization
+in ceedings of acl workshop on summarization
+fillmore c
+
+the case for case
+universals in linguistic theory ed
+by emmon bach robert fillmore c
+
+frame semantics and the nature of language
+annals of the new york t
+harms
+academy of sciences
+fillmore c
+
+the case for case reopened
+syntax and semantics
+fillmore c
+
+frame semantics
+cognitive linguistics basic readings
+fillmore c
+and baker c
+
+frame semantics for text understanding
+in proceedings of wordnet and other lexical resources workshop
+pittsburgh naacl
+fillmore c
+and baker c
+
+frame semantics for text understanding
+in proceedings of wordnet and other lexical resources workshop
+pittsburgh naacl
+fillmore c
+johnson c
+and petruck m
+
+background to framenet
+international journal of lexicography
+florian r
+hassan h
+ittycheriah a
+jing h
+kambhatla n
+luo x
+nicolov n
+and roukos s
+
+a statistical model for multilingual entity detection and tracking
+in hlt naacl
+gabbard r
+kulick s
+and marcus m
+
+fully parsing the penn treebank
+in ceedings of the human language technology conference of the naacl main conference
+
+gabrilovich e
+dumais s
+and horvitz e
+
+newsjunkie providing personalized feeds via analysis of information novelty
+in proceedings of the international conference on world wide web
+acm
+gael j
+v
+teh y
+w
+and ghahramani z
+
+the innite factorial hidden markov model
+in advances in neural information processing systems
+
+gangemi a
+guarino n
+masolo c
+oltramari a
+and schneider l
+
+sweetening ontologies with dolce
+knowledge engineering and knowledge management ontologies and the semantic web
+ganitkevitch j
+van durme b
+and callison burch c
+
+ppdb the paraphrase database
+in hlt naacl
+
+ghahramani z
+and griffiths t
+l
+
+innite latent feature models and the indian buet process
+in advances in neural information processing systems
+
+acm transactions vol
+v no
+n january
+
+
+
+gildea d
+and jurafsky d
+
+automatic labeling of semantic roles
+computational linguistics
+griffiths t
+l
+and steyvers m
+
+finding scientic topics
+proceedings of the national academy of sciences of the united states of america suppl
+grimshaw j
+
+argument structure
+the mit press
+grimshaw j
+and jackendoff r
+
+brandeis verb lexicon
+electronic database funded by national science foundation grant nsf awarded to brandeis university
+grishman r
+macleod c
+and meyers a
+
+comlex syntax building a computational lexicon
+in proceedings of the conference on computational linguistics volume
+ation for computational linguistics
+grover c
+tobin r
+alex b
+and byrne k
+
+edinburgh ltg system description
+in proceedings of the international workshop on semantic evaluation
+ciation for computational linguistics
+gruber j
+
+studies in lexical relations
+ph
+d
+thesis massachusetts institute of technology
+gusev a
+chambers n
+khaitan p
+khilnani d
+bethard s
+and jurafsky d
+
+using query patterns to learn the duration of events
+in proceedings of the ninth international conference on computational semantics
+
+habash n
+and dorr b
+
+handling translation divergences combining statistical and symbolic techniques in generation heavy machine translation
+machine translation from search to real users
+haffner p
+
+scaling large margin classiers for spoken language understanding
+speech communication
+haghighi a
+and klein d
+
+unsupervised coreference resolution in a nonparametric bayesian model
+in annual meeting association for computational linguistics
+vol
+
+
+halpern j
+y
+and pearl j
+
+causes and explanations a structural model approach
+part i causes
+the british journal for the philosophy of science
+hamilton e
+cairns h
+al
+
+plato the collected dialogues
+vol
+
+bollingen
+han c
+lavoie b
+palmer m
+rambow o
+kittredge r
+korelsky t
+kim n
+and kim m
+
+handling structural divergences and recovering dropped arguments in a rean english machine translation system
+envisioning machine translation in the information future
+heafield k
+pouzyrevsky i
+clark j
+h
+and koehn p
+
+scalable modied ney language model estimation
+in acl
+
+higginbotham j
+
+on semantics
+linguistic inquiry
+hobbs j
+r
+
+ontological promiscuity
+in proceedings of the annual meeting on association for computational linguistics
+association for computational linguistics
+hoeksema j
+
+plurality and conjunction
+studies in modeltheoretic semantics
+hornby a
+ed
+
+oxford advanced learner s dictionary of current english
+vol
+
+hovy e
+
+using an ontology to simplify data access
+communications of the acm cambridge univ press
+
+hovy e
+marcus m
+palmer m
+ramshaw l
+and weischedel r
+
+ontonotes the solution
+in proceedings of the human language technology conference of the naacl companion volume short papers
+association for computational linguistics
+hovy e
+mitamura t
+verdejo f
+araki j
+and philpot a
+
+events are not simple identity non identity and quasi identity
+in naacl hlt workshop on events denition detection coreference and representation
+vol
+
+
+humphreys k
+gaizauskas r
+and azzam s
+
+event coreference for information traction
+in proceedings of a workshop on operational factors in practical robust anaphora resolution for unrestricted texts
+
+ikuta r
+styler iv w
+f
+hamang m
+ogorman t
+and palmer m
+
+challenges of adding causation to richer event descriptions
+acl
+acm transactions vol
+v no
+n january
+
+
+
+ipsen i
+c
+and wills r
+s
+
+mathematical properties and analysis of googles pagerank
+bol
+soc
+esp
+mat
+apl
+jackendoff r
+
+semantics and cognition
+vol
+
+the mit press
+joachims t
+
+text categorization with support vector machines learning with many relevant features
+machine learning
+johnson m
+and ural a
+e
+
+reranking the berkeley and brown parsers
+in human language technologies the annual conference of the north american chapter of the association for computational linguistics
+association for computational linguistics
+joshi a
+
+how much context sensitivity is necessary for characterizing structural tions tree adjoining grammars
+natural language parsing psychological computational and theoretical perspectives
+jourde j
+manine a
+
+veber p
+fort k
+bossy r
+alphonse e
+and bessieres p
+
+bionlp shared task bacteria gene interactions and renaming
+in proceedings of the bionlp shared task workshop
+association for computational linguistics
+jung h
+and stent a
+
+temporal annotation using big windows and rich syntactic and semantic features
+in second joint conference on lexical and computational semantics sem
+vol
+
+
+jurafsky d
+and martin j
+h
+
+speech and language processing an introduction to natural language processing computational linguistics and speech recognition
+kaiser g
+
+a friendly guide to wavelets
+springer
+katz j
+and fodor j
+
+the structure of a semantic theory
+language
+kenny a
+
+action emotion and will
+psychology press
+kim j
+ohta t
+pyysalo s
+kano y
+and tsujii j
+
+overview of shared task on event extraction
+in proceedings of the workshop on current trends in biomedical natural language processing shared task
+association for computational linguistics
+kim j
+ohta t
+tateisi y
+and tsujii j
+
+genia corpusa semantically annotated corpus for bio textmining
+bioinformatics suppl
+kim j
+wang y
+takagi t
+and yonezawa a
+
+overview of genia event task in bionlp shared task
+acl hlt
+kingsbury p
+and palmer m
+
+from treebank to propbank
+in proceedings of the international conference on language resources and evaluation
+citeseer
+kingsbury p
+and palmer m
+
+propbank the next level of treebank
+in proceedings of treebanks and lexical theories
+vol
+
+kipper k
+dang h
+and palmer m
+
+class based construction of a verb lexicon
+in proceedings of the national conference on articial intelligence
+menlo park ca cambridge ma london aaai press mit press
+kipper k
+dang h
+schuler w
+and palmer m
+
+building a class based verb lexicon using tags
+in fifth international workshop on tree adjoining grammars and related formalisms
+citeseer
+kipper k
+korhonen a
+ryant n
+and palmer m
+
+a large scale classication of english verbs
+language resources and evaluation
+kipper schuler k
+
+verbnet a broad coverage comprehensive verb lexicon ph
+
+kleinberg j
+
+bursty and hierarchical structure in streams
+data mining and knowledge tation university of pennsylvania
+discovery
+komodakis n
+paragios n
+and tziritas g
+
+mrf optimization via dual decomposition message passing revisited
+in computer vision
+iccv
+ieee international conference on
+ieee
+korhonen a
+and briscoe t
+
+extended lexical semantic classication of english verbs
+in proceedings of the hlt naacl workshop on computational lexical semantics
+association for computational linguistics
+acm transactions vol
+v no
+n january
+
+
+
+kozareva z
+and hovy e
+
+learning arguments and supertypes of semantic relations in proceedings of the annual meeting of the association for using recursive patterns
+computational linguistics
+association for computational linguistics
+kudo t
+and matsumoto y
+
+chunking with support vector machines
+in proceedings of the second meeting of the north american chapter of the association for computational linguistics on language technologies
+
+lafferty j
+mccallum a
+and pereira f
+c
+
+conditional random elds bilistic models for segmenting and labeling sequence data
+in proceedings of the international conference on machine learning
+lee h
+recasens m
+chang a
+surdeanu m
+and jurafsky d
+
+joint entity and event coreference resolution across documents
+in proceedings of the joint conference on empirical methods in natural language processing and computational natural language learning
+
+levin b
+ed
+
+lexical semantics in review
+lexicon project working papers center for cognitive science mit cambridge ma
+levin b
+
+english verb classes and alternations a preliminary investigation
+vol
+
+university of chicago press chicago il
+levin b
+and hovav m
+
+unaccusativity at the syntax lexical semantics interface
+vol
+
+the mit press
+lewis d
+
+causation
+the journal of philosophy
+llorens h
+saquete e
+and navarro b
+
+tipsem english and spanish evaluating crfs and semantic roles in
+in proceedings of the international workshop on semantic evaluation
+association for computational linguistics
+lloyd g
+
+aristotle the growth and structure of his thought
+cambridge university press
+luo x
+
+on coreference resolution performance metrics
+in proceedings of the conference on human language technology and empirical methods in natural language processing
+
+macleod c
+grishman r
+meyers a
+barrett l
+and reeves r
+
+nomlex a lexicon of nominalizations
+in proceedings of the international congress of the european association for lexicography
+citeseer
+mahesh k
+nirenburg s
+al
+
+a situated ontology for practical nlp
+in proceedings of the workshop on basic ontological issues in knowledge sharing
+vol
+
+citeseer
+mani i
+and wilson g
+
+robust temporal processing of news
+in proceedings of the annual meeting on association for computational linguistics
+association for computational linguistics
+marcus m
+marcinkiewicz m
+and santorini b
+
+building a large annotated corpus of english the penn treebank
+computational linguistics
+mcclosky d
+
+any domain parsing automatic domain adaptation for natural language parsing ph
+
+thesis
+mcclosky d
+surdeanu m
+and manning c
+d
+
+event extraction as dependency parsing for bionlp
+in proceedings of the bionlp shared task workshop
+association for computational linguistics
+mcdonald r
+and pereira f
+
+online learning of approximate dependency parsing algorithms
+in proceedings of eacl
+vol
+
+
+mcdonald r
+pereira f
+ribarov k
+and hajic j
+
+non projective dependency parsing using spanning tree algorithms
+in proceedings of the conference on human language technology and empirical methods in natural language processing
+association for tional linguistics
+mcnamee p
+dang h
+t
+simpson h
+schone p
+and strassel s
+
+an evaluation of technologies for knowledge base population
+in language resources and evaluation conference lrec
+menzies p
+
+intrinsic versus extrinsic conceptions of causation
+in causation and laws of nature
+springer
+menzies p
+
+counterfactual theories of causation
+acm transactions vol
+v no
+n january
+
+
+
+meyers a
+grishman r
+kosaka m
+and zhao s
+
+covering treebanks with glarf
+in proceedings of the acl workshop on sharing tools and resources volume
+tion for computational linguistics
+meyers a
+macleod c
+yangarber r
+grishman r
+barrett l
+reeves r
+al
+
+using nomlex to produce nominalization patterns for information extraction
+in ings the computational treatment of nominals montreal workshop
+vol
+
+miller g
+
+wordnet a lexical database for english
+communications of the acm moens m
+
+tense aspect and temporal reference ph
+
+dissertation
+moens m
+and steedman m
+
+temporal ontology and temporal reference
+computational
+linguistics
+moreda p
+navarro b
+and palomar m
+
+corpus based semantic role approach in information retrieval
+data knowledge engineering
+mourelatos a
+
+events processes and states
+linguistics and philosophy
+napoles c
+gormley m
+and van durme b
+
+annotated gigaword
+in proceedings of the joint workshop on automatic knowledge base construction and web scale knowledge extraction
+association for computational linguistics
+naughton m
+stokes n
+and carthy j
+
+sentence level event classication
+computational linguistics volume
+association for computational linguistics
+newman m
+e
+
+fast algorithm for detecting community structure in networks
+physical investigating statistical techniques for in proceedings of the international conference on review e
+newman m
+e
+
+modularity and community structure in networks
+proceedings of the national academy of sciences
+niles i
+and pease a
+
+towards a standard upper ontology
+in proceedings of the national conference on formal ontology in information systems volume
+acm
+ohta t
+pyysalo s
+and tsujii j
+
+overview of the epigenetics and post translational modications epi task of bionlp shared task
+in proceedings of the bionlp shared task workshop
+association for computational linguistics
+ongenaert m
+van neste l
+de meyer t
+menschaert g
+bekaert s
+and van criekinge w
+
+pubmeth a cancer methylation database combining text mining and expert annotation
+nucleic acids research suppl
+orfanidis s
+j
+
+optimum signal processing an introduction
+macmillan new york
+palmer m
+babko malaya o
+and dang h
+
+dierent sense granularities for dierent applications
+in proceedings of workshop on scalable natural language understanding
+palmer m
+dang h
+and fellbaum c
+
+making ne grained and coarse grained sense distinctions both manually and automatically
+natural language engineering
+palmer m
+gildea d
+and kingsbury p
+
+the proposition bank an annotated corpus of semantic roles
+computational linguistics
+parsons t
+
+events in the semantics of english
+mit pr
+perlmutter d
+m
+
+mpersonal passives and the unaccusative hypothesis
+in proc
+of the annual meeting of the berkeley linguistics society
+uc berkeley
+petruck m
+
+frame semantics
+handbook of pragmatics
+philpot a
+hovy e
+and pantel p
+
+the omega ontology
+in proceedings of the ontolex workshop at the international conference on natural language processing nlp
+pinker s
+
+learnability and cognition the acquisition of argument structure
+the mit press
+porter m
+f
+
+an algorithm for sux stripping
+program electronic library and tion systems
+acm transactions vol
+v no
+n january
+
+
+
+pradhan s
+ramshaw l
+marcus m
+palmer m
+weischedel r
+and xue n
+
+shared task modeling unrestricted coreference in ontonotes
+in proceedings of the fifteenth conference on computational natural language learning shared task
+
+pradhan s
+s
+ramshaw l
+weischedel r
+macbride j
+and micciulla l
+
+restricted coreference identifying entities and events in ontonotes
+in semantic computing
+icsc
+international conference on
+ieee
+pradhan s
+s
+ward w
+hacioglu k
+martin j
+h
+and jurafsky d
+
+shallow semantic parsing using support vector machines
+in hlt naacl
+
+prasad r
+dinesh n
+lee a
+miltsakaki e
+robaldo l
+joshi a
+and webber b
+
+the penn discourse treebank
+
+in proceedings of the international conference on language resources and evaluation lrec
+citeseer
+prescher d
+riezler s
+and rooth m
+
+using a probabilistic class based lexicon for ical ambiguity resolution
+in proceedings of the conference on computational volume
+association for computational linguistics
+punyakanok v
+roth d
+yih w
+
+zimak d
+and tu y
+
+semantic role labeling via generalized inference over classiers
+
+pustejovsky j
+
+the generative lexicon
+computational linguistics
+pustejovsky j
+
+the syntax of event structure
+cognition
+pustejovsky j
+castano j
+ingria r
+sauri r
+gaizauskas r
+setzer a
+katz g
+and radev d
+
+timeml robust specication of event and temporal expressions in text
+new directions in question answering
+pustejovsky j
+hanks p
+sauri r
+see a
+gaizauskas r
+setzer a
+radev d
+sundheim b
+day d
+ferro l
+al
+
+the timebank corpus
+in corpus linguistics
+vol
+
+
+pustejovsky j
+meyers a
+palmer m
+and poesio m
+
+merging propbank bank timebank penn discourse treebank and coreference
+in proceedings of the workshop on frontiers in corpus annotations ii pie in the sky
+association for computational linguistics
+pyysalo s
+ohta t
+rak r
+sullivan d
+mao c
+wang c
+sobral b
+tsujii j
+and ananiadou s
+
+overview of the infectious diseases i task of bionlp shared task
+in proceedings of the bionlp shared task workshop
+association for computational linguistics
+quillian m
+r
+
+semantic information processing
+the mit press cambridge ma chapter semantic memory or chapter
+quine w
+v
+
+quantiers and propositional attitudes
+the journal of philosophy
+rabiner l
+r
+
+a tutorial on hidden markov models and selected applications in speech recognition
+proceedings of the ieee
+ramshaw l
+a
+and marcus m
+p
+
+text chunking using transformation based learning
+third workshop on very large corpora at the annual meeting of the association for computational linguistics
+rappaport m
+and levin b
+
+what to do with theta roles in thematic relations
+syntax and semantics
+rastogi p
+and van durme b
+
+augmenting framenet via ppdb
+naacl workshop on events denition detection coreference and representation
+ratnaparkhi a
+
+learning to parse natural language with maximum entropy models
+machine learning
+recasens m
+and hovy e
+
+blanc implementing the rand index for coreference evaluation
+natural language engineering
+riedel s
+chun h
+
+takagi t
+and tsujii j
+
+a markov logic approach to molecular event extraction
+in proceedings of the workshop on current trends in biomedical natural language processing shared task
+association for computational linguistics
+riedel s
+and mccallum a
+
+robust biomedical event extraction with dual decomposition and minimal domain adaptation
+in proceedings of the bionlp shared task workshop
+association for computational linguistics
+acm transactions vol
+v no
+n january
+
+
+
+riedel s
+mcclosky d
+surdeanu m
+mccallum a
+and manning c
+d
+
+model combination for event extraction in bionlp
+in proceedings of the bionlp shared task workshop
+association for computational linguistics
+rigo s
+and lavelli a
+
+multisex a multi language timex sequential extractor
+in eighteenth international symposium on temporal representation and reasoning
+
+ritter a
+clark s
+etzioni o
+al
+
+named entity recognition in tweets an imental study
+in proceedings of the conference on empirical methods in natural language processing
+association for computational linguistics
+ritter a
+etzioni o
+al
+
+a latent dirichlet allocation method for selectional in proceedings of the annual meeting of the association for computational erences
+linguistics
+association for computational linguistics
+ritter a
+etzioni o
+clark s
+al
+
+open domain event extraction from twitter
+in proceedings of the acm sigkdd international conference on knowledge discovery and data mining
+acm
+ritter e
+and rosen s
+
+strong and weak predicates reducing the lexical burden
+linguistic analysis
+roberts k
+and harabagiu s
+m
+
+unsupervised learning of selectional restrictions and detection of argument coercions
+in proceedings of the conference on empirical methods in natural language processing
+association for computational linguistics
+robkop k
+thoongsup s
+charoenporn t
+sornlertlamvanich v
+and isahara h
+
+wnms connecting the distributed wordnet in the case of asian wordnet
+in ples construction and applications of multilingual wordnets
+proceedings of the fifth global wordnet conference gwc india
+narosa publishing
+rosen c
+
+the interface between semantic roles and initial grammatical relations
+studies in relational grammar
+rosen s
+
+events and verb classication
+linguistics
+rosen s
+
+the syntactic representation of linguistic events
+glot international
+rudinger r
+and van durme b
+
+is the stanford dependency representation semantic acl
+ruppenhofer j
+ellsworth m
+petruck m
+johnson c
+and scheffczyk j
+
+framenet ii extended theory and practice
+international computer science institute
+rush a
+m
+sontag d
+collins m
+and jaakkola t
+
+on dual decomposition and linear programming relaxations for natural language processing
+in proceedings of the conference on empirical methods in natural language processing
+association for tional linguistics
+sager n
+
+natural language information processing
+addison wesley publishing company advanced book program
+sameer s
+hovy e
+marcus m
+palmer m
+ramshaw l
+and weischedel r
+
+ontonotes a unied relational semantic representation
+international journal of semantic computing
+sanfilippo a
+
+lkb encoding of lexical knowledge
+in inheritance defaults and the lexicon
+cambridge university press
+saur r
+knippen r
+verhagen m
+and pustejovsky j
+
+evita a robust event recognizer for qa systems
+in proceedings of the conference on human language technology and empirical methods in natural language processing
+association for computational linguistics
+sauri r
+littman j
+knippen b
+gaizauskas r
+setzer a
+and pustejovsky j
+
+timeml annotation guidelines
+timeml
+org timemldocs
+pdf
+schabes y
+
+mathematical and computational aspects of lexicalized grammars ph
+
+sertation university of pennsylvania
+schuler k
+
+verbnet a broad coverage comprehensive verb lexicon
+ph
+d
+thesis tations available from proquest university of pennsylvania
+acm transactions vol
+v no
+n january
+
+
+
+seaghdha d
+o
+
+latent variable models of selectional preference
+in proceedings of the annual meeting of the association for computational linguistics
+association for computational linguistics
+setzer a
+
+temporal information in newswire articles an annotation scheme and corpus study
+ph
+d
+thesis university of sheeld sheeld uk
+setzer a
+and gaizauskas r
+j
+
+annotating events and temporal information in newswire texts
+in lrec
+vol
+
+
+shi l
+and mihalcea r
+
+putting pieces together combining framenet verbnet and net for robust semantic parsing
+computational linguistics and intelligent text processing
+sinha m
+reddy m
+and bhattacharyya p
+
+an approach towards construction and application of multilingual indo wordnet
+in global wordnet conference gwc jeju island korea
+smith c
+
+the parameter of aspect
+vol
+
+springer
+sornlertlamvanich v
+charoenporn t
+robkop k
+mokarat c
+and isahara h
+
+review on development of asian wordnet
+styler iv w
+f
+bethard s
+finan s
+palmer m
+pradhan s
+groen p
+c
+erickson b
+miller t
+lin c
+savova g
+al
+
+temporal annotation in the clinical domain
+transactions of the association for computational linguistics
+swier r
+and stevenson s
+
+unsupervised semantic role labelling
+in proceedings of the conference on empirical methods in natural language processing
+
+swift m
+
+towards automatic verb acquisition from verbnet for spoken dialog processing
+in proceedings of the interdisciplinary workshop on the identication and representation of verb features and verb classes
+
+talmy l
+
+lexicalization patterns semantic structure in lexical forms
+language typology and syntactic description
+teh y
+w
+jordan m
+i
+beal m
+j
+and blei d
+m
+
+hierarchical dirichlet processes
+journal of the american statistical association
+tenny c
+
+aspectual roles and the syntax semantics interface
+vol
+
+springer verlag
+ter meulen a
+
+the representation of time in natural language
+studies in modeltheoretic semantics dordrecht foris publications
+ter meulen a
+
+representing time in natural language the dynamic interpretation of tense and aspect
+the mit press
+tsochantaridis i
+joachims t
+hofmann t
+altun y
+and singer y
+
+large margin methods for structured and interdependent output variables
+journal of machine learning research
+uzzaman n
+and allen j
+f
+
+trips and trios system for extracting poral information from text
+in proceedings of the international workshop on semantic evaluation
+
+uzzaman n
+llorens h
+allen j
+derczynski l
+verhagen m
+and pustejovsky j
+
+evaluating events time expressions and temporal relations
+arxiv preprint
+
+van gael j
+saatci y
+teh y
+w
+and ghahramani z
+
+beam sampling for the innite hidden markov model
+in proceedings of the international conference on machine learning
+
+van voorst j
+
+event structure
+vol
+
+john benjamins publishing co
+vapnik v
+
+the nature of statistical learning theory
+data mining and knowledge ery
+vendler z
+
+linguistics in philosophy
+cornell university press ithaca
+verhagen m
+sauri r
+caselli t
+and pustejovsky j
+
+task
+in proceedings of the international workshop on semantic evaluation
+ation for computational linguistics
+acm transactions vol
+v no
+n january
+
+
+
+verkuyl h
+
+a theory of aspectuality the interaction between temporal and atemporal structure
+vol
+
+cambridge university press
+vilain m
+burger j
+aberdeen j
+connolly d
+and hirschman l
+
+a theoretic coreference scoring scheme
+in proceedings of the conference on message standing
+
+vlach f
+
+the semantics of the progressive in tense and aspect
+ed
+by philip tedeschi and vossen p
+
+eurowordnet a multilingual database with lexical semantic networks
+kluwer annie zaenen
+academic
+vossen p
+
+introduction to eurowordnet
+computers and the humanities
+vossen p
+
+eurowordnet a multilingual database of autonomous and language specic international journal of lexicography wordnets connected via an inter lingualindex
+
+weischedel r
+
+ontonotes release
+
+linguistic data consortium university of vania
+ldc
+upenn
+edu catalog docs ontonotes
+
+pdf
+weng j
+and lee b
+
+
+event detection in twitter
+in icwsm
+wilks y
+
+a preferential pattern seeking semantics for natural language inference
+cial intelligence
+williams e
+
+argument structure and morphology
+the linguistic review
+winston m
+e
+chaffin r
+and herrmann d
+
+a taxonomy of part whole relations
+cognitive science
+wu c
+h
+yeh l
+
+l
+huang h
+arminski l
+castro alvear j
+chen y
+hu z
+kourtesis p
+ledley r
+s
+suzek b
+e
+al
+
+the protein information resource
+nucleic acids research
+yang y
+pierce t
+and carbonell j
+
+a study of retrospective and on line event detection
+in proceedings of the annual international acm sigir conference on research and development in information retrieval
+
+yao l
+haghighi a
+riedel s
+and mccallum a
+
+structured relation discovery using generative models
+in proceedings of the conference on empirical methods in natural language processing
+
+yao l
+mimno d
+and mccallum a
+
+ecient methods for topic model inference on streaming document collections
+in proceedings of the acm sigkdd international conference on knowledge discovery and data mining
+
+zhang t
+damerau f
+and johnson d
+
+text chunking based on a generalization of winnow
+the journal of machine learning research
+
+
+
+acm transactions vol
+v no
+n january
+

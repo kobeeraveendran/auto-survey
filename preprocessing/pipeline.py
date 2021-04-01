@@ -67,10 +67,11 @@ def create_vocabulary(documents=[], min_word_frequency=0.05, max_word_frequency=
         words.append(word)
     words = [words]
 
-    print ("WORDS: ", words)
+    #print ("WORDS: ", words)
     dct = Dictionary(words)
 
     return dct
+
 
 
 if __name__ == "__main__":
@@ -84,7 +85,7 @@ if __name__ == "__main__":
 
     # Build vocabulary
     filtered_bow = load_bow(path=data_path, vocab=vocabulary)
-    print("Filtered BOW: ", filtered_bow)
+    #print("Filtered BOW: ", filtered_bow)
 
     # Create LDA model
     # train_data = [convert_bow(filtered_bow)]

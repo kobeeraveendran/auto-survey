@@ -1,0 +1,306 @@
+n u j t n
+h t a m v
+v i x r a the m obius disjointness conjecture for distal flows jianya liu peter sarnak
+the mobius disjointness conjecture let x t x be a ow namely x is a compact topological space and t x x a continuous map
+the sequence is observed in x if there is an and an x such that t nx
+let be the mobius function that is is if n is not square free and is if n is a product of t distinct primes
+we say that is linearly disjoint from x if n xnn as n
+for every observable of x
+the mobius disjointness conjecture of the second author states the following
+conjecture
+the mobius disjointness conjecture
+the mobius function is linearly disjoint from every x whose entropy is
+this conjecture has been established for many ows x see however all of these ows are quasi regular or rigid in the sense that the birkho averages n xnn
+exist for every observed in x
+in we establish some new cases of the disjointness conjecture and in particular for irregular ows x that is ones for which
+fails
+these ows are complicated in terms of the behavior of their individual orbits but they are distal and of zero entropy so that the disjointness is still expected to hold
+date september
+mathematics subject classication
+
+key words and phrases
+the mobius function distal ow ane linear map skew product nilmanifold
+
+results in this section we summarize the results we have established in
+the rst result in is concerned with certain regular ows namely ane linear maps of a compact abelian group x
+such a ow t x is given by t ax
+where a is an automorphism of x and x see
+theorem
+
+let x t x be an ane linear ow on a compact abelian group which is of zero entropy
+then is linearly disjoint from x
+theorem
+actually holds with a rate of convergence
+we rst reduce to the torus case and then handle the torus case by fourier analysis and classical results of davenport and hua on exponential sums concerning the mobius function
+the ows in theorem
+are distal and our main result in is concerned with nonlinear distal ows on such spaces
+we restrict to x the two dimensional torus and consider nonlinear smooth or even analytic skew products as discussed in furstenberg
+t is given by t y ax cx
+where a c z ad r and h is a smooth periodic function of period
+the ane linear part is in the form a c ensuring that t has zero entropy and it can always be brought into this form
+the ow t is distal and this skew product is a basic building block with continuous in furstenberg s classication theory of minimal distal ows
+if is diophantine that is a q for some c b and all a q rational then t can be conjugated by a smooth map of to its ane linear part qb y ax cx
+where z see
+hence the disjointness of from x t for a t with a diophantine follows from theorem
+
+however if is not diophantine the dynamics of the ow t can be very dierent from an ane linear ow
+for example as furstenberg shows it may be irregular i
+e
+the limits in
+fail to exist for certain observables
+our main result is that these nonlinear skew products are linearly disjoint from at least if h satises some further technical hypothesis
+firstly we assume that h is analytic namely that if then for some
+secondly we assume that there is such that xmz e
+
+
+
+this is not a very natural condition being an artifact of our proof
+however it is not too restrictive and the following applies rather generally and most importantly there is no condition on
+theorem
+
+let x t be of the form
+with h satisfying
+and
+
+then is linearly disjoint from x
+the assertion of thereom
+holds for all and so we have to consider all diophantine possibilities of
+the tool is the bourgain sarnak ziegler nite version of the gradov method incorporated with various analytic methods such as poisson s summation and stationary phase
+furstenberg gives examples of skew product transformations of the form
+which are not regular in the sense of
+
+many of the ows x in rem
+have this property and we show in that furstenberg s examples are smoothly conjugate to such x s
+in particular his examples are linearly disjoint from
+theorem
+deals with the ane linear distal ows on the n torus
+a dierent source of homogeneous distal ows are the ane linear ows on nilmanifold x g where g is a nilpotent lie group and a lattice in g
+for x t g where t x with g i
+e
+translation on g the linear disjointness of and x is proven in and
+using the classication of zero entropy equivalently distal ane linear ows on nilmanifolds and green and tao s results we establish in the following
+theorem
+
+let x t g where t is an ane linear map of the nilmanifold g of zero entropy
+then is linearly disjoint from x
+the above results for can be proved in the same way for similar multiplicative functions such as n where n is the number of prime factors of n
+
+disjointness of from furstenberg s systems as a consequence of theorem
+it is proved in that is linearly disjoint from furstenberg s systems
+but no rate of convergence is obtained there since theorem
+in general oers no rate
+in this section we show that for furstenberg s systems rate of convergence is actually available if we work on these systems directly rather than appeal to theorem
+
+
+
+the continued fraction expansion of
+we assume that is irrational and our argument will depend on the continued fraction expansion of
+every real number has its continued fraction representation where is the integral part of and
+
+
+are positive integers
+the expression
+is innite since q
+we write
+
+
+for the expression on the right hand side of
+which is the limit of the nite continued expressions as k
+writing
+
+
+ak lk qk
+
+
+we have and for lk qk
+since is irrational we have qk for all k
+an induction argument gives the stronger assertion that qk for all and thus qk increases at least like an exponential function of k
+the irrationality of also implies that for all
+
+furstenberg s examples
+furstenberg gave examples of smooth transformation t such that the ergodic averages do not all exist
+let be as above such that for all positive k
+dene qk and set
+lk eqk
+
+
+
+
+
+it follows from
+and
+that is a smooth function
+we also have where so that and in particular denes and measurable function
+but can not correspond to a continuous function as shown in furstenberg
+
+
+disjointness of from furstenberg s systems
+in the following we consider slightly more general h s with where satises
+and for all positive k the coecients ck satisfy ck c for some positive constant c which we may assume to be greater than
+we note that if ck is not bounded then will not be
+now what we want to estimate is essentially
+
+
+
+xnn and our result is the following
+proposition
+
+let be as in
+
+then n loga n
+where the implied constant depends on a but is independent of
+proof
+by
+we have
+we should cut the last sum at some point
+let k be such that log n
+then for k k we have eqk
+so that c neqk cneqk cn where we the implied constant does not depend on c
+it follows that o xnn c
+n the o term as well as ck above are harmless and so from now on we concentrate on e xnn xnn on writing k kqkk
+note that by
+we have k eqk
+we have a sequence
+
+
+and therefore qk exp with k repeated exp s
+taking k k and noting that give exp exp log n
+where on the left hand side there are k exp s
+now let
+then is a smooth periodic function and hence can expanded into fourier series xlz where
+
+z
+
+
+we must compute the dependence of on
+by partial integration for we have z l z z
+c c
+for all
+the above is absolute
+of course the above can be improved to la for arbitrary a but we are not going to use this
+the sum in
+is of the form e f n xnn xnn xlz n xlz f n xnn since we have and consequently e where f n stands for the remaining terms in the e in
+
+it follows from this and
+that e f n xlz c xlz c sup xnn f n xnn f n
+
+xnn sup
+
+
+xnn repeating this procedure in
+we get c
+
+
+e the inner sum involving can be estimated by classical results of davenport and hua as n loga n where a is arbitrary and the implied constant depends at most on a i
+e
+it does not depend on the coecients
+
+
+or
+
+
+
+by
+we have c log n
+the proposition is proved
+acknowledgements
+the rst author is supported by the program nsfc grant and from the ministry of education
+the second author is supported by an nsf grant
+references n
+aoki topological entropy of distal ane transformations on compact abelian groups j
+math
+soc
+japan
+
+
+j
+bourgain on the correlation of the mobius function with random rank one systems j
+bourgain p
+sarnak and ziegler disjointness of mobius from horocycle ows from fourier analysis and number theory to radon transforms and geometry dev
+math
+springer new york
+s
+g
+dani dynamical systems on homogeneous spaces in chapter dynamical systems ergodic theory and applications encyclopedia of mathematical sciences vol
+springer
+h
+davenport on some innite series involving arithmetical functions ii quart
+j
+math
+
+h
+furstenberg strict ergodicity and transformation of the torus amer
+j
+math
+
+h
+furstenberg the structure of distal ows amer
+j
+math
+
+b
+green and t
+tao the quatitative behaviour of polynomial obits on nilmanifolds ann
+math
+b
+green and t
+tao the mobius function is strongly orthorgonal to nilsequences ann
+math
+
+
+soc
+
+providence r
+i
+
+f
+j
+hahn on ane transformations of compact abelian groups amer
+j
+math
+errata amer
+j
+math
+
+h
+hoare and w
+parry ane transformations with quasi discrete spectrum i j
+london math
+l
+k
+hua additive theory of prime numbers ams translations of mathematical monographs vol
+j
+liu and p
+sarnak the mobius function and distal ows
+
+c
+mauduit and j
+rivat sur un de gelfond somme chires nombres premiers n
+m
+dos santos and r
+urzua luz minimal homeomorphisms on low dimensional tori ergodic ann
+math
+
+theory dynam
+systems
+p
+sarnak three lectures on the mobius function randomness and dynamics ias lecture notes
+ias
+edu sites
+pdf
+p
+sarnak mobius randomness and dynamics not
+s
+afr
+math
+soc
+
+p
+sarnak and a
+ubis the horocycle at prime times
+
+school of mathematics shandong university jinan shandong china e mail address
+edu
+department of mathematics princeton university institute for advanced study princeton nj usa e mail address
+princeton
+edu

@@ -1,0 +1,504 @@
+a deep reinforced model for zero shot cross lingual summarization with bilingual semantic similarity rewards zi yi dou sachin kumar yulia tsvetkov language technologies institute carnegie mellon university zdou sachink
+cmu
+edu n u j l c
+s c v
+v i x r a abstract cross lingual text summarization aims at erating a document summary in one language given input in another language
+it is a tically important but under explored task marily due to the dearth of available data
+isting methods resort to machine translation to synthesize training data but such pipeline proaches suffer from error propagation
+in this work we propose an end to end cross lingual text summarization model
+the model uses reinforcement learning to directly optimize a bilingual semantic similarity metric between the summaries generated in a target language and gold summaries in a source language
+we also introduce techniques to pre train the model leveraging monolingual summarization and machine translation objectives
+mental results in both english chinese and english german cross lingual summarization settings demonstrate the effectiveness of our methods
+in addition we nd that ment learning models with bilingual semantic similarity as rewards generate more uent tences than strong baselines
+introduction cross lingual text summarization xls is the task of compressing a long article in one language into a summary in a different language
+due to the dearth of training corpora standard sequence to sequence approaches to summarization can not be applied to this task
+traditional approaches to xls thus follow a pipeline for example summarizing the article in the source language followed by ing the summary into the target language or versa wan et al
+wan
+both of these approaches require separately trained tion and translation models and suffer from error propagation zhu et al
+
+
+com
+figure along with minimizing the xls entropy loss lxls we also apply reinforcement ing to optimize the model by directly comparing the outputs with gold references in the source language
+prior studies have attempted to train xls models in an end to end fashion through knowledge lation from pre trained machine translation mt or monolingual summarization models ayana et al
+duan et al
+but these approaches have been only shown to work for short outputs
+tively zhu et al
+proposed to automatically translate source language summaries in the training set thereby generating pseudo reference summaries in the target language
+with this parallel dataset of source documents and target summaries an end to end model is trained to simultaneously marize and translate using a multi task objective
+although the xls model is trained end to end it is trained on mt generated reference translations and is still prone to compounding of translation and summarization errors
+in this work we propose to train an end to end xls model to directly generate target language summaries given the source articles by matching the semantics of the predictions with the semantics of the source language summaries
+to achieve this we use reinforcement learning rl with a gual semantic similarity metric as a reward eting et al
+
+this metric is computed tween the machine generated summary in the target language and the gold summary in the source guage
+additionally to better initialize our xls article enmodel summary zhgold reference engeneratedreference zhlclslrl our goal is to train a summarization model which takes an article in the source language xsrc as input and generates its summary in a pre specied target language ytgt xsrc
+here are the learnable parameters of f
+during training no gold summary tgt is available
+our model consists of one encoder denoted as e which takes xsrc as input and generates its tor representation h
+h is fed as input to two coders
+the rst decoder predicts the summary in the target language ytgt one token at a time
+the second decoder predicts the translation of the input text vtgt
+while both and are used during training only is used for xls at test time
+intuitively we want the model to select parts of the input article which might be important for the summary and also translate them into the target language
+to bias our model to encode this behavior we propose the following algorithm for pre training use a machine translation mt model to erate pseudo reference summaries ytgt by translating ysrc to the target language
+then translate ytgt back to the source language ing a target to source mt model and discard the examples with high reconstruction errors which are measured with rouge lin scores
+the details of this step can be found in zhu et al
+
+pre train the model parameters using a task objective based on mt and monolingual summarization objectives with some simple yet effective techniques as described in
+
+further ne tune the model using ment learning with bilingual semantic ity metric wieting et al
+as reward which is described in
+
+
+supervised pre training stage here we describe the second step of our rithm figure
+the pre training loss we use is a weighted combination of three objectives
+ilarly to zhu et al
+we use an xls training objective and an mt pre training objective as described below with some simple but effective improvements
+we also introduce an additional jective based on distilling knowledge from a lingual summarization model
+illustration of the supervised pre training figure stage
+the model is trained with cross lingual rization machine translation and distillation objectives
+the parameters of bottom layers of the decoders are shared across tasks
+model for rl we propose a new multi task training objective based on machine translation and monolingual summarization to encode common information available from the two tasks
+to able the model to still differentiate between the two tasks we add task specic tags to the input wu et al
+
+we evaluate our proposed method on english chinese and english german xls test sets
+these test corpora are constructed by rst using an system to translate source summaries to the get language and then being post edited by man annotators
+experimental results demonstrate that just using our proposed pre training method without ne tuning with rl improves the performing baseline by up to
+rouge l points
+applying reinforcement learning yields further provements in performance by up to
+rouge l points
+through extensive analyses and human evaluation we show that when the bilingual tic similarity reward is used our model generates summaries that are more accurate longer more ent and more relevant than summaries generated by baselines
+model in this section we describe the details of the task and our proposed approach
+
+problem description we rst formalize our task setup
+we are given n articles and their summaries in the source language src src as a training set
+src
+
+
+src xls pre training objective lxls this tive computes the cross entropy loss of the tions from considering the machine generated summaries in the target language tgt as ences given src as inputs
+per sample this loss can be formally written as lxls log tgt src m where m is the number of tokens in the summary i
+joint training with machine translation zhu et al
+argue that machine translation can be considered a special case of xls with a sion ratio of
+in line with zhu et al
+we train e and as the encoder and decoder of a translation model using an mt parallel corpus tgt
+the goal of this step is to make the encoder have an inductive bias towards encoding information specic to translation
+similar to lxls the machine translation objective per training ple lmt is src lmt log tgt src k where k is the number of tokens in tgt
+the lxls and lmt objectives are inspired by zhu et al
+
+we propose the following two enhancements to the model to leverage better the two objectives
+we share the parameters of bottom layers of the two decoders namely and to share common high level representations while the parameters of the top layers more specialized to decoding are separately trained
+
+we append an articial task tag ing xls training and during mt training at the beginning of the input ment to make the model aware of which kind of input it is dealing with
+we show in
+that such simple modications result in noticeable performance improvements
+knowledge distillation from monolingual marization to bias the encoder to identify tences which can be most relevant to the summary we use an extractive monolingual tion method to predict the probability qi of each sentence or keyword in the input article being evant to the summary
+we then distill knowledge from this model into the encoder e by making it predict these probabilities
+concretely we append an additional output layer to the encoder of our model and it predicts the probability pi of including the i sentence or word in the summary
+the objective is to minimize the difference between pi and qi
+we use the following loss for each sample for the model ldis log qj log l l where l is the number of sentences or keywords in each article
+our nal pre training objective during the vised pre training stage is lsup lxls lmt ldis where is a hyper parameter and is set to in our experiments
+training with lmt requires an mt parallel corpus whereas the other two objectives lize the cross lingual summarization dataset
+training algorithm alternates between the two parts of the objective using mini batches from the two datasets as follows until convergence
+sample a minibatch from the mt tgt and train the parameters of e src and with lmt
+
+sample a minibatch from the xls corpus tgt and train the parameters of e and with lxls ldis
+src
+reinforcement learning stage for xls the target language reference summaries ytgt used during pre training are automatically generated with mt models and thus they may contain errors
+in this section we describe how we further ne tune the model using only generated source language summaries ysrc with reinforcement learning rl
+specically we rst feed the article xsrc as an input to the encoder e and generate the target language summary ytgt ing
+we then compute a cross lingual similarity metric between ytgt and ysrc and use it as a reward to ne tune e and
+also experimented with a common distillation qi log pi tive based on minimizing kl divergence n but it did not perform as well
+following paulus et al
+we adopt two different strategies to generate ytgt at each training iteration tgt obtained by sampling from the softmax layer at each decoding step and yg tgt obtained by greedy decoding
+the rl objective per sample is given by lrl tgt log tgt m where r is the reward function
+to ne tune the model we use the following hybrid training objective lrl where is a scaling factor
+we train a cross lingual similarity model xsim with the best performing model in wieting et al
+
+this model is trained using an mt lel corpus
+using xsim we obtain sentence sentations for both ytgt and ysrc and treat the cosine similarity between the two representations as the reward r
+experimental setup
+datasets we evaluate our models on english chinese and english german article summary datasets
+the english chinese dataset is created by zhu et al
+constructed using the cnn dailymail monolingual summarization corpus hermann et al
+
+the training validation and test sets consist of about k k and k samples tively
+the english german dataset is our tion constructed from the gigaword dataset rush et al
+
+we sample
+m training k tion and k test samples from the dataset
+parallel corpora for both language pairs are structed by translating the summaries to the target language and ltered after back translation see
+this is done for training validation as well as test sets
+these two pseudo parallel training sets are used for pre training with lxls
+lated chinese and german summaries of the test articles are then post edited by human annotators to construct the test set for evaluating xls
+we refer the readers to zhu et al
+for more details
+for the english chinese dataset we use word based segmentation for the source articles in english and character based segmentation for the target summaries in chinese as in zhu et al
+
+for the english german dataset byte pair encoding is used sennrich et al
+with k merge operations
+for machine translation and training the xsim model we sub sample m tences from the chinese english and german english training dataset bojar et al
+
+
+implementation details we use the transformer base model vaswani et al
+as the underlying architecture for our model e extractive summarization model for distillation and baselines
+we refer the reader to vaswani et al
+for eter details
+in the input article a special token is added at the beginning of each sentence to mark sentence boundaries
+for the cnn dailymail corpus the monolingual extractive summarization used in the distillation objective has the same chitecture as the encoder e and is trained the cnn dailymail corpus constructed by liu and lapata
+to train the encoder with ldis we take the nal hidden representation of each token and apply a layer feed forward network with relu activation in the middle layer and moid at the nal layer to get qi for each sentence i see
+
+for the gigaword dataset because the inputs and outputs are typically short we choose keywords rather than sentences as the prediction unit
+ically we rst use textrank mihalcea and tarau to extract all the keywords from the source document
+then for each keyword i that appears in the target summary the gold label qi in tion is assigned to and qi is assigned to for keywords that do not appear in the target side
+we share the parameters of the bottom four ers of the decoder in the multi task setting
+we use the trigram model in wieting et al
+a to measure the cross lingual sentence semantic larities
+as pointed out in after the pre training stage we only use for xls
+the nal results are obtained using only e and
+we use two metrics for evaluating the performance of models rouge and l lin and xsim wieting et al
+
+following paulus et al
+we select in equation to
+for the gigaword corpus and
+for the cnn dailymail dataset
+
+baselines we compare our proposed method with the ing baselines method english chinese rouge l xsim english german rouge l xsim pipeline based methods tran sum zhu et al
+sum tran zhu et al
+end to end training methods mle xls mle zhu et al
+mle reimplemented mle rl rouge rl xsim rl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table performance of different models
+the highest scores are in bold and statistical signicance compared with the best baseline is indicated with p
+computed using compare mt neubig et al
+
+xsim is computed between the target language system outputs and the source language reference summaries
+pipeline approaches we report results of and summarize then translate translate then summarize tran sum pipelines
+these results are taken from zhu et al
+
+sum tran mle xls we pre train e and with only lxls without any ne tuning
+mle we pre train e and with lxls lmt without using ldis
+this is the best performing model in zhu et al
+
+we show their reported results as well as results from our re implementation
+mle we pre train the model ing without ne tuning with rl
+we also share the decoder layers and add task specic tags to the input as described in
+
+rl rouge using rouge score as a reward function has been shown to improve tion quality for monolingual summarization els paulus et al
+
+in this baseline we tune the pre trained model in the above baseline using rouge l as a reward instead of the posed xsim
+the rouge l score is computed tween the output of and the machine generated summary ytgt
+rl here we use the average of rouge score and xsim score as a reward function to ne tune the pre trained model
+method mle xls extract dis mle extract dis rouge l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table effect of using hard extract vs soft dis extraction of summary sentences from the input article than rouge l points
+tran sum performs even worse than sum tran likely because the translation model is trained on sentences and not long articles
+first translating the article with many sentences introduces way more errors than ing a short summary with fewer sentences would
+using just our pre training method as described in
+mle our proposed model performs the strongest baseline mle in both rouge l by
+and xsim by
+
+applying reinforcement learning to ne tune the model with both rouge rl rouge xsim xsim or their mean rl as wards results in further improvements
+our posed method rl xsim performs the best overall indicating the importance of using cross lingual similarity as a reward function
+rl rouge uses a machine generated reference to compute the wards since target language summaries are able which might be a reason for its worse mance
+results
+analysis the main results of our experiments are rized in table
+pipeline approaches as expected show the weakest performance lagging behind even the weakest end to end approach by more in this section we conduct experiments on the cnn dailymail dataset to establish the importance of every part of the proposed method and gain ther insights into our model
+figure reinforcement learning can make the model better at generating long summaries
+we use the compare mt tool neubig et al
+to get these statistics
+method share tag rouge l
+
+
+
+
+
+
+
+
+table effect of sharing decoder layers and adding task specic tags soft distillation vs
+hard extraction the sults in table already show that adding the edge distillation objective ldis to the pre training leads to an improvement in performance
+the tuition behind using ldis is to bias the model to softly select sentences in the input article that might be important for the summary
+here we place this soft selection with a hard selection
+that is using the monolingual extractive tion model as described in
+we extract top sentences from the input article and use them as the input to the encoder instead
+we compare this method with ldis as shown in table
+with just mle xls as the pre training objective extract shows improvement albeit with lower overall bers in performance but leads to a decrease in formance of mle
+on the other hand using the distillation objective helps in both cases
+effect of the sharing and tagging techniques in table we demonstrate that introducing simple enhancements like sharing the lower layers of the decoder share and adding task specic tags tags during multi task pre training also helps in ing the performance while at the same using fewer parameters and hence a smaller memory footprint
+effect of summary lengths next we study how different baselines and our model performs with respect to generating summaries in chinese of different lengths in terms of number of acters
+as shown in figure after ne tuning the model with rl our proposed model becomes better at generating longer summaries than the one with only pre training referred to as in the gure with rl xsim forming the best in most cases
+we posit that this improvement is due to rl based ne tuning ing the problem of exposure bias introduced during teacher forced pre training which especially helps longer generations
+human evaluation in addition to automatic evaluation which can sometimes be misleading we perform human evaluation of summaries erated by our models
+we randomly sample pairs of the model outputs from the test set and ask three human evaluators to compare the pre trained supervised learning model and reinforcement ing models in terms of relevance and uency
+for each pair the evaluators are asked to pick one out of rst model mle lose second models win or say that they prefer both or neither tie
+the results are summarized in ble
+we observe that the outputs of model trained with rouge l rewards are more favored than the ones generated by only pre trained model in terms of relevance but not uency
+this is likely because the rl rouge model is trained using generated summaries as references which might lack uency
+figure displays one such example
+on the other hand cross lingual semantic similarity as a reward results in generations which are more favored both in terms of relevance and uency
+related work most previous work on cross lingual text rization utilize either the summarize then translate figure example outputs
+the bilingual semantic similarity rewards can make the output more uent than using rouge l as rewards
+sup refers to the mle baseline
+metric relevance fluency model v
+mle win lose tie rl rouge rl xsim rl rouge rl xsim
+
+
+
+
+
+
+
+
+
+
+
+table results showing preferences of human tors towards the summaries generated by the mentioned rl methods vs ones from the pre trained model referred in short as mle or translate then summarize pipeline wan et al
+wan yao et al
+ouyang et al
+
+these methods suffer from error tion and we have demonstrated their sub optimal performance in our experiments
+recently there has been some work on training models for this task in an end to end fashion ayana et al
+duan et al
+zhu et al
+but these els are trained with cross entropy using generated summaries as references which have ready lost some information in the translation step
+prior work in monolingual summarization have explored hybrid extractive and abstractive rization objectives which inspires our distillation objective gehrmann et al
+hsu et al
+chen and bansal
+this line of research mainly focus on either compressing sentences tracted by a pre trained model or biasing the diction towards certain words
+language generation models trained with entropy using teacher forcing suffer from sure bias and a mismatch between training and evaluation objective
+to solve these issues using reinforcement learning to ne tune such models have been explored for monolingual summarization where rouge rewards is typically used paulus et al
+liu et al
+pasunuru and bansal
+other rewards such as bert score zhang et al
+have also been explored li et al
+
+computing such rewards requires access to the gold summaries which are typically unavailable for cross lingual summarization
+this work is the rst to explore using cross lingual similarity as a reward to work around this issue
+conclusion in this work we propose to use reinforcement ing with a bilingual semantic similarity metric as rewards for cross lingual document summarization
+we demonstrate the effectiveness of the proposed approach in a resource decient setting where get language gold summaries are not available
+we also propose simple strategies to better initialize the model towards reinforcement learning by aging machine translation and monolingual marization
+in future work we plan to explore methods for stabilizing reinforcement learning as well to extend our methods to other datasets and tasks such as using the bilingual similarity ric as a reward to improve the quality of machine translation
+bill to raise the legal age to buy cigarettes was voted into law wednesday by the city council
+new york is the largest us city to raise the purchase age above the federal limit of years old
+the law is expected to go into effect early next year
+york has become the largest purchase age in the united states
+new york is not the rst city to raise the legal drinking age
+york has become the largest purchase age in the united states and the legal age has increased from to
+the city council approved a law on wednesday to increase the age of tobacco purchases from to
+new york is not the rst city to raise the legal drinking age
+york has become the largest city in the united states for buying cigarettes
+the city council approved a law on wednesday to increase the age of tobacco purchases from to
+new york is not the rst city to raise the legal drinking age
+acknowledgements we are grateful to junnan zhu john wieting lai vogler graham neubig for their helpful tions and chunting zhou shuyan zhou for reading the paper
+we also thank ruihan zhai zhi hao zhou for the help with human evaluation and anurag katakkar for post editing the english dataset
+this material is based upon work supported by nsf grants and by zon mlra award
+we also thank amazon for providing gpu credits
+references ayana shi qi shen yun chen cheng yang zhi yuan liu and mao song sun
+
+zero shot ieee acm lingual neural headline generation
+transactions on audio speech and language cessing
+ondrej bojar christian buck christian federmann barry haddow philipp koehn johannes leveling christof monz pavel pecina matt post herve saint amand al
+
+findings of the workshop on statistical machine translation
+in proc
+wmt
+ondrej bojar rajen chatterjee christian federmann yvette graham barry haddow shujian huang matthias huck philipp koehn qun liu varvara logacheva et al
+
+findings of the ference on machine translation
+in proc
+wmt
+yen chun chen and mohit bansal
+
+fast tive summarization with reinforce selected sentence rewriting
+in proc
+acl
+xiangyu duan mingming yin min zhang boxing chen and weihua luo
+
+zero shot lingual abstractive sentence summarization through teaching generation and attention
+in proc
+acl
+chin yew lin
+
+rouge a package for matic evaluation of summaries
+in text tion branches out
+linqing liu yao lu min yang qiang qu jia zhu and hongyan li
+
+generative adversarial in proc
+work for abstractive text summarization
+aaai
+yang liu and mirella lapata
+
+text tion with pretrained encoders
+in proc
+emnlp
+rada mihalcea and paul tarau
+
+textrank ing order into text
+in proc
+emnlp
+graham neubig zi yi dou junjie hu paul michel danish pruthi and xinyi wang
+
+compare mt a tool for holistic comparison of language tion systems
+in proc
+naacl demo
+jessica ouyang boya song and kathleen mckeown
+
+a robust abstractive system for cross lingual summarization
+in proc
+naacl
+ramakanth pasunuru and mohit bansal
+
+reward reinforced summarization with saliency and entailment
+in proc
+naacl
+romain paulus caiming xiong and richard socher
+
+a deep reinforced model for abstractive marization
+in proc
+iclr
+alexander m rush sumit chopra and jason weston
+
+a neural attention model for abstractive tence summarization
+in proc
+emnlp
+rico sennrich barry haddow and alexandra birch
+
+neural machine translation of rare words with subword units
+in proc
+acl
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n gomez ukasz kaiser and illia polosukhin
+
+attention is all you need
+in proc
+neurips
+sebastian gehrmann yuntian deng and alexander rush
+
+bottom up abstractive summarization
+in proc
+emnlp
+xiaojun wan
+
+using bilingual information for in proc
+cross language document summarization
+acl
+karl moritz hermann tomas kocisky edward stette lasse espeholt will kay mustafa suleyman and phil blunsom
+
+teaching machines to read and comprehend
+in proc
+neurips
+xiaojun wan huiying li and jianguo xiao
+
+cross language document summarization based on in proc
+machine translation quality prediction
+acl
+wan ting hsu chieh kai lin ming ying lee kerui min jing tang and min sun
+
+a unied model for extractive and abstractive summarization using inconsistency loss
+in proc
+acl
+john wieting taylor berg kirkpatrick kevin gimpel and graham neubig
+
+beyond bleu training neural machine translation with semantic similarity
+in proc
+acl
+siyao li deren lei pengda qin and william yang wang
+
+deep reinforcement learning with tributional semantic rewards for abstractive rization
+in proc
+emnlp
+john wieting kevin gimpel graham neubig and lor berg kirkpatrick
+
+simple and effective paraphrastic similarity from parallel translations
+in proc
+acl
+yonghui wu mike schuster zhifeng chen quoc v le mohammad norouzi wolfgang macherey maxim krikun yuan cao qin gao klaus macherey et al
+
+google s neural machine translation system bridging the gap between arxiv preprint man and machine translation
+
+
+jin ge yao xiaojun wan and jianguo xiao
+
+phrase based compressive cross language rization
+in proc
+emnlp
+tianyi zhang varsha kishore felix wu kilian q weinberger and yoav artzi
+
+bertscore arxiv preprint uating text generation with bert
+
+
+junnan zhu qian wang yining wang yu zhou jun zhang shaonan and chengqing zong
+
+ncls neural cross lingual summarization
+in proc
+emnlp
+

@@ -1,0 +1,677 @@
+extractive multi document summarization using dynamical measurements of complex networks jorge valverde tohalino diego raphael amancio institute of mathematics and computer science university of sao paulo sao carlos sp brazil email andoni
+
+br diego
+
+com g u a l c
+s c v
+v i x r a it abstract due to the large amount of textual information available on internet is of paramount relevance to use techniques that nd relevant and concise content
+a typical task devoted to the identication of informative sentences in documents is the so called extractive document summarization task
+in this paper we use complex network concepts to devise an extractive multi document summarization mds method which extracts the most central sentences from several textual sources
+in the proposed model texts are represented as networks where nodes represent sentences and the edges are established based on the number of shared words
+differently from previous works the identication of relevant terms is guided by the acterization of nodes via dynamical measurements of complex networks including symmetry accessibility and absorption time
+the evaluation of the proposed system revealed that excellent results were obtained with particular dynamical measurements including those based on the exploration of networks via random walks
+index terms automatic summarization complex networks network measurements sentence extraction
+i
+introduction the large amount of information generated every single day has motivated the creation of automatic methods to classify understand and present the information in a clear and concise way
+automatic summarization techniques are one of the many solutions to address the problem of managing large volumes of data
+such methods aim at creating a compressed version of one or more texts by extracting their most important content
+automatic summarization techniques are divided into two groups extractive summarization and abstractive tion
+extractive summaries are produced by concatenating several sentences
+such sentences are selected exactly as they appear in the original document
+on the other hand abstractive summarization is a more difcult task since it includes paraphrasing sections of the source document
+in addition abstractive methods may reuse clauses or phrases from original documents
+in this paper we focus our analysis on the extractive version of summarization techniques
+traditional techniques to select relevant sentences include the analysis of word frequency sentence clustering and machine learning
+of particular interest to the aims of this paper are the methods based on complex networks
+in recent years studies in complex networks have drawn enormous attention since networked models have been useful to model several real world phenomena
+complex networks are graphs with certain statistical and topological properties which are not common in simple and random graphs
+these properties are observed in world scale free and modular networks
+complex network concepts have proven suitable to analyze texts in several applications including those devoted to create informative extractive summaries from one or more documents
+such networks can capture text structure in several ways
+nodes can represent words sentences or paragraphs of a document and the edges between nodes are established in different ways
+according to some particular measurements nodes e
+
+sentences receive a relevance score which in turn is used to select as a criterion to select a subset of the best ranked sentences to compose the nal extract
+in our method with the aim of making a summary from a set of documents on the same topic mds we represent nodes as sentences and network edges are established according to a similarity based on the number of shared terms between two sentences
+in addition to the traditional network measurements we used novel dynamical measurements to improve the acterization of the obtained complex networks
+the summaries were produced for the cstnews which comprises documents in brazilian portuguese
+the evaluation was carried out by using the metric
+here we show that informative sentences can be retrieved via dynamical network measurements based on random walks as revealed by the excellent performance obtained mostly with measures ing the dynamical behavior of complex networks
+the most prominent dynamical measurements were the accessibility the absorption time and the pagerank
+this paper is organized as follows section ii contains a brief survey of works that use complex networks for extractive summarization
+in section iii we detail the methodology which includes a description of the proposed network model and the networks measurements used to select the best ranked sentences to compose the summary
+in section iv the results the conclusions and are presented and discussed
+finally prospects for future work are shown in section v
+ii
+related work several works addressing extractive summarization based on graphs and complex networks measurements have been proposed
+in the work of antiqueira et al
+nodes resent sentences and an edge connect two sentences if they share signicant lemmatized nouns
+then in order to give a numerical value to each node some complex network measurements are applied
+the best ranked nodes sentences are selected to compose the nal extract
+antiqueira et al
+also implemented a summarizer based on a voting tem which combines the results of summaries generated by different measurements
+the temario corpus was used to evaluate the results
+some of the proposed systems achieved similar results compared to the top summarizers for brazilian portuguese
+leite and rino explored multiple features using chine learning
+the authors took into account supor features which is a supervised summarizer for brazilian portuguese and features based on complex network surements
+in order to compose the extract using a machine learning perspective each sentence was classied as present or not present in summary
+leite and rino also used temario corpus to evaluate the results obtaining excellent results
+ribaldo et al
+addressed the multi document marization mds task for texts in brazilian portuguese
+all sentences from the corpus were identied and modeled as a single network
+the pre processed sentences were represented as nodes which were linked by similarity measurements
+to select the best ranked sentences the authors used the degree clustering coefcient and the shortest paths measurements
+to create a summary devoid of redundancy the authors proposed a method to remove sentences with same content
+the uation of results was performed on the cstnews brazilian corpus
+the reported results showed that their method for portuguese mds yielded very good results which were close to the best system available for the language
+in the work of amancio et al
+networks are created as follows each lemmatized word is represented as a single node and edges are obtained by joining nodes whose corresponding words are immediately adjacent in the text
+each edge weight is determined by the number of repeated associations between two words
+after building a network several measurements strength shortest paths betweenness vulnerability and sity are computed at the word level
+for sentence selection each sentence receives a weight based on the average weight of its content words
+finally the n best weighted sentences are included in the nal summary
+the authors found that diversity based measurements outperformed the best system proposed in
+in the work of salton et al
+text paragraphs are represented as nodes and edges are established between two nodes according to a similarity measure based on the number of shared words
+routing algorithms such as bushy and depth rst paths were used to select the most important paragraphs
+the algorithms were evaluated using a corpus of documents in english
+the best algorithm selected
+of paragraphs chosen by human summarizers
+mihalcea dened a network of sentences which are connected according to the number of terms they share
+to select the most informative sentences mihalcea used mendation algorithms for web pages including both google s page rank and hits
+three network types were considered undirected forward edges reecting the reading ow of text and backward edges going from the current to the previous word in the text
+the evaluation was performed on the english corpus and the portuguese temario
+the results of the hits algorithms were superior to the best system when both forward and backward networks were used
+for the portuguese scenario the backward network evaluated by the page rank algorithm provided the best performance
+iii
+methodology in the current paper we propose a method based on complex network measurements for portuguese multi document marization mds
+we make an extension of antiqueira et al
+and ribaldo et al
+works by using new dynamical work measurements to characterize complex networks
+each extracted sentence from documents is represented by a node and the edges are created if two sentences are semantically similar
+this proposal is divided into ve stages document pre processing sentence vectorization network creation plication of network measurements and summarization i
+e
+sentence selection
+a
+document pre processing in order to model sentences as network nodes a set of changes must be applied to the original texts
+such changes include the elimination of unnecessary words and the mation of words into their canonical form
+this stage includes text segmentation this stage divides texts into sentences
+we consider as a sentence any text segment separated by a period exclamation or question mark
+we used the python nltk library for the text segmentation
+elimination of stopwords and punctuation marks for the elimination of unnecessary words we used a list of stopwords for portuguese
+morphosyntactic labeling part of speech tagging is portant for word lemmatization and for the identication of all nouns composing a sentence
+in this phase we used the mxpost tagger for portuguese
+lemmatization in this phase we obtained the canonical form of each word with the aim of processing in the same canonical form different variations of a word
+table i shows an example of the document pre processing stage
+b
+sentence vectorization we used the tf idf weighting for vector representation of sentences since this metric was employed with satisfactory sults for many nlp tasks
+to get the vector of a sentence we calculate the tf idf value of each of its corresponding words where tf is the term frequency and idf is the inverse document frequency
+table i example of the pre processing stage applied to a piece of text extracted from wikipedia
+the rst column shows the original text divided into six sentences
+in the second column we show the pre processed text and shared nouns between sentences are highlighted
+original text divided into sentences
+brazil is the largest country in south america
+it is the world s fth largest country by both area and population
+it is the largest country to have portuguese as an ofcial language and the only one in america
+bounded by the atlantic ocean on the east brazil has a coastline of kilometers
+it borders all other south american countries except ecuador and chile
+brazil s economy is the world s ninth largest by nominal gdp of pre processed text brazil be large country south america be world ve large country area population be large country have portuguese ofcial language america bound atlantic ocean east brazil have coastline kilometer border south america country ecuador chile brazil economy be world nine large nominal gdp c
+network creation this stage creates two network models for document resentation
+the rst network hereafter referred to as noun based network follows the antiqueira s work
+the second variation of network hereafter referred to as tf idf based network is based on ribaldo s work
+the particularities of these models are noun based network in this model each node represents a sentence comprising lemmatized nouns
+there is an edge between two sentences when there is at least one noun in common between such sentences
+the number of word repetitions between both sentences indicates the edge weight linking the sentences
+tf idf based network to create this network we rst need to determine the tf idf vector representation of each document sentences
+then each node network is represented by a sentence and the edge between two sentences is based on the similarity between the tf idf vectors of both sentences
+the similarity is computed as the cosine similarity obtained from the tf idf vectors
+figure shows an example of the two network models proposed in this work which were generated from the example in table i
+fig
+network models proposed in this work
+d
+application of network measurements in this stage we use a set of network measurements with the aim of giving a value of importance weight to each node
+this weight allows us to rank the nodes so that the the best ranked sentences nodes compose the nal summary
+every network measurement is used in an individual way therefore there is one summary for each measurement
+in addition to the traditional network measurements degree strength shortest paths clustering coefcient betweenness and page rank we used additional measurements to take into account not only the topological structure of the networks but also their dynamical behavior
+this can be achieved by considering dynamical processes occurring on the top of the networks
+for simplicity sake we considered variation of random walks to study the dynamical behavior of the networks
+such a dynamics gives rise to a series of measurements including concentric metrics accessibility symmetry and absorption time
+the metrics employed in this work are detailed below
+degree the degree of a vertex i is the number of edges connected to that vertex
+strength for weighted networks the strength of a vertex i is the sum of the weights of its corresponding edges
+clustering coefcient it is a measure to characterize the presence of loops of order three in a network
+it measures the probability that two neighbors of a node are connected
+shortest paths a shortest path between two vertices i and j is one of the paths dij that connects these vertices with a minimum length
+the length of a path is determined by the number of edges connecting the vertices i and j
+the similarity between distances is converted to distances using two distinct rules ij if or wij and ij if or ij wmax wij if ij wij if where wij is an element of the weighted matrix w representing the edges weight i
+e
+the original similarity indexes and and are the obtained distances
+betweenness this measure is normally calculated as the fraction of shortest paths between two nodes passing through some node of interest
+page rank in this measurement a node i is relevant if it is connected to other relevant nodes
+concentric measurements this type of measurement resents a set of eight indexes that are able to extract valuable topological information along hierarchical levels of networks
+a hierarchical level allows a natural and powerful extension of basic measurements
+the basic denition of any concentric measure relies on the cation of the ring i
+e
+the set of nodes which are d hops away from i
+the following are some of the metrics that were proposed in the work of costa and silva concentric number of nodes number of nodes belonging to the ring
+concentric number of edges number of edges connecting nodes inside the ring
+concentric node degree number of edges extending from the ring to
+concentric clustering coefcient division of the number of existing edges in the ring by the total number of possible edges in this ring
+convergence ratio ratio between the concentric node degree and the number of nodes at the next concentric ring
+intra ring node degree it is the average degree of the nodes at the ring considering only the edges located in the ring
+inter ring node degree it is the ratio between the node degree and the number of nodes in the same ring
+concentric common degree the average degree considering all the connections of nodes at a specic ring
+accessibility the accessibility quanties the number of nodes actually accessible from an initial node
+to calculate this measure consider that p j represents the probability of reaching a vertex j from i through a self avoiding random walk of length h
+this measure considers the paths from the vertex i to each of the vertices located in the concentric ring of distance h and it is calculated as exp p j log p j j generalized accessibility because the accessibility surement depends on the parameter h a new version of accessibility can be considered without such a parameter
+the generalized accessibility is based on a matrix nential operation
+this operation allows the calculation of transition probabilities considering walks of all lengths between any pair of vertices
+this measurement has been employed with sucess in other text classication tasks
+symmetry the network symmetry is a normalized sion of accessibility where the number of accessible nodes is used as normalization factor
+to calculate this measure concentric random walks are used as a way to avoid transitions to previous concentric levels
+therefore changes must be made in the network so that the transitions do not use edges within a same concentric level
+these changes originate two types of symmetry backbone symmetry and merged symmetry
+in the backbone symmetry the edges that connect nodes belonging to the same concentric level are disregarded
+in the merged symmetry these edges have cost and the nodes connected by them are collapsed
+the symmetry is calculated as i p j log p j i where p j is the probability of reaching a node j from node i through a self avoiding random walk of i length h and is the set of accessible nodes that are at a distance h from the node i
+the objective of using this measurement is to determine if nodes with a higher degree or lower degree of symmetry are good indicators of sentence importance
+we tested this metric by selecting nodes with greater and lower symmetry
+absorption time this metric is dened as the time it takes for a particle in an internal node to reach an output node through a random walk
+the absorption time quanties how fast a randomly walking particle is absorbed by the output vertices assuming that the particle starts the random walk at the input node
+according to this measurement sentences with lower absorption time are probably the appropriate sentences to form part of the summary
+table ii summarizes the adopted network measurements for this work and how they are going to be used for summarization purposes
+table ii adopted network measurements for mds
+the weighted version of the networks was considered only with the traditional measurements
+selection measurement abbr
+hier
+level degree strength betweenness page rank clustering coefcient concentric symmetry accessibility generalized accessibility shortest paths symmetry absorption time dg stg btw btw w pr pr w cc cc w conc
+
+
+hsymbb hsymmg access gaccess sp sp sp lsymbb lsymmg highest values lowest weighted nodes e
+summarization in this stage the best ranked sentences are selected to compose the summary
+in the rst place generated summaries must respect a established size
+this size is adapted according to the size of references summaries
+generally summaries have a compression rate of of the original text
+also for mds it is important to avoid redundancy in the selected sentences
+redundancy could occur when identical or similar sentences are represented in the graph as different nodes and it is frequently indicated by links with very high degree of similarity
+in this paper we use the redundancy method proposed by ribaldo et al
+
+in this work it is set a redundancy limit that a new selected sentence may have in relation to any of the previously selected tences
+if this limit is reached this new sentence is considered redundant and it is ignored and the summarization process goes to the next candidate sentence otherwise the sentence is included in the summary
+ribaldo et al
+dened this limit as the sum of the highest and the lowest cosine similarity between all sentences of the original texts
+iv
+results in this section we show the achieved results from the evaluation of our systems for portuguese multi document summarization mds
+we used the cstnews which is a set of documents that were extracted from on line brazilian news agencies
+this corpus contains news items which are divided into clusters
+each cluster contains or documents on the same topic
+our systems were evaluated by using the metric which compares the erated summaries and the human generated summaries from cstnews
+this metric was used because it has been shown that there is a strong correlation between rouge indexes and manual human judgement
+for comparison purposes table iii shows the results from other works that achieved the best results for mds gistsumm which was the rst mds system produced for portuguese cstsumm which follows a cst based method cross document structure theory mead that is based on centroids sentence position and lexical features extracted from the sentences and bushypath and path systems which adapt the relationship map approach for mds
+in this paper in table iii list of works for portuguese mds with the respective average recall scores
+systems gistsumm bushypath path cstsumm
+
+
+
+systems mead top baseline random baseline
+
+
+order to compare our systems with other works shown in table iii and two baselines we show in table iv the average recall scores obtained from the proposed systems
+with the aim of generating baseline summaries the rst baseline called top baseline selects the rst n sentences of the source document while the random baseline randomly selects sentences from the source document
+in this work two experiments were carried out
+in the rst approach we make a simple selection of best ranked sentences without using the anti redundancy detection method ard
+in the second approach the ard method is used
+the results in table iv show that applying anti redundancy detection ard methods does not have a big impact on the summary quality
+we can see that ard methods had a slightly better performance than the simple sentence selection method
+in some cases the results obtained without the ard method outperformed the ones obtained with such a ltering of sentences
+we could conclude there is not great relevance in applying the adopted ard methods for the cstnews corpus
+it remains therefore to be probed in future works the efciency of other methods for elimination of redundant sentences
+the proposed methods achieved a good performance since they outperformed the majority of the results from other works for mds
+we evaluated the noun and tf idf based networks
+both networks displayed a similar performance
+according to table iv traditional network measurements like degree shortest paths page rank betweenness and some of their weighted versions yielded the best scores
+the measurements based on the dynamical behavior of the networks such as sorption time and generalized accessibility measurements also displayed an excellent performance
+the backbone symmetry table iv r results for portuguese mds
+in in the rst two columns is shown the performance of our systems without using the anti redundancy detection method ard
+in last columns is shown the results by using the anti redundancy detection method ard
+results in blue represent the best systems while those in orange represent the worst systems
+mds mds ard measures dg stg sp sp sp btw btw w pr pr w cc cc w access access gaccess hsymbb hsymbb hsymmg hsymmg lsymbb lsymbb lsymmg lsymmg noun
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tf idf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+noun
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tf idf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+measurement h achieved a good performance when the least symmetric nodes were taken into account in other cases however symmetry measurements yielded very low rouge scores
+the accessibility measurement was outperformed by the top baseline score when it was evaluated at the second hierarchical level
+such a performance decreased when further hierarchical levels were taken into account
+finally the tems based on concentric and clustering measurements yielded the lowest results
+v
+final remarks in this paper we probed the efciency of several plex networks measurements for the multi document tive summarization task
+we used novel dynamical complex networks metrics such as absorption time and generalized accessibility which achieved excellent scores
+our results suggest that such measurements could be used to improve the characterization of networks for the summarization task as they complement the traditional analysis using a dynamical point of view
+because all these measurements are based on a random walk with distinct preferential strategies we believe that such a walk should be further explored in further works
+in order to improve the summary quality it would be important to use more sophisticated methods to represent documents as d
+r
+amancio m
+g
+nunes o
+n
+oliveira and l
+d
+f
+costa tive summarization using complex networks and syntactic dependency physica a statistical mechanics and its applications vol
+no
+pp
+
+g
+salton a
+singhal m
+mitra and c
+buckley automatic text structuring and summarization inf
+process
+manage
+vol
+no
+pp
+mar
+
+r
+mihalcea language independent extractive summarization in proceedings of the acl on interactive poster and demonstration sessions
+association for computational linguistics pp
+
+l
+page s
+brin r
+motwani and t
+winograd the pagerank citation ranking bringing order to the web in proceedings of the tional world wide web conference pp
+
+j
+m
+kleinberg authoritative sources in a hyperlinked environment j
+acm vol
+no
+pp
+sep
+
+p
+over and w
+liggett introduction to duc an intrinsic evaluation of generic news text summarization systems
+s
+bird nltk the natural language toolkit in proceedings of the coling acl on interactive presentation sessions
+association for computational linguistics pp
+
+a
+ratnaparkhi et al
+a maximum entropy model for part of speech tagging in proceedings of the conference on empirical methods in natural language processing vol
+pp
+
+s
+robertson understanding inverse document frequency on ical arguments for idf journal of documentation vol
+no
+pp
+
+l
+da fontoura costa and f
+n
+silva hierarchical characterization of complex networks journal of statistical physics vol
+pp
+nov
+
+b
+travenolo and l
+da f
+costa accessibility in complex networks physics letters a vol
+no
+pp
+
+d
+r
+amancio f
+n
+silva and l
+da f
+costa concentric network symmetry grasps authors styles in word adjacency networks epl europhysics letters vol
+no
+p
+
+d
+amancio o
+o
+jr
+and l
+da f
+costa on the concepts of complex networks to quantify the difculty in nding the way out of labyrinths physica a statistical mechanics and its applications vol
+no
+pp
+
+t
+a
+s
+pardo l
+h
+m
+rino and m
+d
+g
+v
+nunes gistsumm springer a summarization tool based on a new extractive method
+berlin heidelberg pp
+
+m
+l
+d
+r
+castro jorge and t
+a
+s
+pardo experiments with cst based multidocument summarization in proceedings of the workshop on graph based methods for natural language processing
+association for computational linguistics pp
+
+d
+r
+radev experiments in single and multidocument summarization using mead in in first document understanding conference
+t
+mikolov i
+sutskever k
+chen g
+corrado and j
+dean distributed representations of words and phrases and their compositionality arxiv e prints oct
+
+s
+boccaletti g
+bianconi r
+criado c
+i
+del genio j
+gardenes m
+romance i
+sendina nadal z
+wang and m
+zanin the structure and dynamics of multilayer networks physics reports vol
+no
+pp
+
+networks
+these methods include for example word dings to get a better representation of texts
+also in another approach the document set could be represented as a multilayer network where each network layer sponds to a different document of the group of documents
+it would also be important to develop an approach that bines both traditional document summarization techniques and complex network concepts
+for example methods based on machine learning could be combined with traditional features like sentence length proper nouns or sentence location
+acknowledgment the authors acknowledge nancial support from cnpq capes and sao paulo research foundation fapesp grant no
+
+references r
+ferreira l
+de souza cabral r
+d
+lins g
+p
+e silva f
+freitas g
+d
+c
+cavalcanti r
+lima s
+j
+simske and l
+favaro assessing sentence scoring techniques for extractive text summarization expert syst
+appl
+vol
+no
+pp
+
+a
+nenkova s
+maskey and y
+liu automatic summarization in proceedings of the annual meeting of the association for putational linguistics tutorial abstracts of acl ser
+hlt
+association for computational linguistics pp
+
+a
+nenkova and k
+mckeown a survey of text summarization niques in mining text data
+springer pp
+
+l
+antiqueira o
+n
+oliveira l
+d
+f
+costa and m
+d
+g
+v
+nunes a complex network approach to text summarization inf
+sci
+vol
+no
+pp
+feb
+
+d
+j
+watts and s
+h
+strogatz collective dynamics of small world networks nature vol
+no
+pp
+
+r
+albert and a
+
+barabasi statistical mechanics of complex works reviews of modern physics vol
+no
+p
+
+m
+p
+viana d
+r
+amancio and l
+da f
+costa on time varying collaboration networks journal of informetrics vol
+no
+pp
+
+a
+clauset m
+e
+j
+newman and c
+moore finding community structure in very large networks phys
+rev
+e vol
+p
+
+d
+r
+amancio o
+n
+oliveira jr
+and l
+da f
+costa on the use of topological features and hierarchical characterization for disambiguating names in collaborative networks epl europhysics letters vol
+no
+p
+
+d
+r
+amancio o
+n
+oliveira jr
+and l
+f
+costa unveiling the relationship between complex networks metrics and word senses epl europhysics letters vol
+no
+p
+
+d
+r
+amancio e
+g
+altmann d
+rybski o
+n
+oliveira jr
+and l
+f
+costa probing the statistical properties of unknown texts application to the voynich manuscript plos one vol
+no
+p
+
+d
+r
+amancio authorship recognition via uctuation analysis of network topology and word intermittency journal of statistical chanics theory and experiment vol
+no
+p
+
+r
+ribaldo a
+t
+akabane l
+h
+m
+rino and t
+a
+s
+pardo graph based methods for multi document summarization exploring relationship maps complex networks and discourse information in computational processing of the portuguese language
+springer berlin heidelberg vol
+pp
+
+c
+
+lin rouge a package for automatic evaluation of summaries in proc
+acl workshop on text summarization branches out
+
+d
+s
+leite and l
+h
+rino combining multiple features for matic text summarization through machine learning in proceedings of the international conference on computational processing of the portuguese language
+springer verlag pp
+
+d
+s
+leite and l
+h
+m
+rino selecting a feature set to summarize texts in brazilian portuguese in advances in articial intelligence iberamia sbia international joint conference american conference on ai brazilian ai symposium ribeirao preto brazil october proceedings pp
+
+

@@ -1,0 +1,440 @@
+n u j l c
+s c v
+v i x r a combination of abstractive and extractive approaches for summarization of long scientic texts tretyak vladislav
+ru and stepanov denis denis
+
+com itmo university kronverksky pr
+st
+peterburg abstract
+in this research work we present a method to generate maries of long scientic documents that uses the advantages of both tractive and abstractive approaches
+before producing a summary in an abstractive manner we perform the extractive step which then is used for conditioning the abstractor module
+we used pre trained based language models for both extractor and abstractor
+our ments showed that using extractive and abstractive models jointly nicantly improves summarization results and rouge scores
+introduction the language modeling task in the general case is a process of learning the joint probability function of sequences of words in a natural language
+statistical language modeling or language modeling is the development of probabilistic models that are able to predict the next word in the sequence given the words that precede it also known as context
+language models could operate on ferent sequence levels
+small language models work with sequences of chars and words
+while the big language model works with sentences
+but most common language model operates with sequences of words
+the language model could be used standalone to predict words according to context but usually the language model is used to solve more challenging tasks
+for example it helps to solve a large range of natural language tasks such as machine translation natural language understanding speech recognition mation retrieval text summarization
+in other words language models are used in most real world natural language processing applications and the quality of such applications mostly depends on the language models performance
+that s why language modeling task plays a major role in natural language processing and articial intelligence research
+the rst neural language model used feed forward architecture
+one of the main features of using neural language models is getting representation vector of words sequences
+these word vectors usually called embedding vector v
+tretyak et al
+and embeddings for similar words located closer to each other in dimension space also having similar representations
+after successful usage of feed forward networks recurrent neural networks achieved better results in language eling tasks because of its ability to take into account the position of words in sentences and producing contextual word embeddings
+long short term memory networks allows the language model to learn the relevant context of longer sequences than feed forward or rnn s because of its more sophisticated memory mechanism
+next the attention mechanism made improvement in language modeling tasks with a combination of sequence to sequence framework
+the attention mechanism improves memory mechanism of recurrent ral networks by giving the ability for the decoder network to look at the whole context
+the next big step in the language modeling task was developing architecture with novel self attention mechanism that helps the model to use the context of the sentence more eciently
+such models could take into account both left and right context of the sequence as it is implemented in bert model and only left context like in gpt model
+transformer based lm have own disadvantages one of them is a limited receptive eld
+it means that the transformer could only proceed sequences that have limited length while rent neural networks could work with unlimited sequences
+this issue partially solved by the transformer xl model which could work with continuous quences of texts like recurrent neural networks
+despite of this disadvantage models like gpt with large receptive eld and trained on large amount of data are capable of capturing long range dependencies
+for this work we propose method that uses both extractive and abstractive approaches for summarization task
+our work improves previous approach by using pre trained lm instead of training it from scratch
+in this research work we used arxiv dataset as an great example of long scientic documents and in order to compare our work with previous approaches
+we split training process in two steps
+first we train extractive model as a classication task that simply selects which sentences should be selected into summary
+second we use extracted summary together with dierent article sections as conditioning for generating abstractive summary
+adding extractive summary into conditioning part is crucial for generating target summary
+also we made experiments with dierent variants of conditioning and found the best combination for it
+ing to our experiments extracted summary introduction and conclusion of the paper performs the best
+the contributions of this work are we show that combination of extractive and abstractive approaches improves quality of produced summary while using pre trained transformer based guage models as a result of applying proposed model improved rouge metric on arxiv dataset using abstractive and extractive summarization related work automatic summarization is the process of shortening a set of data tionally to create a summary that represents the most important or relevant information within the original content
+summarization is one of the main tasks in natural language understanding
+there are two main approaches for creating a summary
+extractive summarization aims at identifying the information that is then extracted and grouped together to form an extractive summary
+it means that while we train a machine learning model it solves the classication task
+which information should be included in the summary
+abstractive summary generation rewrites the entire document by building internal semantic tation and then a summary is created using natural language processing
+as an example of the ml model it receives a source document and generates a summary word by word
+without copying text from source document
+the rst summarization systems were using extractive techniques as it is much easier than abstractive
+hsu et al
+combined both extractive and tive approaches for creating summaries
+authors proposed a unied model that combines sentence level and word level attention to take advantage of two proaches
+also the authors created a novel inconsistency loss function in order to be sure that the proposed model is mutually benecial to both extractive and abstractive summarization
+another attempt of using both extractive and abstractive models together was proposed in paper
+the authors proposed a model that uses bert to perform extractive summarization with the lstm pointer network that selects which sentences should be included in the summary
+then the extracted summary is fed into attention based with the ing mechanism for handling out of vocabulary oov words
+this part of the model is responsible for paraphrasing of the extracted summary and producing an abstractive summary
+they used reinforcement learning technique to mize the rouge metric directly instead of maximizing log likelihood for the next word given the previous ground truth words
+both extractive and tive models are trained
+in work authors took pre trained bert model and rst trained it on extractive task using cnn daily mail datasets
+then they continue training the same model but doing abstractive rization
+subramanian et al
+used arxiv dataset for summarizing long scientic texts and uses the similar approach to ours
+their model consists of two parts rst is a hierarchical representation of the document that points out to sentences in the document in order to construct an extractive summary second is a transformer language model that conditions on the extractive summary and some part of the paper text as well
+proposed model our model consist of two components
+extractive model classier that choose which sentences from source text should be included in summary
+tive model that uses condition text to produce abstractive summary
+during v
+tretyak et al
+research work we propose a model that combines advantages of extractive and abstractive approaches for creating summaries
+the proposed model consists of two parts the rst part is the extractive summarization model second is the stractive model
+a similar approach was used in paper
+the dierence is that the extractive and abstractive models are replaced by pre trained based lms
+the motivation for this is that pre trained language model in most cases shows a signicant increase in performance
+in the previous approach the transformer model was used as the abstractive model
+instead of it sive pre trained lm was used
+during research work a list of experiments for a conditional generation was performed using an extractive summary to ate abstractive summaries
+the training is performed in two steps
+first the extractive model is trained
+second training of the abstractive model that uses extractive summary to produce better results
+dataset description as it was already mentioned the dataset from arxiv
+org was used for training
+this dataset contains long sequences of texts from the scientic domain with ground truth summaries
+the structure of the dataset contains such information as article i d abstract text article text labels section name sections
+the eld article text holds full text of a paper section name is a list of papers sections sections contains full text of paper divided into sections
+that means we could identify which text is from the introduction section which is from the abstract section or conclusion
+this advantage was used in experiments
+the dataset statistics are described in table
+table
+arxiv dataset statistics
+num
+of docs
+avg
+length words doc
+length avg
+mary words both for validation and test parts we took percent of documents
+during the preprocessing step too long and too short papers were removed also papers without abstracts and text of paper were removed
+also we replaced some latex markup with special tokens such as math graph table equation in order to help model recognize special tokens other latex source code we cleared
+also we removed all irrelevant chars and exclude all not latin letters
+this preprocessing pipeline was applied for both extractive and abstractive tasks
+we used common approach for creating dataset for training extractive model
+first we create list of sentence pairs abstract sentence sentence from paper every sentence from abstract are matched with every sentence from using abstractive and extractive summarization paper text
+between every pair we compute the rouge metric
+in particular we compute rouge l and take the average value of score
+after that we got a scoring value for each pair of sentences the higher the better
+we choose two pairs with the highest scores this is our positive examples
+then we randomly sample two sentences from the paper text and mark such pairs as negative examples
+after completing these steps we got a dataset that contains a list of sentence pairs and labels
+then we save the dataset for extractive summarization in a separate le
+for the abstractive summarization task we took our best model that solves extractive summarization tasks and infer it on the dataset in other words we generate summaries for each paper in the dataset with our best extractive model
+then we make all necessary preprocessing and save the model generated maries with corresponding papers and abstracts
+these are all steps that were done with the dataset
+
+extractive model first we make experiments with extractive models
+we used three architectures for extractive summarization models bert roberta and electra
+electra has berts architecture but the pre training phase is dierent
+in the original paper the authors proposed a new scheme with two models the generator and language model that are trained jointly
+generator process tences and corrupts some of the tokens in it
+corruption denotes the process of replacing tokens to some other tokens that could t into the context of the sentence
+in turn the language model predicts which tokens were replaced by the generator
+this scheme of pre training improves the performance of the guage model and reduces the number of training iterations computing resources
+all used extractive models were pre trained on a large corpus of texts and we took base variants we did not check large variants because of long training and hardware constraints
+it is highly probable that large variants could show even better results
+for each of the extractive models we construct special input of tokens equation
+inputext seqgt tokencls seqcandidate where xext denotes input to extractive model concat denotes tion function tokencls denotes special classication token that was originaly used in bert model seqgt denotes sentence from ground truth summary seqcandidate corresponds to candidate sentence
+we used word piece tokenizer for both bert and electra models as in original papers with vocabulary size
+roberta uses bpe tokenizer in original implementation and does not have cls token in its vocabulary that s why we manually add it before training
+the key benet of using word tokenizers is a small dataset size and decreasing out of vocabulary cases
+v
+tretyak et al
+also special tokens were added math graph table equation
+that were extracted by regular expressions while pre processing
+all extractive models were trained using cross entropy loss as an optimization function
+we used the learning rate of model input batch size
+also we applied gradient clipping technique to make the training process more stable
+we applied distributed training using two gpus
+the training process took approximately days
+the architecture of the proposed models is scribed in figure below
+the scheme remains the same only input to model changes and pre trained lm replaced by one of bert electra
+fig
+
+architecture of extractive model classication head in the gure above denotes a block that contains a stack of linear layers with an output of size with sigmoid activation
+we used rouge metrics for evaluation quality of summaries
+to evaluate the summarization model we rstly inference it on the test set
+we make a list of pairs sentence from an abstract sentence from paper and score every pair with the model
+then we use only candidates that have the highest score
+after this process we got the extractive summary that we use with ground truth abstract to calculate rouge scores
+all scores are averaged between papers
+we used and rouge l as our main evaluation metric for summaries
+all proposed models used the same set of training hyperparameters and other settings were the same
+from the table above we could conclude that the bert model achieves the highest result among all other models
+with equal set of using abstractive and extractive summarization hyperparameters bert model achieves better results
+in the table above oracle denotes the rouge score between the ground truth abstract and extracted summary that includes the most relevant sentences from the text of a paper
+the oracle scores in the table indicate the limit for extractive models to get the best summary according to rouge metric
+in order to get more coherent text we perform paraphrasing of extracted summaries
+to get paraphrased sentences we apply the back translation technique
+for this we used pre trained transformer lm that was trained to translate sentences from english to german and backward
+first we translate the extractive summary into the german language using a pre trained transformer lm and then back to the english language
+those paraphrased summaries are used later during experiments with condition model
+the results of extractive models are presented in table
+table
+extractrive model results on arxiv dataset
+ext denotes extractive
+model bert roberta electra type rouge l ext ext ext
+
+
+
+
+
+
+
+
+abstractive model after nishing experiments with extractive summarization we made ments with abstractive approaches
+for abstractive summarization we used trained autoregressive language models and bart
+we also made experiments with conditional generation for both models
+during conditional generation we give to the model some context according to which it generates text
+we used a condition summary that was extracted by the best extractive model table
+also we made conditioning on paraphrased summaries
+we used an input size of gpt base variant
+the input is dened by equation
+inputabs masksegment where we concatenate tc conditioning text with target summary ts and apply a segment mask masksegment that identies which part of the input is condition and which is target text
+the experiments with the bart model were performed in a similar way
+but there are some dierences in model input
+bart consists of two parts the rst one is an encoder which uses bert like architecture
+the second part is a decoder that consists of stacked transformer decoders similar architecture to gpt
+these two parts are connected so that encoder output is fed into the decoder
+in such architecture decoder uses hidden states that were produced by encoder
+encoder and decoder are trained end to end
+it means that during backward pass we update weights of decoder and encoder
+in such a scenario we v
+tretyak et al
+fed the conditioning part into barts encoder and target text into the decoder during the training process
+we propose dierent conditioning scenarios
+we made conditioning on the extractive summary on the introduction of paper introduction concatenated with conclusion and introduction concatenated with the extractive summary and with the conclusion
+we made the assumption that both the introduction and conclusion concentrate the most valuable information for generating summaries
+because usually in introdiction author describes the problem itself some details about the proposed method novelty
+in conclusion authors usually make some recap of what was done conclusion of results
+we did not apply conditioning on long texts to because of restrictions in the input size
+the condition part plus target text in most cases will not t into input size that s why we only made conditioning on summaries extracted by models
+the experiments results with and bart are presented in table below
+table
+proposed model results on arxiv dataset model bert roberta electra bart conditioned on extractive summary bart conditioned on introduction bart conditioned on introduction with clusion bart conditioned on introduction tive summary clusion with condition on extractive summary with tion extractive paraphrased summary ing on subramanian s
+al
+cohan a
+al
+et type rouge l our approaches ext ext ext
+
+
+
+
+
+
+
+mix
+
+
+mix
+
+
+mix
+
+
+mix
+
+
+mix
+
+
+mix
+
+
+abs
+
+
+previous approaches mix
+
+
+mix
+
+
+gold extractive gold extractive oracle
+
+using abstractive and extractive summarization from the table above we could conclude that extractive summary plays a cial role in generating abstractive summaries
+removing the extractive summary from the condition part leads to a decreasing rouge score
+also the tion that both introduction and conclusion holds the most relevant information conrmed
+its obvious that extractive summary has a bigger impact than duction with conclusion because extractive summary already holds a lot of vant according to rouge score sentences
+also we investigate that and rouge l scores outperforms the best model and outperforms oracle cause during the abstractive summarization model could produce words that could not be presented in the source document
+the best model that uses bert as extractor and bart as abstractor is presented in fig
+
+first bert performs extractive summarization of the article extracted summary concatenates with the introduction and conclusion of the paper
+this setup shows the best mance according to the rouge metric and outperforms the previous approach that was applied to arxiv dataset
+fig
+
+proposed method for generating summaries of long texts conclusion the novel improvements was proposed that uses both extractive and tive approaches as an extracted model bert model was used as an abstractive model bart model was used
+during research work comparison analysis of dierent architectures for extractive and abstractive summarization approaches extractive modelabstractive modelextracted summaryrest of the texttext forsummarizationabstractive summary v
+tretyak et al
+were done
+also we make experiments with conditioning on dierent parts of the source document to produce an abstractive summary
+conditioning on tractive summary introduction and conclusion of the paper shows the best rouge score
+the assumption about conditioning on paraphrased summary failed during paraphrasing source sentence is changed so that it becomes evant to ground truth summary
+evaluation results that were obtained during the research outperforms previously applied algorithms for arxiv dataset in all and rouge l metrics
+
+and
+ingly
+also experiments showed that using the advantages of extractive and stractive approaches improves the quality of the produced summary extractive summarization plays a crucial part in generating abstractive summaries
+as a future improvement of the proposed architecture end to end learning could be applied using both extractor and abstractor
+this feature potentially could improve the quality of abstractive summaries
+also the proposed architecture could be tested for other summarization datasets
+references
+bae s
+kim t
+kim j
+lee s
+
+summary level training of sentence rewriting for abstractive summarization
+arxiv preprint
+
+clark k
+luong m
+t
+le q
+v
+manning c
+d
+electra pre training text coders as discriminators rather than generators
+arxiv preprint
+
+dai z
+yang z
+yang y
+carbonell j
+le q
+v
+salakhutdinov r
+transformer xl attentive language models beyond a xed length context
+arxiv preprint
+
+devlin j
+chang m
+w
+lee k
+toutanova k
+bert pre training of deep tional transformers for language understanding
+arxiv preprint
+
+gal y
+ghahramani z
+a theoretically grounded application of dropout in current neural networks
+in advances in neural information processing systems
+pp
+
+hochreiter s
+schmidhuber j
+long short term memory
+neural computation
+hsu w
+t
+lin c
+k
+lee m
+y
+min k
+tang j
+sun m
+a unied model for extractive and abstractive summarization using inconsistency loss
+arxiv preprint
+
+lewis m
+liu y
+goyal n
+ghazvininejad m
+mohamed a
+levy o
+stoyanov v
+zettlemoyer l
+bart denoising sequence to sequence pre training for natural language generation translation and comprehension
+arxiv preprint
+
+liu y
+lapata m
+text summarization with pretrained encoders
+arxiv preprint
+
+liu y
+ott m
+goyal n
+du j
+joshi m
+chen d
+levy o
+lewis m
+zettlemoyer l
+stoyanov v
+roberta a robustly optimized bert pretraining approach
+arxiv preprint
+using abstractive and extractive summarization
+mikolov t
+sutskever i
+chen k
+corrado g
+s
+dean j
+distributed sentations of words and phrases and their compositionality
+in advances in neural information processing systems
+pp
+
+pascanu r
+mikolov t
+bengio y
+on the diculty of training recurrent neural networks
+in international conference on machine learning
+pp
+
+peters m
+e
+neumann m
+iyyer m
+gardner m
+clark c
+lee k
+zettlemoyer l
+deep contextualized word representations
+arxiv preprint
+
+radford a
+wu j
+child r
+luan d
+amodei d
+sutskever i
+language models are unsupervised multitask learners
+openai blog
+schuster m
+nakajima k
+japanese and korean voice search
+in ieee international conference on acoustics speech and signal processing icassp
+pp
+
+ieee
+sennrich r
+haddow b
+birch a
+neural machine translation of rare words with subword units
+arxiv preprint
+
+subramanian s
+li r
+pilault j
+pal c
+on extractive and abstractive ral document summarization with transformer language models
+arxiv preprint
+
+sutskever i
+vinyals o
+le q
+v
+sequence to sequence learning with neural networks
+in advances in neural information processing systems
+pp
+
+vaswani a
+shazeer n
+parmar n
+uszkoreit j
+jones l
+gomez a
+n
+kaiser
+polosukhin i
+attention is all you need
+in advances in neural information processing systems
+pp
+

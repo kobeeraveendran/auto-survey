@@ -1,0 +1,461 @@
+summary renement through denoising nikola i
+nikolov alessandro calmanovici richard h
+r
+hahnloser institute of neuroinformatics university of zurich and eth zurich switzerland niniko dcalma
+ethz
+ch l u j l c
+s c v
+v i x r a abstract we propose a simple method for processing the outputs of a text rization system in order to rene its all quality
+our approach is to train to text rewriting models to correct mation redundancy errors that may arise during summarization
+we train on thetically generated noisy summaries ing three different types of noise that troduce out of context information within each summary
+when applied on top of extractive and abstractive summarization baselines our summary denoising models yield metric improvements while reducing redundancy
+introduction text summarization aims to produce a shorter formative version of an input text
+while tractive summarization only selects important tences from the input abstractive tion generates content without explicitly re using whole sentences nenkova et al
+
+in recent years a number of successful approaches have been proposed for both extractive nallapati et al
+narayan et al
+and abstractive chen and bansal gehrmann et al
+rization paradigms
+despite these successes many state of the art systems remain plagued by overly high output redundancy see et al
+see ure which we set out to reduce
+in this paper we propose a simple method ure section for post processing the outputs of a text summarization system in order to prove their overall quality
+our approach is to train dedicated text to text rewriting models to correct available at
+ninikolov summary denoising
+figure overview of our approach to summary denoising
+we alter ground truth summaries to generate a noisy dataset on which we train denoising models to restore the original summaries
+errors that may arise during summarization cusing specically on reducing information dancy within each individual summary
+to achieve this we synthesize from clean summaries noisy summaries that contain diverse information dancy errors such as sentence repetition and of context information section
+
+in our experiments section we show that denoising yields metric improvements and reduces redundancy when applied on top of several tive and abstractive baselines
+the generality of our method makes it a useful post processing step applicable to any summarization system that dardizes the summaries and improves their all quality ensuring fewer redundancies across the text
+background post processing of noisy human or generated text is a topic that has recently been gathering interest
+automatic error correction rozovskaya and roth xie et al
+aims to improve the grammar or spelling of a text
+in machine translation automatic post ing of translated outputs chatterjee et al
+is commonly used to further improve the translation quality standardise the translations or adapt them ground truth summarynoisy
+synthesize noisy summaries denoisingmodel noisemodelclean summarynoisy
+train apply summary denoising model to a different domain isabelle
+
+types of noise in xie et al
+authors synthesize matically incorrect sentences from correct ones using backtranslation sennrich et al
+which they use for grammar error correction
+they enforce hypothesis variety during decoding by adding noise to beam search
+another work that is close to ours is fevry and phang where authors introduce redundancy on the word level in order to build an unsupervised sentence sion system
+in this work we take a similar proach but instead focus on generating tion redundancy errors on the sentence rather than the word level
+approach our approach to summary renement consists of two steps
+first we use a dataset of clean ground truth summaries to generate noisy summaries ing several different types of synthetic noise
+ond we train text rewriting models to correct and denoise the noisy summaries restoring them to their original form
+the learned denoising models are then used to post process and rene the outputs of a summarization system
+
+generating noisy summaries to generate noisy datasets we rely on an ing parallel dataset of articles and clean ground truth summaries s
+
+
+sj
+we iterate over each of the summaries and perturb them with noise according to a sentence noise distribution pnoise
+
+
+pn
+pnoise denes the bility of adding noise to a specic number of tences within each summary from up to a imum of n noisy sentences with pnoise
+for all experiments in this work we use pnoise
+
+in order to ensure tency meaning that of our noisy summaries contain no noisy sentences while contain initial experiments showed one noisy sentence
+that distributions which enforce larger or smaller amounts of noise lead to stronger or weaker noising effects
+our choice of noise distribution showed good results on the majority of systems that we tested we leave a more rigorous tion of the choice of distribution to future work
+in addition to adding noise we generate noisy summaries for each clean summary by picking multiple random sentences to noise
+this step creases the dataset size while introducing variety
+we experiment with three simple types of noise all of which introduce information redundancy into a summary
+our aim is to train denoising models that minimize repetitive or peripheral formation within summaries
+repeat picks random sentences from the mary and repeats them at the end
+repetition of phrases or even whole sentences is a problem commonly observed in text generation with rnns see et al
+which motivates efforts to detect and minimize repetitions
+replace picks random sentences from the mary and replaces them with the closest sentence from the article
+this type of noise helps the model to learn to rene sentences from the generated summaries paraphrasing sentences when they are too long or contain redundant information
+extra picks random sentences from the article paraphrases them and inserts them into the mary preserving the order of the sentences as they appear in the article
+with this type of noise a model learns to delete sentences which are out of context or contain redundant tion
+to paraphrase the sentences we use the tence paraphrasing model from chen and bansal trained on matching sentence pairs from the cnn daily mail dataset
+mixture mixes all the above noise types formly into a single dataset keeping the same dataset size as for the individual noise types
+with mixture we explore whether the benets of each noise type can be combined into a single model
+experimental set up dataset we use the cnn daily mail hermann et al
+of news articles and maries in the form of bullet points and follow the preprocessing pipeline from chen and bansal
+we use the standard split of the dataset consisting of news summary pairs for ing and pairs for validation
+we follow tion
+to generate noisy versions of the datasets to be used during training
+during testing instead of clean summaries that contain noisy sentences we input summaries produced by existing tive or abstractive summarization systems
+
+com cnn dailymail denoising the lexrank system
+denoising the rnn ext system
+figure metric results l and repeat rate on denoising extractive summarization systems
+the axis in all plots is the number of extracted sentences
+human is the result of the ground truth summaries only for the repeat rate
+denoising models for all of our denoising periments we use a standard bidirectional lstm encoder decoder model sutskever et al
+with hidden units and an attention anism bahdanau et al
+and train on the subword level sennrich et al
+capping the vocabulary size to tokens for all
+we train all models until convergence ing the adam optimizer kingma and ba
+in addition to our neural denoising els we implement a simple denoising baseline overlap based on unigram overlap between sentences in a summary
+overlap deletes tences which overlap more than with any other sentence in the summary and can therefore be considered as redundant
+i si evaluation we report the l rics lin
+we also report the repeat rate nikolov et al
+which is the average unigram overlap o of each sentence in a text with the remainder of the text where denotes the complement of sentence
+since the repeat rate measures the overlapping information across all sentences in a summary lower values signify that a summary contains many unique tences while higher values indicate potential formation repetition or redundancy within a mary
+use the fairseq library
+com pytorch fairseq empirically found that this threshold is sufciently high to prevent unnecessary deletion and sufciently low to detect near identical sentences
+results
+extractive summarization we experiment with denoising two extractive tems lexrank erkan and radev is an supervised graph based approach which measures the centrality of each sentence with respect to the other sentences in the document
+rnn ext is a more recent supervised lstm sentence extractor module from chen and bansal trained on the cnn daily mail dataset
+it extracts sentences from the article sequentially
+both extractive tems require the number of sentences to be tracted to be given as a hyperparameter in our periments we test with summary lengths ranging from to
+the results on extractive summarization are in figure for lexrank and figure for ext where we plot the metric scores for varying numbers of extracted sentences for each of the two systems
+for both lexrank and rnn ext we observe rouge improvements after denoising over the baseline systems without denoising
+the repeat and replace methods yielded more modest improvements of
+rouge l points performing comparably to the simple overlap the most effective noise types are baseline
+extra and mixture yielding improvements of up to rouge l points for lexrank and up to
+rouge l points for rnn ext
+the superior performance to overlap indicates that the average sentence count of a summary in the cnn daily mail dataset is
+
+rateno denoisingoverlapreplacerepeatextramixturehumanno rateno denoisingoverlapreplacerepeatextramixturehumanno denoisingoverlapreplacerepeatextramixturehuman system human article article rnn rnn rnn rnn rnn rnn rnn rl rnn rl rnn rl rnn rl rnn rl rnn rl denoising approach rouge l repeat
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mixture overlap repeat replace extra mixture overlap repeat replace extra mixture
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sent
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tok
+
+
+
+
+
+
+
+
+
+
+
+
+
+table results on denoising abstractive summarization
+repeat is the repeat rate while sent and tok are the average numbers of sentences or tokens in the summaries
+best rouge results for each model are in bold
+human is the result of the ground truth summaries while article uses the original article as the summary
+figure number of sentence repetitions before and after denoising
+tional denoising operations learned by our models see figure are benecial and can lead to more polished summaries that also may contain tive elements
+the gains from denoising are greater for longer summaries of more than two sentences
+long summaries are more likely to be affected by dancy
+for shorter summaries denoising might lead to deletion of important information thus noising needs to be applied more carefully in such cases
+furthermore for all sentence lengths and noise types we observe a reduction in the peat rate after denoising demonstrating that our approach is effective at reducing redundancy
+in table we additionally include the result from using the whole articles article as input to our mixture model
+denoising is effective in this case indicating that our approach may be promising for developing abstractive tion systems that are fully unsupervised similar to recent work in unsupervised sentence compression fevry and phang
+
+abstractive summarization for abstractive summarization we test two tems
+the rst is a standard lstm decoder model with an attention mechanism rnn identical to our denoising network from the second rnn rl is a section
+of the art abstractive system proposed in chen and bansal that combines extractive and abstractive summarization using reinforcement learning
+we train rnn ourselves while for rl we use the outputs provided by the authors
+our metric results from denoising abstractive summarization are in table
+in figure we also compute the approximate number of sentence etitions on the test set by calculating the number of sentences that overlap signicantly with at least one other sentence in the summary
+for the rnn model the repeat noise helps to remove repetition halving our repetition ric while boosting the rouge scores
+this sult is similar to our much simpler overlap baseline based on sentence deletion
+the other noise types help to reduce redundancy bringing the repeat rate closer to that of human maries
+this however comes at the cost of a decrease in rouge
+for rnn rl while ing helps to reduce repetition none of our noise types managed to yield rouge improvements
+one reason for this may be that this model ready comes with a built in mechanism for ing redundancy which relies on sentence ing chen and bansal
+however as shown in figure and in our example in table this model still generates many more sentence in tions than found in human summaries
+all our approach is effective at reducing dant information in abstractive summaries of repeating sentencesno denoisingmixtureno denoisingmixturehumanrnnrnn rlhuman a rnn ext extractive system extracting sentences
+rnn abstractive system
+figure types of denoising operations applied to an extractive left and an abstractive right system averaged over our test set
+ever this comes with a potential loss of tion which can lead to a reduction in rouge
+thus our denoising methods are currently better suited for extractive than for absctractive rization
+our work therefore calls for the ment of novel types of synthetic noise that target abstractive summarization
+system replace noise where dinorah santana the player s agent said her client had rejected the offer of a three year contract extension is paraphrased to the player s agent said she had rejected the offer of a three year contract or even a combination of deletion and rewriting e
+
+rnn rl system repeat noise
+
+analysis of model outputs conclusion in figure we quantify the types of operations deletion or modication of one or more tences or no change our denosing models formed on the summaries produced by the tive rnn ext figure and abstractive rnn tem figure
+the replace and repeat noises are the most conservative leaving over of the summaries unchanged
+extra is the most prone to delete sentences while repeat and replace are most prone to modify sentences
+we see a similar pattern for both extractive and stractive summarization with an increase of tion for longer summaries produced by the tive system
+this indicates that our approach bly learns to switch between operations depending on the properties of the noisy input summary
+in table we show example outputs from noising extractive and abstractive summaries duced for a sports article from our test set
+all baseline summarization systems produced outputs for example the rst that contain redundancy three sentences generated by the rnn system and the and sentences produced by the rl system are almost identical
+to denoise the summaries our models used diverse operations such as deletion of one or two sentences e
+
+rnn system repeat noise rewriting e
+
+rnn rl we proposed a general framework for improving the outputs of a text summarization system based on denoising
+our approach is independent of the type of the system and is applicable to both stractive and extractive summarization paradigms
+it could be useful as a post processing step in a text summarization pipeline ensuring that the maries meet specic standards related to length or quality
+our approach is effective at reducing tion repetition present in existing summarization systems and can even lead to rouge ments especially for extractive summarization
+denoising abstractive summarization proved to be more challenging and our simple noise types did not yield signicant rouge improvements for a state of the art system
+our focus in future work will therefore be to estimate better models of the noise present in abstractive summarization to reduce information redundancy without a loss in quality as well as to target other aspects such as the grammaticality or cohesion of the summary
+extrano changedeletionmodificationdeletion of of outputsmixtureextrano changedeletionmodificationdeletion of of outputsmixture ground truth
+
+dani alves has spent seven seasons with the catalan giants
+alves has four spanish titles to his name with barcelona
+the brazil defender has also won the champions league twice with barca rnn rnn rnn rl the brazilian has been unable to no denoising
+
+dani alves has been unable to agree a new deal with catalan club
+agree a new deal with catalan club
+alves has been unable to agree a new deal with catalan club
+alves has been linked with a ber of clubs including manchester united and manchester city set to leave no denoising
+
+dani alves looks barcelona this summer
+alves has enjoyed seven successful years at barcelona
+alves has been unable to agree a deal with the catalan club
+agree a new deal
+dinorah santana the player s agent said her client had rejected the offer of a three year contract extension the year old has been unable to no denoising
+set to leave looks
+dani alves barcelona this summer after his sentative conrmed the brazilian back had rejected the club s nal tract offer
+alves has enjoyed seven successful years at barcelona winning four ish titles and the champions league twice
+but the year old has been unable to agree a new deal with the catalan club and will leave the nou camp this summer
+dinorah santana the player s agent and ex wife said at a press ence on thursday that her client had rejected the offer of a three year tract extension which was dependent on the player taking part in per cent of matches for the club replace
+
+
+same
+same
+same
+the player s agent and ex wife said at a press conference on thursday that her client had rejected the offer of a three year contract extension repeat
+
+same
+same
+same
+same extra
+
+
+same
+same
+the year old has been unable to agree a new deal with the catalan club and will leave the nou camp this mer
+deleted mixture
+
+same
+same
+same
+deleted replace
+
+same
+same
+same
+same repeat
+
+same
+deleted
+deleted
+same extra
+
+
+same
+same
+same
+deleted replace
+
+same
+same
+same
+same the player s agent said she had
+jected the offer of a three year contract repeat
+
+
+same
+same
+deleted
+alves has been unable to agree a new deal
+same extra
+
+same
+same
+same
+same
+deleted mixture
+
+same
+deleted
+deleted
+same mixture
+
+same
+same
+same
+same
+deleted table examples for denoising extractive and abstractive summarization
+same indicates a summary sentence has been unchanged while deleted indicates sentence deletion
+in brackets denotes the score while rep denotes the repeat rate
+acknowledgments we acknowledge support from the swiss national science foundation grant
+references dzmitry bahdanau kyunghyun cho and yoshua gio
+
+neural machine translation by jointly arxiv preprint learning to align and translate
+
+
+rajen chatterjee matteo negri raphael rubino and marco turchi
+
+findings of the wmt shared task on automatic post editing
+in ings of the third conference on machine tion shared task papers
+pages
+yen chun chen and mohit bansal
+
+fast tive summarization with reinforce selected sentence rewriting
+in proceedings of acl
+gunes erkan and dragomir r radev
+
+lexrank graph based lexical centrality as salience in text summarization
+journal of articial intelligence search
+thibault fevry and jason phang
+
+vised sentence compression using denoising in proceedings of the conference encoders
+on computational natural language learning
+sociation for computational linguistics pages
+
+org anthology
+sebastian gehrmann yuntian deng and alexander rush
+
+bottom up abstractive summarization
+in proceedings of the conference on cal methods in natural language processing
+ciation for computational linguistics pages
+
+org anthology
+karl moritz hermann tomas kocisky edward grefenstette lasse espeholt will kay mustafa leyman and phil blunsom
+
+teaching chines to read and comprehend
+in advances in ral information processing systems
+pages
+p isabelle
+
+domain adaptation of mt systems through automatic postediting
+proc
+machine translation summit mt summit xi
+diederick p kingma and jimmy ba
+
+adam a method for stochastic optimization
+in international conference on learning representations iclr
+chin yew lin
+
+rouge a package for matic evaluation of summaries
+text summarization branches out
+ramesh nallapati feifei zhai and bowen zhou
+
+summarunner a recurrent neural network based quence model for extractive summarization of ments
+in thirty first aaai conference on articial intelligence
+the conference of shashi narayan shay b
+cohen and mirella ata
+
+ranking sentences for extractive in marization with reinforcement learning
+ceedings of the north american chapter of the association for putational linguistics human language nologies volume long papers
+association for computational linguistics pages
+
+
+
+ani nenkova sameer maskey and yang liu
+
+in proceedings of the automatic summarization
+annual meeting of the association for putational linguistics tutorial abstracts of acl
+association for computational linguistics page
+nikola nikolov michael pfeiffer and richard loser
+
+data driven summarization of tic articles
+in proceedings of the eleventh tional conference on language resources and uation lrec
+european language resources association elra paris france
+alla rozovskaya and dan roth
+
+grammatical error correction machine translation and classiers
+in proceedings of the annual meeting of the association for computational linguistics volume long papers
+volume pages
+abigail see peter j liu and christopher d manning
+
+get to the point summarization with generator networks
+in proceedings of the nual meeting of the association for computational linguistics volume long papers
+volume pages
+rico sennrich barry haddow and alexandra birch
+
+improving neural machine translation els with monolingual data
+in proc
+of acl
+ciation for computational linguistics pages
+
+
+
+rico sennrich barry haddow and alexandra birch
+
+neural machine translation of rare words in proc
+of acl
+association with subword units
+for computational linguistics pages
+
+
+
+ilya sutskever oriol vinyals and quoc vv le
+
+sequence to sequence learning with neural works
+in advances in neural information ing systems
+pages
+ziang xie guillaume genthial stanley xie andrew ng and dan jurafsky
+
+noising and denoising natural language diverse backtranslation for mar correction
+in proceedings of the ence of the north american chapter of the ation for computational linguistics human guage technologies volume long papers
+sociation for computational linguistics pages
+
+
+
+

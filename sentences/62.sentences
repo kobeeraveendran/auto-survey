@@ -1,0 +1,375 @@
+lia rag a system based on graphs and divergence of probabilities applied to speech to text summarization elvys linhares pontes universidade federal do campus sobral fortaleza brasil elvyslpontes
+com juan manuel torres moreno lia uapv bp cedex avignon france and ecole polytechnique montreal canada juan manuel
+torres avignon
+fr andrea carneiro linhares universidade federal do campus sobral fortaleza brasil and lia uapv france andrea
+
+br abstract of on probabilities this paper aims to introduces a new algorithm for automatic speech to text statistical summarization based divergences and graphs
+the input is a text from speech conversations with noise and the output a compact text summary
+our results on the pilot task cccs multiling french corpus are very encouraging
+keywords automatic text summarization jensen shannon s divergence of probabilities speech to text summarization graph model
+introduction nowadays a lot of information is daily generated
+it is necessary to have available memory storage because each datum must be processed and the the information contained therein analyzed
+is manual analysis is impossible because it necessary a huge number of persons to analyze this information in an available time
+the summary is a short text with main ideas of original text torres moreno and reduces the read time to analyze these data
+in news audio is widely used in daily life on the interviews radio and on the internet and conversations
+a call centre conversation creates a lot of conversations every day
+these centers has issues and tasks
+it is essential the control of the discussed topics and the results obtained by customers in these calls
+one way to analyze and accelerate the data processing is speech summarization that is different from traditional text summarization because there are other problems in these texts as speech errors sentences of different sizes and colloquialisms
+multiling is a community driven initiative for benchmarking multilingual summarization systems nurturing further research and pushing the state of the art in the area
+the multiling initiative features the following tasks multilingual multi document summarization multilingual single document summarization online forum summarization and call centre conversation summarization cccs
+the cccs pilot task consists in creating systems that can analyze call centres conversations and generate written summaries reecting why the customer is calling how the agent answers that query what are the steps to solve the problem and what is the resolution status of the problem favre et al
+
+we developed the lia rag summarization system based on the rag system pontes et al
+coupled with some post processing rules in order to generate a nal summary
+lia rag uses a graph model to analyze and verify a set of documents e
+
+the conversation transcription for cccs pilot task
+lia rag creates a summary computing the relevance of the words and the similarity among the sentences
+the system uses a simple post processing to improve the quality of the nal summary
+of the rest of the paper is organized as follows section describes related work on automatic summarization conversations
+texts sections and analyze the graph model and the system used in this work
+section describes the results obtained for multiling decoda french corpus and section concludes this work
+and
+iit
+demokritos
+gr pages call for participation n a j l c
+s c v
+v i x r a related works automatic text summarization ats aims to creates a summary containing the main ideas of a textual document mani and mayburi mani torres moreno
+the summary can be an extraction or abstraction of a single document or multi document
+the extraction process identies the most informative sentences of a document and creates a summary by assembling of these sentences luhn torres moreno
+extraction may be guided in this case the algorithm selects by a query
+the most relevant information follow a particular topic
+the abstraction algorithms create new or reformulate sentences from original texts seno seno and nunes and the extraction methods use the key sentences of texts barzilay and mckeown torres moreno
+works about abstraction usually uses syntactic and semantic knowledge of a language to create the summary
+this procedure veries the best construction of a sentence barzilay et al
+
+this type of summarization uses fusion to help the review of information
+seno proposed a method to fusion similar sentences in brazilian portuguese based on a symbolic and domain independent approach
+this method allows the fusion by union and by intersection of a document cluster
+fusion by union preserves the overall message of the cluster while fusion by intersection analyses the redundant information considered most in the cluster
+seno and nunes described how to identify common information between sentences in brazilian portuguese using lexical knowledge syntactic and semantic rules of paraphrasing
+important jorge et al
+developed a summarizer system based on the cst model cross document structure theory
+the system proposed analyses redundancy and contradiction among different information sources in brazilian portuguese
+barzilay et al
+developed a method to generate automatic summaries by identifying and synthesizing similar elements in a cluster of documents
+this method creates the summary based on similarity between the sentences and topic
+barzilay and mckeown described an approach to fusion sentences through the to synthesize repeated text to text information from multiple documents
+this method uses a syntactic alignment in sentences technique to identify common information
+the identication step sentences are processed and a new text is generated with the same content
+after metrics similarity a way to calculate the similarity between sentences is to use co occurrence of words
+he et al
+proposed a fusion method using co occurrence skip bigram and information density to evaluate relevant sentences hennig and albayrak developed ones
+a multi document model to summarize by analyzing the co occurrence of sentence term and sentence bigram using the jensen shannon js divergence
+and to select the most another method to obtain relevant sentences uses compression as reported in pitler
+pitler uses approaches based on syntactic trees sentences and discourse
+filippova describes a multi sentence compression method using a word based graph
+the summarization by extraction does not have the same quality as the summaries produced by abstraction because it uses surface methods based on statistical calculations to verify the sentence relevance
+however the extraction is general and do not require deep analysis of the language barzilay and mckeown pontes et al
+
+pontes et al
+use graph theory to create concomitant with js divergence multi document summaries by extraction
+their system describes a text model as a graph where the sentences are represented by vertices two similar sentences
+and the edges connect their approach calculates the stable set of the graph aiming creating the summary containing sentences with general information of the cluster linhares et al
+and without redundancy
+model the text as graph model and use a heuristic greedy algorithm to obtain the relevant sentences in the text
+the speech summarization task is more complex and it involves other problems
+it is more difcult to identify utterance boundaries because it may be fragmented contain disuencies and also because speech recognition introduces errors
+meetings involve multi party conversation with overlapping speakers
+the language used is tend to be partial informal and utterances fragmentary ungrammatical and include many the speech ellipses and pronouns
+however signal may provides additional information that emphasizes a piece of text as prosody murray et al
+
+mckeown et al
+described some ways summarization as a speech to use a text summarization
+they described some work about summarization of broadcast news and meetings
+murray et al
+analyzed extractive summarization of multiparty meetings
+they described maximal marginal relevance and latent semantic analysis to create the summary based on prosodic and lexical features
+modeling the problem sentences
+documents extraction statistical this paper aims to design a system to summarize its most by several important techniques were used to build a language independent system
+the proposed methods are based on a specic preprocessing of words a weighting function of sentences and a bag of words model to represent the text content
+this model uses k matrices represented by sk mn and constructed from k documents where ma is the number of sentences and na is the number of distinct words in the document a a k
+the cell ij of the matrix represents the frequency of word j in the sentence i f pij of the document a
+this stage was constructed using the libraries and algorithms from cortex summarization system torres moreno et al
+torres moreno et al
+
+sa sa
+
+
+sa f pij a k
+
+
+
+
+
+sa sa
+
+
+
+
+
+sa sa
+
+
+sa mn if word j in sentence i otherwise sa sa ij
+jensen shannon divergence we use jensen shannon js divergence to measure the similarity between sentences
+let w be a words set in p and q
+p and q represent the probability distribution between two objects two individuals sentences or a sentence and a set of sentences
+the divergence will then calculated among these two objects
+the js divergence is symmetric and provides a stable way to measure the difference between two distributions equation
+pw log ww pw pw qw qw log qw pw qw the js divergence value ranges from
+it is closer to zero when the distributions are similar and they differ in another case
+in the case there is a word in a sentence that is missing in another one a smooth different weighting will be used to avoid null values and have a smoother distribution hiemstra
+if a word w is not present in the sentence q then the smooth is calculated by the equation where
+voc which voc is the number of distinct words in r is the variable that controls the relevance of the missing word in the sentence and n is the number of words in r louis and nenkova
+qw pw n
+term frequency inverse sentence frequency tf isf one way to verify the initial relevance of a word and a sentence to the text is through the tf isf
+this metric is based on term frequency in the text and it is calculated by the equation
+tf isf log n nw where tf w is frequency of term w n is total number of documents and nw is number of documents that contain the term w
+the lia rag system in general lines a text consists of several sentences with different topics
+the text can be divided into several groups and each of them describes one step idea in the text
+if a group is large then it is relevant to the text
+it is possible to choose the sentences of the largest group and obtains the most relevant content
+the main ideas of a text are generally analyzed and discussed several times
+the vertices with higher degree have more similar sentences and then are important to the text
+however it is not necessary to have a lot of similar sentences to be a relevant one
+resumeur audio texte a base graphes rag is a summarizer system by sentence extraction which selects the main sentences of a text and uses a post processing to remove some errors and make the text more concise and compact
+
+the rag algorithm rag uses graph theory and divergence metrics to calculate the similarity and to group the sentences
+initially the system performs a ltering process to remove the brackets
+then it performs a segmentation ltering and stemming processes to remove stopwords and reduce the words to their roots
+rag accomplished this preprocessing and matrix transformation based on torres moreno et al
+
+it calculates the relevance of each sentence based on tf isf metric equation and removes the less relevant sentences
+the system creates a graph g which each vertex represents a sentence previously selected
+the text is analyzed and modeled as a sentence graph vertices
+based on equation it calculates the similarity between sentences
+if the similarity between two sentences is less than
+threshold obtained by empirical testing then the system creates an edge between them
+so the vertices with higher degrees have the most relevant content of the text
+however some sentences may have a small degree but they may contain important information
+rag combines the tf isf and degree sentences to analyze the relevance of them
+the relevance of the sentence i is dened by tf isf i where is the degree of vertex i and is the relevance of the sentence i
+after the system creates a summary with the higher score sentences excluding similar or redundant sentences based on dice s coefcient bai et al
+
+the gure describes the rag system
+
+lia rag rag with a specic speech post processing the speech recognition process produces a text that contains several grammatical problems slang colloquialisms expressions and speech figure architecture of the rag system
+recognition errors
+an extraction summary algorithm selects the relevant sentences however the sentences may have some grammatical problems
+is necessary to perform a treatment of this summary
+so it the main analyzed aspects in this process are colloquialisms speech expressions and dates
+lia rag system receives the summary as an in this input some speech expressions input
+ideas or concepts in are used to connect oral conversations
+lia rag removes these expressions because often they are incorrectly transcripted a noise source
+the system eliminates several colloquialisms and the duplicated words
+the system replaces some mistaken words by its correct form
+the gure shows the architecture of the lia rag system
+also results the tests were carried on a computer with
+ghz processor and gb of ram on gnu linux systems lia rag base rand
+
+
+
+
+
+
+
+
+
+
+
+table evaluation of training
+words transcription with summaries
+the ofcial performance for the systems participating to cccs pilot task is showed in table favre et al
+
+the lia rag system obtained the best results
+and systems lia
+
+
+
+table evaluation of test corpus
+conclusion and perspectives divergence of probabilities in a graph model to extract key sentences in french speech to text summarization was very interesting
+lia rag resources system uses very few language stopwords and stemming and has achieved good results
+nevertheless the system is easily adaptable to other languages with only some modications in the preprocessing stage
+an interesting perspective of this work consists in the utilization of the speech tags markers to improve the computation of the sentences score
+in addition it is necessary to improve the post processing in order to increase the quality of the nal summary
+finally the verication of the grammaticality and readability of the extracted key sentences can help to produce more realistic abstracts
+acknowledgments this project was partially founded by a scholarship from funcap ce brazil
+figure architecture of the lia rag system
+debian bit operating system
+the algorithms of rag were implemented using the perl language
+we used the french decoda corpus bechet et al
+
+the systems have to generate textual summaries with the main idea of each conversation belonging to the corpus
+the conversations topics range from itinerary and schedule requests to lost and found to complaints the calls were recorded during strikes favre et al
+
+each summary has of the number of words of each conversation transcription
+we compared lia rag and rag systems with two baseline systems random and rst lead base
+to evaluate the quality of the summaries multiling cccs used the system recall oriented gisting understudy evaluation determines the quality of an automatic summary based on the a candidate summary and the n grams of a set of reference summaries
+more specically we used rouge n and rouge su measures
+rouge n n
+rouge is an n gram recall measure lin
+the values of these metrics belongs to for the best result
+the n grams of intersection of in order which for the table shows the results obtained using the systems over the training corpus
+this corpus contains conversations transcription with words and summaries
+both versions of rag provided the best results
+the rag system identied the main sentences discussed the errors and in conversations
+speech expressions decreased the informativeness
+the post processing of lia rag allowed to improve the results
+this process reduces errors and generates a more informative and concise summary
+however the french test corpus has conversations options for running rouge
+
+are a
+
+berouge
+com pages default
+aspx references bai et al
+ming hong bai yu ming hsieh keh jiann chen and jason s
+chang
+
+a bilingual domcat for domain specic computer translation
+system in proceedings demonstrations pages jeju island korea july
+association for computational linguistics
+assisted the acl concordancer of barzilay and regina barzilay and
+sentence fusion kathleen r
+mckeown
+for multidocument news summarization
+comput
+linguist
+september
+barzilay et al
+regina barzilay kathleen r
+mckeown
+and michael elhadad
+information fusion in the context of multi document summarization
+in proceedings of the annual meeting of the association for computational linguistics on computational linguistics pages stroudsburg pa usa
+association for computational linguistics
+bechet et al
+frederic bechet benjamin maza nicolas bigouroux thierry bazillon marc el beze renato de mori and eric arbillot
+
+decoda a call centre human human spoken conversation in proceedings of the eight international corpus
+conference on language resources and evaluation istanbul turkey may
+european language resources association elra
+favre et al
+benoit favre evgeny stepanov jeremy trione bechet and giuseppe call centre conversation riccardi
+summarization a pilot task at multiling
+in sigdial meeting on discourse and dialogue sigdial
+prague czech republic
+
+katja filippova
+
+multi sentence compression finding shortest paths in word graphs
+in proceedings of the international conference on computational linguistics pages stroudsburg pa usa
+association for computational linguistics
+he et al
+tingting he fang li wei shao a jinguang chen and liang ma
+new feature fusion sentence selecting strategy for query focused multi document summarization
+in cheolyoung ock jeongyong byun yude bi and hongfei lin editors alpit pages
+ieee computer society
+
+hennig and l
+hennig and s
+albayrak
+
+personalized multi document summarization using n gram topic model fusion
+in proceedings of workshop on semantic personalized information management spim pages valletta malta
+european language resources association
+jorge et al
+castro jorge maria luca del rosario and thiago alexandre salgueiro pardo
+
+experiments with cst based multidocument the summarization
+workshop on graph based methods for natural language pages stroudsburg pa usa
+association for computational linguistics
+in proceedings of processing chin yew lin
+
+rouge a package in proc
+for automatic evaluation of summaries
+acl workshop on text summarization branches out page
+linhares et al
+andrea linhares juan manuel torres moreno and javier ramirez
+resume automatique lingue avec un
+algorithme glouton
+in
+carneiro louis and annie and ani automatically assessing nenkova
+machine summary content without a gold standard
+computational linguistics
+louis
+h
+p
+luhn
+
+creation of literature abstracts
+april
+the automatic ibm j
+res
+dev
+mani and i
+mani and m
+mayburi
+
+advances in automatic text summarization
+mit press cambridge
+inderjeet mani
+
+automatic summarization
+john benjamins publishing co
+mckeown et al
+kathleen mckeown julia hirschberg michel galley and sameer maskey
+
+in icassp
+
+philadelphia pa
+from text to speech summarization
+murray et al
+gabriel murray steve renals and jean carletta
+
+extractive summarization of in in proceedings of the meeting recordings
+european conference on speech communication and technology pages
+e
+pitler
+compression
+pennsylvania technical report ms
+
+methods for sentence report university of technical pontes et al
+elvys linhares pontes andrea carneiro linhares and juan manuel torres moreno
+sumarizador automatico baseado no problema do subconjunto vertices
+in proceedings of the xlvi simposio brasileiro de pesquisa operacional
+
+sasi pontes et al
+elvys pontes juan manuel torres moreno and andrea carneiro
+rag un resume linhares
+automatique a base graphes
+linhares d
+hiemstra
+probability smoothing
+in encyclopedia of database systems pp
+springer
+
+seno and eloize rossi marques seno and mariadas gracas volpe nunes
+some experiments on clustering similar sentences of
+in portuguese
+in antonio teixeira texts veraluciastrube de lima luscaldas oliveira editors computational and paulo quaresma processing of the portuguese language volume of lecture notes in computer science pages
+springer berlin heidelberg
+eloize rossi marques seno
+
+um metodo a fusao automatica sentencas similares em portugues
+ph
+d
+thesis instituto e de computac ciencias matematicas universidade de sao paulo sao carlos
+torres moreno et al
+juan manuel torres moreno patricia velazquez morales and jean guy meunier
+
+cortex un algorithme pour la condensation automatique textes
+in volume pages
+lyon france
+torres moreno et al
+juan manuel patricia velazquez morales torres moreno and jean guy meunier
+
+condenses textes par methodes numeriques
+in jadt volume pages
+torres juan manuel torres moreno
+
+automatic text summarization
+john wiley sons
+

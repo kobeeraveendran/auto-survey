@@ -1,0 +1,854 @@
+encode tag realize high precision text editing eric malmi google research
+com sebastian krause google research
+com sascha rothe google research
+com daniil mirylenka google research
+com aliaksei severyn google research
+com p e s l c
+s c v
+v i x r a abstract we propose lasertagger a sequence ging approach that casts text generation as a text editing task
+target texts are structed from the inputs using three main edit operations keeping a token deleting it and adding a phrase before the token
+to dict the edit operations we propose a novel model which combines a bert encoder with an autoregressive transformer decoder
+this approach is evaluated on english text on four tasks sentence fusion sentence splitting stractive summarization and grammar tion
+lasertagger achieves new state the art results on three of these tasks performs comparably to a set of strong lines with a large number of training ples and outperforms them when the number of examples is limited
+furthermore we show that at inference time tagging can be more than two orders of magnitude faster than ble models making it more attractive for running in a live environment
+introduction neural sequence to sequence models provide a powerful framework for learning to late source texts into target texts
+since their rst application to machine translation mt sutskever et al
+they have become the proach for virtually every text generation task cluding summarization tan et al
+image captioning xu et al
+text style transfer rao and tetreault nikolov and hahnloser jin et al
+and grammatical error correction chollampatt and ng grundkiewicz et al
+
+we observe that in some text generation tasks such as the recently introduced sentence splitting and sentence fusion tasks output texts highly lap with inputs
+in this setting learning a model to generate the output text from scratch figure lasertagger applied to sentence fusion
+seems intuitively wasteful
+copy mechanisms gu et al
+see et al
+allow for choosing between copying source tokens and generating bitrary tokens but although such hybrid models help with out of vocabulary words they still quire large training sets as they depend on output vocabularies as large as those used by the standard approaches
+in contrast we propose learning a text editing model that applies a set of edit operations on the input sequence to reconstruct the output
+we show that it is often enough to use a relatively small set of output tags representing text deletion rephrasing and word reordering to be able to reproduce a large percentage of the targets in the training data
+this results in a learning problem with a much smaller vocabulary size and the output length xed to the number of words in the source text
+this in turn greatly reduces the number training examples quired to train accurate models which is larly important in applications where only a small number of human labeled data is available
+our tagging approach lasertagger consists of three steps fig
+i encode builds a tation of the input sequence tag assigns edit tags from a pre computed output vocabulary to the input tokens and realize applies a simple set of rules to convert tags into the output text tokens
+an experimental evaluation of lasertagger encodetagturing was born in
+turing died in
+turing was born in and he died in
+realizekeep keep keep keep keep and hedelete delete keep keep keep keep on four different text generation tasks shows that it yields comparable results to models when we have tens of thousands of training examples and clearly outperforms them when the number of examples is smaller
+our contributions are the following we demonstrate that many text generation tasks with overlapping inputs and outputs can be effectively treated as text editing tasks
+we propose lasertagger a sequence tagging based model for text editing together with a method for generating the tag vocabulary from the training data
+we describe two versions of the i lasertaggerff a tagger ging model devlin et al
+and based on bert ii lasertaggerar a novel tagging model combining the bert encoder with an sive transformer decoder which further improves the results over the bert tagger
+we evaluate lasertagger against strong baseline models based on the bert chitecture
+our baseline models outperform ously reported state of the art results on two tasks
+we demonstrate that a lasertaggerar achieves state of the art or comparable results on out of examined tasks lasertaggerff is up to faster at inference time with performance comparable to the state of the art els
+furthermore both models require much less training data compared to the els d are more controllable and interpretable than models due to the small vocabulary of edit operations e are less prone to typical model errors such as hallucination
+the code will be available at lasertagger
+page
+link code related work recent work discusses some of the difculties of learning neural decoders for text generation man et al
+prabhakaran et al
+
+tional approaches require large amounts of training data are hard to control and to constrain to desirable outputs
+at the same time many nlp tasks that appear to be text generation tasks are natural testbeds for simpler methods
+in this section we briey review some of these tasks
+text simplication is a paraphrasing task that is known to benet from modeling edit operations
+a simple instance of this type are sentence pression systems that apply a drop operation at the token phrase level filippova and strube et al
+while more intricate systems also apply splitting reordering and lexical tution zhu et al
+
+simplication has also been attempted with systems developed for based mt xu et al
+as well as with neural encoder decoder models zhang and lapata
+independent of this work dong et al
+recently proposed a text editing model similar to ours for text simplication
+the main differences to our work are they introduce an interpreter module which acts as a language model for the so far realized text and they generate added tokens one by one from a full vocabulary rather than from an optimized set of frequently added phrases
+the latter allows their model to generate more diverse output but it may negatively effect the inference time precision and the data efciency of their model
+another recent model similar to ours is called levenshtein transformer gu et al
+which does text editing by performing a sequence of deletion and insertion actions
+single document summarization is a task that requires systems to shorten texts in a preserving way
+it has been approached with deletion based methods on the token level al
+and the sentence level narayan et al
+liu
+other papers have used neural encoder decoder methods tan et al
+rush et al
+paulus et al
+to do stractive summarization which allows edits yond mere deletion
+this can be motivated by the work of jing and mckeown who identied a small number of fundamental high level editing operations that are useful for producing summaries reduction combination syntactic transformation lexical paraphrasing generalization specication and reordering
+see et al
+extended a ral encoder decoder model with a copy mechanism to allow the model to more easily reproduce input tokens during generation
+out of available summarization datasets noncourt et al
+we nd the one by toutanova et al
+particularly interesting because it specically targets abstractive summarization tems the lengths of texts in this dataset short paragraphs seem well suited for text editing and an analysis showed that the dataset covers many different summarization operations
+in grammatical error correction ng et al
+a system is presented with input texts written usually by a language learner and is tasked with detecting and xing grammatical and other mistakes
+approaches to this task often incorporate task specic knowledge e
+
+by designing ers for specic error types knight and chander rozovskaya et al
+that can be trained without manually labeled data or by adapting statistical machine translation methods dowmunt and grundkiewicz
+methods for the sub problem of error detection are similar in spirit to sentence compression systems in that they are implemented as word based neural sequence belers rei rei et al
+
+neural decoder methods are also commonly applied to the error correction task ge et al
+patt and ng zhao et al
+but suffer from a lack of training data which is why specic tricks need to be applied kasewa et al
+junczys dowmunt et al
+
+text editing as a tagging problem our approach to text editing is to cast it into a tagging problem
+here we describe its main ponents the tagging operations how to convert plain text training targets into a tagging format as well as the realization step to convert tags into the nal output text
+
+tagging operations our tagger assigns a tag to each input token
+a tag is composed of two parts a base tag and an added phrase
+the base tag is either keep or delete which indicates whether to retain the token in the output
+the added phrase p which can be empty enforces that p is added before the corresponding token
+p belongs to a vocabulary v that denes a set of words and phrases that can be inserted into the input sequence to transform it into the output
+the combination of the base tag b and the added phrase p is treated as a single tag and denoted by p b
+the total number of unique tags is equal to the number of base tags times the size of the phrase vocabulary hence there are unique tags
+additional task specic tags can be employed too
+for sentence fusion section
+the input consists of two sentences which sometimes need to be swapped
+therefore we introduce a custom tag swap which can only be applied to the last period of the rst sentence see fig
+
+this tag instructs the realize step to swap the order of the input sentences before realizing the rest of the tags
+for other tasks different supplementary tags may be useful
+e
+
+to allow for replacing tity mentions with the appropriate pronouns we could introduce a pronominalize tag
+given an access to a knowledge base that includes entity gender information we could then look up the rect pronoun during the realization step instead of having to rely on the model predicting the correct tag shedelete hedelete theydelete
+
+
+optimizing phrase vocabulary the phrase vocabulary consists of phrases that can be added between the source words
+on the one hand we wish to minimize the number of phrases to keep the output tag vocabulary small
+on the other hand we would like to maximize the centage of target texts that can be reconstructed from the source using the available tagging ations
+this leads to the following combinatorial optimization problem
+problem given a collection of phrase sets
+
+
+am where ai p and p is the set of all candidate phrases select a phrase lary v p of at most phrases i
+e
+so that the number of covered phrase sets is imized
+a phrase set ai is covered if and only if ai v
+this problem is closely related to the mum k union problem which is np hard vinterbo
+the latter problem asks for a set of k phrase sets such that the cardinality of their union is the minimum
+if we were able to solve problem in polynomial time we could solve also the mum k union problem in polynomial time simply by nding the smallest phrase vocabulary size such that the number of covered phrase sets is at least
+this reduction from the minimum k union problem gives us the following result theorem problem is np hard
+to identify candidate phrases to be included in the vocabulary we rst align each source text s from the training data with its target text t
+this is achieved by computing the longest common sequence lcs between the two word sequences which can be done using dynamic programming in time
+the n grams in the target text that are not part of the lcs are the phrases that would need to be included in the phrase vocabulary to be able to construct t from s
+source tags realization dylan an american musician won nobel prize
+dylan
+delete keep keep keep swap keep commadelete keep won nobel prize dylan an is american musician keep keep
+commadelete figure an example sentence fusion obtained by tagging using the swap tag which swaps the order of the two source sentences
+in practice the phrase vocabulary is expected to consist of phrases that are frequently added to the target
+thus we adopt the following simple proach to construct the phrase vocabulary sort the phrases by the number of phrase sets in which they occur and pick most frequent phrases
+this was found to produce meaningful phrase vocabularies based on manual inspection as shown in section
+e
+
+the top phrases for sentence fusions include many discourse connectives
+we also considered a greedy approach that structs the vocabulary one phrase at a time always selecting the phrase that has the largest incremental coverage
+this approach is not however ideal for our use case since some frequent phrases such as and are strongly coupled
+selecting alone has close to zero incremental coverage but together with they can cover many examples
+
+converting training targets into tags once the phrase vocabulary is determined we can convert the target texts in our training data into tag sequences
+given the phrase vocabulary we do not need to compute the lcs but can leverage a more efcient approach which iterates over words in the input and greedily attempts to match them against the words in the target and in case there is no match against the phrases in the vocabulary v
+this can be done in np time where np is the length of the longest phrase in v as shown in algorithm
+the training targets that would require adding a phrase that is not in our vocabulary v will not get converted into a tag sequence but are ltered out
+while making the training smaller this may effectively also lter out low quality targets
+the percentage of converted examples for different datasets is reported later in section
+note that even when the target can not be reconstructed from the inputs using our output tag vocabulary our proach might still produce reasonable outputs with the available phrases
+e
+
+a target may require the use of the infrequent token which is not in our vocabulary but a model could instead choose to predict a more common token
+algorithm converting a target string to tags
+input source text s
+
+
+target text t
+
+
+phrase vocabulary v and the imum added phrase length np
+output tag sequence of length ns or of length if conversion is not possible
+i
+
+
+ns initialize tags
+current source word index
+current target word index
+conversion infeasibile
+if then keep it it p for j
+
+
+np do if is ns then return else delete is it while it nt do return is is break if then pkeep it it added phrase word sequence
+p
+if and p v then target has been consumed so return tags
+
+realization after obtaining a predicted tag sequence we vert it to text realization step
+while classic works on text generation make a distinction tween planning and realization end to end neural approaches typically ignore this distinction with the exception of few works moryossef et al
+puduppully et al
+
+for the basic tagging operations of keeping deleting and adding realization is a ward process
+additionally we adjust tion at sentence boundaries
+realization becomes more involved if we introduce special tags such as pronominalize mentioned in section
+
+for this tag we would need to look up the gender of the tagged entity from a knowledge base
+having a separate realization step is benecial since we can decide to pronominalize only when condent about the appropriate pronoun and can otherwise leave the entity mention untouched
+another advantage of having a separate consuming the embedding of the previously dicted label and the activations from the encoder
+there are several ways in which the decoder can communicate with the encoder i through a full attention over the sequence of encoder activations similar to conventional architectures and ii by directly consuming the encoder activation at the current step
+in our preliminary experiments we found the latter option to perform better and converge faster as it does not require learning ditional encoder decoder attention weights
+we experiment with both decoder variants forward and autoregressive and nd that the toregressive decoder outperforms the previously used feedforward decoder
+in the rest of this paper the tagging model with an autoregressive decoder is referred to as lasertaggerar and the model with feedforward decoder as lasertaggerff
+experiments we evaluate our method by conducting experiments on four different text editing tasks sentence sion split and rephrase abstractive tion and grammatical error correction
+baselines
+in addition to reporting previously published results for each task we also train a set of strong baselines based on transformer where both the encoder and decoder replicate the base architecture devlin et al
+
+to have a fair comparison similar to how we initialize a tagger encoder with a pretrained bert checkpoint we use the same initialization for the transformer encoder
+this produces a very strong line which already results in new state of the art metrics on two out of four tasks
+
+sentence fusion sentence fusion is the problem of fusing sentences into a single coherent sentence
+data
+we use the balanced wikipedia tion of geva et al
+discofuse dataset for our experiments henceforth dfwiki
+out of the
+m fusion examples in the dataset
+require reordering of the input
+to cope with this we duce the swap tag which enables the model to ip the order of two input sentences
+we construct the phrase vocabulary as described in sec
+
+using the validation set of k examples
+the top phrases are shown in the rst column of table
+evaluation metrics
+following geva et al
+we use two evaluation metrics exact score figure the architecture of lasertaggerar
+tion step is that specic loss patterns can be dressed by adding specialized realization rules
+for instance one could have a rule that when applying tag hisdelete to an entity mention followed by s the realizer must always delete the possessive s regardless of its predicted tag
+tagging model architecture our tagger is composed of two components an encoder which generates activation vectors for each element in the input sequence and a decoder which converts encoder activations into tag labels
+encoder
+we choose the bert transformer model devlin et al
+as our encoder as it demonstrated state of the art results on a ber of sentence encoding tasks
+we use the bert base architecture which consists of self attention layers
+we refer the reader to devlin et al
+for a detailed description of the model architecture and its input representation
+we ize the encoder with a publicly available checkpoint of the pretrained case sensitive bert base model
+in the original bert paper a ple decoding mechanism is used for sequence the output tags are generated in a single ging feed forward pass by applying an argmax over the encoder logits
+in this way each output tag is predicted independently without modelling the pendencies between the tags in the sequence
+such a simple decoder demonstrated state of the art sults on the named entity recognition task when applied on top of the bert encoder
+decoder
+to better model the dependencies between the output tag labels we propose a more powerful toregressive decoder
+specically we run a layer transformer decoder on top of the bert encoder see fig
+
+at each step the decoder is
+com google research bert
+
+
+
+
+
+layer dfwiki wikisplit model exact sari and however but he because although but and although his while it which she
+
+he
+it the and was is
+she
+it is a
+they
+however he as
+the a and is in s with for of nt an gec
+the a to in of on at for have is was and that table the most frequently added phrases in the datasets studied in this work in order of decreasing quency
+marks a sentence boundary
+is short for abstractive summarization grammatical error correction
+figure performance of model lasertaggerar on the dfwiki dataset conditioned on the vocabulary size and the gold score i
+e
+the percentage of examples that can be reconstructed via text edit operations
+which is the percentage of exactly correctly dicted fusions and sari xu et al
+which computes the average scores of the added kept and deleted n grams
+vocabulary size
+to understand the impact of the number of phrases we include in the vocabulary we trained models for different vocabulary sizes only lasertaggerar
+the results are shown in figure
+after increasing the vocabulary size to phrases exact score reaches a plateau so we set the vocabulary size to in all the ing experiments of this paper
+the gold curve in fig
+shows that this vocabulary size is sufcient use the implementation available at git
+setting for deletion geva et al
+
+smaller datasets a smaller vocabulary size may yield better results but for simplicity we do not optimize the size separately for each dataset
+transformer geva et al
+lasertaggerar no swap lasertaggerff lasertaggerar
+
+
+
+
+
+
+
+
+
+table sentence fusion results on dfwiki
+to cover of the training examples which gives us an upper bound for the exact score
+comparison against baselines
+table lists the results for the dfwiki dataset
+we obtain new sota results with lasertaggerar ing the previous sota layer transformer model from geva et al
+by
+exact score and
+sari score
+we also nd that the pretrained model yields nearly as good formance demonstrating the effectiveness of supervised pretraining for generation tasks
+the performance of the tagger is impaired signicantly when leaving out the swap tag due to the model s inability to reconstruct
+of the training set
+impact of dataset size
+we also study the fect of the training data size by creating four creasingly smaller subsets of dfwiki see fig
+
+when data size drops to or examples lasertagger still performs surprisingly well clearly outperforming the baseline
+
+split and rephrase the reverse task of sentence fusion is the and rephrase task which requires rewriting a long sentence into two or more coherent short sentences
+data
+we use the wikisplit dataset botha et al
+which consists of m human editor ated examples of sentence splits and follow the dataset split suggested by the authors
+using the phrase vocabulary of size yields a age of the targets from the training set top phrases shown in table
+the lower coverage compared to dfwiki suggests a higher amount of noise due to wikipedia author edits unrelated to splitting
+results
+botha et al
+report results ing a one layer bi directional lstm cell size with attention and a copying mechanism see simplicity we use the same phrase vocabulary of size computed using the validation set of k examples for all experiments
+note that even though some subsampled training sets contain less than k examples using the same vocabulary does not give the taggers an unfair advantage over the baselines because the tagger will never predict a phrase it has not seen in the training data
+vocabulary
+
+
+
+
+scoregoldlasertaggerar sentence fusion on dfwiki
+split and rephrase on wikisplit
+figure sari score as a function of the training data size for three models
+unless we have tens of thousands of training examples the tagging approach clearly outperforms the baseline
+model bleu exact sari model exact sari rouge l botha et al
+lasertaggerff lasertaggerar
+
+
+
+
+
+
+
+
+
+
+
+table results on the wikisplit dataset
+filippova et al
+clarke and lapata cohn and lapata rush et al
+lasertaggerff lasertaggerar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table results on summarization
+et al
+
+the results are shown in table
+and lasertaggerar yield similar performance with each other and they both form the model with a copying mechanism from botha et al
+
+we again studied the impact of training data size by subsampling the training set see ure
+similar to the previous experiment the lasertagger methods degrade more gracefully when reducing training data size and start to perform the baseline once going below circa examples
+the smallest training set for lasertaggerar contains merely examples
+remarkably the model is still able to learn thing useful that generalizes to unseen test ples reaching a sari score of
+and dicting
+of the targets exactly correctly
+the following is an example prediction by the model source delhi public library is a national depository library in delhi india it has over branches across the state
+prediction delhi public library is a national depository brary in delhi india
+it has over branches across the state
+here the model has picked the right comma to place with a period and a sentence separator
+et al
+report only bleu but they kindly shared with us their model s predictions allowing us to pute the exact and sari score for their method
+similar to their work we used nltk
+
+for the bleu computation
+
+abstractive summarization the task of summarization is to reduce the length of a text while preserving its meaning
+dataset
+we use the dataset from toutanova et al
+which contains short input texts one or two sentences and one or more written summaries
+the human experts were not restricted to just deleting words when generating a summary but were allowed to also insert new words and reorder parts of the sentence which makes this dataset particularly suited for tive summarization models
+we set the size of the phrase vocabulary to as for the other tasks and extract the phrases from the training partition
+with a size of we are able to cover of the training data
+evaluation metrics
+in addition to the metrics from the previous sections we report rouge l lin as this is a metric that is commonly used in the summarization literature
+rouge l is a recall oriented measure computed as the longest common sub sequence between a reference summary and a candidate summary
+results
+table compares our taggers against baselines and systems from the ture
+filippova et al
+and clarke and pata proposed deletion based approaches are extracted from toutanova et al
+
+of training
+
+
+
+
+
+
+
+
+of training
+
+
+
+
+
+the former uses a network the latter mulates summarization as an optimization lem that is solved via integer linear programming
+cohn and lapata proposed an early proach to abstractive summarization via a tree transducer
+rush et al
+developed a neural model for abstractive tion
+in line with the results on the subsampled sion splitting datasets figure the tagger nicantly outperforms all baselines
+this shows that even though a text editing approach is not suited for extreme summarization examples a plete paraphrase with zero lexical overlap in tice already a limited paraphrasing capability is enough to reach good empirical performance
+note that the low absolute values for the exact metric are expected since there is a very large number of acceptable summaries
+
+grammatical error correction gec gec requires systems to identify and x ical errors in a given input text
+data
+we use a recent benchmark from a shared task of the building educational applications workshop specically from the low resource bryant et al
+
+the publicly able set has ill formed sentences together with gold error corrections which we split into a training and validation partition
+we again create the phrase vocabulary from the most frequently added phrases in the training partition which gives us a coverage of of the training data
+evaluation metrics and results
+we report precision and recall and the task s main metric
+which gives more weight to the precision of the corrections than to their recall
+table compares our taggers against two lines
+again the tagging approach clearly performs the bert based model here by being more than seven times as accurate in the diction of corrections
+this can be accounted to the model s much richer generation capacity which the model can not properly tune to the task at hand given the small amount of training data
+the tagging approach on the other hand is naturally suited to this kind of problem
+we also report the best performing method by grundkiewicz et al
+from the shared task for informational purposes
+they train a transformer
+cl
+cam
+ac
+uk research nl model grundkiewicz et al
+lasertaggerff lasertaggerar p r
+
+
+
+
+
+
+
+
+
+
+
+
+table results on grammatical error correction
+note that grundkiewicz et al
+augment the training dataset of examples by million synthetic amples and million wikipedia edits
+batch size lasertaggerff lasertaggerar table inference time in ms across various batch sizes on gpu nvidia tesla averaged across runs with random inputs
+model using a dataset which is augmented by million synthetic examples and million wikipedia edits whereas we only use sentences from the provided training dataset
+
+inference time getting state of the art results often requires ing larger and more complex models
+when ning a model in production one cares not only about the accuracy but also the inference time
+ble reports latency numbers for lasertagger models and our most accurate baseline
+as one can see the baseline is practical to run in production even for the batch size
+on the other hand for a batch size lasertaggerar is already faster than comparable in accuracy line
+this difference is due to the former model using a layer decoder instead of layers and no encoder decoder cross attention
+we also tried training with a layer decoder but it performed very poorly in terms of accuracy
+nally lasertaggerff is more than faster while being only a few accuracy points below our best reported results
+
+qualitative evaluation to assess the qualitative difference between the outputs of lasertagger and we analyzed the texts generated by the models on the test sets of the four tasks
+we inspected the tive worst predictions from each model according to bleu and identied seven main error patterns error type lasertagger example imaginary words repeated phrases not affected not affected premature end of sentence less affected hallucinations less affected coreference issues misleading rephrasing lazy sentence splitting affected affected affected affected affected affected affected affected affected not affected
+
+
+zenica cyrillic is
+
+
+
+
+
+zenica cyrillic gratulation is
+
+
+i m your employee to serve on your company
+i m your company to serve on your company
+by the way my favorite football team is manchester united they
+
+
+in out in out in out by the way my favorite football team is
+tobacco smokers may also experience
+
+
+in anthropology smokers may also experience
+
+
+out in she is the daughter of alistair crane
+
+
+who secretly built
+
+
+out she is the daughter of alistair crane
+
+
+she secretly built
+
+
+
+
+
+postal service was in no way responsible
+
+
+in
+
+
+postal service was responsible
+
+
+out in home world of the marglotta located in the sagittarius arm
+out home world of the marglotta
+located in the sagittarius arm
+table main error patterns observed in the output of the tagging and models on their test sets all tasks
+two of which are specic to the model and one being specic to lasertagger
+this illustrates that lasertagger is less prone to errors compared to the standard proach due to the restricted exibility of its model
+certain types of errors namely imaginary words and repeated phrases are virtually impossible for the tagger to make
+the likelihood of others such hallucination and abrupt sentence ending is at least greatly reduced
+in table we list the error classes and refer to appendix a for more details on our observations
+conclusions we proposed a text editing approach to generation tasks with high overlap between input and output texts
+compared to the models typically applied in this setting our approach sults in a simpler sequence tagging problem with a much smaller output tag vocabulary
+we strated that this approach has comparable mance when trained on medium to large datasets and clearly outperforms a strong baseline when the number of training examples is limited
+qualitative analysis of the model outputs suggests that our tagging approach is less affected by the common errors of the models such as lucination and abrupt sentence ending
+we further demonstrated that tagging can speed up inference by more than two orders of magnitude making it more attractive for production applications
+limitations
+arbitrary word reordering is not feasible with our approach although limited ordering can be achieved with deletion and tion operations as well as custom tags such as swap see section
+
+to enable more exible reordering it might be possible to apply techniques developed for phrase based machine translation
+another limitation is that our approach may not be straightforward to apply to languages that are morphologically richer than english where a more sophisticated realizer might be needed to adjust e
+
+the cases of the words
+in future work we would like to experiment with more light weight tagging architectures dor et al
+to better understand the trade off between inference time and model accuracy
+acknowledgments we would like to thank enrique alfonseca idan szpektor and orgad keller for useful discussions
+references daniel andor chris alberti david weiss aliaksei severyn alessandro presta kuzman ganchev slav petrov and michael collins
+
+globally in ized transition based neural networks
+ings of the annual meeting of the association for computational linguistics volume long pers pages
+jan a botha manaal faruqui john alex jason baldridge and dipanjan das
+
+learning to split and rephrase from wikipedia edit history
+in proceedings of the conference on empirical methods in natural language processing
+christopher bryant mariano felice istein e dersen and ted briscoe
+
+the shared task on grammatical error correction
+in ceedings of the fourteenth workshop on innovative use of nlp for building educational applications pages
+shamil chollampatt and hwee tou ng
+
+neural quality estimation of grammatical error correction
+in proceedings of the conference on cal methods in natural language processing pages
+james clarke and mirella lapata
+
+global ference for sentence compression an integer j
+artif
+intell
+res
+ear programming approach
+
+trevor cohn and mirella lapata
+
+sentence in proceedings pression beyond word deletion
+of the international conference on tional linguistics coling pages
+franck dernoncourt mohammad ghassemi and ter chang
+
+a repository of corpora for marization
+in proceedings of the eleventh tional conference on language resources and uation
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language standing
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language nologies volume long and short papers pages
+yue dong zichao li mehdi rezagholizadeh and jackie chi kit cheung
+
+editnts an neural programmer interpreter model for sentence in proceedings of cation through explicit editing
+the annual meeting of the association for putational linguistics
+katja filippova enrique alfonseca carlos a menares lukasz kaiser and oriol vinyals
+
+sentence compression by deletion with lstms
+in proceedings of the conference on empirical methods in natural language processing pages
+katja filippova and michael strube
+
+dency tree based sentence compression
+in ings of the fifth international natural language generation conference pages
+tao ge furu wei and ming zhou
+
+fluency boost learning and inference for neural cal error correction
+in proceedings of the nual meeting of the association for computational linguistics volume long papers pages
+jiatao gu zhengdong lu hang li and victor ok incorporating copying mechanism in li
+
+in proceedings of sequence to sequence learning
+the annual meeting of the association for putational linguistics volume long papers pages
+jiatao gu changhan wang
+levenshtein transformer
+
+
+and jake zhao
+arxiv preprint zhijing jin di jin jonas mueller nicholas matthews and enrico santus
+
+unsupervised text style transfer via iterative matching and translation
+arxiv preprint
+
+hongyan jing and kathleen mckeown
+
+cut and in meeting of paste based text summarization
+the north american chapter of the association for computational linguistics
+marcin junczys dowmunt and roman grundkiewicz
+
+the amu system in the shared task grammatical error correction by intensive and feature rich statistical machine in proceedings of the eighteenth lation
+ence on computational natural language learning shared task pages
+marcin junczys dowmunt roman grundkiewicz shubha guha and kenneth heaeld
+
+proaching neural grammatical error correction as a low resource machine translation task
+in ings of the conference of the north american chapter of the association for computational guistics human language technologies volume long papers pages
+sudhanshu kasewa pontus stenetorp and sebastian riedel
+
+wronging a right generating ter errors to improve grammatical error detection
+in proceedings of the conference on cal methods in natural language processing pages
+kevin knight and ishwar chander
+
+automated in proceedings of the postediting of documents
+national conference on articial intelligence seattle wa usa july august volume
+pages
+mor geva eric malmi idan szpektor and jonathan berant
+
+discofuse a large scale dataset in for discourse based sentence fusion
+ings of the conference of the north american chapter of the association for computational guistics human language technologies volume long and short papers pages
+chin yew lin
+
+rouge a package for in text matic evaluation of summaries
+rization branches out proceedings of the workshop pages
+yang liu
+
+fine tune bert for extractive rization
+arxiv preprint
+
+roman grundkiewicz marcin junczys dowmunt and kenneth heaeld
+
+neural grammatical error correction systems with unsupervised pre training on synthetic data
+in proceedings of the fourteenth workshop on innovative use of nlp for building ucational applications pages
+amit moryossef yoav goldberg and ido dagan
+
+step by step separating planning from realization in neural data to text generation
+in proceedings of the conference of the north american ter of the association for computational linguistics human language technologies volume long and short papers pages
+shashi narayan shay b cohen and mirella lapata
+
+ranking sentences for extractive tion with reinforcement learning
+in proceedings of the conference of the north american ter of the association for computational linguistics human language technologies volume long pers pages
+hwee tou ng siew mei wu ted briscoe christian hadiwinoto raymond hendy susanto and pher bryant
+
+the shared task on grammatical error correction
+in proceedings of the eighteenth conference on computational ral language learning shared task pages
+hwee tou ng siew mei wu yuanbin wu christian hadiwinoto and joel tetreault
+
+the shared task on grammatical error correction
+in proceedings of the seventeenth conference on computational natural language learning shared task pages
+nikola i nikolov and richard hr hahnloser
+
+large scale hierarchical alignment for author style transfer
+arxiv preprint
+
+romain paulus caiming xiong and richard socher
+
+a deep reinforced model for abstractive marization
+arxiv preprint
+
+vinodkumar prabhakaran camilla grifths hang su prateek verma nelson morgan jennifer l
+hardt and dan jurafsky
+
+detecting tional dialog acts in police trafc stops
+tions of the association for computational tics
+ratish puduppully li dong and mirella lapata
+
+data to text generation with content selection and planning
+arxiv preprint
+
+sudha rao and joel tetreault
+
+dear sir or madam may i introduce the gyafc dataset pus benchmarks and metrics for formality style transfer
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language nologies volume long papers pages
+marek rei
+
+semi supervised multitask in proceedings of the ing for sequence labeling
+annual meeting of the association for tational linguistics volume long papers pages
+marek rei mariano felice zheng yuan and ted briscoe
+
+articial error generation with chine translation and syntactic patterns
+in ings of the workshop on innovative use of nlp for building educational applications pages
+alla rozovskaya kai wei chang mark sammons dan roth and nizar habash
+
+the columbia system in the shared task
+in proceedings of the eighteenth conference on computational natural language learning shared task pages
+alexander m rush sumit chopra and jason weston
+
+a neural attention model for abstractive in proceedings of the tence summarization
+conference on empirical methods in natural guage processing pages
+abigail see peter j liu and christopher d manning
+
+get to the point summarization with generator networks
+in proceedings of the nual meeting of the association for computational linguistics volume long papers pages
+ilya sutskever oriol vinyals and quoc v le
+
+sequence to sequence learning with neural networks
+in advances in neural information processing tems pages
+jiwei tan xiaojun wan and jianguo xiao
+
+stractive document summarization with a in proceedings based attentional neural model
+of the annual meeting of the association for computational linguistics volume long papers pages
+kristina toutanova chris brockett ke m tran and saleema amershi
+
+a dataset and evaluation metrics for abstractive compression of sentences and short paragraphs
+in proceedings of the ference on empirical methods in natural language processing pages
+staal a vinterbo
+
+a note on the hardness of the k ambiguity problem
+technical report dsg t
+sam wiseman stuart m shieber and alexander m rush
+
+learning neural templates for text eration
+arxiv preprint
+
+kelvin xu jimmy ba ryan kiros kyunghyun cho aaron courville ruslan salakhudinov rich zemel and yoshua bengio
+
+show attend and tell neural image caption generation with visual in proceedings of the international tion
+conference on machine learning volume of proceedings of machine learning research pages
+wei xu courtney napoles ellie pavlick quanze chen and chris callison burch
+
+optimizing statistical machine translation for text simplication
+transactions of the association for computational linguistics
+wei xu courtney napoles ellie pavlick quanze chen and chris callison burch
+
+optimizing statistical machine translation for text simplication
+transactions of the association for computational linguistics
+xingxing zhang and mirella lapata
+
+sentence simplication with deep reinforcement learning
+in proceedings of the conference on empirical methods in natural language processing pages
+wei zhao liang wang kewei shen ruoyu jia and jingming liu
+
+improving grammatical error correction via pre training a copy augmented tecture with unlabeled data
+in proceedings of the conference of the north american chapter of the association for computational linguistics man language technologies volume long and short papers pages
+zhemin zhu delphine bernhard and iryna gurevych
+
+a monolingual tree based translation model in proceedings of the for sentence simplication
+international conference on computational linguistics coling pages
+appendix a examples from qualitative analysis in table we present cherry picked examples for the error patterns introduced in section
+
+imaginary words
+operating on a sub word level the model is capable of ing nonexistent words by concatenating unrelated wordpieces
+indeed we have encountered ples of such made up words in the outputs of the model on all tasks
+typically this pens when the model encounters a rare word in the input text
+lasertagger which is trained on the word level is immune to this specic type of error
+premature end of sentence
+a model produces sequences of arbitrary length by ing the end of sentence eos
+we have seen the model generate eos prematurely resulting in an abrupt sentence ending
+in extreme cases and especially on the abstractive summarization task the model generated eos at the start effectively producing an empty output
+for lasertagger this type of error is technically possible but very unlikely and we have not seen it in practice
+the tagger would need to generate a long sequence of delete tags something it has not seen in the training data
+repeated phrases
+another type of error is repetition of cic to the model information either single words or entire phrases
+in the sentence splitting task the model would often repeat parts of the sentence twice fore and after the splitting symbol
+in the grammar correction and summarization tasks the model would often replace a rare word with another word from the input sentence thus repeating that word twice
+lasertagger can only add words or phrases from its limited vocabulary which is unlikely to cause repetition
+we observed that the model was cially likely to repeat large fragments in the tence splitting task in cases when there is no ous good way to split the sentence
+interestingly in most of these cases lasertagger did not split the sentence at all by not inserting the splitting symbol even though such examples were not present in its training data
+in other cases lasertagger produced a lazy split discussed below
+hallucination is a known problem for neural works but lasertagger is susceptible to it to a much lesser degree
+lasertagger can lucinate only by inserting an unexpected word or a short phrase from its vocabulary
+we have seen such insertions in the tagger output that dered the sentence ungrammatical or simply odd
+a model is more likely to produce tly misleading hallucinations that misrepresent the input text while looking uent and credible
+we have seen examples of the model changing the factual details which is a more dangerous error to make in some scenarios
+coreference problems
+this type of errors is ten made by both and tagger models
+in the most typical instance a model inserts an rect pronoun
+in other cases the model makes an incorrect coreference resolution by inserting the wrong proper noun
+the model is more susceptible to the second type of error because of its ability to copy proper nouns from the input tence
+lasertagger will typically not attempt to resolve the coreference and just leave the pronoun intact
+misleading rephrasing through deletion
+we want to highlight that although lasertagger has a limited set of operations and can not insert arbitrary phrases it is not immune to semantic rors and misrepresenting the input text
+we have seen examples where deletion of word spans was sufcient to completely alter the meaning of the sentence
+a model is naturally also prone to this type of errors
+lazy splitting
+this type of error is specic to lasertagger and the sentence splitting task
+it occurs when the input sentence is split arbitrarily in the middle without any modications made to the resulting two parts
+such splits were usually made at a reasonable point in the input sentence i
+e
+yielding two valid grammatical clauses at least one of which however was not a complete sentence
+imaginary words introduced by a sentence splitting task
+input zenica cyrillic is an industrial city the third largest after sarajevo and banja luka in bosnia and herzegovina and the capital of the zenica doboj canton of the federation of bosnia and herzegovina entity
+output zenica cyrillic gratulation is an industrial city the third largest after sarajevo and banja luka in bosnia and herzegovina
+it is the capital of the zenica doboj canton of the federation of bosnia and herzegovina entity
+imaginary words indroduced by a sentence fusion task
+input output carboxysomes which aid carbon xotrophically and mixotrophically grown cells
+carboxysomes are found in lithoautotrophically and mixotrophically grown cells
+carboxysomes aid carbon xation
+abrupt sentence end by the model grammar correction task
+input by the way my favorite football team is manchester united they are brilliant they have an amazing football players and they are awesome
+output by the way my favorite football team is
+abrupt sentence end by the model summarization task
+input it is i suppose likely that people with little money must think of money more than the well off do and that the hungry will dwell on thoughts of food and the thirsty on drink
+it output redundant repetition by the model sentence splitting task
+input output bethany noel mota born november is an american video blogger from los banos california
+bethany noel mota born november is an american video blogger from los banos california
+mota is an american video blogger from los banos california
+redundant repetition by the model sentence fusion task
+input general fazlollah zahedi became prime minister
+general fazlollah zahedi led the military coup
+output general fazlollah zahedi who led the military coup became prime minister and became prime minister
+redundant repetition by the model grammar correction task
+input output i m your employee to serve on your company
+i m your company to serve on your company
+
+hallucinations produced by the tagger grammar correction task
+input output if you are interesedt nd me at clock near the cinema entrance
+if you are play nd me at clock near the cinema entrance
+hallucinations produced by the tagger sentence fusion task
+input he carried a bow
+he was nerva
+output receiving a bow he was nerva
+hallucinations produced by the model sentence splitting task
+input output the native block size is bytes
+inodes are bytes on disk
+the native block size is bytes inodes are bytes on disk
+hallucinations produced by the model sentence fusion task
+input tobacco smokers may also experience more powerful effects with psilocybin
+tobacco smoke exposure decreases the activity of mao in the brain and peripheral organs
+anthropology smokers may also experience more powerful effects with psilocybin
+output coreference error made by the model sentence fusion task
+input he tries to help yuushi with catching sayuki s eye and encourages the idea of a baseball club
+output he tries to help yuushi with catching sayuki s eye
+yuushi encourages the idea of a baseball club
+pronominalization error made by the tagger sentence fusion task
+input output sharmistha mukherjee is an indian kathak dancer choreographer
+and politician
+he is of the indian sharmistha mukherjee is an indian kathak dancer choreographer and politician of the indian national congress
+national congress
+lazy splitting made by the tagger sentence splitting task
+input home world of the marglotta located in the sagittarius arm
+output home world of the marglotta
+located in the sagittarius arm
+lazy splitting made by the tagger sentence splitting task
+input output jesse has a son named sahvere and a duaghter named jaylen
+jesse has a son named sahvere
+and a duaghter named jaylen
+misleading rephrasing through deletion made by the tagger sentence splitting task
+input output she has an ex lover winnie mann a son wilson
+she was adopted chinese girl jang yin
+she has an ex lover winnie mann with whom she has a son wilson and an adopted a chinese girl jang yin
+misleading rephrasing through deletion made by the tagger sentence splitting task
+input the article proudly notes that the postal service was in no way responsible for the crash of valujet flight in the florida everglades
+output the article notes postal service was responsible for the crash of valujet flight
+table illustration of the typical errors produced by the models cherry picked examples
+

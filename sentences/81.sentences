@@ -1,0 +1,647 @@
+p e s l c
+s c v
+v i x r a controlling output length in neural encoder decoders yuta
+pi
+titech
+ac
+jp graham
+cmu
+edu ryohei
+titech
+ac
+jp hiroya
+titech
+ac
+jp manabu
+titecjh
+ac
+jp institute of technology japan mellon university usa abstract neural encoder decoder models have shown great success in many sequence generation tasks
+however previous work has not vestigated situations in which we would like to control the length of encoder decoder puts
+this capability is crucial for tions such as text summarization in which we have to generate concise summaries with in this paper we a desired length
+pose methods for controlling the output quence length for neural encoder decoder models two decoding based methods and two learning based methods
+results show that our learning based methods have the ity to control length without degrading mary quality in a summarization task
+introduction since its rst use for machine translation brenner and blunsom cho et al
+sutskever et al
+the encoder decoder proach has demonstrated great success in many other sequence generation tasks including image caption generation vinyals et al
+xu et al
+parsing vinyals et al
+dialogue response generation li et al
+serban et al
+and sentence summarization rush et al
+chopra et al
+
+in particular in this per we focus on sentence summarization which as its name suggests consists of generating shorter sions of sentences for applications such as document this work was done when the author was at the nara stitute of science and technology
+at
+com kiyukuta lencon
+summarization nenkova and mckeown or headline generation dorr et al
+
+recently rush et al
+automatically constructed large training data for sentence summarization and this has led to the rapid development of neural sentence summarization nss or neural headline generation nhg models
+there are already many studies that address this task nallapati et al
+ayana et al
+ranzato et al
+lopyrev gulcehre et al
+gu et al
+chopra et al
+
+one of the essential properties that text rization systems should have is the ability to erate a summary with the desired length
+desired lengths of summaries strongly depends on the scene of use such as the granularity of information the user wants to understand or the monitor size of the device the user has
+the length also depends on the amount of information contained in the given source document
+hence in the traditional setting of text summarization both the source document and the desired length of the summary will be given as input to a summarization system
+however methods for controlling the output sequence length of decoder models have not been investigated yet spite their importance in these settings
+in this paper we propose and investigate four methods for controlling the output sequence length for neural encoder decoder models
+the former two methods are decoding based they receive the sired length during the decoding process and the training process is the same as standard decoder models
+the latter two methods are learning based we modify the network architecture to receive the desired length as input
+in experiments we show that the learning based methods outperform the decoding based methods for long such as or byte summaries
+we also nd that despite this additional length control capability the proposed methods remain tive to existing methods on standard settings of the shared
+background
+related work text summarization is one of the oldest elds of study in natural language processing and many summarization methods have focused specically on sentence compression or headline generation
+traditional approaches to this task focus on word deletion using rule based dorr et al
+zajic et al
+or statistical woodsend et al
+galanis and androutsopoulos filippova and strube filippova and altun al
+methods
+there are also several studies of abstractive sentence summarization ing syntactic transduction cohn and lapata napoles et al
+or taking a phrase based tistical machine translation approach banko et al
+wubben et al
+cohn and lapata
+recent work has adopted techniques such as encoder decoder kalchbrenner and blunsom sutskever et al
+cho et al
+and tional bahdanau et al
+luong et al
+neural network models from the eld of machine translation and tailored them to the sentence marization task
+rush et al
+were the rst to pose sentence summarization as a new target task for neural sequence to sequence learning
+several studies have used this task as one of the marks of their neural sequence transduction ods ranzato et al
+lopyrev ayana et al
+
+some studies address the other portant phenomena frequently occurred in written summaries such as copying from the source document gu et al
+gulcehre et al
+
+nallapati et al
+investigate a way to solve many important problems capturing keywords or inputting multiple sentences
+neural encoder decoders can also be viewed as statistical language models conditioned on the get sentence context
+rosenfeld et al
+have proposed whole sentence language models that can consider features such as sentence length
+however as described in the introduction to our knowledge explicitly controlling length of output sequences in neural language models or encoder decoders has not been investigated
+finally there are some studies to modify the put sequence according some meta information such as the dialogue act wen et al
+user ality li et al
+or politeness sennrich et al
+
+however these studies have not focused on length the topic of this paper
+
+importance of controlling output length as we already mentioned in section the most standard setting in text summarization is to input both the source document and the desired length of the summary to a summarization system
+rization systems thus must be able to generate maries of various lengths
+obviously this property is also essential for summarization methods based on neural encoder decoder models
+since an encoder decoder model is a completely data driven approach the output sequence length depends on the training data that the model is trained on
+for example we use sentence summary pairs extracted from the annotated english gigaword pus as training data rush et al
+and the average length of human written summary is
+bytes
+figure shows the statistics of the corpus
+when we train a standard encoder decoder model and perform the standard beam search decoding on the corpus the average length of its output sequence is
+byte
+however there are other situations where we want summaries with other lengths
+for ple is a shared task where the maximum length of summaries is set to bytes and rization systems would benet from generating tences up to this length limit
+while recent nss models themselves can not trol their output length rush et al
+and others following use an ad method in which the tem is inhibited from generating the end of sentence to the tag and eos tag by assigning a score of rst sentence
+article headline
+figure histograms of rst sentence length headline length and their ratio in annotated gigaword english c ratio
+word corpus
+bracketed values in each subcaption are averages
+a given source sentence the summarizer generates a shortened version of the input i
+e
+n m as summary sentence y
+
+
+ym
+the model estimates conditional probability ing parameters trained on large training data ing of sentence summary pairs
+typically this ditional probability is factorized as the product of conditional probabilities of the next word in the quence y t m where t
+
+
+
+in the following we describe how to compute y t
+
+encoder we use the bi directional rnn birnn as coder which has been shown effective in neural chine translation bahdanau et al
+and speech recognition schuster and paliwal graves et al
+
+a birnn processes the source sentence for both forward and backward directions with two separate rnns
+during the encoding process the birnn computes both forward hidden states h h
+
+
+h n and backward hidden states h h
+
+
+h n as follows h t xt h t xt
+while g can be any kind of recurrent unit we use long short term memory lstm hochreiter and schmidhuber networks that have memory cells for both directions c t and c t
+figure the encoder decoder architecture we used as a base model in this paper
+generating a xed number of and nally the output summaries are truncated to bytes
+ideally the models should be able to change the output quence depending on the given output length and to output the eos tag at the appropriate time point in a natural manner
+network architecture encoder decoder with attention in this section we describe the model ture used for our experiments an encoder decoder consisting of bi directional rnns and an attention mechanism
+figure shows the architecture of the model
+suppose that the source sentence is represented as a sequence of words
+
+
+xn
+for to the code
+com facebook namas ber of words is set to which is too long for the setting
+the average number of words of human summaries in the evaluation set is
+
+published the default
+
+
+
+after encoding we set the initial hidden states controlling length in encoder decoders and memory cell of the decoder as follows h c
+
+decoder and attender our decoder is based on an rnn with lstm g st xt
+we also use the attention mechanism developed by luong et al
+which uses st to compute contextual information dt of time step t
+we rst summarize the forward and backward encoder states by taking their sum hi h i h i and then late the context vector dt as the weighted sum of these summarized vectors dt atihi i where at is the weight at the t th step for hi puted by a softmax operation ati hi
+after context vector dt is calculated the model updates the distribution over the next word as lows bhs y t bso
+note that st is also provided as input to the lstm with yt for the next step which is called the input feeding architecture luong et al
+
+
+training and decoding the training objective of our models is to maximize log likelihood of the sentence summary pairs in a given training set d log x x y t
+t once models are trained we use beam search to nd the output that maximizes the conditional ity
+in this section we propose our four methods that can control the length of the output in the in the rst two methods the decoder framework
+decoding process is used to control the output length without changing the model itself
+in the other two methods the model itself has been changed and is trained to obtain the capability of controlling the length
+following the evaluation dataset used in our experiments we use bytes as the unit of length though our models can use either words or bytes as necessary
+
+ixlen beam search without eos tags the rst method we examine is a decoding approach similar to the one taken in many recent nss ods that is slightly less ad
+in this method we inhibit the decoder from generating the eos tag by assigning it a score of
+since the model not stop the decoding process by itself we simply stop the decoding process when the length of output sequence reaches the desired length
+more cally during beam search when the length of the quence generated so far exceeds the desired length the last word is replaced with the eos tag and also the score of the last word is replaced with the score of the eos tag eos replacement
+
+ixrng discarding out of range sequences our second decoding method is based on discarding out of range sequences and is not inhibited from generating the eos tag allowing it to decide when to stop generation
+instead we dene the legitimate range of the sequence by setting minimum and imum lengths
+specically in addition to the normal beam search procedure we set two rules if the model generates the eos tag when the output sequence is shorter than the minimum length we discard the sequence from the beam
+if the generated sequence exceeds the mum length we also discard the sequence from the beam
+we then replace its last word with the eos tag and add this sequence to the beam eos replacement in section
+
+in other words we keep only the sequences that contain the eos tag and are in the dened length range
+this method is a compromise that allows the model some exibility to plan the generated quences but only within a certain acceptable length range
+it should be noted that this method needs a larger beam size if the desired length is very different from the average summary length in the training data as it will need to preserve hypotheses that have the sired length
+
+lenemb length embedding as additional input for the lstm our third method is a learning based method ically trained to control the length of the output quence
+inspired by previous work that has strated that additional inputs to decoder models can effectively control the characteristics of the output wen et al
+li et al
+this model vides information about the length in the form of an additional input to the net
+specically the model rd for each potential uses an embedding desired length which is parameterized by a length rdl where l is the embedding matrix wle number of length types
+in the decoding process we input the embedding of the remaining length as additional input to the lstm figure
+lt is ized after the encoding process and updated during the decoding process as follows length otherwise where is the length of output word yt and length is the desired length
+we learn the values of the length embedding matrix wle during ing
+this method provides additional information about the amount of length remaining in the output sequence allowing the decoder to plan its output based on the remaining number of words it can erate
+is a workaround to prevent the situation in which all sequences are discarded from a beam
+figure lenemb remaining length is used as tional input for the lstm of the decoder
+figure leninit initial state of the decoder s memory cell manages output length
+
+leninit length based memory cell initialization while lenemb inputs the remaining length to the decoder at each step of the decoding process the leninit method inputs the desired length once at the initial state of the decoder
+figure shows the chitecture of leninit
+specically the model uses the memory cell mt to control the output length by initializing the states of decoder hidden state and memory cell as follows h bc length where bc is the desired length
+rh is a trainable parameter and length while the model of lenemb is guided towards the appropriate output length by inputting the maining length at each step this leninit attempts to provide the model with the ability to manage the output length on its own using its inner state
+ically the memory cell of lstm networks is able for this endeavour as it is possible for lstms a rst sentence
+c ratio
+summary
+figure histograms of rst sentence length summary length and their ratio in
+to learn functions that for example subtract a xed amount from a particular memory cell every time they output a word
+although other ways for aging the length are also we found this approach to be both simple and effective
+experiment
+dataset we trained our models on a part of the annotated english gigaword corpus napoles et al
+which rush et al
+constructed for sentence summarization
+we perform preprocessing using the standard script for the
+the dataset sists of approximately
+million pairs of the rst sentence from each source document and its line
+figure shows the length histograms of the summaries in the training set
+the vocabulary size is for the source documents and for the target summaries including the beginning sentence end of sentence and unknown word tags
+for lenemb and leninit we input the length of each headline during training
+note that we do not train multiple summarization models for each line length but a single model that is capable of trolling the length of its output
+we evaluate the methods on the evaluation set of generating very short document summaries
+in this task summarization systems are required to create a very short mary for each given document
+summaries over the length limit bytes will be truncated and there is no bonus for creating a shorter summary
+the evaluation set consists of source documents and human written reference summaries for each example we can also add another memory cell for managing the length
+
+com facebook namas source document
+figure shows the length tograms of the summaries in the evaluation set
+note that the human written summaries are not always as long as bytes
+we used three variants of rouge lin as evaluation metrics gram bigram and rouge l longest common subsequence
+the two sided permutation test chinchor was used for statistical icance testing p
+
+
+implementation we use adam kingma and ba
+
+
+to optimize eters with a mini batch of size
+before every updates we rst sampled training examples and made groups of examples with the same source sentence length and shufed the groups
+we set the dimension of word embeddings to and that of the hidden state to
+for lstms we initialize the bias of the forget gate to
+and use
+for the other gate biases jozefowicz et al
+
+we use chainer tokui et al
+to plement our models
+for lenemb we set l to which is larger than the longest summary lengths in our dataset see figure and figure
+for all methods except f ixrng we found a beam size of to be sufcient but for f ixrng we used a beam size of because it more aggressively cards candidate sequences from its beams during coding
+result
+rouge evaluation table shows the rouge scores of each method with various length limits and byte
+gardless of the length limit set for the
+
+
+
+
+model ixlen ixrng byte
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+
+
+
+
+byte
+
+
+
+
+
+r l
+
+
+
+
+
+byte
+
+
+
+
+
+table rouge scores with various length limits
+the scores with are signicantly worse than the best score in the column bolded
+source reference ixlen ixrng lenemb leninit ve time world champion michelle kwan withdrew from the us gure skating championships on wednesday but will petition us skating ofcials for the chance to compete at the turin olympics
+injury leaves kwan s olympic hopes in limbo kwan withdraws from us gp kwan withdraws from us skating championships kwan pulls out of us gure skating championships for turin olympics kwan withdraws from us gp kwan withdraws from gure skating championships kwan pulls out of us gure skating championships for turin olympics bid kwan withdraws from us skating kwan withdraws from us gure skating championships world champion kwan withdraws from olympic gure skating championships kwan quits us gure skating kwan withdraws from us gure skating worlds kwan withdraws from us gure skating championships for olympics table examples of the output of each method with various specied lengths
+tion methods we use the same reference summaries
+note that ixlen and ixrng generate the maries with a hard constraint due to their ing process which allows them to follow the hard constraint on length
+hence when we calculate the scores of lenemb and leninit we impose a hard constraint on length to make the comparison fair i
+e
+and in the table
+specically we use the same beam search as that for f ixrng with minimum length of
+for the purpose of showing the length control capability of lenemb and leninit we show at the bottom two lines the results of the standard beam search without the hard constraints on the
+we will use the results of and in the discussions in sections
+and
+
+the results show that the learning based ixrng is equivalence to the standard beam search when we set the range as
+ods lenemb and leninit tend to outperform decoding based methods ixlen and f ixrng for the longer summaries of and bytes
+ever in the byte setting there is no signicant difference between these two types of methods
+we hypothesize that this is because average sion rate in the training data is figure while the byte setting forces the model to erate summaries with
+in average sion rate and thus the learning based models did not have enough training data to learn compression at such a steep rate
+
+examples of generated summaries tables and show examples from the validation set of the annotated gigaword corpus
+the bles show that all models including both based methods and decoding based methods can ten generate well formed sentences
+we can see various paraphrases of us gure source reference ixlen ixrng lenemb leninit at least two people have tested positive for the bird u virus in eastern turkey health minister recep akdag told a news conference wednesday
+two test positive for bird u virus in turkey two infected with bird two infected with bird u in eastern turkey two people tested positive for bird u in eastern turkey says minister two infected with bird two more infected with bird u in eastern turkey two people tested positive for bird u in eastern turkey says minister two bird u cases in turkey two conrmed positive for bird u in eastern turkey at least two bird patients test positive for bird u in eastern turkey two cases of bird in turkey two people tested positive for bird u in turkey two people tested positive for bird u in eastern turkey health conference table more examples of the output of each method
+and withdrew
+some examples are generated as a single noun phrase and which may be suitable for the short length setting
+
+length control capability of learning based models figure shows histograms of output length from the standard encoder decoder lenemb and leninit
+while the output lengths from the standard model disperse widely the lengths from our learning based models are concentrated to the desired length
+these histograms clearly show the length controlling bility of our learning based models
+table shows the nal state of the beam when leninit generates the sentence with a length of bytes for the example with standard beam search in table
+we can see all the sentences in the beam are generated with length close to the desired length
+this shows that our method has obtained the ability to control the output length as expected
+for parison table shows the nal state of the beam if we perform standard beam search in the dard encoder decoder model used in ixlen and ixrng
+although each sentence is well formed the lengths of them are much more varied
+
+comparison with existing methods
+although the objective of this paper is not to obtain state of the art scores on this evaluation set it is of interest whether our length controllable models are competitive on this task
+table shows that the scores of our methods which are copied from table in addition to the scores of some existing methods
+abs rush et al
+is the most standard model of neural sentence summarization and is the most similar method to our baseline setting ixlen
+this table shows that the score of f ixlen is parable to those of the existing methods
+the table also shows the lenemb and the leninit have the capability of controlling the length without ing the rouge score
+conclusion in this paper we presented the rst examination of the problem of controlling length in neural decoder models from the point of view of marization
+we examined methods for controlling length of output sequences two decoding based methods ixlen and f ixrng and two based methods lenemb and leninit
+the sults showed that learning based methods generally outperform the decoding based methods and the learning based methods obtained the capability of controlling the output length without losing rouge score compared to existing summarization methods
+finally we compare our methods to existing ods on standard settings of the shared acknowledgments that is a normalized number and us is us united states
+this work was supported by jsps kakenhi grant number
+we are grateful to have the
+
+
+
+
+
+
+
+
+byte candidate summary two cases of bird in turkey two bird u cases in turkey two people tested for bird two people tested in e
+turkey two bird u cases in e
+turkey two bird u cases in eastern two people tested in east turkey two bird u cases in turkey two people fail bird u virus
+
+
+
+
+
+
+
+
+byte candidate summary two people tested positive for bird u in eastern turkey two tested positive for bird u in eastern turkey two people tested positive for bird two people infected with bird u in eastern turkey two tested positive for bird two infected with bird u in eastern turkey two more infected with bird u in eastern turkey two more conrmed cases of bird u in eastern turkey two people tested positive for bird u in turkey the beam of leninit the beam of the standard encoder decoder table final state of the beam when the learning based model is instructed to output a byte summary for the source document in table
+a encoder decoder lenemb leninit figure histograms of output lengths generated by the standard encoder decoder lenemb and c leninit
+for lenemb and leninit the bracketed numbers in each region are the desired lengths we set
+model ixlen ixrng lenemb leninit et al
+et al
+ras et al
+ras et al
+table comparison with
+note that reproduced from table
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+existing studies for rows are top four opportunity to use the kurisu server of dwango co
+ltd
+for our experiments
+references ayana et al
+ayana s
+shen z
+liu and m
+sun
+
+neural headline generation with minimum risk training
+corr
+
+cho and yoshua bengio
+
+neural machine translation by jointly learning to align and translate
+in proceedings of
+banko et al
+michele banko vibhu o
+mittal and
+headline generation in proceedings of michael j
+witbrock
+based on statistical translation
+pages
+nancy chinchor
+
+the cal signicance of the results
+in proceedings pages
+cho et al
+kyunghyun cho bart van merrienboer caglar gulcehre dzmitry bahdanau fethi bougares holger schwenk and yoshua bengio
+
+learning phrase representations using rnn encoder decoder for statistical machine translation
+in proceedings of the pages
+chopra et al
+sumit chopra michael auli and alexander m
+rush
+
+abstractive sentence marization with attentive recurrent neural networks
+in proceedings of naacl pages
+cohn and trevor cohn and mirella lapata
+
+sentence compression beyond word deletion
+in proceedings of pages
+bahdanau et al
+dzmitry bahdanau kyunghyun cohn and trevor cohn and mirella lapata
+
+an abstractive approach to sentence sion
+acm july
+models
+
+in proceedings of naacl pages dorr et al
+bonnie dorr david zajic and richard schwartz
+
+hedge trimmer a parse and trim approach to headline generation
+in proceedings of the hlt naacl text summarization workshop pages
+filippova and katja filippova and yasemin altun
+
+overcoming the lack of parallel data in sentence compression
+in proceedings of pages
+filippova and katja filippova and michael strube
+
+dependency tree based sentence pression
+in proceedings of pages
+filippova et al
+katja filippova enrique seca carlos a
+colmenares lukasz kaiser and oriol vinyals
+
+sentence compression by deletion with lstms
+in proceedings of pages
+galanis and dimitrios galanis and ion androutsopoulos
+
+an extractive vised two stage method for sentence compression
+in proceedings of naacl pages
+graves al
+a
+graves n
+jaitly and a
+r
+hamed
+
+hybrid speech recognition with deep bidirectional lstm
+in proceedings of ieee workshop on pages
+gu et al
+jiatao gu zhengdong lu hang li and victor o
+k
+li
+
+incorporating copying anism in sequence to sequence learning
+in ings of pages
+gulcehre et al
+caglar gulcehre sungjin ahn ramesh nallapati bowen zhou and yoshua bengio
+
+pointing the unknown words
+in proceedings of pages
+hochreiter and sepp hochreiter and jurgen schmidhuber
+
+long short term memory
+neural computation
+al
+rafal jozefowicz wojciech zaremba and ilya sutskever
+
+an empirical exploration of recurrent network architectures
+in proceedings of pages
+kalchbrenner and nal kalchbrenner and phil blunsom
+
+recurrent continuous translation in proceedings of pages models
+seattle washington usa october
+association for computational linguistics
+kingma and diederik p
+kingma and jimmy ba
+
+adam a method for stochastic tion
+in proceedings of
+et al
+jiwei li michel galley chris brockett jianfeng gao and bill dolan
+
+a promoting objective function for neural conversation et al
+jiwei li michel galley chris brockett georgios spithourakis jianfeng gao and bill dolan
+
+a persona based neural conversation model
+in proceedings of pages
+chin yew lin
+
+rouge a package for automatic evaluation of summaries
+in proceedings of the workshop pages
+konstantin lopyrev
+
+generating news headlines with recurrent neural networks
+corr
+
+luong et al
+thang luong hieu pham and christopher d
+manning
+
+effective approaches to attention based neural machine translation
+in proceedings of pages
+nallapati et al
+ramesh nallapati bing xiang and bowen zhou
+
+sequence to sequence rnns for text summarization
+corr
+
+napoles et al
+courtney napoles chris burch juri ganitkevitch and benjamin van durme
+
+paraphrastic sentence compression with a character based metric tightening without deletion
+in proceedings of the workshop on monolingual to text generation pages
+napoles et al
+courtney napoles matthew ley and benjamin van durme
+
+annotated gaword
+in proceedings of the joint workshop on tomatic knowledge base construction and web scale knowledge extraction pages
+nenkova and ani nenkova and leen mckeown
+
+automatic summarization
+in foundations and trends r in information retrieval volume pages
+sumit ranzato et al
+marcaurelio chopra michael auli and wojciech zaremba
+
+sequence level training with recurrent neural networks
+corr
+
+ranzato rosenfeld et al
+ronald rosenfeld stanley f
+chen and xiaojin zhu
+
+whole sentence exponential language models a vehicle for statistical integration
+computer speech language
+rush et al
+alexander m
+rush sumit chopra and jason weston
+
+a neural attention model for in proceedings abstractive sentence summarization
+of pages
+schuster and m
+schuster and k
+k
+bidirectional recurrent neural ieee transactions on signal processing
+wal
+works
+
+sennrich et al
+rico sennrich barry haddow and alexandra birch
+
+controlling politeness in ral machine translation via side constraints
+ceedings of naacl pages
+in serban et al
+iulian vlad serban alessandro doni yoshua bengio aaron c
+courville and joelle pineau
+
+building end to end dialogue systems using generative hierarchical neural network models
+in proceedings of pages
+sutskever et al
+ilya sutskever oriol vinyals and quoc v le
+
+sequence to sequence learning with in proceedings of pages neural networks
+
+tokui et al
+seiya tokui kenta oono shohei hido and justin clayton
+
+chainer a generation open source framework for deep learning
+in proceedings of workshop on learningsys
+vinyals et al
+oriol vinyals lukasz kaiser terry koo slav petrov ilya sutskever and geoffrey e
+ton
+
+grammar as a foreign language
+in ceedings of pages
+vinyals et al
+oriol vinyals alexander toshev samy bengio and dumitru erhan
+
+show and in tell a neural image caption generator
+ings of the ieee conference on computer vision and pattern recognition pages
+wen et al
+tsung hsien wen milica gasic nikola mrksic pei hao su david vandyke and steve young
+
+semantically conditioned lstm based natural language generation for spoken dialogue tems
+in proceedings of pages lisbon portugal september
+association for tational linguistics
+woodsend et al
+kristian woodsend yansong feng and mirella lapata
+
+title generation with in proceedings of the quasi synchronous grammar
+pages
+wubben et al
+sander wubben antal van den bosch and emiel krahmer
+
+sentence cation by monolingual machine translation
+in ceedings of pages
+xu et al
+kelvin xu jimmy ba ryan kiros kyunghyun cho aaron courville ruslan nov rich zemel and yoshua bengio
+
+show attend and tell neural image caption generation with visual attention
+in david blei and francis bach editors proceedings of pages
+jmlr workshop and conference proceedings
+zajic et al
+david zajic bonnie j dorr and r
+schwartz
+
+bbn umd at topiary
+in proceedings of naacl document standing workshop pages
+

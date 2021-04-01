@@ -1,0 +1,1808 @@
+c e d l c
+s c v
+v i x r a ctrlsum towards generic controllable text summarization junxian he carnegie mellon university
+cmu
+edu wojciech krysci nski bryan mccann nazneen rajani caiming xiong salesforce research kryscinski bmccann nazneen
+
+com abstract current summarization systems yield generic summaries that are disconnected from users preferences and expectations
+to address this limitation we present ctrlsum a novel framework for controllable summarization
+our approach enables users to control multiple aspects of generated summaries by interacting with the summarization system through textual input in the form of a set of words or descriptive prompts
+using a single unied model ctrlsum is able to achieve a broad scope of summary manipulation at inference time without ing additional human annotations or pre dening a set of control aspects during training
+we quantitatively demonstrate the effectiveness of our approach on three domains of summarization datasets and ve control aspects entity centric and length controllable summarization contribution summarization on scientic pers invention purpose summarization on patent lings and question guided summarization on news articles in a reading comprehension setting
+moreover when used in a standard uncontrolled summarization setting ctrlsum achieves state of the art results on the cnn dailymail dataset
+introduction neural summarization systems aim to compress a document into a short paragraph or sentence while preserving key information
+there are largely two categories of summarization systems extractive summarization that extracts important portions of a document cheng lapata nallapati et al
+narayan et al
+and abstractive summarization that freely generates novel sentences rush et al
+see et al
+paulus et al
+which can produce coherent and uent summaries more exibly
+in this paper we focus on abstractive summarization
+typically abstractive summarization methods take a document as input and yield a generic summary to cover certain information identied by the model
+however content of interest is user dependent
+summaries should select information with respect to preferences of a user
+for example figure shows an nba basketball news article and the reference summary describes several match results
+however fans of certain basketball stars in these teams such as lebron james or stephen curry might only be interested in the matches they played and would like to know the player s scores as well
+motivated by this we focus on controllable summarization which allows the users to manipulate the summaries from the model
+we propose ctrlsum a framework to control summaries through control tokens in the form of a set of keywords or descriptive prompts
+at training time the model learns to predict summaries conditioned on both the source document and keywords that serve as external guidance
+during inference keywords and optional prompts which are the target prex to constrain decoding are combined as control tokens to convey user preferences as shown in figure
+work done during internship at salesforce research and model checkpoints are available at
+com salesforce ctrl sum
+figure workow of the ctrlsum framework at inference time
+users interact with summaries through textual control tokens in the form of keywords or prompts
+keywords are required as input during training and testing while prompts are optionally used at test time
+dashed lines represent optional paths control tokens can come from the source article user or both
+the right portion of the gure shows actual outputs from ctrlsum
+keywords and prompts are complementary
+prompts do not perform well in many cases such as entity or length controlled summarization as our preliminary experiments imply but keywords can achieve those goals in a exible way for example by using entity as keywords or varying the number of keywords to control entities and length respectively
+however keywords struggle in more open ended scenarios like summarizing a list of contributions of scientic papers while constraining the coding with prompt the main contributions of this paper is possibly sufcient to achieve the goal
+ctrlsum is trained using only keywords as additional input which can be easily identied from training summaries
+it requires neither extra human annotations nor pre dening control aspects for training yet is quite exible to achieve a broad scope of text manipulation as we will show in this paper
+in contrast prior work primarily rely on pre dened control codes fan et al
+liu et al
+keskar et al
+thus need to collect annotations for training and can not generalize to unseen control aspects easily at test time
+we use pretrained bart lewis et al
+as the underlying architecture and perform experiments on three datasets in three distinct domains cnn dailymail news articles hermann et al
+arxiv scientic papers cohan et al
+and bigpatent patent documents sharma et al
+
+we quantitatively evaluate ctrlsum on ve control aspects entity centric
+and length controllable summarization
+summarizing the contributions of scientic papers summarizing the purpose of an invention
+and summarizing answers to given questions in a zero shot reading comprehension setting
+
+notably our approach also achieves comparable or superior performance to the strong bart summarization model on all datasets in a standard uncontrolled setting
+leading to state of the art results on the cnn dailymail dataset
+ctrlsum
+overview unconstrained neural summarization methods are trained to learn the conditional distribution where and y represent the source document and summary respectively
+the generated summaries depend solely on the document without human involvement
+to control the output summaries we propose using additional control tokens to represent user preferences and training a summarization model that predicts the conditional distribution
+the control tokens include keywords as extra inputs during training and inference
+they can also optionally include prompts at test time to further constrain the decoding process
+as shown in figure control tokens in the form of keywords prompts or a combination of both act as an interface between users and an otherwise black box neural model providing a exible way for users dwyane wade scored of his points in the first half and goran dragic added as the miami heat handed lebron james another loss on his former home floor with a victory over the cleveland cavaliers on monday ignoring tokens james scored of his points in the fourth quarter for cleveland which had its four game winning streak snapped
+kyrie irving added
+klay thompson scored points and stephen curry had points and nine assists as the golden state warriors secured a playoff spot before beating the depleted los angeles lakers ignoring summarycontrol tokenskeywords based modeltaggeruserkeywordspromptsmiami heat ended cleveland cavaliers winning run with victory
+dallas came from down to beat oklahoma city thunder
+golden state warriors toronto raptors and boston celtics also won
+keywords dwyane wademiami heat beat cleveland cavaliers at home on monday
+dwyane wade scored of his points in the first half
+keywords kyrie irving lebron james miami heat beat cleveland cavaliers at home on monday
+lebron james scored points but kyrie irving added
+keywords q how many scores did stephen curry get a prompt q how many scores did stephen curry get a
+to explicitly control automatic summarization
+next we describe how to obtain automatic keywords for training as well as potential applications at test time
+
+automatic keyword extraction in addition to extracting keywords from training data to train the model ctrlsum also features an automatic keywords extraction mechanism at test time which can be used to suggest automatic keywords according to user preferences or perform uncontrolled summarization without user signals
+next we describe the keywords extraction methods at training and inference time respectively
+training
+for training we use the ground truth summary to identify keywords in the source document
+specically we rst greedily select sentences from the document that maximize the rouge scores lin with the reference summary
+this step constrains keywords to those found in important sentences
+then we identify all the longest sub sequences in the extracted sentences that have matched sub sequences in the ground truth summary similar to the copying word recognition method in gehrmann et al
+
+finally we remove duplicate words and stop words and keep the remaining tokens as keywords
+compared to other keywords extraction methods riloff lehnert mihalcea tarau which output only a few salient words our extraction retains most content words found in the summary
+this encourages dependence on the given keywords by building a reliable correlation between their presence in the input and the target
+it in turn ensures that user provided keywords are not ignored by the model at test time which is catastrophic for a controllable summarization system
+inference
+we formulate the keyword extraction problem at test time as a sequence labeling task
+concretely we train a bert based sequence tagger devlin et al
+on the keywords and documents from training dataset
+this tagger then computes the selection probability qj for each token in the test document
+similar to training time extraction we rst select ns sentences with the highest average token selection probability
+within these sentences words with qj are selected as keywords up to a maximum number of mmax
+the three hyperparameters ns mmax are selected based on the uncontrolled summarization performance on validation datasets
+the results are reasonably robust to different settings see appendix d for details
+
+summarization training details format
+at training time we prepend the keyword sequence to the source document separated with a special token
+the summarization model is then trained to maximize in an end to end fashion
+the keyword sequence maintains the order of the keywords as they were in the source document but we observe that the model often ignores this ordering as it frequently differs between source and target summary
+we also separate keywords from different source sentences with the special token
+in applications where the sentence boundary is unknown as when users propose their own keywords the token can be ignored as in some of our experiments
+keyword dropout
+as mentioned in
+our keyword extraction strategy retains most words from the summary found in the source document
+without regularization the dependence on such keywords is strong enough that the model rarely generates novel words in the summary
+to remedy this we randomly drop keywords at training time so that the model learns to rely on keywords that are present in the input while also learning to still carry over key information from the source document that is not present in the keywords
+note that keywords dropout is applied at training time only
+next we are going to introduce the ve control aspects that we study in this paper as example use cases of ctrlsum
+qualitative examples of them are shown in table
+
+summarization inference with keywords
+the keywords provide a generic interface to control multiple aspects of summaries which allows the user to optionally rely on automatically extracted keywords user provided keywords or a combination of both
+this method provides clean separation of test time user control and the training process including pretraining
+consequently ctrlsum can be adapted to new use cases without changing model parameters
+for example though nothing during training specically focuses on controlling table qualitative examples from the output of ctrlsum
+left column shows source or the generic reference summary
+keywords are bolded
+that the tokens are used as both keywords and prompts
+source or reference control aspect keywords bolded or prompts and model output source hundreds of additional iraqi troops are being sent to reinforce colleagues who are trying to fend off isis attempt to overrun iraq s largest oil renery a key paramilitary force said tuesday
+the reinforcements come four days after isis began attacking northern iraq s baiji oil renery a key strategic resource that has long been a target because the facility renes much of the fuel used by iraqis domestically
+the additional troops came from camp speicher a fortied iraqi base near the city of tikrit according to the media ofce of the hasd shaabi militia
+the reinforcements include two federal police regiments an iraqi military quick reaction force battalion and a regiment from hasd al shaabi
+ignoring tokens the renery is kilometers miles from tikrit
+reference multiple sclerosis is a degenerative condition of the central nervous system that affects nearly
+lion of individuals in terms of their ignoring tokens
+in this work we resort to regularized machine learning methods for binary classication and multiple output gression we propose a pipeline that can be used to predict the disease progression from patient reported measures
+the obtained model is tested on a data set collected from an ongoing clinical research project
+reference an implantable intraocular pressure sensor system has a sealed geometric shape with an internal sure at a rst value
+the sealed geometric shape has a rst light permitting surface and a second exible surface
+a pair of photocells is located in the sealed geometric shape
+a light shield is coupled to the second exible surface
+when the second exible surface is deected a light surement by the pair of photocells indicates an lar pressure condition
+entity length isis the reinforcements come four days after isis began attacking baiji oil renery
+hasd al shaabi the reinforcements come from camp speicher a fortied iraqi base near tikrit
+they include two federal police regiments an iraqi military quick reaction force battalion and a regiment from hasd al shaabi
+length bucket iraqi troops isis oil renery come days attacking baiji renery base tikrit the inforcements come four days after isis began attacking iraq s baiji oil renery
+the additional troops came from camp speicher a fortied iraqi base near tikrit
+qa q where did the additional troops come from a camp speicher near the city of tikrit
+contribution the main contributions of this paper are we propose a regularization based data analysis pipeline for the prediction of the transition point between relapsing remitting and secondary progressive forms of multiple sclerosis we test the performance of the proposed pipeline on a data set collected from patients currently enrolled in an ongoing funded project we discuss the potential role of patient reported outcome measures proms in the study of the disease evolution
+purpose the purpose of the present invention is to provide an intraocular pressure measuring system that is small enough to be implanted in the eye of a patient entities or length examples below demonstrate the general applicability of keyword control to entity and length manipulation
+entity control
+the goal of entity control is to produce summaries that focus on entities of interest
+figure exemplies summarization with respect to different players when those player names are included as keywords directly inuencing the summary
+length control
+users may have different preferences as to the length of summaries
+we allow such manipulation of the summary length through a user specied length parameter
+specically we rst separate the training data into buckets by summary length so that each bucket has the same number of examples
+then we compute the average number of keywords kl for each bucket on the training data
+at test time a user can specify length parameter l to include the kl keywords with the highest selection probability computed by the sequence tagger
+this is similar to saito et al
+which uses the number of guiding words to control summary length
+
+summarization inference with keywords and prompts prompts are pre dened text sequences used as the target prex to constrain decoding
+they have been utilized to perform multi purpose text generation with a single unied model radford et al
+brown et al
+
+in the ctrlsum framework prompts are a kind of control token sequence and we always use such tokens as both the target prex and keywords ablation results on using prompts as keywords or prex alone can be found in appendix c
+we nd that using prompts as keywords besides prex helps focus on prompt related content and mitigate the over generation issue of vanilla summarization models as we will show in
+
+to the best of our knowledge we are the rst to evaluate such a prompt based control method for summarization systems
+summarizing contributions
+existing datasets about scientic papers such as arxiv cohan et al
+collect paper abstracts as the summaries which often include extra background context and lack detailed contribution descriptions for the associated paper
+in many cases readers would benet from an explicit list of contributions in order to understand the novelty and value of the paper
+for these cases we propose using control tokens the main contributions of this paper
+this prompt then triggers generation of a summary focused on contributions
+summarizing invention purpose
+patent article summaries in existing datasets such as patent sharma et al
+can be over complicated often covering core method details
+yet for a non technical reader it would be preferred to provide a one sentence summary that states the purpose of the invention while ignoring technical details
+to apply ctrlsum in this scenario we use the control tokens the purpose of the present invention is
+this triggers a concise summary focused on patent purpose
+question guided summarization
+human summarization can be constrained by questions cinski et al
+that require answers to be found in the summary
+this points to an important connection between summarization and reading comprehension that we further explore
+we esize that a summarization model can directly answer some questions about the article if guided properly
+this suggests the possibility of subsuming reading comprehension as a form of tion
+to verify this hypothesis we use the control tokens q question text a to trigger reading comprehension behaviour
+we note that and keywords based control are complementary in practice while prompts could theoretically achieve any type of control empirically they often do not work well for many aspects and the model is very sensitive to the precise wording of the prompt
+for example we found that using prompts such as a summary focused on entity is or a short summary is does not work as well as explicitly using keywords for entity or length control details can be found in appendix c
+related work previous work on controllable summarization often collects control codes such as entity or length as supervision to train the model conditioned on both the code and article together fan et al
+liu et al
+
+these methods do not generalize for controlling aspects of the summarization that were not seen during training
+recently saito et al
+use the number of word prototypes to control summary length in a similar way to how we use keywords
+interactive summarization provides a way for users to continuously control the information that is included in the summary bornstein et al
+leuski et al
+
+more broadly controllable text generation has been studied for styles hu et al
+fu et al
+he et al
+topics tang et al
+huang et al
+and templates guu et al
+wiseman et al
+he et al
+
+keyword guided text generation has been applied in other contexts with different motivations
+gehrmann et al
+utilize copying words at test time to mask copying operations in a marization task
+li et al
+and saito et al
+use keywords as extra input to improve the uncontrolled summarization performance
+wang et al
+mou et al
+and yao et al
+use textual input to plan poetry dialogue and stories respectively
+lexically constrained decoding species certain lexicons as hard constraints in the target text hokamp liu post vilar
+prex constrained decoding was used in machine translation knowles koehn wuebker et al
+and also to demonstrate the multi task ability present in large pretrained models mccann et al
+radford et al
+keskar et al
+brown et al
+
+experiments our experiments below are designed to test the control efcacy of ctrlsum on ve different aspects and examine the performance of ctrlsum in a traditional summarization setting without external control signals
+also extensive model output examples can be found in appendix e
+
+experimental details we perform experiments on three distinct domain summarization datasets cnn dailymail ndm news articles hermann et al
+arxiv scientic papers cohan et al
+and bigpatent patent articles sharma et al
+
+for all datasets the source documents are table summarization performance with oracle entity or length signals from the reference summary
+sum automatic represents our model using automatic keywords in an uncontrolled setting
+lengthcode is a length control baseline
+both bart and lengthcode numbers are from our runs
+model cnndm arxiv l bertscore l bertscore bart lewis et al
+ctrlsum automatic
+
+
+
+
+
+lengthcode fan et al
+ctrlsum oracle entity ctrlsum oracle length
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table entity control results on cnndm
+success rate is the fraction of decoded summaries that actually mention the given entity while factual correctness is the fraction of summaries that are judged as factually correct by human annotators
+the bart numbers are in terms of unconstrained generated summaries
+entitycode numbers are directly from fan et al
+which is obtained with a weaker convolutional architecture and requires entity annotations at training time
+model success rate factual correctness full article important unimportant bart lewis et al
+entitycode fan et al
+ctrlsum
+
+
+
+
+
+
+
+
+cated to tokens and the target summaries are truncated to tokens following zhang et al
+
+the conditional distribution in ctrlsum is our ne tuned version of the pretrained bartlarge model lewis et al
+which achieves state of the art performance on several summarization benchmarks
+the automatic keyword tagger at test time is based on the pretrained bertlarge model devlin et al
+ne tuned as described in
+
+our summarization model implementation is based on the fairseq toolkit ott et al
+and the automatic keyword extraction model is based on the huggingface transformers library wolf et al
+
+complete setup and training details can be found in appendix a
+
+for evaluation we measure commonly used rouge scores lin and the recently proposed bertscore zhang et al
+when ground truth is available
+for control related evaluation where we often do not have reference summaries we collect ground truth summaries when possible examine whether summaries respect the control signal or resort to human evaluation
+
+entity control setup
+we rst simulate user preference by providing the model with oracle entities extracted from the ground truth target
+then we compare it to the model using automatic keywords in a uncontrolled setting to show the effect of oracle entities
+to examine whether the decoded summaries respect entity change we sample documents and repeatedly acquire every entity in the document to generate summaries following fan et al
+
+then we compute success rate the fraction of requested entity actually occurring in the output summaries
+the results are reported in separation of whether the entity is from leading sentences or from the full article
+to test if the summaries from different entity input are factually consistent with the document we sample another documents and for each we randomly sample one important entity that appears in the reference and one unimportant entity that occurs neither in the reference nor the leading three source sentences to produce summaries
+for each article summary pair we ask annotators from amazon mechanical turk to make a binary decision as to whether the summary can be entailed from the article
+we then take the majority vote as the result and report the fraction of factually correct summaries
+we evaluate on cnndm only since many examples in arxiv and bigpatent do not have identiable entities
+results
+in table we observe that the use of oracle entities helps boost the score by
+points compared with using automatic keywords which means ctrlsum is able to take advantage of the given entities
+table shows the success rate and factual correctness evaluations
+we include the numbers from fan et al
+entitycode for reference point
+we note that their numbers come table length control performance
+mad measures the deviation of output length from reference length while pcc represents the correlation between given length signal and the actual output length
+model cnndm arxiv mad pcc mad pcc bart ctrlsum automatic lengthcode fan et al
+ctrlsum length
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table scores on the dev set of newsqa and squad
+results are from our runs
+the bart baseline and use prompts while ctrlsum use the same trigger as both keywords and prompts
+model newsqa squad
+spanbert joshi et al
+matchlstm wang jiang supervised zero shot large m params ne tuning bart m params ne tuning bart m params ne tuned on cnndm ctrlsum m params trained on cnndm
+
+
+
+
+
+
+
+
+
+
+
+from a convolutional architecture see appendix b for ablation analysis on this and their method utilizes entity annotations during training time thus is not very comparable to ctrlsum
+remarkably our model achieves a high success rate for both and full article entities reaching around
+yet other systems struggle to include the given entities especially for the ones that do not occur in the beginning of the article
+factual correctness scores from human annotators suggest that ctrlsum is able to generate factually consistent summaries no matter whether the entity of interest is important or not comparable to the unconstrained bart baseline
+
+length control setup
+similar to entity control we rst examine the effect of oracle length signal from the reference to simulate user preference
+in addition to rouge and bertscore we measure the length distance between the decoded summary and the reference following liu et al
+
+specically we compute the mean of absolute deviation mad of the actual length bucket code lsys of the decoded summary from the ground truth control code lref as ref
+to assess the summary n variations as length signals change we further sample documents and decode different length summaries for each document
+then we report the pearson correlation coefcient pcc between the input bucket code and actual bucket code
+experiments are conducted on cnndm and arxiv
+sys n results
+in table ctrlsum with oracle length signals only presents relatively small gains over the automatic ctrlsum baseline
+this implies that oracle lengths only convey limited additional information to help generate the reference summary
+we also run the lengthcode baseline fan et al
+based on bart where the ground truth length bucket code is prepended to the article at both training at test time
+however lengthcode fails to consistently improve over bart with oracle length signals
+moreover we nd that the bart model ne tuned with lengthcode method almost ignores the length signal with pcc close to as shown in table
+this is not very surprising since length code would be less useful when the summarizers grow stronger which can already learn a good length predictor implicitly
+in contrast ctrlsum with length guided keywords achieves high positive pcc between control signal and actual output length and is able to reduce the length deviation mad compared to automatic baselines
+
+contribution and purpose summarization contribution summarization setup
+there is no existing dataset to evaluate contribution marization of scientic papers bringing challenges to our evaluation
+however researchers often summarize the bullet contributions of their paper in the introduction section which inspire us to extract such contribution claims as the reference summary
+therefore we resort to the entire arxiv and download all the papers whose rst submission time is within the rst six months of that gives us k papers
+we extract the introduction section and bullet contributions with regular expression and lter out the ones that fail
+the contributions are used as the reference and the introduction section after removing the contribution claims is used as the source article we aim do not use the arxiv test set because we can only extract valid test points from it
+the entire arxiv database is at
+kaggle
+com cornell university arxiv arxiv dataset used to train ctrlsum is collected before april according to their paper submission time thus there should be no data overlap between the training data and our contribution test data
+table summarization performance on contributions of papers and purpose of inventions
+the bart baseline uses prompts while ctrlsum use the same trigger as both keywords and prompts
+model contribution patent purpose l bertscore p r l bertscore p r bart prompt ctrlsum
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+to predict contributions from the rest of the introduction section
+this procedure leads to test examples
+we test the model trained on arxiv
+purpose summarization setup
+to collect a test dataset that features one sentence invention purpose summaries we sample test examples from bigpatent and present their reference summaries to human annotators from amazon mechanical turk
+for each example we ask one annotator to select the sentence that convey the purpose of the invention
+we also provide the option for annotators that the invention purpose can not be identied
+after ltering out the invalid examples we collect examples as our test data
+results
+table shows results of contribution summarization on scientic papers and invention purpose summarization on patent lings
+through using the prompt text as both the decoder and keywords ctrlsum outperforms the bart baseline in most cases
+we further report the precision p and recall r scores in bertscore besides
+we observe that the bart baseline tends to over generate a full summary with low precision scores while ctrlsum is able to focus on keywords related content
+
+question guided summarization setup
+we directly test question guided summarization on reading comprehension benchmarks in a zero shot setting
+specically we evaluate the cnndm summarization models on in domain newsqa trischler et al
+and out of domain squad
+rajpurkar et al
+respectively
+we note that some newsqa test articles are present in the cnndm summarization training dataset yet we think it is still a reasonable unsupervised setting since our model never sees questions or answers during training
+in addition to comparing with the vanilla bart model we also include the zero shot performance from language models radford et al
+without ne tuning as a reference point
+we omit the largest model with
+parameters since it can not be evaluated in our single gpu device due to memory limits
+we report scores on the two benchmarks
+results
+bart is pretrained with a denoising task to predict the denoised version of the source and performs poorly on zero shot reading comprehension out of box as shown in table
+interestingly however bart ne tuned on a summarization task without seeing any question answer pairs in the training data is able to improve the scores by
+and
+points on newsqa and squad respectively
+moreover ctrlsum equipped with question keywords is able to further boost the performance by
+and
+points approaching the supervised matchlstm wang jiang score on newsqa
+such results suggest that summarization might be a suitable transfer task for abstractive reading comprehension which we leave for future work to explore
+
+automatic summarization table shows the uncontrolled summarization performance without any user input where our method uses the automatically extracted keywords as described in
+
+on cnndm and arxiv datasets ctrlsum outperforms the strong bart and pegasus baselines by a large margin leading to new state of the art performance on cnndm
+it also performs comparably to the bart baseline on bigpatent in terms of bertscore though with an inferior score
+yet there is a big performance gap between bart based models and pegasus on bigpatent
+the reasons might be different dataset sub optimal learning schedule or inherent difference between bart and pegasus
+table uncontrolled summarization performance
+automatic keywords are from the sequence tagger while oracle keywords are obtained utilizing the gold summaries
+we report the oracle performance for a reference point
+the bart results are from our runs
+bs denotes bertscore
+model cnndm l bs arxiv l bigpatent bs l bs ctrlsum oracle keywords
+
+
+
+
+
+
+
+
+
+
+
+bart lewis et al
+pegasus zhang et al
+ctrlsum automatic keywords
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table human evaluation scores scale higher is better on entity control and purpose control experiments
+control accuracy ca and control relevance cr are reported
+a score signicantly different according to the welch two sample t test with p
+than ctrlsum is denoted by
+model important entity unimportant entity ca cr ca cr purpose ca cr ctrlsum
+
+bart
+
+
+
+
+
+
+
+
+
+table human evaluation scores scale higher is better of uncontrolled summarization performance
+evaluation dimensions from left to right are factual consistency fac relevance rel uency flu coherence coh
+a score signicantly different according to the welch two sample t test with p
+than ctrlsum automatic keyword is denoted by
+model cnndm arxiv fac rel flu coh fac rel flu coh fac rel flu coh bigpatent ctrlsum automatic keyword bart ctrlsum oracle keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+human evaluation in this section we present human evaluation results for both controlled and uncontrolled tion
+full experiment details can be found in appendix a
+
+controlled summarization
+we present further human evaluation results to evaluate control directly by informing annotators the intended control signal
+we conduct experiments on entity and purpose control
+specically we inform the annotators our intent to obtain summaries focused on a specic entity or purpose of patent then we ask them to provide scores in scale over two dimensions control accuracy ca whether the summary contains accurate main information with respect to the intent and control relevance cr how the summary is relevant to the control intent overall a summary that contains redundant contents that are unrelated to the intent will be penalized
+results including signicance tests are shown in table
+the control accuracy for important entity control and purpose control are comparable between bart and ctrlsum without signicant difference p value
+while ctrlsum shows signicantly better control relevance overall by focusing on the desired information
+also the unconstrained bart are unable to generate unimportant entity related summaries and thus suffers from poor scores on both dimensions
+uncontrolled summarization
+we follow grusky et al
+fabbri et al
+to ask human annotators from amazon mechanical turk to score summaries scale over four dimensions factual consistency fac the summary should only contain statements that can be entailed by the source document relevance rel the summary should only contain important information of the source document fluency flu each sentence in the summary should be uent and coherence coh the summary should be well structured and well organized
+results including signicance tests are present in table
+the quality of summaries from all systems on all dimensions is generally good with a score mostly higher than
+
+however most scores do not show signicant difference from ctrlsum automatic keyword with large p values despite their very different similarities against the reference summaries in terms of rouge bertscore e
+
+ctrlsum with oracle keywords
+this implies that the summary quality from different systems powered by strong pretrained models like bart has become difcult to be clearly distinguished by non expert mturkers
+updated the bigpatent data to preserve casing and applied some format cleaning
+we also note that non expert human judgement for summarization may be unreliable and exhibit poor correlation with expert judgement gillick liu fabbri et al
+
+in this paper we propose a generic framework to perform multi aspect controllable summarization
+the model is conditioned on keywords to predict summaries during training
+at inference time the control tokens in the form of keywords or prompts enable users to interact with models in a very exible way
+experiments on ve different control aspects demonstrate the efcacy of our method
+conclusion references jeremy j bornstein douglass r cutting john d hatton and daniel e rose
+interactive document summarization
+us patent
+tom b brown benjamin mann nick ryder melanie subbiah jared kaplan prafulla dhariwal arvind neelakantan pranav shyam girish sastry amanda askell al
+language models are few shot learners
+arxiv preprint
+
+jianpeng cheng and mirella lapata
+neural summarization by extracting sentences and words
+in proceedings of acl
+arman cohan franck dernoncourt doo soon kim trung bui seokhwan kim walter chang and nazli goharian
+a discourse aware attention model for abstractive summarization of long documents
+in proceedings of naacl short papers
+jacob devlin ming wei chang kenton lee and kristina toutanova
+bert pre training of deep bidirectional transformers for language understanding
+arxiv preprint
+
+alexander r fabbri wojciech kryscinski bryan mccann caiming xiong richard socher and dragomir radev
+summeval re evaluating summarization evaluation
+arxiv preprint
+
+angela fan david grangier and michael auli
+controllable abstractive summarization
+in ings of the workshop on neural machine translation and generation
+zhenxin fu xiaoye tan nanyun peng dongyan zhao and rui yan
+style transfer in text ration and evaluation
+
+jonas gehring michael auli david grangier denis yarats and yann n dauphin
+convolutional sequence to sequence learning
+in proceedings of icml
+sebastian gehrmann yuntian deng and alexander m rush
+bottom up abstractive summarization
+in proceedings of emnlp
+dan gillick and yang liu
+non expert evaluation of summarization systems is risky
+in proceedings of the naacl hlt workshop on creating speech and language data with amazon s mechanical turk
+max grusky mor naaman and yoav artzi
+newsroom a dataset of
+million summaries with diverse extractive strategies
+in naacl
+kelvin guu tatsunori b hashimoto yonatan oren and percy liang
+generating sentences by editing prototypes
+transactions of the association for computational linguistics
+junxian he taylor berg kirkpatrick and graham neubig
+learning sparse prototypes for text generation
+in proceedings of neurips
+junxian he xinyi wang graham neubig and taylor berg kirkpatrick
+a probabilistic formulation of unsupervised text style transfer
+in proceedings of iclr
+karl moritz hermann tomas kocisky edward grefenstette lasse espeholt will kay mustafa suleyman and phil blunsom
+teaching machines to read and comprehend
+in proceedings of neurips
+chris hokamp and qun liu
+lexically constrained decoding for sequence generation using grid beam search
+in proceedings of acl
+zhiting hu zichao yang xiaodan liang ruslan salakhutdinov and eric p xing
+toward controlled generation of text
+in proceedings of icml
+qiuyuan huang zhe gan asli celikyilmaz dapeng wu jianfeng wang and xiaodong he
+erarchically structured reinforcement learning for topically coherent visual story generation
+in proceedings of aaai
+mandar joshi danqi chen yinhan liu daniel s weld luke zettlemoyer and omer levy
+spanbert improving pre training by representing and predicting spans
+transactions of the association for computational linguistics
+nitish shirish keskar bryan mccann lav r varshney caiming xiong and richard socher
+ctrl a conditional transformer language model for controllable generation
+arxiv preprint
+
+diederik p kingma and jimmy ba
+adam a method for stochastic optimization
+in proceedings of iclr
+rebecca knowles and philipp koehn
+neural interactive translation prediction
+in proceedings of the association for machine translation in the americas pp
+
+wojciech kryscinski nitish shirish keskar bryan mccann caiming xiong and richard socher
+neural text summarization a critical evaluation
+in proceedings of emnlp
+anton leuski chin yew lin and eduard hovy
+ineats interactive multi document summarization
+in proceedings of acl
+mike lewis yinhan liu naman goyal marjan ghazvininejad abdelrahman mohamed omer levy ves stoyanov and luke zettlemoyer
+bart denoising sequence to sequence pre training for natural language generation translation and comprehension
+arxiv preprint
+
+chenliang li weiran xu si li and sheng gao
+guiding generation for abstractive text tion based on key information guide network
+in naacl short papers
+chin yew lin
+rouge a package for automatic evaluation of summaries
+in text summarization branches out
+yizhu liu zhiyi luo and kenny zhu
+controlling length in abstractive summarization using a convolutional neural network
+in proceedings of emnlp
+bryan mccann nitish shirish keskar caiming xiong and richard socher
+the natural language decathlon multitask learning as question answering
+arxiv preprint
+
+rada mihalcea and paul tarau
+textrank bringing order into text
+in proceedings of emnlp
+lili mou yiping song rui yan ge li lu zhang and zhi jin
+sequence to backward and forward sequences a content introducing approach to generative short text conversation
+in proceedings of coling
+ramesh nallapati feifei zhai and bowen zhou
+summarunner a recurrent neural network based sequence model for extractive summarization of documents
+in proceedings of aaai
+shashi narayan shay b cohen and mirella lapata
+ranking sentences for extractive summarization with reinforcement learning
+in proceedings of naacl
+myle ott sergey edunov alexei baevski angela fan sam gross nathan ng david grangier and michael auli
+fairseq a fast extensible toolkit for sequence modeling
+in proceedings of naacl demo paper
+romain paulus caiming xiong and richard socher
+a deep reinforced model for abstractive summarization
+in proceedings of iclr
+matt post and david vilar
+fast lexically constrained decoding with dynamic beam allocation for neural machine translation
+in proceedings of naacl
+alec radford jeffrey wu rewon child david luan dario amodei and ilya sutskever
+language models are unsupervised multitask learners
+openai blog
+pranav rajpurkar jian zhang konstantin lopyrev and percy liang
+squad questions for machine comprehension of text
+in proceedings of emnlp
+ellen riloff and wendy lehnert
+information extraction as a basis for high precision text classication
+acm transactions on information systems tois
+alexander m rush sumit chopra and jason weston
+a neural attention model for abstractive sentence summarization
+in proceedings of emnlp
+itsumi saito kyosuke nishida kosuke nishida atsushi otsuka hisako asano junji tomita hiroyuki shindo and yuji matsumoto
+length controllable abstractive summarization by guiding with summary prototype
+arxiv preprint
+
+itsumi saito kyosuke nishida kosuke nishida and junji tomita
+abstractive summarization with combination of pre trained sequence to sequence and saliency models
+arxiv preprint
+
+abigail see peter j liu and christopher d manning
+get to the point summarization with pointer generator networks
+in proceedings of acl
+eva sharma chen li and lu wang
+bigpatent a large scale dataset for abstractive and coherent summarization
+in proceedings of acl
+jianheng tang tiancheng zhao chenyan xiong xiaodan liang eric xing and zhiting hu
+guided open domain conversation
+in proceedings of acl
+adam trischler tong wang xingdi yuan justin harris alessandro sordoni philip bachman and kaheer suleman
+newsqa a machine comprehension dataset
+in proceedings of the workshop on representation learning for nlp
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n gomez ukasz kaiser and illia polosukhin
+attention is all you need
+in proceedings of neurips
+daisy zhe wang wei he hua wu haiyang wu wei li haifeng wang and enhong chen
+chinese poetry generation with planning based neural network
+in proceedings of coling
+shuohang wang and jing jiang
+machine comprehension using match lstm and answer pointer
+in proceedings of iclr
+sam wiseman stuart m shieber and alexander m rush
+learning neural templates for text generation
+in proceedings of emnlp
+thomas wolf lysandre debut victor sanh julien chaumond clement delangue anthony moi pierric cistac tim rault rmi louf morgan funtowicz joe davison sam shleifer patrick von platen clara ma yacine jernite julien plu canwen xu teven le scao sylvain gugger mariama drame quentin lhoest and alexander m
+rush
+huggingface s transformers state of the art natural language processing
+arxiv
+
+joern wuebker spence green john denero saa hasan and minh thang luong
+models and inference for prex constrained machine translation
+in proceedings of acl
+lili yao nanyun peng ralph weischedel kevin knight dongyan zhao and rui yan
+plan write towards better automatic storytelling
+in proceedings of aaai
+jingqing zhang yao zhao mohammad saleh and peter j liu
+pegasus pre training with extracted gap sentences for abstractive summarization
+arxiv preprint
+
+tianyi zhang varsha kishore felix wu kilian q
+weinberger and yoav artzi
+bertscore evaluating text generation with bert
+in proceedings of iclr
+a experimental setup details a
+general setup in this section we include additional experimental details left out in the main content due to space limitations
+we ne tune the pretrained bartlarge model in all our experiments
+specically we use the bart
+large checkpoint from fairseq ott et al
+
+for all bart based summarization models we ne tune with learning rate and a polynomial learning rate decay schedule the optimizer is adam kingma ba and batch size is
+our optimization scheme and rameters follow the bart ne tuning instructions in fairseq examples
+we train the summarization models with steps on cnndm steps on arxiv and steps on bigpatent
+we train the bert tagger with learning rate adam optimizer and batch size of on all datasets
+similar to summarization models the tagger is trained with and steps on cnndm arxiv and bigpatent respectively
+also we adopt a sliding window approach so that the bert based tagger is able to handle sequences that are longer than tokens
+for both rouge and bertscore evaluation we report the measure
+we report the rescaled bertscore and the hash code is roberta
+
+
+
+
+as mentioned in
+we need three hyperparameters for automatic keywords extraction during inference the number of pre selected sentences ns the selection probability threshold and the maximum number of keywords mmax
+we select these hyperparameters for each dataset based on the uncontrolled summarization score on validation dataset
+the summarization performance is robust to these hyperparameters in a reasonable range as shown in appendix d
+specically we use ns
+mmax for cnndm ns
+mmax for arxiv and ns
+mmax
+invention purpose summarization
+in the experiment of summarizing invention purpose on patent articles
+
+we examined whether the model would possibly copy source sentences through matching the prompts we search strings in the form of the purpose of some words or phrases is among test examples and only test articles are identied
+this means the models are not generating by exactly matching prompts most of the time
+a
+human evaluation setup here we include details about human evaluation experiments in
+
+controlled summarization
+for controlled summarization we sample examples for each task and summaries of each example from all systems are presented together to the human annotator to be scored
+for cnndm we provide article and summaries while for bigpatent we provide reference and summaries using the reference summary as a surrogate for the source article
+this is because the source patent documents are very long and hard to be read by non expert humans
+we did not evaluate contribution summarization since it is unrealistic to ask humans to judge contributions of many scientic papers from various domains
+we tried to hire workers from amazon mechanical turk rst but we failed to obtain reliable results from them they often ignored the given user intent and tended to score the text as uncontrolled summaries reected by very poor scores on unimportant entity summaries because these summaries do not contain the main information of the article even though we instructed them that the control signal is critical
+therefore we ask two independent human annotators through personal correspondence from the authors of this paper
+one of the annotator is a phd researcher on physics and the other is a law graduate on intellectual property in the united states
+they are able to follow the given control intent and considered more reliable than the mturkers
+we take the average of two annotators as the score for each example and average over all examples to obtain the nal score
+uncontrolled summarization
+for uncontrolled summarization we sample examples for each dataset and hire independent workers from amazon mechanical turk to conduct evaluation
+for cnndm we provide article and summaries while for arxiv and bigpatent we provide reference and summaries using the reference summary as a surrogate for the source article
+this is because the source patent documents or scientic papers are very long and hard to be read by non expert humans
+summaries of each example from all systems are presented together to the human annotator to be scored
+the median score of workers is taken for each example and average over all examples is reported
+b ablation analysis of entity control in table we observe that ctrlsum achieves a very high success rate of entity control compared to previous work fan et al
+which can only succeed
+and
+of the time on and full article entities respectively
+we perform ablation analysis to understand the important gradients that contribute to the success of ctrlsum
+we train ctrlsum with another two architectures in addition to bart convolutional gehring et al
+with the same hyperparameters as in fan et al
+and transformer with the same hyperparameters as the base model in vaswani et al
+
+note that the transformer model is trained from scratch without pretraining
+results are shown in table
+ctrlsum parameterized with a weaker convolutional architecture fails to depend on the keywords well with an over point success rate drop yet the success rate of transformer without pretraining only drops around points
+this implies that the transformer architecture is critical for ctrlsum to depend on the keywords well while pretraining can further improves it
+table entity control results on cnndm
+success rate is the fraction of decoded summaries that actually mention the given entity
+model success rate full article bart lewis et al
+fan et al
+ctrlsum conv ctrlsum transformer ctrlsum bart
+
+
+
+
+
+
+
+
+
+c ablation analysis on keywords and prompts in the controlling aspects we studied ctrlsum uses control tokens either as keywords alone entity and length or as keywords and prompts together contribution purpose qa
+here we present further results when control tokens are used as prompts keywords or both for entity control contribution control and newsqa tasks
+specically for entity control we use the control tokens a summary focused on entity is for prompt and prompt keyword variants
+in this case success rate is computed excluding the prompt text
+the control tokens for other settings are the same as previous experiments
+results are shown in table where keywords and prompts are of different importance for different tasks and are complementary in general
+for example using prompts to control entities turns out to be difcult with a very low success rate we nd that the system fails to understand the prompt and produce summaries appropriately in most cases
+however prompts contribute the most to contribution summarization with comparable performance with using prompts and keywords together while removing prompts and using keywords alone suffers from drastic performance drop to trigger the contribution
+for newsqa task prompts and keywords demonstrate mixing effectiveness using either of them alone experiences over points loss compared to using them together
+reference points the l scores with automatic keywords of ctrlsum conv is
+
+
+while ctrlsum transformer obtained
+
+
+
+tried several prompts variants for example qa style ones q what happened to entity a
+none of them lead to meaningful entity a or q what do we know about entity control
+table ablation analysis on the role of keyword and prompt respectively
+entity success rate refers to the full article entity success rate
+model entity success rate contribution l bertscore newsqa ctrlsum keyword ctrlsum prompt ctrlsum prompt keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+d robustness analysis of keywords extraction hyperparameters table shows the scores of uncontrolled summarization on the validation set with different keywords extraction hyperparameters
+we use more ne grained stride size to iterate the mmax hyperparameter for cnndm since its source articles are usually shorter than arxiv and bigpatent
+as observed the automatic summarization performance is relatively robust to these hyperparameters in a reasonable range
+table scores of uncontrolled summarization on the validation set with different keywords extraction hyperparameters
+model cnndm arxiv bigpatent
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+ns mmax
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+e random output examples in this section we randomly sample test examples and show the source aticle reference summary and the model output from ctrlsum for each control aspect
+e
+entity control for entity control we randomly sample articles from cnndm and for each article we randomly select entites as keywords to show the model output
+table random entity control examples americans on the united states list will now be privy to information about why they have been banned from commercial ights and be given the opportunity to dispute their status according to court documents led by the justice department this week
+the revised policy comes in response to a june ruling by a federal judge that said the old process was in violation of the fifth amendment s guarantee of due process
+the decision was part of an american civil liberties union lawsuit brought on behalf of americans on the list
+but the aclu is nt satised with the government s new policy outlined in documents led monday in federal courts in oregon pdf and virginia pdf
+after years of ghting in court for complete secrecy and losing it s good that the government is nally now going to tell people of their status on the no fly list said hina shamsi director of the aclu national security project and the lead attorney on the case in a statement
+unfortunately we ve found that the government s new redress process falls far short of constitutional requirements because it denies our clients meaningful notice evidence and a hearing
+the government had an opportunity to come up with a fair process but failed so we re challenging it in court again
+people on the list managed by the fbi s terrorist screening center are prohibited from boarding a commercial ight for travel into or out of the united states
+the number of people on the list is classied
+an ofcial with knowledge of the government s gures told cnn in that the list contained about names including about americans
+before the change american citizens and permanent residents who inquired with the government about being denied aircraft boarding received a letter that neither conrmed nor denied their inclusion on the list
+now they ll be made aware of their status if they apply for redress with an option to request further information
+the u
+s
+government is making enhancements to the department of homeland security traveler redress inquiry program dhs trip to provide additional transparency and process for u
+s
+citizens and lawful permanent residents who have been denied boarding on a commercial aircraft because they are on the no fly list the department of homeland security said in a statement
+in cases in which travelers included on the list request to receive or submit more information about their status the government will provide a second more detailed response identifying specic criterion under which the individual has been placed on the no fly list according to the court documents
+an unclassied summary of that information will be provided to the extent feasible consistent with the national security and law enforcement interests at stake court papers said
+those who appear on the list will then have further opportunity to dispute their status in writing with supporting materials or exhibits and will receive a nal written decision from the transportation security administration
+the ruling that prompted the policy changes had called for passengers on the list to be given the opportunity to dispute their status before a judge
+article reference summary americans on the list will now get info about why they ve been banned from ights
+aclu says the policy still denies meaningful notice evidence and a hearing the fifth amendment the new policy is in response to a june ruling that said the old process was in violation of the fifth amendment s guarantee of due process
+civil liberties union the american civil liberties union says it s not satised with the ment s new policy
+ctrlsum the transportation security administration the transportation security administration will vide travelers with more information about their status
+a june ruling had called for passengers on the list to be given the opportunity to dispute their status before a judge
+virginia the aclu is challenging the new policy in federal courts in oregon and virginia
+fbi people on the list managed by the fbi s terrorist screening center are prohibited from boarding commercial ights
+the aclu is nt satised with the government s new policy
+table random entity control examples point guard stephen curry nearly single handedly outscored new orleans with rst quarter points as the warriors built a point lead and rolled to victory in game one of their western conference rst round series
+game two in the best of seven series is scheduled for monday night in oakland
+golden state the top seed in the west picked up right where it left off in the regular season recording a straight home win and in games this year
+stephen curry scored a stunning points for the golden state warriors in there play off game
+the warriors did it by taking a point lead into the nal minute of the third quarter then holding on
+we missed a lot of free throws which made it a lot closer than it needed to be coach steve kerr said
+but in the playoffs you ve just got to get it done somehow
+we re up
+that s where we want to be
+curry led the warriors with points hitting of shots and four three pointers
+all ve golden state starters scored in double gures
+guard klay thompson complemented curry with points while power forward draymond green points rebounds and center andrew bogut points rebounds recorded double doubles
+the point guard has been in spectacular form as he looks to lead the warriors to the nba glory
+curry celebrates after scoring a three pointer on his way to scoring rst quarter points
+new orleans power forward anthony davis scored a game high points in the fourth quarter
+he also blocked four shots and grabbed seven rebounds
+small forward quincy pondexter assigned to cover curry most of the game added points for the pelicans
+
+visiting washington outscored toronto in the overtime in winning the opener of their rst round playoff series
+washington traveled to toronto and came away with the victory with a condent overtime performance
+forward paul pierce started the overtime with a three pointer and scored points to lead the wizards who let a point lead slip away in the fourth quarter before winning
+guard bradley beal added points for washington and forward nene contributed points and rebounds
+forward amir johnson came off the bench to lead the raptors with points and guard demar derozan added points
+
+paul pierce left top scored in the clash with points as the wizards secured an important play off win
+article reference summary stephen curry scored points for golden state against new orleans
+the californian based team defeated the pelicans
+washington wizards outscored the toronto raptors in overtime
+paul pierce led the scoring with points for the wizards
+stephen curry stephen curry scored points as golden state warriors beat new orleans pelicans
+washington wizards beat toronto raptors in overtime in play off game
+oakland stephen curry scored points for the golden state warriors
+game two in the best seven series is scheduled for monday night in oakland
+ctrlsum steve kerr stephen curry scored points as the warriors beat the pelicans
+coach steve kerr said we missed a lot of free throws which made it a lot closer than it needed to be klay thompson stephen curry scored points as the warriors beat the pelicans
+klay thompson and draymond green also scored in double gures
+andrew bogut stephen curry scored points as the warriors beat the pelicans
+draymond green and andrew bogut both recorded double doubles
+table random entity control examples it s the ultimate treat for benedict cumberbatch fans and stands an imposing ft tall just like the man himself
+but shoppers at london s westeld stratford city shopping centre looked more than a little surprised to discover a chocolate sculpture of benedict cumberbatch in their midst
+one lady was spotted cautiously approaching the edible artwork before quickly backing off while another could nt quite hide their smile of surprise
+scroll down for video
+finishing touches the sculpture is readied for its big unveiling at westeld stratford city shopping centre
+oh dear reaction to the sculpture was mixed with some shoppers bursting into laughter
+even less impressed was the shopper who stood stony faced in front of the creation for several moments while another burst into laughter as soon as she spotted it
+it did however prove an immediate hit with a pair of police sniffer dogs who wagged their tails as they gave it a thorough snifng down
+
+the artwork which has been given pride of place in the shopping mall s atrium was commissioned by uktv to mark celebrate its screening of the third series of sherlock
+it took a crew of eight people to complete the sculpture which took over man hours to create and weighs kg
+does it look like me benedict cumberbatch strikes a pose with james corden during an oscars party
+mixed reaction a pair of police sniffer dogs loved the sculpture but shoppers looked bafed
+hilarious a lady bursts into laughter after spotting the ft homage to mr cumberbatch
+not amused a shopper looks thoroughly unimpressed as she contemplates the artwork
+luckily for cumberbatch who usually enjoys a considerably more complimentary response to projects he s involved in the piece will only be in residence temporarily
+the year old actor who is currently expecting his rst child with wife sophie hunter is nt the only famous face to have found himself the subject of an edible artwork
+
+in the run up to the release of shades of grey bakers created not one but two ft gateaux paying homage to jamie dornan
+one depicted the actor in the grey suit beloved of his shades character christian grey while the other showed him topless and came complete with an edible six pack
+award winning both jennifer lawrence and her cake alter ego have won awards
+homage the cake which triumphed at a show last november was inspired by the hunger games
+actress jennifer lawrence has also been immortalised in cake with baker lara clarke creating a sweet treat designed to resemble the year old hunger games alter ego katniss everdeen
+the confection which was baked ahead of the release of mockingjay part one in november met with the approval of lawrence herself who when asked about it said ms clarke was incredibly talented
+other a listers to get the culinary treatment include kevin bacon whose likeness was made from bacon and taylor swift who featured on a cake
+the duke and duchess of cambridge were turned into a tasty looking pizza while president barack obama had his likeness sculpted from butter
+immortalised the duke and duchess of cambridge have been turned into pizza in the past
+ribute kevin bacon has a bacon sculpture to his name while jamie dornan has been made into a cake
+article reference summary a ft chocolate sculpture of benedict cumberbatch has been unveiled
+toothsome statue has been placed inside a london shopping centre
+but shoppers reactions to the creations were decidedly unenthusiastic
+one woman glared at it while others just looked thoroughly bafed
+it did manage to win the approval of pair of police sniffer dogs
+it weighs kg and took eight people man hours to create
+other celebrities to get culinary tributes include jennifer lawrence
+her ft cake won an award and the year old s approval
+actor kevin bacon has also been immortalised in bacon
+westeld the sculpture was unveiled at london s westeld stratford city shopping centre
+james corden benedict cumberbatch is not the only famous face to be immortalised in chocolate
+jennifer lawrence and james corden have also been turned into cakes
+sophie hunter actor is expecting his rst child with wife sophie hunter
+ctrlsum jamie dornan shoppers at london s westeld stratford city shopping centre looked bafed by the sculpture
+other famous faces to be immortalised in edible art include jamie dornan and jennifer lawrence
+hunger games the sculpture was commissioned by uktv to mark the screening of sherlock
+it follows in the footsteps of other a listers such as jamie dornan and jennifer lawrence who have been immortalised in cakes
+lawrence s hunger games cake won an award at a show last year
+e
+paired entity control the entity control experiments in this paper only consider one entity as the control signal here we show examples inputting paired entities
+specically we are interested in the output when one of the paired entities is important and the other is unimportant
+therefore we sample articles from cnndm and for each article we randomly select one important entity and one unimportant entity as paired keywords to show the model output
+we repeat this sampling ve times for each article to obtain ve different summaries
+table random paired entity control examples a former u
+s
+army enlistee who posted on facebook about the adrenaline rush of dying in jihad was arrested friday and charged with trying to detonate a car bomb at fort riley military base in kansas authorities said
+a second man who allegedly knew about the bomb plot but did nt call authorities was charged with failing to report a felony
+john t
+booker jr
+of topeka an american citizen also known as mohammed abdullah hassan was taken into custody near manhattan kansas in a van that contained what he thought was a bomb the criminal complaint said
+the bomb had actually been put together by two condential informants with nonexplosive materials the complaint said
+fort riley s security was never breached and no people were in danger the u
+s
+justice department said in a press release
+booker enlisted in the army last year and was due to ship out to basic training april said army spokesman wayne hall
+the criminal complaint said the fbi questioned him march about comments posted on facebook such as getting ready to be killed in jihad is a huge adrenaline rush
+i am so nervous
+not because i m scare to die but i am eager to meet my lord
+booker waived his miranda rights and told the agents he enlisted to commit an insider attack against american soldiers like maj
+nidal hassan had done at fort hood texas the complaint said
+hassan opened re in a building in november killing people and wounding more than
+his enlistment was terminated march at the request of army criminal investigation command hall said
+booker began communicating with a condential informant later in the complaint said and often talked about his plans to engage in violent jihad in support of isis
+he and the informant watched isis videos together the complaint said and booker talked about how he wanted to go to iraq and turn his weapon on american soldiers when ordered to shoot the enemy
+on march booker said he believed isis wanted him to commit a truck bombing in the united states and thought a good target would be nearby fort riley a large army base that s home to the infantry division known as the big red one
+booker said that detonating a suicide bomb is his no
+aspiration because he could nt be captured all evidence would be destroyed and he would be guaranteed to hit his target the criminal complaint said
+he made a video with a fort riley aireld in the background and said isis was coming to kill american soldiers both abroad and in the united states the complaint said
+booker acquired components for a bomb and rented a storage locker to store the components the complaint said
+the plan was for condential informants to build a bomb and for booker to drive to fort riley and detonate it the complaint said
+but the bomb was built with inert parts and would never explode the complaint said
+on friday the informants and booker drove to what booker thought was a little used utility gate near fort riley the complaint said
+while booker was making nal connections on the bomb the fbi arrested him the complaint said
+he was charged with one count of attempting to use a weapon of mass destruction one count of attempting to damage property by means of an explosive and one count of attempting to provide material support to the islamic state of iraq a designated foreign terrorist organization
+if convicted he could face life in prison
+alexander e
+blair of topeka was taken into custody friday and charged with failing to report a felony
+the fbi said agents interviewed blair after booker s arrest
+blair said he shared some of booker s views knew of his plans to detonate a vehicle bomb at fort riley and loaned him money to rent storage space according to the fbi s criminal complaint
+he said he thought booker would carry out his plan but did not contact authorities the complaint said
+if convicted blair faces a maximum of three years in prison
+article reference summary alexander blair of topeka accused of knowing about bomb plot but not contacting authorities
+fort riley s security was never breached and the device was inert and not a threat authorities say
+john t
+booker jr
+of topeka had acquired bomb parts and made a propaganda video the justice department says
+fort riley isis john t
+booker jr
+is charged with trying to detonate a car bomb at fort riley
+a second man who allegedly knew about the bomb plot but did nt call authorities is charged
+booker said he believed isis wanted him to commit a truck bombing in the united states
+john t
+booker jr
+fbi john t
+booker jr
+enlisted in the army last year and was due to ship out to basic training april
+the fbi questioned him march about comments posted on facebook
+ctrlsum john t
+booker jr
+enlisted in the army last year and was due to ship out to basic training april
+he planned to detonate a car bomb at fort riley a large army base that s home to the infantry division
+infantry division john t
+booker jr
+justice department islamic state of iraq the justice department says fort riley s security was never breached and no people were in danger
+john t
+booker jr
+is charged with attempting to use a weapon of mass destruction
+he is also charged with trying to provide material support to the islamic state of iraq
+alexander blair isis john t
+booker jr
+charged with trying to detonate a car bomb at fort ley
+alexander e
+blair is charged with failing to report a felony
+booker said he wanted to commit an insider attack against american soldiers in support of isis
+table random paired entity control examples ander herrera has caught the eye in recent weeks after cementing a spot in manchester united s starting line up but it appears he does not actually have a clear sight at goal
+herrera netted a brace against aston villa on saturday afternoon without actually looking at brad guzan s goal as his eyes appeared to be shut when making contact with the ball
+in fact six of herrera s seven goals have been scored without him even having to glimpse at either the ball or the opposition s net
+
+manchester united star ander herrera scores his side s opening goal against aston villa with his eyes shut
+the spanish midelder appears to have his eyes closed as he strikes at brad guzan s goal
+aston villa and england midelder fabian delph attempts to block herrera s left footed shot
+his eyes were wide open when he struck an impressive rst time shot against yeovil in the third round of the fa cup back in january
+
+however his double against aston villa and his goals against queens park rangers leicester preston and swansea all came without manchester united s summer signing having to make eye contact with the ball
+herrera appears to have a history of shooting with his eyes closed as the image of his goal for spain s under side back in shows
+herrera hits the back of the net while representing spain s under side against tahiti
+the former athletic bilbao joined the red devils for in the summer due to his vision and creativity in mideld
+
+louis van gaal heaped praise on the year old s shooting ability after saturday s premier league encounter at old trafford by stating he has a very good kicking technique and he should be more composed van gaal said to mutv
+i said to him you have to control the ball before you shoot
+i said that to him again in yesterday s training session and then i kissed him at half time because he had controlled the ball for the rst time in his life and then he shot
+
+herrera s eyes were also shut for manchester united s third goal against aston villa on saturday
+his only manchester united goal scored with his eyes wide open came against yeovil town back in january
+herrera scored in manchester united s win over queens park rangers without looking at the ball
+the former athletic bilbao man icked the ball past preston s players without having his eyes on the ball
+herrera scored in manchester united s defeat by swansea city at the liberty stadium in february
+he also netted in manchester united s shock defeat at the hands of premier league strugglers leicester
+article reference summary ander herrera has scored seven goals for man united since joining in june
+herrera s eyes have been shut when striking the ball for six of his goals
+his superb strike against yeovil town has been only goal with eyes open
+herrera netted a brace in manchester united s win over aston villa
+ander herrera van gaal ander herrera has scored six of his seven goals without looking at the ball
+louis van gaal has praised the spanish midelder s shooting ability
+yeovil town swansea city ander herrera scored his side s opening goal against aston villa with his eyes shut
+the year old has also scored without looking at either the ball or the opposition s net in games against qpr leicester city swansea and yeovil town
+ctrlsum manchester united queens park rangers ander herrera appeared to have his eyes closed as he scored against aston villa on saturday
+the year old has scored six of his seven goals without looking at the ball
+herrera also netted with his eyes open in manchester united s win over queens park rangers
+aston villa mutv ander herrera scored a brace against aston villa on saturday
+but the spanish midelder appeared to have his eyes closed
+louis van gaal told mutv that herrera should be more composed
+herrera athletic bilbao ander herrera has scored six of his seven goals with his eyes closed
+the former athletic bilbao man joined manchester united for in the summer
+table random paired entity control examples a husband accused of trying to murder his cheating wife was ready to let her have sex with another man once a month as long as she stayed with him his trial heard yesterday
+a close friend told how joseph oriordan had conded in him about the extraordinary plan for his year old wife mandy
+oriordan a councillor and former nightclub owner stabbed her eight times in a jealous rage after nding out she had been having an affair with a postman
+
+extraordinary deal joseph oriordan stabbed his wife of ten years amanda left with a seven inch kitchen knife eight times yesterday brighton crown court heard he was considering allowing her to have affairs
+she suffered life threatening injuries after being knifed in the torso chest arms and back
+the jury was also shown dramatic footage of the moment police arrived at the couple s home to be greeted by a calm oriordan opening the door
+the revelation of his proposal for keeping his wife of ten years came from alfred harris
+he told how oriordan had conded ve days before the attack that he believed she was having an affair
+oriordan was choked up and emotional when he said i think amanda is playing away
+she s getting her nails and hair done more regularly she s been on a diet and does nt want sex
+
+asking for a suit oriordan sent his wife this letter from his prison cell
+the following day added mr harris the men met for a pub lunch in oriordan s home village of polegate east sussex
+i saw joe and he told me that amanda had been seeing someone else a guy who drove a van
+joe said he loved amanda to bits and if she wanted to have sex with someone else once a month that would be okay as long as she stayed with him
+
+in a statement read to brighton crown court mr harris also described the couple as loving and close
+
+he was so shocked to learn that oriordan had attacked his wife at their at on a residential care home estate
+the jury saw images of four police ofcers one of whom was wearing a lapel camera arriving shortly before pm last october after racing to the scene
+
+pc dave catt said they drew their incapacitating sprays fearing the knifeman would be still holding his weapon
+they were greeted by oriordan wearing a blood spattered light blue shirt and holding a cordless phone on which he had phoned for an ambulance
+mr catt said oriordan admitted i found out that she was having an affair and i lost it
+
+mrs oriordan was moaning and lying on a bed holding a towel to her stomach with a deep chest wound and serious wounds to her hand and back
+paramedics arrived moments later and took her to hospital
+jurors looked at two screens as images of her husband s arrest and subsequent detention at a police station were shown
+growing suspicion giving evidence yesterday alfred harris a friend of the couple for more than six years told how oriordan had conded in him that he believed his wife was having an affair
+yesterday jurors at brighton crown court above were shown dramatic footage of the moment police arrived at the couple s home to be greeted by a calm mr oriordan opening the door
+pc stuart kenway told how as oriordan had opened the door he appeared calm and composed and the situation was surreal as he then said she is in the bedroom do you want the knife ofcers were directed to a in blade with a black handle which was in the kitchen
+dr stephen drage an intensive care consultant with brighton and sussex university hospitals told the jury how seriously mrs oriordan was hurt
+it is quite clear she was bleeding to death he said
+she underwent life saving surgery which took six hours
+
+oriordan denies attempted murder
+the trial continues
+
+
+sorry we are not currently accepting comments on this article
+article reference summary joseph oriordan stabbed wife eight times after discovering her affair
+she was left with life threatening injuries to her torso chest arms and back
+yesterday brighton crown court heard about deal he was ready to offer her
+he had told friend about the idea while in the pub just days before stabbing
+joseph oriordan alfred harris joseph oriordan is accused of stabbing wife mandy eight times
+friend alfred harris told how he had told him about the extraordinary plan
+brighton crown court stephen drage joseph oriordan accused of stabbing wife mandy eight times
+brighton crown court heard he was considering allowing her to have affairs
+dr stephen drage an intensive care consultant told jury how she was clearly hurt ctrlsum joseph oriordan catt joseph oriordan is accused of stabbing wife mandy eight times
+pc dave catt said he lost it when he found out about the affair
+stuart kenway joseph eight times
+pc stuart kenway told how he appeared calm and composed
+joseph oriordan is accused of stabbing wife mandy brighton crown court amanda eight times
+he denies attempted murder at brighton crown court
+joseph oriordan is accused of stabbing wife amanda e
+length control for length control we randomly sample test articles from cnndm and for each article we generate ve different length summaries
+table random length control examples
+control tokens are bolded
+film director david lynch has conrmed he will no longer direct the revival of twin peaks a cult television show that was set to return in
+the offbeat tv series created by lynch and mark frost featured a quirky fbi agent who went to the pacic northwest town of twin peaks to investigate the mysterious murder of a high school girl named laura palmer
+the groundbreaking series is considered one of the most inuential shows in television history
+lynch broke the news about his departure in a series of tweets saying that the show s third season will continue without him
+he said he felt the network was not offering enough money to produce the show the way it needed to be done
+lynch also wrote that he had personally called the actors over the weekend to let them know he would no longer be directing
+showtime network which will air the nine episode comeback released a statement saying they were saddened by lynch s decision
+we were saddened to read david lynch s statement today since we believed we were working towards solutions with david and his reps on the few remaining deal points read the statement
+showtime also loves the world of twin peaks and we continue to hold out hope that we can bring it back in all its glory with both of its extraordinary creators david lynch and mark frost at its helm
+showtime announced they would produce a third season in october last year
+actor kyle maclachlan who played the coffee obsessed fbi agent dale cooper in the original series had conrmed he would reprise the lead role for the new season
+article reference summary david lynch says he wo nt be directing new episodes of twin peaks
+showtime saddened over decision which involved a dispute over money
+length bucket director david lynch longer direct revival twin peaks return season showtime film director david lynch will no longer direct the revival of twin peaks showtime announced they would produce a third season in october last year
+the show was set to return in
+length bucket director david lynch longer direct revival twin peaks set return season showtime network saddened film director david lynch will no longer direct the revival of twin peaks showtime network say they are saddened by the decision
+the show was set to return for a third season in
+length bucket director david lynch conrmed longer direct revival twin peaks set return series season continue showtime network saddened film director david lynch has conrmed he will no longer direct the revival of twin peaks the series was set to return in
+lynch broke the news about his departure in a series of tweets
+he said the show s third season will continue without him
+showtime network said they were saddened by lynch s decision
+ctrlsum length bucket director david lynch conrmed longer direct revival twin peaks set turn series season continue showtime network saddened decision sfilm director david lynch has conrmed he will no longer direct the revival of twin peaksthe tv series was set to return in
+lynch broke the news about his departure in a series of tweets
+the show s third season will continue without him
+showtime network said they were saddened by lynch s decision
+length bucket director david lynch conrmed longer direct revival twin peaks cult set return series mark frost fbi agent murder tweets season continue showtime network statement saddened decision kyle film director david lynch has conrmed he will no longer direct the revival of twin peaks the cult tv series created by lynch and mark frost was set to return in
+lynch broke the news about his departure in a series of tweets saying that the show s third season will continue without him
+showtime network which will air the nine episode comeback released a statement saying they were saddened by lynch s decision
+actor kyle maclachlan who played the coffee obsessed fbi agent dale cooper in the original series had conrmed he would reprise the lead role for the new season
+table random length control examples
+control tokens are bolded
+washington iranian military observation aircraft ew within yards of an armed u
+s
+navy helicopter over the persian gulf this month sparking concern that top iranian commanders might not be in full control of local forces cnn has learned
+the incident which has not been publicly disclosed troubled u
+s
+military ofcials because the unsafe maneuver could have triggered a serious incident
+it also surprised u
+s
+commanders because in recent months iranian forces have conducted exercises and operations in the region in a professional manner one u
+s
+military ofcial told cnn
+we think this might have been locally ordered the ofcial said
+the incident took place as the u
+s
+and other world powers meet with iran in switzerland to negotiate a deal limiting tehran s nuclear program
+at the same time iran has been active in supporting proxies in several hotspots in the persian gulf and neighboring regions
+the navy armed helicopter was ying from the deck of the uss carl vinson on a routine patrol in international airspace the ofcial said
+an unarmed iranian observation aircraft approached
+the iranian aircraft made two passes at the helicopter coming within yards before the helicopter moved off according to the ofcial
+the ofcial said the helicopter deliberately broke off and ew away in a predictable manner so the iranians could not misinterpret any u
+s
+intentions
+the navy helicopter was in radio contact with the ship during the encounter but there was no contact between the two aircraft and no shots were red
+the navy crew took photos of the incident but the military is not releasing them
+the u
+s
+administration is considering a potential demarche protest against iran the ofcial said
+cnn has reached out to iranian ofcials but has not received a response
+this type of iranian observation aircraft generally operates over the gulf several times a month
+but after the recent incident u
+s
+naval intelligence did not see it again for two weeks leading to the conclusion that the incident may have been ordered by a local commander who was then reprimanded by higher ups
+the pentagon has noted for the last several years that most encounters with the iranian military at sea or in air are conducted professionally but that some missions run by iranian revolutionary guard corps forces have been too aggressive against u
+s
+forces in the area
+the u
+s
+military s concern has been that one of these incidents could escalate into a military encounter
+this incident might have been buffoonery the ofcial said but there is always a risk from such actions
+the incident comes as the navy patrols the gulf of aden to watch for iranian ships the u
+s
+believes are trying to bring weapons to resupply the houthi rebels in yemen
+the navy would share such intelligence with saudi arabia a second u
+s
+ofcial told cnn
+article reference summary iranian plane came within yards of u
+s
+navy sea hawk copter
+navy copter was on patrol in international airspace
+u
+s
+ofcial think iranian plane may have been under orders of local commander
+length bucket iranian military aircraft ew yards armed u
+s
+navy helicopter gulf commanders an iranian military observation aircraft ew within yards of an armed u
+s
+navy helicopter over the persian gulf this month
+the incident which has not been publicly disclosed has sparked concern that top iranian commanders might not be in full control of local forces
+length bucket iranian military observation aircraft ew yards armed u
+s
+navy helicopter gulf iranian commanders forces an iranian military observation aircraft ew within yards of an armed u
+s
+navy helicopter over the persian gulf
+the incident sparked concern that top iranian commanders might not be in full control of local forces
+length bucket iranian military observation aircraft ew yards armed u
+s
+navy helicopter persian gulf iranian commanders control forces incident an iranian military observation aircraft ew within yards of an armed u
+s
+navy helicopter over the persian gulf
+the incident sparked concern that top iranian commanders might not be in full control of local forces
+ctrlsum length bucket iranian military observation aircraft ew yards armed u
+s
+navy helicopter persian gulf iranian commanders control forces incident iran protest an iranian military observation aircraft ew within yards of an armed u
+s
+navy helicopter over the persian gulf
+the incident sparked concern that top iranian commanders might not be in full control of local forces
+iran has been active in supporting proxies in several hotspots in the region
+the u
+s
+administration is considering a potential demarche protest against iran
+length bucket iranian military observation aircraft ew yards armed u
+s
+navy helicopter persian gulf iranian commanders control local forces incident ofcials ofcial ordered iran uss considering demarche protest navy aden an iranian military observation aircraft ew within yards of an armed u
+s
+navy helicopter over the persian gulf
+the navy armed helicopter was ying from the deck of the uss carl vinson on a routine patrol in international airspace
+the incident sparked concern that top iranian commanders might not be in full control of local forces
+we think this might have been locally ordered the ofcial said
+cnn has reached out to iranian ofcials but has not received a response
+incident comes as the navy patrols the gulf of aden to watch for iranian ships
+the administration is considering a potential demarche protest against iran
+table random length control examples
+control tokens are bolded
+it s a sight that draws giggles and curious stares from tourists and other rst timers an unusual festival where revellers carry gigantic phalluses through the streets of a japanese city
+but for the residents of kawasaki who lug erotic shapes of all different sizes this odd tradition is not a joke
+shinto kanamara matsuri started as a small tradition but has grown into a popular a tourist attraction with participants praying to a god of fertility child birth and protection from sexually transmitted infections
+participants carry a gigantic phallus through the streets of kawasaki japan during the shinto kanamara matsuri festival
+the sight of three large phalluses being paraded through neighbourhoods in the city south of tokyo draws giggles from tourists
+shinto kanamara matsuri the festival of the steel phallus started as a small tradition but has grown into a popular a tourist attraction
+known as the festival of the steel phallus it is held every spring at the phallus shaped kanayama shrine
+festivalgoers parade through the streets with three giant phalluses while spectators lick lollies or snack on sausages or vegetables shaped as male and female genitalia
+rainy weather did nt ruin the mood at this year s festival which had a massive collection of foreigners according to japanese website
+they watched as groups of locals carried three heavy phalluses modelled after a mikoshi portable shrine which is commonly used in shinto festivals
+residents of kawasaki carry phalluses of all different sizes while participating in a tradition that began nearly years ago
+participants pray to a god who is said to help with fertility child birth and protection from sexually transmitted infections
+rainy weather did nt ruin the mood at this year s festival which attracted thousands of spectators from japan and abroad
+spectators can buy lollies sausages and vegetables shaped as male and female genitalia while watching the unusual parade
+the three mikoshi carried through the streets for hours are the kanamara boat mikoshi tall and black the elizabeth mikoshi big and pink and the kanamara big mikoshi squat and wooden reported
+in addition to the parade there are performances and music and the festival itself raises money and awareness for hiv research
+the festival started nearly years ago and the kanayama shrine was once a popular place for prostitutes to pray for protection from sexually transmitted infections
+today people visit the shrine to pray for everything from fertility and business prosperity to wedded bliss and good health
+in addition to the parade there are performances and music and the festival itself raises money and awareness for hiv research
+the kanayama shrine was once a popular place for prostitutes to pray for protection from sexually transmitted infections
+today people visit the shrine to pray for everything from fertility and business prosperity to wedded bliss and good health
+groups of locals carried three heavy phalluses modelled after a mikoshi portable shrine which is commonly used in shinto festivals
+reference summary shinto kanamara matsuri started as a small tradition but has grown into a popular tourist attraction
+known as the festival of the steel phallus participants pray to a god of fertility and protection from infections
+rainy weather did nt ruin the mood at this year s festival which attracted a large crowd of holidaymakers
+length bucket shinto kanamara matsuri started tradition god fertility child birth protection infections steel shinto kanamara matsuri the festival of the steel phallus started as a small tradition
+participants pray to a god of fertility child birth and protection from sexually transmitted infections
+length bucket shinto kanamara matsuri started tradition praying god fertility child birth tection sexually infections festival steel shinto kanamara matsuri the festival of the steel phallus started as a small tradition
+participants pray to a god of fertility child birth and protection from sexually transmitted infections
+length bucket shinto kanamara matsuri started tradition popular tourist praying god fertility child birth protection sexually infections festival steel phallus shinto kanamara matsuri the festival of the steel phallus started as a small tradition but has grown into a popular a tourist attraction
+participants pray to a god of fertility child birth and protection from sexually transmitted infections
+length bucket shinto kanamara matsuri started tradition popular tourist attraction praying god fertility child birth protection sexually transmitted infections festival steel phallus shinto kanamara matsuri the festival of the steel phallus started as a small tradition but has grown into a popular a tourist attraction
+participants pray to a god of fertility child birth and protection from sexually transmitted infections
+length bucket phalluses shinto kanamara matsuri started small tradition grown popular tourist attraction praying god fertility child birth protection sexually transmitted infections kawasaki japan matsuri festival tokyo festival steel phallus shinto kanamara matsuri started as a small tradition years ago
+it has grown into a popular tourist attraction in kawasaki japan
+the festival of the steel phallus is held every spring at the kanayama shrine
+participants carry three phalluses through neighbourhoods south of tokyo
+they are praying to a god of fertility child birth and protection from sexually transmitted infections
+thousands of tourists attended this year s festival which raised money for hiv research
+article ctrlsum e
+contribution summarization on scientific papers here we show three random examples from the arxiv test set
+note that this is the test set from cohan et al
+instead of the contribution test data collected by us because we want to show the ence between reference summaries i
+e
+the paper abstract in existing standard paper summarization dataset and our output contribution summaries
+we truncate the source articles since they are too long to display
+table random contribution summarization examples
+control tokens are bolded
+that the tokens are used as both keywords and prompts
+synchronization of neural activity appears in different parts of the mammalian cerebral cortex and underlies different neural processes in both normal and anomalous brain functions
+it has been suggested that synchronization plays a vital role in information processing in the brain e
+
+processing information from different sensory systems to form a coherent and unied perception of the external world
+on the other hand synchronization has been detected in pathological conditions such as parkinson s disease
+and epileptic seizures have long been considered resulting from excessive synchronized brain activity though some recent studies suggest that this picture may be an over simplication
+therefore understanding the mechanisms of synchronization may be a critical step in elucidating how neural systems work
+it has stimulated a great deal of theoretical and numerical works such as the studies on the effects of the topological properties of underlying networks and the dynamical properties of synaptic coupling
+it was recently shown that the response time of synaptic couplings inuences the stability of synchronized oscillation in the nonlocally coupled hodgkin huxley hh equations
+if the response time of synaptic coupling is slower synchronized activity of the systems is instable for excitatory coupling
+however the underlying dynamical mechanism of the inuence is not clear
+in experimental studies it has been suggested that the generation of prolonged epileptiform neuronal synchronization is favored by lower efcacy of synaptic transmission
+the numerical studies in a detailed computational model revealed that seizure like activity occurs when the excitatory synapses are weakened and the results were conrmed experimentally in mouse neocortical slices
+according to the common accepted assumption that synchronization of neuronal activity underlies seizures the dynamical mechanism of synchronization may be useful for understanding the way the biological neural system works
+in this work we numerically investigated the dynamical mechanism underlying the inuence of synaptic efcacy on ring synchronization in hh neuron networks
+to do this we rst studied the dynamics of the response of hh neuron to excitatory synaptic current
+when the efcacy of synapse is low namely strength is weak and duration is short the limit cycle is stable to the perturbation of the synaptic current
+when synaptic efcacy is high synaptic current can induce the transition of the neurons from limit cycle to xed point or transient state
+the transition is determined by dynamics of neuron s ionic channel
+the decrease of synaptic current depresses the feedback of sodium ionic current which is responsible for the initiation of the spike
+for simplicity we will refer to the transitions as spike death
+in neuronal networks synaptic input of a neuron is the accumulation of the currents received from all presynaptic neurons
+when the coherence of ring time of neurons is enhanced by the excitatory interaction the synaptic input of neurons transforms from the uctuating waveform into the pulse shape like the signal produced by one synapse
+if synaptic efcacy is high the input signal can induce spike death of the neuron
+then spike death disorders the adjustment of the rhythm of neurons and prevents neurons from ring spikes synchronously
+in contrast for synapses of lower efcacy the duration of synaptic current is too short to induce spike death of neurons
+additionally the ring synchronization is different from synchronous activity of oscillators for the existence of the transitions of neuron s state
+the paper is organized as follows
+the hh neuron model and the synaptic coupling were introduced in sec
+the response of a hh neuron to synaptic current was investigated in sec
+the inuence of the dynamics of neurons on ring synchrony was shown in sec
+we investigated the inuence of efcacy of synaptic interaction on ring synchronization in excitatory neuronal networks
+we found spike death phenomena namely the state of neurons transits from limit cycle to xed point or transient state
+the phenomena occur under the perturbation of excitatory synaptic interaction that has a high efcacy
+we showed that the decrease of synaptic current results in spike death through depressing the feedback of sodium ionic current
+in the networks with spike death property the degree of synchronization is lower and unsensitive to the heterogeneity of neurons
+the mechanism of the inuence is that the transition of neuron state disrupts the adjustment of the rhythm of neuron oscillation and prevents further increase of ring synchronization
+article reference summary ctrlsum the main contributions of this paper are we investigated the dynamical mechanism underlying the inuence of synaptic efcacy on ring synchrony in hodgkin huxley neuron networks we found that the dynamics of synaptic current plays an important role in determining the stability of ring synchronization
+table random contribution summarization examples
+control tokens are bolded
+that the tokens are used as both keywords and prompts
+for the understanding of surface reactions and the characterization of materials it is desirable to measure local forces close to a sample surface
+the most common method to measure these surface forces is atomic force microscopy
+historically the rst force measurements were static measurements for which the force is presented as a scalar function of the static tip sample separation the so called force
+this representation is sufcient for conservative forces but the total tip surface force may also contain contributions from dissipative forces
+since dissipative forces depend on probe velocity and past trajectory dynamic force spectroscopy methods are required for their measurement
+moreover the visualization of dissipative forces as a function of position is valid only for a specic probe trajectory and simple force curves can not capture the full character of the interaction
+despite the development of several dynamic surface forces are still usually treated as functions of the probe position only and represented by simple force curves
+here we present a comprehensive framework for the representation and analysis of complex surface forces as they are measured by dynamic afm
+we concentrate on the most common modes of dynamic afm amplitude modulated afm am afm and frequency modulated afm fm afm which can be considered as narrow frequency band
+we explore the fundamental limit of force reconstruction with narrow band dynamic afm at xed probe height and show how minimal assumptions allow for a quantitative reconstruction of the tip surface interaction
+at the heart of the afm apparatus is a micro cantilever with a sharp tip
+the cantilever is rmly clamped at one end and the tip is located at the other end which can move freely
+it is assumed that surface forces only act on the tip whereas the rest of the cantilever does not experience signicant surface forces
+in dynamic afm an additional external drive force is applied to maintain an oscillatory motion
+thus the dynamics are governed by the force between tip and surface the external drive force and the properties of the cantilever beam
+since the cantilever is a three dimensional continuum object its motion is usually described by the amplitudes of different oscillation eigenmodes
+in general these modes can cause the cantilever to bend in all directions in space
+however the cantilever is positioned such that the softest exural modes bend the beam in a plane orthogonal to the surface plane
+we restrict ourselves to the case where only these exural modes are excited by the drive force
+due to this experimental conguration the cantilever is much more susceptible to the component of the tip surface force which is orthogonal to the surface plane
+this component of the force is typically the most dominant component and the inuence of lateral force components is considered negligible
+in this case the cantilever acts as a mechanical projector which reacts only to one component of a three dimensional force vector eld
+the deection of a cantilever of length orthogonal to surface is described by a one dimensional euler bernoulli where is the young s modulus is the second moment of area is the mass per unit length of the cantilever is the position coordinate along the cantilever beam and is the time variable
+the force term includes the surface forces acting as a point like load at position the external drive force and the hydrodynamic damping due to the surrounding
+in atomic force microscopy afm tip surface interactions are usually considered as functions of the tip position only so called force curves
+however tip surface interactions often depend on the tip velocity and the past tip trajectory
+here we introduce a compact and general description of these interactions appropriate to dynamic afm where the measurement of force is restricted to a narrow frequency band
+we represent the tip surface interaction in terms of a force disk in the phase space of position and velocity
+determination of the amplitude dependence of tip surface forces at a xed static probe height allows for a comprehensive treatment of conservative and dissipative interactions
+we illuminate the fundamental limitations of force reconstruction with narrow band dynamic afm and we show how the amplitude dependence of the fourier component of the force at the tip oscillation frequency gives qualitative insight into the detailed nature of the tip surface interaction
+with minimal assumptions this amplitude dependence force spectroscopy allows for a quantitative reconstruction of the effective conservative tip surface force as well as a position dependent damping factor
+we demonstrate this reconstruction on simulated intermodulation afm data
+keywords atomic force microscopy measurement of force mechanical resonators mems nems dissipation intermodulation article reference summary ctrlsum the main contributions of this paper are a comprehensive framework for the representation and analysis of complex surface forces as they are measured by dynamic atomic force microscopy afm a study of the fundamental limit of force reconstruction with narrow band dynamic afm at xed probe height and show how minimal assumptions allow for a quantitative reconstruction of the tip surface interaction
+table random contribution summarization examples
+control tokens are bolded
+that the tokens are used as both keywords and prompts
+in this paper we discuss the mathematical aspects of the problems originating in the solution of nonlinear systems of hyperbolic partial differential equations
+these equations describe a large variety of physical phenomena such as gasdynamics magnetohydrodynamics mhd shallow water equations elasticity equations
+being nonlinear these systems usually require numerical methods for their solution
+presence of discontinuous solutions motivates the necessity of the development of reliable numerical methods based on the fundamental mathematical properties of hyperbolic systems
+although such methods are rather well developed for the euler gasdynamic equations in the conservation law form their extension to more complicated hyperbolic systems is not straightforward
+it requires a mathematical justication of the solution uniqueness a formulation of the selection principles for relevant solutions and nally an investigation of their physical validity
+most of high resolution methods for gasdynamic equations use the exact or some of the approximate self similar riemann problem solutions to determine uxes through the computational cell surfaces
+similar methods are expected to be developed for various types of hyperbolic systems
+in this case we must construct the elementary self similar solution using only admissible discontinuities entropy consistent evolutionary
+
+basically the choice of the solution must be made on the basis of the structure of the solution of the extended problem
+all mentioned above makes very important the study of discontinuous solutions behavior under vanishing viscosity and dispersion to create a proper background for the development of high resolution numerical methods for hyperbolic systems more complicated than the euler equations of gasdynamics
+we discuss several analytical and numerical solutions in the mentioned elds which illustrate the complexity of the selection problem and outline the methods of its solution
+tvd upwind and symmetric differencing schemes have recently become very efcient tool for solving complex multi shocked gasdynamic ows
+this is due to their robustness for strong shock wave calculations
+the extension of these schemes to the equations of the ideal magnetohydrodynamics is not simple
+rst the exact solution of the mhd riemann problem is too multivariant to be used in regular calculations
+second several different approximate solvers and applied to mhd equations are now at the stage of investigation and comparison
+this investigation requires i determination of a proper slope limiting method in the parameter interpolation procedure necessary to obtain nonoscillatory schemes of the order of accuracy higher than one development of an efcient entropy correction method necessary to exclude rarefaction shocks and nally solution of the problem of excluding the origin of nonevolutionary solutions in ideal mhd calculations
+the system of governing equations for a mhd ow of an ideal innitely conducting perfect plasma in the cartesian coordinate system with the use of the conventional notations reads one uid approximation where is the vector of conservative variables and and are the ux vectors
+we introduced here the source term in the form this form of the system can be used to satisfy the divergence free condition by convecting away the magnetic charge from the computational region
+otherwise any other well known method can be used to eliminate the magnetic charge
+to determine a numerical ux normal to the computational cell boundary is a unit outward vector normal to the cell surface one can use the formulas based on the solution of the linearized problem
+here and are the matrices formed by the right and by the left eigenvectors respectively of the frozen jacobian matrix the matrix is a diagonal matrix consisting of the frozen jacobian matrix eigenvalue moduli
+the superscripts and denote the values at the and at the left hand side of the cell boundary
+a number of physical phenomena are described by nonlinear hyperbolic equations
+presence of discontinuous solutions motivates the necessity of development of reliable numerical methods based on the fundamental mathematical properties of hyperbolic systems
+construction of such methods for systems more complicated than the euler gas dynamic equations requires the investigation of existence and uniqueness of the self similar solutions to be used in the development of discontinuity capturing high resolution numerical methods
+this frequently necessitates the study of the behavior of discontinuities under vanishing viscosity and dispersion
+we discuss these problems in the application to the magnetohydrodynamic equations nonlinear waves in elastic media and electromagnetic wave propagation in magnetics
+the main contributions of this paper are the mathematical aspects of the problems originating in the solution of nonlinear systems of hyperbolic partial differential equations the study of discontinuous solutions behavior under vanishing viscosity and dispersion to create a proper background for the development of high resolution numerical methods for hyperbola systems more complicated than the euler equations of gasdynamics and solution of the problem of excluding the origin of nonevolutionary solutions in ideal magnetohydrodynamics calculations
+article reference summary ctrlsum e
+invention purpose summarization on patent filings here we show three random examples from the bigpatent test set
+note that this is the test set from origial bigpatent because we want to show the difference between reference summaries in existing standard dataset and our output purpose summaries
+we truncate the source articles since they are too long to display
+table random invention purpose summarization examples
+control tokens are bolded
+that the tokens are used as both keywords and prompts
+article referring to the drawings and in particular to therein illustrated is a prior art surgical support mesh
+mesh may be manufactured from monolament or multilament yarns
+prior art mesh as shown includes multilament horizontally extending yarns and multilament vertically extending yarns woven together to form a support trellis
+the use of multilament yarns such as yarns and provides a mesh having greater pliability and suppleness than the use of monolament yarns
+these characteristics result from both the smaller diameter of the individual laments and the interstitial spaces or voids that are located between such laments
+in particular the exibility of a lament or ber generally increases as its diameter decreases
+because the solid cross sectional area of the laments of a multilament yarn is less than the cross sectional area of a monolament yarn of equivalent diameter the multilament yarn will have a greater degree of exibility and pliability than that of the monolament yarn
+as shown in a each of multilament yarns and is composed of a plurality of laments that are intermingled or bundled together to form the yarn
+interstitial spaces which are pockets of air are formed between adjacent laments of the yarn
+although these voids contribute to the softness and pliability of the formed mesh they also provide a natural breeding ground for bacteria or other infectious material
+surgical mesh is of course thoroughly sterilized prior to implantation
+nevertheless surgeons typically prefer the use of monolament designed mesh to minimize any risk of infection
+as a result the advantages associated with multilament designed mesh i
+e
+softness and pliability which result in better assimilation of the mesh into the body are typically sacriced
+it has been discovered herein that a surgical support mesh having both the softness and pliability of a multilament designed mesh and the infection resistance of a monolament designed mesh may be produced
+particularly it has been discovered that a support trellis formed of multilament yarn wherein the interstitial voids located between adjacent laments are enclosed within an infection impervious matrix exhibits the desired resistance to harboring of infectious matter without signicant loss of exibility
+particularly the matrix which completely encloses the interstitial voids between the laments of the yarn provides an effective barrier to the passage of infectious matter between the interior and exterior of the yarn
+accordingly any voids remaining in the yarn after encapsulation of such yarn are enclosed and thereby sealed within the resultant matrix
+a rst embodiment of the present invention is shown in
+particularly this rst embodiment includes a support trellis formed of multilament yarns and which overlap at cross over junctions
+subsequent to forming of the trellis such trellis is encapsulated within a matrix which is preferably a exible material that continuously surrounds the exterior of the yarns thereby enclosing interstitial voids located between laments see a
+in one embodiment the matrix is formed from a polymeric resin
+as shown in a the resin can be applied to the yarn in such a manner as to not allow the resin to substantially penetrate into the yarn
+particularly the penetration of the resin can be controlled through the application procedure e
+g
+quantity of resin applied and or encapsulating time
+in such an embodiment the interstitial spaces are enclosed rather than lled within the continuous matrix
+however it is contemplated that the resin can be allowed to penetrate into the yarn thereby substantially lling the void space located therein
+in another embodiment of the present invention individual yarns as shown in are encapsulated within matrix prior to forming of the support trellis
+a shows a compressed yarn which provides a trellis having a reduced thickness
+as a result of the encapsulation interstitial voids remaining in the yarn are enclosed and thereby sealed within the matrix
+reference summary a soft and pliable surgical support mesh exhibiting increased resistance to inhabitation of infectious matter
+the mesh includes a support trellis formed of multilament yarns wherein the interstitial voids located between the laments of said yarns are enclosed within an infection impervious matrix
+the meshes may be designed to be extremely thin yet retain the requisite strength for repairing soft tissue which allows for a low prole when folded for delivery
+ctrlsum the purpose of the present invention is to provide a surgical mesh that is resistant to the growth of bacteria and other infectious matter
+this is accomplished by encapsulating the interstitial spaces located between the laments of the yarn within a matrix
+table random invention purpose summarization examples
+control tokens are bolded
+that the tokens are used as both keywords and prompts
+article shows a multicolor web fed rotary printing press in accordance with the invention
+the press includes four tower arrangements a b c and d for printing a single color or a multicolor image on the webs a b c and d
+the webs a b c and d travel in a substantially linear direction through each of the towers d
+for example the web can travel along a substantially vertical path as shown in
+alternatively as those skilled in the art will appreciate the web path can be in a substantially horizontal direction or in a substantially linear path at any desired angle relative to the vertical direction shown
+the towers a d each include four printing units c m y and b for respectively printing an image in cyan magenta yellow and black on both sides of each web a d
+other colors besides cyan magenta yellow and black can be used
+the webs can be for example between and millimeters wide
+each of the printing units c m y and b in a tower can be moved along a respective web by a lifting and positioning system shown in
+the lifting and positioning system includes a spindle drive which has a xed spindle spanning a range over which the printing units c m y and can be moved
+each of the printing units c m y and b includes a ball screw which is rotatably supported in a housing
+the ball screw can be rotated by a motor as shown in
+shows one set of a spindle drive xed spindle ball screws and motors but preferably each tower is provided with several sets one set for each corner of the print unit housing
+the motors are controlled by a motor control unit which receives commands from a remote control
+by pressing a button on the remote control an operator can control the rotation of the motors and thereby the movement direction and position of each printing unit b y m and c in a tower
+rail systems not shown xed to a side frame of each tower can also be used to precisely guide movements of the printing units in the tower
+as shown in and the position of each of the printing units along the webs and xed spindles can be controlled by the operator to allow access to a desired part of a printing unit
+for example in the operator has moved the print unit b of tower b into a position where a printing plate of the print unit can be most easily accessed
+after the printing plate has been accessed the operator can move the print unit b into a different position so that inker units in an upper part of the printing unit can be easily accessed
+two or more printing units in tower can also be moved as a group
+for example if the operator wants to access the plate cylinder of the printing unit m of tower b shown in he can simply move the two printing units y m upwardly together until the top surface of the printing unit y contacts the bottom surface of the printing unit b
+thereafter the operator can move the group of printing units b y and m upwards into the position shown in tower c of where the plate cylinder of the printing unit m can be easily accessed
+although and show four printing units for each tower different numbers of printing units can be used for each tower
+shows that the lower three printing units of the tower b are beneath an operating oor
+preferably at least two of the printing units can be lowered beneath the operating oor and a printing press in accordance with the invention can be congured so that all of the printing units in a tower can be lowered beneath an operating oor
+the operating oor can be a oor of a print shop or can be an elevated platform
+reference summary the present invention is directed to a multicolor web fed rotary printing press having printing units that can be moved along a linear section of a web by a positioning mechanism to allow easy access to each of the printing units
+the easy access to the printing units signicantly reduces maintenance costs and downtime of the press
+in addition the invention provides a printing press that has a reduced overall size and allows the printing units to be arranged in a nested formation during printing operations
+this nested formation reduces fanout and paper waste
+the linear web section can be oriented vertically or horizontally
+ctrlsum the purpose of the present invention is to provide a web fed rotary printing press that allows an operator to access a desired part of a printing unit more easily than in the past
+table random invention purpose summarization examples
+control tokens are bolded
+that the tokens are used as both keywords and prompts
+referring now to the drawings and more particularly to a uid system is illustrated and includes a variable displacement axial piston pump that receives uid from a tank via a conduit and delivers pressurized uid via a supply conduit to a uid control valve and selectively through work conduits to a uid actuator
+in the subject arrangement the variable displacement axial piston pump is a unidirectional pump that rotates in a counterclockwise direction as driven by a power input shaft
+the uid system also includes rst and second pressure sensors respectively connected to the tank conduit and the supply conduit
+the pressure sensors are operative to sense the pressure in the respective lines and deliver an electrical signal to a controller through electrical lines
+a position sensor is mounted on the variable displacement axial piston pump and operative to sense the displacement of the pump and deliver a signal representative thereof to the controller via an electrical line
+various other components could be used in the subject uid system without departing from the essence of the subject invention
+for example several control valves and associated uid actuators could be used
+likewise other sensors of various types and styles could be used
+the variable displacement axial piston pump includes a housing having a head portion and a body portion
+the head portion denes an inlet port passage that is connected to the conduit and an outlet port passage that is connected to the supply conduit
+in the subject arrangement a port plate is disposed between the head portion and the body portion
+the construction of the porting within the port plate is more clearly illustrated in and will be discussed more fully below
+it is recognized that the porting illustrated in could be made within the head portion without departing from the essence of the subject invention
+a rotating group is disposed within the body portion and includes a barrel having a plurality of cylinder bores dened therein spaced from one another around an axis of rotation of the barrel
+each of the cylinder bores is oriented within the barrel parallel with the axis of rotation
+a plurality of piston assemblies are operatively associated with the barrel and each one of the plurality of piston assemblies includes a piston slideably disposed in the respective ones of the plurality of cylinder bores
+each one of the plurality of piston assemblies also has a shoe pivotably attached to one end of each piston in a conventional manner
+the barrel has an end surface that is in mating sealing contact with the port plate to provide communication between the cylinder bores and the respective inlet and outlet port passages of the head portion
+a closed chamber is dened in each cylinder bore of the barrel between the end of the piston and the end surface thereof
+referring to the porting between the barrel and inlet and outlet port passages of the head portion is more clearly illustrated
+for explanation purposes only the degree position illustrated in relates to a position on the right side of the drawing of and the degree position illustrated in relates to a position on the right side of the drawing of
+an arcuate slot is dened in the port plate and provides communication between the plurality of closed chambers and the inlet port passage
+a plurality of slots are dened in the port plate circumferentially spaced from the arcuate slot and provides communication between the plurality of closed chambers and the outlet port passage
+a variable displacement axial piston pump is typically used to receive uid from a tank and supply pressurized uid through a control valve to move an actuator
+the present variable displacement axial piston pump has a swashplate arrangement that is capable of being angled in two different directions to control the pressure transitions between the low pressure inlet port passage and the higher pressure outlet port passage as cylinder bores in a barrel of a rotating group rotate through trapped volume regions situated between inlet and outlet port passages of the axial piston pump
+movement of the swashplate arrangement in two different directions provides smooth pressure transitions and increases the operating efciency of the variable displacement axial piston pump
+article reference summary ctrlsum the purpose of the present invention is to provide a variable displacement axial piston pump that is capable of delivering a variable amount of pressurized uid in response to a change in the displacement of the pump
+e
+question guided summarization we randomly sample articles from newsqa and show ve questions and answers from ctrlsum for each article
+we also show the gold answers to these questions
+table random examples on question guided summarization
+control tokens are bolded
+that the tokens are used as both keywords and prompts
+article tehran iran cnn iran s parliament speaker has criticized u
+s
+president elect barack obama for saying that iran s development of a nuclear weapon is unacceptable
+iranian president mahmoud ahmadinejad has outlined where he thinks u
+s
+policy needs to change
+ali larijani said saturday that obama should apply his campaign message of change to u
+s
+dealings with iran
+obama must know that the change that he talks about is not simply a supercial changing of colors or tactics larijani said in comments carried by the semi ofcial mehr news agency
+what is expected is a change in strategy not the repetition of objections to iran s nuclear program which will be taking a step in the wrong direction
+in his rst post election news conference friday afternoon obama reiterated that he believes a nuclear armed iran would be unacceptable
+he also said he would help mount an international effort to prevent it from happening
+larijani said that u
+s
+behavior toward iran will not change so simply but that obama s election showed internal conditions in the united states have shifted
+he added that iran does not mind if the united states provides other persian gulf countries with nuclear technology but you should know that you can not prevent the islamic republic from reaching its goals in the nuclear eld according to the news agency
+obama cautioned friday that it had only been a few days since the election and that he was not in ofce
+obviously how we approach and deal with a country like iran is not something that we should simply do in a knee jerk fashion
+i think we ve got to think it through obama said
+but i have to reiterate once again that we only have one president at a time
+and i want to be very careful that we are sending the right signals to the world as a whole that i am not the president and i wo nt be until january
+larijani was speaking two days after iranian president mahmoud ahmadinejad congratulated obama the rst time an iranian leader has offered such wishes to a u
+s
+president elect since the islamic revolution
+one analyst said the welcome was a gesture from the hard line president that he is open to a more conciliatory relationship with the united states
+ahmadinejad said tehran welcomes basic and fair changes in u
+s
+policies and conducts according to the state run islamic republic news agency on thursday
+relations between the united states and iran have historically been chilly and have been further strained in recent years over iran s nuclear program
+tehran insists that the program exists for peaceful purposes but the united states and other western nations are concerned by iran s refusal to halt uranium enrichment activities
+cnn s shirzad bozorgmehr contributed to this report
+q iran criticizes who a u
+s
+president elect barack obama
+gold answer u
+s
+president elect barack obama q what are us and iran relations tensioned about a iran s nuclear program
+gold answer nuclear program
+ctrlsum q who said obama should apply campaign message a ali larijani iran s parliament speaker
+gold answer ali larijani q what should obama apply according to speaker a change in strategy not the repetition of objections
+gold answer his campaign message of change q what kind of weapons are being discussed a nuclear weapons
+gold answer nuclear table random examples on question guided summarization
+control tokens are bolded
+that the tokens are used as both keywords and prompts
+article editor s note the staff at cnn
+com has recently been intrigued by the journalism of vice an independent media company and website based in brooklyn new york
+vbs
+tv is vice s broadband television network
+the reports which are produced solely by vice reect a transparent approach to journalism where viewers are taken along on every step of the reporting process
+we believe this unique reporting approach is worthy of sharing with our cnn
+com readers
+brooklyn new york vbs
+tv whenever someone at our ofce bitches about being overworked our stock response is beats digging ditches
+while the express intention of the statement is usually not so supportive we think it s a healthy reminder that at the end of the day we are all basically professional e mailers and should be thankful for such
+the wildland reghters who work for grayback forestry in medford oregon have no such motivational adages because their job is actually digging ditches
+around active forest res
+on the sides of mountains
+you ca nt even bitch at these guys for having cushy government pensions to fall back on when they get older because they re all private sector contractors
+which means if they are nt out ghting forest res or doing preventative forestry on unburned woods basically extreme landscaping they are losing money
+they are the hardest working men in the tree business
+southern oregon in the summer is a tinderbox
+last year the state recorded some wild res the majority of which occurred in the seemingly endless sea of trees running across its bottom from the cascades to the pacic coast
+humidity is next to nonexistent which is extremely pleasant but means that even an errant spark from a chainsaw or the proverbial cigarette butt out the car window can set the entire region ablaze
+flying into the rogue valley there is evidence of past wild res is everywhere from the miles long scar of the biscuit re stretching past the horizon to the smaller pockets of charred trees crowding the edge of towns to the blue wilderness fireghter ribbon bumper stickers ying past on the to the elaborate wildre and reghter shrines at a local bar
+see more of oregon fire lines at vbs
+tv there are very few places remen are nt revered as local heroes but the wilderness reghters of oregon go past people simply risking their lives to help others into a crazy superhero realm where their work regularly prevents entire settlements from being destroyed
+they re literally the guardians of their communities
+incidentally their work is also very benecial for the forest
+we spent a few days following a crew of grayback walk up the sides of what most people would consider a cliff to chop down underbrush in preparation for a controlled burn
+this is what they like to call project work the light stuff they do between res
+the work is the hardest and least rewarding work we have ever tried to do
+unless you consider hour plus shifts of backbreaking labor virtually zero outside recognition and occasional accusations of being shills for the timber industry rewards
+which we do not
+this piece was originally produced in august
+q what does the vbs call it a project work
+gold answer beats digging ditches
+q how long are the shifts a hour shifts
+gold answer hour plus ctrlsum q what does the hr shift involved a project work
+gold answer backbreaking labor virtually zero outside recognition and occasional accusations of being shills for the timber industry q which group followed reghters a the wildland reghters of oregon
+gold answer vbs
+tv q what is the vbs following a wildland reghters who work around active forest res
+gold answer a crew of grayback table random examples on question guided summarization
+control tokens are bolded
+that the tokens are used as both keywords and prompts
+article washington cnn the nation s largest publicly owned utility company may be vulnerable to cyber attacks according to a new report
+in president bush visited the browns ferry nuclear plant operated by the tennessee valley authority
+the tennessee valley authority which supplies power to almost million americans has not fully implemented appropriate security practices to protect the control systems used to operate its critical infrastructures leaving them vulnerable to disruption the government accountability ofce found
+simply put that means a skilled hacker could disrupt the system and cause a blackout
+rep
+james langevin a rhode island democrat fears the problem is much larger than just the tva
+if they are not secure i do nt have a great deal of condence that the rest of our critical infrastructure on the electric grid is secure he said
+the tva operates nuclear hydroelectric and fossil fuel facilities in the southeastern united states
+among the government watchdog agency ndings the tva s rewalls have been bypassed or are inadequately congured passwords are not effective servers and work stations lack key patches and effective virus protection intrusion detection systems are not adequate some locations lack enough physical security around control systems
+the gao recommends steps to correct the problems in its report to congress
+in september cnn rst aired dramatic footage of a government experiment demonstrating that a cyber attack could destroy electrical equipment
+the experiment dubbed aurora caused a generator to fall apart and grind to a halt after a computer attack on its control system
+the test was conducted by scientists at the idaho national laboratory
+in october the north american electric reliability corp
+told congress that percent of utilities had taken steps to mitigate the aurora vulnerability but langevin said it now appears that congress was misled
+a congressional audit of the electric reliability corporation s claim cast doubt on the assertion that most utilities were taking steps to x the problem
+it appears that they just made those numbers up langevin said
+it is not acceptable
+it is outrageous
+he said the result is there is now no clear picture of how vulnerable utilities are to cyber attacks
+the electric reliability corporation a nongovernmental group that oversees the power system and comprises members of the industry and some consumers told cnn it regrets the confusion
+experts told cnn that cooper industries is the only manufacturer of hardware that can close the aurora vulnerability
+the company estimated it would need to sell about devices to x the problem nationwide
+it has sold just over it told cnn
+langevin said the federal government may need new powers to require utilities to take corrective actions to close cyber security gaps and he will press to give those powers to the federal energy regulatory commission
+the congressman is chairing an emerging threats cybersecurity and science and technology subcommittee hearing wednesday afternoon
+representatives of the tva the gao the federal commission and the electric reliability corporation are to appear before the subcommittee
+q are cyber attacks a real threat a yes
+gold answer skilled hacker could disrupt the system and cause a blackout
+q what steps are being taken to access vulnerabilities a the gao recommends steps
+gold answer ctrlsum q what percentage of utilities were xed to combat attacks a percent
+gold answer percent q who can disrupt the tennessee valley authority a a skilled hacker
+gold answer skilled hacker q what was congress told a nothing
+gold answer percent of utilities had taken steps to mitigate the aurora vulnerability

@@ -1,0 +1,786 @@
+gret global representation enhanced transformer rongxiang haoran shujian heng lidong weihua jiajun key laboratory for novel software technology nanjing university nanjing china intelligence technology lab alibaba group hangzhou china wengrx funan
+whr inc
+com
+edu
+cn yuheng
+yh l
+bing weihua
+luowh inc
+com
+edu
+cn e f l c
+s c v
+v i x r a abstract transformer based on the encoder decoder framework has achieved state of the art performance on several natural guage generation tasks
+the encoder maps the words in the put sentence into a sequence of hidden states which are then fed into the decoder to generate the output sentence
+these hidden states usually correspond to the input words and focus on capturing local information
+however the global sentence level information is seldom explored leaving room for the improvement of generation quality
+in this paper we propose a novel global representation enhanced transformer gret to explicitly model global representation in the transformer network
+specically in the proposed model an external state is generated for the global representation from the encoder
+the global representation is then fused into the decoder ing the decoding process to improve generation quality
+we conduct experiments in two text generation tasks machine translation and text summarization
+experimental results on four wmt machine translation tasks and lcsts text marization task demonstrate the effectiveness of the proposed approach on natural language generation
+introduction transformer vaswani et al
+has outperformed other methods on several neural language generation nlg tasks like machine translation deng et al
+text tion chang huang and hsu
+generally former is based on the encoder decoder framework which consists of two modules an encoder network and a decoder network
+the encoder encodes the input sentence into a quence of hidden states each of which corresponds to a cic word in the sentence
+the decoder generates the output sentence word by word
+at each decoding time step the coder performs attentive read luong pham and manning vaswani et al
+to fetch the input hidden states and decides which word to generate
+as mentioned above the decoding process of former only relies on the representations contained in these hidden states
+however there is evidence showing that den states from the encoder in transformer only contain corresponding author copyright association for the advancement of articial intelligence www
+aaai
+org
+all rights reserved
+local representations which focus on word level tion
+for example previous work vaswani et al
+devlin et al
+song et al
+showed that these den states pay much attention to the word to word mapping and the weights of attention mechanism determining which target word will be generated is similar to word alignment
+as frazier pointed the global information which is about the whole sentence in contrast to individual words should be involved in the process of generating a sentence
+representation of such global information plays an import role in neural text generation tasks
+in the recurrent neural network rnn based models bahdanau cho and bengio chen showed on text summarization task that introducing representations about global information could improve quality and reduce repetition
+lin et al
+showed on machine translation that the structure of the lated sentence will be more correct when introducing global information
+these previous work shows global tion is useful in current neural network based model
+ever different from rnn sutskever vinyals and le cho et al
+bahdanau cho and bengio or cnn gehring et al
+although self attention mechanism can achieve long distance dependence there is no explicit mechanism in the transformer to model the global representation of the whole sentence
+therefore it is an appealing challenge to provide transformer with such a kind of global representation
+in this paper we divide this challenge into two issues that need to be addressed
+how to model the global contextual information and
+how to use global information in the generation process and propose a novel global tion enhanced transformer gret to solve them
+for the rst issue we propose to generate the global representation based on local word level representations by two mentary methods in the encoding stage
+on one hand we adopt a modied capsule network sabour frosst and ton to generate the global representation based the tures extracted from local word level representations
+the cal representations are generally related to the word to word mapping which may be redundant or noisy
+using them to generate the global representation directly without any tering is inadvisable
+capsule network which has a strong ability of feature extraction zhao et al
+can help to extract more suitable features from local states
+comparing with other networks like cnn krizhevsky sutskever and hinton it can see all local states at one time and tract feature vectors after several times of deliberation
+on the other hand we propose a layer wise recurrent structure to further strengthen the global representation
+vious work shows the representations from each layer have different aspects of meaning peters et al
+dou et al
+e
+
+lower layer contains more syntactic information while higher layer contains more semantic information
+a complete global context should have different aspects of formation
+however the global representation generated by the capsule network only obtain intra layer information
+the proposed layer wise recurrent structure is a helpful ment to combine inter layer information by aggregating resentations from all layers
+these two methods can model global representation by fully utilizing different grained formation from local representations
+for the second issue we propose to use a context ing mechanism to dynamically control how much tion from the global representation should be fused into the decoder at each step
+in the generation process every coder states should obtain global contextual information fore outputting words
+and the demand from them for global information varies from word to word in the output sentence
+the proposed gating mechanism could utilize the global resentation effectively to improve generation quality by viding a customized representation for each state
+experimental results on four wmt translation tasks and lcsts text summarization task show that our gret model brings signicant improvements over a strong baseline and several previous researches
+approach our gret model includes two steps modeling the global representation in the encoding stage and incorporating it into the decoding process
+we will describe our approach in this section based on transformer vaswani et al
+
+
+modeling global representation in the encoding stage we propose two methods for eling the global representation at different granularity
+we rstly use capsule network to extract features from local word level representations and generate global tion based on these features
+then a layer wise recurrent structure is adopted subsequently to strengthen the global representation by aggregating the representations from all layers of the encoder
+the rst method focuses on utilizing word level information to generate a sentence level sentation while the second method focuses on combining different aspects of sentence level information to obtain a more complete global representation
+intra layer representation generation we propose to use capsules with dynamic routing to extract the specic and suitable features from the local representations for stronger global representation modeling which is an effective and for k in output layer do algorithm dynamic routing algorithm procedure r for i in input layer and in output layer do bki end for for r iterations do end for return u end for for i in input layer and in output layer do ck end for for k in output layer do i ckihi bki hi bki end for h u hi strong feature extraction method sabour frosst and hinton zhang liu and song
+features from hidden states of the encoder are summarized into several capsules and the weights routes between hidden states and capsules are updated by dynamic routing algorithm iteratively
+formally given an encoder of the transformer which has m layers and an input sentence xi which has i words
+the sequence of hidden states hm hm hm from the mth layer of the encoder i is computed by hm i xi hm e e e e e and where the qm are query key and value e vectors which are same as the hidden states from the layer
+the ln m are layer normalization and san function ba kiros and hinton and self attention work vaswani et al
+respectively
+we omit the ual network here
+then the capsules um with size of k are generated by hm
+specically the kth capsule um k is computed by um q i i h m i wkhm i m ckih i ck is non linear squash function sabour frosst and where q hinton and ck is computed by t t t t ck bk b details of the capsule network are shown in sabour frosst and hinton
+figure the overview of generating the global tion with capsule network
+where the matrix b is initialized by zero and whose row and column are k and i respectively
+this matrix will be dated when all capsules are produced
+b b hm
+the algorithm is shown in algorithm
+the sequence of capsules um could be used to generate the global tation
+different from the original capsules network which use a concatenation method to generate the nal representation we use an attentive pooling method to generate the global
+formally in the mth layer the global sentation is computed by k sm ffn akum k ak m um m um sm ffn k k um
+where ffn puted by is a feed forward network and the s m is this attentive method can consider the different roles of the capsules and better model the global representation
+the overview of the process of generating the global tion are shown in figure
+inter layer representation aggregation traditionally the transformer model only fed the last layer s hidden states the concatenation and other pooling methods e
+
+mean pooling could be used here easily but they will decrease
+
+bleu in machine translation experiment
+figure the overview of the layer wise recurrent structure
+hm as representations of input sentence to the decoder to generate the output sentence
+following this we can feed the last layer s global representation sm into the decoder directly
+however current global representation only tain the intra layer information the other layers tations are ignored which were shown to have different aspects of meaning in previous work wang et al
+dou et al
+
+based on this intuition we propose a layer wise recurrent structure to aggregate the tions generated by employing the capsule network on all ers of the encoder to model a complete global representation
+the layer wise recurrent structure aggregates each layer s intra global state by a gated recurrent unit cho et al
+gru which could achieve different aspects of information from the previous layer s global representation
+formally we adjust the computing method of by sm where the atp is the attentive pooling function puted by eq
+the gru unit can control the tion ow by forgetting useless information and capturing suitable information which can aggregate previous layer s representations usefully
+the layer wise recurrent structure could achieve a more exquisite and complete tion
+moreover the proposed structure only need one more step in the encoding stage which is not time consuming
+the overview of the aggregation structure is shown in figure
+incorporating into the decoding process
+before generating the output word each decoder state should consider the global contextual information
+we bine the global representation in decoding process with an additive operation to the last layer of the decoder guiding the states output true words
+however the demand for the global information of each target word is different
+thus we propose a context gating mechanism which can provide cic information according to each decoder hidden state
+specically given an decoder which has n layers and the target sentence which has j words in the training stage the hidden states rn rn rn j from the n layer of the decoder is computed by d kn rn d km vn e vm e rn j layer of local statescapsulesglobal statedynamic layermth layer public and widely used in previous work which will make other researchers replicate our work easily
+in machine translation on the zh en task we use as training set which consists of about
+m tence pairs
+we use as validation set and as test set which have and en sentence pairs respectively
+on the en tasks we use as training set which consists of about
+m sentence pairs
+we use as validation set and as test set which have and sentence pairs respectively
+on the ro en task we use as training set which consists of about
+m sentence pairs
+we use as validation set and as test set which has and sentence pairs respectively
+de and de in text summarization following in hu chen and zhu we use part i as training set which consists of m sentence pairs
+we use the subsets of part ii and part iii scored from to as validation and test sets which sists of and sentence pairs respectively
+in machine translation we apply byte pair settings ing bpe sennrich haddow and birch to all guage pairs and limit the vocabulary size to k
+in text summarization we limit the vocabulary size to based on the character level
+out of vocabulary words and chars are replaced by the special token unk
+for the transformer we set the dimension of the input and output of all layers as and that of the feed forward layer to
+we employ parallel attention heads
+the number of layers for the encoder and decoder are
+sentence pairs are batched together by approximate sentence length
+each batch has sentence and the maximum length of a sentence is limited to
+we set the value of dropout rate to
+
+we use the adam kingma and ba to update the ters and the learning rate was varied under a warm up egy with steps vaswani et al
+
+other details are shown in vaswani et al
+
+the number of capsules is set and the default time of iteration is set
+the training time of the transformer is about days on the de en task
+and the training time of the gret model is about hours when using the parameters of baseline as initialization
+after the training stage we use beam search for heuristic decoding and the beam size is set to
+we measure tion quality with the nist bleu papineni et al
+and summarization quality with the rouge lin
+
+main results machine translation we employ the proposed gret model on four machine translation tasks
+all results are marized in table
+for fair comparison we reported eral transformer baselines with same settings reported by previous work vaswani et al
+hassan et al
+gu et al
+and researches about enhancing local word level representations dou et al
+yang et al
+shaw uszkoreit and vaswani yang et al
+
+the results on the zh en task are shown in the second column of table
+the improvement of our gret figure the context gating mechanism of fusing the global representation into decoding stage
+d kn where qn layer
+the km n the residual network here
+for each hidden state rn j and vn e and vm calculated by are hidden states rn from e are same as hm
+we omit from rn the context gate is gj j sm
+the new state which contains the needed global tion is computed by rn j j sm g
+j then the output probability is calculated by the output layer s hidden state p y j j
+this method enables each state to achieve it s customized global information
+the overview is shown in figure
+
+training the training process of our gret model is same as the dard transformer
+the networks is optimized by maximizing the likelihood of the output sentence y given input sentence denoted by ltrans
+ltrans j j log p y j where p y j is dened in equation
+experiment implementation detail
+data sets we conduct experiments on machine translation and text summarization tasks
+in machine translation we employ our approach on four language pairs chinese to de german to glish zh en
+english de in text summarization we use lcsts hu chen and zhu to evaluate the proposed method
+these data sets are en and romanian to english ro en english to german en
+statmt
+org translation task
+html
+hitsz
+edu
+cn article
+html step model transformer vaswani et al
+transformer hassan et al
+transformer gu et al
+deeprepre dou et al
+localness yang et al
+relpos shaw uszkoreit and vaswani context aware yang et al
+gdr zheng et al
+transformer gret zhen ende deen roen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table the comparison of our gret transformer baseline and related work on the chinese to english zh english to german en indicates the results came from their paper en and romania to english ro indicate signicantly better than the baseline p
+
+
+de and german to english de en en tasks model rnnsearch hu chen and zhu copynet gu et al
+mrt ayana liu and sun ac abs li bing and lam cgu lin et al
+transformer chang huang and hsu transformer gret
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+rouge l
+
+
+
+
+
+
+table the comparison of our gret transformer baseline and related work on the lcsts text summarization task indicates the results came from their paper
+model could be up to
+based on a strong baseline system which outperforms all previous work we reported
+to our best knowledge our approach attains the state of the art in relevant researches
+then the results on the en en tasks which is the most widely used data set recently are shown in the third and fourth columns
+the gret model could attain
+bleu
+on the en de and
+bleu
+on the de en which are competitive sults compared with previous studies
+de and de to verify the generality of our approach we also periment it on low resource language pair of the ro en task
+results are shown in the last column
+the provement of the gret is
+bleu which is a material improvement in low resource language pair
+and it shows that proposed methods could improve translation quality in low resource scenario
+experimental results on four machine translation tasks show that modeling global representation in the current transformer network is a general approach which is not limited by the language or size of training data for ing translation quality
+text summarization besides machine translation we also employ proposed methods in text summarization a monolingual generation task which is an important and ical task in natural language generation
+the results are shown in table we also reports eral popular methods in this data set as a comparison
+our figure the comparison of the gtr with different number de task
+of capsules at different iteration times on the en approach achieves considerable improvements in l
+
+
+and outperforms other work with same settings
+the improvement on text summarization is even more than machine translation
+compared with chine translation text summarization focuses more on tracting suitable information from the input sentence which is an advantage of the gret model
+experiments on the two tasks also show that our approach could work on different types of language generation task and may improve the performance of other text generation tasks
+
+ablation study to further show the effectiveness and consumption of each module in our gret model we make ablation study in this model transformer capsule aggregate gate param inference bleu
+
+
+m
+
+
+m
+
+
+m
+
+
+m
+
+
+m
+
+
+m
+
+
+m
+
+
+m
+
+
+m
+
+
+
+
+
+
+
+our approach table ablation study on the english to german en de machine translation task
+model transformer base gtr base transformer big gret big param inference
+m
+m m m
+
+
+
+bleu
+
+
+
+table the comparison of gret and transformer with big setting vaswani et al
+on the en de task
+model last average gret precision table the precision from the bag of words predictor based on gret last encoder state last and averaging all local states average on the en de task
+section
+specically we investigate how the capsule work aggregate structure and gating mechanism affect the performance of the global representation
+the results are shown in table
+specically without the capsule network the performance decreases
+bleu which means extracting features from local tions iteratively could reduce redundant information and noisy
+this step determines the quality of global tation directly
+then aggregating multi layers tions attains
+bleu improvement
+the different aspects of information from each layer is an excellent complement for generating the global representation
+without the gating mechanism the performance decreases
+bleu score which shows the context gating mechanism is important to control the proportion of using the global representation in each decoding step
+while the gret model will take more time we think it is worthwhile to improve generation quality by reducing a bit of efciency in most scenario
+
+effectiveness on different model settings we also experiment the gret model with big setting on the de task
+the big model is far larger than above base en model and get the state of the art performance in previous work vaswani et al
+
+the results are shown in table transformer big figure the comparison of the gtr with different number de task
+of capsules at different iteration times on the en performs transformer base while the gret big improves
+bleu score comparing with the transformer big
+it is worth to mention that our model with base setting could achieve a similar performance to the big which reduces parameters by almost
+m vs
+m and inference time by almost
+vs
+
+
+
+analysis of the capsule the number of capsules and the iteration time from namic routing algorithm may affect the performance of the proposed model
+we evaluate the gret model with ent number of capsules at different iteration times on the en de task
+the results are shown in figure
+we can get two empirical conclusions in this experiment
+first the rst three iterations can signicantly improve the performance while the results of more iterations and tend to stabilize
+second the increase of capsule number and does nt get a further gain
+we think the reason is that most sentences are shorter than just the suitable amount of capsules can extract enough features
+
+probing experiment what does the global representation learn is an interesting question
+following weng et al
+we do a probing experiment here
+we train a bag of words predictor by sm where ybow is an unordered set imizing p taining all words in the output sentence
+the structure of the predictor is a simple feed forward network which maps the global state to the target word embedding matrix
+then we compare the precision of target words in the k words which are chosen through the predicted probability figure translation cases from transformer and our gret model on the zh en task
+
+the results are shown in table the global state from gret can get higher precision in all conditions which shows that the proposed method can obtain more formation about the output sentence and partial answers why the gret model could improve the generation quality
+
+analysis of sentence length to see the effectiveness of the global representation we group the en de test set by the length of the input tences to re evaluate the models
+the set is divided into sets
+figure shows the results
+we nd that our model outperforms the baseline in all categories especially in the longer sentences which shows that fusing the global resentation may help the generation of longer sentences by providing more complete information
+
+case study we show two real cases on the zh en task to see the ference between the baseline and our model
+these cases are shown in figure
+the source indicates the source sentence and the reference indicates the human translation
+the bold font indicates improvements of our model and the italic font indicates translation errors
+each output from gret is decided by previous state and the global representation
+so it can avoid some common translation errors like over under translation caused by the strong language model of the decoder which ignores some translation information
+for example the over translation of the cities of hefei in case is corrected by the gret model
+furthermore providing global information can avoid current state only focuses on the word to word mapping
+in case the vanilla transformer translates the moscow travel police according to the source input mosike lvyou jingcha but omits the words renyuan zhaolu which leads it fails to translate the target word recruiting
+related work several work also try to generate global representation
+in machine translation lin et al
+propose a volutional method to obtain global information to guide the translation process in rnn based model
+however the itation of cnn can not model the global information well and there methods can not employ on the transformer
+in details are shown in weng et al
+
+text summarization chen also propose to rate global information in rnn based model to reduce tition
+they use an additional rnn to model the global resentation which is time consuming and can not get the long dependence relationship which hinders the ness of the global representation
+zhang liu and song propose a sentence state lstm for text representation
+our method shows an tive way of obtaining the representation on the tion of the transformer
+many previous researches notice the importance of the representations generated by the encoder and focus on ing full use of them
+wang et al
+propose to use sule network to generate hidden states directly which inspire us to use capsules with dynamic routing algorithm to extract specic and suitable features from these hidden states
+wang et al
+dou et al
+propose to utilize the hidden states from multiple layers which contain different aspects of information to model more complete representations which inspires us to use the states in multiple layers to enhance the global representation
+conclusion in this paper we address the problem that transformer does nt model global contextual information which will crease generation quality
+then we propose a novel gret model to generate an external state by the encoder taining global information and fuse it into the decoder namically
+our approach solves the both issues of how to model and how to use the global contextual information
+we compare the proposed gret with the state of the art former model
+experimental results on four translation tasks and one text summarization task demonstrate the ness of the approach
+in the future we will do more analysis and combine it with the methods about enhancing local resentations to further improve generation performance
+acknowledgements we would like to thank the reviewers for their insightful comments
+shujian huang is the corresponding author
+this work is supported by the national key program of china no
+the national science foundation of china no
+the jiangsu provincial research foundation for basic research no
+
+s referenceinadditiontosuzhou othersecond tiercitiesincludinghefeiandnanjingwillalsointroducepropertymarketregulationsandcontrolpolicies
+transformerthesecond tiercities includinghefeiandnanjing arenotonlysuzhou butalsothecitiesofhefei
+gretthesecond tiercities notonlysuzhou butalsohefeiandnanjingwillalsointroducepropertymarketregulationsandcontrolpolicies
+m referencetherecruiting policemodeandequipmentofmoscowtourismpoliceofcershaveinspiredusalot
+transformerwehavealotofinspirationfromthemoscowtravelpolice thepolicemodel andtheequipment
+gretwehavealotofinspirationbythemoscowtravelpolicesrecruiting policemode andequipment
+
+experimenthere
+wetrainabag of wordspredictorbymax tainingallwordsintheoutputsentence
+thestructureofthepredictorisasimplefeed forwardnetworkwhichmapstheglobalstatetothetargetwordembeddingmatrix
+then wecomparetheprecisionofthetargetwordsinthetop kwordswhicharechosenthroughthepredictedprob
+ditions whichshowsthattheproposedmethodcanobtainmoreinformationabouttheoutputsentenceandpartialan swerswhythegretmodelcouldimprovethegenerationquality
+
+tencestore evaluatethemodels
+
+
+wendthatourmodeloutperformsthebaselineinallcategories especiallyinthelongersentences whichshowsthatfusingtheglobalrep resentationmayhelpthegenerationoflongersentencesbyprovidingmorecompleteinformation
+
+ferencebetweenthebaselineandourmodel
+
+thesourceindicatesthesourcesentenceandthereferenceindicateshumantranslation
+
+eachoutputfromgretisdecidedbypreviousstateandtheglobalrepresentation
+so itcanavoidsomecommontranslationerrorslikeover undertranslation causedbythestronglanguagemodelofthedecoderignoressometransla tioninformation
+forexample
+furthermore providingglobalinformationcanavoidcurrentstateonlyfocusesonword to wordmapping
+
+
+
+
+inmachinetranslation linetal
+volutionalmethodtoobtainglobalinformationtoguidethetranslationprocessinrnn basedmodel
+however thelim itationofcnncannotmodeltheglobalinformationwellandtheremethodscannotemployonthetransformer
+intextsummarization rateglobalinformationinrnn basedmodeltoreducerepe tition
+theyuseanadditionalrnntomodeltheglobalrep resentation whichistime consumingandcannotgetthelong dependencerelationship whichhinderstheeffective nessoftheglobalrepresentation
+zhang liu statelstmfortextrepresentation
+ourmethodshowsanalterna tivewayofobtainingtherepresentation ontheimplementa tionofthetransformer
+manypreviousresearchesnoticetheimportanceoftherepresentationsgeneratedbytheencoderandfocusonmak ingfulluseofthem
+wangetal
+sulenetworktogeneratehiddenstatesdirectly whichinspireustousecapsuleswithdynamicroutingalgorithmtoextractspecicandsuitablefeaturesfromthesehiddenstates
+wangetal
+douetal
+whichinspiresustousethestatesinmultiplelayerstoenhancetheglobalrepresentation
+weaddresstheproblemthattransformerdoesntmodelglobalcontextualinformationwhichwillde creasegenerationquality
+then weproposeanovelgretmodeltogenerateanexternalstatebytheencodercon tainingglobalinformationandfuseitintothedecoderdy namically
+ourapproachsolvesthebothissuesofhowtomodelandhowtousetheglobalcontextualinformation
+wecomparetheproposedgretwiththestate of the arttrans formermodel
+experimentalresultsonfourtranslationtasksandonetextsummarizationtaskdemonstratetheeffective nessoftheapproach
+inthefuture wewilldomoreanalysisandcombineitwiththemethodsaboutenhancinglocalrep resentationstofurtherimprovegenerationperformance
+references ayana s
+s
+liu z
+and sun m
+
+neural line generation with minimum risk training
+arxiv preprint
+
+ba j
+l
+kiros j
+r
+and hinton g
+e
+
+layer malization
+arxiv preprint
+
+bahdanau d
+cho k
+and bengio y
+
+neural chine translation by jointly learning to align and translate
+corr
+chang c
+
+huang c
+
+and hsu j
+y
+
+
+a hybrid word character model for abstractive summarization
+corr
+chen g
+
+chinese short text summary generation model combining global and local information
+in ncce
+cho k
+van merrienboer b
+gulcehre c
+bahdanau d
+bougares f
+schwenk h
+and bengio y
+
+learning phrase representations using rnn encoder decoder for tical machine translation
+in emnlp
+deng y
+cheng s
+lu j
+song k
+wang j
+wu s
+yao l
+zhang g
+zhang h
+zhang p
+et al
+
+alibaba s neural machine translation systems for
+in ence on machine translation shared task papers
+devlin j
+chang m
+
+lee k
+and toutanova k
+
+bert pre training of deep bidirectional transformers for guage understanding
+arxiv
+dou z
+
+tu z
+wang x
+shi s
+and zhang t
+
+exploiting deep representations for neural machine tion
+in emnlp
+frazier l
+
+sentence processing a tutorial review
+gehring j
+auli m
+grangier d
+and dauphin y
+n
+
+a convolutional encoder model for neural machine translation
+arxiv preprint
+
+gehring j
+auli m
+grangier d
+yarats d
+and dauphin y
+n
+
+convolutional sequence to sequence learning
+arxiv preprint
+
+gu j
+lu z
+li h
+and li v
+o
+
+copying mechanism in sequence to sequence learning
+acl
+gu j
+bradbury j
+xiong c
+li v
+o
+and socher r
+
+non autoregressive neural machine translation
+in iclr
+hassan h
+aue a
+chen c
+chowdhary v
+clark j
+federmann c
+huang x
+junczys dowmunt m
+lewis w
+li m
+et al
+
+achieving human parity on tomatic chinese to english news translation
+arxiv preprint
+
+hu b
+chen q
+and zhu f
+
+lcsts a large scale chinese short text summarization dataset
+in emnlp
+kingma d
+p
+and ba j
+
+adam a method for stochastic optimization
+corr
+krizhevsky a
+sutskever i
+and hinton g
+e
+
+imagenet classication with deep convolutional neural works
+in nips
+li p
+bing l
+and lam w
+
+actor critic based ing framework for abstractive summarization
+arxiv preprint
+
+incorporating in lin j
+sun x
+ma s
+and su q
+
+global encoding for abstractive summarization
+in acl
+lin j
+sun x
+ren x
+ma s
+su j
+and su q
+
+deconvolution based global decoding for neural machine translation
+in acl
+lin c
+
+
+rouge a package for automatic tion of summaries
+in acl
+luong m
+pham h
+and manning c
+d
+
+effective approaches to attention based neural machine translation
+in emnlp
+papineni k
+roukos s
+ward t
+and zhu w
+
+
+bleu a method for automatic evaluation of machine lation
+in acl
+peters m
+e
+neumann m
+iyyer m
+gardner m
+clark c
+lee k
+and zettlemoyer l
+
+deep contextualized word representations
+arxiv preprint
+
+sabour s
+frosst n
+and hinton g
+e
+
+dynamic routing between capsules
+corr
+sennrich r
+haddow b
+and birch a
+
+neural chine translation of rare words with subword units
+in acl
+shaw p
+uszkoreit j
+and vaswani a
+
+self attention with relative position representations
+in naacl
+song k
+wang k
+yu h
+zhang y
+huang z
+luo w
+duan x
+and zhang m
+
+alignment enhanced former for constraining nmt with pre specied translations
+in aaai
+sutskever i
+vinyals o
+and le q
+v
+
+sequence to sequence learning with neural networks
+in nips
+vaswani a
+shazeer n
+parmar n
+uszkoreit j
+jones l
+gomez a
+n
+kaiser
+and polosukhin i
+
+tention is all you need
+in nips
+wang m
+xie j
+tan z
+su j
+et al
+
+towards ear time neural machine translation with capsule networks
+arxiv
+wang q
+li f
+xiao t
+li y
+li y
+and zhu j
+
+multi layer representation fusion for neural machine lation
+in coling
+weng r
+huang s
+zheng z
+dai x
+and chen j
+
+neural machine translation with word predictions
+in emnlp
+yang b
+tu z
+wong d
+f
+meng f
+chao l
+s
+and zhang t
+
+modeling localness for self attention works
+in emnlp
+yang b
+li j
+wong d
+f
+chao l
+s
+wang x
+and tu z
+
+context aware self attention networks
+in aaai
+zhang y
+liu q
+and song l
+
+sentence state lstm for text representation
+in acl
+zhao w
+ye j
+yang m
+lei z
+zhang s
+and zhao z
+
+investigating capsule networks with dynamic routing for text classication
+arxiv preprint
+
+zheng z
+huang s
+tu z
+dai x
+
+and chen j
+
+dynamic past and future for neural machine lation
+in emnlp ijcnlp
+

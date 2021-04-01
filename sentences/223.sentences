@@ -1,0 +1,337 @@
+a summarization system for scientic documents shai michal shmueli guy ora peled odellia haggai doron bar yosi or guy achiya jonathan yufang charles martin francesca debasis david research cloud
+ibm
+com abstract we present a novel system providing maries for computer science publications
+through a qualitative user study we ed the most valuable scenarios for ery exploration and understanding of tic documents
+based on these ndings we built a system that retrieves and summarizes scientic documents for a given information need either in form of a free text query or by choosing categorized values such as scientic tasks datasets and more
+our system ingested papers and its summarization ule aims to generate concise yet detailed maries
+we validated our approach with man experts
+introduction the publication rate of scientic papers is ever creasing and many tools such as google scholar microsoft academic and more provide search pabilities and allow researchers to nd papers of interest
+in computer science and specically natural language processing machine learning and articial intelligence new tools that go yond search capabilities are used to plore singh et al
+discuss and publications
+yet there is still a high information load on researchers that seek to keep up to date
+summarization of scientic papers can mitigate this issue and expose researchers with adequate amount of information in order to reduce the load
+many tools for text summarization are
+however such tools target mainly news or simple documents not taking into account the characteristics of scientic papers i
+e
+their length and complexity
+sanity
+com
+
+com miso belica sumy ivypanda
+com online text summarizer a summarization system for scientic tions requires many underlying technologies rst extracting structure tables and gures from pdf documents then identifying important entities and nally generating a useful summary
+we chose to provide summarization as part of a search system as it is the most common interface to sume scientic content regardless of the task
+use cases
+we identied the most valuable narios for scientic paper usage through a tive user study
+we interviewed six potential users a phd student two young researchers two senior researchers and a research strategist all in the nlp domain
+users were asked to describe when do they access scientic papers how often does it happens how do they explore content and nally what are their pain points with current tools
+top scenarios were by order of frequency keeping updated on current work preparing a research project grant request preparing related works when writing a paper checking the novelty of an idea and learning a new domain or ogy
+while and are important it seems that they happen only a few times a year whereas scenario happens on a daily weekly basis
+all users mentioned information overload as their main problem and foremost the efforts incurred by reading papers
+thus we decided to focus on scenario
+we further asked the users to describe how do they search and the strategy they use to decide whether they want to read a paper
+for a users mentioned searching by using either keywords entities e
+
+task name dataset name benchmark name or citation
+in this scenario users are familiar with their research topic and hence can be very focused
+some amples queries were state of the art results for squad or using bert in abstractive rization
+for users rst read the title and if g u a l c
+s c v
+v i x r a relevant continue to the abstract
+here users tioned that in many cases they nd the abstract not informative enough in order to determine evance
+hence the importance of summarization for helping researchers understand the gist of a paper without the need to read it entirely or even opening the pdf le
+approach and contribution
+we present a novel summarization system for computer ence publications named ibm science rizer which can be useful foremost to the acl it community and to researchers at large
+duces summaries focused around an information need provided by the user a natural language query scientic tasks e
+
+machine tion datasets or academic venues
+ibm science summarizer summarizes the various sections of a paper independently allowing users to focus on the relevant sections for the task at hand
+in ing so the system exploits the various entities and the user s interactions like the user query in order to provide a relevant summary
+we validated our approach with human experts
+the system is able at
+biz sciencesum
+related work numerous tools support the domain of scientic publications including search monitoring ing and more
+for automatic summarization forts mostly concentrated on automated generation of survey papers jha et al
+jie et al
+
+surveyor jha et al
+considers both content and discourse of source papers when generating survey papers
+citationas jie et al
+tomatically generates survey papers using citation content for the medical domain
+the main ences between these systems and ours is that they create summaries from multi documents while our tool summarizes individual papers and ports query focused summaries
+for supporting the acl community cl scholar singh et al
+presents a graph ing tool on top of the acl anthology and ables exploration of research progress
+albank fabbri et al
+helps researchers to learn or stay up to date in the nlp eld
+recently is an open resource for ml pers code and leaderboards
+our work is mentary to these approaches and provide the rst
+figure ibm science summarizer framework
+tool for automatic summarization and exploration of scientic documents
+system overview ibm science summarizer s main purpose is to support discovery exploration and ing of scientic papers by providing summaries
+the system has two parts
+first an ingestion pipeline parses and indexes papers content from arxiv
+com and acl anthology as depicted in ure
+second a search engine backed up by a ui supports search and exploration coupled with summarization as shown in figure
+figure shows the user interface for ibm ence summarizer
+users interact with the tem by posing natural language queries or by using lters on the metadata elds such as ference venue year and author or entities e
+
+tasks
+user experience is an tant usability factor
+thus our ui provides dicators to help users explore and understand sults
+specically associating a comprehensive structure with each result allows users to navigate inside content in a controlled manner each tion shows clearly the elements that are computed by the system section summary detected entities
+and the elements that are directly extracted from the original paper
+this clear distinction lows users to have visibility into the systems tributions flavian et al
+
+ingestion pipeline our from system contains papers arxiv
+org computer science subset and the clarity more related works are referred to in the ious sections of this paper
+this case there is no user query
+documents entities queryqueryanalysis enrichmentquery querysummarypdfjsontext tables figures extractionmetadata enrichmententity figure ibm science summarizer ui
+acl
+the ingestion pipeline consists of paper acquisition extracting the paper s text tables and gures and enriching the paper s data with various annotations and entities
+paper parsing
+we use science to tract the pdf text tables and gures
+parse outputs a json record for each pdf which among other elds contains the title abstract text metadata such as authors and year and a list of the sections of the paper where each record holds the section s title and text
+we have merged sub sections into their containing sections and this resulted in about merged sections per article e
+
+see fig
+
+science parse also supports tracting gures and tables into an image le as well as caption text
+in addition we detect gure and table ences in the extracted text
+we extract tasks datasets and metric see details below
+finally we use to index the papers where for each paper we index its title abstract text tions text and some metadata
+removed duplication between the two by using card similarity on the titles and authors
+
+com allenai science parse
+elastic
+co entities extraction
+entities in our system are of three types task e
+
+question answering e
+
+
+and metric e
+
+
+we utilize both a dictionary based proach and learning based approach as follows
+first we adopted the manual curated dictionaries of
+since those dictionaries may not cover all evolving topics we further developed a module that automatically extracts entities
+ferently from previous work on information traction from scientic literature which mainly cused on the abstract section gabor et al
+luan et al
+we analyze the entire paper and extract the above three types of entities that are related to the paper s main research ndings
+we cast this problem as a textual entailment task we treat paper contents as text and the targeting dataset metric tdm triples as hypothesis
+the textual entailment approach forces our model to focus on learning the similarity patterns between text and various triples
+we trained our ule on a dataset consisting of papers in the nlp domain and it achieves a macro score of
+and a micro score of
+for predicting tdm triples on a testing dataset containing papers hou et al
+
+in total our system dexed tasks datasets and metrics from the entire corpus
+summarization this module generates a concise coherent mative summary for a given scientic paper that covers the main content conveyed in the text
+the summary can either be focused around a query or query agnostic a generic
+tic papers are complex they are long structured cover various subjects and the language may be quite different between sections e
+
+the duction is quite different than the experiments tion
+to ensure our summarizer assigns sufcient attention to each of these aspects we have opted to generate a standalone summary for each section
+this way we summarize a shorter more focused text and the users can navigate more easily as they are given the structure of the paper
+each of these section based summaries are eventually composed together into one paper summary
+scientic papers summarization goes back more than thirty years
+some of these works cus on summarizing content paice paice and jones while others focused on citation sentences citation aware summarization elkiss et al
+qazvinian and radev jbara and radev
+recently yasunaga et al
+released a large scale dataset net including summaries produced by humans for over scientic papers using solely the pers abstract and citations
+while citations data encompasses the impact of the paper and views from the research community it is not available for newly published papers and tends to lead to high level and shorter summaries scisumm net average summary length is words
+we opted to focus on more extensive detailed summaries which do not rely on citations data
+as mentioned above the inputs to the summarization module are an optional query and entities task dataset metric and the relevant papers returned by the see fig
+
+given a retrieved per and the optional query q or entity we scribe next how a summary is produced for each section d in the paper
+if present q can either be query handling
+short and focused or verbose
+if short it is panded using query expansion xu et al
+
+this pseudo relevance feedback transforms q into a prole of unigram terms obtained from alyzing the top papers that are returned from our corpus as a response to the given query
+tively in the case of a verbose query a fixed point term weighting schema paik and oard is applied in order to rank the terms of the query
+alternatively if only ltering is applied and there is no query the keyphrases of the paper are extracted and used as a surrogate for the query
+in this case all keywords in the generated query are given the same weight
+pre processing
+sentences are segmented ing the nltk library and each sentence is enized lower cased and stop words are removed
+then each sentence is transformed into a grams and bi grams bag of words representations where each n gram is associated with its relative frequency in the text
+summarization algorithm
+in general maries can either be extractive or an abstractive
+in the extractive case a summary is generated by selecting a subset of sentences from the original input
+abstractive summarizers on the other hand can also paraphrase input text
+in many cases tractive summarization generates grammatical and focused summaries while abstractive techniques require heavy supervision are limited to short documents and may transform meaning gambhir and gupta
+in our system summarization is applied on d using a state of the art unsupervised tive query focused summarization algorithm spired by feigenblat et al
+whose details are briey described as follows
+the algorithm gets a paper section a natural language query q a desired summary length in our case and a set of entities associated with the query eq
+the output s is a subset of sentences from d selected through an unsupervised mization scheme
+to this end the sentence subset selection problem is posed as a multi criteria mization problem where several summary quality objectives are be considered
+the selection is tained using the cross entropy ce method binstein and kroese
+optimization starts by assigning a uniform importance probability to each sentence in d
+then ce works iteratively and at each iteration it samples summaries ing a learnt distribution over the sentences and that in order to optimize the response time the leave the study of variable length section summaries duction system currently offers query agnostic summaries
+for future work
+evaluates the quality of these summaries by ing a target function
+this function takes into count several quality prediction objectives which for simplicity are multiplied together
+the ing process employs an exploration exploitation trade off in which the importance of a sentence is a fusion between its importance in previous tions and its importance in the current one
+the following ve summary quality tors are used by feigenblat et al
+query saliency entities coverage diversity text coverage and sentence length
+query saliency measures to what extent the summary contains query related terms as expressed by the cosine similarity tween the unigrams bag of words representation of the summary and the query terms
+entities erage measures to what extent the set of entities identied in a summary shares the same set of tities with eq measured by the jaccard ity between the sets
+the aim of this objective is to produce a summary that is more aligned with the information need provided explicitly as a lter specied by the user or implicitly learnt from the query terms
+diversity lays towards summaries with a diverse language model using the entropy of the unigrams bag of words representation of the summary
+text coverage measures the summary coverage of d as measured by cosine similarity between the bi gram bag of words representation of a summary and d
+finally the length tive biases towards summaries that include longer sentences which tend to be more informative
+human evaluation ibm science summarizer summarization paradigm is section based i
+e
+each section is summarized independently and then all sections summaries are combined into the paper s mary
+in order to evaluate this paradigm we approached authors from the nlp community and asked them to evaluate summaries of two papers that they have co authored preferably as the rst author
+for each paper we generated the section based two summaries of two types summary as described above and a second summary generated using the same algorithm but ignoring sections i
+e
+treating the paper content as at text a section agnostic summary
+for the section based summary each section s summary length was xed to sentences
+the length of the section agnostic summary was dened as the length of the section based summary
+in total papers and summaries were evaluated
+tasks
+the authors evaluated summaries of each summary type section agnostic and section based in random order by performing the following tasks per summary for each sentence in the summary we asked them to indicate whether they would consider it as a part of a summary of their paper i
+e
+precision oriented measure we asked them to evaluate how well each of the tions of the paper is covered in the summary i
+e
+coverage recall and we asked them to ally evaluate the quality of the summary
+for tasks and we used a scale ranging from very bad to excellent means good
+analysis
+the objective of the analysis is to nd quantitative scores for each summary type to cilitate a comparison between them
+for task for each paper we calculated the precision scores of the two summary types and then computed the average score for each summary type across all papers
+for task we calculated an average score for each paper and summary type by aging over the sections scores
+then we obtained the average of these scores for each summary type across all papers
+finally for task we simply averaged the scores given by the authors to each summary type
+to further quantify the evaluation we analyzed how well each summary type did for each of the tasks
+for that we counted the ber of times that each summary type scored better than the other and then divided by the total ber of papers to obtain the wins
+results
+table summarizes the results across the tasks
+for example for task for of the papers the section based summary was scored higher while for the section agnostic mary was scored higher for of the papers the summaries were scored equally
+the average score for section based summaries was
+with standard deviation of
+
+notably the quality of the section based summaries signicantly performs the section agnostic summaries on all tasks supporting our proposed paradigm
+conclusion we presented ibm science summarizer the rst system that provides researchers a tool to tematically explore and consume summaries of scientic papers
+as future work we plan to add task section agnostic section based wins avg
+score std wins avg
+score std
+
+
+
+
+
+
+
+
+
+
+
+table tasks results for section agnostic and based
+the results were signicant with p
+
+the results were signicant with p
+
+support for additional entities e
+
+methods and to increase our corpus to include more papers
+nally we plan to provide this tool to the nity as an open service and conduct an extensive user study about the usage and quality of the tem including automatic evaluation of the maries
+references amjad abu jbara and dragomir radev
+
+herent citation based summarization of scientic pers
+in proceedings of the annual hlt hlt pages
+association for computational linguistics
+aaron elkiss siwei shen anthony fader gunes erkan david states and dragomir radev
+
+blind men and elephants what do citation maries tell us about a research article j
+am
+soc
+inf
+sci
+technol
+
+alexander fabbri irene li prawat trairatvorakul jiao he weitai ting robert tung caitlin ereld and dragomir radev
+
+tutorialbank a manually collected corpus for prerequisite chains survey extraction and resource recommendation
+in proceedings of the acl pages
+guy feigenblat haggai roitman odellia boni and david konopnicki
+
+unsupervised focused multi document summarization using the in proceedings of the cross entropy method
+international acm sigir pages
+carlos flavian raquel gurrea and carlos orus
+
+web design a key factor for the website success
+journal of systems and information technology
+kata gabor davide buscaldi anne kathrin mann behrang qasemizadeh hafa zargayouna and thierry charnois
+
+task semantic relation extraction and classication in in proceedings entic papers
+hlt pages
+mahak gambhir and vishal gupta
+
+recent matic text summarization techniques a survey
+tif
+intell
+rev
+
+yufang hou charles jochim martin gleize francesca identication bonin and debasis ganguly
+
+of tasks datasets evaluation metrics and numeric scores for scientic leaderboards construction
+ume
+
+rahul jha reed coke and dragomir radev
+
+surveyor a system for generating coherent survey articles for scientic topics
+in proceedings of the twenty ninth aaai pages
+wang jie zhang chengzhi zhang mengying and deng sanhong
+
+citationas a tool of matic survey generation based on citation content
+journal of data and information science
+yi luan luheng he mari ostendorf and hannaneh hajishirzi
+
+multi task identication of ties relations and coreference for scientic edge graph construction
+in proceedings of emnlp pages
+c
+d
+paice
+
+the automatic generation of ture abstracts an approach based on the tion of self indicating phrases
+in proceedings of the annual acm sigir sigir pages
+chris d
+paice and paul a
+jones
+
+the cation of important concepts in highly structured technical papers
+in proceedings of the annual international acm sigir sigir pages new york ny usa
+acm
+jiaul h
+paik and douglas w
+oard
+
+a point method for weighting terms in verbose mational queries
+cikm pages new york ny usa
+acm
+vahed qazvinian and dragomir r
+radev
+
+entic paper summarization using citation summary networks
+in proceedings of the international conference on computational linguistics volume coling pages
+reuven y
+rubinstein and dirk p
+kroese
+
+the cross entropy method a unied approach to combinatorial optimization monte carlo tion
+springer verlag berlin heidelberg
+mayank singh pradeep dogga sohan patro raj barnwal ritam dutt rajarshi haldar pawan goyal and animesh mukherjee
+
+cl scholar the acl anthology knowledge graph miner
+in ceedings of the naacl
+yang xu gareth j
+f
+jones and bin wang
+
+query dependent pseudo relevance feedback based on wikipedia
+in proceedings of the tional acm sigir pages
+michihiro yasunaga jungo kasai rui zhang der richard fabbri irene li dan friedman and dragomir r
+radev
+
+scisummnet a large notated corpus and content impact models for tic paper summarization with citation networks
+in aaai
+

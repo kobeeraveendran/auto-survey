@@ -1,0 +1,734 @@
+revisiting summarization evaluation for scientic articles arman cohan and nazli goharian information retrieval lab department of computer science georgetown university
+cs
+georgetown
+edu
+cs
+georgetown
+edu r a l c
+s c v
+v i x r a abstract evaluation of text summarization approaches have been mostly based on metrics that measure similarities of system generated summaries with a set of human written gold standard summaries
+the most widely used metric in summarization evaluation has been the rouge family
+rouge solely relies on lexical overlaps between the terms and phrases in the sentences therefore in cases of terminology variations and paraphrasing rouge is not as effective
+scientic article summarization is one such case that is different from general domain summarization e
+
+newswire data
+we provide an extensive analysis of rouge s effectiveness as an evaluation metric for scientic summarization we show that contrary to the common belief rouge is not much reliable in evaluating scientic summaries
+we furthermore show how different variants of rouge result in very different correlations with the manual pyramid scores
+finally we propose an alternative metric for summarization evaluation which is based on the content relevance between a system generated summary and the corresponding human written summaries
+we call our metric sera summarization evaluation by relevance analysis
+unlike rouge sera consistently achieves high correlations with manual scores which shows its effectiveness in evaluation of scientic article summarization
+keywords summarization evaluation scientic articles
+introduction the most automatic text summarization has been an active research area in natural language processing for several decades
+to compare and evaluate the performance of different summarization systems intuitive approach is assessing the quality of the summaries by human evaluators
+however manual evaluation is expensive and the obtained results are subjective and difcult to reproduce giannakopoulos and karkaletsis
+to address these problems automatic evaluation measures for summarization have been proposed
+rouge lin is one of the rst and most widely used metrics it facilitates evaluation of in summarization evaluation
+system generated summaries by comparing them to a set of human written gold standard summaries
+it is inspired by the success of a similar metric bleu papineni et al
+which is being used in machine translation mt evaluation
+the main success of rouge is due to its high correlation with human assessment scores on standard benchmarks lin
+rouge has been used as one of the main evaluation metrics in later summarization benchmarks such as owczarzak and dang
+since the establishment of rouge almost all research in text summarization have used this metric as the main means for evaluating the quality of the proposed approaches
+the public availability of rouge as a toolkit for summarization evaluation has contributed to its wide usage
+while rouge has originally shown good correlations with human assessments the study of its effectiveness was only limited to a few benchmarks on news summarization data since summarization benchmarks
+analysis conference tac is a series of workshops for evaluating research in natural language processing has grown to much further domains and genres such as scientic documents social media and question answering
+while there is not enough compelling evidence about the effectiveness of rouge on these other summarization tasks published research is almost always evaluated by rouge
+in addition rouge has a large number of possible variants and the published research often arbitrarily reports only a few of these variants
+by denition rouge solely relies on lexical overlaps such as n gram and sequence overlaps between the system generated and human written gold standard summaries
+higher lexical overlaps between the two show that the system generated summary is of higher quality
+therefore in cases of terminology nuances and paraphrasing rouge is not accurate in estimating the quality of the summary
+we study the effectiveness of rouge for evaluating scientic summarization
+scientic summarization targets much more technical and focused domains in which the goal is providing summaries for scientic articles
+scientic articles are much different than news articles in elements such as length complexity and structure
+thus effective summarization approaches usually have much higher compression rate terminology variations and paraphrasing teufel and moens
+scientic summarization has attracted more attention recently examples include works by abu jbara and radev qazvinian et al
+and cohan and goharian
+thus it is important to study the validity of existing methodologies applied to the evaluation of news article summarization for this task
+in particular we raise the important question of how effective is rouge as understanding conference duc was one of nist workshops that provided infrastructure for evaluation of text summarization methodologies
+nist
+
+an evaluation metric for scientic summarization we answer this question by comparing rouge scores with semi manual evaluation score pyramid in tac scientic summarization
+results reveal that contrary to the common belief correlations between rouge and the pyramid scores are weak which challenges its effectiveness for scientic summarization
+furthermore we show a large variance of correlations between different rouge variants and the manual evaluations which further makes the reliability of rouge for evaluating scientic summaries less clear
+we then propose an evaluation metric based on relevance analysis of summaries which aims to overcome the limitation of high lexical dependence in rouge
+we call our metric sera summarization evaluation by relevance analysis
+results show that the proposed metric achieves higher and more consistent correlations with semi manual assessment scores
+our contributions are as follows study the validity of rouge as the most widely used summarization evaluation metric in the context of scientic summarization
+compare and contrast the performance of all variants of rouge in scientic summarization
+propose an alternative content relevance based evaluation metric for assessing the content quality of the summaries sera
+provide human pyramid annotations for summaries in tac scientic summarization dataset
+
+summarization evaluation by rouge rouge has been the most widely used family of metrics in summarization evaluation
+in the following we briey describe the different variants of rouge rouge n rouge n was originally a recall oriented metric that considered n gram recall between a system generated summary and the corresponding gold human summaries
+in later versions in addition to the recall precision was also considered in rouge n which is the precision of n grams in the system generated summary with respect to the gold human summary
+to combine both precision and recall scores are often reported
+common values of n range from to
+rouge l this variant of rouge compares the system generated summary and the human generated summary based on the longest common subsequences lcs between them
+the premise is that longer lcs between the system and human summaries shows more similarity and therefore higher quality of the system summary
+
+nist
+gov annotations can be accessed via the following repository
+com tac pyramid rouge w one problem with rouge l is that all lcs with same lengths are rewarded equally
+the lcs can be either related to a consecutive set of words or a long sequence with many gaps
+while rouge l treats all sequence matches equally it makes sense that sequences with many gaps receive lower scores in comparison with consecutive matches
+rouge w considers an additional weighting function that awards consecutive matches more than non consecutive ones
+rouge s rouge s skip bigram co occurrence statistics between the two summaries
+it is similar to except that it allows gaps between the bigrams by skipping middle tokens
+computes the rouge su rouge s does not give any credit to a system generated sentence if the sentence does not have any word pair co occurring in the reference sentence
+to solve this potential problem rouge su was proposed which is an extension of rouge s that also considers unigram matches between the two summaries
+rouge l rouge w rouge s and rouge su were later extended to consider both the recall and precision
+in calculating rouge stopword removal or stemming can also be considered resulting in more variants
+in the summarization literature despite the large number of variants of rouge only one or very few of these variants are often chosen arbitrarily for evaluation of the quality of the summarization approaches
+when rouge was proposed the original variants were only recall oriented and hence the reported correlation results lin
+the later extension of rouge family by precision were only reected in the later versions of the rouge toolkit and additional evaluation of its effectiveness was not reported
+later published work in summarization nevertheless adopted this toolkit for its ready implementation and relatively efcient performance
+the original rouge metrics show high correlations the quality of summaries with human judgments of on the duc benchmarks
+however these benchmarks consist of newswire data and are intrinsically very different than other summarization tasks such as summarization of scientic papers
+we argue that rouge is not the best metric for all summarization tasks and we propose an alternative metric for evaluation of scientic summarization
+the proposed alternative metric shows much higher and more consistent correlations with manual judgments in comparison with the well established rouge
+
+summarization evaluation by relevance analysis sera rouge functions based on the assumption that in order for a summary to be of high quality it has to share many words or phrases with a human gold summary
+however different terminology may be used to refer to the same concepts and thus relying only on lexical overlaps may underrate content quality scores
+to overcome this problem we propose an approach based on the premise that concepts take meanings from the context they are in and that related concepts co occur frequently
+our proposed metric is based on analysis of the content relevance between a system generated summary and the corresponding human written gold standard summaries
+on high level we indirectly evaluate the content relevance between the candidate summary and the human summary using information retrieval
+to accomplish this we use the summaries as search queries and compare the overlaps of the retrieved results
+larger number of overlaps suggest that the candidate summary has higher content quality with respect to the gold standard
+this method enables us to also reward for terms that are not lexically equivalent but semantically related
+our method is based on the well established linguistic premise that semantically related words occur in similar contexts turney et al
+
+the context of the words can be considered as surrounding words sentences in which they appear or the documents
+for scientic summarization we consider the context of the words as the scientic articles in which they appear
+thus if two concepts appear in identical set of articles they are semantically related
+we consider the two summaries as similar if they refer to same set of articles even if the two summaries do not have high lexical overlaps
+to capture if a summary relates to a article we use information retrieval by considering the summaries as queries and the articles as documents and we rank the articles based on their relatedness to a given summary
+for a given pair of system summary and the gold summary similar rankings of the retrieved articles suggest that the summaries are semantically related and thus the system summary is of higher quality
+based on the domain of interest we rst construct an index from a set of articles in the same domain
+since tac was focused on summarization in the biomedical domain our index also comprises of biomedical articles
+given a candidate summary c and a set of gold summaries gi i
+
+
+m m is the total number of human summaries we submit the candidate summary and gold summaries to the search engine as queries and compare their ranked results
+let i
+
+
+dn be the entire index which comprises of n total documents
+let rc
+
+
+be the ranked list of retrieved documents for candidate summary c and rgi the ranked list of results for the gold summary gi
+these lists of results are based on a rank cut off point n that is a parameter of the system
+we provide evaluation results on different choices of cut off point n in the section
+we consider the following i simple intersection and ii discounted two scores intersection by rankings
+the simple intersection just considers the overlaps of the results in the two ranked lists and ignores the rankings
+the discounted ranked scores on the other hand penalizes ranking differences between the two result sets
+as an example consider the following list of retrieved documents denoted by dis for a candidate and a gold summary as queries results for candidate summary results for gold summary
+
+
+n these two sets of results consist of identical documents but the ranking of the retrieved documents differ
+therefore the simple intersection method assigns a score of
+while in the discounted ranked score the score will be less than
+due to ranking differences between the result lists
+we now dene the metrics more precisely
+using the above notations without loss of generality we assume that
+sera is dened as follows sera m m to also account for the ranked position differences we modify this score to discount rewards based on rank differences
+that is in ideal score we want search results from candidate summary rc to be the same as results for gold standard summaries rg and the rankings of the results also be the same
+if the rankings differ we discount the reward by log of the differences of the ranks
+more specically the discounted score sera dis is dened as m c gi if otherwise sera dis m dmax result in addition where as previously dened m rc and rgi are total number of human gold summaries list for the candidate summary and result list for the human gold c shows the jth summary respectively
+results in the ranked list rc and dmax is the maximum attainable score used as the normalizing factor
+we use an open source search engine for indexing and querying the articles
+for retrieval model we use the language modeling retrieval model with dirichlet smoothing zhai and lafferty
+since tac benchmark is on summarization of biomedical articles the appropriate index would be the one constructed from articles in the same domain
+therefore we use the open access subset of which consists of published articles in biomedical literature
+we also experiment with different query approaches
+query reformulation is a method in information retrieval that aims to rene the query for better retrieval of results
+query reformulation methods often consist of removing ineffective terms and expressions from the query query reduction or adding terms to the query that help the retrieval query expansion
+query reduction is specially important when queries are verbose
+since we use the summaries as queries the queries are usually long and therefore we consider query reductions
+in our experiments the query reformulation is done by different ways plain the entire summary without stopwords and numeric values noun phrases np we only keep the noun phrases as informative concepts in the summary and eliminate all other terms and keywords
+com elastic elasticsearch is a comprehensive resource of articles and abstracts published in life sciences and biomedical literature www
+ncbi
+nlm
+nih
+gov kw we only keep the keywords and key phrases in the summary
+for extracting the keywords and keyphrases with length of up to terms we extract expressions whose idf values is higher than a predened threshold that is set as a parameter
+we set this threshold to the average idf values are idf values of all terms except stopwords
+calculated on the same index that is used for the retrieval
+we hypothesize that using only informative concepts in the summary prevents query drift and leads to retrieval of more relevant documents
+noun phrases and keywords are two heuristics for identifying the informative concepts
+
+experimental setup benchmark
+
+data the only scientic to the best of our knowledge from tac summarization summarization track
+for evaluating the effectiveness of rouge variants and our metric sera we use this benchmark which consists of topics each with a biomedical journal article and gold human written summaries
+is
+
+annotations in the tac summarization track rouge was suggested as the evaluation metric for summarization and no human assessment was provided for the topics
+therefore to study the effectiveness of the evaluation metrics we use the semi manual pyramid evaluation framework nenkova and passonneau nenkova et al
+
+in the pyramid scoring the content units in the gold human written summaries are organized in a pyramid
+in this pyramid the content units are organized in tiers and higher tiers of the pyramid indicate higher importance
+the content quality of a given candidate summary is evaluated with respect to this pyramid
+to analyze the quality of the evaluation metrics following the pyramid framework we design an annotation scheme that is based on identication of important content units
+consider the following example genetically endogeneous small rnas screened and studied to nd the mirnas which are related to tumorigenesis
+in the above example the underlined expressions are the content units that convey the main meaning of the text
+we call these small units nuggets which are phrases or concepts that are the main contributors to the content quality of the summary
+we asked two human annotators to review the gold summaries and extract content units in these summaries
+the pyramid tiers represent the occurrences of nuggets across all the human written gold standard summaries and therefore the nuggets are weighted based on these tiers
+the intuition is that if a nugget occurs more frequently in the human summaries it is a more important contributor thus belongs to higher tier in the pyramid
+thus if a candidate summary contains this nugget it should be rewarded more
+an example of the nuggets annotations in this in pyramid framework is shown in table
+mirna were i d nugget isocitrate dehydrogenase alpha ketoglutarate dependent enzyme cell mutation dna methylation tier table example of nugget annotation for pyramid scores
+the pyramid tier represents the number of occurrences of the nugget in all the human written gold summaries
+example the nugget cell mutation belongs to the tier and it suggests that the cell mutation nugget is a very important representative of the content of the corresponding document
+let ti dene the tiers of the pyramid with being the bottom tier and tn the top tier
+let ni be the number of the nuggets in the candidate summary that appear in the tier ti
+then the pyramid score p of the candidate summary will be p i ni pmax n where pmax is the maximum attainable score used for normalizing the scores pmax i j x n i n i where x is the total number of nuggets in the summary and max i n t i x
+we release the pyramid annotations of the tac dataset through a public
+
+
+summarization approaches we study the effectiveness of rouge and our proposed method sera by analyzing the correlations with very few teams semi manual human judgments
+participated in tac summarization track and the results and the review paper of tac ofcial systems were never published
+therefore to evaluate the effectiveness of rouge we applied well known summarization approaches on the tac scientic summarization dataset
+obtained rouge and sera results of each of these approaches are then correlated with in the following we semi manual human judgments
+briey describe each of these summarization approaches
+
+lexrank erkan and radev lexrank nds the most important central sentences in a document by using random walks in a graph constructed from the document sentences
+in this graph the sentences are nodes document frequency
+com tac pyramid annotations and the similarity between the sentences determines the edges
+sentences are ranked according to their importance
+importance is measured in terms of centrality of the sentence the total number of edges incident on the node sentence in the graph
+the intuition behind lexrank is that a document can be summarized using the most central sentences in the document that capture its main aspects
+
+latent semantic analysis lsa based summarization in this summarization steinberger and jezek method singular value decomposition svd deerwester et al
+is used for deriving latent semantic structure of the document
+the document is divided into sentences and a term sentence matrix a is constructed
+the matrix a is then decomposed into a number of linearly independent singular vectors which represent the latent concepts in the document
+this method intuitively decomposes the document into several latent topics and then selects the most representative sentences for each of these topics as the summary of the document
+
+maximal marginal relevance mmr carbonell and goldstein maximal marginal relevance mmr is a greedy strategy for selecting sentences for the summary
+sentences are added iteratively to the summary based on their relatedness to the document as well as their novelty with respect to the current summary
+
+citation based summarization qazvinian et al
+in this method citations are used for summarizing an article
+using the lexrank algorithm on the citation network of the article top sentences are selected for the nal summary
+
+using frequency of the words luhn in this method which is one the earliest works in text summarization raw word frequencies are used to estimate the saliency of sentences in the document
+the most salient sentences are chosen for the nal summary
+
+sumbasic vanderwende et al
+sumbasic is an approach that weights sentences based on the distribution of words that is derived from the document
+sentence selection is applied iteratively by selecting words with highest probability and then nding the highest scoring sentence that contains that word
+the word weights are updated after each iteration to prevent selection of similar sentences
+
+summarization using citation context and discourse structure cohan and goharian in this method the set of citations to the article are used to nd the article sentences that directly reect those citations citation contexts
+in addition the scientic discourse of the article is utilized to capture different aspects of the article
+the scientic discourse usually follows a structure in which the authors rst describe their hypothesis then the methods experiment results and implications
+sentence selection is based on nding the most important sentences in each of the discourse facets of the document using the mmr heuristic
+pyramid metric f p r f p r f p r rouge l f rouge l p rouge l r rouge s f rouge s p rouge s r rouge su f rouge su p rouge su r rouge
+f rouge
+p rouge
+r sera sera sera sera sera sera sera dis sera dis sera dis sera dis
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table correlation between variants of rouge and sera with human pyramid scores
+all variants of rouge are displayed
+f f score r recall p precision dis discounted variant of sera kw using keyword query reformulation np using noun phrases for query reformulation
+the numbers in front of the sera metrics indicate the rank cut off point
+
+kl divergence haghighi and vanderwende in this method the document unigram distribution p and the summary unigram distributation q are considered the goal is to nd a summary whose distribution is very close to the document distribution
+the difference of the distributions is captured by the kullback lieber kl divergence denoted by
+
+summarization based on topic models haghighi and vanderwende instead of using unigram distributions for modeling the content distribution of the document and the summary this method models the document content using an lda based topic model blei et al
+
+it then uses the kl divergence between the document and the summary content models for selecting sentences for the summary
+
+results and discussion we calculated all variants of rouge scores our proposed metric sera and the pyramid score on the generated summaries from the summarizers described in section
+
+
+we do not report the rouge sera or pyramid scores of individual systems as it is not the focus of this study
+our aim is to analyze the effectiveness of the evaluation metrics not the summarization approaches
+therefore we consider the correlations of the automatic evaluation metrics with the manual pyramid scores to evaluate their effectiveness the metrics that show higher correlations with manual judgments are more effective
+table shows the pearson spearman and kendall correlation of rouge and sera with pyramid scores
+both rouge and sera are calculated with stopwords removed and with stemming
+our experiments with inclusion of stopwords and without stemming showed similar results and thus we do not include those to avoid redundancy
+
+
+sera the results of our proposed method sera are shown in the bottom part of table
+in general sera shows better correlation with pyramid scores in comparison with rouge
+we observe that the pearson correlation of sera with cut off point of shown by is
+which is higher than most of the rouge variants
+similarly the spearman and kendall correlations of the sera evaluation score is
+and
+respectively which are higher than all rouge correlation values
+this shows the effectiveness of the simple variant of our proposed summarization evaluation metric
+table also shows the results of other sera variants including discounting and query reformulation methods
+some of these variants are the result of applying query reformulation in the process of document retrieval which are described in section
+as illustrated the noun phrases np query reformulation at cut off point of shown as sera achieves the highest correlations among all the sera variants r
+
+
+in the case of keywords kw query reformulation without using discounting we can see that there is no positive gain in correlation
+however keywords when applied on the discounted variant of sera result in higher correlations
+discounting has more positive effect when applied on query reformulation based sera than on the simple variant of sera
+in the case of discounting and np query reformulation sera dis np we observe higher correlations in comparison with simple sera
+similarly in the case of keywords kw positive correlation gain is obtained in most of correlation coefcients
+np without discounting and at cut off point of sera shows in addition the the highest non parametric correlation
+discounted np at cut off point of sera np shows the highest parametric correlations
+in general using np and kw as heuristics for nding the informative concepts in the summary effectively increases selecting the correlations with the manual scores
+informative terms from long queries results in more relevant documents and prevents query drift
+therefore the overall similarity between the two summaries candidate and the human written gold summary is better captured
+
+
+rouge another the observation effectiveness of rouge scores top part of table
+important regarding is metric sera sera sera sera sera sera sera dis sera dis sera dis sera dis f
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+f
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table correlation between sera and rouge scores
+np query reformulation with noun phrases kw query reformulation with keywords dis discounted variant of sera the numbers in front of the sera metrics indicate the rank cut off point
+interestingly we observe that many variants of rouge scores do not have high correlations with human pyramid scores
+the lowest f score correlations are for and rouge l with
+
+weak correlation of shows that matching unigrams between the candidate summary and gold summaries is not accurate in quantifying the quality of the summary
+on higher order n grams however we can see that rouge correlates the highest overall r is better with pyramid
+in fact obtained by
+rouge l and its weighted version rouge w both have weak correlations with pyramid
+skip bigrams rouge s and its combination with unigrams rouge su also show sub optimal correlations
+note that and correlations are more reliable in our setup due to the small sample size
+these results conrm our initial hypothesis that rouge is not accurate estimator of the quality of the summary in scientic summarization
+we attribute this to the differences of scientic summarization with general domain summaries
+when humans summarize a relatively long research paper they might use different terminology and paraphrasing
+therefore rouge which only relies on term matching between a candidate and a gold summary is not accurate in quantifying the quality of the candidate summary
+
+
+correlation of sera with rouge table shows correlations of our metric sera with and which are the highest correlated rouge variants with pyramid
+we can see that in general the correlation is not strong
+keyword based reduction variants are the only variants for which the correlation with rouge is high
+looking at the correlations of kw variants of sera with pyramid table bottom part we observe that these variants are also highly correlated with manual evaluation
+
+
+effect of the rank cut off point finally figure shows correlation of different variants of sera with pyramid based on selection of different cut off points r and correlations result in very similar since introduction of rouge there have been other efforts for improving automatic summarization evaluation
+hovy et al
+proposed an approach based on comparison of so called basic elements be between the candidate and reference summaries
+bes were extracted based the work by on syntactic structure of the sentence
+conroy et al
+was another attempt for improving rouge for update summarization which combined two different rouge variants and showed higher correlations with manual judgments for tac update summaries
+apart from the content other aspects of summarization such as linguistic quality have been also studied
+pitler et evaluated a set of models based on syntactic al
+language models and entity coherences for features assessing the linguistic quality of the summaries
+machine translation evaluation metrics such as blue have also been compared and contrasted against rouge graham
+despite these works when gold standard summaries are available rouge is still the most common evaluation metric that is used in the summarization published research
+apart from rouge s initial good results on the newswire the availability of the software and its efcient data performance have further contributed to its popularity
+
+conclusions we provided an analysis of existing evaluation metrics for scientic summarization with evaluation of all variants of rouge
+we showed that rouge may not be the best metric for summarization evaluation especially in summaries with high terminology variations and paraphrasing e
+
+scientic summaries
+furthermore we showed that different variants of rouge result in different correlation values with human judgments indicating that not all rouge scores are equally effective
+among all variants of rouge and are better correlated with manual judgments in the context of scientic summarization
+we furthermore proposed an alternative and more effective approach for scientic summarization evaluation summarization evaluation by relevance analysis sera
+results revealed that in general the proposed evaluation metric achieves higher correlations with semi manual pyramid evaluation scores in comparison with rouge
+our analysis on the effectiveness of evaluation measures for scientic summaries was performed using correlations with manual judgments
+an alternative approach to follow would be to use statistical signicance testing on the ability of the metrics to distinguish between the summarizers similar to rankel et al
+
+we studied the effectiveness of existing summarization evaluation metrics in the scientic text genre and proposed an alternative superior metric
+another extension of this work would be to evaluate automatic summarization evaluation in other genres of text such as social media
+our proposed method only evaluates the content quality of the summary
+similar to most of existing summarization evaluation metrics other qualities such as linguistic cohesion coherence and readability are not captured by this method
+developing metrics that also incorporate these qualities is yet another future direction to follow
+figure correlation of sera with pyramid based on different cut off points
+the axis shows the cut off point parameter
+dis discounted variant of sera np query reformulation with noun phrases kw query reformulation with keywords
+graphs
+when the cut off point increases more documents are retrieved for the candidate and the gold summaries and therefore the nal sera score is more ne grained
+a general observation is that as the search cut off point increases the correlation with pyramid scores decreases
+this is because when the retrieved result list becomes larger the probability of including less related documents increases which negatively affects correct estimation of the similarity of the candidate and gold summaries
+the most accurate estimations are for metrics with cut off points of and which are included in the reported results of all variants in table
+
+related work rouge lin assesses the content quality of a candidate summary with respect to a set of human gold summaries based on their lexical overlaps
+rouge consists of several variants
+since its introduction rouge has been one of the most widely reported metrics in the summarization literature and its high adoption has been due to its high correlation with human assessment scores in duc datasets lin
+however later research has casted doubts about the accuracy of rouge against manual evaluations
+conroy and dang analyzed duc to data and showed that while some systems achieve high rouge scores with respect to human summaries the linguistic and responsiveness scores of those systems do not correspond to the high rouge scores
+we studied the effectiveness of rouge through correlation analysis with manual scores
+besides correlation with human assessment scores other approaches have been explored for analyzing the effectiveness of summarization evaluation
+rankel et al
+studied the extent to which a metric can distinguish between the human and system generated summaries
+they also proposed the use of paired two sample t tests and the wilcoxon signed rank test as an alternative to rouge in evaluating several summarizers
+similarly owczarzak et al
+proposed the use of multiple binary signicance tests between the system summaries for ranking the best summarizers
+
+
+
+
+
+
+dissera dis npsera npsera dis kw acknowledgments we would like to thank all three anonymous reviewers for their feedback and comments and maryam iranmanesh for helping in annotation
+this work was partially supported by national science foundation nsf through grant
+
+bibliographical references abu jbara a
+and radev d
+coherent citation based summarization of scientic papers
+in acl pages
+association for computational linguistics
+
+blei d
+m
+ng a
+y
+and jordan m
+i
+
+latent the journal of machine learning dirichlet allocation
+research
+carbonell j
+and goldstein j
+
+the use of mmr diversity based reranking for reordering documents and producing summaries
+in sigir pages
+acm
+
+scientic article summarization using citation context and article s in emnlp pages
+discourse structure
+association for computational linguistics
+cohan a
+and goharian n
+conroy j
+m
+and dang h
+t
+
+mind the gap dangers of divorcing evaluations of summary in proceedings of content the international conference on computational linguistics volume pages
+association for computational linguistics
+from linguistic quality
+conroy j
+m
+schlesinger j
+d
+and oleary d
+p
+
+nouveau rouge a novelty metric for update summarization
+computational linguistics
+deerwester s
+dumais s
+t
+furnas g
+w
+landauer t
+k
+and harshman r
+indexing by latent semantic analysis
+journal of the american society for information science
+
+erkan g
+and radev d
+r
+
+lexrank graph based lexical centrality as salience in text summarization
+j
+artif
+intell
+res
+jair
+giannakopoulos g
+and karkaletsis v
+
+summary evaluation together we stand npower ed
+in computational linguistics and intelligent text processing pages
+springer
+graham y
+
+automatic summarization with bleu and shades of rouge
+in emnlp pages lisbon portugal september
+association for computational linguistics
+re evaluating haghighi a
+and vanderwende l
+
+exploring content models for multi document summarization
+in naacl hlt pages
+association for computational linguistics
+hovy e
+lin c
+
+zhou l
+and fukumoto j
+
+automated summarization evaluation with basic elements
+in lrec pages
+citeseer
+lin c
+
+
+rouge a package for automatic summarization evaluation of branches out proceedings of the workshop volume
+summaries
+in text luhn h
+p
+
+the automatic creation of literature ibm journal of research and development abstracts
+
+nenkova a
+and passonneau r
+
+evaluating content selection in summarization the pyramid method
+in proceedings of the north american chapter of the association for computational linguistics hlt naacl
+nenkova a
+passonneau r
+and mckeown k
+
+incorporating human content the pyramid method selection variation in summarization evaluation
+acm transactions on speech and language processing tslp
+owczarzak k
+and dang h
+t
+
+overview of the tac summarization track guided task and aesop task
+in tac
+owczarzak k
+conroy j
+m
+dang h
+t
+and nenkova a
+
+an assessment of the accuracy of automatic evaluation in summarization
+in proceedings of workshop on evaluation metrics and system comparison for automatic summarization pages
+association for computational linguistics
+papineni k
+roukos s
+ward t
+and zhu w
+
+
+bleu a method for automatic evaluation of machine translation
+in acl pages
+association for computational linguistics
+pitler e
+louis a
+and nenkova a
+
+automatic evaluation of linguistic quality in multi document summarization
+in proceedings of the acl pages
+association for computational linguistics
+qazvinian v
+radev d
+r
+mohammad s
+dorr b
+j
+zajic d
+m
+whidby m
+and moon t
+
+generating extractive summaries of scientic paradigms
+j
+artif
+intell
+res
+jair
+rankel p
+conroy j
+m
+slud e
+v
+and oleary d
+p
+
+ranking human and machine summarization systems
+emnlp pages stroudsburg pa usa
+association for computational linguistics
+steinberger j
+and jezek k
+
+using latent semantic analysis in text summarization and summary evaluation
+in proc
+pages
+teufel s
+and moens m
+
+summarizing scientic experiments with relevance and rhetorical articles status
+computational linguistics
+turney p
+d
+pantel p
+al
+
+from frequency to meaning vector space models of semantics
+journal of articial intelligence research
+vanderwende l
+suzuki h
+brockett c
+and nenkova a
+
+beyond sumbasic task focused summarization with sentence simplication and lexical information processing management expansion
+
+zhai c
+and lafferty j
+
+a study of smoothing methods for language models applied to information retrieval
+in proceedings of the annual international acm sigir conference on research and development in information retrieval pages
+acm
+

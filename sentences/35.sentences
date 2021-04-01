@@ -1,0 +1,433 @@
+a semantic approach to summarization divyanshu bhartiya ashudeep singh department of computer science and engineering iit kanpur
+ac
+in
+ac
+in under the guidance of prof
+harish karnick
+iitk
+ac
+in abstract sentence extraction based summarization of documents has some limitations as it does nt go into the semantics of the document
+also it lacks the capability of sentence generation which is intuitive for humans
+in this report we hereby take the task of summarization to semantic levels with the use of wordnet and sentence compression for enabling sentence generation
+we involve semantic role labelling to get semantic representation of text and use of segmentation to form clusters of related pieces of text
+picking out the centroids and sentence generation completes the task
+we evaluate the results of our system against human composed summaries and also present an evaluation done by humans to measure the quality attributes of our summaries
+i
+introduction text
+one has in today s era when the size of information and data is increasing exponentially there is an upcoming need to create a concise version of the information available
+most of the information is available in text form
+till now humans have tried to create summaries of the documents
+creating summaries is a tedious task and one has to read the whole information document to be able to write an abstract and a concise representation of to avoid the unnecessary and redundant content while creating a summary of a document
+one has to get a hold of all the information the document contains and he must be well versed to be able to convey the idea the document represents
+there is a need to be able to do the aforementioned task automatically
+we hereby propose an approach to do this task of summarization automatically
+we came up with a semantic approach to do this task
+our main motivation was to follow the same footprints that a human takes while creating a summary
+a human understand the document and links up the parts of documents that trying to convey a piece of information
+he then compresses the information to his need and create the best representation of the document
+we hereby introduce the same approach i
+e
+identifying the meaning of the document linking them up getting the best representation and creating a concise version of it
+ii
+previous work the earliest work on automatic summarization was around five decades ago
+in luhn et al
+proposed that word frequency plays a very important role in determining its saliency while extracting summaries from scientific text
+subsequently baxendale proposed the importance of a word s position and edmundson explained how key phrases can be used to extract summaries
+various works published at those times dealt with the news wire data or scientific documents
+but with the resurgence in the availability of wide tagged corpora and tools available to do processing of natural language at both syntactic and semantic levels and the ever growing size of the information available through internet has regrown the interest of nlp researchers in automatic summarization techniques during the last decade
+a crucial issue that the researchers felt the need to address was evaluation
+during the past decade many system like text retrieval conference evaluation competitions trec document understanding conference duc and message understanding conferences muc have created sets of text material and have discussed performance evaluation to evaluate issues
+however a universal strategy summarization is still absent
+summarization tasks can be widely separated into three single document summarization multi document summarization query based summarization or topic driven the summarization
+in single document summarization challenge is to look for flow of information or discourse in the text which should be conveyed by a good summary
+while in multi document summarization tasks the techniques which are of importance are similarity measures and clustering techniques
+machine learning techniques for summarization of a single document
+kupiec al
+described a naive bayes method to determine whether a sentence belongs to a summary or not
+for this they used a large set of technical documents with their abstracts to determine the underlying probabilities of features like sentence length the presence of uppercase words presence of more frequent words
+and then choosing the n highest probable sentences for the summary generation
+to this approach many features were proposed and tested like tf idf scores
+but these techniques were soon replaced by other sophisticated machine learning techniques which used bigger feature sets extracted from document and summary
+in later work lin used decision tree arguing that the features extracted from the text were independent of each other
+his system performed better than the naive bayes systems this justified the dependence between the various textual features used in the techniques then
+during the same time wordnet became the prime source of deep natural language analysis
+for summarization mckeown and radev emphasized on using semantic structure of text rather than statistics of words of the documents
+they describe a notion of cohesion in text meaning greater cohesion amongst parts of text where similar meaning words occur
+the cohesion phenomenon occurs at the word sequence levels and hence form lexical chains
+identifying lexical chains in the text they used the strongest few lexical chains to represent the text in the summary
+multi document summarization requires higher abstraction and information fusion
+the earliest attempt on document summarization was summons radev and mckeown
+it tackles news articles relating to single domain but collected from varied sources
+it has built in message understanding templates for text understanding and representation
+the two way step is first processing the input texts and filling in the templates and then using sophisticated linguistic generator to get a single short summary
+but as expected the system despite being promising was not widely used because of narrow domain application and hard coded templates
+this tool was then improved by barziley and mckeown defining a clustering problem that will deal with the text representation problem
+to construct clusters they define features like tf idf scores noun phrases proper nouns and synsets from the wordnet
+after themes as identified into clusters the next step is information fusion
+depending on the dependency parse structures of the extracted sentences phrases in the themes specific phrases are used for the final generation part
+once the summary content is decided a grammatical text is generated by translating those structures to arguments required by surge language generation system
+through the summons system and its further improvements radev and mckeowns brought in the the concept of centroid based clustering summarization paradigm which was then explored by discovering more features that prove important to make two portions of text similar
+into although the research on summarization was started about a years ago there is still a long way to go before systems are built which create beautiful short summaries as good as human generated ones
+the research in this area is hot because of the ever increasing information on the world wide web and accurate summarization techniques are certainly important for text understanding
+with the highly efficient and accurate systems to tag represent and analyze texts in english like penn tree bank trained pos taggers wordnet named entity taggers semantic role labelers
+there is a hope in the research community that this research in summarization and related fields in natural language can be taken through separate directions
+in this project we work on applying these state of the art techniques over text and extracting meaningful and concise summaries in the domain of single document summarization tasks
+iii
+technologies our approach to summarization begins with the task of pronominal resolution followed by part of speech tagging and semantic role labelling to create frames of a sentence
+wordnet is then used to get to the synsets and the semantics of the sentence
+clustering is then applied to the frames followed by getting the respective centroids of the frames
+a
+pronominal resolution in machine pronominal or anaphora resolution is an important task before we go deep into the process of summarization
+it is widely used translation summarization or question answering system
+anaphora is the act of referral that is it denotes to the antecedent in the left
+anaphora resolution is the task of identifying the subject noun for a reference pronoun
+when humans perform pronominal resolution they keep in mind the central idea and topic of the current information being conveyed
+humans do nt need to go back in the document structure or jot down the points to do the resolution
+humans are capable of doing that intuitively and by refreshing the memory task
+pronominal resolution is needed to avoid reference structures
+they can attain that john helped mary
+she was happy for the help provided by him
+now sentence two is more informative than second one
+however if the summary only contains sentence that wo nt make any sense and will be incomprehensible
+however on performing the pronominal resolution we can obtain john helped mary
+mary was happy for the help provided by john
+b
+part of speech tagging part of speech tagging or pos tagging is the task of grammar tagging of a language
+it is the task of identifying the nouns verbs adjectives pronouns adverbs
+this is accomplished by tagging each word or token of the text with its respective part of speech
+the tagging is mostly performed in accordance with the grammar rules of language
+we use the stanford s implementation of pos tagging to achieve our task
+this software uses log linear part of speech taggers
+following is an example to illustrate its use mary was happy for the help provided by john
+the output of stanford pos tagger is a parse tree which starts at s sentence being the top level node and branching arising from the grammar rules of english language
+the output is root s np nnp mary vp vbd was adjp jj happy pp in for np np the nn help vp vbn provided pp in by np nnp john
+
+
+pos tagger example this parse tree will help us retrieve the nouns and the verbs in a sentence which will be put to further use
+c
+semantic role labelling semantic role labelling is a shallow semantic parsing technique in nlp
+it detects the predicates associated with a verb in a sentence
+it is the task of finding the arguments and the modifiers associated with a verb
+it is analogical to a function with certain parameters
+each function can be considered a verb corresponding to an action
+as each action is associated with an agent and a theme the parameters of the function can be considered as the agent and themes
+each verb is associated with modifiers like temporal locational or an adverb
+these modifiers can also be considered to be parameters of the respective function representing the verb
+so in short if a sentence is represented by the following pattern agent action theme modifiers the sentence can be translated as f argn where f is the action and are the agent theme and modifiers respectively
+then example john helped mary semantic role labelling captures the semantics of a sentence as this help retrieve the specific actions and their respective arguments
+semantic role labelling helps in finding the meaning of the sentences and the associated actions in the sentence
+it recognises the participants of the propositions governed by verbs senna it is a software which does a variety of nlp tasks like pos tagging ner recognition chunking semantic role labelling and syntactic parsing
+it s a c based system which we employed to do semantic role labelling
+given a sentence senna srl creates frames for each of the verb occurring in the sentence
+propbank annotation propbank is a in which the arguments of each predicate are annotated with their semantic roles in relation to the predicate
+propbank associates each verb with arguments and some modifiers
+it is similar to framenet each of this predicate is associated with a frame
+e
+
+mr
+bush met him privately in the white house on thursday
+relation met mr
+bush him argm mnr privately argm loc in the white house argm tmp on thursday
+rel argm tmp mnr loc fig
+structure of a frame by srl we use these frames to our disposal to get the semantic representation of our document
+each frame represents a part of sentence describing its meaning
+d
+wordnet wordnet is a freely available standard from princeton university put to the use of natural language tasks
+wordnet is a lexical database of english comprising and arranged in nouns verbs adjectives and adverbs
+they are grouped into sets of cognitive synonyms
+these sets are called synsets as they describe the semantic and lexical relations between words
+similar types of words form a synset meant to convey a similar sense of meaning
+synsets are organized in relations based on their hierarchy
+noun synsets have a relationship of hyponymy and hypernymy
+for example car is a kind of vehicle then the synset of car has a hypernym synset that contains vehicle
+similar holds for hyponymy
+verbs synsets have relationship of hypernymy and troponymy
+troponymy forms the bottom of the tree and expresses more specific manners
+we use wordnet to get the synsets of the nouns and verbs associated with a frame
+wordnet will enable to find the related pieces of text in a document and will ease up the problem of textual entailment
+the different levels of hierarchy lead to different levels of abstraction
+in our approach we just to one level up and one level down search not going deep into relationships of hyponymy or hypernymy
+iv
+our approach summarization task was initiated with the thought in mind of getting a summary of the document which will not be based on extraction of informative sentences from the document but the idea of generation of sentences
+to create summaries we should be able to represent the document in a model from which it s possible to generate sentences
+also we needed the semantics to come into play while creating the summaries
+so our idea of generation of sentences comes from compressing a given sentence
+this can be achieved in a lot of fashion for example getting rid of unnecessary verbs from a sentence or avoiding adverbs
+our system takes a document as an input and does the pronominal resolution on it
+pronominal resolution is used to form chains in the documents and resolve the pronouns with their respective subjects
+this will help us in the process of information chunks without any ambiguity
+extracting replacing pronouns with their respective and related nouns will help us in the later phases were the measurement of context or flow of information is difficult to manage
+getting rid of ambiguous or questionable information is a prior task in our approach of summarization
+once the document is resolved we do the part of speech tagging on it
+part of speech tagging is a basic move in natural language processing
+identifying nouns and verbs is the main motivation of doing pos tagging
+pos tagging forms the basis of semantic role labelling where frames are built on verbs as the root of the frames
+also the use of part of speech tagging enables us to identify the elements on which the synsets need to be constructed
+now we move to the crux of our system
+now we perform semantic role labelling on the pre processed data
+semantic role labelling enables us to reduce the granularity of the document
+the main motivation of using srl is to introduce the semantics
+an approach was needed granularity of document from sentences to a model where the semantics of the sentence can be represented
+in short we needed a representative model which will clearly depict the semantics
+srl functionality of senna helps us to create frames from a sentence
+each frame will be constructed using verb as the root node and its respective arguments as its branches hence a propbank annotation
+hence a sentence containing one or more verbs is now a collection of frames
+to decrease if document d has sentences sn after this phase we have a collection of frames
+fm where m n
+now we do nt need sentences to work around with and here on we progress on using these frames as the basis
+d srl si i n now that the document is decomposed into frames we move forward to the next phase of forming synsets
+wordnet dictionary helps to find the synsets the hyponym synsets and hypernym synsets
+this is used for the fact that a meaning can be later be repeated in the document and hence to avoid redundant data wordnet can be used to capture this
+wordnet will help to collect all the pieces of text in the document where a similar idea or type of information is described
+this will enable us to capture all those sentences where the topic of description remains same
+to go about this idea we find the hyponym and hypernym synsets for the arguments nouns
+for the frame s root verb we find the hypernyms and troponyms of the verb
+now each frame is associated with two sets a set describing the arguments synsets and a set describing the verb s synsets
+framei
+nounsynsets synsets n n framei
+args framei
+verbsynsets synsets v v framei
+root where synsets n hyponyms hypernyms synsets v hypernyms v troponyms v each frame now describes the possible meanings and also have a sematic representation to it
+now we do the task of textual entailment where we use the synsets created by wordnet to find frames entailing each other
+this is accomplished by finding the match between a frame s arguments synsets and another frame s arguments synsets
+this measures the entailment content of an agent or theme of a frame with another
+in short if there is high matching between the two frames arguments synsets it reveals that the subject of two frames or the parameters of two different frames verbs are same
+we also measure the matching between the verb s synsets to see if the similar type of action is performed somewhere else in the document
+let the score of arguments synsets matching be denoted by a fi fj that is it calculates the arguments synsets similarity
+similarly that matching score of verb s synsets is depicted by v fi fj
+the minimum scores is which is nothing matches at all
+these two matchings lead to various scenarios in order of priority where the frames meaning are measured
+a fi fj and v fi fj this is the highest priority case
+the scores reveal that there is some resemblance between two frames in terms of the arguments as well as the action
+both the frames are talking about similar agents doing some similar action
+a fi fj and v fi fj this is the second scenario where there is no matching between verb s synsets
+this case tells that the two frames have similar parameters but there is no relationship between the actions performed by the arguments
+both the frames talk about similar agents but completely different tasks are performed by them for example fi john helped mary
+fj john killed bob
+a fi fj and v fi fj this is the third priority case where the two frames talk about similar actions but their agents are different
+this scenario is of lower priority because subject matching is more important than action matching for example fi john helped mary
+fj bob helped a dog
+a fi fj and v fi fj this is the lowest priority matching
+the frames are irrelevant to each other and have no sort of connection between them now once we have the matching scores we can link these frames as based on their matching score
+construct a graph g with frames being the nodes of a graph and the edges being the matching between the two frames
+the graph will be a directed weighted graph the wrights being the sum of a fi fj and v fi fj
+this score measures the similarity between two frames
+constructing the graph will connect all the related frames
+we take only a limited number of matchings based on the score of matching
+we reduce the number of edges taking some of the top scores to create edges
+this ensures we connect only those frames that have good similarity measure score
+segmentation we introduce the process of creating segments in the graph
+this is accomplished by joining all the connected frames from a source node
+it basically is creating of all frames that are accessible from an originating node
+the algorithm for creating segments is of segments add
+edges to sj s of all segments for each frame in document if sj for some j else end return s create a new segment sk s s sk add to sk add
+edges to sk
+creating segments segmentation generates clusters in our graph i
+e
+it forms all the frames that have some sort of relationship among each other
+we can say that the clusters so obtained contain similar type of information and those have frames have a great deal of matching amongst each other
+now the problem just remains to get the frames that will hence be the best representation of the frames of the segments so thus formed
+we can say these frames to be a good and concise representation of the information depicted by the frames in the cluster
+centroids extraction just like the centroid of a cluster are the middle point of a cluster we call the best frames of a segment to be the centroid of that segment
+getting the centroids from a segment is based on a number of features like the number of incident on that frame the number of outgoing edges from that frame the frame position in the document the length of the frame the number of named entities in the frame
+we calculate a weighted sum of these features for each frame in a cluster
+frame
+wi fi fi frame
+features the score obtained from incoming and outgoing edges is of great value as it tells us about the information network present in the document due to that particular frame
+each frame gets a score based on these features and the frame with highest scores are chosen as the representation of the segment
+we extract some number of frames from each segment and hereby we obtain the final frames that will represent our document
+to generate sentences from these obtained frames we observe the arguments in the frame and generate sentences by concatenating verb
+the sentences so obtained are expected to be a summary of the document input
+we take the assumption that is the subject of verb and represents the object of verb
+this assumption does not always lead to grammatically correct sentences
+v
+observations and results semantic role labelling receives all transitive verbs and creates frames out of it
+since the transitive verbs represent some action that is performed and have a subject and an object intransitive verbs lack these qualities
+they lack the need of an object to which the verb is referenced
+hence srl does correct labelling for most of the sentences in the document
+it is also able to recognise most of the verbs that are associated with a proposition
+finding similarity on the basis of wordnet gives satisfying results
+apart from synset matching we employed the use of individual matching of words present in verbs and arguments to avoid repeated sentences that hold the same meaning and thus avoiding redundant information
+feature score on the basis of number of outgoing and incoming edges result the best score as it links up all the connected frames henceforth making it the most suitable frame to be picked for representing the frames it has joined
+the features taken for calculating the centroids helps in getting impressive frames from all over the document
+the process of segmentation and getting centroids produces good quality frames
+however the sentence generation part is a little faulty as it has not been able to produce grammatically correct sentences
+also sometimes the centroids that are selected are from the clauses of the sentences they represent
+this means that these frames may not be able to generate grammatically correct sentences since they do nt from the principal verb of the sentence
+some of the sentences are grammatically correct and do nt require modification
+the sentence generation needs improvements to be able to recognise the type of sentence it can form from the frame so obtained
+to measure the performance of our summary we use a document which already has a human written summary s
+we measure the performance of our summary generated say s with s
+to measure the summary quality we perform the frame formation process s
+this will result in a collection of frames
+now we have two collections of frames that is the frames centroids of our segmentation process on the document and the set of frames obtained from doing semantic role labelling
+we again perform similarity matching using wordnet between these two sets
+s i s
+centroids argmax j s
+frames sim i j the similarity score between the two summaries depends upon the number of centroids we choose to form our summary
+the average score comes out to be about match
+this is not a bad result as we ca nt expect the summaries to be of the same intellectual and abstract quality
+our approach focussed on semantics and sentence compression
+this result shows that the semantics are well conveyed in our summary
+to measure the qualities of a summary like expressiveness information content abstraction we performed a human evaluation
+in reference the grounds of human evaluation we executed our system on some chapters from into the wild animal form and ncert class x science
+we had summaries on those chapters beforehand
+we asked humans to rate our system generated summaries to human compiled respective information content summaries on grammatical correctness abstraction expressiveness and excess or unnecessary information
+these qualities are rated on a scale of to being the least and being the most
+the mean and standard deviation observed over these qualities is depicted in the table
+the results suggest that information content is good in our summaries generated
+but some people are of the opinion that there is a lot of unrelated information and the standard deviation varies a lot
+also we need to improve upon the abstractness quality as most of the frames are just a short hand representation of sentences in document and hence turn out to be factual
+summary quality attributes quality information content grammatical correctness abstractness expressiveness excess unnecessary detail mean
+
+
+
+
+
+
+
+standard deviation
+
+s
+no fig
+fig
+fig
+fig
+fig
+aaai spring symposium computational approaches to analyzing weblogs pp
+
+hu m
+liu b
+august
+mining and summarizing customer reviews
+in proceedings of the tenth acm sigkdd international conference on knowledge discovery and data mining pp
+
+acm
+brusilovsky p
+schwarz e
+weber g
+january
+elm art an intelligent tutoring system on world wide web
+in intelligent tutoring
+
+springer berlin heidelberg
+adamson d
+bhartiya d
+gujral b
+kedia r
+singh a
+ros c
+p
+january
+automatically generating discussion questions
+in artificial intelligence in education pp
+
+springer berlin heidelberg
+vi
+conclusion summarization is an important field of research these days and finds applications in the fields of information retrieval like in news mining and customer review mining and educational systems like intelligent tutors question generation systems
+many different approaches have seem to work well on different types of text like factual scientific papers or news
+our system seems to perform well on factual data
+further modifications could be improving the feature space for centroid selection better sentence generation capabilities or improved metric for semantic similarities
+also a lot number of heuristics can be applied to preprocess the document and improve the quality of information in the primary stages
+our system needs improvement in sentence generation and semantic role labelling
+this work has been done in the motivation to produce better quality and meaningful summaries which has been exemplified by our results
+references luhn h
+p
+
+the automatic creation of literature abstracts
+ibm journal of research development baxendale p
+
+machine made index for technical literature an experiment
+ibm journal of research development edmundson h
+p
+
+new methods in automatic extracting
+journal of the acm
+kupiec j
+pedersen j
+and chen f
+
+a trainable document summarizer
+in proceedings sigir pages new york ny usa
+lin c
+
+
+training a selection function for extraction
+in proceedings of cikm pages new york ny usa
+miller g
+a
+
+wordnet a lexical database for english
+commun
+acm
+das d
+martins a
+f
+
+a survey on automatic text summarization
+literature survey for the language and statistics ii course at cmu
+barzilay r
+mckeown k
+and elhadad m
+
+information fusion in the context of multi document summarization
+in proceedings of acl
+mckeown k
+r
+and radev d
+r
+
+generating summaries of multiple news articles
+in proceedings of sigir pages seattle washington
+
+cs
+columbia
+edu nlp tools
+cgi mckeown k
+klavans j
+hatzivassiloglou v
+barzilay r
+and eskin e
+
+towards multidocument summarization by reformulation progress and prospects
+in aaai iaai pages
+marcus m
+p
+marcinkiewicz m
+a
+santorini b
+
+building large annotated of english the penn treebank
+a computational linguistics
+kristina toutanova and christopher d
+manning
+
+enriching the knowledge sources used in a maximum entropy part of speech tagger
+in proceedings of the joint sigdat conference on empirical methods in natural language processing and very large corpora emnlp pp
+kristina toutanova dan klein christopher manning and yoram singer
+
+feature rich part of speech tagging with a cyclic dependency network
+in proceedings of hlt naacl pp
+
+collobert r
+weston j
+june
+fast semantic extraction using a novel neural network architecture
+in annual association for computational linguistics vol
+no
+p
+
+kingsbury p
+palmer m
+may
+from treebank to propbank
+in lrec
+ku l
+w
+liang y
+t
+chen h
+h
+march
+opinion extraction summarization and tracking in news and blog corpora
+in

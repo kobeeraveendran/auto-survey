@@ -1,0 +1,492 @@
+r a i s
+s c v
+v i x r a probabilistic model of narratives over topical trends in social media a discrete time model toktam a
+ece c
+jasser niloofar ivan ece
+
+
+
+ucf
+edu of computer science of industrial engineering university of central florida abstract online social media platforms are turning into the prime source of news and narratives about worldwide events
+however a atic summarization based narrative extraction that can facilitate communicating the main underlying events is lacking
+to address this issue we propose a novel event based narrative summary traction framework
+our proposed framework is designed as a probabilistic topic model with categorical time distribution lowed by extractive text summarization
+our topic model identifies topics recurrence over time with a varying time resolution
+this framework not only captures the topic distributions from the data but also approximates the user activity fluctuations over time
+thermore we define significance dispersity trade off sdt as a comparison measure to identify the topic with the highest lifetime attractiveness in a timestamped corpus
+we evaluate our model on a large corpus of twitter data including more than one million tweets in the domain of the disinformation campaigns conducted against the white helmets of syria
+our results indicate that the proposed framework is effective in identifying topical trends as well as tracting narrative summaries from text corpus with timestamped data
+ccs concepts computing methodologies information extraction topic modeling information systems data mining
+keywords topic modeling graphical models extraction topic detection and tracking extractive text summarization introduction social media and microblogging platforms such as twitter and facebook are becoming the primary sources of real time content regarding ongoing socio political events such as united states presidential election in and natural and man made gencies such as pandemic in
+however without the appropriate tools the massive textual data from these platforms makes it extremely challenging to obtain relevant information on significant events distinguish between high quality and unreliable content or identify the opinions within a polarized domain
+the challenges mentioned above have been studied from ent aspects related to topic detection and tracking within the field this study we have used the terms narrative and story interchangeably
+equal contribution
+of natural language processing nlp
+researchers have developed automatic document summarization tools and techniques which intend to provide concise and fluent summaries over a large corpus of textual data
+preserving the key information in the summary and producing summaries that are comparable to human created narratives are the primary goals of the extractive and abstractive proaches for automatic text summarization
+news websites are a prime example of such techniques where automatic text rization algorithms are applied to generate news headlines and titles from the news content
+the shortage of labeled data for text analysis has encouraged researchers to develop novel unsupervised algorithms that consider co occurrence of words in documents as well as emerging new techniques such as exploiting an additional source of information similar to wikipedia knowledge based topic models
+additionally unsupervised learning enables ing general purpose systems that can be used for a variety of tasks and applications as strong classifiers
+in this regard statistical models of co occurrence such as latent dirichlet allocation lda discover the relevant structure and co occurrence dependencies of words within a collection of documents to capture the tion of topic latent variable from the data
+although an abundant timestamped textual data particularly from social media platforms and news reports are available for analysis the changes in the tribution of data over time have been neglected in most of the topic mining algorithms proposed in the literature
+for instance time series analysis on datasets over the events relative to us presidential election suggests that modeling topics and extracting summaries without considering the text time relationship lead to missing the rise and fall of topics over time the changes in terms of correlations and the emergence of new topics
+although continuous time topic models such as have been proposed in the literature topical models with continuous time distribution can not model many modes in time which leads to deficiency in modeling the fluctuations
+additionally time models suffer from instability problems in the case of analyzing a multimodal dataset that is sparse in time
+in this paper we propose a probabilistic model of topics over time with categorical time distribution to detect topical recurrence signed as an lda based generative model
+to achieve probabilistic modeling of narratives over topical trends we incorporate the ponents of narratives including named entities and temporal causal coherence between events into our topical model
+we believe that what differentiates a narrative from topic analysis and marization approaches is the ability to extract relevant sequences this paper we refer to event based topic modeling over topical trends as narrative modeling
+of text relative to the corresponding series of events associated with the same topic over time
+accordingly our proposed narrative framework integrates unsupervised topic mining with extractive text summarization for narrative identification and summary traction
+we compare the identified narratives by our model with the topics identified by latent dirichlet allocation lda and topics over time tot
+this comparison includes presenting numerical results and analysis for a large corpus of more than one million tweets in the domain of disinformation campaigns ducted against the white helmets of syria
+the collected dataset contains tweets spanning months within the years and
+our results provide evidence that our proposed method is effective in identifying topical trends within a timestamped data
+furthermore we define a novel metric called significance dispersity trade off sdt in order to compare and identify topics with higher lifetime attractiveness in timestamped data
+finally we demonstrate that our proposed model discovers time localized topics over events that approximates the distribution of user activities on social media platforms
+the remaining of this paper is organized as follows first an overview of the related works is provided in section
+in section we provide a detailed explanation of our proposed method followed by the experimental setup and results
+finally in section we conclude the paper and discuss future directions
+background and related work in this section we first provide a background on narrative analysis and how literature has investigated stories in social media
+then we present an overview of topic modeling and text summarization
+
+narrative analysis narratives can be found in all day to day activities
+the fields of research on narrative analysis include narrative representation herence and structure of narratives and the strategies aim and functionality of storytelling
+from a computational perspective narratives may relate to topic mining text summarization machine translation and graph visualization
+the later can be achieved via using directed acyclic graphs dags to demonstrate ships over the network of entities
+narrative summaries can be constructed from an ordered chain of individual events with causality relationships amongst events appeared within a specific topic
+the narrative sequence may report fluctuations over time relative to the underlying events
+additionally the story like interpretation of the text is a must to imply a narrative
+since social media have been admitted as a component of day s society many studies have investigated narratives in social media content
+these narratives contain small biographies that have been developed in personal profiles and cover trivial everyday life events
+other types of narratives appearing in social media platforms consist of breaking news and long ries of past events
+some types of narratives such as breaking news result in the emergence of other narratives related to the predictions or projections of events in near future
+these ature view social media conversation cascades as stories that are co constructed by the tellers and their audience and are ing amongst the public within and across social media platforms
+moreover the events have been considered as the causes of online user activity that can be identified via activity fluctuations over time
+developing appropriate tools for social media narrative analysis can facilitate communicating the main ideas regarding the events in large data
+
+topic mining and text summarization as social media activities generate abundant timestamped modal data many studies such as have presented algorithms to discover the topics and develop descriptive summaries over social media events
+probabilistic models to discover word patterns that reflect the underlying topics in a set of document collections
+the most commonly used approach to topic modeling is latent dirichlet allocation lda
+lda is a generative probabilistic model with a hierarchical bayesian network structure that can be used for a variety of applications with discrete data including text corpora
+using lda for topic mining a document is a of words that has a mixture of latent topics
+many advanced topic modeling approaches have been derived from lda ing hierarchical topic models that learn and organize the topics into a hierarchy to address a super sub topic relationship
+this approach is well suited for analyzing social media and news stories that contain rich data over a series of real world events
+topic models over time with continuous time distribution and dynamic topic models intend to capture the rise and falls of topics within a time range
+however continuous time topic models such as beta or normal time distribution can not model many modes in time
+furthermore the smooth time distribution over topics does not allow recognizing distinct topical events in the timestamped dataset where topical events reflect the event based topic activity fluctuations over time
+topic modeling and summarization of social media data is lenging as a result of certain restrictions such as the maximum number of characters allowed on the twitter platform
+as text or microblogs have low word co occurrence and contextual information models designed for short text topic analysis and marization may obtain context information with short text gation to enrich the relevant context before further analysis
+document summarization techniques are generally categorized into abstractive and generative text summarization models
+herein we consider extractive text summarization methods
+several rithms for extractive text summarization have been proposed in the literature that assign a salient score to sentences
+to marize a text corpus with short text presents an automatic summarization algorithm with topic clustering cluster ranking and assigning scores to the intermediate features and sentence extraction
+some other approaches particularly for the twitter data include aggregating tweets by hashtags or conversation cascades and obtaining summaries for a targeted event of interest as one or a set of tweets that are representative of the topics
+additionally neural network based summarization models commonly with an encoder decoder architecture leverage tention mechanism for contextual information among sentences or rouge evaluation metric to identify discriminative features for sentence ranking and summarization
+however these tures require labeled datasets and might not apply to short text
+text summarization with compression using neural networks is proposed by which applies joint extraction and syntactic pression to rank compressed summaries with a neural network
+our focus in the present work is on probabilistic topic modeling and extractive text summarization to provide descriptive narratives for the underlying events that occurred over a period of time
+methodology in this section we explain our narrative framework
+the framework comprises of steps i
+narrative modeling based on topic tion over time and ii
+extractive summarization from the identified narratives
+to discover the narratives over topical events first we use our discrete time generative narrative model as an vised learning algorithm to learn distribution of textual contents from daily conversation cascades
+then we extract narrative maries over topical events from sentences in the time categories
+this is achieved by sampling from the identified distribution of narratives and perform sentence ranking
+narrative modeling and summarization steps are explained below in separate subsections
+
+narrative modeling to model narratives we design our topic model such that the covered topics present a series of timely ordered topical events
+accordingly the topical events deliver a narrative covering distinct events over the same topic
+in this regard we present narratives over categorical time noc a novel probabilistic topic model that discovers topics based on both word co occurrence and poral information to present a narrative of events
+according to the topic time relationship explained above we refer to the topics or narratives topical events as events and the extracted timely ordered sentences of documents with high probability of belonging to each event as the extracted narrative summary
+to fully comply with the definition of narrative we assume a causality relation between the conversation cascades in social media
+however we do not investigate the causality relation across the conversation cascades or named entities
+the differences between our narrative model with dynamic topic models topic models with continuous time distribution and hierarchical topic models include not filtering the data for an specific event imposing sharp transition for topic time changes with time slicing discovering topical events without scalability and sparsity issues allowing multimodal topic distribution in time as a result of categorical time distribution and selecting an appropriate slicing size such that distinct topical events be recognizable
+tionally categorical time distribution enables discovering topical events with varying time resolution for instance weekly biweekly and monthly
+time discretization brings the question of selecting the priate slicing size or the number of categories that depends on the characteristics of the dataset under study
+on the contrary topical models with continuous time distribution can not model many modes in time
+additionally continuous time models such as suffer from instability problem if the dataset is multimodal and sparse in time
+furthermore categorical time enables ering topic recurrence which results in identifying topical events related to distinct narrative activities which is of our interest in table symbols and definitions used in this paper variable descriptions symbol number of topics number of documents number of unique words number of word tokens in document multinomial distribution of topics for document multinomial distribution of words for topic z categorical distribution of time for topic z topic of the ith token in document d ith word token in document timestamp for ith word token in document time category for timestamp associated with a token entropy of topic z jth sentence of document d t d v nd d z z zdi wdi tdi bk hz sd j figure the graphical model for noc with gibbs sampling
+this paper
+narrative activities in social media refer to the amount of textual content that is circulating in online platforms over time corresponding to a specific topic
+the generative process in noc models timestamps and words per documents using gibbs sampling which is a markov chain monte carlo mcmc algorithm
+the graphical model of noc is illustrated in figure
+as can be seen from the graphical model the posterior distribution of topics is dependent on both text and time modalities
+this generative procedure can be described as follows i
+for each topic z draw t multinomials z from a dirichlet prior prior ii
+for each document d draw a multinomial d from a dirichlet iii
+for each word wdi in d draw a topic zdi draw a word wdi c draw a timestamp tdi from multinomial d from multinomial zd i where the timestamps tdi in each document are for words wdi identical
+the list of symbols and their descriptions can be found in table
+the model parameterization is as below from categorical zd i d zd i i i wd i i td i i figure the hashtag co occurrence graph for twitter dataset on the domain of white helmets of syria for a period of month from to
+this graph represents a down sampled version of the hashtag co occurrence in this data for the sake of visualization
+in this model gibbs sampling provides an approximate ence instead if exact inference
+to calculate the probability of topic assignment to word wdi we first need to calculate the joint bility of the dataset as i wd i td i tdi zdi and use chain rule to derive the probability of i t zd i as below where di subscripts refers to all tokens except wdi t zd i mdzd i wd i nzd i wd i i v v i bk zd i where nzv refers to the number of words v assigned to topic z mdz refers to the number of word tokens in document d that are assigned to topic z and bk represents the kth time slice
+the details on the gibbs sampling derivation can be found in the appendix section
+after each iteration of gibbs sampling we update the probability of i bk as follows k k i bk i bk where i
+is equal to when tzd i bk and otherwise
+in this paper we report results with bi weekly categorical time resolution
+to determine the values for hyper parameters and and to investigate the sensitivity of the model to these values we repeated our experiment with symmetric dirichlet distributions using values
+
+
+
+
+
+
+we observed that the model did not show significant sensitivity to the values of these hyper parameters
+thus we fix and
+both as symmetric dirichlet distributions
+we initialize the hyperparameter in ways for comparison i
+random initialization model referred as nocr and ii
+based on the probability of user activity per time category illustrated in figure model referred as noca
+to estimate the number of topics for our experiments we first visualize the tweets hashtag co occurrence graph
+we measure the graph modularity to examine the structure of the communities in this graph
+we observe the highest modularity score of
+using modularity resolution equal to
+
+figure illustrates a ple version of this graph where each color represents a modularity class
+the edges of the graph are weighted according to the number of hashtags co occurrence in the document collection
+our larity analysis suggests that few distinct hashtag communities exist
+additionally the dataset under study contains tweets associated with a single domain
+as a result we assume the number of topics to be relatively low
+to choose an appropriate number of topics we repeated lda with the number of topics as t
+
+
+with increments of size
+we evaluated the cv coherence of topics identified by lda and observed the highest coherence score for t and t respectively
+thus we report our experimental results using these values
+doumaprovocationbombevidencegratepoisoninghoaxassadassadputinsyrianarmydenmarkfakevirtuefakenewsworldwarforeverwarhumanityukgovfreesyriaglobalgopfakeattacksshuffmovespeakup
+narrative summary extraction we employ the discovered probabilities of topics over documents probabilities of words per topic and probabilities of topics per time category to perform sentence ranking
+this ranking allows extracting the sentences with the higher scores of belonging to each topic
+this is achieved via performing weighted sampling on the collection of documents based on the probabilities of topics per time category and draw d documents from
+the weighted sampling leads to drawing more documents from the time categories bk with a higher as this time slices contain more documents related to the topic z
+each document contains a sequence of sentences
+
+
+s j from the aggregated conversation cascades per day
+information on the aggregation of conversation cascades and document preparation can be found in section
+
+since the social media narrative activity over a topic evolves from the circulation of identical or similar textual content in the platform the content involves significant similarity
+for instance the twitter conversation cascades include replies quotes and comments where replies and quotes duplicate the textual content
+therefore we plied jaro winkler distance over the timely ordered sentences and dismissed the sentences with similarity above while keeping the longest sentence
+after removing redundant text as described earlier we calculate the probability of each sentence sj by ing the sum of the probabilities of topics for words wdi sj
+then we select the sentences with the highest accumulative probability of words w per topic z
+summary coherence was induced as gested in by ordering the extracted sentences according to their timestamps such that the oldest sentences appear first
+table in the appendix section contains the extracted narrative summaries for topics for a sample run
+experiments and results as mentioned earlier the discovered topics by noc present a series of timely ordered topical events
+thus the topical events deliver a narrative covering distinct social media events over the same topic
+figure demonstrates the generated narrative distributions with noc where the hyperparameter was randomly initialized referred to as nocr
+this figure represents that the identified ratives by our model are distinct from each other and the collapsed distribution of all narratives approximates the distribution of social media user activity over time
+the identified narratives can be evaluated using effective ation metrics for topic models
+accordingly we calculate pointwise mutual information to measure the coherence of a topic z as follows cohz lo wk k k where k is the number of most probable words for each narrative and refer to the probabilities of occurrence for words wj and wk and wk represents the probability of co occurrence for the two words in the collection of documents
+we compare our model with lda and where tot is a probabilistic topic model over time with beta distribution for time
+table displays the average coherence score measured across the discovered topics by lda tot and noc
+for noc we investigate c figure the distribution of extracted topics and user ity over time the distribution of user activity over time is depicted by black followed by the distribution of the tracted topics using nocr the collapsed distribution of the extracted topics the distribution of user activity in time
+the results suggest that the distribution of extracted topics approximate the distribution of user activity over the same time period
+table the comparison of coherence scores for models table the comparison of sdt scores for narratives model t t lda tot
+
+
+
+nocr noca
+
+
+
+initializing the parameter with random and user activity based tialization referred as nocr and noca respectively
+we considere k most probable words from each topic
+this comparison suggests that the narratives identified by noc are more coherent than the identified topics by lda with an improvement in ence of about
+the observed improvement comparing with tot was about
+additionally initializing the hyperparameter in noc using the distribution of user activity improves the narrative coherence by about
+
+proposed evaluation metric the topic attractiveness to social media users can be investigated as a measure of the length of conversation cascades the number of initiated textual content and the number of unique users ing an activity relative to the underlying topic
+the user activity fluctuations for timestamped data may contain activity bursts that are illustrative of significant events
+similarly the generation and propagation of textual content within an online platform can trate the narrative activity relative to the events over time where a burst represents a significant narrative activity
+additionally the recurrence of a topic can be considered as an attractiveness measure for the associated topic
+in this regard we propose the significance dispersity trade off sdt metric to compare the identified narratives against each other
+sdt measures the lifetime attractiveness of the identified narratives based on the distribution of narratives over topical events
+the posed metric quantifies the significance of the narrative activities and recurrence of a topic via employing the shannon entropy for the discovered narrative distributions
+the intuition behind the sdt score is that the value of the entropy is maximum when the probability distribution is uniform
+on the contrary this value is minimum if the distribution is delta function
+this is visualized in figure in the appendix section
+we define dispersity of a categorical time topic distribution as a measure of the dispersion of the time categories
+based on this definition sdt score of topic z can be obtained as sdtz h hmax h where h is the shannon entropy for the categorical distribution of time for topic z k hz k hmax and k refers to the number of time slices in the distribution
+we assume that social media topics with high lifetime attractiveness used the implementation available on
+com ahmaurya time
+narrative
+
+user activity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+are significant and recurrent
+however the probability tion imposes a trade off on the two
+the parameter provides a weighted geometric mean of h and hmax h that enables ing either significance or recurrence dependent on the application under study
+a larger value of parameter promotes dispersity for sdt score and a smaller amount of this parameter promotes mode significant
+the bounds for the sdt score are sdti hmax if h if h hmax if h hmax where h occurs when the distribution under study is uniform and h hmax relates to delta distribution
+since the time egorical distribution of our narrative model allows many modes in time recurrent narratives can be identified
+additionally the narrative activity fluctuations can be modeled using categorical time distribution in topic analysis
+table provides a comparison for the sdt scores measured for the identified narratives ing varying values of
+the illustration of the distribution of the extracted narratives can be seen in figure
+we can clearly see in this figure that narratives and have the highest dispersity
+on the contrary narratives and have the highest significance
+we compare sdti for narrative i with the number of user activity associated with narrative z
+the results suggest that sdt score can be used to identify the narrative with higher lifetime attractiveness in a timestamped dataset
+in our experiments this is achieved for topic when the value of is greater than or equal to
+
+as it can be seen this topic is associated with the highest user activity count reported in the same table
+
+dataset description and pre processing to analyze topical events and provide narratives we investigate the twitter dataset on the domain of white helmets of syria over a period of month from april to april
+this dataset was provided to us by leidos as part of the computational simulation of online social behavior program initiated by the defense advanced research projects agency darpa
+we analyze more than tweets from april to april
+to prepare the model inputs we filter the tweets from english text
+then we clean up the data by removing usernames short urls as well as emoticons
+additionally we remove the stopwords performe part of speech pos tagging and named
+leidos
+
+darpa
+mil program computational simulation of online behavior entity recognition ner on each tweet using stanford named entity model
+using the ner tool we extract persons locations and organizations and removed all pseudo documents that do not contain named entities similar to
+furthermore we remove the tweets shorter than words
+as the twitter maintains a maximum allowed character limit of characters collected tweets lack context information and have very low word co occurrence
+we tackle the challenge of topic modeling on short text tweets and to include plentiful context formation by preparing pseudo documents for our model inputs via aggregating daily root parent and reply quote retweet ments in each conversation cascade
+we maintain the order of the conversation according to the timestamps associated with each tweet
+this text aggregation method results in preparing documents rich of context and related words with a daily time resolution
+we use the pre processing phase output as the model input pseudo documents referred as documents in this paper
+conclusion and future directions in this paper we addressed the problem of narrative modeling and narrative summary extraction for social media content
+we presented a narrative framework consisting of i
+narratives over topic categories noc a probabilistic topic model with ical time distribution and ii
+extractive text summarization
+the proposed narrative framework identifies narrative activities ated with social media events
+identifying topics recurrence and significance over time categories with our model allowed us to propose significance dispersity trade off sdt metric
+sdt can be employed as a comparison measure to identify the topic with the highest lifetime attractiveness in a timestamped corpus
+sults on real world timestamped data suggest that the narrative framework is effective in identifying distinct and coherent topics from the data
+additionally the results illustrate that the identified narrative distributions approximate the user activity fluctuations over time
+moreover informative and concise narrative summaries for timestamped data are produced
+further improvement of the narrative framework can be achieved via incorporating the ity relation cross the social media conversation cascades and social media events into account
+other future directions include ing topical hierarchies and extract summaries associated with each hierarchy
+acknowledgments this work was supported by the defense advanced research projects agency darpa under grant number
+the views and opinions expressed in this article are the authors own and should not be construed as official or as reflecting the views of the university of central florida darpa or the u
+s
+department of defense
+references rubayyi alghamdi and khalid alfalqi
+
+a survey of topic modeling in text mining
+int
+j
+adv
+comput
+sci
+appl
+ijacsa
+mehdi allahyari seyedamin pouriyeh mehdi assefi saeid safaei elizabeth d trippe juan b gutierrez and krys kochut
+
+text summarization techniques a brief survey
+arxiv preprint
+
+
+stanford
+edu software crf ner
+html jeffery ansah lin liu wei kang jixue liu and jiuyong li
+
+leveraging burst in twitter network communities for event detection
+world wide web
+regina barzilay noemie elhadad and kathleen r mckeown
+
+sentence ordering in multidocument summarization
+in proceedings of the first international conference on human language technology research
+association for computational linguistics
+david m blei and john d lafferty
+
+dynamic topic models
+in proceedings of the international conference on machine learning
+
+david m blei andrew y ng and michael i jordan
+
+latent dirichlet allocation
+journal of machine learning research jan
+sophie burkhardt and stefan kramer
+
+a survey of multi label topic models
+acm sigkdd explorations newsletter
+freddy chong tat chua and sitaram asur
+
+automatic summarization of events from social media
+in seventh international aaai conference on weblogs and social media
+matteo cinelli walter quattrociocchi alessandro galeazzi carlo michele sise emanuele brugnoli ana lucia schmidt paola zola fabiana zollo and antonio scala
+
+the social media infodemic
+arxiv preprint
+
+soumi dutta vibhash chandra kanav mehra sujata ghatak asit kumar das and saptarshi ghosh
+
+summarizing microblogs during emergency events a comparison of extractive summarization algorithms
+in emerging technologies in data mining and information security
+springer
+gunn enli
+
+twitter as arena for the authentic outsider exploring the social media campaigns of trump and clinton in the us presidential election
+european journal of communication
+samah gad waqas javed sohaib ghani niklas elmqvist tom ewing keith n hampton and naren ramakrishnan
+
+themedelta dynamic segmentations over temporal topic models
+ieee transactions on visualization and computer graphics
+ivan garibay alexander v mantzaris amirarsalan rajabi and cameron e taylor
+
+polarization in social media assists influencers to become more influential analysis and two inoculation strategies
+scientific reports
+alexandra georgakopoulou
+
+small stories research a narrative digm for the analysis of social media
+the sage handbook of social media research methods
+goran glava jan najder parisa kordjamshidi and marie francine moens
+
+hieve a corpus for extracting event hierarchies from news stories
+in proceedings of language resources and evaluation conference
+elra
+thomas l griffiths michael i jordan joshua b tenenbaum and david m blei
+
+hierarchical topic models and the nested chinese restaurant process
+in advances in neural information processing systems
+
+naeemul hassan gensheng zhang fatma arslan josue caraballo damian jimenez siddhant gawsane shohedul hasan minumol joseph aaditya kulkarni anil kumar nayak al
+
+claimbuster the first ever end to end checking system
+proceedings of the vldb endowment
+bram jans steven bethard ivan vuli and marie francine moens
+
+skip n grams and ranking functions for predicting script events
+in proceedings of the conference of the european chapter of the association for computational linguistics
+association for computational linguistics
+hamed jelodar yongli wang chi yuan xia feng xiahui jiang yanchao li and liang zhao
+
+latent dirichlet allocation lda and topic modeling models applications a survey
+multimedia tools and applications
+amrah maryam and rashid ali
+
+twitter based event summarization
+in international conference on advances in computing and data sciences
+springer
+andrew j mcminn and joemon m jose
+
+real time entity based event detection for twitter
+in international conference of the cross language evaluation forum for european languages
+springer
+elliot g mishler
+
+models of narrative analysis a typology
+journal of narrative and life history
+shashi narayan shay b cohen and mirella lapata
+
+ranking sentences arxiv preprint for extractive summarization with reinforcement learning
+
+
+david newman jey han lau karl grieser and timothy baldwin
+
+automatic evaluation of topic coherence
+in human language technologies the annual conference of the north american chapter of the association for computational linguistics
+association for computational linguistics
+ruth page
+
+seriality and storytelling in social media
+storyworlds a journal of narrative studies
+jay pujara and peter skomoroch
+
+large scale hierarchical topic models
+in nips workshop on big learning vol
+
+xiaojun quan chunyu kit yong ge and sinno jialin pan
+
+short and sparse text topic modeling via self aggregation
+in twenty fourth international joint conference on artificial intelligence
+pengjie ren zhumin chen zhaochun ren furu wei jun ma and maarten de rijke
+
+leveraging contextual sentence relations for extractive tion using a neural attention model
+in proceedings of the international acm sigir conference on research and development in information retrieval
+
+lidan shou zhenhua wang ke chen and gang chen
+
+sumblr continuous summarization of evolving tweet streams
+in proceedings of the international acm sigir conference on research and development in information retrieval
+
+pk srijith mark hepple kalina bontcheva and daniel preotiuc pietro
+
+sub story detection in twitter with hierarchical dirichlet processes
+information processing management
+jiwei tan xiaojun wan and jianguo xiao
+
+from neural sentence marization to headline generation a coarse to fine approach
+
+in ijcai
+
+johnny torres carmen vaca luis tern and cristina l abad
+
+els for recommending short text conversations
+expert systems with applications
+josep valls vargas
+
+narrative information extraction with non linear natural language processing pipelines
+drexel university
+kristin veel
+
+make data sing the automation of storytelling
+big data society
+xuerui wang and andrew mccallum
+
+topics over time a non markov continuous time model of topical trends
+in proceedings of the acm sigkdd international conference on knowledge discovery and data mining
+
+jiacheng xu and greg durrett
+
+neural extractive text summarization with syntactic compression
+arxiv preprint
+
+kang xu guilin qi junheng huang and tianxing wu
+
+incorporating wikipedia concepts and categories as prior knowledge into topic models
+gent data analysis
+liang yao yin zhang baogang wei lei li fei wu peng zhang and yali bian
+
+concept over time the combination of probabilistic topic model with wikipedia knowledge
+expert systems with applications
+appendix a gibbs sampling derivation for the discrete time narrative model starting with the joint distribution t we can use conjugate priors to simplify the equations as below t i i t d d nzv zv md dz t d z v t zv d z dz d d d t v d t d i d d d t v v i z z where p and p refer to the probability mass function pmf and probability density function pdf respectively
+the conditional probability t zdi can be found using the chain rule as wdi tdi zdi tdi tdi zdi t zdi t tdi zdi wd i nzd i wd i i v v zd i mdzd i mdzd i zd i i wd i nzd i wd i i v v i bk the probability of bk can be measured as follows i bk i bk k k where i
+is equal to when tzd i bk and otherwise
+figure a visualization of sdt for different entropy values using
+
+the sdt values for delta uniform and periodic distributions are marked on the graph
+topics keywords table representative keywords and narrative summaries per topic
+terrorist idlib ian child city tack aleppo rescue weapon killed chemical attack douma video idlib staged boy war child witness chemical douma fake child paganda russian russia attack terrorist video israel terrorist idlib chemical attack life rescue russian people al qaeda freeze funding terrorist trump group chemical attack idlib civilian news summary whitehelmets syria news one child was injured in the north of aleppo
+their aim is to save lives in war zones inside syria
+has credibly substantiated uses of chemweapons in syria of attacks by assadallies
+these are the white mets or syria civil defense as our us dept of state calls them russian airstrikes killed two men and one baby in dmz areas russianwarcrimes
+remember first they said the video including the pics of the chlorine cylinder was fake
+whitehelmets one america news pearson sharp visits hospital in douma where white helmets filmed chemical attack hoax multiple eyewitness doctors say no chemical attack took place syria
+this is the video evidence of the airstrike on zardana an idlib town controlled by very expensive camera on the helmet of the whitehelmets rescuer
+white helmets making films of chemical attacks with children in idlib
+from the fabrication of the plays of the chemist and coverage of the crimes of terrorism to the public cooperation with the israeli army the white helmets
+they are holding children another chemical attack is imminent its all they ve got left dead including two children and more than wounded mostly women and children
+love the white helmets propaganda almost as untruthful as the bbc
+white helmets are preparing chemical attack on citizens again those are basically just members of al qaeda al nusra right the al qaeda smear is deliberate propaganda
+its war crime only if us intervenes in kashmir kashmir will be liberated like raqqan with a dozen us bases having thaad missiles aimed at china and with alqaeda whitehelmets taking out children s organs of kashmiris
+trumps usa has built a rationale for its public that it will need to support rebels in holding on to a large chunk of syria
+i wonder how it is possible that criminal associations such as whitehelmets and the syrian human rights observatory can make the world go round as they want by influencing the policies of world leaders
+u
+s
+freezes funding for syrias white helmets
+white helmets are terrorists
+former head of royal navy lord west on bbc white helmets are nt neutral they re on the side of the terrorists
+topic topic topic topic topic the summaries provided here are the results for a sample run of the proposed narrative framework and do not reflect authors personal opinions
+entropysdtperiodicuniformdelta

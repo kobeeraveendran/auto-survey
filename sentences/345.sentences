@@ -1,0 +1,951 @@
+dissecting the components and factors of neural text generation khyathi raghavi chandu alan w black language technologies institute carnegie mellon university kchandu
+cmu
+edu t c o l c
+s c v
+v i x r a abstract neural text generation metamorphosed into several critical natural language applications ranging from text completion to free form rative generation
+generating natural language has fundamentally been a human attribute and the advent of ubiquitous nlp applications and virtual agents marks the need to impart this skill to machines
+there has been a colossal research effort in various frontiers of neural text generation including machine translation summarization image captioning storytelling
+we believe that this is an excellent ture to retrospect on the directions of the eld
+specically this paper surveys the tal factors and components relaying task nostic impacts across various generation tasks such as storytelling summarization tion
+in specic we present an tion of the imperative techniques with respect to learning paradigms pretraining modeling approaches decoding and the key challenges
+thereby we hope to deliver a one stop nation for researchers in the eld to facilitate a perspective on where to situate their work and how it impacts other closely related tasks
+introduction text generation is the task of producing written or spoken narrative from structured or unstructured data
+the overarching goal is the seamless machine communication by presenting a wealth of data in a way we can comprehend
+with spect to the modeling approaches there are three main paradigms in generating text based on the schema of input and output i text to text ii data to text none to text
+table presents the categorization of different tasks based on this paradigm
+these several tasks deserve undivided attention and accordingly they have been ily dissected studied and surveyed in the recent past
+for instance independent and exclusive generation paradigm text to text data to text none to text task dialog machine translation style transfer summarization image captioning visual storytelling speech recognition table to text knowledge bases to text knowledge bases language modeling input conversation history source language style text single multiple documents image images audio table null output next response target language style text summary descriptive text descriptive text text text text sequence of text table paradigms of tasks in text generation
+for the purposes of compactness we include to text paradigm within data to text
+veys are periodically conducted on summarization lin and ng allahyari et al
+nenkova and mckeown tas and kiyani knowledge to text generation dblp conf inlg dblp conf naacl koncel machine translation chu and wang dabre et al
+chand slocum dialog sponse generation liu et al
+montenegro et al
+ramesh et al
+chen et al
+storytelling narrative generation tong et al
+togelius et al
+image captioning hossain et al
+
+to dig deeper into task specic approaches that are foundational as well as in the bleeding edge of research
+while these are tremely necessary often the focus on techniques that are benecial to other tightly coupled tasks are overlooked
+the goal of this survey is to cus on these key components that are task agnostic to improve the ensemble of tasks in neural text generation
+there have been several studies conducted on surveying text generation
+perera and nand present a detailed overview of information ory based approaches
+iqbal and qureshi primarily focus on core modeling approaches pecially vaes kingma and welling and gans goodfellow et al
+
+gatt and mer elaborated on tasks such as captioning style trasfer
+with a primary focus on data figure components and factors in approaches for text generation
+components are laid out in grey boxes and factors are laid out on the left in dotted lines
+text tasks
+controllability aspect is explored by prabhumoye et al
+
+the workclosest to this is by lu et al
+who perform an empirical study on the core more modeling approaches only
+in contrast to these this paper focuses on task nostic components and factors capable of pushing the ensemble of tasks forward
+figure presents the various components and factors that are tant to study in neural text generation which are elaborated in this paper
+modeling approaches
+core modeling paradigms supervised learning most generation proaches in this setting use maximum likelihood objective for training sequence generation with a sequential multi label cross entropy
+log y t t however there is an inherent inconsistency in posure to ground truth text between training and inference stages when using teacher forcing during training
+this leads to the problem of exposure bias ranzato et al
+
+during training the token in the current time step is predicted conditioned on ground truth prex correcting the course tive of what word is predicted by the model
+ever during inference the same is conditioned on generated prex in the absence of ground truth x
+this problem becomes severe with the ing length of the output
+a solution to address this issue is scheduled sampling bengio et al
+which mixes teacher forced embeddings and model predictions from previous time step
+reinforcement learning the main issue with the supervised learning approach for text ation is the mismatch between maximum hood objective that is optimized and metrics for text quality
+reinforcement learning addresses this mismatch by directly optimizing end metrics which could be non differentiable
+typically policy ent algorithms are used to optimize for bleu score directly via reinforce
+the objective is shown low which is the sum of log probabilities multiplied by the reward score
+the reward score itself is puted as the expected bleu score
+rt logp t x t however computing bleu before every update is not computationally efcient to incorporate in the training procedure
+another problem is the inherent inefciency of the metric itself i
+e bleu is not the best measure to evaluate text quality
+in practice usually the policy network is usually trained with maximum likelihood objective before optimizing for bleu score
+adversarial learning the third paradigm is adversarial learning comprising of competing jectives
+the mismatch in training and inference stages is addressed using professor forcing lamb et al
+with adversarial domain adaptation to bring the behavior of the training and sampling close to each other
+this is done by sharing the parameters between teacher forcing network and evaluation humanautomaticemulatedfluency coverage length content planning speedinference decoding autoregressivenon autoregressivesamplingsearchsupervisedcore modeling encoder decoder adversarialvariationalreinforcementgenerative pretrainingsupervised the free running network
+apart from this the two main components are a generator and a nator
+discriminator here is optimized to correctly classify the sequence as belonging to free running behavior or teacher forced behavior
+the tor has two goals i maximize the likelihood of the data fool the discriminator
+there are two options with respect to keeping one xed and ing the other closer to the rst
+this can be done with respect to either of teacher forcing network or free running network
+empirically professor forcing also plays the role of a regularizer
+erative adversarial networks gan also gained popularity with respect to this in the recent times
+the core idea is that the gradient of the tor guides how to alter the generated data and by what margin in order to make it more realistic
+this slight change is apparent in continuous values in comparison to language which is a discrete space
+there are several variants adopted to address cic problems such as seqgan to assess partially generated sequence yu et al
+maskgan to improve sample quality using text lling fedus et al
+and leakgan to model long term pendencies by leaking discriminator information to generator guo et al
+
+the three main challenges researched in this area are discrete sampling the sampling step selecting argmax in language is a non differentiable function
+one solution is to replace it with a continuous proximation by adding gumbel noise which is ative log of negative log of a sample from uniform distribution also known as gumbel softmax
+mode collapse gans typically face the issue of sampling from specic tokens to cheat nator known as mode collapse
+in this way only a subspace of target distribution is learnt by the erator
+dp gan addresses this using an explicit diversity promoting reward xu et al
+
+power dynamics between generator and criminator another problem arises when the criminator is trained faster than the generator
+this is most often the case the gradient from tor vanishes leading to no real update to generator
+
+pre training recent couple of years have seen a major surge in interest for pre training techniques
+while they are primarily focused on language understanding tasks there has been some work targeted for training for generation as well
+unilm unied pre trained language model dong et al
+is proposed as a pre training mechanism for both natural language understanding and natural guage generation tasks
+fundamentally the viously widely used elmo peters et al
+constitutes a language model that is left to right and right to left
+while gpt radford et al
+has an autoregressive left to right language model bert devlin et al
+has a bidirectional guage model
+unilm is optimized jointly for all of the above objectives along with an additional new lm which is bidirectional encoding followed by unidirectional decoding
+depending on the use case unilm can be adopted to use directional lm left to right bidirectional lm attention on all tokens and lm attention on all tokens in previous segment and left context in the current segment
+with a similar goal in mind mass song et al
+modied ing patterns in input to achieve this
+bert and xlnet yang et al
+pre train an encoder and gpt pretrains a decoder
+this is a framework introduced to pretrain encoder attention decoder gether
+encoder masks a sequence of length and the decoder predicts the same sequence of length and every other token is masked
+while the idea of jointly training the encoder attention decoder remains the same as in unilm the interesting tribution here is the way masking is utilized to i the bring out the following advantages
+kens masked in decoder are the tokens that are not masked in encoder
+this complementary ing encourages joint training of encoder decoder
+ii encoder supports decoder by extracting ful information from the masked fragments which improves the understanding or nlu capabilities of the model
+since a sequence of length is decoded consecutively nlg capability is proved as well
+note that when k is the model is closer to bert which is biased to an encoder and when k is the length of sentence the model is closer to gpt which is biased to decoder
+similar to unilm bart lewis et al
+has a tional encoder and an autoregressive decoder
+the underlying model is standard transformer vaswani et al
+based neural mt framework
+the main difference of bart from mass is that the tokens masked here are not necessarily consecutive
+the main idea and the second difference is to corrupt text with arbitrary noise and reconstruct original text
+the input is corrupted with the following transformations token masking token deletion ken inlling sentence permutation and document rotation
+following this raffel et al
+posed as a unifying framework that ties all nlp problems as text generation tasks with a text in and text out paradigm
+recently dathathri et al
+introduced plug and play language models capable of efciently training fewer parameters to control a huge underlying pretrained model
+finetuning these vast models for generative tasks has been studied in style transformers sudhakar et al
+and conversational agents dinan et al
+
+
+decoding strategies the natural next step after pre training and training is decoding
+the distinguishing characteristic of generation is the absence of one to one dence between time steps of input and the output thereby introducing a crucial component which is decoding
+primarily they can be categorized as i autoregressive and non autoregressive
+autoregressive decoding traditional models with this strategy correspond well to the true tributions of words
+this mainly comes from specting the conditional dependence property from left to right
+the autoregressive techniques can be further viewed as sampling and search techniques
+the main disadvantage of this strategy is throttling transformer based models that fall short in cating their training advantages as training can be non sequential and inference holds to be sequential with autoregressive decoding
+non autoregressive decoding this line of work primarily addresses two problems that are associated with autoregressive decoding
+first by denition there is a conditional independence erty that holds
+this leads to the multimodality problem where each time step considers different variants with respect to the entire sequence and these conditions compete with each other
+ond the main advantage is the reduction in latency during real time generation
+guo et al
+dressed this problem in the context of neural chine translation using transformers by copying each of the source inputs to the decoder either formly or repeatedly based on their fertility counts
+this is done to address varying sequence lengths between source and target texts
+these fertilities are predicted using a dedicated neural network to reduce the unsupervised problem to a supervised one and thereby enabling it to be used as a latent variable
+this invariable replications based on tilities may lead to duplication of words
+closely followed by this van den oord et al
+took a different approach by introducing probability sity distillation by modifying a convolutional ral network using a pre trained teacher network to score a student network attempting to minimize the kl divergence between itself and the teacher work
+both these works set the trend of using latent variables to capture the interdependence between different time steps in the decoder
+following this work lee et al
+use iterative renement by denoising the latent variables at each of the ment steps
+this idea of iterative decoding inspired way to more avenues by combining the benets of cloze style mask prediction objectives from bert devlin et al
+
+some of them include tion based techniques gu et al
+repeated masking and regenerating ghazvininejad et al
+and providing model predictions to the input ghazvininejad et al
+
+wang et al
+proposed an alternative proach to address repetition observed in guo et al
+and completeness using regularization terms for each
+repetition is handled by izing similarity between consecutive words
+pleteness is addressed by enabling reconstruction of source sentence from hidden states of the coder based on the duality of translation tasks tween source to target and target to source
+rently guo et al
+also address these issues by improving the inputs to decoder using additional phrase table information and sentence level ment between source and target word embeddings
+sampling and search techniques
+random sampling the words are sampled randomly based on the probability from the entire distribution without pruning any of the mass
+p yt t jv
+greedy decoding this technique simply boils down to selecting argmax of the probability distribution
+as you keep selecting argmax where the problem is that it limits the diversity of generation
+note that this may not result in the best output as there may be an alternate hypothesis comprising of a path that does not have to select the most probable word at each time step
+yt argmaxyt jv a major disadvantage of greedy decoding is that there is no mechanism to correct the course if a mistake is made
+this accumulates errors for the following time steps
+it is monotonous with more predictable texts
+this is alleviated by the next niques and beam search
+this is also worked out for discrete settings using gumbel greedy decoding gu et al
+
+variants of this were also studied by zarrie and schlangen
+beam search beam search introduces a course correction mechanism in approximation of the argmax by selecting a beam size number of beams at each time step
+when beam size is this is the same as greedy decoding and when beam size is the size of the vocabulary it it computationally very expensive
+it has been relatively well ied in task agnostic objectives wang et al
+for instance including social media text wang and ng error correction dahlmeier and ng
+small beam sizes may lead to matical sentences they get more grammatical with increasing beam size
+similarly small beam sizes may be less relevant with respect to content but get more generic with increasing beam size
+there are several varieties within beam search noisy parallel approximate decoding this method cho introduces some noise in each hidden state to non deterministically make it slightly deviate from argmax
+beam blocking repetition is one of the lems we see in nlg and this technique paulus et al
+combats this problem by blocking the repeated n grams
+it essentially adjusts the bility of any repeated n gram to
+c iterative beam search in order to search a more diverse search space another technique likov et al
+was introduced to iteratively perform beam search several times
+and for each current time step we avoid all of the partial potheses encountered until that time step in the previous iterations based on soft or hard decisions on how to include or exclude these beams
+diverse beam search one problem with beam search is that most times the decoded sequence still tends to come from a few highly signicant beams thereby suppressing diversity
+the moderation by vijayakumar et al
+adds a diversity penalty computed for example using hamming distance between the current hypothesis and the hypotheses in the groups to readjust the scores for predicting the next word
+e clustered beam search the goal is prune unnecessary beams
+at each time step tam get the top candidates and embed them by using averaged glove representations
+cluster them ing k means to get k clusters
+and then they pick the top b k candidates from each cluster to get b candidates in total for that time step
+clustering post decoding the above proaches modify decoding step itself
+this nique kriz et al
+clusters after decoding is done
+sentence representations from any of the diversity promoting beam search variants are tained
+these are then clustered and the sentence with high log likelihood is selected from the cluster
+
+top k sampling this technique by fan et al
+randomly samples from the most ble candidates from this distribution
+this means that we are conning the model to select from a truncated probability mass
+p t p t v k p t ifyt v k otherwise if k is the size of vocabulary then it is random sampling and if k is then it is greedy decoding
+high valued k results in dicey words but are monotonous and low valued k results in safe puts which are monotonous
+the problem however is that k is limited to the same value in all scenarios
+
+top p sampling the aforementioned lem of a xed value of k is addressed by top p sampling
+this is also known as nucleus sampling holtzman et al
+which instead of getting rid of the unspecied probability mass in top k sampling importance is shifted to the amount of probability mass preserved
+this addresses ios where there could be broader set of reasonable options and sometimes a narrow set of options
+it is achieved by selecting a dynamic k number of words from a cumulative probability distribution of words until a threshold probability value is attained
+ytv p p t p key challenges for each of the challenges this section provides a list of solutions
+the pitfalls of these solutions are also described there by encouraging research to address these key challenges
+
+fluency there are a couple of detrimental factors that affect the uency of text generation which are repetition and coherence
+solution beam blocking blocking beams taining previously generated n grams from quent generation combats repetition and ages diversity
+there are multiple options to form this including cutting the beam stream or lect from the rest of the n grams klein et al
+paulus et al
+
+problem however sometimes beams with natural kind of repetition done for instance in order to emphasize something that is naturally done by humans are also blocked
+selecting the number of beams is often a problem since it is natural for a function word to repeat more often
+solution to problem massarelli et al
+tensively studied the variants of introducing beam blocking which is also referred to as n gram ing by applying delays in beam search
+solution unlikelihood objective welleck et al
+argue that there is a fundamental aw in the objective of likelihood
+the main idea is to decrease the probability of unlikely or negative candidates
+the negative candidates are selected from the previous contexts either at token or at sequence levels which are essentially n grams
+this way we are simultaneously optimizing for both likelihood with unlikelihood by discouraging the repetition of previous outputs
+problem this may not seem a major issue ever selecting negative contexts is tricky and needs to be beyond selection of simple n gram sequences that occurred previously
+solution coverage penalty this discourages the attention mechanism to attend the same word repeatedly see et al
+
+navigating through each of the time step in the source if across ferent time steps of the decoded output the tion weights are higher for that particular source timestep then that timestep is covered and hence the coverage penalty would be which is
+otherwise coverage penalty would be the attention probability mass on that source time step
+solution static and dynamic planning this addresses coherence in terms of layout or tural organization of the text yao et al
+
+a schema of static or dynamic plans are used to form an abstract ow of the text from which the actual text is realized
+problem however underlying language models are capable of taking over leading to hallucinations and thereby compromising the delity of text
+
+length of decoding one factor that guishes generation from rest of the family of tasks is the variability in the length of the ated output
+the main problem here is that as the length of the sequence increases the sum of the log probability scores decrease
+this means that models prefer shorter hypotheses
+some solutions to combat this problem are the following
+solution length normalization or penalty the generated output is scored by normalizing or viding with length
+wu et al
+explore a different variation of the normalization constant
+this is pretty standard when the dataset has high variance in lengths
+solution probability boosting this technique multiplies the probability with a xed constant at every time step
+this alleviates the diminishing score problem
+solution bias incorporate bias in the model based on empirical relations on lengths in source and target sentences in the training data
+
+content selection certain tasks demand copying over the details in the input such as rare proper nouns for instance in news articles
+this is especially needed in tasks like summarization which can demand a combination of extractive and abstractive techniques
+solution copy mechanism copy mechanism can take various forms such as pointing to unknown words gulcehre et al
+based on attention see et al
+or a joint or a conditional copy mechanism gu et al
+puduppully et al
+
+it maybe based on attention that copies segments from input into the output
+the problem is that sometimes this technique boils down from a combination of being extractive and abstractive to sort of an extractive system
+solution hierarchical modeling this nique maintains a global account of the content
+this is often modeled using hierarchical techniques or dual stage models martin et al
+xu et al
+gehrmann et al
+where the rst stage pre selects relevant keywords for generation in the following stage
+problem such models possibly take a hit on uency while connecting dots between selected content and generation
+this means that can be good because the right words are extracted but may decrease as it affects the uency
+
+optimization objective similar to the servation earlier in section there is an inherent mismatch in the between the objective function which is maximum likelihood and the end metrics which are bleu rouge solution reinforcement learning a common solution for this problem is using reinforcement learning to optimize end metrics such as rouge
+often a combination of mle and rl objectives are used hu et al
+wang et al
+
+problem however this is still a problem since these end metrics do not directly correlate to human judgements
+hence optimizing for bleu or rouge does not ensure human quality text
+solution maximum mutual information the idea is to incorporate pairwise information of source and target instead of only one direction which is usually target given source li et al
+
+the target probability is subtracted from target given source probability to diminish the probability of generic sentences
+a viable extension to this is conditioning on personality for consistency
+solution distinguishability hallucinations in abstractive generation are unwanted byproducts of optimizing log loss
+to combat this several searchers explored optimizing for minimized guishability with human generated text hashimoto et al
+theis et al
+
+following similar path kang and hashimoto proposed cating loss to get rid of unwanted samples
+
+speed practical applications call for ating text in real time without time lag in ing in addition to chasing the state of the art sults
+model compression plays a crucial part in demonstrating an increase in the speed of ation
+cheng et al
+exhaustively surveyed the different techniques to perform model sion
+while there are techniques in the hardware side there are certain modeling approaches that can handle this problem as well gonzalvo et al
+
+most of this work is studied in the context of real time interpretation of speech fugen et al
+yarmohammadi et al
+grissom ii et al
+
+recently deng and rush proposed a cascaded decoding approach introducing markov transformers to demonstrating high speed and curacy
+quantization quantizing roy et al
+gray the weights i
+sharing the same weight value when they belong to a bin also proved helpful in improving the speed
+this also facilitates the computations of gradients only once per bin
+distillation it can be performed with a teacher and a smaller student network that tries to replicate the performance of the teacher with fewer ters chen et al
+
+pruning this technique thresholds and prunes all the connections that have weights lesser than the predetermined threshold and then we can retrain the network in order to adjust the weights of the remaining connections
+real time gu et al
+trained an agent that learns to decide between the actions of reading by discarding a candidate or writing by accepting a candidate
+the policy network is optimized with a combination of quality evaluated with bleu and delay evaluated by number of consecutive words in reading stage which increases wait time
+caching another trick is to cache some of the previous computations to avoid repetition
+evaluation similar to other generative modeling text ation also faces crucial challenges in evaluation reiter and belz reiter
+van der lee et al
+present some of the best practices of evaluating automatically generated text
+the main hindrance to standardize or evaluate nlg like other standard tasks is that it is often a sub component of other tasks
+this means that the input can be in varied forms such as tables images and text
+in tain settings such as diverse image captioning we would need more objects or entities
+sometimes in dialog we would need pronouns to have a natural coherence instead of repeating nouns
+desiderata of text it is crucial to dene the tors contributing to the quality of good text
+some of the factors include relevant content appropriate structure in terms of coherence and suitable surface forms
+in addition uency grammaticality ability and novelty in some scenarios are crucial factors
+intrinsic and extrinsic evaluation in subjective scopes such as text generation can be performed intrinsically or extrinsically
+intrinsic evaluation is performed internally with respect to the eration itself and extrinsic evaluation is typically performed on the metric used to evaluate a stream task in which this generation is used
+the quality can also be judged using automatic metrics and human evaluation
+automatic metrics here we outline the broad categories of metrics along with their vantages and disadvantages
+these metrics can be classied into the following categories word overlap based metrics these are based on the extent of word overlap which means that they capture replication of words
+the problem with such measures is that they do not focus on semantics but rather just the surface form of words and alone
+this includes precision for papineni et al
+improved weighting for rare n grams nist doddington recall for n grams rouge lin and hovy equivalent of n grams meteor banerjee and lavie tf idf based cosine similarity for n grams cider vedantam et al
+
+in extension to this we also have specic metrics to evaluate content selection by ing summarization content units using pyramid nenkova and passonneau and parsed scene graphs with objects and relations using spice derson et al
+
+stanojevic and simaan proposed beer to address this as a ranking lem with character n grams along with words
+language model based metrics this includes perplexity brown et al
+
+such metrics are good in commenting about the language model self
+it sort of gives the average number of choices each random variable has
+however it does not directly evaluate the generation itself for instance a decrease in perplexity does not imply a decrease in the word error rate
+it just means that cally the lm is good enough to select the right next word for that corpus
+the human likeness is also measured by training a model to discriminate between human and machine generated text such as an automatic turing test lowe et al
+cui et al
+hashimoto et al
+
+embedding based metrics this has the tage of being able to capture semantics
+meant
+lo and lo et al
+putes structural similarity with shallow semantic parses being denitely and discretionarily used spectively along with word embeddings
+recently contextulaized embeddings have been extensively used to capture this such as bertscore zhang et al
+and bleurt sellam et al
+
+metrics based on a combination of different embeddings are also proposed shimanaka et al
+ma et al
+
+however the problem of not correlating to human judgements still persists
+emulated automatic metrics these rics check for the intended behavior in generation based on the sub problem the modeling approach is addressing
+to check correctness or delity or alty with respect to source document we can apply inference
+diversity can be evaluated by computing corpus based distributions on number of distinct entities fan et al
+dong et al
+clark et al
+and so on
+recently wang et al
+worked on identifying factual cies generated summaries
+the idea is that when a question is posed the source document and the summary should result in same or similar answers
+human evaluation there are broadly two mechanisms in conducting subjective evaluations which is a challenging component of text tion
+the rst is preference testing and the second is scoring
+some studies have shown that ence based testing is prone to less variance pared to absolute scoring
+here are some important points to keep in mind during conducting human i they are very expensive to evaluation
+duct and hence not feasible to check the model by repeated examination
+there are no standard universally agreed upon guidelines to setup such tasks
+in other words conducting subjective ation itself is subjective in nature
+scores tend to vary based on the nature of scales whether the judgements are binary discrete integer values or continuous
+it is observed that human ences are inconsistent
+they are biased with sonal and demographic conditions
+in such cases it is important to measure inter annotator ment as well
+some people might be lenient and others more strict which is not scaled across people
+vi framing the task in an unambiguous way to elicit the right information and maintain reproducibility
+having critically discussed human evaluation this is still really the best we got
+it is absolutely crucial to perform human evaluation in most nlg tasks
+so these problems need to be taken merely as cautions to develop more rational and systematic testing conditions
+comparisons between automatic and human evaluation systems belz and reiter are also studied actively in order to bring human evaluation closer to automatic metrics
+conclusion the past decade witnessed text generation dribbling from niche scenarios into several mainstream nlp applications
+this urges the need for a snapshot to retrospect the progress of varied text tion tasks in unison
+this paper is written with the goal of presenting a one stop destination for task agnostic components and factors in text ation for researchers foraging to situate their work and guage their impact in this vast eld
+moving forward we envision that there are some of the crucial directions to focus for impactful innovation in text generation
+these include i generation in real time non autoregressive decoding iii sistency with situated contexts in real and virtual environments and games iv consistency with sonality with opinions especially for virtual agents v conditioning on multiple modalities together with text and data vi investigation is still ing on nding better metrics to evaluate nlg with better correlated human judgements vii creative text generation
+we believe this is the right time to extend advancements in any particular task to other tightly coupled tasks to revamp improvements in text generation as a holistic task
+references mehdi allahyari seyedamin pouriyeh mehdi asse saeid safaei elizabeth d trippe juan b text rez and krys kochut
+
+arxiv preprint tion techniques a brief survey
+
+
+peter anderson basura fernando mark johnson and stephen gould
+
+spice semantic tional image caption evaluation
+in computer vision eccv european conference dam the netherlands october ceedings part v volume of lecture notes in computer science pages
+springer
+satanjeev banerjee and alon lavie
+
+meteor an automatic metric for mt evaluation with proved correlation with human judgments
+in ceedings of the workshop on intrinsic and trinsic evaluation measures for machine tion ann arbor michigan usa june pages
+ciation for computational linguistics
+anja belz and ehud reiter
+
+comparing matic and human evaluation of nlg systems
+in eacl conference of the european ter of the association for computational tics proceedings of the conference april trento italy
+the association for computer tics
+samy bengio oriol vinyals navdeep jaitly and noam shazeer
+
+scheduled sampling for quence prediction with recurrent neural networks
+in advances in neural information processing tems annual conference on neural tion processing systems december montreal quebec canada pages
+peter f
+brown stephen della pietra vincent j
+della pietra jennifer c
+lai and robert l
+mercer
+
+an estimate of an upper bound for the entropy of english
+comput
+linguistics
+sunita chand
+
+empirical survey of machine translation tools
+in second international ference on research in computational intelligence and communication networks icrcicn pages
+ieee
+hongshen chen xiaorui liu dawei yin and jiliang tang
+
+a survey on dialogue systems recent advances and new frontiers
+sigkdd explorations
+yen chun chen zhe gan yu cheng jingzhou liu and jingjing liu
+
+distilling the knowledge of bert for text generation
+corr
+
+yu cheng duo wang pan zhou and tao zhang
+
+a survey of model compression and eration for deep neural networks
+arxiv preprint
+
+kyunghyun cho
+
+noisy parallel approximate decoding for conditional recurrent language model
+corr
+
+in international conference on agents
+ing representations iclr new orleans la usa may
+openreview
+net
+chenhui chu and rui wang
+
+a survey of main adaptation for neural machine translation
+in proceedings of the international conference on computational linguistics pages
+elizabeth clark yangfeng ji and noah a
+smith
+
+neural text generation in stories using entity in proceedings of the sentations as context
+conference of the north american chapter of the association for computational linguistics human language technologies naacl hlt new orleans louisiana usa june volume long papers pages
+association for computational linguistics
+yin cui guandao yang andreas veit xun huang and serge j
+belongie
+
+learning to in ieee conference ate image captioning
+on computer vision and pattern recognition cvpr salt lake city ut usa june pages
+ieee computer society
+raj dabre chenhui chu and anoop kunchukuttan
+
+a survey of multilingual neural machine translation
+arxiv preprint
+
+daniel dahlmeier and hwee tou ng
+
+a search decoder for grammatical error correction
+in proceedings of the joint conference on ical methods in natural language processing and computational natural language learning pages
+association for computational tics
+sumanth dathathri andrea madotto janice lan jane hung eric frank piero molino jason yosinski and rosanne liu
+
+plug and play language models a simple approach to controlled text generation
+in international conference on learning tations iclr addis ababa ethiopia april
+openreview
+net
+yuntian deng and alexander m
+rush
+
+cascaded text generation with markov transformers
+corr
+
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language in proceedings of the conference standing
+of the north american chapter of the association for computational linguistics human language technologies naacl hlt minneapolis mn usa june volume long and short pers pages
+association for tional linguistics
+emily dinan stephen roller kurt shuster angela fan michael auli and jason weston
+
+wizard of wikipedia knowledge powered conversational george doddington
+
+automatic evaluation of machine translation quality using n gram occurrence statistics
+in proceedings of the second international conference on human language nology research pages
+li dong nan yang wenhui wang furu wei aodong liu yu wang jianfeng gao ming zhou and hsiao wuen hon
+
+unied language model pre training for natural language ing and generation
+in advances in neural tion processing systems pages
+ruo ping dong khyathi raghavi chandu and alan w
+black
+
+induction and reference of entities in a visual story
+corr
+
+angela fan mike lewis and yann dauphin
+
+in proceedings erarchical neural story generation
+of the annual meeting of the association for computational linguistics volume long papers pages
+angela fan mike lewis and yann n
+dauphin
+
+in strategies for structuring story generation
+ceedings of the conference of the association for computational linguistics acl florence italy july august volume long pers pages
+association for tional linguistics
+william fedus ian j
+goodfellow and andrew m
+dai
+
+maskgan better text generation via lling in international conference on in the learning representations iclr vancouver bc canada april may conference track proceedings
+openreview
+net
+
+christian fugen alex waibel and muntsin kolss
+simultaneous translation of lectures and
+speeches
+machine translation
+albert gatt and emiel krahmer
+
+survey of the state of the art in natural language generation core tasks applications and evaluation
+j
+artif
+intell
+res
+
+sebastian gehrmann yuntian deng and alexander m rush
+
+bottom up abstractive summarization
+in proceedings of the conference on cal methods in natural language processing pages
+marjan ghazvininejad omer levy yinhan liu and luke zettlemoyer
+
+mask predict parallel decoding of conditional masked language models
+in proceedings of the conference on cal methods in natural language processing and the international joint conference on natural language processing emnlp ijcnlp hong kong china november pages
+association for computational linguistics
+marjan ghazvininejad omer levy and luke semi autoregressive training arxiv preprint moyer
+
+proves mask predict decoding
+
+
+and the aaai symposium on educational vances in articial intelligence new leans louisiana usa february pages
+aaai press
+xavi gonzalvo siamak tazari chun an chan markus becker alexander gutkin and hanna silen
+
+recent advances in google real time hmm driven unit selection synthesizer
+ian goodfellow jean pouget abadie mehdi mirza bing xu david warde farley sherjil ozair aaron courville and yoshua bengio
+
+generative in advances in neural information versarial nets
+processing systems pages
+robert gray
+
+vector quantization
+ieee assp magazine
+alvin grissom ii he he jordan boyd graber john morgan and hal daume iii
+
+do nt until the nal verb wait reinforcement learning for taneous machine translation
+in proceedings of the conference on empirical methods in natural language processing emnlp pages
+jiatao gu daniel jiwoong i m and victor ok li
+
+neural machine translation with gumbel greedy coding
+in thirty second aaai conference on cial intelligence
+jiatao gu qi liu and kyunghyun cho
+
+insertion based decoding with automatically ferred generation order
+trans
+assoc
+comput
+guistics
+jiatao gu zhengdong lu hang li and victor ok incorporating copying mechanism in li
+
+in proceedings of sequence to sequence learning
+the annual meeting of the association for putational linguistics volume long papers pages
+jiatao gu graham neubig kyunghyun cho and tor o
+k
+li
+
+learning to translate in in time with neural machine translation
+ings of the conference of the european ter of the association for computational linguistics eacl valencia spain april ume long papers pages
+association for computational linguistics
+caglar gulcehre sungjin ahn ramesh nallapati bowen zhou and yoshua bengio
+
+pointing the unknown words
+in proceedings of the nual meeting of the association for computational linguistics volume long papers pages
+jiaxian guo sidi lu han cai weinan zhang yong yu and jun wang
+
+long text generation via adversarial training with leaked information
+in ceedings of the thirty second aaai conference on articial intelligence the tive applications of articial intelligence junliang guo xu tan di he tao qin linli xu and tie yan liu
+
+non autoregressive ral machine translation with enhanced decoder put
+in the thirty third aaai conference on cial intelligence aaai the thirty first vative applications of articial intelligence ence iaai the ninth aaai symposium on ucational advances in articial intelligence eaai honolulu hawaii usa january ary pages
+aaai press
+junliang guo xu tan linli xu tao qin enhong chen and tie yan liu
+
+fine tuning by riculum learning for non autoregressive neural chine translation
+in the thirty fourth aaai ference on articial intelligence aaai the thirty second innovative applications of articial intelligence conference iaai the tenth aaai symposium on educational advances in articial telligence eaai new york ny usa ary pages
+aaai press
+tatsunori b
+hashimoto hugh zhang and percy liang
+
+unifying human and statistical evaluation for natural language generation
+in proceedings of the conference of the north american ter of the association for computational linguistics human language technologies naacl hlt minneapolis mn usa june volume long and short papers pages
+ation for computational linguistics
+ari holtzman jan buys li du maxwell forbes and yejin choi
+
+the curious case of neural text in international conference on degeneration
+learning representations iclr addis ababa ethiopia april
+openreview
+net
+md
+zakir hossain ferdous sohel mohd fairuz ratuddin and hamid laga
+
+a comprehensive survey of deep learning for image captioning
+corr
+
+junjie hu yu cheng zhe gan jingjing liu jianfeng gao and graham neubig
+
+what makes a good story designing composite rewards for visual storytelling
+in the thirty fourth aaai conference on articial intelligence aaai the second innovative applications of articial gence conference iaai the tenth aaai posium on educational advances in articial ligence eaai new york ny usa february pages
+aaai press
+touseef iqbal and shaima qureshi
+
+the survey text generation models in deep learning
+journal of king saud university computer and information sciences
+daniel kang and tatsunori hashimoto
+
+proved natural language generation via loss tion
+corr
+
+diederik p
+kingma and max welling
+
+in international encoding variational bayes
+iclr conference on learning representations banff ab canada april ference track proceedings
+guillaume klein yoon kim yuntian deng jean lart and alexander m rush
+
+opennmt source toolkit for neural machine translation
+in proceedings of acl system demonstrations pages
+reno kriz joao sedoc marianna apidianaki carolina zheng gaurav kumar eleni miltsakaki and chris callison burch
+
+complexity weighted loss and diverse reranking for sentence simplication
+in proceedings of the conference of the north american chapter of the association for tional linguistics human language technologies volume long and short papers pages
+ilia kulikov alexander miller kyunghyun cho and jason weston
+
+importance of search and uation strategies in neural dialogue modeling
+in proceedings of the international conference on natural language generation pages
+alex m lamb anirudh goyal alias parth goyal ying zhang saizheng zhang aaron c courville and yoshua bengio
+
+professor forcing a new in algorithm for training recurrent networks
+vances in neural information processing systems pages
+chris van der lee albert gatt emiel van miltenburg sander wubben and emiel krahmer
+
+best practices for the human evaluation of automatically generated text
+in proceedings of the tional conference on natural language generation inlg tokyo japan october november pages
+association for tional linguistics
+jason lee elman mansimov and kyunghyun cho
+
+deterministic non autoregressive neural in quence modeling by iterative renement
+ceedings of the conference on empirical ods in natural language processing brussels gium october november pages
+association for computational linguistics
+mike lewis yinhan liu naman goyal jan ghazvininejad abdelrahman mohamed omer levy ves stoyanov and luke zettlemoyer
+
+bart denoising sequence to sequence pre training for natural language generation translation and comprehension
+arxiv preprint
+
+jiwei li michel galley chris brockett jianfeng gao and bill dolan
+
+a diversity promoting tive function for neural conversation models
+in ceedings of the conference of the north ican chapter of the association for computational linguistics human language technologies pages
+chin yew lin and eduard hovy
+
+manual and tomatic evaluation of summaries
+in proceedings of the workshop on automatic summarization pages
+hui lin and vincent ng
+
+abstractive in rization a survey of the state of the art
+ceedings of the aaai conference on articial ligence volume pages
+chia wei liu ryan lowe iulian vlad serban mike noseworthy laurent charlin and joelle pineau
+
+how not to evaluate your dialogue system an empirical study of unsupervised evaluation in rics for dialogue response generation
+ings of the conference on empirical methods in natural language processing pages
+chi kiu lo
+
+meant
+accurate semantic mt evaluation for any output language
+in ings of the second conference on machine tion wmt copenhagen denmark september pages
+association for tional linguistics
+chi kiu lo michel simard darlene a
+stewart samuel larkin cyril goutte and patrick littell
+
+accurate semantic textual similarity for ing noisy parallel corpora using semantic machine translation evaluation metric the nrc supervised submissions to the parallel ltering task
+in proceedings of the third conference on machine translation shared task papers wmt gium brussels october november pages
+association for computational guistics
+ryan lowe michael noseworthy iulian vlad ban nicolas angelard gontier yoshua bengio and joelle pineau
+
+towards an automatic turing test learning to evaluate dialogue responses
+in proceedings of the annual meeting of the sociation for computational linguistics acl vancouver canada july august volume long papers pages
+association for computational linguistics
+sidi lu yaoming zhu weinan zhang jun wang and yong yu
+
+neural text generation past present and beyond
+corr
+
+qingsong ma yvette graham shugen wang and qun liu
+
+blend a novel combined mt metric based on direct assessment casict dcu sion to metrics task
+in proceedings of the second conference on machine translation wmt copenhagen denmark september pages
+association for computational guistics
+lara j martin prithviraj ammanabrolu xinyu wang william hancock shruti singh brent harrison and mark o riedl
+
+event representations for tomated story generation with deep neural nets
+in thirty second aaai conference on articial gence
+luca massarelli fabio petroni aleksandra piktus myle ott tim rocktaschel vassilis plachouras fabrizio silvestri and sebastian riedel
+
+how decoding strategies affect the veriability of ated text
+arxiv preprint
+
+joao luis zeni montenegro cristiano andre da costa and rodrigo da rosa righi
+
+survey of sational agents in health
+expert systems with cations
+ani nenkova and kathleen mckeown
+
+a in mining vey of text summarization techniques
+text data pages
+springer
+ani nenkova and rebecca j
+passonneau
+
+ating content selection in summarization the mid method
+in human language technology ference of the north american chapter of the ciation for computational linguistics hlt naacl boston massachusetts usa may pages
+the association for computational linguistics
+van den driessche aaron van den oord yazhe li igor babuschkin karen simonyan oriol vinyals koray kavukcuoglu edward george hart luis c
+cobo florian stimberg norman casagrande dominik grewe seb noury sander dieleman erich elsen nal kalchbrenner heiga zen alex graves helen king tom walters dan belov and demis hassabis
+
+parallel wavenet fast speech synthesis
+in proceedings of the international conference on machine learning icml stockholmsmassan holm sweden july volume of proceedings of machine learning research pages
+pmlr
+kishore papineni salim roukos todd ward and jing zhu
+
+bleu a method for automatic uation of machine translation
+in proceedings of the annual meeting of the association for tational linguistics july philadelphia pa usa pages
+acl
+romain paulus caiming xiong and richard socher
+
+a deep reinforced model for abstractive in international conference on marization
+learning representations iclr vancouver bc canada april may conference track proceedings
+openreview
+net
+rivindu perera and parma nand
+
+recent vances in natural language generation a survey and classication of the empirical literature
+comput
+formatics
+matthew peters mark neumann mohit iyyer matt gardner christopher clark kenton lee and luke zettlemoyer
+
+deep contextualized word sentations
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies volume long papers pages
+shrimai prabhumoye alan w black and exploring arxiv preprint lan salakhutdinov
+
+lable text generation techniques
+
+
+ratish puduppully li dong and mirella lapata
+
+data to text generation with content selection and planning
+in proceedings of the aaai conference on articial intelligence volume pages
+alec radford karthik narasimhan tim salimans and ilya sutskever
+improving language understanding by generative pre training
+colin raffel noam shazeer adam roberts katherine lee sharan narang michael matena yanqi zhou wei li and peter j
+liu
+
+exploring the limits of transfer learning with a unied text to text former
+corr
+
+kiran ramesh surya ravishankaran abhishek joshi and k chandrasekaran
+
+a survey of in sign techniques for conversational agents
+ternational conference on information cation and computing technology pages
+springer
+marcaurelio ranzato sumit chopra michael auli and wojciech zaremba
+
+sequence level in ing with recurrent neural networks
+national conference on learning representations iclr san juan puerto rico may conference track proceedings
+ehud reiter
+
+a structured review of the validity of bleu
+comput
+linguistics
+ehud reiter and anja belz
+
+an investigation into the validity of some metrics for automatically ating natural language generation systems
+tational linguistics
+aurko roy ashish vaswani arvind neelakantan and niki parmar
+
+theory and experiments on tor quantized autoencoders
+corr
+
+abigail see peter j liu and christopher d manning
+
+get to the point summarization with generator networks
+in proceedings of the nual meeting of the association for computational linguistics volume long papers pages
+thibault sellam dipanjan das and ankur p
+parikh
+
+bleurt learning robust metrics for text eration
+corr
+
+hiroki shimanaka tomoyuki kajiwara and mamoru komachi
+
+ruse regressor using sentence embeddings for automatic machine translation uation
+in proceedings of the third conference on machine translation shared task papers wmt belgium brussels october november pages
+association for tional linguistics
+jonathan slocum
+
+a survey of machine tion its history current status and future prospects
+computational linguistics
+kaitao song xu tan tao qin jianfeng lu and yan liu
+
+mass masked sequence to sequence pre training for language generation
+arxiv preprint
+
+milos stanojevic and khalil simaan
+
+beer in proceedings of better evaluation as ranking
+the ninth workshop on statistical machine lation june more maryland usa pages
+the ation for computer linguistics
+akhilesh sudhakar bhargav upadhyay and arjun heswaran
+
+transforming delete retrieve generate approach for controlled text style transfer
+in proceedings of the conference on cal methods in natural language processing and the international joint conference on natural language processing emnlp ijcnlp hong kong china november pages
+association for computational linguistics
+yik cheung tam
+
+cluster based beam search for pointer generator chatbot grounded by knowledge
+computer speech language page
+oguzhan tas and farzad kiyani
+a survey matic text summarization
+pressacademia procedia
+lucas theis aaron van den oord and matthias bethge
+
+a note on the evaluation of generative models
+in international conference on ing representations iclr san juan puerto rico may conference track ings
+julian togelius georgios n
+yannakakis kenneth o
+stanley and cameron browne
+
+search based procedural content generation a taxonomy and ieee trans
+comput
+intell
+ai games survey
+
+chao tong richard c
+roberts rita borgo sean p
+walton robert s
+laramee kodzo wegba aidong lu yun wang huamin qu qiong luo and juan ma
+
+storytelling and visualization an extended survey
+information
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n
+gomez lukasz kaiser and illia polosukhin
+
+attention is all you need
+in advances in neural information cessing systems annual conference on neural information processing systems ber long beach ca usa pages
+ramakrishna vedantam c
+lawrence zitnick and devi parikh
+
+cider consensus based image description evaluation
+in ieee conference on puter vision and pattern recognition cvpr boston ma usa june pages
+ieee computer society
+ashwin k vijayakumar michael cogswell prasath r selvaraju qing sun stefan lee david crandall and dhruv batra
+
+diverse beam search decoding diverse solutions from neural quence models
+arxiv preprint
+
+alex wang kyunghyun cho and mike lewis
+
+asking and answering questions to evaluate the factual consistency of summaries
+arxiv preprint
+
+pidong wang and hwee tou ng
+
+a beam search decoder for normalization of social media text with application to machine translation
+in proceedings of the conference of the north american ter of the association for computational linguistics human language technologies pages
+xin wang wenhu chen yuan fang wang and william yang wang
+
+no metrics are perfect adversarial reward learning for visual storytelling
+in proceedings of the annual meeting of the association for computational linguistics volume long papers pages
+xuancong wang hwee tou ng and khe chai sim
+
+a beam search decoder for disuency in proceedings of coling the tion
+international conference on computational tics technical papers pages
+yiren wang fei tian di he tao qin chengxiang zhai and tie yan liu
+
+non autoregressive machine translation with auxiliary regularization
+in the thirty third aaai conference on articial telligence aaai the thirty first innovative applications of articial intelligence conference iaai the ninth aaai symposium on cational advances in articial intelligence eaai honolulu hawaii usa january ary pages
+aaai press
+sean welleck ilia kulikov stephen roller emily nan kyunghyun cho and jason weston
+
+ral text generation with unlikelihood training
+in international conference on learning tations iclr addis ababa ethiopia april
+openreview
+net
+yonghui wu mike schuster zhifeng chen quoc v le mohammad norouzi wolfgang macherey maxim krikun yuan cao qin gao klaus macherey et al
+
+google s neural machine translation system bridging the gap between arxiv preprint man and machine translation
+
+
+jingjing xu xuancheng ren yi zhang qi zeng aoyan cai and xu sun
+
+a skeleton based model for promoting coherence among sentences in in proceedings of the narrative story generation
+conference on empirical methods in natural language processing pages
+jingjing xu xu sun xuancheng ren junyang lin bingzhen wei and wei li
+
+gan diversity promoting generative adversarial network for generating informative and diversied text
+corr
+
+zhilin yang zihang dai yiming yang jaime bonell russ r salakhutdinov and quoc v le
+
+xlnet generalized autoregressive pretraining for language understanding
+in advances in neural formation processing systems pages
+lili yao nanyun peng ralph weischedel kevin knight dongyan zhao and rui yan
+
+and write towards better automatic storytelling
+in proceedings of the aaai conference on articial telligence volume pages
+mahsa yarmohammadi vivek kumar rangarajan har srinivas bangalore and baskaran sankaran
+
+incremental segmentation and decoding strategies for simultaneous translation
+in ings of the sixth international joint conference on natural language processing pages
+lantao yu weinan zhang jun wang and yong yu
+seqgan sequence generative adversarial
+in proceedings of the nets with policy gradient
+thirty first aaai conference on articial gence february san francisco nia usa pages
+aaai press
+sina zarrie and david schlangen
+
+decoding strategies for neural referring expression generation
+proceedings of inlg
+tianyi zhang varsha kishore felix wu kilian q
+weinberger and yoav artzi
+
+bertscore in uating text generation with bert
+national conference on learning representations iclr addis ababa ethiopia april
+openreview
+net
+

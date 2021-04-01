@@ -1,0 +1,1347 @@
+p e s r p
+h t a m v
+v i x r a expansion of iterated stratonovich stochastic integrals of multiplicity based on double fourier legendre series summarized by pringsheim method dmitriy f
+kuznetsov abstract
+the article is devoted to the expansion of iterated stratonovich stochastic integrals of second multiplicity into the double series of products of standard gaussian random variables
+the proof of expansion is based on the application of double fourier legendre series summarized by pringsheim method
+the results of the article can be applied to the numerical integration of ito stochastic dierential equations
+
+introduction let f p be a complete probability space let be a nondecreasing right continous family of algebras of f and let f t be a standard m dimensional wiener stochastic process which is ft measurable for any t i
+
+
+m of this process are independent
+consider an ito stochastic dierential equation sde in the integral form t
+we assume that the components i t ft t t xt d df
+t t t t rn b rn here xt is some n dimensional stochastic process satisfying to the equation
+the nonrandom functions a rn rnm guarantee the existence and uniqueness up to stochastic equivalence of a solution of the ito sde
+the second integral on the right hand side of is interpreted as an ito stochastic integral
+let be an n dimensional random variable which is measurable and m m denotes a mathematical expectation
+we assume that and ft it is well known that one of the eective approaches to the numerical integration of ito sdes is an approach based on the taylor ito and taylor stratonovich expansions
+moreover one of the most important features of such expansions is a presence in them of the so called iterated ito and stratonovich stochastic integrals which play the key role for solving the problem of numerical integration of ito sdes and have the following form are independent when t
+t
+
+
+
+
+
+mathematics subject classification
+keywords iterated stratonovich stochastic integral generalized multiple fourier series multiple fourier legendre series multiple trigonometric fourier series legendre polynomial approximation expansion
+iterated ito stochastic integral t zt zt d
+f
+kuznetsov j t
+
+
+
+
+
+t zt zt where every l
+
+
+k is a continuous nonrandom function at the interval t t for i
+
+
+m and
+
+
+ik
+
+
+m i z and z denote ito and stratonovich stochastic integrals respectively
+note that usually in applications the functions binomial form
+more precisely t ql l
+
+
+k
+
+
+
+
+
+and
+
+
+ik
+
+
+m in
+eective solution of the problem of combined mean square approximation for collections of iterated l
+
+
+k are equal to or have a l
+
+
+k and
+
+
+ik
+
+
+m in while stratonovich stochastic integrals of second multiplicity composes the subject of this article
+it is well known that the mean square approximation of the iterated ito and stratonovich stochastic integrals using multiple integral sums requires signicant computational costs since this approach implies the partitioning of the integration interval t t of the iterated stochastic integrals into parts t t plays the role of an integration step in numerical methods for solving ito sdes
+t is already a suciently small value since t more ecient approximation methods for the iterated stochastic integrals use fourier series and they do not require the interval t t to be subdivided into smaller parts
+one such method was proposed in and elaborated in
+this method which received widespread use is based on the karhunen loeve expansion of the brownian bridge process in the eigenfunctions of its covariance which form a complete orthonormal trigonometric basis in the space t
+note that in the more general and eective method the so called method of generalized multiple fourier series for the mean square approximation of the iterated ito stochastic integrals was proposed
+this method is based on the generalized multiple fourier series that converge in the sense of norm in hilbert space t where t k is the hypercube t t t k times and k is the multiplicity of the iterated ito stochastic integral
+the method of generalized multiple fourier series was developed in
+
+
+
+an important feature of the method of generalized multiple fourier series is that various complete orthonormal bases in the space t can be used the method proposed in admits only the trigonometric basis
+hence we can state the problem of comparing the eciency of using dierent complete orthonormal bases in the space t in the context of the numerical solution of ito sdes
+this problem has been solved in also see
+in particular in it was shown that the optimal system of basis functions in the framework of the numerical solution of ito sdes is the system of legendre polynomials
+that is why this article is devoted to the expansions of iterated stratonovich stochastic integrals with multiplicity based on multiple fourier legendre series
+usage of fourier series with respect to the system of legendre polynomials for approximation of iterated stochastic integrals took place for the rst time in also see
+the results of see also convincingly testify that there is a doubtless relation between multiplier factor which is typical for stratonovich stochastic integral and included into the sum connecting stratonovich and ito stochastic integrals and the fact that in the point of nite discontinuity of piecewise smooth function its fourier series converges to the value
+in addition in expansion of iterated stratonovich stochastic integrals several theorems on expansion of iterated stratonovich stochastic integrals were formulated and proved
+as shown in these papers the nal formulas for expansions of iterated stratonovich stochastic integrals are more compact than their analogues for iterated ito stochastic integrals
+this paper continues the study of the relationships between generalized multiple fourier series and iterated stochastic integrals
+we use the unifrom converging double fourier legendre series summarized by pringsheim method for proof of theorem
+page a
+or theorem
+page
+moreover as shown below the conditions of these theorems can be weakened
+
+method of generalized multiple fourier series let us consider the approach to expansion of iterated ito stochastic integrals the so called method of generalized multiple fourier series
+suppose that every l
+
+
+k is a continuous nonrandom function at the interval t t
+dene the following function on the hypercube t t
+
+
+for
+
+
+tk
+
+
+t k otherwise
+
+
+and t
+suppose that the function
+
+
+is piecewise continuous in the hypercube t t
+at this situation it is t k is converging to is a complete orthonormal system of functions in the space t
+well known that the generalized multiple fourier series of
+
+
+
+
+
+in the hypercube t t in the mean square sense i
+e
+where lim
+
+
+pk
+
+
+
+
+
+cjk
+
+
+pk x x jl tl t k cjk
+
+
+
+
+
+jl
+
+
+dtk t k k t k t
+
+
+
+
+
+dtk
+consider the partition n of the interval t t such that j t
+
+
+n t n max j if n j j
+theorem also see
+suppose that every l
+
+
+k is is a complete orthonormal system of a continuous nonrandom function on t t and continuous functions in t
+then d
+f
+kuznetsov t
+i
+m
+
+
+
+pk pk
+
+
+cjk
+
+
+x x jl l
+i
+m
+n
+
+
+
+
+
+jk lk lk where t is dened by gk lk hk
+
+
+lk
+
+
+lk
+
+
+n lk
+
+
+lk
+
+
+lk
+
+
+n lg lr g r r
+
+
+k l
+i
+m
+is a limit in the mean square sense
+
+
+ik
+
+
+m j s t zt are independent standard gaussian random variables for various i or j if i fourier coecient t t which satises the condition
+j i
+
+
+m j cjk
+
+
+is the n is a partition of the interval j note that the condition of continuity of the functions j j
+
+
+can be weakened see
+another versions and generalizations of theorem can be found in
+in order to evaluate the signicance of theorem for practice we will demonstrate its transformed particular cases for k
+
+
+t
+i
+m
+x t
+i
+m
+x x t
+i
+m
+
+
+
+x x x expansion of iterated stratonovich stochastic integrals t
+i
+m
+
+
+
+
+
+
+
+
+
+x x jl t
+i
+m
+
+
+
+
+
+
+
+
+
+x x jl where is the indicator of the set a
+d
+f
+kuznetsov
+theorem on expansion of iterated stochastic stratonovich integrals in a number of works of the author theorem has been adapted for iterated stratonovich stochastic integrals of multiplicities to
+for example summing up the results of the above works we can formulate the following theorem
+theorem
+suppose that is a complete orthonormal system of legendre polynomials or trigonometric functions in the space t
+at the same time is a continuously dierentiable function on t t and are twice continuously dierentiable functions on t t
+then j t
+i
+m
+
+
+
+m x x x x x p x p p
+
+
+x
+
+
+x j t
+i
+m
+
+
+
+m j t
+i
+m
+
+
+
+m j t
+i
+m
+
+
+
+
+
+
+m j t
+i
+m
+
+
+
+
+
+
+m where j t is dened by and are the same as in theorem
+l
+
+
+in another notations note that the proof of theorem for the case k based on the proof of the following equality t zt x where is dened by for k and legendre polynomials or trigonometric functions in the space t
+is a complete orthonormal system of according to the standard relation between ito and stratonovich stochastic integrals we can write w
+p
+with probability j t t
+t zt expansion of iterated stratonovich stochastic integrals from the other hand according to we obtain t
+i
+m
+
+i
+m
+
+x x x x x from we get
+the proof of theorem for the case k see based on multiple double fourier legendre series and analogous trigonometric fourier series see theorem
+this proof uses double integration by parts which leads to the requirement of double continuous dierentiability of the function at the interval t t
+in this article we formulate and prove the analogue of theorem for the case k theorem see below but under the weakened conditions the functions only one time continuously dierentiable at the interval t t
+at that we will use the uniform converging double fourier legendre series summarized by pringsheim method for the proof of theorem see below
+not that the two another proofs of theorem were found in sect
+
+
+sect
+
+
+and
+
+sufficient conditions of uniform convergence of double fourier legendre series summarized by pringsheim method let j
+
+
+be the legendre polynomial
+consider the function y dened for consider the double fourier legendre series summarized by pringsheim method and corresponding y
+to the function y n m c ij y def lim n m x p x def i x c ij y c ij p
+where let us consider the generalization for the case of two variables of the theorem on equiconvergence for the fourier legendre series
+theorem
+let y and the function d
+f
+kuznetsov is integrable on the square
+moreover let y u v u y v where are bounded functions on the square then for all y the following equality is satised
+lim n m n m x p x c ij y arccosy f where f is a partial sum of the double trigonometric fourier series of the auxiliary function f sin cos cos p sin p the fourier coecient c rectangle ij has the form
+at that the convergence in is uniform on the for any
+from theorem for example follows that for all y the following equality is fullled n m lim n m x p x c ij y y and convergence in is uniform on the rectangle for any if the corresponding conditions of convergence of the double trigonometric fourier series of the auxiliary function are satised
+y note that theorem does not imply any conclusions on the behavior of the double fourier
+legendre series on the boundary of the square for each let us call the exact upper edge of the dierence in the set of all points t t which belong to the domain d as the module of continuity of the function t t
+
+
+in the k dimentional domain d k if the distance t between t and t satises the condition t
+t t expansion of iterated stratonovich stochastic integrals we will say that the function of k k variables f t t
+
+
+belongs to the holder class with the parameter t in the domain d if the module of continuity of the function t t
+
+
+in the domain d has the order means the value with the property lim const
+in zhizhiashvili l
+v
+proved that the rectangular sums of multiple trigonometric fourier series of the function of k variables in the hypercube t t k converge uniformly in the hypercube t t to this function if it belongs to the class t denition of the holder class with the parameter can be found in the well known mathematical analysis tutorials see for example
+for example the following theorem is correct
+theorem
+if the function
+
+
+xn is periodic with period with respect to each variable and belongs in rn to the holder class c for any then the rectangular partial sums of the multiple trigonometric fourier series of the function
+
+
+xn converge to this function uniformly in rn
+lemma
+let the function y satises to the following condition y f y where and y then the following inequality is fullled
+y where y has the form y p y and k proof
+first we assume that
+y
+in this case we have y y f y
+moreover d
+f
+kuznetsov
+not dicult to see that
+the last inequality follows from the obvious inequalities
+from we obtain y y y where k
+the cases y and
+at that the consideration begins from the inequalities y can be considered analogously to the case y y y y and y y y where
+lemma is proved
+expansion of iterated stratonovich stochastic integrals lemma and theorem imply that rectangular partial sums of the double trigonometric fourier series of the function y in the case of periodic continuation of the function y converge uniformly in the square to the function y
+this means that the equality holds
+
+main theorem theorem
+suppose that is a complete orthonormal system of legendre polynomials in the space t
+moreover are continuously dierentiable functions on t t
+then for the iterated stratonovich stochastic integral j t df
+
+
+m t zt zt the following expansion j t
+i
+m
+x x that converges in the mean square sence is valid where the notations are the same as in theorem
+proof
+let us prove the equality t zt x where is dened by the formula for k and
+at that orthonormal system of legendre polynomials in the space t
+is a complete consider the auxiliary function k t k k t l t t and prove that where l and by the lagrange formula for the functions and for the functions t
+at the interval min at the interval min t max t t we obtain max t k k t t t t t we have d
+f
+kuznetsov t t
+t t t t t or t t t t t t t
+t t by the lagrange formula for the functions at the interval min max we obtain the estimate t t t t t or t t
+t t or t t let us show that if t or t t then the following inequality is satised t t
+first consider the case t t
+for this case t t
+t t then and is satised
+for the case t t we obtain expansion of iterated stratonovich stochastic integrals t t
+t t then and also is satised
+from and we have t t t t t t t t t t t or t t t or t t t t or t t t t or t t t t
+from and we obtain
+let t t t t t t y t t where y
+then k k y y y t t t t
+inequality can be rewritten in the form where y and k y k y l x y y where l and y x y
+thus the function k y satises the conditions of lemma and hence for the function d
+f
+kuznetsov k the inequality is fullled
+due to the continuous dierentiability of the functions and at the interval we have k y
+in addition k c zx dydx c
+properties of the function k y y thus the conditions of theorem are fullled for the function k y
+note that the mentioned t t
+let us expand the function k into a multiple double fourier legendre series in the square also correct for the function k t t
+this series is summable by the method of rectangular sums pringsheim method i
+e
+k lim k t t x x zt zt t lim x x zt zt t t zt x x lim t t
+moreover the convergence of the series is uniform on the rectangle t t t t for any in particular we can choose
+in addition the series converges to k at any inner point of the square t t
+note that theorem do not answer the question on convergence of the series on a boundary of the square t t
+in obtaining we replaced the order of integrating in the second iterated integral
+expansion of iterated stratonovich stochastic integrals let us substitute into
+after that let us rewrite the limit on the right hand side of as two limits
+let us replace with with with and with in the second limit
+thus we get lim x x t t
+according to the above reasoning the equality holds uniformly on the interval t t for any
+additionally holds at each interior point of the interval t t
+lemma
+under the conditions of theorem the following limit exists where is dened by if i
+e
+lim n x
+t zt zt the proof of lemma will be given in sect
+
+let us x and integrate the equality at the interval t t convergence of the series we can swap the series and the integral
+due to the uniform lim
+t x x t taking into account lemma consider the equality for n t lim lim n t x n x zt t t zt zt lim n n x n lim x x d
+f
+kuznetsov where riemann integral and orthonormality of the functions for j
+
+
+t
+in obtaining we used the theorem on the mean value for the t t performing the passage to the limit lim in the equality we get t zt
+x thus to complete the proof of theorem it is necessary to prove lemma
+remark
+on the basis of it can be argued that the function k belongs to the holder class with parameter in t t
+hence by theorem this function can be expanded into the uniformly convergent double trigonometric fourier series on the square t t which summarized by pringsheim method
+this means that theorem will remain valid if in this theorem instead of the double fourier legendre series we consider the double trigonometric fourier series
+however the expansions of iterated stochastic integrals obtained by using the system of legendre polynomials are essentially simpler than their analogues obtained by using the trigonometric system of functions see sect
+
+
+about some properties of legendre polynomials for further consideration we will need some well known properties of legendre polynomials the complete orthonormal system of legendre polynomials in the space t looks as follows j t t pj r t t t t j
+
+
+where is the legendre polynomial
+it is known that the legendre polynomial is represented for example as
+at the boundary points of the interval of orthogonality the legendre polynomials satisfy the following relations dxj j
+pj pj where
+
+
+relation of the legendre polynomial pj with derivatives of the legendre polynomials and is expressed by the following equality p p j
+
+
+the recurrent relation has the form expansion of iterated stratonovich stochastic integrals j j
+
+
+orthogonality of legendre polynomial to any polynomial of lesser degree we write in the following form it follows that the orthonormal on the interval legendre polynomials determined by the relation from the property
+
+
+j
+if k j if k j p j j
+
+
+r it is well known that there is an estimate k j y j
+
+
+where constant k does not depends on y and j
+moreover pj j
+
+
+the christoel darboux formula has the form y n y
+n x
+proof of lemma to complete the proof of theorem let us prove lemma
+let us x n m n m n
+we have n n t x x zt s zt d
+f
+kuznetsov n t t x n x n x t t t t t t n x t t zy n t x n x zy t t where are derivatives of the functions with respect to the variable see
+applying the estimate and taking into account the boundedness of the functions and their derivatives we nally obtain n x n x n m dx zy dx dy expansion of iterated stratonovich stochastic integrals n n m x if n m where constants do not depend on n and m
+the relation completes the proof of lemma
+
+expansions of iterated stratonovich stochastic integrals of first and second multiplicity based on multiple fourier legendre series we will use the following notations for iterated stratonovich stochastic integrals of and multiplicities i t df t t zt i t t t zt zt t df where
+
+
+
+
+
+ik
+
+
+m
+note that together with the iterated stratonovich stochastic integrals of higher multiplicities than the second the stochastic integrals and are included in the so called unied taylor stratonovich expansion also see
+this expansion can be used for construction of strong numerical methods for ito sdes denition of a strong numerical method see for example in
+consider the expansions of some stochastic integrals and obtained by using theorem and formula i t t i t t i t t i t t t x i i i t t t i t t d
+f
+kuznetsov x i i i i i i i t t t i t t x i i i i i i p p p p i t t i t t t t x i i i i i i i i t t i t t t t x i i i i p i i i i t t i t t t t i i t t i i i x i p i p i where expansion of iterated stratonovich stochastic integrals i t t j df i i
+
+
+m t zt are independent standard gaussian random variables for various i or j
+note the simplicity of the formulas
+for comparison we present analogs of the formulas obtained in also see using the method proposed in i t t q i t t q p q r x q q r x q x where j functions in the space t and q q independent standard gaussian random variables
+
+
+m is dened by formula is a complete orthonormal system of trigonometric i
+
+
+m are r
+
+
+q another example of obvious advantage of the legendre polynomials over the trigonometric functions in the framework of the considered problem is the truncated expansion of the iterated stratonovich stochastic integral i t obtained by theorem in which instead of the double fourier legendre series is taken the double trigonometric fourier series which is acceptable according to remark q q q p x x r q
+q x q x i t t q p q q d
+f
+kuznetsov q x r q xr l q l r x where the meaning of notations included in is saved
+an analogue of the formula for the case of legendre polynomials is according to and the following representation where i t t t i t t q x i i i i i i p i t t t q x i i which is obviously substantially simpler than
+here it is necessary to pay a special attention on the fact that the representation includes a single sum with the upper summation limit q while the representation includes the double sum with the same summation limit
+in numerical simulation obviously the formula is more economical in terms of computational cost than its analogue
+there is another feature that should be noted in connection with the formula
+this formula was rst obtained in by the method from
+as we noted in sect
+the method of approximation of iterated stochastic integrals is based on the trigonometric series expansion of the brownian bridge process
+so this method leads to iterated application of the operation of limit transition in contrast to theorems and in which limit transition is performed only once
+this means that from the method generally speaking does not follow the mean square convergence of i t see to the stochastic integral i
+the same applies to some others approximations of iterated stratonovich stochastic integrals obtained in by the method see discussion in sect
+for detail
+t if the validity of the formula expansion of iterated stratonovich stochastic integrals m lim q i t i t where i t is dened by the formula follows from theorems and
+
+theorems and from point of view of the wong zakai approximation s p the iterated ito stochastic integrals and solutions of ito sdes are complex and important s i
+
+
+m of the multidimensional wiener process fs i
+
+
+m
+suppose that converges onals from the independent components i s to f i t
+let n be some approximation of f i i
+
+
+m in some sense and has dierentiable sample trajectories
+a natural question arises if we replace f i s i
+
+
+m in the functionals mentioned above will the resulting functionals converge to the original functionals from the components i s i
+
+
+m of the multidimentional wiener process fs the answere to this question is negative in the general case
+however in the pioneering works of wong e
+and zakai m
+it was shown that under the special conditions and for some types of approximations of the wiener process the answere is armative with one peculiarity the convergence takes place to the iterated stratonovich stochastic integrals and solutions of stratonovich sdes and not to iterated ito stochastic integrals and solutions of ito sdes
+the piecewise linear approximation as well as the regularization by convolution relate the mentioned types of approximations of the wiener process
+the above approximation of stochastic integrals and solutions of sdes is often called the wong zakai approximation
+by f s s let fs s t be an m dimensional standard wiener process with independent components i s
+
+
+m
+it is well known that the following representation takes place i t x zt j j j j i s t zt t t where space t and j moreover the series converges for any is an arbitrary complete orthonormal system of functions in the are independent standard gaussian random variables for various i or j
+t t in the mean square sense
+be the mean square approximation of the process i which has the following let t i t from we obtain t j
+p x zt p x df j
+consider the following iterated riemann stieltjes integral form d
+f
+kuznetsov t zt zt
+
+
+
+
+
+p tk where
+
+
+ik
+
+
+m in dened by the relation
+and df let us substitute into df for i
+
+
+m d for i where t zt zt
+
+
+
+
+
+tk cjk
+
+
+jl p
+
+
+x j s t zt are independent standard gaussian random variables for various i or j in the case when i for i
+
+
+m and s i s s s cjk
+
+
+tk
+
+
+
+
+
+dtk t zt zt is the fourier coecient
+to best of our knowledge the approximations of the wiener process in the wong zakai approximation must satisfy fairly strong restrictions see denition
+pp
+
+moreover approximations of the wiener process that are similar to were not considered in also see theorems
+
+
+therefore the proof of analogs of theorems
+and
+for approximations of the wiener process based on its series expansion should be carried out separately
+thus the mean square convergence of the right hand side of to the iterated stratonovich stochastic integral does not follow from the results of the papers also see theorems
+
+
+from the other hand theorems and from this paper can be considered as the proof of the wong zakai approximation for the iterated riemann stieltjes integrals of multiplicities to based on the approximation of the wiener process in the form of its series expansion
+at that the mentioned riemann stieltjes integrals converge according to theorems and to the appropriate see and theorems stratonovich stochastic integrals
+recall that is a complete orthonormal system of legendre polynomials or trigonometric functions in the space t
+to illustrate the above reasoning consider two examples for the case k
+
+
+m
+expansion of iterated stratonovich stochastic integrals the rst example relates to the piecewise linear approximation of the multidimensional wiener process these approximations were considered in
+let t t t be the piecewise linear approximation of the ith component i t with independent components i of the i t t multidimensional standard wiener process ft t
+
+
+m i
+e
+t k t k f i where note that w
+p
+f i k i i t k
+
+
+n
+t f i t k
+
+
+n
+consider the following iterated riemann stieltjes integral t s
+
+
+m
+using and additive property of riemann stieltjes integrals we can write w
+p
+t s t s d f d s zl f f ds n zl x zq x n f f l f f ds s zl zl f f l f f
+n x n using and it is not dicult to show that
+i
+m
+n t s df df s ds t s t d
+f
+kuznetsov df df s t s where relation where if n n t
+obviously agrees with theorem
+see p
+
+the next example relates to the approximation of the wiener process based on its series expansion is a complete orthonormal system of legendre polynomials or for t where trigonometric functions in the space t
+consider the following iterated riemann stieltjes integral df df s
+
+
+m where df is dened by the relation
+let us substitute into t s t s df df s x p s t s d is the fourier coecient another notations are the same as in
+as we noted above approximations of the wiener process that are similar to were not considered in also see theorems
+
+in
+furthermore the extension of the results of theorems
+and
+to the case under consideration is not obvious
+however the authors of the works sect
+
+pp
+pp
+pp
+pp
+use the wong zakai approximation without rigorous proof within the frames of the approach based on the series expansion of the brownian bridge process
+on the other hand we can apply the theory built in chapters and of the monograph
+more precisely using theorems from this paper we obtain from the desired result
+i
+m
+df df s
+i
+m
+p p x t s df df s
+t s from the other hand by theorem see for the case k we obtain from the following expansion of iterated stratonovich stochastic integrals l
+i
+m
+df df s
+i
+m
+p t s
+i
+m
+p x x df df s
+t s p x x since x t x d d ds t t then from and we obtain
+references gihman i
+i
+skorohod a
+v
+stochastic dierential equations and its applications
+naukova dumka kiev
+milstein g
+n
+numerical integration of stochastic dierential equations
+ural university press sverdlovsk
+kloeden p
+e
+platen e
+numerical solution of stochastic dierential equations
+berlin springer verlag
+kloeden p
+e
+platen e
+wright i
+w
+the approximation of multiple stochastic integrals
+stoch
+anal
+appl
+milstein g
+n
+tretyakov m
+v
+stochastic numerics for mathematical physics
+berlin springer verlag
+pp
+pp
+p
+p
+
+kloeden p
+e
+platen e
+the stratonovich and ito taylor expansions
+math
+nachr
+
+kuznetsov d
+f
+a method of expansion and approximation of repeated stochastic stratonovich integrals based on multiple fourier series on full orthonormal systems
+in russian
+electronic journal dierential equations and control online
+available at
+spbu
+ru en
+article
+
+
+html kuznetsov d
+f
+problems of the numerical analysis of ito stochastic dierential equations
+in russian
+electronic journal dierential equations and control online
+available at
+spbu
+ru en
+article
+
+
+html hard cover edition spbgtu publishing house pp
+isbn kuznetsov d
+f
+mean square approximation of solutions of stochastic dierential equations using legendres polynomials
+in english
+journal of automation and information sciences begell house issue
+doi
+
+jautomatinfscien
+
+
+kuznetsov d
+f
+new representations of explicit one step numerical methods for jump diusion stochastic dierential equations
+in english
+computational mathematics and mathematical physics
+available at
+sde kuznetsov
+spb
+
+pdf kuznetsov d
+f
+numerical integration of stochastic dierential equations
+
+in russian
+polytechnical university publishing house saint petersburg pp
+doi
+
+available at
+sde kuznetsov
+spb
+
+pdf isbn d
+f
+kuznetsov kuznetsov d
+f
+stochastic dierential equations theory and practice of numerical solution
+with matlab programs edition
+in russian
+polytechnical university publishing house saint petersburg pp
+doi
+
+available at
+sde kuznetsov
+spb
+
+pdf isbn kuznetsov d
+f
+stochastic dierential equations theory and practice of numerical solution
+with matlab in russian
+polytechnical university publishing house saint petersburg programs edition
+pp
+doi
+
+available at
+sde kuznetsov
+spb
+
+pdf isbn kuznetsov d
+f
+stochastic dierential equations theory and practice of numerical solution
+with matlab in russian
+polytechnical university publishing house saint petersburg programs edition
+pp
+doi
+
+available at
+sde kuznetsov
+spb
+
+pdf isbn kuznetsov d
+f
+stochastic dierential equations theory and practice of numerical solution
+with matlab in russian
+polytechnical university publishing house saint petersburg programs
+edition
+pp
+doi
+
+available at
+sde kuznetsov
+spb
+
+pdf isbn kuznetsov d
+f
+multiple stochastic ito and stratonovich integrals and multiple fourier serieses
+in russian
+electronic journal dierential equations and control online a
+a
+
+doi
+
+available at
+spbu
+ru en
+article
+
+
+html kuznetsov d
+f
+strong approximation of multiple ito and stratonovich stochastic integrals multiple fourier series approach
+edition
+in english
+polytechnical university publishing house saint petersburg pp
+doi
+
+available at
+sde kuznetsov
+spb
+
+pdf isbn kuznetsov d
+f
+strong approximation of multiple ito and stratonovich stochastic integrals multiple fourier series approach
+edition
+in english
+polytechnical university publishing house saint petersburg pp
+doi
+
+available at
+sde kuznetsov
+spb
+
+pdf isbn kuznetsov d
+f
+multiple ito and stratonovich stochastic integrals approximations properties formulas
+in english
+polytechnical university publishing house saint petersburg pp
+doi
+
+available at
+sde kuznetsov
+spb
+
+pdf isbn kuznetsov d
+f
+multiple ito and stratonovich stochastic integrals fourier legendre and trigonometric in english
+electronic journal dierential equations and control expansions approximations formulas
+online a
+a
+
+doi
+
+available at
+spbu
+ru en
+article
+
+
+html kuznetsov d
+f
+development and application of the fourier method for the numerical solution of ito stochastic dierential equations
+in english
+computational mathematics and mathematical physics
+doi
+
+kuznetsov d
+f
+on numerical modeling of the multidimensional dynamic systems under random perturbations with the
+and
+orders of strong convergence in english
+automation and remote control
+doi
+
+kuznetsov d
+f
+stochastic dierential equations theory and practice of numerical solution
+with programs on matlab edition
+in russian
+electronic journal dierential equations and control online a
+a
+
+doi
+
+available at
+spbu
+ru en
+article
+
+
+html kuznetsov d
+f
+stochastic dierential equations theory and practice of numerical solution
+with matlab programs edition
+in russian
+electronic journal dierential equations and control online a
+a
+
+available at
+spbu
+ru en
+article
+
+
+html dmitriy f
+kuznetsov
+strong approximation of iterated ito and stratonovich stochastic integrals based on generalized multiple fourier series
+application to numerical solution of ito sdes and semilinear spdes
+in english
+
+math
+pr pp
+dmitriy f
+kuznetsov
+expansions of iterated stratonovich stochastic integrals of multiplicities to based on generalized multiple fourier series
+in english
+
+math
+pr
+pp
+dmitriy f
+kuznetsov
+mean square approximation of multiple ito and stratonovich stochastic integrals of multiplicities to from the taylor ito and taylor stratonovich expansions using legendre polynomials
+in english
+
+math
+pr
+pp
+dmitriy f
+kuznetsov
+expansion of iterated stratonovich stochastic integrals of arbitrary multiplicity based on generalized iterated fourier series converging pointwise
+in english
+
+math
+pr
+pp
+expansion of iterated stratonovich stochastic integrals dmitriy f
+kuznetsov
+strong numerical methods of orders
+
+and
+for ito stochastic dierential equations based on the unied stochastic taylor expansions and multiple fourier legendre series
+in english
+
+math
+pr
+pp
+dmitriy f
+kuznetsov
+expansion of iterated stratonovich stochastic integrals of fth multiplicity based on generalized multiple fourier series
+in english
+
+math
+pr
+pp
+dmitriy f
+kuznetsov
+exact calculation of the mean square error in the method of approximation of iterated ito stochastic integrals based on generalized multiple fourier series
+in english
+
+math
+pr
+pp
+kuznetsov d
+f
+expansion of iterated stratonovich stochastic integrals based on generalized multiple fourier series
+in english
+ufa mathematical journal
+doi
+
+available at
+anrb
+ru kuznetsov d
+f
+on numerical modeling of the multidimentional dynamic systems under random perturbations with the
+order of strong convergence
+in english
+automation and remote control
+doi
+
+kuznetsov d
+f
+comparative analysis of the eciency of application of legendre polynomials and trigonometric in english
+computational integration of ito stochastic dierential equations
+functions to the numerical mathematics and mathematical physics
+doi
+
+dmitriy f
+kuznetsov
+comparative analysis of the eciency of application of legendre polynomials and in english
+integration of ito stochastic dierential equations
+trigonometric functions to the numerical
+math
+gm pp
+kuznetsov d
+f
+expansion of multiple stratonovich stochastic integrals of second multiplicity based on double fourier legendre series summarized by prinsheim method in russian
+electronic journal dierential equations and control online
+available at
+spbu
+ru en
+article
+
+
+html dmitriy f
+kuznetsov
+application of the method of approximation of iterated stochastic ito integrals based on generalized multiple fourier series to the high order strong numerical methods for non commutative semilinear stochastic partial dierential equations
+in english
+
+math
+gm pp
+dmitriy f
+kuznetsov
+application of multiple fourier legendre series to implementation of strong exponential milstein and wagner platen methods for non commutative semilinear stochastic partial dierential equations
+in english
+
+math
+pr pp
+kuznetsov d
+f
+new representations of the taylor stratonovich expansions
+journal of mathematical sciences n
+y
+
+
+doi
+
+dmitriy f
+kuznetsov
+numerical simulation of
+set of iterated ito stochastic integrals of multiplicities to from the taylor stratonovich expansion
+in english
+
+math
+pr
+pp
+dmitriy f
+kuznetsov
+to numerical modeling with strong orders
+
+and
+of convergence for multidimensional dynamical systems with random disturbances
+in english
+
+math
+pr
+pp
+kuznetsov d
+f
+application of the method of approximation of iterated stochastic ito integrals based on generalized multiple fourier series to the high order strong numerical methods for non commutative semilinear stochastic partial dierential equations
+dierential equations and control processes
+no
+p
+
+available at
+spbu
+ru en
+article
+
+
+html dmitriy f
+kuznetsov
+expansion of multiple ito stochastic integrals of arbitrary multiplicity based on generalized multiple fourier series converging in the mean
+in english
+
+math
+pr
+pp
+dmitriy f
+kuznetsov
+the hypotheses on expansions of iterated stratonovich stochastic integrals of arbitrary multiplicity and their partial proof
+in english
+
+math
+pr
+pp
+dmitriy f
+kuznetsov
+expansion of iterated stratonovich stochastic integrals of multiplicity based on generalized multiple fourier series converging in the mean general case of series summation
+in english
+
+math
+pr
+pp
+dmitriy f
+kuznetsov
+expansion of iterated stratonovich stochastic integrals of multiplicity based on double fourier legendre series summarized by pringsheim method
+in english
+
+math
+pr
+pp
+dmitriy f
+kuznetsov
+expansion of iterated stratonovich stochastic integrals of multiplicity
+combined approach based on generalized multiple and iterated fourier series
+in english
+
+math
+pr
+pp
+dmitriy f
+kuznetsov
+development and application of the fourier method to the mean square approximation of iterated ito and stratonovich stochastic integrals
+in english
+
+math
+pr
+pp
+dmitriy f
+kuznetsov
+expansion of iterated stochastic integrals with respect to martingale poisson measures and with respect to martingales based on generalized multiple fourier series
+in english
+
+math
+pr
+pp
+d
+f
+kuznetsov dmitriy f
+kuznetsov
+expansions of iterated stratonovich stochastic integrals of multiplicities to
+combined approach based on generalized multiple and repeated fourier series
+in english
+
+math
+pr
+pp
+kuznetsov d
+f
+the proof of convergence with probability in the method of expansion of iterated ito stochastic integrals based on generalized multiple fourier series
+in english
+dierencialnie uravnenia i protsesy upravlenia
+available at
+spbu
+ru ru
+article
+
+
+html dmitriy f
+kuznetsov
+the proof of convergence with probability in the method of expansion of iterated ito stochastic integrals based on generalized multiple fourier series
+in english
+
+math
+pr
+pp
+dmitriy f
+kuznetsov
+numerical simulation of
+set of iterated stratonovich stochastic integrals of multiplicities to from the taylor stratonovich expansion
+in english
+
+math
+pr
+pp
+dmitriy f
+kuznetsov
+approximation of multiple ito and stratonovich stochastic integrals
+multiple fourier series approach
+in english
+lap lambert academic publishing saarbrucken pp
+available at
+sde kuznetsov
+spb
+
+pdf kuznetsov d
+f
+explicit one step mumerical method with the strong convergence order of
+for ito stochastic dierential equations with a multi dimensional nonadditive noise based on the taylor stratonovich expansion
+in english
+computational mathematics and mathematical physics
+doi
+
+starchenko t
+k
+about conditions of convergence of double fourier legendre series
+proc
+of the mathematical inst
+of nas of belarus
+analitical methods of analysis and dierential equations
+minsk no
+pp
+
+in russian
+suetin p
+k
+classical orthogonal polynomials
+edition
+moscow fizmatlit
+p
+ilin v
+a
+poznyak e
+g
+foundations of mathematical analysis
+part ii
+moscow nauka
+p
+zhizhiashvili l
+v
+conjugate functions and trigonometric series
+tbilisi tbil
+univ
+press
+p
+hobson e
+w
+the theory of spherical and ellipsoidal harmonics
+cambridge cambridge univ
+press
+p
+
+
+wong e
+zakai m
+on the convergence of ordinary integrals to stochastic integrals
+ann
+math
+stat
+wong e
+zakai m
+on the relation between ordinary and stochastic dierential equations
+int
+j
+eng
+sci
+ikeda n
+watanabe s
+stochastic dierential equations and diusion processes
+edition
+north holland publishing company amsterdam oxford new york
+pp
+liptser r
+sh
+shirjaev a
+n
+statistics of stochastic processes nonlinear filtering and related problems
+in luo w
+wiener chaos expansion and numerical solutions of stochastic partial dierential equations
+phd thesis kloeden p
+e
+platen e
+schurz h
+numerical solution of sde through computer experiments
+springer berlin platen e
+bruti liberati n
+numerical solution of stochastic dierential equations with jumps in finance
+russian
+moscow nauka
+pp
+california inst
+of technology pp
+pp
+springer berlin heidelberg
+pp
+dmitriy feliksovich kuznetsov peter the great saint petersburg polytechnic university polytechnicheskaya ul
+saint petersburg russia e mail address
+ru

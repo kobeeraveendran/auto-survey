@@ -1,0 +1,940 @@
+controlling the amount of verbatim copying in abstractive summarization kaiqiang bingqing zhe liu fei liu computer science department university of central florida orlando fl usa robert bosch llc sunnyvale ca usa
+ucf
+edu bingqing
+wang zhe
+liu
+
+bosch
+com
+ucf
+edu v o n l c
+s c v
+v i x r a abstract an abstract must not change the meaning of the original text
+a single most effective way to achieve that is to increase the amount of copying while still allowing for text abstraction
+human editors can usually exercise control over copying sulting in summaries that are more extractive than abstractive or vice versa
+however it remains poorly understood whether modern neural abstractive summarizers can provide the same exibility i
+e
+learning from single reference summaries to generate multiple summary hypotheses with varying degrees of copying
+in this paper we present a neural summarization model that by learning from single human abstracts can duce a broad spectrum of summaries ranging from purely extractive to highly generative ones
+we frame the task of summarization as language modeling and exploit alternative mechanisms to generate summary hypotheses
+our method allows for control over copying during both training and coding stages of a neural summarization model
+through tensive experiments we illustrate the signicance of our posed method on controlling the amount of verbatim ing and achieve competitive results over strong baselines
+our analysis further reveals interesting and unobvious facts
+introduction an ideal summarizer should provide the exibility to ate summaries with varying proportions of reused text
+such summaries are required to cater to diverse usage scenarios
+e
+
+system abstracts may not contain excessive copied tent without proper consecutive words or longer are considered by eu standards as the author s lectual creation and it is thus protected by copyright law castilho et al
+
+without proper control over copying commercial summarizers can be held liable for copyright fringements
+moreover system abstracts with an ate amount of copied content are more desirable than highly abstractive ones as they are less likely to suffer from tent hallucination reiter and better at preserving the meaning of the original text
+to date it remains poorly understood whether modern stractive summmarization can provide the needed exibility to control over copying and generate diverse abstracts
+stractive summarizers using encoder decoder architectures can either copy words from the source text or generate new words unseen in the source see liu and manning chen and bansal gehrmann deng and rush
+recent work further attempted to increase the use of unseen words in summaries weber et al
+kryscinski et al
+
+however in all cases the summarizers are trained on single reference abstracts to produce single outputs with a xed corpus level copy rate
+it can take multiple reference abstracts created for the same input text with varying grees of copying to teach the system to generate abstracts with similar amounts of copying
+however not only can it be time consuming and costly to create human abstracts but this is unlikely to be how humans learn to exercise control over copying
+without an understanding of the copy nism of neural abstractive models producing abstracts with varying degrees of copying can prove daunting at best and a mission impossible at worst
+in this paper our goal is to generate abstractive summaries with varying amounts of reused text by developing a general framework that learns from single reference summaries
+we dene copy rate as the percentage of summary n grams pearing in the source text
+a high copy rate suggests that the summary is generated largely by copying verbatim from the source text
+conversely a low copy rate indicates there are more text shortening word reordering paraphrasing and straction involved in the generation process
+we argue that abstractive summarizers are not necessarily trained on every word of reference summaries but they ought to separate the prediction of summary words that are seen in the source text from those unseen
+the underlying principle is simple and intuitively appealing
+if a summarizer is trained to predict only seen words it learns to copy them from the source text producing extractive summaries
+as more unseen words are used for training the summarizer gradually transforms from copying only to both copying and generating new words not present in the source text
+by employing a mix and match strategy we enable an abstractive summarizer to generate summaries with more or less copying
+copyright association for the advancement of articial intelligence www
+aaai
+org
+all rights reserved
+we frame abstractive summarization as a language ing task and present a decoder only framework for it
+it uses question what is the most probable next word hint the word is seen in the source text
+a month old toddler who was reportedly abducted in pennsylvania has been found dead a district attorney said
+missing missing pennsylvania missing pennsylvania toddler missing pennsylvania toddler found reference summary missing pennsylvania toddler found dead question what is the most probable next word hint the word is unseen in the source text
+rescuers have suspended their search off the coast of santa cruz island for passengers who were trapped aboard the conception when the diving boat caught re and sank
+search search has search has been suspended search has been suspended in the search has been suspended in the dive boat re off reference summary search has been suspended in the dive boat re off california coast table formulating summarization as a language modeling task
+the rst model predicts only summary words that are seen in the source text the second model predicts only seen words
+our method provides exibility to control over copying by mix and matching the two types of behaviors
+the same transformer architecture vaswani et al
+to both encode the source text and decode the summary
+all network parameters are warm started using pretrained deep representations
+in contrast in a typical encoder decoder chitecture only parameters of the encoder and decoder can be warm started but not those of the attention copy nism khandelwal et al
+
+further our method allows for control over copying during both training and decoding stages of the neural model
+we experiment with varying portions of seen and unseen summary words in training to teach the summarizer to favor or not to favor copying
+at decoding time we compare different search strategies rst search vs
+beam search and reranking methods to courage system abstracts to use wording similar to the inal
+despite that only single reference summaries are able in benchmark evaluations we are able to evaluate mary quality along multiple dimensions using automatic metrics based on lexical similarity rouge lin and semantic similarity bertscore zhang et al
+and through human assessment of grammaticality ness and whether system abstracts remain true to original
+our method demonstrates strong performance either forming or performing on par with the best published results
+the research contributions are summarized as follows we introduce a new summarization method that provides the needed exibility to produce a spectrum of summaries for the same input and with a varying amount of copied content
+such summaries are highly desirable to cater to diverse real world our method emphasizes on in depth analysis of the copy behavior in summarization
+it frames abstractive rization as a language modeling task and exploits multiple strategies at training and decoding stages to generate verse summary hypotheses
+we show competitive results and demonstrate the effectiveness of the proposed method on exercising control over copying
+related work the signicance of controlling over the copying behavior in summarization should not be underestimated
+human tors often reuse the text in the original article to produce a summary jing and mckeown
+but they can adjust the degree of copying to produce a wide spectrum of summaries
+e
+
+human written summaries for newswire over and yen hermann et al
+meetings carletta and et al
+liu and liu scientic articles qazvinian et al
+and online forums ouyang chang and mckeown contain varying amounts of reused text
+moreover the degree of copying can have a direct impact on scores of tomatic evaluation metrics
+rouge was reported to favor summaries that use the same wording as the original ng and abrecht
+if reference summaries are made by ing system summaries with less copying and perhaps more abstraction compression and paraphrasing will be vantaged when compared against other system summaries with substantial copying
+there is thus an urgent need and this paper makes a rst attempt to present a tion framework that is capable of producing summaries with varying amounts of reused text
+to date various extractive and abstractive summarization techniques have been investigated nenkova and mckeown
+however rarely has one technique been utilized to produce both extractive and abstractive summaries for any given text
+extractive summarization selects important and non redundant sentences from the original
+the sentences can be optionally compressed to remove tial phrases leading to compressive summaries martins and smith li et al
+wang et al
+filippova et al
+durrett berg kirkpatrick and klein
+stractive summarization distills the source text into its tial meanings then performs language generation from the representation to produce an abstract barzilay and own liu et al
+liao lebanoff and liu hardy and vlachos
+these systems rarely provide the exibility for an end user to indicate the desired amount of reused text in the summary
+to eliminate the need to develop multiple systems for extractive and abstractive tion we attempt to introduce control into the copying ior of a neural abstractive summarization system
+neural abstractive summarization has demonstrated siderable recent success
+it often utilizes an encoder decoder architecture rush chopra and weston see liu and manning chen and bansal lebanoff song and make our implementation and models publicly available at
+com ucfnlp control over copying liu celikyilmaz et al
+and more recently ies have attempted to use deep contextualized tions such as bert devlin et al
+and elmo peters et al
+to give a further boost to it
+an encoder network converts the source text to a x length vector conditioned on which a decoder network unrolls the summary one word at a time
+while it is tempting to use pretrained deep sentations to warm start the encoder decoder khandelwal et al
+nd that results can be less satisfying as the attention weights are still not pretrained
+in this paper we adopts a decoder only framework dong et al
+where the same transformer architecture is used for both encoding the source text and decoding the summary
+copying can help produce unseen words
+it was originally introduced to the framework for neural machine translation gulcehre et al
+and later for abstractive summarization see liu and manning
+particularly knowles and koehn examine the inuence of text and sub words on the copying behavior of an nmt tem
+to suppress copying kryciski et al
+introduce a novelty metric which is to be optimized during policy ing and weber et al
+modify the scoring function of the summary sequence at decoding time
+fan grangier and auli attempt to control over summary length entities source style and portions
+but they do not address copying
+in this paper we focus on better understanding the copying behavior of a summarization system and present effective mechanisms to control the amount of reused text
+we cuss what it takes for a summarizer to copy a word without an explicit copying mechanism and how we may control the behavior to produce summaries with more or less copying
+in the following we describe our model in great detail
+our approach we frame abstractive summarization as a language modeling task and present a decoder only framework for it
+it uses the same transformer architecture vaswani et al
+to both encode the source text and decode the summary
+let
+
+
+v be a sequence of source tokens and y
+
+
+v be summary tokens
+our goal is to model the conditional probability distribution p j using a transformer inspired architecture
+we use byte pair encoding bpe sennrich et al
+for tokenization with a vocabulary size of kens
+bpe has been shown to improve the robustness and curacy of neural model training
+we use parameter tying lowing the same token embeddings to be used in both the put layer and nal softmax layer of the transformer model
+our method also includes three special tokens start end and mask which respectively denote the start end of a quence and a masked out token
+an illustration of our tem architecture is provided in figure
+training we construct the source sequence by prepending start and appending end to the input text
+e
+
+start abeth was taken to the hospital end illustrated in figure
+similarly the target sequence y is constructed by appending figure an illustration of our copytrans architecture
+the self attention mechanism allows i a source word to attend to lower level representations of all source words ing itself to build a higher level representation for it and ii a summary word to attend to all source words summary words prior to it as well as the token at the current position mask to build a higher level representation
+end to the summary
+e
+
+y elizabeth was hospitalized end
+our system learns to predict the target sequence one word at a time until the end token has been reached
+the conditional probability is shown in eq
+
+p p j p i however at training time we argue that the system is not necessarily trained to predict every word of target sequences but a selected collection might sufce
+using selected target tokens provides important potential to steer the system to be more extractive than abstractive or vice versa
+we divide all tokens in the sequence into three categories summary tokens seen in the source text summary tokens unseen in the source and c source tokens with the tation that training the system to predict only seen summary tokens may reinforce the copying behavior unseen tokens allow for generation and source words enable the system to learn better token representations
+by mix and matching get tokens from three categories we enable a summarizer to generate summaries with more or less copying
+we randomly sample a set of tokens from each category using a bernoulli distribution with probability
+the value of p varies by category and more analysis is provided in the experiments section
+let mi denote whether the i token of z is selected its probability is dened as p mi p
+a selected token is replaced by mask of the time meaning that the token has been masked out from the quence z
+for of the time it is replaced by a random startelizabethwastakentothehospitalelizabethwashospitalizedendendoriginalinputstartelizabethwasmasktothehospitalmaskwasmaskendendmaskedinputtransformerpredictedoutputtakenelizabethhospitalizeda missing worda seen wordan unseen wordsource textsummary token from the vocabulary v
+it remains unchanged for the nal
+in the following we use z to represent the masked sequence whose selected tokens are to be predicted during model training
+our loss term is dened as follows algorithm best first search procedure best m k input sequence model and beam size log p
+i it is important to note that we apply a binary mask to the self attention mechanism of the transformer architecture to allow a source token to attend to all source tokens ing itself and a summary token to attend to all source tokens summary tokens prior to it as well as the current token mask in order to learn deep contextualized sentations
+the formulation is similar to dong et al
+
+our binary mask is dened by eq
+
+it is a square matrix whose i th row represents the mask of the i token of z
+if it is a source token i the mask allows it to attend to all source tokens m att i j for j
+if it is a summary token i it can attend to all tokens prior to it as well as the current token m att i j for j
+m att i j if j otherwise the input of transformer consists of embedding matrices we wp and ws respectively denote the token position and segment embeddings devlin et al
+
+z p and s are one hot matrices used to retrieve embeddings for tokens in sequence z
+the token position and segment embeddings for the i token are then added up element wisely
+zwe pwp sws our transformer model takes as input embeddings and the binary mask m att to produce a sequence of deep contextualized representations
+
+
+
+ticularly hi is used to predict the i th missing token in the sequence
+we use parameter tying allowing the same token embeddings we to be used in both the input layer eq
+and nal softmax layer of the model eq
+
+h m att p e hi decoding given a trained model and an input text the decoding stage searches for a summary sequence that maximizes p
+we present two search algorithms for this stage
+search uses a priority heap to keep partial maries which are scored according to a heuristic function
+at each iteration the search algorithm takes the scoring partial summary extends it by one word then pushes new summary sequences back to the priority heap
+we erate k new summary sequences by selecting k words that give the highest probability of log p j eq
+then iteratively appending the words to the partial summary
+if the highest scoring summary in the heap concludes with an end of sentence symbol it is moved to a pool of pleted summaries for later reranking
+the heap thus keeps a init h
+init a
+reset while h is not is not full do the priority queue the answer collector current h
+pop if current ends with end then a
+continue candidates
+reset for each w v do extended current s mask candidates
+extended topk k argmin candidates h
+return a collection of partial summaries of varying lengths which are visited according to their scores
+we provide an illustration of our search algorithm in algorithm
+in contrast beam search is essentially search
+it maintains a beam of size at any time step containing partial summaries of the same length
+for each partial mary the algorithm extends it by one word producing k new sequences by appending each of the k words that give the highest probability of log p j to the partial mary
+this process generates a total of k k new summary sequences by extending on each of the k partial summaries
+the algorithm then selects k best candidates which are put in the beam for next iteration
+if a candidate summary cludes with the end of sentence symbol it is moved to the pool of completed summaries
+both search and beam search employ the same scoring function that scores a candidate summary by the sum of log likelihoods eq
+
+however the two differ in their search strategies beam search visits candidate summaries according to the summary length whereas search favors candidates attaining higher scores
+y arg max log p j yy end s
+t
+we compute p j using our trained copytrans model
+importantly the mask token is used as a prompt for the model to predict the next word
+e
+
+start beth was taken to the hospital end elizabeth was mask is a concatenation of the source text partial summary and mask token it is fed to the copytrans model where the contextualized representation of mask is used as input to size of the priority heap is capped at
+if the heap has reached capacity and a new summary sequence needs to be pushed in the lowest scoring one will be removed from the heap
+a softmax layer to predict the next token v
+in imental results we demonstrate that a dynamic ized representation of mask performs reliably at ing the next token
+this represents an important distinction from shifting the target sequence by one position for tion which is common in encoder decoder models
+reranking a reranking step is necessary in part because candidate summaries decoded using beam search or rst search do not always meet the length requirement
+e
+
+an overly short summary containing only two words is rarely an informative summary despite that it may give a high likelihood score
+below we compare three reranking gies to offset this limitation
+length normalization is adopted by see et al
+and it is frequently used in many other systems
+it divides the inal log likelihood score denoted as y log p by the total number of tokens in the summary to effectively prevent a long summary from being penalized
+bp norm introduces a brevity penalty to summaries that do not to meet length expectation
+as illustrated in eq
+bp norm performs length normalization then adds a penalty term log bp to the scoring function
+we modify the original penalty term of yang huang and ma to make it favor summaries using more copying
+in eq
+we dene r to be the copy rate i
+e
+the percentage of summary tokens seen in the source text scaled by a factor c
+when the copy rate r is set to the penalty is dropped to
+yang huang and ma provides a nice proof showing that this penalty term can directly translate to a coefcient multiplied to the log likelihood score eq
+
+log bp bp r exp y bp exp log p j bp p j soft bounded word reward sbwr is a newly introduced method by us that assigns a per word reward to the summary
+if the decoded summary is longer than expected i lpred the added words receive a diminishing reward of
+if the summary is shorter i lpred every word of it will receive a reward
+the method thus promotes summaries of similar length to the predicted lpred
+a sigmoid function is used to smooth the reward values
+r is a coefcient to scale the total reward and it is tuned on the validation data
+y y r i we obtain the predicted length lpred using greedy search then empirically offset the predicted length by three words according to validation set
+in all cases we force the decoder source text premier chang chun hsiung said thursday he is enraged and saddened by the snail paced progress of the reconstruction of areas hardest hit by a disastrous earthquake that rattled taiwan on sept
+
+summary premier expresses condolences for taiwan quake victims premier angry over reconstruction of quake hit areas premier enraged and saddened by earthquake reconstruction premier enraged by slow progress of post quake reconstruction source text a blue ribbon panel of experts said on wednesday that german economic growth will grind to a halt next year raising doubts about berlin s plans to shield europe s biggest economy from the global turmoil
+summary german experts raise doubts about economic recovery experts say german growth will grind to a halt next year german experts to grind to halt next year german economy will grind to halt in say experts table example system summaries produced by generator networks our method best abstract our method pure extract and human abstract
+to never output the same trigram more than once during ing which is a common practice to avoid repetitions paulus xiong and socher
+experiments data and evaluation metrics we evaluate our proposed method on the sentence rization task
+the goal is to condense a lengthy source tence to a title like summary
+comparing to single document summarization sentence summarization deals less with tent selection its ground truth summaries also contain more paraphrasing and abstraction
+we conduct experiments on the gigaword parker and newsroom grusky man and artzi datasets
+gigaword articles were lected during and newsroom spans the range of
+we pair the rst sentence of each article with its title to form an instance
+the train valid test splits contain instances for gigaword and instances for newsroom
+we experiment with both datasets to understand not only the copying behavior but also domain adaptation effects for various models
+despite that only gle reference summaries are available in benchmark tions we are able to evaluate summary quality along tiple dimensions using automatic metrics based on cal similarity rouge lin and semantic similarity bertscore zhang et al
+and through human sessment of grammaticality informativeness and whether system abstracts remain true to original
+experimental settings we initialize the model parameters using pretrained base uncased model
+the model is ne tuned on the ing split of the gigaword or newsroom dataset for stractive summarization
+our model uses a layer training loss a
+b
+
+d
+e
+
+g
+h
+gigaword gram gram gram gram average
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+newsroom gram gram gram gram average
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table the copy rate of various summarization models
+we dene copy rate as the percentage of summary n grams appearing in the source text where as well as an average of them
+we experiment with selecting varying amounts of seen summary tokens unseen summary tokens and source tokens for training
+a circle corresponds to about million tokens for gigaword and tokens for newsroom which are used to compute the loss term
+system multi task entailment seass drgd pg networks biset search beam search
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+
+
+
+
+
+
+bert s
+
+
+
+
+
+
+
+
+table summarization results on the gigaword test set
+the lower part of the table contains results from our system
+former architecture
+its hidden state size is and has attention heads
+we use the adam optimizer with
+
+
+the learning rate is set to and it is halved whenever the validation loss does not change after training steps
+we set the weight decay to be
+for regular layers and no weight decay for dropout and normalization
+the sampling rate p is set to
+for source words and
+for summary words both seen and unseen
+each model is ne tuned for epochs an epoch takes about hours on a tesla gpu
+our batch size is set to be
+summarization results control over copying could we bias a summarizer to duce summaries that are more extractive than abstractive or vice versa if the summarizer is trained solely on mary words seen in the source text will it only learn to copy words during testing but not generate new words we seek to answer these questions in this section
+particularly we vide all tokens selected for training into three categories summary tokens seen in the source text summary tokens unseen in the source and c source tokens with the tation that training the system to predict only seen summary tokens may reinforce the copying behavior unseen tokens allow for generation and source words enable the system to learn richer representations
+by mix and matching tokens we enable a summarizer to copy more or less
+we analyze the copy rate of various summarization els in table
+copy rate is dened as the percentage of mary n grams appearing in the source text
+we set and the average of them
+a high copy rate suggests that the summary is generated largely by copying verbatim from the source text
+we experiment with selecting varying amounts of seen summary tokens unseen summary tokens and source tokens for training where the number of circles is proportional to the number of tokens used in puting the loss term
+all summaries in table are decoded using beam search without reranking
+our ndings suggest that the factor that makes the most impact on the copying behavior of a summarizer is the portion of seen and unseen summary words used for ing the model
+if the summarizer is trained on purely seen words case a
+in table it only reuses source words ing testing despite that there is nothing to prevent the tem from generating new words
+the gram copy rate for case a
+is about for both datasets with the minor gap due to tokenization discrepancies
+as more unseen words are used for training the summarizer gradually transforms from copying only to both copying and generating new words not present in the source text
+we observe that the ratio of seen vs
+unseen words in ground truth summaries is about in both datasets and newsroom is slightly more tractive than gigaword
+our analysis reveals that it is portant to maintain a similar ratio during training in order to achieve high rouge scores
+pure extracts do not attain high rouge scores as ground truth summaries themselves are abstracts
+our analysis further suggests that training on source words has little impact on the copying behavior of the system but it improves representation learning and has lead to consistently improved f scores
+system comparison table shows results on mark summarization data containing testing instances from gigaword
+we contrast our system with system m pg networks o
+o r s ours pure ext w e ours best abs n a ours pure ext g i ours best g
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+bert s
+
+
+
+
+
+system human pg networks biset ours pure ext ours best inform
+gramm
+truthful
+bst wst
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table summarization results on the newsroom test set
+the top four systems are trained on newsroom training data whereas the bottom two systems are trained on gigaword
+table human assessment of informativeness cality truthfulness and best worst scaling
+tion baselines developed in recent years
+they include nallapati et al
+multi task entailment sunuru and bansal seass zhou et al
+drgd li et al
+guo sunuru and bansal pg networks see liu and ning song zhao and liu cao et al
+and biset wang quan and wang
+output summaries from the last four tems are graciously provided to us by the authors
+we ate summary quality using two automatic metrics including lin that measures n gram overlap between system and reference summaries and bertscore zhang et al
+that quanties their semantic similarity using bert based contextualized representations
+results show that our system achieves competitive mance surpassing strong systems having reported results on this dataset as judged by both metrics
+these results strate the effectiveness of our transformer based only architecture for abstractive summarization
+we observe that using beam search with reranking yields the highest sults using case g
+in table for training
+both bp norm and sbwr appear to be outstanding reranking methods ter than length normalization
+our observation also suggests that search and beam search can produce similar outcome despite that the two differ in their search gies with beam search visiting candidates according to mary length and search favoring candidates having high log likelihood scores
+we suggest future work to plore other search methods such as a search
+domain adaptation we investigate the effect of domain adaptation by training the model on gigaword then testing it on newsroom test set
+results are reported in table
+not surprisingly there is a performance degradation when ing the model in a cross domain setting
+we observe that the model with more copying pure extract case e
+seem to degrade more gracefully than its counterpart best abstract case
+with a smaller performance gap in cross domain tings
+both of our models perform competitively comparing to other baseline methods
+human evaluation to thoroughly analyze the quality of summaries we ask man annotators to assess system outputs along three sions including informativeness has the summary covered options
+important content of the source text grammaticality is the summary sentence grammatically correct and ness has the summary successfully preserved the meaning of the original text
+both system and human summaries are scored according to these criteria using a likert scale from worst to best
+we compare variants of our method erating a pure extracts case e
+and best abstracts case g
+baselines of c pg networks d e biset and human abstracts
+following liu and lapata we perform best worst scaling where a human selects the best and worst summary among six candidates
+the nal ing of the system is computed as the percentage of times it was selected as the best minus that of the worst
+we ple instances from the gigaword test set for evaluation
+each instance was assessed by ve human evaluators from amazon mechnical turk where low quality annotations are manually removed
+the results are presented in table
+we observe that human summaries article titles are imperfect
+they can contain details that are nonexistent in the source see table although they provide a means for researchers to train neural models without re annotating reference maries
+in contrast both of our systems perform slightly but consistently better than other baselines
+conclusion in this paper we present a transformer based decoder only framework to generate summaries with more or less ing
+the proposed method can be used to generate both tractive and abstractive summaries
+our method emphasizes on in depth analysis of the copy behavior in summarization
+it exploits multiple strategies at training and decoding stages to generate diverse summary hypotheses
+we show itive results and demonstrate the effectiveness of the posed method on exercising control over copying
+acknowledgments we are grateful to the reviewers for their helpful comments
+the work was performed in part while kaiqiang song was an intern at bosch research
+this research was supported in part by the national science foundation grant
+references barzilay r
+and mckeown k
+r
+
+sentence fusion for tidocument news summarization
+computational linguistics
+cao z
+li w
+li s
+and wei f
+
+retrieve rerank and rewrite soft template based neural summarization
+in acl
+carletta j
+and al
+
+the ami meeting corpus
+in mlmi
+celikyilmaz a
+bosselut a
+he x
+and choi y
+
+deep communicating agents for abstractive summarization
+in naacl
+chen y
+
+and bansal m
+
+fast abstractive summarization with reinforce selected sentence rewriting
+in acl
+de castilho r
+e
+dore g
+margoni t
+labropoulou p
+and gurevych i
+
+a legal perspective on training models for natural language processing
+in proc
+of lrec
+devlin j
+chang m
+
+lee k
+and toutanova k
+
+bert pre training of deep bidirectional transformers for language standing
+in proc
+of naacl
+dong l
+yang n
+wang w
+wei f
+liu x
+wang y
+gao j
+zhou m
+and hon h
+
+
+unied language model pre training for natural language understanding and generation
+
+org
+
+durrett g
+berg kirkpatrick t
+and klein d
+
+based single document summarization with compression and anaphoricity constraints
+in proc
+of acl
+fan a
+grangier d
+and auli m
+
+controllable abstractive summarization
+in the workshop on nmt and generation
+filippova k
+alfonseca e
+colmenares c
+kaiser l
+and vinyals o
+
+sentence compression by deletion with lstms
+in proc
+of emnlp
+gehrmann s
+deng y
+and rush a
+m
+
+bottom up stractive summarization
+in proc
+of emnlp
+grusky m
+naaman m
+and artzi y
+
+newsroom a dataset of
+million summaries with diverse extractive strategies
+in proc
+of naacl
+gulcehre c
+ahn s
+nallapati r
+zhou b
+and bengio y
+
+pointing the unknown words
+in proc
+of acl
+guo h
+pasunuru r
+and bansal m
+
+soft layer specic multi task summarization with entailment and question generation
+in proc
+of acl
+hardy h
+and vlachos a
+
+guided neural language ation for abstractive summarization using abstract meaning sentation
+in proc
+of emnlp
+hermann k
+m
+kocisky t
+grefenstette e
+espeholt l
+kay w
+suleyman m
+and blunsom p
+
+teaching machines to read and comprehend
+in proc
+of nips
+jing h
+and mckeown k
+
+the decomposition of written summary sentences
+in proc
+of sigir
+khandelwal u
+clark k
+jurafsky d
+and kaiser l
+
+ple efcient text summarization using a single pre trained former
+
+org
+
+knowles r
+and koehn p
+
+context and copying in neural machine translation
+in proc
+of emnlp
+kryscinski w
+paulus r
+xiong c
+and socher r
+
+proving abstraction in text summarization
+in emnlp
+lebanoff l
+song k
+and liu f
+
+adapting the neural encoder decoder framework from single to multi document marization
+in emnlp
+li c
+liu f
+weng f
+and liu y
+
+document tion via guided sentence compression
+in emnlp
+li p
+lam w
+bing l
+and wang z
+
+deep recurrent generative decoder for abstractive text summarization
+in emnlp
+liao k
+lebanoff l
+and liu f
+
+abstract meaning sentation for multi document summarization
+in coling
+lin c
+
+
+rouge a package for automatic evaluation of summaries
+in wksp
+on text summarization branches out
+liu y
+and lapata m
+
+hierarchical transformers for document summarization
+in acl
+liu f
+and liu y
+
+towards abstractive speech tion exploring unsupervised and supervised approaches for ken utterance compression
+ieee trans
+aslp
+liu f
+flanigan j
+thomson s
+sadeh n
+and smith n
+a
+
+toward abstractive summarization using semantic tations
+in proc
+of naacl
+martins a
+f
+t
+and smith n
+a
+
+summarization with a joint model for sentence extraction and compression
+in workshop on integer linear programming for natural language processing
+nallapati r
+zhou b
+dos santos c
+gulcehre c
+and xiang b
+
+abstractive text summarization using sequence to sequence rnns and beyond
+in proc
+of signll
+nenkova a
+and mckeown k
+
+automatic summarization
+foundations and trends in information retrieval
+ng j
+
+and abrecht v
+
+better summarization evaluation with word embeddings for rouge
+in emnlp
+ouyang j
+chang s
+and mckeown k
+
+crowd sourced iterative annotation for narrative summarization corpora
+in eacl
+over p
+and yen j
+
+an introduction to
+nist
+parker r
+
+english gigaword fth edition
+philadelphia linguistic data consortium
+pasunuru r
+and bansal m
+
+multi reward reinforced marization with saliency and entailment
+in naacl
+paulus r
+xiong c
+and socher r
+
+a deep reinforced model for abstractive summarization
+in proc
+of emnlp
+peters m
+e
+neumann m
+iyyer m
+gardner m
+clark c
+lee k
+and zettlemoyer l
+
+deep contextualized word representations
+in proc
+of naacl
+qazvinian v
+radev d
+r
+mohammad s
+m
+dorr b
+zajic d
+whidby m
+and moon t
+
+generating extractive maries of scientic paradigms
+jair
+reiter e
+
+a structured review of the validity of bleu
+computational linguistics
+rush a
+m
+chopra s
+and weston j
+
+a neural attention model for sentence summarization
+in emnlp
+see a
+liu p
+j
+and manning c
+d
+
+get to the point summarization with pointer generator networks
+in proc
+of acl
+song k
+zhao l
+and liu f
+
+structure infused copy anisms for abstractive summarization
+in proc
+of coling
+vaswani a
+shazeer n
+parmar n
+uszkoreit j
+jones l
+gomez a
+n
+kaiser l
+and polosukhin i
+
+attention is all you need
+in proc
+of nips
+wang l
+raghavan h
+castelli v
+florian r
+and cardie c
+
+a sentence compression based framework to query focused multi document summarization
+in acl
+wang k
+quan x
+and wang r
+
+biset bi directional selective encoding with template for abstractive summarization
+in proc
+of acl
+weber n
+shekhar l
+balasubramanian n
+and cho k
+
+controlling decoding for more abstractive summaries with based networks
+
+org
+
+yang y
+huang l
+and ma m
+
+breaking the beam search curse a study of methods and stopping criteria for neural machine translation
+in emnlp
+zhang t
+kishore v
+wu f
+weinberger k
+q
+and artzi y
+in
+bertscore evaluating text generation with bert
+
+org
+
+

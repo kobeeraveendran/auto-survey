@@ -1,0 +1,1192 @@
+stepwise extractive summarization and planning with structured transformers shashi narayan joshua maynez shashinarayan joshuahm
+com jakub adamek daniele pighin blaz bratanic biondo blazb
+com ryan mcdonald google research abstract we propose encoder centric stepwise els for extractive summarization using tured transformers hibert zhang et al
+and extended transformers ainslie et al
+
+we enable stepwise rization by injecting the previously generated summary into the structured transformer as an auxiliary sub structure
+our models are not only efcient in modeling the structure of long inputs but they also do not rely on task specic redundancy aware modeling making them a general purpose extractive tent planner for different tasks
+when ated on cnn dailymail extractive tion stepwise models achieve state of the art performance in terms of rouge without any redundancy aware modeling or sentence ing
+this also holds true for rotowire to text generation where our models surpass previously reported metrics for content tion planning and ordering highlighting the strength of stepwise modeling
+amongst the two structured transformers we test stepwise extended transformers provides the best formance across both datasets and sets a new standard for these challenges
+introduction extractive document summarization is the task of creating a summary by identifying and sequently concatenating the most important tences in a document erkan and radev nenkova and mckeown
+in recent years this task has matured signicantly mostly thanks to advances in deep neural networks
+cheng and lapata conceptualize extractive tion as a sequence labeling task in which rst a archical long short term memory network lstm equal contribution
+code and data are available at
+com google research google tree master etcsum
+hochreiter and schmidhuber is used to code a document and then another lstm is used to predict for each sentence whether it should be included in the summary
+this architecture was later adopted by nallapati et al
+nallapati et al
+narayan et al
+zhang et al
+and dong et al
+
+following the success of pre trained based architectures for many tasks vaswani et al
+devlin et al
+the current state of art approach to extractive summarization uses formers to learn sentence representations and to rank sentences by their saliency liu liu and lapata zhang et al
+zhong et al
+bi et al
+
+the top scoring sentences are then assembled to produce an extract of the ument
+summaries built in this fashion cheng and lapata narayan et al
+zhang et al
+dong et al
+are prone to contain dant information
+several recent approaches have explored mechanisms to better handle redundancy such as heuristic based trigram blocking triblk liu and lapata wang et al
+crafted feature driven models ren et al
+and redundancy aware neural sequence models zhou et al
+bi et al
+
+one common lem with these models is that their focus is limited to content overlap and to respecting length gets
+however these are but a small subset of the dimensions necessary to produce informative and coherent summaries
+ideally models would utilize enriched document and summary representations in order to implicitly learn better extractive plans for producing summaries liu et al
+mendes et al
+
+one such method is stepwise marization liu et al
+where a summary is constructed incrementally by choosing new content conditioned on previously planned content
+in this paper we propose encoder centric wise models for extractive summarization using t c o l c
+s c v
+v i x r a structured transformers
+structured transformers are transformer based architectures that have the exibility to model some form of structure of the input e
+
+hierarchical document structure
+in this paper we specically study two such architectures hibert zhang et al
+and extended formers construction etc ainslie et al
+
+details of these are given in sections and
+we enable stepwise summarization by injecting the previously planned summary content into the tured transformer as an auxiliary sub structure
+the model then can holistically learn any level coherence properties such as saliency dancy and ordering embodied in the gold maries
+this differs from other methods which are either task specic e
+
+redundancy aware ing in bi et al
+or not holistic e
+
+manually curated features in liu et al
+
+an added vantage of structured encoders is that they break the quadratic attention mechanism of transformers vlin et al
+making them more efcient and able to process longer inputs instead of truncating the inputs to tokens liu and lapata bi et al
+which is critical for long inputs and outputs which require non trivial planning
+when evaluated on the cnn dailymail summarization dataset hermann et al
+we achieve of the art performance in terms of rouge lin and hovy without any redundancy zhou et al
+bi et al
+or sentence selection nisms liu and lapata
+our model s task agnostic approach allows it to implicitly learn and leverage content plans directly from the data
+moreover structured transformers form the basis of our model which are exible in terms of content type e
+
+text or tables that can be modeled
+we demonstrate this by learning intricate extractive content plan for the rotowire table to text generation task wiseman et al
+
+this task requires the generation of long summaries from large score tables detailing the the specics of a sports match which often necessitates dedicated content selection and planning models to ate a high quality summary wiseman et al
+puduppully et al
+
+we show that our wise framework achieves higher content selection planning and ordering scores relative to prior work with task specic planning mechanisms
+the contributions of the paper are as follows this is rst study to use etc ainslie et al
+for summarization for its ability and exibility to better model long and structured inputs we pose augmentions of two structured transformers hibert and etc in order to enable stepwise els for extractive planning we demonstrate pirically that our models are general purpose and can be adapted as an extractive document rizer or as a content planner for table to text tion our experiments highlight the effectiveness of stepwise modeling specically stepwise etc which sets a new standard for both tasks
+related work redundancy
+summarization models often use a dedicated sentence selection step after sentence scoring to address redundancy
+maximal marginal relevance carbonell and goldstein based methods select the content that has the maximal score and is minimally redundant with the ously constructed partial summary
+others treated sentence selection as an optimization problem der some constraints such as summary length donald lin and bilmes
+liu and pata and wang et al
+used based trigram blocking triblk for redundancy elimination
+ren et al
+trained two ral networks with handcrafted features one is used to rank sentences and the other one is used to model redundancy during sentence selection
+zhou et al
+and bi et al
+proposed redundancy aware models by modeling redundancy and saliency jointly during the scoring process ing neural sequence models
+in contrast to these proaches our models are not redundancy aware
+stead they implicitly model redundancy by ing previously generated summary representations
+by virtue of this our models are not text specic and can be applied to other tasks see section
+partial summary representations
+ultilizing representations of partially generated summaries is relatively less studied in summarization
+mendes et al
+proposed to dynamically model the generated summary using an lstm to iteratively increment summaries based on previously tracted information
+liu et al
+used a forward neural network driven by hand curated tures capturing the prevalence of domain subtopics in the source and the summary
+to the best of our knowledge our models are rst to use mary representations with structured transformers for summarization
+our models learn to make summary informed next sentence predictions out any hand curated features
+long form summarization
+it is well known that a better content selection benets abstractive summarizers to generate summaries that are not only uent but also informative gehrmann et al
+hsu et al
+xiao et al
+
+it can be particularly important when generating long stractive summaries liu et al
+liu and pata or summarizing multiple documents yasunaga et al
+
+earlier multi document summarization methods have addressed the issue of long form input by graph based representations of sentences or passages erkan and radev christensen et al
+
+recently yasunaga et al
+proposed a neural version of this work using graph convolutional networks kipf and welling
+liu and lapata used cross document attention mechanism to share formation as opposed to simply concatenating text spans using hierarchical transformers
+similar to this motivation we also explore better encoding of long inputs with structured transformers
+table to text content planning
+wiseman et al
+introduced the rotowire dataset which requires multi sentence summaries of large tables
+several works found that the key to generate uent and informative summaries for this task is to have dedicated content planning and realization steps puduppully al
+c miculicich et al
+
+miculicich et al
+and gong et al
+used a transformer encoder and gong et al
+used multi dimensional hierarchical lstm encoders to compute better table entry representations
+following these lines of work we evaluate our models to generate long content plans for this task using structured transformers
+problem stepwise content extraction m we dene a general paradigm for stepwise content extraction that can be easily tailored to both tractive summarization and table to text generation
+given an input d
+
+
+sn with n tent units the goal is to learn an extractive content plan i
+e
+j m j of length m m is an empty unit denoting the end of the plan
+we formulate this as an tive ranking problem liu et al
+bi et al
+where at each k th step k m given the input d and the previously selected plan we select d with a probability d with model parameters
+the selected content is then added to to construct
+the best plan s can be dened as s arg p d
+for extractive document summarization let d
+
+
+sn be a document with n sentences
+our goal is to learn an extractive plan or summary in this case s which best summarizes d
+for table to text generation we represent a table with n records as d
+
+
+sn
+we aim to erate a plan m that can be used by a text generator to generate a meaningful and coherent summary
+for exposition we use the extractive document summarization setup to introduce our stepwise models with hibert zhang et al
+and etc ainslie et al
+in the following sections
+specically we use sentence as a content unit and previously or partially generated summary for a previously selected content plan
+stepwise hibert hierarchical encodings have been used to model put structure with lstms nallapati et al
+cheng and lapata narayan et al
+
+zhang et al
+proposed hibert with two stacked transformer encoders vaswani et al
+for extractive summarization see the middle diagram in figure a sentence encoder that pendently builds representations for each sentence in the document and a document encoder that erates over sentence encodings to build contextual representations for all sentences
+these contextual sentence representations are then ingested by a sier to predict the salience score of each sentence in the document
+as in standard transformers both encoders have multiple layers with each layer posed of a multi head self attention layer followed by a feed forward sub layer with residual tions he et al
+and layer normalizations ba et al
+
+for stepwise hibert at time step k we modify the document encoder with the content plan which is the previously selected sentences in the summary
+this is depicted in ure left and allows the model to implicitly select new sentences relative to the previously generated summary
+wi
+
+
+wi sentence and document encoders
+let d
+
+
+sn be a document where wi j is a token in si
+si is rst mapped to a ous space esi j
+j ptoken are the token is a sentence in d and wi ei
+
+
+j and ptoken where ei j j figure memory usage and attentions in standard transformers devlin et al
+hibert zhang et al
+and etc ainslie et al
+
+and positional embeddings of token wi j tively
+our transformer based sentence encoder then transforms esi into a list of hidden tations hi j is the hidden representation for wi j
+following the standard tice devlin et al
+liu and lapata we take the rst hidden representation hi as the representation for the sentence
+where hi
+
+
+hi hi
+hi zhang et al
+use a standard transformer document encoder
+it takes the document sentation hd
+
+
+hn where hi hi psent are the representation i from the sentence encoder and the positional bedding for sentence si in the document tively and builds contextual sentence tions
+
+
+dn
+and psent i let i
+
+
+stepwise modeling
+at step k be the partial summary with k previously extracted sentences
+in tion to hd our document encoder takes the mary representation
+
+
+where xi hi
+hi psum is the representation from the sentence encoder for sentence and psum i is the positional embedding for sentence in
+at each layer the document encoder employs three levels of nested multi headed attentions vaswani et al
+to build summary informed contextual sentence representations n ument self attention summary self attention and document summary attention see figure left
+the rst two operate in parallel followed by the document summary attention
+
+
+
+si while document self attention learns the textual hidden representation hdocdoc of each sentence in the document d summary attention learns the contextual hidden tion hsumsum of each sentence in
+we share i the parameters of the document and summary attention layers
+the document summary attention then builds the contextual hidden representation si si hdocsum ing linear projections of hdocdoc hsumsum of each sentence in the document d as query and as key and values vaswani et al
+
+i in addition to the introduction of stepwise anism to hibert our positional embeddings ptoken are not shared to better j model individual sentences the document and the different styles of summary
+zhang et al
+shared their token ptoken sitional embeddings
+but we both use the lute position encodings used in the original bert model devlin et al
+
+and sentence psent and psum j j j j stepwise etcsum there has been growing interest in addressing the limitation of the transformer architecture used in bert devlin et al
+where memory age scales quadratically with the size of the put guo et al
+dai et al
+ye et al
+child et al
+rae et al
+beltagy et al
+roy et al
+
+hibert alleviates this problem by modeling each sentence dently the memory usage in hibert scales with the square of the number of sentences and the square of the maximum length of any sentence
+however the main disadvantage of this approach is that token level attention across sentences is hibited and long range attention only happens rectly at the second stage encoder see the middle diagram in figure
+recently extended former construction etc ainslie et al
+provides an alternative
+it alleviates the quadratic memory growth by introducing sparsity to the tion mechanism via its novel global local attention mechanism see the rightmost diagram in figure
+this not only permits encoding of long but also enables a mechanism to model structure directly through nodes in the global attention layer
+do other recent architectures yang et al
+kitaev et al
+
+
+
+
+nodesinput tokensinput tokensinput tokenslayer tokensblockembeddingsblocksinput tokensspecialglobal token
+
+
+tokenslayer transformer hierarchical attention xl bp transformer star transformer compressive transformer long inputglobal inputfull attentionfull and g attention global local attention etc
+
+
+nodesinput tokensinput tokensinput tokenslayer tokensblockembeddingsblocksinput tokensspecialglobal token
+
+
+tokenslayer transformer hierarchical attention xl bp transformer star transformer compressive transformer long inputglobal inputfull attentionfull and g attention global local attention etc figure stepwise hibert left and etcsum right models
+hibert builds summary informed representation by jointly modeling partially generated summary and the document during document encoding while etcsum takes as input the document appended with the partially generated summary
+global local attention
+the etc model tecture receives two inputs a long input which in most cases corresponds to the text to be encoded and an auxiliary global input which serves as ductive bias features
+first the model builds an attention map called long to long across the long input with a sparse local attention of xed length this bypasses the quadratic memory complexity and allows to scale input lengths to the thousands of tokens but limits the attention span of tokens to their nearest neighbors
+to overcome this limitation the global local tention denes three other attention parts to global global to long and long to global all with unrestricted attention
+this allows tokens trarily far apart to attend to each other with at most one hop through the global input tokens
+we refer the reader to ainslie et al
+for more details
+the right parts of figures and illustrate these four types of attentions and the sparsity diagrams where each cell in a row i and column j is ent than white input token wi can attend to input token wj same relative position embeddings are indicated by using the same color
+stepwise modeling
+given the document d and its partial summary at step k we construct an input i by concatenating the document d and the partial summary
+etc replaces absolute position encodings with relative position encodings shaw
+
+
+al
+to easily adapt to greater input lengths than seen during pretraining
+in addition to ing relative positions in an input sequence relative position encodings in etc are also used to model arbitrary pairwise token relations useful for tured inputs
+we used the auxiliary global input to represent sentence structure
+specically following ainslie et al
+we placed one auxiliary token in the global input per each sentence in the input i
+we linked the global tokens with the input tokens by using relative position labels to represent whether each token belongs to that sentence
+global global attention is left unrestricted allowing all sentences to attend to each other
+this result is summary informed contextualized input token resentations via attention through the global nodes
+in the rest of the paper we refer to this rizer by stepwise etcsum
+similar to hibert we take the rst token hidden representation hi as the representation for the sentence
+finally tence embeddings are passed to the softmax layer for salience scoring
+both hibert and etcsum are then trained with the cross entropy loss
+extractive document summarization
+experimental setup dataset
+we evaluate our models on the cnn and dailymail news highlights datasets mann et al
+
+we used standard splits documents for training validation and testing
+we did not anonymize tities or lower case tokens as in narayan et al
+zhou et al
+zhang et al
+liu and lapata
+the documents in the cnn dailymail dataset are long the average lengths are
+words sentences for cnn and
+words
+sentences for dailymail
+the human written abstracts have and words for cnn and dailymail respectively
+we ated summarization quality using rouge
+baselines
+we compared our stepwise hibert and etcsum models to lead and oracle baselines
+lead selects the rst sentences to form the mary while oracle baselines creates a summary by selecting the best possible set of sentences in the document that gives the highest average of and rouge l scores with respect to the human written summary
+the oracle cates the input document to tokens
+we further compared our models against several aware models neusum zhou et al
+and aredsum bi et al
+and models that uses trigram blocking triblk liu and lapata for redundancy elimination during sentence tion see the second block in table
+to understand the importance of modeling long documents for extractive summarization we also trained bertsum similar to liu and lapata with a receptive capacity of tokens initialized with the bert checkpoint
+our sum differs slightly from liu and lapata in that we do nt use segment embeddings
+we also report on roberta liu et al
+initialized version of bertsum
+we also trained non stepwise variants of ert and etcsum models the third block in ble
+in this setting hibert and etc do not take partial summaries as input
+instead they simply take the input document and generate salient scores using a sigmoid layer for each sentence in the document the top three sentences are then bled to generate the summary
+our implementation of hibert differs from zhang et al
+
+for example we do nt pretrain hibert from scratch for document modeling as in zhang et al
+
+instead we initialize our hibert models with publicly available roberta liu et al
+checkpoints following the superior performance of models lead oracle oracle full latent zhang et al
+refresh narayan et al
+banditsum dong et al
+neusum zhou et al
+exconsum mendes et al
+jecs xu and durrett zhong et al
+her luo et al
+hibert zhang et al
+pnbert zhong et al
+bertsum liu and lapata aredsum ctx bi et al
+hsg wang et al
+bertsum large
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bertsum robertasum hibert etcsum our non stepwise models
+
+
+
+
+
+
+
+our stepwise models
+
+
+
+
+
+stepwise robertasum stepwise stepwise hibert stepwise stepwise etcsum stepwise
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+rl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table rouge scores on the cnn dailymail test set
+boldfaced numbers are the best results among comparable models
+bertsum large builds on bertlarge layers architectures whereas ours build on bertbase layers architectures
+robertasum over bertsum
+we use different number of layers in the document encoder ldoc and in the sentence encoder lsent as opposed to equal number of layers l in both encoders of zhang et al
+
+the layers in the document and sentence encoders were initialized with the top and the bottom layers of roberta respectively
+all etcsum models were ized with the uncased version of etc pretrained checkpoints ainslie et al
+pretrained using the standard masked language model task and the contrastive predictive coding van den oord et al
+
+we also report on the effect of triblk with all our models
+we only experiment with the sized models and therefore have layers a den size of lter size of and attention lowercased candidate and reference summaries and used pyrouge with parameters
+
+thank the authors ainslie et al
+for sharing their etc checkpoints with us
+human etcsum stepwise etcsum stepwise y t i s n e d summary length figure length distributions in etcsum summaries on the cnn dailymail test set
+heads
+for comparison we report results from bertsum large liu and lapata which uses layers
+finally we employ a beam coding to predict summaries using our stepwise models we use a beam size of for a maximum of steps
+we do nt allow repeated sentences though this is not a requirement
+we refer the reader to the supplementary material for implementation and reproducibility details
+generating extractive oracles
+following narayan et al
+we train models to predict all sentences in oracle full for non stepwise stepwise training learns to do this training
+gradually at each step we train model to predict the next sentence in oracle full using the earlier predicted sentences and the document
+during testing human written abstracts are used as reference summaries to evaluate our models
+
+results long form summarization
+in our experiments etcsum appears to be far more superior than ert when modeling long documents for extractive summarization etcsum outperformed hibert in all cases including stepwise or non stepwise dictions and with or without trigram blocking
+the downside of hibert where token level tion across sentences is not possible is not mal for modeling documents
+both etcsum and performed better than bertsum and respectively
+these results suggest the importance of modeling the whole ument with etcsum rather than truncating it to only tokens to t bertsum
+however the improvement may not be attributed solely to sum s ability to model long inputs but also to its better initialization with etc checkpoints ainslie et al
+specially when the improvement minishes when compared against robertasum
+stepwise vs non stepwise models
+first of all trigram ltering seems to be the key in ing redundancy in generated summaries in stepwise models
+it helps almost all models cluding our hibert and etcsum except for the single case of robertasum on
+estingly we do nt observe the same pattern for our stepwise models
+we observe that our wise models both hibert and etcsum out triblk consistently improve over their stepwise counterparts
+but when stepwise is plied with triblk we do nt always see ments
+we conjecture that our stepwise models themselves are inherently better at avoiding dancy in generated summaries due to the edge of previously generated summary at each diction step and improvements with triblk are not always complementary
+the same is also strated in figure density curves show that wise etcsum
+
+follows the human distribution
+
+better than etcsum
+
+
+with stepwise
+
+we do nt see signicant improvement over stepwise sum
+we also report on stepwise robertasum lines and performance dropped compared to sponding non stepwise models
+perhaps without any structure in the transformer simple summary concatenation is not a good method for stepwise robertasum to distinguish the document from the summary
+there might be better ways than the vanilla concatenation but with stepwise etcsum or hibert it is very natural
+stepwise tasum also loses access to the end of the input as the partial summary grows for documents that are already close to tokens in length
+finally our stepwise etcsum model out any explicit redundancy or sentence selection mechanisms achieved comparable performance to the state of the art on the cnn dailymail may consider to access the modeling of long puts in etcsum against the truncated inputs in bertsum and robertasum by initializing etcsum with bert or roberta checkpoints and not etc checkpoint
+however this is not fair to etcsum as bert or roberta uses absolute position embeddings devlin et al
+whereas etc uses relative position embeddings shaw et al
+
+models cc wiseman et al
+puduppully al
+hierenc gong et al
+puduppully al
+ms miculicich et al
+ms end to end miculicich et al
+systran ai detok gong et al
+nle saleh et al
+hierarchical t rebuffel et al
+stepwise hibert realized stepwise hibert planning only stepwise etcsum realized stepwise etcsum planning only
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cs
+
+
+
+
+
+
+
+
+
+
+
+
+co bleu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table standard metrics for rotowire relation generation rg precision content selection cs precision and recall content ordering co via the complement of normalized damerau levenshtein distance and bleu score
+models marked with a are not directly comparable
+boldfaced numbers are the best results among comparable models
+extractive summarization task with a smaller model bertsum large liu and lapata with m parameters achieved
+
+
+rl scores whereas ours with m eters achieved
+
+
+
+comparatively stepwise hibert did not do equally well on ument summarization due to the sequential nature of the input
+however we demonstrate in section that it is well suited as an extractive content planner for table to text generation
+rouge scores in table are computed with a condence interval of
+as such wise is signicantly better than all variants of hierbert etcsum and stepwise
+for other models such as and this condence interval is not a deciding factor hence we performed one way anova with posthoc tukey hsd tests p
+
+our best model stepwise etcsum performs icantly better than and stepwise on the average of rouge scores
+table to text generation task
+we further explore our model s ability to learn content plans for the rotowire data to text generation task wiseman et al
+
+the task is to generate a summary of an nba game from its box score a table of statistics detailing the mance of the two teams and of each player
+the dataset consists of pairs of box scores and summaries of nba games played from to
+the data is split into train tion and test examples
+on average there are rotowire dataset is available for download at https
+com harvardnlp boxscore data
+records in a box score per game
+the average summary has
+words and
+sentences
+similar to puduppully al
+we pose the problem into two sub problems which we solve independently content planning which sists of selecting which records in the table should be mentioned in the summary in what order and how they should be organized into sentences and realization which uses the content plan to create a human readable summary
+we refer the reader to the supplementary material for an example
+our main focus in this paper is to demonstrate our els ability to model long and structured rotowire input tables and generate long meaningful content plans
+for realization we simply use a roberta liu et al
+initialized sequence to sequence transformer model rothe et al
+trained to emit the realization sentence by sentence
+we train our stepwise models to take a score table and the partially generated content plan and predict the next element in the content plan
+this can be either one of the entries in the score table a sentence break or a token marking the end of the plan
+unlike extractive summarization here an optimal extractive content plan can have repeated entries from the input table e
+
+team names to better preserve and generate discourse relations among sentences in the target summary pully al
+making it a challenging task for other iterative models that prohibit redundancy e
+
+bi et al
+
+for details about model implementation realization and the induction of oracle content plans for training we refer the reader to the supplementary material
+we report typical rotowire metrics wiseman et al
+using the standard information tion system described by puduppully et al
+to extract the box score table relations mentioned in the generated g and in the target t summary
+the metrics measure text quality bleu score between g and t relation generation quality the precision of the relations extracted from g against the box score table content selection quality the precision and recall of the relations extracted from g against those extracted from t and content dering quality the complement of the normalized damerau levenshtein distance on the sequences of relations extracted from g and t
+we also ducted human evaluation of rotowire summaries
+results
+we focus on evaluating our stepwise hibert and etcsum models
+our results are presented in table
+the realized scores assess the quality of our realized summaries and are parable to systems in the rst block in table
+we found both stepwise hibert and stepwise sum do content selection particularly well
+their very high precision scores
+and
+respectively combined with good recall
+and
+respectively outperform puduppully et al
+and other recent models on score
+in terms of content ordering and bleu score wise hibert
+bleu
+dld forms worse than puduppully et al
+
+bleu
+dld while stepwise etcsum performs signicantly better
+bleu
+dld
+it s possible that a higher bleu score could be achieved by improving our simple sentence sentence realization method
+we also report content selection scores for the output of the content planning modules see ning only models in table
+we drop name city and date entries from our content plans before puting the metrics in order to make them ble with others in table
+we see the roundtrip of realization and subsequent information extraction decreases cs quality slightly for both models the absolute drop of score is
+for stepwise hibert and
+for stepwise etcsum
+human evaluation
+participants were shown two summaries of an nba game and asked to pare them with respect to informativeness does a summary present a better selection of the do nt reproduce bertsum or robertasum lines here for two reasons these sequential models are not optimal for tabular data and they are also bounded by an input length of tokens the average length of linearized score tables is tokens per game
+we also do nt report on our non stepwise models as they are not suitable to generate ordered content plans as required for this task
+informativeness readability models baseline stepwise hibert truncated stepwise etcsum truncated gold
+
+
+
+
+
+
+
+
+
+
+
+table human evaluation of rotowire summaries
+vant facts about the game and readability which summary has a better narrative ow and is ier to read
+we randomly selected nba bles and evaluated summaries from baseline man et al
+stepwise hibert stepwise etc and gold
+the number of sentences were
+
+and
+for baseline stepwise hibert stepwise etc and gold respectively
+we also included truncated summaries from stepwise bert and stepwise etc to match the number of sentences in corresponding gold summaries
+we elicited judgements from three different tors for each pair
+we report the scaling scores louviere and woodworth louviere et al
+
+results are presented in table
+overall stepwise etc summaries were ranked most informative but they performed worst on readability
+the off the shelf sentence level izer see the supplementary material favors the statistics dense sentences of the baseline maries as it tends to hallucinate on less dense plans
+future work will aim to address this itation
+for infromativeness stepwise etc maries are signicantly better than gold stepwise etc truncated and stepwise hibert truncated summaries
+stepwise hibert summaries are nicantly better than both truncated variants
+all other differences are not signicant p
+
+for readability baseline summaries are signicantly better than both etc variants and stepwise ert
+all other differences are not signicant
+conclusion the stepwise structured transformer paradigm emplied by hibert and etcsum can be easily adapted both to extractive document tion or content planning for table to text generation
+stepwise etcsum in particular sets a new dard for both tasks
+future work will focus on extending our models to generate extractive plans for better abstractive summarization of long or tiple documents liu et al
+
+acknowledgments we thank joshua ainslie and santiago ontanon for sharing their etc code and checkpoints and also giving us feedback on an early draft of this paper
+we thank annie louis the london and zurich generation teams the reviewers and the action editor for invaluable feedback
+we thank enrique alfonseca and hadar shemtov for their support for longform summarization
+references joshua ainslie santiago ontanon chris alberti philip pham anirudh reddy ravula and sumit sanghai
+
+etc encoding long and structured data in in proceedings of the transformers
+ence on empirical methods in natural language processing
+online
+jimmy ba jamie ryan kiros and geoffrey e
+hinton
+
+layer normalization
+corr
+
+iz beltagy matthew e
+peters and arman cohan
+
+longformer the long document transformer
+corr
+
+keping bi rahul jha w
+bruce croft and asli likyilmaz
+
+aredsum adaptive aware iterative sentence ranking for extractive ment summarization
+corr
+
+jaime carbonell and jade goldstein
+
+the use of mmr diversity based reranking for reordering ments and producing summaries
+in proceedings of the annual international acm sigir ence on research and development in information retrieval pages new york ny usa
+jianpeng cheng and mirella lapata
+
+neural marization by extracting sentences and words
+in proceedings of the annual meeting of the sociation for computational linguistics pages berlin germany
+rewon child scott gray alec radford and ilya sutskever
+
+generating long sequences with sparse transformers
+corr
+
+janara christensen mausam stephen soderland and towards coherent oren etzioni
+
+in proceedings of the document summarization
+conference of the north american chapter of the association for computational linguistics man language technologies pages lanta georgia
+zihang dai zhilin yang yiming yang jaime bonell quoc le and ruslan salakhutdinov
+
+transformer xl attentive language models beyond in proceedings of the a xed length context
+annual meeting of the association for tional linguistics pages florence italy
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language in proceedings of the conference standing
+of the north american chapter of the association for computational linguistics human language technologies pages minneapolis nesota
+yue dong yikang shen eric crawford herke van hoof and jackie chi kit cheung
+
+sum extractive summarization as a contextual dit
+in proceedings of the conference on pirical methods in natural language processing pages brussels belgium
+gunes erkan and dragomir r radev
+
+lexrank graph based lexical centrality as salience in text journal of articial intelligence summarization
+search
+sebastian gehrmann yuntian deng and alexander rush
+
+bottom up abstractive summarization
+in proceedings of the conference on cal methods in natural language processing pages brussels belgium
+heng gong xiaocheng feng bing qin and ting liu
+
+table to text generation with effective archical encoder on three dimensions row column and time
+in proceedings of the conference on empirical methods in natural language cessing and the international joint conference on natural language processing pages hong kong china
+li gong josep crego and jean senellart
+
+in tran wngt dgt task
+ings of the workshop on neural generation and translation pages hong kong
+qipeng guo xipeng qiu pengfei liu yunfan shao xiangyang xue and zheng zhang
+
+in proceedings of the transformer
+ence of the north american chapter of the ation for computational linguistics human guage technologies pages lis minnesota
+kaiming he xiangyu zhang shaoqing ren and jian sun
+
+deep residual learning for image nition
+corr
+
+karl moritz hermann tomas kocisky edward stette lasse espeholt will kay mustafa suleyman and phil blunsom
+
+teaching machines to read in advances in neural and comprehend
+tion processing systems pages
+ran associates inc
+sepp hochreiter and jurgen schmidhuber
+
+neural computation long short term memory
+
+wan ting hsu chieh kai lin ming ying lee kerui min jing tang and min sun
+
+a unied model for extractive and abstractive summarization using inconsistency loss
+corr
+
+jordan j louviere and george g woodworth
+
+best worst scaling a model for the largest ence judgments
+university of alberta working per
+thomas kipf and max welling
+
+supervised classication with graph convolutional networks
+corr
+
+nikita kitaev lukasz kaiser and anselm levskaya
+
+reformer the efcient transformer
+corr
+
+chin yew lin and eduard hovy
+
+automatic uation of summaries using n gram co occurrence statistics
+in proceedings of the human guage technology conference of the north can chapter of the association for computational linguistics pages
+hui lin and jeff bilmes
+
+a class of lar functions for document summarization
+in ceedings of the annual meeting of the ation for computational linguistics human guage technologies pages portland gon usa
+jingyun liu jackie chi kit cheung and annie louis
+
+what comes next extractive corr marization by next sentence prediction
+
+
+peter j
+liu mohammad saleh etienne pot ben goodrich ryan sepassi lukasz kaiser and noam shazeer
+
+generating wikipedia by ing long sequences
+in proceedings of the national conference on learning representations vancouver canada
+yang liu
+
+fine tune bert for extractive marization
+corr
+
+yang liu and mirella lapata
+
+hierarchical transformers for multi document summarization
+in proceedings of the annual meeting of the ciation for computational linguistics pages florence italy
+yang liu and mirella lapata
+
+text tion with pretrained encoders
+in proceedings of the conference on empirical methods in natural language processing and the international joint conference on natural language processing pages hong kong china
+yinhan liu myle ott naman goyal jingfei du dar joshi danqi chen omer levy mike lewis luke zettlemoyer and veselin stoyanov
+
+roberta a robustly optimized bert pretraining approach
+corr
+
+jordan j louviere terry n flynn and anthony fred john marley
+
+best worst scaling ory methods and applications
+cambridge sity press
+ling luo xiang ao yan song feiyang pan min yang and qing he
+
+reading like her man reading inspired extractive summarization
+in proceedings of the conference on empirical methods in natural language processing and the international joint conference on natural guage processing pages hong kong china
+ryan mcdonald
+
+a study of global inference gorithms in multi document summarization
+in ceedings of the european conference on ir search page berlin heidelberg
+springer verlag
+afonso mendes shashi narayan sebastiao miranda zita marinho andre f
+t
+martins and shay b
+hen
+
+jointly extracting and compressing uments with summary state representations
+in ceedings of the conference of the north ican chapter of the association for computational linguistics human language technologies pages minneapolis minnesota
+lesly miculicich marc marone and hany hassan
+
+selecting planning and rewriting a ular approach for data to document generation and translation
+in proceedings of the workshop on neural generation and translation pages hong kong
+ramesh nallapati feifei zhai and bowen zhou
+
+summarunner a recurrent neural network based sequence model for extractive summarization of in proceedings of the thirty first aaai uments
+conference on articial intelligence pages
+ramesh nallapati bowen zhou and mingbo ma
+
+classify or select neural architectures corr for extractive document summarization
+
+
+ramesh nallapati bowen zhou cicero dos santos caglar gulcehre and bing xiang
+
+tive text summarization using sequence to sequence in proceedings of the rnns and beyond
+signll conference on computational natural guage learning pages berlin germany
+shashi narayan ronald cardenas nikos topoulos shay b
+cohen mirella lapata sheng yu and yi chang
+
+document eling with external attention for sentence extraction
+in proceedings of the annual meeting of the association for computational linguistics pages melbourne australia
+shashi narayan shay b
+cohen and mirella lapata
+
+ranking sentences for extractive tion with reinforcement learning
+in proceedings of the conference of the north american ter of the association for computational linguistics human language technologies pages new orleans louisiana
+association for tional linguistics
+ani nenkova and kathleen mckeown
+
+matic summarization
+foundations and trends in information retrieval
+aaron van den oord yazhe li and oriol vinyals
+
+representation learning with contrastive dictive coding
+corr
+
+ratish puduppully li dong and mirella lapata
+
+data to text generation with content tion and planning
+in proceedings of the aaai ference on articial intelligence volume pages
+ratish puduppully li dong and mirella lapata
+
+data to text generation with entity in proceedings of the annual meeting ing
+of the association for computational linguistics pages florence italy
+ratish puduppully jonathan mallinson and mirella lapata
+
+university of edinburgh s sion to the document level generation and in proceedings of the tion shared task
+shop on neural generation and translation pages hong kong
+jack w
+rae anna potapenko siddhant m
+jayakumar and timothy p
+lillicrap
+
+compressive formers for long range sequence modelling
+corr
+
+laure clement rebuffel soulier geoffrey a scoutheeten and patrick gallinari
+
+hierarchical model for data to text generation
+in advances in information retrieval pages cham
+springer international publishing
+pengjie ren zhumin chen zhaochun ren furu wei jun ma and maarten de rijke
+
+leveraging contextual sentence relations for extractive rization using a neural attention model
+in ings of the international acm sigir ence on research and development in information retrieval new york ny usa
+sascha rothe shashi narayan and aliaksei leveraging pre trained checkpoints eryn
+
+transactions for sequence generation tasks
+of the association for computational linguistics
+
+aurko roy mohammad taghi saffar ashish vaswani and david grangier
+
+efcient content based sparse attention with routing transformers
+corr
+
+fahimeh saleh alexandre berard ioan calapodescu and laurent besacier
+
+naver labs europe s systems for the document level generation and in proceedings of the lation task at wngt
+workshop on neural generation and tion pages hong kong
+peter shaw jakob uszkoreit and ashish vaswani
+
+self attention with relative position in proceedings of the conference of tations
+the north american chapter of the association for computational linguistics human language nologies pages new orleans louisiana
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n gomez lukasz kaiser and illia polosukhin
+
+attention is all you need
+in advances in neural information cessing systems pages
+curran ciates inc
+danqing wang pengfei liu yining zheng xipeng qiu and xuanjing huang
+
+heterogeneous graph neural networks for extractive document marization
+in proceedings of the annual ing of the association for computational linguistics pages online
+sam wiseman stuart shieber and alexander rush
+
+challenges in data to document generation
+in proceedings of the conference on cal methods in natural language processing pages copenhagen denmark
+liqiang xiao lu wang hao he and yaohui jin
+
+copy or rewrite hybrid summarization with chical reinforcement learning
+in proceedings of the thirty fourth aaai conference on articial gence
+jiacheng xu and greg durrett
+
+neural extractive text summarization with syntactic compression
+in proceedings of the conference on empirical methods in natural language processing and the international joint conference on natural guage processing pages hong kong china
+zhilin yang zihang dai yiming yang jaime g
+bonell ruslan salakhutdinov and quoc v
+le
+
+xlnet generalized autoregressive pretraining for language understanding
+corr
+
+michihiro yasunaga rui zhang kshitijh meelu ayush pareek krishnan srinivasan and dragomir radev
+
+graph based neural multi document summarization
+in proceedings of the ence on computational natural language learning pages vancouver canada
+zihao ye qipeng guo quan gan xipeng qiu and zheng zhang
+
+bp transformer modelling long range context via binary partitioning
+corr
+
+xingxing zhang mirella lapata furu wei and ming zhou
+
+neural latent extractive document marization
+in proceedings of the conference on empirical methods in natural language ing pages brussels belgium
+xingxing zhang furu wei and ming zhou
+
+bert document level pre training of hierarchical bidirectional transformers for document in proceedings of the annual meeting tion
+of the association for computational linguistics pages florence italy
+ming zhong pengfei liu danqing wang xipeng qiu and xuanjing huang
+
+searching for tive neural extractive summarization what works and what s next
+in proceedings of the annual meeting of the association for computational guistics pages florence italy
+ming zhong danqing wang pengfei liu xipeng qiu and xuanjing huang
+
+a closer look at data bias in neural extractive summarization models
+in proceedings of the workshop on new frontiers in summarization pages hong kong china
+qingyu zhou nan yang furu wei shaohan huang ming zhou and tiejun zhao
+
+neural ment summarization by jointly learning to score and select sentences
+in proceedings of the annual meeting of the association for computational guistics pages melbourne australia
+a implementation and reproducibility details a
+hibert j j we did a wide range of hyperparameter search for hibert
+we experimented with the number of layers in the document encoder ldoc the number of layers in the sentence encoder lsent ldoc lsent the initialization and sharing of position embeddings ptoken and psum the initialization and sharing of document j and sentence encoder parameters with bert and roberta checkpoints and the representation of sentence token embedding or average of all token embeddings from the sentence encoder
+for extractive summarization we used hibert with a transformer layer sentence encoder and a transformer layer document encoder
+the model has parameters
+the word position embedding in the sentence encoder is initialized ing the roberta checkpoint but the document and summary sentence position embeddings are learned from scratch
+the document self attention and mary self attentions are shared and initialized using the roberta checkpoint the document summary attention is also initialized using the roberta checkpoint
+we truncate each document to tences and each sentence to words
+we trained all hibert models for steps saving points every steps with a batch size of
+following liu and lapata we choose the best model based on the mle loss on the whole validation set
+for rotowire we use hibert with a former layer sentence encoder and a former layer document encoder
+the model has trainable parameters
+we do nt use the document sentence position embeddings for towire as the input consists of a set of entries in a table
+we use the summary sentence position embedding to capture the order in the content plan
+we use the roberta vocabulary but as discussed in b
+we do nt use roberta pretraining instead initializing with random weights
+we trained the model with a batch size of until the auc score for predicting the next content plan entry on the validation dataset attened out which came after k steps
+since the dataset has examples one for each element in the target content plan for each rotowire example the model saw the entire dataset approximately times
+for all hibert models we used cloud tpu accelerators for training and the adam optimizer with a learning rate of
+
+a
+etcsum the etcsum model for both extractive rization and table to text generation uses a layer transformer as described in ainslie et al
+
+the model is pretrained with mlm and cpc tives as described in ainslie et al
+
+in total the model has trainable parameters which mostly comes from the long input of tokens and the full attention of of the global tokens
+we trained our model with a batch size of for steps approximately equivalent to epochs
+we used cloud tpu accelerators for training and inference was done on a taking hours to get predictions for the test set
+model selection was done over models performance in the validation set for all models except stepwise models where a subset of the dation set was used instead consisting of the rst examples given the longer inference times
+we did a wide range of hyperparameter search where we experimented with learning rate
+
+
+relative position coding vocabulary size the representation of sentences token embedding or average of all token embeddings from the sentence coder and in additionally non stepwise models we experimented with positive label weight used to for loss calculation
+finally we used an adam optimizer with learning rate of
+
+a
+realization model we use a robertashare model following rothe et al
+
+the model has trainable parameters
+we trained the model until we reached the maximum bleu score on tion data
+we trained our model with a batch size of for k steps
+since the dataset has amples one for each element in the target content plan in each rotowire example the model saw the entire dataset approximately times
+we used cloud tpu accelerators for training
+we used the adam optimizer with a learning rate of
+
+b table to text generation b
+task table shows a prototypical input table from the rotowire along with a possible content plan and its realization
+as shown in the example a well formed content plan can repeat some of the entries from the input table
+b
+generating oracle content plans the rotowire dataset does not contain ground truth content plans for its summaries
+instead we infer them following a similar approach to puduppully et al
+but with a few minor modications we use just a single convolutional model stead of an ensemble of convolutional models and lstms our plans maintain the within sentence order of information and may include repetitions if a piece of information is repeated within a sentence in the target summary our plans include tence breaks though we remove sentences with no table entries our content plans can include the match date if it s mentioned in the text e
+
+on saturday when we resolve a pronoun we emit the corresponding player or team name to the tent plan
+with respect to table if the realization at the bottom was a reference summary then by applying this process we would obtain the content plan shown in the middle of the table
+on average the plans inferred in this fashion have
+table entries and
+sentences
+are not presenting an actual example for legal reasons
+b
+content planning technical details hibert
+conceptually the input to hibert is a sequence of strings
+we use three special strings i
+e
+beg eos eot to explicitly mark the beginning of the content plan the end of a tence and the end of the plan text respectively
+the other strings are the values from the table e
+
+points in the same order in which they appear in the text
+in practice in an attempt to leverage roberta pre training we place value strings with natural language sentences that we generate from each value using the plates listed in table
+for numeric values such as the number of points of a team or player larly to puduppully al
+we compute the rank of the value among the instances of the same table entry type and include that in the templated sentence in the form of a which is
+
+
+nth best
+with respect to the example in table the value points would then be represented as the natural language sentence team points scored of chicago bulls is which is best
+as we did not observe a signicant benet in terms of auc when predicting the next content plan entry on validation data we eventually ized our model with random weights but retained the natural language representation of the value strings
+because hibert has a sentence limit of we do a step by discarding the table entries that are less likely to be mentioned in the summary i
+e
+all player entries valued n a and as many entries valued as needed
+since the table entries are nt naturally ordered we do nt feed a positional embedding psent in the document encoder but we still feed it for the summary encoder
+i given the table entries and partial summary bert computes a distribution over the input tences where eos corresponds to emitting a sentence break eot corresponds to ending the content plan and beg is not used
+we sample content plans from a trained model by greedy decoding with one modication entries are not allowed to repeat in the content plan except for sentence breaks team names and team cities
+if the highest probability sentence would have been a repeat we instead emit the second highest
+use the words which is nth best even when a high number is logically detrimental to the team e
+
+when it represents losses
+input table match date saturday october team chicago bulls la lakers player michael jordan shaquille o neal
+
+
+name bulls lakers name michael shaquille
+
+
+city chicago los angeles surname jordan oneal
+
+
+at home home away team chicago bulls la lakers
+
+
+wins points losses points rebounds assists
+
+
+
+
+
+
+
+
+rebounds
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+content plan chicago bulls city chicago bulls name la lakers city la lakers name chicago bulls points la lakers points match date eos
+la lakers name la lakers wins la lakers losses shaquille o neal surname shaquille o neal points eos
+chicago bulls city chicago bulls name chicago bulls wins chicago bulls losses michael jordan name michael jordan surname michael jordan points michael jordan rebounds eos
+the chicago bulls won against the los angeles lakers on saturday
+it was a poor showing for the lakers in spite of oneal s point contribution
+the chicago bulls best player was predictably michael jordan with points and rebounds
+realization table an hypothetical example from the rotowire dataset for an nba game possible sentence content plan and sponding realized sentences below
+etcsum
+etc models used the same ltered set of table entries used in hibert as input
+we catenated these entries into a at input sequence
+similarly we used special strings eos eot and beg which correspond to the same cepts as in hibert end of sentence end of text and beginning of text respectively
+these special strings are appended at the beginning of the at input sequence
+the partial summary input is constructed by catenating the special string beg and the entries that have been predicted so far in order of tion with eos indicating sentences breaks
+the full input sequence is then constructed by concatenating a cls delimiter the at input sequence a special separator sep the partial summary and nally a separator sep
+both the input sequence and the partial summary are padded to and respectively adding up in total to strings for the full input including the special delimiters
+the model uses additional inputs to construct the global local attention
+one global token is assigned to each segment in the full input each special limiter gets assigned a global token as well as ery sentence in the input and partial summary
+the model has a maximum global token i d of this has to be taken into account for examples where the number of segments input sequence sentences special delimiters and partial inputs is larger than
+for those examples we do nt assign global tokens to the tail of the input sequence
+to be consistent we use the same decoding egy where we sample content plans greedily but without repeated entries allowed in the content plan except for sentence breaks team names and team cities
+b
+rotowire realization model the generated content plans are realized via a sequence to sequence transformer model ized with roberta liu et al
+following rothe et al
+trained to emit the realization sentence by sentence
+the input to the model is the concatenation of the following
+the text of the previous sentence or the empty string for the rst sentence
+the model can use this to pronominalize team and player names if they were already introduced
+
+the literal string beg as a separator
+
+the templated realizations cfr
+table of the entries in the sentence s content plan space arated
+
+the literal string context as a rator
+
+the templated representation of the match date
+
+for both teams the templated representations of a the team name the team city c pts d team wins e team losses whether the team was playing at home or away
+these are space separated
+
+for each player in the sentence s content plan the templated representations of a start position and which team the player was on
+these are space separated
+the input after the context tor is provided because we noticed that sometimes the content plan does nt provide all the necessary information for realizing a sentence
+for ple sometimes the target text may refer to a player template used match date of match is year yyyy month mm day dd day of week w team name of t is v team city of t is v team quarter points of t is v team quarter points of t is v team quarter points of t is v team quarter points of t is v team free throw percentage of t is v team points scored of t is v team assists of t is v team losses of t is v team wins of t is v team rebounds of t is v team turnovers of t is v team point eld goal percentage of t is v team eld goal percentage of t is v table entry type match date team name team city team pts team pts team pts team pts team ft pct team pts team ast team losses team wins team reb team tov team pct team fg pct team playing at home or away t is home away team of match player rst name player second name player pts player fgm player fga player min player m player player stl player ftm player fta player blk player ast player to player pf player reb player start position player oreb player dreb player fg pct player pct player ft pct the team a player belongs to player rst name of p is v player second name of p is v player points scored of p is v player eld goals made of p is v player eld goals attempted of p is v player minutes played of p is v player point eld goals made of p is v player point eld goals attempted of p is v player steals of p is v player free throws made of p is v player free throws attempted of p is v player blocks of p is v player assists of p is v player turnovers of p is v player fouls of p is v player rebounds of p is v player starting position of p is v player offensive rebounds of p is v player defensive rebounds of p is v player eld goals percentage of p is v player point eld goals percentage of p is v player free throws percentage of p is v p is player of t table the templates we use to create textual representations of the table entries
+in the templates yyyy mmm dd w t p and v are placeholders
+w encodes the day of week monday is sunday is
+x is the name of a team or of a player
+v is the value that the team t or player p has for the given table entry in the dataset
+the names in the table entry column correspond to the names of properties in the rotowire dataset where possible
+models stepwise hibert realized stepwise hibert planning only stepwise etcsum realized stepwise etcsum planning only
+
+
+
+
+
+cs
+
+
+
+co
+
+
+
+
+
+bleu
+
+table standard metrics for rotowire on validation data
+by their starting position and team which is mation that would nt otherwise be provided to the realizer
+we create training data from the rotowire maries and their inferred content plans by ting them into sentences together with our inferred content plans
+we realize content plans by gressively feeding the sentence produced in the previous step as input to the next step
+b
+validation data performance we report performance of our best models on the rotowire validation data in table
+

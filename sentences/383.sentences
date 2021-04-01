@@ -1,0 +1,599 @@
+fairness for whom understanding the reader s perception of fairness in text summarization anurag shandilya abhisek dash indian institute of technology kharagpur india abhijnan chakraborty max planck institute for software systems germany kripabandhu ghosh indian institute of science education and research kolkata india saptarshi ghosh indian institute of technology kharagpur india e f r i
+s c v
+v i x r a abstract with the surge in user generated textual tion there has been a recent increase in the use of rization algorithms for providing an overview of the extensive content
+traditional metrics for evaluation of these algorithms e
+
+rouge scores rely on matching algorithmic summaries to human generated ones
+however it has been shown that when the textual contents are heterogeneous e
+
+when they come from different socially salient groups most existing rization algorithms represent the social groups very differently compared to their distribution in the original data
+to mitigate such adverse impacts some fairness preserving summarization algorithms have also been proposed
+all of these studies have considered normative notions of fairness from the perspective of writers of the contents neglecting the readers perceptions of the underlying fairness notions
+to bridge this gap in this work we study the interplay between the fairness notions and how readers perceive them in textual summaries
+through our experiments we show that reader s perception of fairness is often context sensitive
+moreover standard rouge evaluation metrics are unable to quantify the perceived of the summaries
+to this end we propose a human in the loop metric and an automated graph based methodology to quantify the perceived bias in textual summaries
+we demonstrate their utility by quantifying the of several summaries of heterogeneous socio political microblog datasets
+i
+introduction with the surge in the amount of textual information on the web text summarization algorithms are increasingly being used to get a quick overview of the information
+the standard framework for text summarization can be broadly divided into two parts summary generation and summary evaluation as shown in figure
+in summary generation given a document or sometimes a set of documents a marization algorithm summarizes it
+generally two kinds of summarization approaches are followed in the literature i extractive summarization where the algorithms select sentences from the document to include in the summary and ii abstractive summarization where the algorithms produce natural language summaries
+traditional summarization algorithms are meant for rizing homogeneous documents e
+
+news on a topic work has been accepted at international workshop on fair and interpretable learning algorithms fila which was held in conjunction with ieee bigdata
+please cite the version appearing in the proceedings
+fig
+a generic block diagram explaining summarization pipeline
+machine generated summaries are evaluated based on how well they match human written reference summaries
+metrics such as rouge scores quantify the goodness of such automated summaries
+or research and they have only focused on worthiness of textual units while deciding on whether to include or exclude them in the summary
+however with the growing popularity of social media websites
+
+facebook twitter user generated content constitutes a large chunk of the textual information generated on the web today
+on social media different user groups discuss different socio political issues and it has been observed that they often have very ferent opinions on the same topic or event
+hence the textual information to be summarised has gradually become heterogeneous
+in our prior work we have shown that such text often contains very different opinions from people of different ideologies social groups
+in many downstream applications algorithm generated summaries are consumed by people and hence they often play a vital role in shaping their opinion in different socio political issues
+hence along with summary quality the fairness aspect of algorithmic summaries that are produced by automatic summarization algorithms have also become essential
+lately this has led to different fair summarization algorithms for heterogeneous user generated textual units
+evaluation of algorithmic summaries traditionally the evaluation of algorithmic summaries are carried out by uating how closely they match human generated summaries
+the same source document or set of documents is given to a number of human annotators to summarize
+metrics like documentrougescoressummarization algorithmsummaryhuman annotatorsgold standard summariesevaluationsummarygenerationsummaryevaluation rouge
+are used to quantify the goodness of the algorithmic summaries
+even though these measures perform very well in evaluating the goodness of summaries based on textual quality and readability
+they do not explicitly quantify the of an algorithmic summary
+moreover this process of evaluation is often laborious and hence an expensive task
+evaluation in multi document marization is particularly expensive
+it is reported that hours of human effort is required to evaluate the summaries from the document understanding conferences duc
+drawbacks in the existing framework the existing fair summarization algorithms have mostly tried to incorporate normative representational fairness goals from the tive of the content producers writers in the nal summary
+however whether the summaries are perceived to be fair by the consumers readers is still up for debate
+additionally the different existing approaches of evaluating summaries the most popular being computation of rouge scores have several limitations when it comes to quantication of fairness aspect of the summaries of heterogenous user generated text corpora
+current work in this work we posit that in the context of summarization fairness is highly context dependent and ideally involves multiple stakeholders
+the most important stakeholders in a summarization set up are producers or writers of the textual units and consumers or readers of the nal summary
+however the interpretation of fairness may vary when we envisage it from the reader s perspective
+to this end in this work we investigate the interplay between the earlier proposed denitions of fairness in summarization and the consumers perceptions of fairness and how this interplay varies with the context of the underlying topic
+further we also investigate the effectiveness of existing measures e
+
+rouge in quantifying the of a summary
+specically we seek for the answer to the following research questions rqs
+is the readers perception of in summaries context dependent do traditional metrics for summary quality such as rouge scores capture readers perception of fairness of summaries and nally can a metric based on representation of opinions better capture readers perception of in summaries to answer the aforementioned rqs we conducted a series of surveys on two socio political datasets obtained from of microblogs tweets related to i the us dential elections and the metoo movement
+through the different analyses the main contributions observations of the present work can be summarised as follows we show that readers can differentiate between fair and unfair summaries
+however the reasons why a summary is perceived to be is context dependent
+in some cases the perceived fairness agrees with standard resentational fairness notions for demographic groups of producers while in other cases the perceived fairness use the word pairs producers and writers as well as consumers and readers interchangeably throughout this paper
+seems to agree more with how fairly various opinions are represented in the summary
+in either case standard rouge metrics can not capture the bias in summaries as perceived by the consumers
+we propose a metric for perceived bias in a summary based on manual identication of opinions in the input text and then judging how well various opinions are represented in the summary
+finally we propose a graph based methodology for matically measuring the bias in a summary
+we observe that correlates well with the perceived opinion bias metric stated above
+ii
+background and related work in this section we discuss a few relevant prior works on fairness in text summarization and motivate the present work by contextualizing it in the existing literature
+a
+fairness in text summarization the dataset much like in the fairness in ml literature the proposed methodologies for fair text summarization can be divided into three categories e
+
+pre processing processing post processing based algorithms based on the stage at which fairness intervention is performed
+in the pre processing based algorithms is fed to the summarization algorithms in a way such that the generated summaries will end up being fair
+similarly in post processing algorithm fairness interventions are applied on the output of standard summarization algorithms to generate fair summaries
+finally in the in processing based approach the rithm designers often treat summarization as an optimization problem and solve the same by either modifying the tion function or adding fairness constraints to generate fair summaries
+next we briey discuss the fairsumm algorithm that was proposed in
+fairsumm algorithm for fair summarization our prior work developed an in processing fair summarization gorithm called fairsumm
+fairsumm treats the rization task as a sub modular optimization problem with fairness constraints and solves it to maximize coverage and diversity across the textual units while adhering to standard fairness notions
+given a heterogeneous set of blogs coming from different socially salient groups and a desired target representation of the groups the algorithm produces extractive summaries that reconcile between textual quality of the summaries as quantied by rouge scores and fair representation of different social salient groups in the summary
+for instance fairsumm can be applied over a set of tweets posted by male and female authors to obtain a good summary having equal fractions of tweets posted by male authors and tweets posted by female authors
+we shall be using fairsumm algorithm extensively for the experiments throughout this paper
+b
+notions of fairness in text summarization most of the prior works on fair summarization deal with the idea of group fairness
+specically when the input data e
+
+tweets or reviews are generated by users from different socially salient groups the algorithms explicitly enforce the summaries to fairly represent these different groups
+equal representation the notion of equality nds its roots in the eld of morality and justice which advocates for the redress of undeserved inequalities e
+
+inequalities of birth or due to natural
+in the context of tion this ensures that the nal summary must include equal number of textual units coming from different socially salient groups
+proportional representation often it may not be possible to equally represent different user groups in the summary especially if the input data contains very different proportions from different groups
+hence we consider another notion of fairness proportional representation also known as cal parity
+in the context of summarization proportional representation requires that the proportion of content from different user groups in the summary should be same as in the original input
+these notions of fairness ensure that the probability of ing an item is independent of which user group generated it
+c
+drawbacks in the current literature the process of summarizing involves two parties namely producers of the information a
+
+a writers and consumers of summarized information a
+
+a readers
+all of the prior works on fairness in summarization have attempted to ensure the fair representation of the producers whereas the fairness toward consumers or readers has been completely ignored
+the inclusion or exclusion of certain opinions voices tend to have the maximum effect on the consumers of the summaries
+as the summary is what the summary shapes their opinion on the topic
+hence bias in the nal summary can have severe impact on shaping the public discourse
+hence in this work we focus on exploring the interplay of existing fairness denitions and how they are perceived by the readers
+is read by the consumers limitations of existing measures in quantication of in summaries for evaluation of generated summaries all of the prior works have evaluated the generated summaries based on rouge metric
+however in this work we observe that rouge metric is unable to capture the aspect of the generated summaries
+to this end in this work we also propose a metric for perceived fairness of textual summaries
+further we also propose an automated quantication of the perceived bias of textual maries that correlates signicantly with the aforementioned perceived fairness
+to the best of our knowledge this is the rst work towards quantication of in summaries and understanding the interplay between the perceived fairness in text tion from the perspective of both writers and readers of the textual content
+iii
+datasets we reuse the following two datasets from our prior work
+us election dataset this dataset originally provided by darwish et al
+contains english tweets posted during the us presidential election
+each tweet is annotated as supporting or attacking one of the presidential candidates donald trump and hillary clinton or neutral or attacking both
+for simplicity we grouped the tweets into three classes i pro republican tweets which support trump and or attack clinton pro democratic tweets which support clinton and or attack trump and neutral tweets which are neutral or attack both candidates
+metoo dataset we collected a set of tweets related to the metoo movement in october
+specically we collected english tweets containing the hashtag metoo using the twitter search api
+we asked three human annotators to examine the name and bio of the twitter accounts who posted the tweets
+the annotators observed three classes of tweets based on who posted the tweets i tweets posted by male users ii tweets posted by female users and iii tweets posted by organizations mainly news media agencies
+also there were many tweets for which the annotators could not understand the type gender of the user posting the tweet
+for purpose of this study we decided to focus only on those tweets for which all the annotators were certain that they were written by male users or female users
+from each of these two datasets we selected a set of tweets having an equal representation of the different graphic groups
+in other words we selected tweets from the uselection dataset containing pro democratic tweets pro republican tweets and neutral tweets
+similarly we selected tweets from the metoo dataset containing tweets posted by male users and tweets posted by female users
+while selecting these two sets of tweets we ensured choosing distinct tweets for which we removed near duplicates that were well formed and informative
+all experiments in this paper are conducted over these two sets of tweets each
+in the rest of this paper we conduct a number of surveys and experiments on the aforementioned datasets in pursuit of answers to the rqs mentioned in the introduction
+iv
+understanding consumers perception of fairness in summaries in this section we investigate the stated in the introduction whether readers perception of in summaries is context dependent
+to this end we rst generate summaries having different levels of biases and then conduct a survey to understand how consumers human annotators perceive the bias fairness of these summaries
+a
+generating differently biased summaries we consider a set of tweets from the us elections dataset pro democratic tweets pro republican tweets and neutral tweets which are not repetitive in nature
+we apply the fairsumm algorithm on this set of tweets to generate summaries of length tweets having a wide variety of bias from completely biased towards pro republican ideology to completely biased towards pro democratic ideology
+to this end we x a certain number of neutral tweets and then vary the number of pro republican and pro democratic tweets to create variously biased summaries
+specically we create two batches of summaries one batch with neutral tweets each and the other batch with neutral tweets each
+the rst batch of summaries with neutral tweets each which we term as fairsumm us contains the lowing summaries each of length tweets pro rep tweets pro dem tweets neutral tweets actually very unfair summary pro rep tweets pro dem tweets neutral tweets actually very unfair summary pro rep tweets pro dem tweets neutral tweets pro rep tweets pro dem tweets neutral tweets actually very fair summary pro rep tweets pro dem tweets neutral tweets pro rep tweets pro dem tweets neutral tweets actually very unfair summary pro rep tweets pro dem tweets neutral tweets actually very unfair summary the second batch of summaries with neutral tweets each which we term as fairsumm us contains the following summaries each of length tweets pro rep tweets pro dem tweets neutral tweets actually very unfair summary pro rep tweets pro dem tweets neutral tweets actually very unfair summary pro rep tweets pro dem tweets neutral tweets pro rep tweets pro dem tweets neutral tweets actually very fair summary actually very fair summary pro rep tweets pro dem tweets neutral tweets actually very unfair summary pro rep tweets pro dem tweets neutral tweets actually very unfair summary similarly we consider a set of tweets from the metoo dataset containing tweets posted by male users and tweets posted by female users as stated in section iii
+we then apply fairsumm to generate the following summaries of length tweets each having a wide variation of bias from completely biased towards tweets posted by male users to completely biased towards tweets posted by female users
+we call this batch of summaries fairsumm metoo which contains the following summaries each of length tweets male tweets female tweets actually very unfair summary male tweets female tweets actually very unfair male tweets female tweets male tweets female tweets male tweets female tweets actually very fair male tweets female tweets male tweets female tweets actually very unfair male tweets female tweets actually very unfair summary summary summary summary it can be noted that for all these summaries generated using the fairsumm algorithm the actual biases are known in terms of the number of tweets included in a summary from the ent perspectives
+we will next check how the bias fairness of these summaries is viewed by consumers human annotators
+b
+understanding consumers perception of we start with a group of six annotators males and females who have substantial knowledge of us politics and the metoo phenomenon and are in the age group of years
+we used a questionnaire to ascertain their knowledge of us politics and the metoo movement
+also the annotators are familiar with use of social media platforms including twitter and none of the annotators is an author of this paper
+the annotators were rst asked to go over the two sets of tweets each one on uselection and the other on metoo and to note down every distinct opinion expressed in the tweets
+an opinion is dened as a unique idea information being conveyed by a tweet hitherto not covered by any other previous tweet
+note that the annotators were only shown the text of the tweets they were not told anything about the gender political ideology of the users who authored the tweets
+there was no limit to how many opinions they may identify however each opinion was required to be conned to a maximum of two sentences
+table i tabulates the opinions identied by two of the six annotators from the set of tweets related to the us elections
+thereafter the annotators are shown the summaries from the fairsumm us fairsumm us and metoo batches in random order
+they were asked to judge the fairness of each summary and label each summary with one of the following labels very fair representation somewhat fair representation somewhat unfair representation very unfair representation along with labeling each summary they were also asked to provide a reasoning for their judgement
+in other words they were asked to indicate the based on which they were judging a summary to be fair unfair fair unfair representation of political gender groups fair unfair representation of political contextual opinions fair unfair representation of both political gender groups and political contextual opinions hillary has derogatory titles for anyone not voting for her
+hillary trump is facing rape charges
+will deter trump and he will not stop ghting for you
+clinton has admitted that obamacare is bad and hillary is pissed about it
+trump claims credit for terrorist acts just like terrorists
+is only one that can make college affordable
+says he has come on top in the presidential debate
+out of people feel that hillary is winning
+claims that sources that report negatively about his campaign are not to be trusted
+know the net worth of hillary cause she has disclosed her assets
+thinks she has a solid strategy to defeat isis while trump has none
+trump supporters want him to win so that they can abuse women they want
+is getting ready for a battle to reclaim mosul
+hillary shames everyone and thinks anyone not voting for her is stupid
+thinks hillary is crooked
+refuses to accept that the current potus was born in america is bad and hillary is not happy with what bill clinton said about it
+does nt have the drive to make america great again
+who are cancelling subscriptions to dallas and arizona newspapers are smart
+people who do nt wanna vote they need to be told that only hillary can get rid of their huge college debt
+thinks hilary has been ghting isis without success for years and now it s time for a change
+thinks hillary has told lies throughout her life and has sold america s interests
+way hillary is handling the e mail case she is unt for the post of president
+is a proponent of more love and kindness in america
+has a solid strategy to defeat isis unlike trump
+guys want trump to win so that they can oppress women
+should be thankful to every nation that helped bring paris agreement into action
+of unarmed black men is unacceptable
+women in this country deserves to be free from harm and fear
+should release police video of the keith lamont scott shooting without delay
+table i set of distinct opinions separated by identied by two of the annotators from the set of tweets related to us elections
+any other reason requires a subjective response now we examine how the consumer s perception of fairness varies across different contexts scenarios
+to this end we plot the fraction of annotators who have annotated a summary as either very fair representation of the input text or as very unfair representation of the input text
+these two fractions are termed as very fair approval fraction and very unfair approval fraction respectively
+figure depicts the result for the uselection dataset gures a and for fairsumm us and us summaries respectively and for the metoo dataset c for the fairsumm metoo summaries
+recall that a batch is a group of summaries having the same number of neutral tweets but varying number of tweets from other perspectives
+from the results it is evident that for the us election dataset the fraction of annotators who said that a summary was very fair and the fraction of annotators who said that a summary was very unfair correlates well with the actual fairness in the fairsumm summaries
+for instance both summaries having much larger number of pro republican tweets and summaries having much larger number of democratic tweets were labeled as very unfair by most annotators
+whereas the summaries having relatively similar numbers of pro republican and pro democratic tweets were labeled as very fair by most annotators
+thus for the uselection dataset the consumers perception of fairness in the summaries aligns very well with traditional notions of fairness in representing political groups among the producers those who authored the tweets
+however for the metoo dataset see figure this is not the case
+there is no correlation between group wise representation of tweets posted by male and female users and the consumers perception of fairness of the summaries
+this difference for the two datasets leads us to explore more closely why consumers think of a summary as being fair unfair
+c
+why do consumers think of a summary as being as stated earlier in this section we also asked the annotators to indicate why they labeled a certain summary as fair unfair whether they considered the political gender groups of the users who posted the tweets which were not specically told to them or the political contextual opinions which were identied by the annotators themselves or both or some other factor
+we now look at the distribution of the reasons as stated by the annotators
+for figure shows the distribution of reasons as stated by the annotators the three batches of summaries
+for both batches of the uselection dataset see figure and figure the consumers judgement of fairness bias is dictated by both the fair unfair representation of opinions and the fair unfair representation of political groups
+one point to note here is that the consumers annotators were not specically informed of the group label of the various producers explicitly
+however it is quite evident that they are able to deduce the political group of the author from the textual content of the tweets
+one reason for this would be that determination of political grouping is relatively easy if the opinions are properly expressed
+however for the metoo dataset see figure the situation is different
+in the previous section it was observed that the consumers perception of fairness does not correlate well with group wise representation of the producers for this dataset
+figure gives us an explanation for this observation
+in the case of the metoo dataset the annotators give a disproportionately higher importance to fair unfair representation of opinions as compared to any other reason
+recall once again the annotators have no knowledge of the groups class labels gender in this case of the producers those who authored the tweets
+thus it appears that for this dataset it was not possible for the consumers to make any inference about group labels from the text of the tweets
+summary of the section from this section we have stood that human annotators can understand the fairness bias of summaries and their perception of fairness bias in maries is dependent on the context of the data
+in some cases e
+
+for the uselections dataset the perceived fairness agrees with standard fairness notions on demographic groups of producers while in other cases e
+
+for the metoo dataset the perceived fairness seems to agree more with how fairly fairsumm us summaries fairsumm us summaries fairsumm metoo summaries fig
+the fraction of consumers annotators who labeled various summaries as very fair representation marked by the red circles and very unfair representation marked by the blue squares for uselection dataset with a neutral tweets b neutral tweets and c for the metoo dataset
+for the uselection dataset the majority of consumers perception of agrees with the actual of the summaries
+however the agreement is much lower for the metoo dataset
+fairsumm us summaries fairsumm us summaries fairsumm metoo summaries fig
+the relative proportions of the various reasons given by annotators for judging a summary as fair unfair for uselection dataset with a neutral tweets b neutral tweets and c for the metoo dataset
+we observe that for the uselection dataset most consumers labeled a summary to be based on the representation of both political opinions and groups
+whereas the consumers gave priority to representation of opinions in the metoo dataset
+various opinions are represented in the summary
+these results also indicate that proper representation of opinions in the input text is central to the consumers idea of fairness in the summaries
+next we check whether traditional metrics used for uation of summaries can capture the perceived fairness of summaries
+v
+can rouge metrics capture consumers perception of fair summary in the previous section we have established the important of fair representation of opinions in the consumers perception of fairness in summaries
+in this section we study the stated in the introduction whether the traditional rouge metrics that are popularly used to measure quality of summaries can capture the of summaries
+to this end we follow the traditional approach of evaluating summaries
+we rst obtain gold standard summaries written by human annotators for the two datasets the set of tweets related to us election and the set of tweets related to metoo movement
+then we compute rouge scores for the fairsumm us fairsumm us and metoo summaries considering the gold standard summaries
+obtaining gold standard summaries for the datasets for the uselection dataset we conducted a survey on the amazon mechanical turk amt crowdsourcing platform
+we selected amt master workers who are known to be especially skilled in performing data annotation and labeling tasks
+we required that every worker be from the us and be knowledgeable about us politics
+we asked them to indicate their political leaning democratic or left leaning republican or right leaning or neutral
+we selected annotators amt workers who are right leaning and who were left leaning to ensure that we get a balanced set of gold standard summaries
+during the survey each amt worker was shown the tweets on a screen and then asked to select the most important tweets according to his her opinion for generating a summary of the whole set of tweets
+different workers were shown the tweets in different randomly selected orders to ensure that the order in which the workers see the tweets do not affect their selection
+along the lines of the above survey we conducted a survey for the metoo dataset as well
+we selected male annotators and female annotators for this survey so that we get a balanced set of gold standard summaries
+these annotators framing the questions on political leaning we followed a naire of the pew research center which is a well known organization for conducting social surveys
+
+
+
+
+
+
+
+fair approval fractionvery unfair approval
+
+
+
+
+
+
+fair approval fractionvery unfair approval
+
+
+
+
+
+
+fair approval fractionvery unfair approval
+
+
+
+unfair representation of ideasfair unfair representation of groupsfair unfair representation of both ideas and groupsother
+
+
+
+unfair representation of ideasfair unfair representation of groupsfair unfair representation of both ideas and groupsother
+
+
+
+unfair representation of ideasfair unfair representation of groupsfair unfair representation of both ideas and groupsother reasons were shown the tweets in different randomly selected orders and were asked to choose the most important tweets according to her his opinion for generating a summary of the whole set of tweets
+computing rouge scores we consider the summaries written by the human annotators as gold standard summaries and measure the average score based on overlap of unigrams of all the different summaries in the fairsumm us fairsumm us and metoo batches
+note that score is computed for an mic summary individually with every gold standard summary written by a human annotator and then the average score across all gold standard summaries is considered this is in accordance with the standard procedure for evaluation of summaries
+agreement of rouge scores with consumers perception fairness in summaries figure shows the average of scores shown by green triangular markers obtained by the different summaries in the fairsumm fairsumm us and fairsumm metoo batches along with the fraction of annotators who judged the sponding summaries to be very fair unfair as was described in section iv
+visually the rouge scores appear to have low correlation with the consumers perception of fairness of the summaries
+very unfair biased summaries are seen to get similar rouge scores as very fair unbiased summaries
+for instance in figure a very biased unfair summary taining pro republican tweets pro democratic tweets and neutral tweets obtained a very similar rouge score as a very fair summary containing pro republican tweets pro democratic tweets and neutral tweets
+to quantify the agreement of rouge scores with sumers perception of fairness in summaries we compute the pearson correlation coefcient between the average score of a summary and the very fair approval fraction the fraction of annotators who judged the summary to be very fair
+the pearson correlation coefcients for the three batches of summaries are shown in table ii rst row
+we observe the pearson correlation coefcients to be moderate in the range
+
+for all three batches
+these results show that the popular rouge metrics do not correlate well with the fairness of summaries as perceived by the consumers
+vi
+metric for capturing consumers perception of opinion bias having established that the popular rouge scores can not capture the bias unfairness in summaries we now formulate a metric that can capture the bias of summaries with respect to representation of various opinions in the input as perceived by human annotators
+in other words in this section we study as mentioned in the introduction
+in brief our proposed bias metric is based on rst asking human annotators to identify the set of distinct opinions in the given input text which is to be summarized and then checking how well the different opinions are represented in a particular summary
+we describe the setup below in detail
+we go back to the survey described in section iv where a set of n annotators say
+
+
+an were asked to identify all the distinct opinions being conveyed by an input set of tweets
+we consider the union of all distinct opinions identied by all the annotators
+let the set of all distinct opinions in the input text be denoted by o and assume that there are k distinct opinions
+
+
+ok
+in an extension of that survey the annotators were shown the set o of all distinct opinions and all the summaries from the batches fairsumm us fairsumm us and fairsumm metoo in random order
+for each summary all the n annotators were asked to label whether the summary adequately represents each of the distinct opinions
+more formally with respect to a particular summary s that is to be evaluated we ask each annotator ai to label each opinion oj as one of the following based on which the function gij is dened as follows the opinion oj is completely represented in the summary s
+the opinion oj is somewhat adequately represented in the summary s
+the opinion oj is inadequately represented in the mary s
+the opinion oj is completely absent in the summary s
+we dene the cumulative representation score cj obtained by the opinion oj in summary s as the mean of all the gij scores given by all the annotators n n intuitively denotes how well the opinion oj is sented in the summary s as judged by all the annotators
+finally we dene the perceived opinion bias of summary s as the gini coefcient of the cumulative representation score of all the distinct opinions
+so for a given summary the perceived opinion bias of s is computed as gini s
+
+
+the motivation for using the gini coefcient is as follows
+the gini coefcient has been originally used to measure the income inequality or wealth inequality within a group of people e
+
+the people in a certain country
+here we apply the gini coefcient to measure the inequality of representation exposure within the set of distinct opinions
+if different opinions get widely different amounts of representation exposure in a summary s then s is biased towards some of the opinions and hence the perceived opinion bias score of s will be high
+agreement of perceived opinion bias scores with sumers perception of unfairness now we investigate whether our proposed perceived opinion bias scores agree with the consumers perception of bias unfairness of maries
+figure depicts the perceived opinion bias scores fairsumm us summaries fairsumm us summaries fairsumm metoo summaries fig
+score values for the different summaries shown by green triangular markers along with the very fair unfair approval fractions for the three batches of summaries
+in general scores have poor correlation with the fairness approval scores and hence are not a good indicator of fairness of an algorithmic summary
+correlation between score very fair approval fraction perceived opinion bias scores very unfair approval fraction perceived opinion bias scores opinion interaction graph scores fairsumm us
+
+
+fairsumm us
+
+
+fairsumm metoo
+
+
+table ii pearson s correlation coefcient between different metrics scores as measured for the three batches of summaries
+while the scores do not correlate strongly with the fairness approval fractions fraction of annotators who judged a summary to be fair the proposed metric perceived opinion bias score has a much stronger correlation with the bias unfairness of summaries as judged by the annotators
+fairsumm us summaries fairsumm us summaries fairsumm metoo summaries fig
+perceived opinion bias scores shown by the triangle markers along with the approval fractions for the three batches of summaries
+the perceived opinion bias scores have good agreement with the very unfair approval fractions
+in other words the summaries that are judged to be unfair by a high respectively low fraction of annotators have high respectively low perceived opinion bias scores
+and the very fair unfair approval fractions see section iv for the denition of these fractions for the three batches of summaries
+from the plots it is evident that there is a good agreement between the perceived opinion bias and the very unfair approval fraction
+in other words those summaries that are judged to be very unfair by a large fraction of annotators get high perceived opinion bias scores
+in contrast those summaries that are judged to be very fair by a large fraction of annotators get low perceived opinion bias scores
+to quantify the agreement we also compute the pearson correlation coefcient between the perceived opinion bias score of a summary and the very unfair approval fraction the fraction of annotators who judged the summary to be very unfair
+the pearson correlation coefcients for the three batches of summaries are shown in table ii second row
+for every batch of summaries we observe the pearson correlation coefcients to be substantially higher than the corresponding correlation coefcients for the rouge scores
+these results show that the proposed perceived opinion bias scores can be used as more reliable measures of bias unfairness in summaries than the rouge scores
+while the utility of the perceived opinion bias scores is clear a lot of human annotation effort is needed in computing these scores rst identifying the distinct opinions and then judging the representation of each opinion in the summary
+hence the approach of directly computing perceived opinion bias scores may not be scalable to really large datasets
+in the next section we attempt to develop an automated methodology for computing the bias unfairness of summaries
+vii
+an automated approach to quantify that rouge scores are supposed to be higher for good summaries hence we measure correlation with very fair approval fraction
+in contrast the perceived opinion bias scores are supposed to be higher for biased unfair summaries hence we measure correlation with very unfair approval fraction
+
+
+
+
+
+
+
+fair approval fractionvery unfair approval score
+
+
+
+
+
+
+fair approval fractionvery unfair approval score
+
+
+
+
+
+
+fair approval fractionvery unfair approval score
+
+
+
+
+
+
+fair approval fractionvery unfair approval fractionperceived opinion
+
+
+
+
+
+
+fair approval fractionvery unfair approval fractionperceived opinion
+
+
+
+
+
+
+fair approval fractionvery unfair approval fractionperceived opinion bias consumers perceived bias in summaries in this section we present an automated method to compute the bias unfairness of summaries
+our proposed method spired by represents the input text a document as an undirected and weighted network graph called the opinion interaction graph oig
+we now describe the various steps of the algorithm in detail
+a
+the algorithm step generation of key graph given the input text we rst extract the named entities and keywords by the textrank algorithm
+then we construct a keyword co occurrence graph called keygraph based on the set of extracted keywords
+each keyword is a vertex in the keygraph
+we connect two keywords by an edge if they co occur in the same sentence
+the edge between two keywords is weighted by frequency of co occurrences of the two said keywords
+step concept detection the structure of keygraph reveals the connections between keywords
+if a subset of keywords are highly correlated they will form a densely connected subgraph in keygraph which we call an opinion
+opinions can be extracted by applying community detection algorithms on the keygraph
+a community detection rithm is used to split a keygraph into a set of communities o
+
+where each community oi contains the keywords related to a certain opinion
+to this end we use the popular louvain community detection algorithm for clustering the keygraph into xed sized communities
+however other clustering methods can also be used in this step
+step sentence attachment and edge construction after the opinions are discovered the next step is to associate sentences to opinions
+we calculate the cosine similarity between each sentence and each opinion where sentences and opinions are represented by tf idf vectors of the words
+we assign each sentence to that opinion oi which is the most similar to the said sentence where the similarity is computed based on what fraction of the keywords associated with an opinion is contained in the said sentence
+the sentences that do not match any opinion in the document will be attached to a dummy vertex that does not contain any keywords
+then we construct the opinion interaction graph oig where each vertex node is an opinion
+to construct edges that reveal the similarity between different opinions for each vertex we represent its associated set of sentences as a concatenation of the sentences attached to it
+the edge weight between two vertices is computed as the tf idf similarity between their associated sentence sets
+step computing exposure of an opinion in a summary as of now we have constructed the oig where every node is an opinion and is associated with a set of sentences
+next the idea is similar to what is followed in topic modeling where each topic is essentially a set of frequently co occurring terms
+we quantify the representation exposure of different opinions in a given summary s which is to be evaluated
+we simply compute the exposure of an opinion as the fraction of the sentences attached to the said opinion that is present in the summary s
+step quantifying the skew in the distribution of sure finally we compute the gini coefcient of the exposure received by all the distinct opinions as computed above to quantify the bias in the distribution of exposure of different opinions in the summary s
+the intuition behind using the gini coefcient has been discussed in section vi
+it can be noted that intuitively we adhere to the tional representation notion of fairness that was explained in section ii b among the exposures obtained by different opinions
+in other words a summary would be considered most fair if the distribution of exposure received by the various opinions resembles the distribution of sentences attached to the opinions
+b
+results based on opinion interaction graph figure shows the bias of the various summaries in the three batches as computed by our proposed opinion interaction graph algorithm and the perceived opinion bias scores of the summaries as obtained in the previous section
+it is evident that there is a very high correlation between the metrics
+also table ii last row shows the pearson correlation for the perceived opinion bias scores and the bias scores computed by the oig based method
+for all three batches of summaries the correlation scores are above
+
+these results show that our proposed graph based algorithm is a good proxy for automatic calculation of perceived opinion bias of summaries
+viii
+conclusion to our knowledge this work is the rst attempt to explore fairness in the context of automatic summarization from the perspective of consumers readers of the summary
+we show that the notion of fairness in summaries from the consumers perspective varies from one context to another e
+
+may correspond to fair representation of demographic groups of the producers writers or the fair representation of opinions from the input text
+also the popular rouge metrics for evaluation of summaries usually can not capture the fairness of summaries
+to bridge this gap we have proposed an alternative metric for measuring the bias in summaries based on human annotation as well as an automatic methodology to approximate the metric
+we believe that this work has several potential applications in areas where the text to be summarized consists of tiple different perspectives or opinions
+
+in news article summarization debate summarization and so on
+we plan to that more complex models can be applied to compute the exposure of opinions
+
+a part of the exposure of oj can be thought to diffuse to another very similar opinion oj where the similarity between the two opinions is quantied by the edge weight in the oig
+however we have avoided such complexities in order to keep our model simple
+fairsumm us summaries fairsumm us summaries fairsumm metoo summaries fig
+opinion interaction graph scores computed automatically along with perceived opinion bias scores computed based on human annotation for the three batches of summaries
+the two scores have very high agreement thus establishing that our methodology based on opinion interaction graph can be used to automatically measure the perceived opinion bias of summaries
+b
+t
+luong s
+ruggieri and f
+turini k nn as an implementation of situation testing for discrimination discovery and prevention in proc
+acm sigkdd conference on knowledge discovery and data mining pp
+
+k
+darwish w
+magdy and t
+zanouda trump vs
+hillary what went viral during the us presidential election in international conference on social informatics
+springer pp
+
+b
+liu d
+niu h
+wei j
+lin y
+he k
+lai and y
+xu matching article pairs with graphical decomposition and convolutions in proc
+conference of the association for computational linguistics acl pp
+
+v
+d
+blondel j
+
+guillaume r
+lambiotte and e
+lefebvre fast unfolding of communities in large networks journal of statistical mechanics theory and experiment vol
+no
+p
+
+explore such applications in future
+also we plan to develop metrics that can simultaneously capture both the quality and the fairness of summaries e
+
+by suitably combining the rouge metrics with the bias metric proposed in this work
+acknowledgments the authors would like to thank the annotators who judged the summaries as part of the work
+this research was supported in part by a european research council erc advanced grant for the project foundations for fair social computing funded under the eu horizon framework programme grant agreement no
+
+a
+dash was supported by a fellowship from tata consultancy services
+references m
+allahyari s
+a
+pouriyeh m
+asse s
+safaei e
+d
+j
+b
+gutierrez and k
+kochut text summarization
+available trippe techniques a brief survey corr
+
+org
+w
+el kassas c
+salama a
+rafea and h
+mohamed automatic text summarization a comprehensive survey expert systems with applications p
+
+a
+dash a
+shandilya a
+biswas k
+ghosh s
+ghosh and a
+chakraborty summarizing user generated textual content tion and methods for fairness in algorithmic summaries proceedings of the acm on human computer interaction vol
+no
+cscw pp
+
+r
+mukherjee h
+c
+peruri u
+vishnu p
+goyal s
+bhattacharya and n
+ganguly read what you need controllable aspect based opinion summarization of tourist reviews in proc
+acm sigir conference p
+
+a
+shandilya k
+ghosh and s
+ghosh fairness of extractive text summarization in companion proceedings of the the web conference pp
+
+c
+
+lin rouge a package for automatic evaluation of summaries in text summarization branches out pp
+
+k
+ganesan rouge
+updated and improved measures for uation of summarization tasks corr vol
+
+
+j
+ali m
+babaei a
+chakraborty b
+mirzasoleiman k
+p
+gummadi and a
+singla on the fairness of time critical inuence maximization in social networks arxiv preprint
+
+s
+a
+friedler c
+scheidegger s
+venkatasubramanian s
+choudhary e
+p
+hamilton and d
+roth a comparative study of fairness enhancing interventions in machine learning in proc
+acm fat
+g
+k
+patro a
+biswas n
+ganguly k
+p
+gummadi and a
+chakraborty fairrec two sided fairness for personalized ommendations in two sided platforms in proceedings of the web conference pp
+
+j
+rawls a theory of justice
+harvard university press
+
+
+
+
+
+
+
+opinion biasopinion interaction graph
+
+
+
+
+
+
+opinion biasopinion interaction graph
+
+
+
+
+
+
+opinion biasopinion interaction graph bias

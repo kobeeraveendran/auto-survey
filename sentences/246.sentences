@@ -1,0 +1,677 @@
+towards automatic extractive text summarization of single audit reports with machine learning vivian t
+chou harvard medical school boston ma usa
+com leanna kent elder research inc
+arlington va usa leanna
+
+com joel a
+gngora elder research inc
+arlington va usa joel
+
+com sam ballerini elder research inc
+arlington va usa sam
+
+com carl d
+hoover clarkson university potsdam ny usa
+edu abstract the rapid growth of text data has motivated the development of machine learning based automatic text summarization strategies that concisely capture the essential ideas in a larger text
+this study aimed to devise an extractive summarization method for single audits which assess if recipients of federal grants are compliant with program requirements for use of federal funding
+currently these voluminous audits must be manually analyzed by officials for oversight risk management and prioritization purposes
+automated summarization has the potential to streamline these processes
+analysis focused on the findings section of single audits spanning
+following text preprocessing and glove embedding sentence level k means clustering was performed to partition sentences by topic and to establish the importance of each sentence
+for each audit key summary sentences were extracted by proximity to cluster centroids
+summaries were judged by non expert human evaluation and compared to human generated summaries using the rouge metric
+though the goal was to fully automate summarization of audits human input was required at various stages due to large variability in audit writing style content and context
+examples of human inputs include the number of clusters the choice to keep or discard certain clusters based on their content relevance and the definition of a top sentence
+overall this approach made progress towards automated extractive summaries of audits with future work to focus on full automation and improving summary consistency
+this work highlights the inherent difficulty and subjective nature of automated summarization in a real world application
+keywords extractive summarization unsupervised machine learning text mining clustering single audits introduction text summarization is the process of shortening long pieces of text into a coherent summary containing only the main points of the document
+summarization is a subfield of natural language processing nlp that has garnered increasing attention over recent years due to the rapid growth of based data
+while automated summarization methods have been utilized since the century to generate abstracts of domain specific technical papers human written largely sufficient for many summaries have remained applications for many decades
+early nlp researchers foresaw that the continued growth in knowledge would necessitate efficient and consistent summarization on a scale that could not be achieved manually
+indeed the information explosion of the century has stimulated broad use of automated summarization not just on technical documents but on a far greater variety of texts both in terms of subject and format
+a summary can be defined as a text that conveys important information in the original and that is no longer than half of the original and usually significantly less than that
+the abstract of this paper is a simple example of a summary
+summarization can be achieved through two major approaches extractive and abstractive
+extractive summarization selects important sentences phrases from the original text and combines them verbatim into a summary while abstractive summarization generates sentences novo
+abstraction more closely resembles human cognition but is very challenging to implement and does not necessarily produce clearly superior summaries
+despite the relative simplicity of extractive summarization it can produce highly effective summaries and is widely utilized
+we will thus focus on extractive summarization and any references hereafter to summarization will refer to extractive methods although many ideas are also applicable to abstractive summarization
+one readily applied method of summarization is latent dirichlet allocation lda which represents a corpus as a collection of the generative topics or words
+while methodologies and assumptions of lda make it very flexible its ability to produce informative summaries may be limited by its definition of a topic therefore motivating the use of alternative strategies in certain contexts
+here we describe one alternative that utilizes word embedding and clustering
+the bulk of this work like many nlp workflows lies in the preprocessing methodology we present a method in which sentences phrases of the are embedded into single multi dimensional mean vector representations and grouped by cosine similarity
+finally for each document in the corpus the sentences phrases nearest to the centroid of each group are defined as those which are most important to the document
+i
+extractive summarization methodology the fundamental for any endeavor the specific summarization strategy will vary depending on the source text the desired output and available resources among other variables
+mechanistic details aside at level nearly all extractive summarization approaches are built upon a fairly universal set of principles initial conversion of text to an intermediate numerical representation followed by the ranking and selection of the most important units sentences paragraphs
+
+in practice the workflow may not break down so cleanly or discretely
+for instance a single technique may accomplish both numerical representation and ranking
+on the other hand any given step might encompass multiple techniques e
+
+a combination of algorithms may be used to rank and select sentences
+steps may be further subdivided e
+
+separate ranking and selection
+small variations notwithstanding virtually all summarization is predicated on these major tasks
+the utilized document summarization works typical first step numerical representation is necessary to convert text to a computer readable format and calculate quantitative features for downstream algorithms
+pioneering statistical calculations such as word phrase frequency sentence position the presence of key phrases term frequency inverse
+nowadays these older methods remain in use though more sophisticated methods may be preferred
+one popular approach is to represent words as vectors i
+e
+word embeddings
+while the concept of word embeddings dates back to the and the most significant breakthroughs arguably occurred in with the introduction of and glove these embeddings have since become mainstays of not only summarization but of nlp
+very recently novel embedding methods such as elmo bert and xlnet have provided innovative alternatives
+frequency tf idf following numerical representation sentences must be ranked on the basis of importance and the top sentences are selected
+if the data are labeled supervised or semi supervised machine learning can be used to train a classifier that predicts the importance of a sentence
+while supervised and supervised learning can achieve very desirable results many datasets are unlabeled largely precluding these methods
+it is possible to hand label the data however the amount of labeled training data needed generally makes this approach very laborious even for semi supervised methods that do not require as much labeled data
+thus extractive summarization often relies instead on unsupervised learning
+such approaches include graph based algorithms such as the popular textrank which has its roots in google s pagerank algorithm as well as unsupervised deep learning
+clustering methods such as k means are another broad category of unsupervised methods used in summarization
+ii
+summary evaluation approaches beyond the task of summarization per the problem of how to evaluate the quality of the eventual output warrants careful consideration
+challenges arise not only from the concrete implementation of the evaluation method but also from the broader question of what quality entails
+such questions include how does one resolve the trade off between sufficient brevity and content how important are factors such as readability and coherence alongside essential elements such as grammar naturally the answers to these questions are not only subjective but also highly circumstantial as they will be influenced by the intended purpose of the summaries among other variables
+the actual utility of the summary to the end user might be the most decisive factor but this information may only become available on a longer timescale
+evaluation is also complicated by the general requirement for significant human input
+for instance the duc and tac summarization conferences have employed human judges to grade summaries however such labor intensive approaches are not broadly practical
+alternatively automated evaluation methods are implemented by packages such as recall oriented understudy for gisting evaluation or rouge and its precursor bleu which calculate precision and recall scores that reflect the quality of a summary
+however rouge and similar methods may still require considerable human effort as the system generated summary must be compared to a human written reference summary to calculate the required metrics
+thus the utility of rouge is somewhat conditional i
+e
+it may only be suitable for a corpus where each document is accompanied by a pre existing abstract as with most academic journal articles abstract like text introductory blurbs for wikipedia articles or additional metadata
+rouge is also contingent on the quality of the reference summary which is itself subject to all the questions and criteria outlined above about what constitutes a summary of good quality
+in recognition of these limitations alternate evaluation techniques have been developed e
+
+using latent semantic analysis lsa to measure the similarity of system generated summaries to the original source text
+ultimately the problem of evaluation remains a many headed hydra and as with any other aspect of automatic summarization the right technique is likely to be highly context specific
+iii
+summarization of single audits a rich resource for federal grant agencies our current work focuses on summarization of a corpus of single audits from fy to capture the qualities and activities of grant recipients detailed in the audits
+there are significant financial and economic motivations for better understanding grant recipients
+grants are one of the largest categories of spending by the united states government which is projected to award over billion in grants in fy
+to ensure proper use of funds single audits full database at harvester
+census
+gov all organizations that expend at least of federal grants in a year to assess program compliance by analysis of a recipient federal award financial transactions and expenditures internal control systems and the federal assistance received during the audit period
+thus the single audit represents a valuable resource for decision making and risk management by grant agencies
+for instance grants managers utilize the information within single audits to decide whether or not to award a grant based on an applicant past performance or if a grant has already been oversight
+how awarded when statements conducted financial perform records and are on to manually extracting information from single audits is nontrivial as the length of the audits makes it cumbersome for a human reader to locate the desired information
+it would be beneficial to identify and frame the most relevant information in a compressed easily digestible format
+the volume of the data presents an additional barrier
+while the used in this study spans only fy it already comprises over documents
+million pages and will inevitably grow over time
+thus automation is not only necessary to accomplish corpus wide analyses on a reasonable timescale but also to ensure consistent and unbiased outcomes
+a
+related work on single audits the current work builds upon an earlier project at elder research inc
+which devised an automated method to quantify the severity of an audit and an associated numerical risk score
+to this end single audits from were downloaded to form a corpus
+while most audits are pages long and some are hundreds of pages the pertinent information is contained in the section titled schedule of findings and questioned costs which typically spans a few pages
+a method was devised to extract only the relevant findings pages which comprise
+of the pages in the corpus
+this enables the analysis to focus solely on the most essential data
+sentiment analysis of the extracted findings was performed to generate a risk score for each audit report
+altogether this work makes it possible to quickly assess grantees through a straightforward intuitive metric and facilitates prioritization of the grantees of most interest e
+
+those deemed most risky
+b
+motivation for and overview of current approach the previous work by elder research offers a powerful method to answer the question of who is high risk and raises the natural question of why these entities are high risk
+here we attempt to address this latter question of why by extracting the text that provides explanations
+the choice to answer why through automatic summarization as opposed to simply using manual summaries is driven by the volume of data
+our corpus of selected audits already comprises documents and the problem only exacerbates when one considers the rest of the audits in existence to say nothing of the new documents that will be added year after year
+even if one were only interested in a much smaller subset of documents for which manual summarization is reasonable it is unlikely that a human or group of humans would maintain consistent quality and objectivity over so many documents
+for our current approach the desired output for each document is a summary consisting of the that best illustrate the broader context
+below are examples of sentences that would be desirable to extract because they help elucidate the reasoning behind a negative assessment of a grantee grantee was unable to provide proper documentation
+a student at the school was missed and never corrected
+the cause stemmed from turnover within staff and ultimately from a lapse in procedures
+once the relevant documents were accessed the data were prepared for modeling
+preparation entailed both standard and specific text preprocessing steps followed by word and sentence embeddings using pre trained glove vectors
+sentence vectors from the entire corpus were pooled and used to train a k means clustering model which was iteratively optimized
+summaries for each document were generated by extracting important and subsequently evaluated using both human and system metrics
+the sentences deemed most our initial task was to extract the findings sections and exclude all other pages in the audits to reduce noise
+this a excluded a substantial number of entire reports that did not contain findings which typically pertained to high performing grantees that did not elicit critique the was thus reduced from full length reports to abbreviated documents containing only findings
+any reference hereafter to document will refer to the abbreviated documents
+while this filtering approach helps simplify the problem it may induce a selection bias in subsequent analysis that can only be evaluated with out of sample performance testing
+iv
+data exploration each document was initially represented as a single string which was tokenized i
+e
+divided or split on a or word level as needed
+to ensure that all canonically equivalent strings have the same binary representation nfkd unicode normalization was performed on all text prior to preprocessing
+to gain an intuition for the corpus simple univariate analysis of document lengths was performed
+first each string for each document was divided into its constituent sentences the natural language toolkit nltk sentence using tokenizer note that tokenization at this stage was only for the purposes of measuring document length and that the tokenized string was used for eventual preprocessing
+sentence counts were analyzed yielding some notable observations the mean document length was sentences
+the corpus is skewed towards shorter documents the mode was sentences followed by and
+of documents were sentences or shorter
+
+of documents were extra long sentences
+the longest document was sentences
+we randomly selected and read a fixed number of documents from each length bracket short medium long extra long to gain a sense for organization and content as well as orthography and stylistic conventions
+some observations most documents contained brief filler sentences such page headers footers e
+
+state of new mexico denver housing center section headings e
+
+condition cause and page numbers
+many documents contained expository statements e
+
+historical background not relevant to risk
+such statements predominated in longer documents and dilute the relevant information information was more concentrated in short medium documents
+the shortest documents corresponded to grantees that had satisfactory audits and might only contain sentences e
+
+no findings or questioned costs
+stage removal criteria roman numerals there was a lack of universal formatting which proved challenging during analysis
+section headings could appear as cause or cause and inline or separately lists might appear as
+or
+a b parenthetical phrases extra whitespace non alphanumeric regular expression
+za table ii
+regular expressions for text cleaning v
+text preprocessing we performed a combination of standard and specific preprocessing table i to ensure predictable and consistent results
+standard preprocessing reduces noise associated with virtually any text data such as punctuation and frequently occurring stopwords
+due to the specialized nature of single audits our also contained idiosyncrasies in diction syntax format and structure that warranted additional preprocessing modification of the standard steps
+manual preprocessing occurred in two major stages fig
+
+stage a removed clearly irrelevant sentences but preserved orthography to generate human readable intermediate text
+stage b produced fully processed sentences for embedding
+thus while ranking selection was performed on the processed sentences the corresponding intermediate sentences were used to produce a readable summary output
+a
+initial preprocessing to generate readable intermediates at the outset each document was represented by a single string
+page headers and section headings were removed based on length we looked for all substrings that occurred between two newline breaks and removed substrings less than characters
+to avoid removal of dangling lines we only removed short substrings that started with an uppercase letter or a non alphabetical character
+each document was then divided using the nltk sentence tokenizer
+to further isolate section headings each sentence that contained a colon or dash was further split at that character
+additional elements were removed using regular expressions regex table ii
+table i
+standard vs
+corpus specific preprocessing standard preprocessing no stemming lemmatization or gram modeling performed convert text to lower case remove extra whitespace remove stopwords ntlk list punctuation symbols corpus specific remove page headers and short sentences remove roman numerals remove parenthetical phrases keep negation stopwords no not fig
+
+breakdown of preprocessing stages and subsequent steps
+each document was stored as list of strings identifiable by index
+the intermediate text still contained typical english orthography e
+
+capitalization punctuation and stopwords
+though these sentences were not suitable for embedding they remained easily readable and were retained for later use
+b
+final touches and sanity check we next the entire lower cased text and removed punctuation using regex table ii
+the final step stopword removal was performed in tandem with glove embedding see next section
+stopword removal can be accomplished using the predefined nltk stopword list
+for this corpus one key modification was to retain the words no and not
+while these words may not add value to certain corpora they were important for this corpus because audits often focus on the lack or failure to fulfill a certain requirement these words were also important to determining if no problems were detected
+after preprocessing documents of the corpus had zero length i
+e
+became empty lists
+to ensure that preprocessing was not removing key information the original vs
+preprocessed text lengths were compared
+the rationale for was that if the preprocessing were functioning properly empty lists should originate from documents that were short had little substantial content
+as expected the documents that produced empty lists were sentences or shorter originally and were sentences long on average
+even the longest of these documents contained only filler text such as headers
+these results indicated that preprocessing was sensible and that empty lists were valid reflections of the original data rather than artifacts of over exuberant preprocessing
+though necessary in this case all such filtering of information is ideal for an automated process and may induce selection bias
+the remaining documents of the stayed non empty after preprocessing
+interestingly of the corpus showed increased sentence counts likely from splitting of longer sentences
+this was unlikely to be problematic since information was merely partitioned and not lost
+regardless this length increase was uncommon and of the corpus showed reduced length following preprocessing with the cleaned text about the sentence count of the original text
+vi
+word sentence embedding with glove upon completion of preprocessing stages a and b the fully cleaned was ready for embedding
+the glove method was chosen based on its recognized effectiveness across many nlp tasks as well as prior success in using glove with this corpus
+the ease and speed of implementation of trained vectors was also a decisive factor due to time constraints
+a natural extension would be to use methods such as bert or custom glove that require modifications
+the glove
+
+zip file containing vectors trained on the english language wikipedia gigaword was from nlp
+stanford
+edu projects
+we downloaded obtained individual word tokens for word level embedding by splitting sentences at each whitespace
+for each non stopword word the appropriate word vector was retrieved
+a single vector for each sentence was then obtained by taking the arithmetic mean across each element of the constituent word vectors
+a vector of all zeros was automatically assigned to the very rare sentences comprised solely of stopwords or an empty string this occurred in only
+of the sentences out of
+this entire embedding process and subsequent k means clustering see next section was performed using both and vectors
+since vectors conferred no obvious advantage the less intensive vectors were used for the remainder of the work
+vii
+sentence ranking selection by k means both ranking and selection of the vectorized sentences were accomplished by k means clustering which was chosen for its intuitive interpretation in this context
+the algorithm partitions n observations i
+e
+sentences n into k clusters i
+e
+topics by assigning each observation to the nearest centroid fig
+
+the centroids and clusters are iteratively updated to minimize intra cluster variation i
+e
+the within cluster sum of squares
+the importance of each sentence correlates to its proximity to its cluster centroid allowing identification of the top sentences per cluster topic fig
+and overall fig
+
+a
+implementation details and hyperparameter tuning to train the k means model on the entire at once vectorized sentences were pooled and stored in a flattened list
+each vector was mapped back to its text representation based on its unique index in the list
+clustering was performed using both the scikit learn and nltk implementations of k means
+selection of cosine similarity as the distance metric a key k means hyperparameter is the distance metric used in assigning centroids and clusters
+while euclidean distance is a common default cosine similarity is preferred for text and therefore was our metric of choice for all modeling and calculations
+the scikit learn k means implementation does not allow ready use of a metric besides euclidean distance
+to circumvent this we trained our scikit learn k means model on vectors normalized to unit length based on the principle that squared euclidean distance and cosine similarity are for unit vectors
+because the nltk k means implementation allows specification of the distance metric normalization was only necessary for the scikit learn model
+denote squared euclidean distance and the cosine metric y by expansion of squared euclidean distance y yty yty y fig
+
+simplified visualization of k means clustering to rank and select sentences
+color coded clusters correlate to distinct topics
+top sentences were selected by a importance within individual topic or b
+selection of cluster number the other major hyperparameter was k representing the number of clusters topics
+we first utilized the elbow method whereby k means is run for a range of k and the sum of squared errors for each model is plotted as a function of k
+to reduce spatial temporal costs the scikit learn mini batch means model was run on
+the resulting plot indicated an optimal k around
+these values were tested empirically by running the normal scikit learn k means model on cluster sizes of and with performing the best
+ranking and selection of sentences the k means algorithm outputs k centroids which represent the means of all observations in a given cluster
+the distance of each observation to its respective centroid can then be calculated
+we thus generated a matrix of observation centroid distances
+for a given document top sentences were selected by cluster fig
+or by overall proximity fig
+
+these processes can be described algorithmically top sentences by cluster
+consider all sentences in cluster
+if no sentences belong in this cluster go on to the next cluster else rank sentences by proximity to cluster centroid and save the index of the top
+repeat for clusters k
+the result is a list of sentence indices of length or less
+top sentences overall
+begin with the matrix storing the proximity of each sentence in the document to its cluster centroid
+sort sentences by distance
+select top j sentences
+the result is a list of sentence indices of length j or the document length whichever is smaller
+j was roughly scaled to the original document length sentences j rounding up
+sentences j
+sentences j
+sentences j rounding up
+these values were chosen empirically to attempt to balance sufficient information with brevity and to obtain summaries roughly the same length as those obtained by the per cluster method
+the output for each document was a list of indices and the output for the was a list of lists
+summaries were generated by extracting the intermediate sentence see preprocessing stage a corresponding to each of the indices
+b
+preliminary results and filtering of clusters by relevance as desired a text summary was successfully generated for each document following these steps
+preliminary evaluation via reading randomly sampled summaries revealed that despite preprocessing summaries still contained filler text such as page headers or section headings
+the persistence of such text despite preprocessing was likely due to inconsistent formatting across documents preventing detection of filler text by established criteria
+summaries also contained extraneous text that were valid sentences and therefore would not have been filtered out by preprocessing but that nonetheless added little value to the summaries
+these sentences included but were not limited to logistical information such as lists of dates and the amounts of individual financial transactions while this information may have value in certain contexts they do not greatly improve understanding of grantee risk
+it would be preferable to omit such sentences from the eventual summaries
+to reduce the amount of extraneous information in the summaries the clusters were selectively discarded based on content
+two criteria were used to filter the clusters cluster topic determined by examining the sentences closest to the centroid
+uniformity of content determined by examining a random sample of sentences from each cluster
+ultimately out of clusters produced with both learn and nltk models were discarded leaving useful clusters of the original
+for certain clusters this decision was straightforward for instance both scikit learn and nltk models produced one cluster out of that contained exclusively page headers and section headings as well as a cluster that contained almost exclusively dates
+other discarded clusters were characterized by excessive financial detail e
+
+dollar amounts of transactions overly long sentences and sentences that are part of the standard verbiage of audits but that do not add information specific to individual grantees
+the choice to keep or discard certain clusters was in some cases not straightforward
+while some clusters were almost entirely composed of irrelevant text this was not universal the content of most of clusters was far from uniform
+clusters which contained predominantly irrelevant information would also contain a non trivial quantity of relevant similarly clusters that were useful as a whole would still contain many sentences of little value
+arguably discarding any but the most unambiguous clusters risks significant loss of information
+this is further complicated by the question of what is relevant or irrelevant
+for instance we decided that sentences stating exact dollar amounts of transactions were excessively detailed
+however it could be argued that financial details do provide clues to a grantee s risk and should be retained
+in short cluster filtering is a challenging step that is rife with ambiguities and trade offs and the current manual approach has much potential for improvement such as a more thorough analysis of and inter cluster distances and of cluster density via silhouette scores
+given the major effect of cluster filtering on summary quality see next section greater investment on examining the different clusters and on methods to prioritize information would likely have significant benefit
+fig
+
+distinct summaries produced by different combinations of k means implementations and sentence selection methods
+throughout the above steps the text output was evaluated by ad read throughs by a graduate level data analyst not a domain expert in audits
+even from preliminary evaluation it was apparent that removal of irrelevant clusters significantly changed the summary content
+despite concerns about information loss the summaries as a whole appeared to have a greater proportion of relevant content
+thus this change was implemented despite potential trade offs
+to mitigate possible loss of information from the per cluster method due to the reduction of available clusters from to two sentences rather than one were chosen per cluster the number of sentences selected overall still followed the same criteria
+four sets of summaries were ultimately generated fig
+
+these summaries were evaluated both in isolation for their overall quality as well as relative to each other to determine if any method conferred obvious advantages
+to this end medium length documents sentences prior to summarization were chosen randomly
+these documents were then evaluated both manually and using the rouge metric
+in general the four summary sets appeared comparable with the per cluster methods performing slightly better fig
+b there was no conspicuous advantage to either the learn fig
+c or the nltk implementations fig
+d
+viii
+human evaluation manual evaluation was performed with these criteria brevity
+were the summaries of a reasonable length for high throughput reading while the selection criteria imposed a length limit summaries might still be longer than desired
+for instance a sentence summary is not impressive if the original text was sentences
+occasional very long sentences also inflated summary lengths in an unpredictable way
+information
+did the summary contain enough information to understand grantee risk did the summary successfully omit unnecessary information explicit wording
+how transparent and accessible was the information besides these benchmark questions no formal rubric or scoring system was used thus human evaluation relied largely on an intuitive sense of good and poor
+we found that the sampled summaries were of varying quality
+best case summaries fulfilled all three above criteria
+worst case summaries were composed entirely of irrelevant information such summaries would be functionally useless no matter how well they fulfilled any other criteria
+most commonly our summaries were functional even if not optimal
+three broad scenarios not mutually exclusive were apparent multiple findings
+a single summary contained multiple distinct findings resulting in a logically confusing text more details in final section
+dilution of information
+the desired information was present but was hidden among sentences that were not desired thus requiring the reader to actively filter out the unnecessary information
+oblique phrasing
+ideally the desired information would be stated explicitly e
+
+the grantee was compliant because some action was not performed
+in practice summaries contained statements such as it is recommended that grantees perform some action to be compliant
+it is possible to infer the former statement from the information in the latter but this would require additional effort on the part of the reader which may or may not be tenable
+summaries pertaining to the latter two scenarios might be acceptable since they still contain the desired information with the caveat that they would likely yield a suboptimal user experience
+the first scenario of multiple findings see final section for more detail is perhaps the most problematic because of the potential for missing or misleading information
+due to the significant challenges of separating documents by findings the problem of multiple findings was not resolved in this work but would be a valuable future endeavor
+ix
+rouge evaluation the summaries evaluated manually were also evaluated using rouge
+for each summary a human reference was written
+overlaps between the system generated summaries and corresponding ideal human reference were then calculated
+to reduce noise in the calculations the above mentioned preprocessing steps of stopword filtering punctuation removal and lower casing were performed on both the human and system summaries stemming was also done using the nltk porterstemmer
+rouge produced two key metrics recall
+how much of the human reference summary was captured by the system summary precision
+how much of the system summary was actually needed or relevant despite the popularity and general effectiveness of the rouge method for this particular application human evaluation was considered more informative than rouge
+some shortcomings of rouge could be attributed to the general pitfalls of the method although a few additional issues were noted
+on the whole the recall and precision scores were poor compared to what is typically desired making it difficult to confidently assess summary quality
+another shortcoming was that only one set of reference summaries was available which constricted the definition of ideal
+in reality there is rarely a single ground truth and a text can have many valid summaries thus the use of multiple reference summaries written by different people would likely improve rouge evaluation
+finally since rouge was only performed on
+of the and moreover limited to documents of a certain length sentences it might be ill advised to extrapolate these results to any significant extent
+we have provided potential future directions based on our current assessment of our method
+it will also be invaluable to solicit expert user feedback to ensure that our method achieves not only technical soundness but also its desired functionality
+x
+short term modifications these comparatively minor modifications do not radically change the overarching logic of the approach
+a
+word embeddings we have noted several alternatives to glove see methods section
+while it is difficult to precisely predict the results of any method and how much they would improve the output if at all we speculate that customized embeddings would better capture the specialized language of audits
+the glove vectors currently in use were trained on wikipedia and gigaword a newswire corpus audit documents differ greatly from both these texts
+thus it is likely that the words meanings and contexts captured by the pre trained glove vectors do not fully reflect the usage of the words in audits
+custom vectors e
+
+lda vector representations may alleviate this problem
+b
+tailor cluster number and filtering to document length we built and uniformly applied a single k means model to all documents in the corpus
+however this is almost certainly not optimal
+a k of corresponding to topics might be a decent approximation of the number of topics for an average length document of sentences it is unlikely to be the appropriate number for a document of nearly sentences
+in some cases more clusters are likely needed to capture the different topics
+furthermore the current method uses a narrow range of output lengths for a broad range of raw texts
+while a sentence summary might be desired for a document of sentences it is barely a summary if the original was sentences and is too brief for a document that is hundreds or thousands of sentences
+in the future we will train multiple models and also explore other clustering algorithms including density based and hierarchical approaches
+xi
+long term summarize by distinct findings as noted above one problematic scenario was when into a single multiple distinct findings were collapsed summary
+in such a situation the summary was to the human reader seemingly illogical and disjointed
+this occurs because summaries are currently generated per document and a single document may have multiple distinct findings
+intellectually these findings are effectively separate despite originating from the same grant recipient as they concern independent largely non overlapping causes effects
+some possible consequences of condensing multiple findings into one summary include misleading information
+for example the cause of one finding may be attributed to the effect of a separate finding
+oftentimes there is not enough context in the summary to detect when this happens
+lack of context
+summaries become spread too thin over multiple findings
+for instance some findings require multiple sentences to be fully explained
+a shortcoming of the current method is that only one of several relevant sentences may be selected
+compared to other imperfect summary outcomes the issue the potential for is particularly noteworthy because of misinformation
+a summary that reads awkwardly could still be considered successful if its information is relevant or accurate and a summary with no useful information is usually clearly identifiable as being non functional
+however the misinformation that can arise from mixed findings is not always easy to detect
+to address these issues a potential future direction could be to extract distinct findings from each audit document and to generate a single summary for a single class of findings
+this approach would have the added advantage of addressing some of the concerns related to length outlined above
+realistically extracting findings is a complex and difficult task that would require investment of significant time and effort but if successful would likely have a noticeable positive effect on summarization
+xii
+conclusion overall this approach made progress towards automated extractive summaries of audits using custom text preprocessing glove embedding k means clustering and several selection heuristics
+this strategy successfully extracted summaries in a technically sound algorithmic manner from a large volume of federal grant audits
+future aims include greater automation of the more exploratory steps that involved human in the loop criteria
+other aims include improving the consistency of the results and further validation both technically and in a practical setting
+this work highlights the inherent difficulty and subjectivity of machine learning based automated summarization in a real world application and demonstrates the value of reducing non automated steps reducing validation subjectivity and assessing true out sample results with expert input in order to improve output
+acknowledgment the authors would like to thank robert han and ryan mcgibony for guidance and feedback
+v
+t
+c
+would also like to thank her ph
+d
+advisor david van vactor at harvard medical school for supporting her pursuit of this project separate from her dissertation
+this work was funded by elder research as an internal research and development project
+references h
+p
+luhn the automatic creation of literature abstracts ibm j
+res
+dev
+vol
+pp
+
+h
+p
+edmundson new methods in automatic extracting j
+acm vol
+pp
+
+p
+b
+baxendale machine made index for technical literature an experiment ibm j
+res
+dev
+vol
+pp
+
+j
+
+torres moreno automatic text summarization front matter in automatic text summarization pp
+i xxiii
+d
+r
+radev e
+hovy and k
+mckeown introduction to the special issue on summarization comput
+linguist
+vol
+pp
+
+u
+hahn and i
+mani the challenge of automatic summarization computer long
+beach
+calif
+november pp
+
+d
+m
+blei a
+y
+ng and m
+i
+jordan latent dirichlet allocation j
+mach
+learn
+res
+vol
+pp
+
+k
+s
+jones a statistical interpretation of term specificity and its application in retrieval j
+doc
+vol
+pp
+
+r
+collobert and j
+weston general deep architecture for nlp icml
+pdf
+y
+bengio r
+ducharme p
+vincent and c
+jauvin a neural probabilistic language model j
+mach
+learn
+res
+pp
+aug
+
+t
+mikolov k
+chen g
+corrado and j
+dean distributed representations of words and phrases and their compositionality neural inf
+process
+syst
+vol
+pp
+
+t
+mikolov k
+chen g
+corrado and j
+dean efficient estimation of word representations in vector space pp
+
+j
+pennington r
+socher and c
+manning glove global vectors for word representation in proc
+conf
+empir
+methods nat
+lang
+process
+emnlp vol
+pp
+
+m
+peters al
+deep contextualized word representations in proc
+conf
+north american chapter assoc
+comput
+linguist human language technologies volume long papers pp
+
+j
+devlin m
+
+chang k
+lee and k
+toutanova bert for language training of deep bidirectional transformers understanding arxiv prepr
+oct
+
+z
+yang z
+dai y
+yang j
+carbonell r
+salakhutdinov and q
+v
+le xlnet generalized autoregressive pretraining for language understanding arxiv prepr
+pp
+
+k
+
+wong m
+wu and w
+li extractive summarization using supervised and semi supervised learning proc
+int
+conf
+comput
+linguist
+vol
+pp
+
+r
+mihalcea and p
+tarau textrank bringing order into texts proc
+conf
+empir
+methods nat
+lang
+process
+pp
+
+l
+page and s
+brin the anatomy of a large scale hypertextual web search engine vol
+
+s
+verma and v
+nidhi extractive summarization using deep learning arxiv prepr
+aug
+
+m
+yousefi azar and l
+hamey text summarization using unsupervised deep learning expert syst
+appl
+vol
+pp
+feb
+
+j
+macqueen some methods for classification and analysis of multivariate observations proc
+berkeley symp
+math
+stat
+probab
+vol
+pp
+
+d
+miller leveraging bert for extractive text summarization on lectures arxiv prepr
+
+n
+renu and kunal review on opinion data summarization using k means clustering and latent semantic analysis int
+j
+res
+sci
+technol
+pp
+
+s
+twinandilla s
+adhy b
+surarso and r
+kusumaningrum multi document summarization using k means and latent dirichlet allocation lda significance sentences procedia comput
+sci
+vol
+pp
+
+a
+agrawal and u
+gupta extraction based approach for text summarization using k means clustering int
+j
+sci
+res
+publ
+vol
+pp
+
+m
+r
+prathima and h
+r
+divakar automatic extractive text summarization using k means clustering int
+j
+comput
+sci
+eng
+vol
+pp
+jun
+
+h
+j
+jain m
+s
+bewoor and s
+h
+patil context sensitive text summarization using k means clustering algorithm int
+j
+soft comput
+eng
+vol
+pp
+
+c
+
+lin rouge a package for automatic evaluation of summaries assoc
+comput
+linguist
+pp
+
+k
+papineni s
+roukos t
+ward and w
+
+zhu bleu a method for automatic evaluation of machine translation in proc
+annu
+meeting assoc
+comput
+linguist
+acl vol
+pp
+
+j
+steinberger and k
+jeek evaluation measures for text summarization comput
+informatics vol
+pp
+
+

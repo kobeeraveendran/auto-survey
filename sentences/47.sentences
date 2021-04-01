@@ -1,0 +1,323 @@
+lcsts a large scale chinese short text summarization dataset baotian hu qingcai chen fangze zhu intelligent computing research center harbin institute of technology shenzhen graduate school baotianchina qingcai
+
+com abstract automatic text summarization is widely regarded as the highly difcult problem partially because of the lack of large text summarization data set
+due to the great challenge of constructing the large scale summaries for full text in this per we introduce a large corpus of nese short text summarization dataset structed from the chinese microblogging website sina weibo which is released to the
+this corpus consists of over million real chinese short texts with short summaries given by the author of each text
+we also manually tagged the relevance of short summaries with their corresponding short texts
+based on the corpus we introduce recurrent neural network for the summary generation and achieve promising results which not only shows the usefulness of the proposed pus for short text summarization research but also provides a baseline for further search on this topic
+introduction nowadays individuals or organizations can ily share or post information to the public on the social network
+take the popular chinese croblogging website sina weibo as an example the people s daily one of the media in china posts more than tens of weibos analogous to tweets each day
+most of these weibos are written and highly informative because of the text length limitation less chinese ters
+such data is regarded as naturally annotated web resources sun
+if we can mine these high quality data from these naturally annotated web resources it will be benecial to the research that has been hampered by the lack of data
+
+hitsz
+edu
+cn article
+html figure a weibo posted by people s daily
+in the natural language processing nlp community automatic text summarization is a hot and difcult task
+a good summarization system should understand the whole text and re organize the information to generate coherent informative and signicantly short summaries which convey important information of the original text hovy and lin martins
+most of tional abstractive summarization methods divide the process into two phrases bing et al
+
+first key textual elements are extracted from the original text by using unsupervised methods or guistic knowledge
+and then unclear extracted components are rewritten or paraphrased to duce a concise summary of the original text by using linguistic rules or language generation niques
+although extensive researches have been done the linguistic quality of abstractive mary is still far from satisfactory
+recently deep learning methods have shown potential abilities to learn representation hu et al
+zhou et al
+and generate language bahdanau et al
+sutskever et al
+from large scale data by utilizing gpus
+many researchers realize that we are closer to generate abstractive tions by using the deep learning methods
+ever the publicly available and high quality large scale summarization data set is still very rare and not easy to be constructed manually
+for ple the popular document summarization dataset and have only hundreds of human written english text summarizations
+the in this problem is even worse for chinese
+
+nist
+gov data
+html
+nist
+gov
+nist
+e f l c
+s c v
+v i x r a figure diagram of the process for creating the dataset
+per we take one step back and focus on ing lcsts the large scale chinese short text summarization dataset by utilizing the naturally annotated web resources on sina weibo
+figure shows one weibo posted by the people s daily
+in order to convey the import information to the lic quickly it also writes a very informative and short summary in the blue circle of the news
+our goal is to mine a large scale high quality short text summarization dataset from these texts
+this paper makes the following contributions we introduce a large scale chinese short text summarization dataset
+to our knowledge it is the largest one to date we provide standard splits for the dataset into large scale training set and human labeled test set which will be easier for benchmarking the related methods we explore the properties of the dataset and sample instances for manually checking and scoring the quality of the dataset we perform recurrent neural network based encoder decoder method on the dataset to generate summary and get ing results which can be used as one baseline of the task
+related work our work is related to recent works on automatic text summarization and natural language ing based on naturally annotated web resources which are briey introduced as follows
+automatic text summarization in some form has been studied since
+since then most searches are related to extractive summarizations by analyzing the organization of the words in the document nenkova and mckeown luhn since it needs labeled data sets for pervised machine learning methods and labeling dataset is very intensive some researches focused on the unsupervised methods mihalcea
+the scale of existing data sets are usually very small most of them are less than
+for example dataset contains ments and each document is provided with two words human summaries
+our work is also related to the headline generation which is a task to generate one sentence of the text it entitles
+colmenares et
+al construct a
+million nancial news headline dataset written in english for line generation colmenares et al
+
+ever the data set is not publicly available
+naturally annotated web resources based natural language processing is proposed by sun sun
+naturally annotated web sources is the data generated by users for nicative purposes such as web pages blogs and microblogs
+we can mine knowledge or useful data from these raw data by using marks generated by users unintentionally
+jure et
+al track
+lion mainstream media sites and blogs and mine a set of novel and persistent temporal patterns in the news cycle leskovec et al
+
+sepandar et
+al use the users naturally annotated pattern we feel and i feel to extract the feeling sentence tion which is used to collect the world s emotions
+in this work we use the naturally annotated sources to construct the large scale chinese short text summarization data to facilitate the research on text summarization
+data collection a lot of popular chinese media and organizations have created accounts on the sina weibo
+they use their accounts to post news and information
+these accounts are veried on the weibo and beled by a blue v
+in order to guarantee the ity of the crawled text we only crawl the veried organizations weibos which are more likely to be clean formal and informative
+there are a lot of human intervention required in each step
+the cess of the data collection is shown as figure and user crawlerselectingtext andextractingdata setsocial mediaraw textseedschosen usersusers collection summarized as follows we rst collect very popular tion users as seeds
+they come from the domains of politic economic military movies game and such as people s daily the economic observe press the ministry of national defense and
+we then crawl fusers followed by these seed users and lter them by using human written rules such as the user must be blue veried the number of followers is more than million and
+we use the chosen users and text crawler to crawl their weibos
+we lter clean and extract short text summary pairs
+about rules are used to tract high quality pairs
+these rules are concluded by peoples via carefully investigating of the raw text
+we also remove those paris whose short text length is too short less than characters and length of summaries is out of
+data properties the dataset consists of three parts shown as ble and the length distributions of texts are shown as figure
+part i is the main content of lcsts that tains short text summary pairs
+these pairs can be used to train supervised learning model for summary generation
+part ii contains the human labeled short text summary pairs with the score ranges from to that indicates the relevance between the short text and the corresponding summary
+denotes the least relevant and denotes the most relevant
+for annotating this part we recruit volunteers each pair is only labeled by one notator
+these pairs are randomly sampled from part i and are used to analysize the distribution of pairs in the part i
+figure illustrates examples of different scores
+from the examples we can see that pairs scored by or are very relevant to the corresponding summaries
+these summaries are highly informative concise and signicantly short compared to original text
+we can also see that many words in the summary do not appear in the original text which indicates the signicant difference of our dataset from sentence sion datasets
+the summaries of pairs scored by or are highly abstractive and relatively hard to conclude the summaries from the short text
+they are more likely to be headlines or comments stead of summaries
+the statistics show that the percent of score and is less than of the figure box plot of lengths for short segmented short and segmented sum
+the red line denotes the median and the edges of the box the quartiles
+st data which can be ltered by using trained er
+part iii contains pairs
+for this part annotators label the same texts and we tract the text with common scores
+this part is independent from part i and part ii
+in this work we use pairs scored by and of this part as the test set for short text summary generation task
+part i part ii part iii number of pairs human score human score human score human score human score number of pairs human score human score human score human score human score table data statistics experiment recently recurrent neural network rnn have shown powerful abilities on speech tion graves et al
+machine tion sutskever et al
+and automatic dialog response shang et al
+
+however there is rare research on the automatic text summarization by using deep models
+in this section we use rnn as encoder and decoder to generate the summary of short text
+we use the part i as the training set figure the graphical depiction of rnn encoder and decoder framework without context
+figure the graphical depiction of the rnn coder and decoder framework with context
+text is segmented into chinese words by using
+the vocabulary is limited to
+we adopt two deep architectures the local text is not used during decoding
+we use the rnn as encoder and it s last hidden state as the input of decoder as shown in figure the context is used during decoding following danau et al
+we use the combination of all the hidden states of encoder as input of the decoder as shown in figure
+for the rnn we adopt the gated recurrent unit gru which is proposed by chung et al
+and has been proved comparable to lstm chung et al
+
+all the parameters including the embeddings of the two architectures are randomly initialized and adadelta zeiler is used to update the learning rate
+after the model is trained the beam search is used to generate the best summaries in the process of decoding and the size of beam is set to in our experiment
+
+python
+org pypi figure five examples of different scores
+and the subset of part iii which is scored by and as test set
+two approaches are used to preprocess the data character based method we take the chinese character as input which will reduce the ulary size to
+word based method the thechiefsecretaryofthewaterdevisionoftheministryofwaterresources revealedtodayatapressconference accordingtothejust completedassessmentofwaterresourcesmanagementsystem someprovincesareclosedtotheredlineindicator someprovincesareovertheredlineindicator
+implementstrictlywaterresourcesassessmentandtheapprovalofwaterlicensing
+somewaterprojectwillbe
+
+userspreferenceofshoppingthroughpcscannotbechangedintheshortterm
+mobileterminalswillbecomethestrategicdevelopmentdirection
+andalso itwillbecomeoffdlinedrivingfromondlinedriving
+thefirstandsecondtiercitiesarefacinggrowthdifficulties
+however
+
+
+
+
+
+amongthem guangzhou beijing shenzhen
+daweizhang fromcentalinepropertyagency thepriceofhouseislikelytoriseandhardtofall
+
+
+
+
+
+theirexplanationsarethatacommunicationsbreakdownandheavyrainledtoadatauploadextension
+
+
+
+
+
+comparingtolastyear
+analysisoftheoutsideworldbelievethatitisrelatedtotherecentofficialintensiveantitrustinvestigation
+severalcaseswillnotscareforeigninvestorsaway
+
+
+
+
+
+
+decodercontext generator model rnn rnn context data word char word char
+
+
+
+
+
+
+
+r l
+
+
+
+table the experiment result word and char denote the word based and based input respectively
+figure an example of the generated summaries
+for evaluation we adopt the rouge metrics proposed by lin and hovy which has been proved strongly correlated with human uations
+and rouge l are used
+because the standard rouge package is used for evaluating english summarization tems we transform the chinese words to cal ids to adapt to the systems
+all the models are trained on the gpus tesla for about one week
+table lists the experiment results
+as we can see in figure the summaries generated by rnn with context are very close to human written summaries which indicates that if we feed enough data to the rnn encoder and decoder it may erate summary almost from scratch
+the results also show that the rnn with text outperforms rnn without context on both character and word based input
+this result cates that the internal hidden states of the rnn encoder can be combined to represent the context of words in summary
+and also the performances of the character based input outperform the based input
+as shown in figure the summary generated by rnn with context by inputing the character based short text is relatively good while
+berouge
+com pages default
+aspx figure an example of the generated summaries with unks
+the the summary generated by rnn with context on word based input contains many unks
+this may attribute to that the segmentation may lead to many unks in the vocabulary and text such as the person name and organization name
+for ple is a company name which is not in the vocabulary of word based rnn the rnn summarizer has to use the unks to replace the in the process of decoding
+conclusion and future work we constructed a large scale chinese short text summarization dataset and performed rnn based methods on it which achieved some promising sults
+this is just a start of deep models on this task and there is much room for improvement
+we take the whole short text as one sequence this may not be very reasonable because most of short texts contain several sentences
+a hierarchical rnn li et al
+is one possible direction
+the rare word problem is also very important for the ation of the summaries especially when the input is word based instead of character based
+it is also a hot topic in the neural generative models such as neural translation luong et al
+which can benet to this task
+we also plan to construct a large document summarization data set by using naturally annotated web resources
+acknowledgments industry development shenzhen supported by national this work is ral science foundation of china and strategic funds special ing of and
+we thank to baolin peng lin ma li yu and the anonymous reviewers for their insightful comments
+references bahdanau et al
+dzmitry bahdanau kyunghyun cho and yoshua bengio
+
+neural machine translation by jointly learning to align and translate
+corr
+
+bing et al
+lidong bing piji li yi liao wai lam weiwei guo and rebecca passonneau
+
+abstractive multi document summarization via phrase selection and merging
+in proceedings of the acl ijcnlp pages beijing china july
+association for computational linguistics
+chung et al
+junyoung chung c aglar gulcehre kyunghyun cho and yoshua bengio
+
+pirical evaluation of gated recurrent neural networks on sequence modeling
+corr
+
+chung et al
+junyoung chung c aglar gulcehre
+kyunghyun cho and yoshua bengio
+gated feedback recurrent neural networks
+corr
+
+colmenares et al
+carlos a
+colmenares rina litvak amin mantrach and fabrizio vestri
+
+heads headline generation as sequence prediction using an abstract feature rich in proceddings of conference of the space
+north american chapter of the association for computational linguistics human language nologies naacl hlt
+graves al
+alex graves abdel rahman
+speech hamed and geoffrey e
+hinton
+recognition with deep recurrent neural networks
+corr
+
+hovy and eduard hovy and chin yew lin
+
+automated text summarization and the in proceedings of a workshop on marist system
+held at baltimore maryland october tipster pages stroudsburg pa usa
+association for computational linguistics
+et al
+baotian hu zhengdong lu hang li and qingcai chen
+
+convolutional neural network architectures for matching natural language sentences
+in advances in neural information cessing systems pages
+curran ciates inc
+et al
+jure leskovec lars backstrom and jon kleinberg
+
+meme tracking and the in proceedings of dynamics of the news cycle
+the acm sigkdd international conference on knowledge discovery and data mining kdd pages
+et al
+jiwei li minh thang luong and dan jurafsky
+
+a hierarchical neural autoencoder for paragraphs and documents
+acl
+in proceedings of lin and chin yew lin and e
+h
+hovy
+
+automatic evaluation of summaries using in proceedings n gram co occurrence statistics
+of language technology conference naacl edmonton canada
+h
+p
+luhn
+
+the automatic creation of literature abstracts
+ibm journal of research and development
+luong et al
+thang luong ilya sutskever quoc v
+le oriol vinyals and wojciech zaremba
+
+addressing the rare word problem in neural machine translation
+corr
+
+dipanjan das andr f
+t
+martins
+
+a survey on automatic text summarization
+cal report cmu
+rada mihalcea
+
+graph based ranking algorithms for sentence extraction applied to text summarization
+in proceedings of the annual meeting of the association for tional linguistics companion volume spain
+nenkova and ani nenkova and leen mckeown
+
+automatic summarization
+foundations and trend in information retrieval
+shang et al
+lifeng shang zhengdong lu and hang li
+
+neural responding machine for short text conversation
+corr
+
+mao song sun
+
+natural language procesing based on naturaly annotated web sources
+journal of chinese information ing
+sutskever et al
+ilya sutskever oriol vinyals and quoc v
+v le
+
+sequence to sequence learning with neural networks
+in advances in ral information processing systems pages
+matthew d
+zeiler
+
+adadelta corr an adaptive learning rate method
+
+
+et al
+xiaoqiang zhou baotian hu cai chen buzhou tang and xiaolong wang
+
+answer sequence learning with neural networks for answer selection in community question answering
+in proceedings of the acl ijcnlp pages beijing china july
+association for computational linguistics
+

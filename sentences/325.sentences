@@ -1,0 +1,614 @@
+multi modal summarization for video containing documents xiyan jun zhenglu of computer science nankai university china university china fuxiyan
+nankai
+edu
+cn
+edu
+cn p e s l c
+s c v
+v i x r a abstract summarization of multimedia data becomes increasingly signicant as it is the basis for many real world applications such as question answering web search and so forth
+most isting multi modal summarization works ever have used visual complementary tures extracted from images rather than videos thereby losing abundant information
+hence we propose a novel multi modal tion task to summarize from a document and its associated video
+in this work we also build a baseline general model with effective strategies i
+e
+bi hop attention and improved late fusion mechanisms to bridge the gap tween different modalities and a bi stream summarization strategy to employ text and video summarization simultaneously
+prehensive experiments show that the posed model is benecial for multi modal marization and superior to existing methods
+moreover we collect a novel dataset and it vides a new resource for future study that sults from documents and videos
+introduction multi modal summarization is conducted to rene salient information from different modalities cluding text image audio and video and to sent key information through one or more ties evangelopoulos et al
+li et al
+
+given the rapid increase of multimedia data ination over the internet this task has been widely exploited in recent years
+early works on multi modal summarization has dealt with sports video summarization goro et al
+meeting recordings tion erol et al
+li et al
+or dia micro blog summarization bian et al
+
+most of these approaches concentrate on rizing data that include synchronous information you are interested in our dataset please contact authors
+figure illustration of the proposed multi modal marization task which generates summaries from a document and its related video
+among different modalities
+however due to the lack of accurate alignment summarizing the large volume of multi modal data of the same topic is impractical
+to address this issue neural networks based methods have been introduced that search for the corresponding relations from different formation resources
+for example li et al
+learn the joint representations of texts and images to identify the text that is relevant to an image
+zhu et al
+and chen and zhuge propose an attention model to summarize a document and its accompanying images
+although the aforementioned models have shown reasonable qualitative results they still fer from the following drawbacks most existing applications extract visual information from the companying images but they ignore related videos
+we contend that videos contain abundant contents and have temporal characteristics where events are represented chronologically which are crucial for text summarization
+to the best of our knowledge the only work li et al
+that considers video information however neglects temporal sion and simply treating videos as a bag of images
+the authors use video frames for sentence ing in outputs rather than combining visual mation with text processing
+although attention mechanism bahdanau et al
+and early sion snoek et al
+are used extensively it adversely introduces noise as it is unsuitable for multi modal data without alignment which is acterized by a large gap that requires intensive munication
+various multi modal summarization works have focused on a single task such as text or video summarization with added information from other modalities zhu et al
+wei et al
+
+we observe that both summarization tasks share the same target of rening original long materials and as such they can be performed jointly due to common characteristics
+in this work we propose a novel multi modal summarization task which is depicted in fig
+
+to remove the noise among different modalities and effectively integrate complementary information we introduce a bi hop attention mechanism to align features and induce an improved late fusion method for feature fusion
+moreover we apply a bi stream summarization strategy for training by sharing the ability to rene signicant information from long materials in text and video summarization
+given the lack of relevant datasets for experiments we create a novel multi modal dataset from the daily and cnn websites collecting articles and their corresponding summaries videos images
+the main contributions are as follows we introduce a novel task that automatically generates a textual summary with signicant images from the multi modal data associated with an article and its corresponding video
+we propose the bi hop attention and improved late fusion mechanism to rene information from multi modal data
+besides we introduce a bi stream summarization strategy that taneously summarizes articles and videos
+we prepare a content rich multi modal dataset
+comprehensive experiments demonstrate that complementary information from multiple modalities is benecial and our general line model can exploit them more effectively than the existing approaches
+
+dailymail
+co
+uk index
+html
+cnn
+related work text summarization selects salient information from long documents to form a concise summary
+existing approaches can be roughly categorized into two groups
+extractive based methods which extract key sentences and objects without cation guarantee basic level grammaticality and accuracy
+for example jadhav and rajan modeled the interaction between keywords and salient sentences by using a new two level pointer network
+the proposal of narayan et al
+wu and hu extracted summary via deep forced learning
+abstractive based methods which paraphrase the signicant contents after hending the original document construct cated summaries with newly generated words and coherent expressions
+tan et al
+proposed a graph based attention mechanism in a to sequence framework
+the work of cao et al
+retrieved proper existing summaries as didate soft templates and extended the framework to jointly perform template reranking and summary generation
+see et al
+presented a generator network which can both copy words from articles and generate novel words
+recently the sheer volume of ne tuning approaches liu and lapata zhang et al
+dong et al
+boosted the quality of the generated summaries based on the pre trained language models which have advanced a wide range of nlp tasks
+video summarization is conducted to facilitate large scale video browsing by producing concise summaries
+early works in video summarization have focused on videos of certain genres
+they generated summaries by leveraging genre specic information i
+e
+salient objects of sports in ekin et al
+and signicant regions of egocentric videos in lu and grauman
+furthermore summarizing videos with auxiliary resources such as web images and videos has attracted able attention
+song et al
+developed a archetypal analysis technique that learns canonical visual concepts shared between a video and images
+given that the above mentioned non deep rization methods are time consuming zhou et al
+modeled video summarization via a deep rnn to capture long term dependencies in video frames and proposed a reinforcement based framework to train the network end to end
+recently a novel query focused video tion task was introduced in xiao et al
+
+multi modal summarization generates a densed multimedia summary from multi modal original inputs such as text images videos and
+uzzaman et al
+introduced an idea of illustrating complex sentences as multimodal maries that combine pictures structure and plied compressed text
+et al
+palaskar et al
+studied abstractive text marization for open domain videos
+besides li et al
+developed an extractive multi modal summarization method that automatically ates a textual summary based on a set of documents images audios and videos related to a specic topic
+zhu et al
+combined image selection and output to alleviate the modality bias
+chen and zhuge employed hierarchical decoder model to align sentences and images
+cently aspect aware model was introduced in li et al
+to incorporate visual information for producing summary for e commerce products
+model we introduce a novel multi modal summarization model to automatically generate modal summary from an article and its ing video
+fig
+illustrates the idea
+our proposed model consists of four modules feature extraction alignment fusion and bi stream summarization which are presented in fig
+
+
+feature extraction text feature we utilize a hierarchical framework based on word and sentence levels to read the kens of an article and induce a representation of each sentence
+the bi directional long short term memory bilstm which constitutes a forward and a backward lstm is employed as recurrent unit
+the rst layer of the encoder which extracts ne grained information of a sentence runs at the word level
+the hidden state of the jth word in the ith sentence is represented by the bilstm i
+e
+hj hj i
+moreover the encoder consists of a i second layer conducted at the sentence level which accepts the average pooled concatenated hidden states from the word level encoder as inputs
+the hidden state of the ith sentence is dened as hj i s s api i where ni is the number of words in the ith sentence and represents lstm
+figure utilizes multi modal information for sentence extraction in summarization
+the probability of the mismatched sentence calculated solely based on text is improved with the assistance of video
+video feature videos that accompany articles ten capture news highlights and usually provide abundant complementary information from the spective that is different from the article itself
+we choose he et al
+to extract frame features for its excellent performance
+thermore we train a bilstm to model the quential pattern in video frames where the tinctions between videos and bag of images are exhibited
+the image feature of the ith frame is a dimensional vector vi which is obtained using vi ramei
+correspondingly the representation of a frame is dened as mi where represents bilstm
+recently inspired by the success of the language model bert jacob et al
+which pre trains deep bidirectional representations on unlabeled texts a few visual linguistic joint models have been proposed such as videobert sun et al
+vilbert lu et al
+and vlp zhou et al
+
+these models can induce superior features for summarization
+our model is devised from a new perspective to extract ne grained tures which are orthogonal to the aforementioned bert based ones in a complementary manner
+
+feature alignment existing multi modal models with high alignment can not be used for capturing the correct common features among different modalities due to the chronism between modalities
+hence we introduce two multi modal attention mechanisms which cus on diverse parts of video frames in accordance to a current article sentence in order to search for aligned information
+figure overview of the multi modal summarization model
+and respectively represent the hadamard product and outer product and stands for vector concatenation
+and are the special versions of g mentioned in feature fusion section with different parameters
+single step attention we fulll the above stated goal by adopting the attention mechanism which was introduced in bahdanau et al
+
+cally ej i v t wmmj battn where ej i is the attention value between the ith tence and jth image and v ws wm and battn are learnable parameters
+although lots of modal summarization models chen and zhuge zhu et al
+li et al
+follow this mechanism we argue that it is unsuitable for a multi modal task because one modality might inate the summary resulting in substantial loss of information from other modalities
+therefore we generalize over bilinear attention kim et al
+and propose improvements such as single feature projection considering that features of different modalities are independent from each other the projection can be separately calculated such that neither component dominates another
+the feature ping of each modality can be modied as follows qj bm ri bs where wm ws bm and bs are parameters
+dual feature interaction for close communication of different ties we further propose a dual interaction ture calculated using hadamard product
+the concatenation feature cf represents the feature of each modality while dual interaction feature avoids insufcient interaction among modalities
+the attention value is formulated as ej i v t qj ri
+qj ri cf after calculating the softmax of the attention value to obtain weight aj i of each image state mj and computing the weighted sum of these states text value can be represented as follows ci aj i mj i sof aj i n m where nm is the number of ltered frames
+bi hop attention given that the transcript tracted from a video shares the same modality with an article and accurately aligns with a video we induce it as a bridge to deepen the relationship tween two modalities
+we introduce bi hop tion to produce a context by simultaneously bining text sentence with a transcript and video frames
+since a transcript is similar to an article text we use the bilstm to extract its features
+
+
+tn t where nt is the number of words in transcripts
+moreover the context vector of script m is obtained by replacing si with ti in eq
+for a new attention value bk i and the nal context vector of article m is improved as t by replacing mj with in eq
+for k bk i n t n m kmj
+similarly bi hop attention can be reversed to obtain an article context for video summarization
+
+feature fusion in terms of combining complementary information from multiple modalities we develop a method that not only smoothly suppresses the effect of modality in unfavorable situations but also tures synergies between the modalities that share reliable complementary information
+ically we use two common strategies for taking cross modal correlations early fusion which catenates various features directly has been plored in multi modal tasks extensively zhu et al
+chen and zhuge
+the fusion ture of ith sentence of text summarization can be represented as pi ts
+tensor fusion zadeh et al
+disentangles unimodal and modal dynamics by modeling each of them itly for intra modality and inter modality dynamics
+pi ts is denoted as fusion feature where indicates the outer product
+further the label of each sentence can be predicted by pi ts
+both the above mentioned strategies are based on a strong assumption that each modality is curately aligned yet multi modal summarization always contains asynchronous information
+hence we consider that late fusion which uses unimodal decision values and fuses them with a fusion mechanism suits multi modal summarization well
+f is the fusion process where g is a conventional feed forward network and f can be a function such as averaging ing or other learned models
+we use a feedforward network in this work
+given that each modality is not useful all the time e
+
+frames of accompanied interview video may contribute only to a small tent to visual features we restrain the noise from a certain modality by following the ideas in liu et al
+and induce fusion
+its fusion process is improved as f wsf and ws wc are calculated as follows ws wc where is a smoothing coefcient determining the penalty intensity
+for example if a frame comes from an interview video and its visual features are irrelevant for classication becomes small which bases the prediction mainly on article
+
+bi stream summarization training given that text and video summarization aim to extract salient information from the original dant content we propose bi stream summarization training strategy
+it indicates that they are learned jointly and simultaneously which improve the eralization performance by holding similar tives and sharing complementary information
+we consider extractive based text tion as a sentence classication task in which the binary label of each sentence is imperative
+given that most corpora only contain abstractive maries written by humans we construct the label of each sentence following the methods in ati et al
+
+sentences are selected to maximize the rouge with respect to the gold summary by a greedy approach
+furthermore we use cross tropy for training lts log yn yn log yn n s n s where and yn represent the true and predicted labels respectively
+video summarization can also be considered as a classication task we use unsupervised learning by rl methods proposed in zhou et al
+
+its loss can be separated into diversity reward rdiv and representativeness reward rrep
+the former measures the dissimilarity among selected frames in the feature space whereas the latter measures how well the generated summary can represent the original video
+the calculations are as follows d rdiv jm rrep exp n m n m min where m is the set of selected video frames and is the dissimilarity function which employed as one minus cosine similarity in this work
+for bi stream summarization we mix the loss from dual summarization tasks whose contribution relies on their weight ts and vs l tslts rrep
+experiments
+dataset and evaluation metrics there is no existing dataset that contains articles corresponding videos and references for modal summarization we construct a new corpus called mm avs
+to obtain high quality summaries we collect data from daily mail and cnn websites same as in hermann et al
+
+we also serve the related titles images and their captions
+baseline methods results for multi modal research
+samples which miss any elements mentioned above or which video duration is less than seconds are removed
+the detailed statistics of the corpus are shown in table
+notice that the videos in cnn are much longer than that in daily mail we collect less samples from the former and we mainly use them during testing
+rouge lin with standard options is used for text summary evaluation
+we apply the and rouge l r l score to evaluate the overlap of uni grams bi grams and the longest common subsequences between the decoded summary and the reference
+to evaluate the quality of the generated video maries images we employ resnet to construct image feature vectors and calculate the cosine age similarity cos between image references and the extracted frames from videos
+multi modal based vistanet truong and lauw prioritizes sual information as alignment to point out the portant sentences of an article to detect the ment of a document
+mm atg zhu et al
+is a multi modal tention model generating text and selecting the vant image from the article and alternative images
+hori et al
+applies multi modal video features including video frames transcripts and dialog context for dialog generation
+tfn zadeh et al
+learns both intra and inter modalities by modeling a new multi modal tensor fusion approach
+hnnattti chen and zhuge aligns the tences and accompanying images by attention
+pure video summarization random extracts the key video frames randomly
+uniform samples videos uniformly
+vsumm de avila et al
+extracts color tures from video frames via k means clustering
+dr dsn zhou et al
+proposes a ment learning framework equipped with a reward function for diverse and representative summaries
+pure text summarization picks the rst three sentences as summary
+summarunner nallapati et al
+is a pretable rnn based sequence model and it can be trained in both extractive and abstractive manners
+nn se cheng and lapata consists of a hierarchical document encoder and an based extractor that can extract sentences or words
+article number avg
+article length avg
+article sent
+num
+avg
+summary length avg
+video duration avg
+transcript length daily mail cnn
+
+
+
+
+
+
+
+
+
+table corpus statistics
+
+experimental settings the dataset is split by for train validation and test sets respectively
+the hidden dimension of bi lstm is beta in fusion is
+and the proportion of each modality in loss is
+
+to remove the redundancy of videos one of ve consecutive frames is randomly selected
+the last layer of with dimension is used for image feature extraction
+we perform training by adagrad with learning rate
+
+we use early stop to avoid overtting
+
+quantitative analysis as shown in table outperforms the best performing baseline for both text and video maries on the daily mail dataset
+these ments are achieved thanks to the bi hop attention mechanism improved fusion and bi stream summarization strategy which are all jointly porated in
+table also shows that vistanet underperforms other models by a large margin
+we consider that the learning strategy of vistanet wherein image information is considered prior to text information may bring noise
+in addition table shows that the results on cnn are inferior to those on daily mail
+we sider this may be attributed to the longer length of original materials especially of videos as shown in table
+given that it is difcult to extract visual features from long videos summarizing the articles in the cnn dataset is more challenging
+besides we ignore image evaluation in cnn due to the lack of reference from the original website and explore video summaries by comparing with pure video summarization in section
+
+
+ablation study to verify the effectiveness of each component of our model we conduct ablation experiments
+we construct a hierarchical framework which trates on word and sentence level to generate maries as our baseline
+based on the hierarchical text component three constituents of are model vistanet mm atg tfn hnnattti
+
+
+
+
+
+daily mail
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cnn
+
+
+
+
+
+r l
+
+
+
+
+
+table comparisons of proposed model with the multi modal baselines
+all of the text encoder parts in multi modal approaches are modied as hierarchical framework for fair comparison
+model vsumm
+
+random
+uniform
+dr dsn
+text video frames transcripts bi stream
+
+
+
+
+
+
+
+r l
+
+
+
+table ablation study to evaluate the effects of ent components of
+table comparisons of model with video marization baselines
+model summarunner nn se
+
+
+
+table text summary comparisons of proposed model with the text summarization baseline
+r l
+
+
+
+
+
+
+
+added in turn video frames indicates adding the frames of the related videos to provide tary information transcripts extracts transcripts of the videos to deepen the relationship between different modalities and bi stream uses the stream summarization training strategy to learn the similarity shared by summarization tasks
+as shown in table each component of contributes to improving the performance by ing video with text information
+this validates our assumption that videos possess abundant mentary information to texts and this information facilitates capturing the core ideas of materials prehensively and inducing effective summaries
+
+evaluation on single modalities to assess the gains of the proposed method coming from the multi modal information we compare it with the popular single modal approaches on daily mail dataset including the video only tion and text only summarization
+the video summary comparisons are shown in table
+we collect the related images as ences in an online manner because manually ing each video frame is labor intensive and consuming
+as shown in table performs better than the video only methods
+it can be figure comparison of four feature fusion methods
+each way is conducted with three training strategies
+tributed to its capability to derive comprehensive insights from multi modal materials
+in terms of the text summary as shown in table is also competitive although it does not achieve as much large margin as in the case of the multi modal summary comparisons
+we speculate this may be due to the noisy information
+using an effective information lter is a promising way which worth in depth exploration in the future
+
+sub module evaluation we evaluate the effectiveness of each module of the proposed model
+fig
+illustrates the mance of four feature fusion approaches which are early tensor late and fusion
+all these ture fusion methods are trained under three gies cross entropy minimizing the binary cross entropy video loss adding video summarization loss for optimization and weighted that gives weights to each task in consideration of their ent contributions
+as demonstrated in fig
+early fusion which is most commonly used in practice is inferior to other fusion approaches
+due to the asynchrony of multi modal feature and the various signicance of each modality simple feature catenation in early fusion may introduce noise and no attention concat product bilinear attention
+
+
+table comparison of three feature alignment gies on the basis of early fusion
+
+
+
+r l
+
+
+article reference cnn daily mail cnn daily mail
+
+
+
+
+
+
+
+r l
+
+
+
+table words overlap statistics of video transcripts with articles and references
+figure evaluation of the smoothed value in fusion and ts vs of each modality in loss
+lose its effectiveness for handling complex cases
+moreover fig
+depicts that weighted achieves the best results
+we consider that it successfully avoids unfavorable inuence of irrelevant ties
+in addition three attention mechanisms are tested no attention which uses the last state as video feature directly concat product which uses the common mechanism introduced in bahdanau et al
+and bilinear attention which we pose in this paper
+table presents the results and indicates a stimulating phenomenon that product attention mechanism performs poorly even worse than models without attention
+we speculate that conventional attention which lacks cation between modalities will mislead the model as it focuses on irrelevant parts and brings noise
+
+balance between modalities a particular characteristic of multi modal rization is that the related data are complementary and thus different modalities contribute differently to summarization
+hence we restrain the noises from irrelevant modalities through the improved late fusion and balance the loss function in ent tasks
+the left graph in fig
+illustrates the penalty of irrelevant information which shows that
+yields the best results
+the other graph depicts the proportion of each modality in a loss function and illustrates that the text tion gives approximately attention to the text modality
+however this graph also reveals that nearly of useful information is searched and complemented by other modalities
+
+effectiveness of transcript incorporates video transcripts to bridge videos and texts with appropriate alignments
+this is one of the critical factors for proper article video inform satis
+
+
+
+
+
+table manual summary quality evaluation
+rization as demonstrated in table
+to further investigate the nature of transcripts we tively evaluate their relationships with the articles and references as shown in table
+the results demonstrate that video transcripts are distinct from articles with low overlaps indicating that they are not repeating of articles but provide extra and ful information
+table also illustrates that they poorly correlate with references which suggests that transcripts assist summary generation by turing the key information of videos however they are not enough for nal summaries
+
+manual evaluation examples with text and video summarization results were selected and graduate students were volunteered to evaluate them based on ness inform and satisfaction satis
+each sample was graded on the scale from to where a higher score is better
+we calculate the average score of each evaluation table shows it further strates the proposed method
+conclusion in this work we have proposed a multi modal summarization task that generates summaries from documents and the related videos
+we have also constructed a content rich video containing dataset for future study
+a comprehensive evaluation has demonstrated the effectiveness of the proposed model and individual introduced strategies
+our work can be extended in some ways
+for example acoustic features could be extracted from acoustic signals and incorporated into our model to provide additional complementary information i
+e
+sentiment and tone
+in another example to further advance user satisfaction it would be worthwhile to explore generation techniques such as generating a small video accompanied with text description as a summary
+references dzmitry bahdanau kyunghyun cho and yoshua gio
+
+neural machine translation by jointly learning to align and translate
+in iclr
+jingwen bian yang yang and tat seng chua
+
+multimedia summarization for trending topics in croblogs
+in cikm pages
+ziqiang cao wenjie li sujian li and furu wei
+
+retrieve rerank and rewrite soft template based neural summarization
+in acl pages
+jingqiang chen and hai zhuge
+
+abstractive image summarization using multi modal attentional hierarchical rnn
+in emnlp pages
+jianpeng cheng and mirella lapata
+
+neural marization by extracting sentences and words
+in acl pages
+sandra eliza fontes de avila ana paula brandao lopes antonio da luz jr and arnaldo de querque araujo
+
+vsumm a mechanism designed to produce static video summaries and a novel evaluation method
+pattern recognition ters
+li dong nan yang wenhui wang furu wei aodong liu yu wang jianfeng gao ming zhou and hsiao wuen hon
+
+unied language model pre training for natural language in neurips pages ing and generation
+
+ahmet ekin a murat tekalp and rajiv mehrotra
+
+automatic soccer video analysis and ieee transactions on image processing rization
+
+berna erol d s lee and jonathan hull
+
+timodal summarization of meeting recordings
+in icme volume
+georgios evangelopoulos athanasia zlatintsi dros potamianos petros maragos konstantinos pantzikos georgios skoumas and yannis avrithis
+
+multimodal saliency and fusion for movie summarization based on aural visual and ieee transactions on multimedia tual attention
+
+kaiming he xiangyu zhang shaoqing ren and jian sun
+
+deep residual learning for image nition
+in cvpr pages
+karl moritz hermann tomas kocisky edward stette lasse espeholt will kay mustafa suleyman and phil blunsom
+
+teaching machines to read and comprehend
+in neurips pages
+chiori hori huda alamri jue wang gordon ern takaaki hori anoop cherian tim k marks vincent cartillier raphael gontijo lopes hishek das al
+
+end to end audio sual scene aware dialog using multimodal based video features
+in icassp pages
+devlin jacob chang ming wei lee kenton and toutanova kristina
+
+bert pre training of deep bidirectional transformers for language ing
+in naacl pages
+aishwarya jadhav and vaibhav rajan
+
+tive summarization with swap net sentences and in acl words from alternating pointer networks
+pages
+jin hwa kim kyoung woon on woosang lim jeonghee kim jung woo ha and byoung tak zhang
+
+hadamard product for low rank ear pooling
+in iclr
+haoran li peng yuan song xu youzheng wu aodong he and bowen zhou
+
+aspect aware multimodal summarization for chinese e commerce products
+in aaai page in press
+haoran li junnan zhu tianshang liu jiajun zhang and chengqing zong
+
+multi modal sentence summarization with modality attention and image tering
+in ijcai pages
+haoran li junnan zhu cong ma jiajun zhang and chengqing zong
+
+multi modal tion for asynchronous collection of text image dio and video
+in emnlp pages
+manling li lingyu zhang heng ji and richard j
+radke
+
+keep meeting summaries on topic abstractive multi modal meeting summarization
+in acl pages
+jindrich shruti palaskar spandana gella and florian metze
+
+multimodal abstractive summarization of opendomain videos
+in neurips workshop on vigil
+chin yew lin
+
+rouge a package for matic evaluation of summaries
+text summarization branches out
+kuan liu yanen li ning xu and prem natarajan
+
+learn to combine modalities in multimodal deep learning
+arxiv preprint
+
+yang liu and mirella lapata
+
+text in emnlp pages tion with pretrained encoders
+
+jiasen lu dhruv batra devi parikh and stefan lee
+
+vilbert pretraining task agnostic olinguistic representations for vision and language tasks
+in nips pages
+zheng lu and kristen grauman
+
+story driven in cvpr summarization for egocentric video
+pages
+ramesh nallapati feifei zhai and bowen zhou
+
+summarunner a recurrent neural network based quence model for extractive summarization of ments
+in aaai pages
+shashi narayan shay b cohen and mirella lapata
+
+ranking sentences for extractive tion with reinforcement learning
+in naacl pages
+kaiyang zhou yu qiao and tao xiang
+
+deep reinforcement learning for unsupervised video marization with diversity representativeness reward
+in aaai pages
+shruti palaskar jindrich libovicky spandana gella and florian metze
+
+multimodal abstractive in acl pages summarization for videos
+
+luowei zhou hamid palangi lei zhang houdong hu jason j corso and jianfeng gao
+
+ed vision language pre training for image ing and
+in aaai page in press
+junnan zhu haoran li tianshang liu yu zhou jun zhang and chengqing zong
+
+msmo timodal summarization with multimodal output
+in emnlp pages
+junnan zhu yu zhou jiajun zhang haoran li chengqing zong and changliang li
+
+modal summarization with guidance of multimodal reference
+in aaai page in press
+abigail see peter j liu and christopher d manning
+
+get to the point summarization with generator networks
+in acl pages
+cees gm snoek marcel worring and arnold wm smeulders
+
+early versus late fusion in tic video analysis
+in acm mm pages
+yale song jordi vallmitjana amanda stent and jandro jaimes
+
+tvsum summarizing web videos using titles
+in cvpr pages
+chen sun austin myers carl vondrick kevin phy and cordelia schmid
+
+videobert a joint model for video and language representation ing
+in iccv pages
+jiwei tan xiaojun wan and jianguo xiao
+
+abstractive document summarization with a based attentional neural model
+in acl pages
+dian tjondronegoro xiaohui tao johannes sasongko and cher han lau
+
+multi modal tion of key events and top players in sports ment videos
+in wacv pages
+quoc tuan truong and hady w lauw
+
+vistanet visual aspect attention network for multimodal timent analysis
+in aaai pages
+naushad uzzaman jeffrey p
+bigham and james f
+allen
+
+multimodal summarization of complex sentences
+in iui pages
+huawei wei bingbing ni yichao yan huanyu yu aokang yang and chen yao
+
+video in aaai rization via semantic attended networks
+pages
+yuxiang wu and baotian hu
+
+learning to extract coherent summary via deep reinforcement learning
+in aaai pages
+shuwen xiao zhou zhao zijian zhang xiaohui yan and min yang
+
+convolutional hierarchical tention network for query focused video tion
+arxiv preprint
+
+amir zadeh minghai chen soujanya poria erik bria and louis philippe morency
+
+tensor sion network for multimodal sentiment analysis
+in emnlp pages
+xingxing zhang furu wei and ming zhou
+
+bert document level pre training of hierarchical bidirectional transformers for document tion
+in acl pages
+

@@ -1,0 +1,580 @@
+a hybrid word character model for abstractive summarization chieh teng chang chi chia huang chih yuan yang and jane yung jen hsu department of computer science and information engineering national taiwan university taipei taiwan
+com yangchihyuan
+ntu
+edu
+tw abstract automatic abstractive text tion is an important and challenging search topic of natural language ing
+among many widely used languages the chinese language has a special erty that a chinese character contains rich information comparable to a word
+isting chinese text summarization ods either adopt totally character based or word based representations fail to fully exploit the information carried by both representations
+to accurately capture the essence of articles we propose a hybrid word character approach hwc which preserves the advantages of both based and character based representations
+we evaluate the advantage of the proposed hwc approach by applying it to two ing methods and discover that it generates state of the art performance with a gin of rouge points on a widely used dataset lcsts
+in addition we nd an sue contained in the lcsts dataset and offer a script to remove overlapping pairs a summary and a short text to create a clean dataset for the community
+the posed hwc approach also generates the best performance on the new clean sts dataset
+introduction text summarization aims to create a short uent and effective summary from a long text document
+since the rapid growth of information stored in the textual form in digital documents summaries greatly help address the amount of text data able online for searching useful information and consuming relevant articles
+text summarization covers various types
+general summarization proves the effectiveness of indexing and reduces the bias caused by humans
+query focused marization takes preferences into consideration to satisfy individual needs of information
+document summarization aims to generate maries across multiple documents about the same topic
+extractive summarization combines a group of informative pieces of text from the source out changing them and abstractive summarization generates entirely new sentences by absorbing the information contained in the source text moreno gambhir and gupta
+the recently rapid development of neural works brings signicant advances into text marization especially from the family of tional sequence to sequence tures sutskever et al
+bahdanau et al
+which generates promising performance for abstractive summarization rush et al
+nallapati et al
+
+they learn an internal guage representation from a large number of amples to generate summaries similar to the ones made by humans
+since the used language is a critical factor of text summarization many studies have been done for chinese due to its large number of users tinuous use in the long history and widespread inuence in east asia
+chinese is signicantly different from any european languages especially in its character representation and word tation
+as the old chinese characters were oped thousands of years ago with a monosyllabic structure and used as words the derived modern chinese inherits a bank of characters numbering tens of thousands and composing words from ther single or multiple characters
+although tuations are widely used in modern chinese to arate sentences there is still no delimiter within a sentence to isolate words
+word segmentation is an error prone process and it largely affects the result of automatic summarization ayana et al
+ma et al
+
+since chinese p e s l c
+s c v
+v i x r a ters own semantic meanings although polysemous many existing studies use character based sentation to simplify the effort and prevent the certainty of segmentation hu et al
+chen et al
+li et al
+ayana et al
+ma et al
+li et al
+
+although a few existing methods test based representation hu et al
+gu et al
+their performances are only slightly proved or even worse
+they use word based resentation on both source and target text but it is doubtful since the approach relies on a site of sufcient training samples in terms of curred words
+however the lengths of source and target text of a text summarization sample are initely asymmetric
+summaries as the targets are surely shorter than their source articles and thus it is questionable whether the used dataset is large enough to provide a satisfactory size of target text
+another issue is the memory limitation
+since a chinese word is composed of either a single or multiple chinese characters representing a given chinese text dataset using words instead of acters means signicantly increasing the lary size
+as a text summarization algorithm plemented in an encoder decoder framework and running on a gpu for fast execution the size of its vocabulary will be restricted by a gpu s ory capacity
+to the best of our knowledge gpu platforms to expand overall memory ity for training text summarization models are still being developed
+existing methods which use word based representation for the decoder have to use a selected subset of the complete vocabulary bank extracted from the target text usually the high frequency words
+however once the size of the vocabulary subset is not large enough many low frequency words in the text will be replaced by the unknown token and lose their messages which results in incomplete summaries and low rouge scores
+to address the problem we propose a hybrid word character hwc approach which uses brid embedding units for an encoder and a decoder to preserve the advantages of both word based and character based representations
+since an encoder does not contain a softmax layer its computational load and memory requirement are far less than a decoder jean et al
+
+thus it is feasible to apply a word based representation on the coder and use a large vocabulary bank
+mental results show this approach works well on two encoder decoder summarization methods and generates state of the art performance on a widely used chinese text summarization dataset
+related work extractive and abstractive summarization
+merous automatic summarization methods have been proposed in the literature and the formats of the generated summaries categorize existing ods into two classes extractive and abstractive
+while extractive summarization selects keywords or sentences from the original text and arranges them to form a summary luhn erkan and radev mihalcea and tarau cheng and lapata abstractive summarization erates a brief version of the original text to serve its information content ansd overall ing
+extractive summarization is developed lier since it highly simplies text summarization into text partition and selection and abstractive summarization is heavily studied recently due to its challenge and practicability
+early studies on abstractive approach include statistical machine translation techniques banko et al
+knight and marcu and deletion and compression methods cohn and lapata filippova et al
+
+with the rapid spread of neural works many recent studies build their models in an encoder decoder framework especially the tentional model rush et al
+lapati et al
+for its promising performance
+chinese text summarization datasaet
+in tion to english which is the rst language studied for text summarization the large number of nese users motivates the studies to explore its own language features
+the rst compiled chinese text dataset available for text summarization is chinese gigaword graff and chen which contains a comprehensive archive of newswire text data quired from chinese news sources such as tral news agency of taiwan and xinhua news agency of beijing over several years
+although the corpus is impressive for its richness it is ther free of charge and nor thoroughly categorized
+there is a lack of human evaluation on the quality of the summaries titles of news reports
+on the contrary the lcsts large scale chinese short text summarization dataset hu et al
+is created for academic research
+its text sources are still news reports and titles collected from a nese microblogging website
+since they are croblogging articles their length is restricted der a short text s limit and make the collected ticles consistent
+the dataset provides predened training and test subsets manually labeled ity indexes on its test summaries free assess and long term maintenance
+open source implementation
+the rapid opment and signicant advances of many puter science elds have motivated the trend of publicly available algorithm libraries such as opencv bradski for computer vision and openmnt klein et al
+for neural machine translation
+such platforms provide great nience to test new ideas reproduce results and optimize performance
+since those libraries are well maintained new methods are soon available and easily called through a unied interface
+searchers benet from them by reducing the fort of re implementation preventing the errors of misunderstanding and saving the time of ing experiments
+due to the considerable merits we validate the proposed hwc approach using the openmnt library
+language translation
+text summarization and language translation are two distinct problems in the family of natural language processing
+ever they share certain similar properties such as a representation of sequential data and a sion from text to tokens
+since the two problems are highly close it is possible to apply models veloped for one problem to the other i
+e
+ing the source and target languages in a tion problem by the source and target text in a inspired by the summarization problem
+ca nt breakthrough in the translation problem wu et al
+gehring et al
+gehring et al
+vaswani et al
+we apply the posed hwc approach to a state of the art lation model and nd that the integrated method generates leading edge performance
+proposed method as illustrated in figure the proposed hwc proach is used in an encoder decoder framework that the input articles are represented by words and the output summaries by characters
+in this per we verify the effectiveness of the proposed hwc approach using a baseline method tional and a state of the art one former vaswani et al
+
+figure the input and output formats of the proposed hwc approach on an encoder decoder summarization method
+different from existing methods which use a xed type of the embedding units for both coder and decoder as shown in table the posed method uses word embedding to represent input articles and character embedding for output summaries
+such a design is motivated by the observation in the chinese language words are more precise to provide information than ters because chinese characters are highly mous but characters are shorter and more exible than words
+on the one hand for input data it is less ambiguous to represent articles using words than characters
+in the lcsts
+dataset we use for experimental validation there are words made up by mere characters
+using word bedding units expands the limit of a vocabulary bank in terms of size to train an effective encoder to capture the meaning contained in the word lationship
+on the other hand for output targets since summarized sentences are highly trated and it is common in chinese to shorten long phrases for convenience e
+
+the international olympic committee is abbreviated by where the term olympic game is reduced to and committee to characters are more exible than words to resent the output sentences because of their nitely shorter length
+experimental setup all of our experiments are conducted on a machine equipped with a
+core cpu g ory and a high performance gpu nvidia ti
+we use an open source implementation and the code released by the original authors to duce results of the and transformer vocabulary size word based copynet character based copynet dgrd ac abs distraction wean encoder usage decoder usage
+
+
+
+
+
+table vocabulary sizes available from the sts
+dataset in different representation units and the used by existing methods
+the low portion of the used vocabulary in a word based tion tested by existing methods is caused by the limitation of gpu memory
+the words are mented from documents using the jeiba utilities
+methods respectively
+we get the rouge scores of rnn and rnn context methods on the lcsts
+dataset from the original authors
+to train the and transformer methods we low the existing methods rnn and copynet to split the part i set into two distinct training and idation sets
+since their original authors only port random splitting rather than an explicit ting mechanism we use a long standing random number generator with ve seeds to to select articles as the validation sets and use the remaining as training sets and report the mean rouge scores
+
+dataset on conduct experiments we the lcsts dataset hu et al
+to evaluate the posed method
+this dataset contains a large number of short chinese news articles with made headlines as the short summaries collected from sina a chinese microblogging site
+this dataset is composed of three parts as shown in table
+part i contains a large number of pairs of articles and headlines but no annotation
+parts ii and iii contain not only text data but also human labeled scores measuring the quality of summaries in terms of their relevance to the source articles
+the difference between parts ii and iii are the numbers of annotators to create the scores which is for part ii but for part iii
+the relevance scores range from to the larger the more relevant
+for a fair comparison we follow the same split setting of existing methods hu et al
+gu et al
+chen et al
+li et al
+ayana et al
+ma et al
+li et al
+to
+weibo
+part i ii iii version
+and
+
+clean
+
+and
+clean articles scores n a table the statistics of the lcsts datasets in three different versions
+the version
+is updated from the version
+by replacing articles in part i which re appear in part iii with newly collected articles
+thus the number of part i articles does not change
+the version
+clean is further rened from
+using a strict criterion to remove articles in part i which are highly similar to any articles in part iii and sharing the same summaries
+use part i as the training set and part iii s relevance subset scores equivalent to or greater than as the testing set
+lcsts
+
+by examining the rst released sion
+of the lcsts dataset we found that its part iii contains a high ratio of articles repeated in its part i
+we reported this problem to the authors and received the response that they released an correct dataset which failed to lter out common articles in parts i and iii
+to deal with the problem they re released the dataset they actually used for their experiments which replaced overlapping articles in part i with newly collected ones and assigned it a new version
+
+lcsts
+clean
+after scrutinizing lcsts
+we nd the cleanup is not complete
+many items in lcsts
+s part i are almost the same to items in part iii in terms of exactly the same summaries and highly similar articles only differing on a few characters at the end of the articles to show the name of source newspaper
+as an example shown in table the name of source newspaper shanghai morning post does not contribute to the message carried in the article
+since the sue is likely to weaken the dataset we remove the highly repeated items from part i and name the amended dataset lcsts
+clean
+in order to evaluate the proposed method on a well made dataset we remove all highly ping items from the part i split of lcsts
+and name it lcsts
+clean
+the script to ate lcsts
+clean is in github repository for reproducing our experimental results by other searchers
+summary article table an example of highly overlapping items in the lcsts
+dataset
+an item in the part i split differs from another item in the part iii split only on the presence of the term shanghai morning post at the end of the cle
+
+evaluation metrics we adopt rouge lin metrics for uation which has been widely used for tive summarization
+they measure the quality of summaries by computing the overlap of generated and reference ones
+for a fair ison we report gram bigrams and rouge l longest common sequence scores for all compared methods
+
+compared methods rnn and rnn context hu et al
+are two similar rnn based methods except for a context generator included
+in the simpler architecture without a context generator its decoder uses the rnn encoder s last state as the input data in the complexer architecture a context generator is nected with all gated recurrent units hidden states and uses generated context to generate summaries
+copynet gu et al
+integrates the copying mechanism into the attentional model in order to combine selected subsequences from the input sequence to generate an output sequence
+distraction chen et al
+is a framework which distracts a document into ent regions by their content in order to better grasp the overall meaning of the input document
+drgn li et al
+is an attentional model equipped with a latent structure modeling component
+mrt ayana et al
+employs the minimum risk training strategy on an attentional model
+wean ma et al
+is based on an tional model which generates summaries by querying distributed word representations with an attention mechanism in the decoder
+ac abs li et al
+employs an actor critic approach originally developed for reinforcement learning on an attentional model
+is the method using the simplest tentional model without any additional component
+we use an implementation available from the openmnt system klein et al
+and evaluate it as a baseline
+transformer vaswani et al
+is a newly veloped encoder decoder method which uses tention mechanisms rather than complex recurrent or convolutional neural networks
+we adopt its model for chinese abstractive summarization and rst report its performance
+
+preprocessing and hyperparameters we adopt the same approach as rnn context and copynet to segment input articles into words ing the jieba segmentation
+about the hyperparameter of vocabulary size we do iments on several numbers as shown in table in the same ranges used by rnn context and net and some large numbers to assess the extent
+the numbers and are the amount of words in the training sets whose occurrence quency is greater than one
+about the eters used the method we cally set the numbers of embedding dimension and hidden layers both as
+we use adagrad duchi et al
+as the optimizer and set the initial learning rate to
+and dropout rate to
+
+we set the beam size to for all decoders in our periments
+for the transformer method we use the default parameters of an implementation able in the opennmt py
+results and discussion by evaluating the proposed model on the sts dataset we nd that the dataset s original version
+contains overlapping items and rm the issue by its authors
+therefore we do experiments for fair comparisons with ing methods not only on its original version but also on two new versions
+and
+clean to fairly evaluate the performance
+the rouge scores on the three datasets are shown in tables and respectively
+on the original version the method generates the best score with a signicant margin over existing ods
+using the same method on the lcsts
+
+python
+org pypi
+cc encoder decoder measure vocab size rouge l method copynet gu et al
+hu et al
+base char char word char distraction chen et al
+char dgrd li et al
+char mrt ayana et al
+char wean ma et al
+char ac abs li et al
+char char max vocab size word word max vocab size word char transformer char transformer max vocab size word vocab size base char char word char char char char char char char char char char char char char
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+n a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+in the cases of maximal table scores of three rouge measures on the lcsts
+dataset
+vocabulary size we report the numbers of vocabularies available in training splits rather than the overall dataset training plus validation so that the numbers may be slightly smaller than the ones reported in table
+the score of the method is given by the authors but the other two rouge scores are unavailable
+encoder decoder measure vocab size rouge l method rnn hu et al
+max vocab size base char word char word char char word vocab size base char word char word char char char
+
+
+
+
+
+
+
+
+
+
+
+
+
+table scores of three rouge measures on the lcsts
+dataset
+we report the scores of the rnn and methods here rather than in table due to the authors addendum as explained in section
+
+encoder decoder measure vocab size rouge l method base char char max vocab size word max vocab size word char transformer char transformer max vocab size word vocab size base char char char char char char char
+
+
+
+
+
+
+
+
+
+
+
+
+
+table scores of three rouge measures on the lcsts
+clean dataset
+n a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+clean dataset the rouge scores decline ably and it shows the importance to evaluate ods on a well made dataset
+vocabulary size
+as shown in tables and larger vocabulary banks lead to higher rouge scores
+on the lctst
+dataset the char based method generates higher rouge scores over existing methods merely by ing its vocabulary bank
+on the lctst
+and
+clean datasets the char based method also benets from large vocabulary banks
+adopting the hwc approach the method with a word based encoder uses larger vocabulary banks and generates better rouge scores
+on both lcsts
+and
+datasets the transformer method generates the top mance by using the hwc approach with a large vocabulary bank
+the effects of the hwc approach
+on all of the three datasets lcsts
+
+and
+clean the method generates higher rouge scores over the method
+such improvements are also observed about the transformer method on the lcsts
+and
+clean dataset
+table outlines the enhancement and shows that overlapping data result in larger creases of the rouge scores
+it indicates that the model is an aggressive learner which effectively adapts its hidden states to its training data
+thus it generates very high rouge scores as the test data overlap the training ones
+rouge l lcsts
+transformer lcsts
+clean transformer
+
+
+
+
+
+
+
+
+
+
+
+table the rouge scores improved by ing the hwc approach to two encoder decoder methods
+analysis of generated summaries
+in order to show the reason of the success caused by the hwc approach we show four example summaries erated by the top two methods transformer and in table including their source articles and man made references
+the four examples show that the method better catches the major messages tained in the source articles which are lars in article private trusts in article executive meetings and li keqiang in article and xian ge qing xiaomi and can not compare with us in article
+in contrast the character based transformer method tends to copy a full sentence from its source article but miss the point
+for ample it copies i love football but my family nancial status is supported by me
+in article but misses the key term dollars what is the highest level of the rich in article but misses the key term private trust and combining ternet boxes such as xiaomi and routers can not compare with us
+but misses the key term xian ge qing
+since the proposed hwc approach helps detect key terms it leads to higher rouge scores
+training time
+the proposed hwc approach has the advantages of not only improving formance but also increasing the training ciency
+we show the speedup as a chart in ure from the experiments shown in table ducted on the lctst
+clean dataset
+their cabulary sizes are all of the maxima except for the method due to a memory limitation
+both of the and former methods use fewer epoches to generate high scores by applying the hwc proach
+please note the unit of the horizontal axis is a minute rather than an epoch which means the actual execution time has been taken into ation
+for the method the hwc proach increases the mean training time per epoch from to minutes but for the transformer method it reduces the time from to utes
+such result is caused by the tension between two factors that a word based representation ens the length of input sequences and thus reduces the level of training difculty but it also increases the load of updating vocabulary embedding in the encoder due to a larger vocabulary size
+figure training time and performance ison of two evaluated methods with and without the proposed hwc approach
+conclusion and future study in this paper we propose a hybrid representation approach to improve the performance of text marization methods in an encoder decoder work
+experimental results demonstrate that the kick the ball when opening the eyes fans will be ecstatic about standing out in the asian cup when blindfolded the eyes china has won the place in the world after brazil but the situation is very different
+the blind footed veteran lin jinbiao did not go to the training camp this time although it covers the accommodation during the training time the salary is only dollars per day
+i love football but my family nancial status is supported by me
+reference china blind footed player who has won the place in the world the salary is only dollars per day
+transformer lin jinbiao i love football but my family nancial status is supported by me
+the football veteran in china will not go to the training camp because the salary is only dollars
+what is the highest level of the rich money is not in their share but it can be controlled by themselves
+in fact the biggest characteristic of private trusts is that they can cross life cycles and help customers manage personal wealth for life inherit and distribute wealth across generations
+their unique privacy secrecy and stability are among many wealthy individuals and family business pursuit in china
+reference private trusts create a new bridge for wealth inheritance
+transformer what is the highest level of the rich private trusts cross life cycles
+besides visiting or participating important events premier li keqiang hosts the state council executive meeting on wednesday
+there are executive meetings times on wednesday in months
+if the subject of these meetings are strung together with a red line it shows not only the trajectory of changes in major policies and policies but also the governance and policy of the current government
+reference analyze li keqiang s way of governance by executive meetings
+transformer state council executive meetings are strung together with a red line
+analyze li keqiang s executive meetings in months
+for xian ge qing which is about to rename to zhongke cloud network meng kai is lled with expectation
+others say that we work on big data and its concept but i believe that the upgrading of the radio and tv network will be equivalent to combining radio and tv with nuclear weapons
+combining internet boxes such as xiaomi and routers can not compare with us
+reference xian ge qing works on cable tv combining xiaomi s products can not compare with us
+transformer meng kai combining internet and routers can not compare with us
+chairman of xian ge qing talks about upgrading radio and tv networks xiaomi and routers can not compare with us
+table example summaries generated from the
+clean dataset
+proposed approach clearly generates state of in addition we nd a few art performance
+rors in a widely used dataset and provide a script to polish it
+beyond the improved performance it may be a better representation by ing part of speech tagging into the proposed proach
+we are also interested in the applicability of the proposed approach to other natural language processing problems such as dialogue generation and machine translation
+references ayana et al
+ayana shiqi shen zhiyuan liu and maosong sun
+
+neural headline ation with minimum risk training
+arxiv preprint
+
+bahdanau et al
+dzmitry bahdanau kyunghyun cho and yoshua bengio
+
+neural machine translation by jointly learning to align and translate
+in iclr
+banko et al
+michele banko vibhu o
+mittal and michael j
+witbrock
+
+headline tion based on statistical translation
+in acl pages
+gary bradski
+
+the opencv brary
+dr
+dobb s journal of software tools
+chen et al
+qian chen xiaodan zhu zhenhua ling si wei and hui jiang
+
+based neural networks for modeling documents
+in ijcai pages
+cheng and jianpeng cheng and mirella lapata
+
+neural summarization by extracting sentences and words
+in acl pages
+cohn and trevor cohn and mirella ata
+
+sentence compression beyond word tion
+in coling pages
+duchi et al
+john duchi elad hazan and yoram singer
+
+adaptive subgradient methods for line learning and stochastic optimization
+journal of machine learning research
+erkan and gunes erkan and dragomir r
+radev
+
+lexrank graph based lexical trality as salience in text summarization
+journal of articial intelligence research
+filippova et al
+katja filippova enrique seca carlos a colmenares lukasz kaiser and oriol vinyals
+
+sentence compression by tion with lstms
+in emnlp pages
+gambhir and mahak gambhir and vishal gupta
+
+recent automatic text summarization techniques a survey
+articial intelligence review
+gehring et al
+jonas gehring michael auli david grangier and yann n dauphin
+
+a convolutional encoder model for neural machine translation
+acl
+gehring et al
+jonas gehring michael auli david grangier denis yarats and yann n
+dauphin
+
+convolutional sequence to sequence ing
+icml
+graff and david graff and ke chen
+
+chinese gigaword
+linguistic data consortium
+gu et al
+jiatao gu zhengdong lu hang li and victor o
+k
+li
+
+incorporating copying in acl anism in sequence to sequence learning
+pages
+et al
+baotian hu qingcai chen and fangze zhu
+
+lcsts a large scale chinese short text in emnlp pages summarization dataset
+
+jean et al
+sebastien jean kyunghyun cho roland memisevic and yoshua bengio
+
+on using very large target vocabulary for neural chine translation
+arxiv preprint
+
+klein et al
+guillaume klein yoon kim tian deng jean senellart and alexander m
+rush
+
+open source toolkit for neural machine translation
+in acl pages
+knight and kevin knight and daniel marcu
+
+statistics based summarization step in aaai iaai pages one sentence compression
+
+et al
+piji li wai lam lidong bing and hao wang
+
+deep recurrent generative decoder in emnlp for abstractive text summarization
+pages
+et al
+piji li lidong bing and wai lam
+actor critic based training framework arxiv preprint
+for abstractive summarization
+
+
+chin yew lin
+
+rouge a package for automatic evaluation of summaries
+in ings of the workshop pages
+hans peter luhn
+
+the automatic creation of literature abstracts
+ibm journal of search and development
+et al
+shuming ma xu sun wei li sujian li wenjie li and xuancheng ren
+
+word embedding attention network generating words by querying distributed word representations for phrase generation
+in naacl hlt
+mihalcea and rada mihalcea and paul rau
+
+textrank bringing order into text
+in emnlp
+nallapati et al
+ramesh nallapati bowen zhou caglar gulcehre bing xiang al
+
+tive text summarization using sequence to sequence rnns and beyond
+in signll pages
+rush et al
+alexander m
+rush sumit chopra and jason weston
+
+a neural attention model for abstractive sentence summarization
+in emnlp pages
+sutskever et al
+ilya sutskever oriol vinyals and quoc v
+le
+
+sequence to sequence in nips pages ing with neural networks
+
+torres juan manuel torres moreno
+
+automatic text summarization
+john wiley sons inc
+vaswani et al
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n gomez ukasz kaiser and illia polosukhin
+
+in nips pages attention is all you need
+
+wu et al
+yonghui wu mike schuster zhifeng chen quoc v
+le mohammad norouzi wolfgang macherey maxim krikun yuan cao qin gao klaus macherey et al
+
+google s neural chine translation system bridging the gap between arxiv preprint human and machine translation
+
+
+

@@ -1,0 +1,262 @@
+n u j l c
+s c v
+v i x r a mind the facts knowledge boosted coherent abstractive text summarization beliz gunel department of electrical engineering stanford university stanford ca
+edu chenguang zhu michael zeng xuedong huang ai cognitive services research group microsoft redmond wa chezhu nzeng
+com abstract neural models have become successful at producing abstractive summaries that are human readable and uent
+however these models have two critical shortcomings they often do nt respect the facts that are either included in the source article or are known to humans as commonsense knowledge and they do nt produce coherent summaries when the source article is long
+in this work we propose a novel architecture that extends transformer encoder decoder architecture in order to improve on these shortcomings
+first we incorporate entity level knowledge from the wikidata knowledge graph into the encoder decoder architecture
+injecting structural world knowledge from wikidata helps our abstractive summarization model to be more fact aware
+second we utilize the ideas used in transformer xl language model in our proposed encoder decoder architecture
+this helps our model with producing coherent summaries even when the source article is long
+we test our model on cnn daily mail summarization dataset and show improvements on rouge scores over the baseline transformer model
+we also include model predictions for which our model accurately conveys the facts while the baseline transformer model does nt
+introduction summarization is the task of generating a shorter text that contains the key information from source text and the task is a good measure for natural language understanding and generation
+broadly there are two approaches in summarization extractive and abstractive
+extractive approaches simply select and rearrange sentences from the source text to form the summary
+there has been many neural models proposed for extractive summarization over the past years
+current state of the art model for the extractive approach ne tunes a simple variant of the popular language model bert for the extractive summarization task
+on the other hand abstractive approaches generate novel text and are able to paraphrase sentences while forming the summary
+this is a hard task even for humans and it s hard to evaluate due to the subjectivity of what is considered a ground truth summary during evaluation
+recently many neural abstractive summarization models have been proposed that use either lstm based sequence to sequence attentional models or transformer as their backbone architectures
+these models also integrate various techniques to their backbone architecture such as coverage copy mechanism and content selector module in order to enhance their performance
+there is also some recent work on abstractive summarization based on reinforcement learning techniques that optimize objectives in addition to the standard maximum likelihood loss
+although current neural abstractive summarization models can achieve high rouge scores on popular benchmarks and are able to produce uent summaries they have two main shortcomings i
+conference on neural information processing systems neurips vancouver canada
+they do nt respect the facts that are either included in the source article or are known to humans as commonsense knowledge
+they do nt produce coherent summaries when the source article is long
+in this work we propose a novel architecture that extends transformer encoder decoder architecture to improve on these challenges
+first we incorporate entity level knowledge from the wikidata knowledge graph into the encoder decoder architecture
+injecting structural world knowledge from wikidata helps our abstractive summarization model to be more fact aware
+second we utilize the ideas used in transformer xl language model in our encoder decoder architecture
+this helps our model with producing coherent summaries even when the source article is long
+proposed method
+transformer vs
+transformer xl recently transformer architectures have been immensely successful in various natural language processing applications including neural machine translation question answering and neural marization and pretrained language modeling
+however transformers have xed length context which results in worse performance while encoding long source text
+in addition these xed length context segments do not respect the sentence boundaries resulting in context fragmentation which is a problem even for the short sequences
+recently transformer xl has offered an effective solution for this long range dependency problem in the context of language modeling
+they have introduced the notion of recurrence into a self attention based model by reusing hidden states from the previous segments and have introduced the idea of relative positional encoding to make the recurrence scheme possible
+transformer xl has state of the art perplexity performance learns dependency longer than vanilla transformers and is up to times faster than vanilla transformers at inference time on language modeling tasks
+inspired by the strong performance of the transformer xl language model on modeling long range dependency we extend transformer xl to an encoder decoder architecture based on the transformer architecture
+in other words we calculate the attention scores at every multi head attention layer in our architecture shown in figure based on transformer xl attention decomposition
+we compare the attention decompositions of vanilla transformer and transformer xl
+below equations show the attention computation between query qi and key vector kj within the same segment
+u matrix shows the absolute positional encoding e matrix is the token embedding matrix wq and wk represent the query and key matrices
+in the transformer xl attention formulation rij is the relative positional encoding matrix without trainable parameters and u v wk r wk e are all trainable parameters
+w t avanilla i j i j et xi q wkexj et xi et xi q wk eexj et xi w t axl w t i w t q wkuj u t q wkuj q wk rrij ut wk eexj vt wk rrij q wkexj u t i w t w t overall transformer xl s architecture is shown below for a segment in the n th transformer layer
+sg denotes stop gradient and denotes concatenation
+we refer the readers to the original transformer xl paper for further discussion on the new parameterization for attention calculations and more details on the design decisions for the architecture
+t w n w n e q t w n k rrij ut j qn i t t w n v j vt w n k rrij qn i j qn i vn t kn an it is important to note that as in the vanilla transformer we still have the fully connected forward network layers after multi head attention layers and residual connections around sublayers followed by layer normalizations
+these layers are omitted in figure for simplicity
+empirically we observe much more coherent articles with transformer xl encoder decoder architecture compared to the transformer baseline
+figure shows a comparison for an input source article sampled from cnn daily mail dataset
+
+wikidata knowledge graph entity embeddings wikidata is a free and open multi relational knowledge graph that serves as the central storage for the structured data of its many services including wikipedia
+we sample part of wikidata that has million entities and million relationship triples
+we learn entity embeddings for these sampled entities through the popular multi relational data modeling method
+is a simple yet very powerful method that represents relationships between fact triples as translations operating in the low dimensional entity embedding space
+specically we minimize a margin based ranking criterion over the entity and relationship set using norm as the dissimilarity measure d as shown in the below equation
+s is the set of relationship triplets h l t where h and t are entities in the set of entities e and l represents the relationships in the set of relationships l
+we construct the corrupted relationship triplets which forms the negative set for the margin based objective through replacing either the head or tail of the relationship triple by a random entity
+low dimensional entity and relationship embeddings are optimized through stochastic gradient descent with the constraint that norms of the entity embeddings are on the unit sphere which is important in order to obtain meaningful embeddings
+l l t l h l h l t where denotes the positive part of x is a margin hyperparameter and h l t l e h l e
+our model architecture our overall model architecture is shown in figure
+we extend the encoder decoder architecture such that the entity information can be effectively incorporated into the model
+on the encoder side we have a separate attention channel for the entities in parallel to the attention channel for the tokens
+these two channels are followed by multi head token self attention and multi head cross token entity attention
+on the decoder side we have multi head masked token self attention multi head masked entity self attention and multi head cross attention between encoder and decoder respectively
+finally we have another layer of multi head token attention followed by a feed forward layer and softmax to output the tokens
+multi head attention are conducted based on the transformer xl decomposition as in section
+
+entity linker modules use an off the shelf entity extractor and disambiguate the extracted entities to the wikidata knowledge graph
+extracted entities are initialized with the pretrained wikidata knowledge graph entity embeddings that are learned through transe as discussed in section
+
+entity conversion learner modules use a series of feed forward layers with relu activation
+these modules learn entities that are in the same subspace with the corresponding tokens in the text
+experiments
+dataset we evaluate our models on the benchmark dataset for summarization cnn daily mail
+the dataset contains online news articles words on average paired with multi sentence summaries words on average
+we use the standard splits that include training pairs validation pairs and test pairs
+we do not anonymize the entities instead operate directly on the original text
+we truncate the articles to tokens and summaries to tokens in train time and tokens in test time
+during preprocessing we do not remove the case for higher quality entity extraction in our entity linking module
+
+quantitative results we evaluate our model and the baseline based on the rouge metric that compares the generated summary to the human written ground truth summary and counts the overlap of grams figure our model architecture
+pe stands for positional encoding
+single encoder and decoder layers are shown in parenthesis
+in multi layer architectures these layers in curly brackets are stacked
+grams and longest common sequence rouge l
+we use the pyrouge package to obtain our scores and report the scores for all rouge types
+our baseline is the vanilla transformer encoder decoder architecture that s commonly used as the backbone architecture in abstractive summarization models
+for both the baseline and our proposed model we use transformer layers and heads and utilize beam search for decoding
+we use dimensions for both entity and token embeddings bertadam as the optimizer and minimum sentence generation length of
+after hyperparameter search we set the learning rate to
+dropout rate to
+beam width to and maximum sentence length to during inference
+we start entity extraction at the decoder it produces tokens
+our results on cnn daily mail dataset are shown in table
+our model improves over the former baseline by
+points and
+rouge l points on the full test set
+in fact we see better improvements when we test our model on the higher entity density slice of the test set as demonstrated in table
+specically our model improves over the baseline by
+points and
+rouge l points on the test set article summary pairs in which there are more than entities in the source article
+also we include results in table in which we initialized the entity embeddings randomly to test the benet of using wikidata kg entity embeddings
+using random entity embeddings decreased the model performance while using wikidata kg entity embeddings increased the model performance both for vanilla transformer and for transformer xl backbone architectures
+this supports our hypothesis that injecting structural world knowledge from external knowledge bases to abstractive summarization models improves model performance
+table results on cnn daily mail dataset
+r used as an abbreviation for rouge
+model r l transformer baseline transformer entity random entity emb transformer entity wikidata kg emb transformer xl entity wikidata kg emb our model
+
+
+
+
+
+
+
+
+
+
+
+table results on cnn daily mail dataset with high density entities
+r used as an abbreviation for rouge
+ent denotes the slice of test data that has more than entities in the source article
+model ent ent r l ent transformer baseline our model
+
+
+
+
+
+
+qualitative results we conduct qualitative analysis on our model s predicted summaries and include some samples here
+in figure we compare the transformer baseline output to the output of our model for a sampled input article from cnn daily mail corpus
+baseline model makes several factual errors based on our manual fact checking
+neither mcclaren nor paul clement was years old at the time when the article was published
+
+neither steve mcclaren nor paul clement worked as a manchester united boss
+on the other hand our model respects the facts through incorporating world knowledge from wikidata knowledge graph
+again based on our manual fact checking we nd
+paul clement was indeed working in real madrid before he was appointed the manager of derby county
+
+although england boss is too broad he did work at chelsea
+in figure we compare the transformer baseline output to the output of the transformer xl decoder model without entity integration in order to test the effect of architecture on summary coherency
+baseline model produces an incoherent summary while transformer xl encoder decoder model outputs coherent human readable summary
+ground truth summary steve mcclaren is expected to take newcastle job if derby do nt go up
+rams are currently battling for championship promotion via the play offs
+paul clement is a leading candidate for job
+derby will make formal contact with real madrid if mcclaren leaves
+transformer baseline output steve mcclaren is a leading candidate to replace steve mcclaren
+the year old has established a reputation as one of european football s leading coaches in recent years working on mainly under carlo ancelotti
+the former manchester united boss is keen to secure promotion into the premier league next season
+output of our model paul clement is a leading candidate to replace steve mcclaren at derby county
+the former england boss has established a reputation as one of europe s leading football coaches in recent years
+clement is currently a real madrid coach
+figure comparison of the transformer baseline output and the output of our proposed model
+ground truth summary is sampled from the cnn daily mail summarization corpus
+baseline model makes factual errors while our model respects the facts through incorporating entity level knowledge from wikidata knowledge graph
+transformer baseline output wayne oliveira has scored four goals in seven games and oliveira
+oliveira has recovered from training ground ankle injury
+oliveira says he is not happy he is injured but if it gives me an chance
+gomis has been ruled out for between three to four weeks after being injured
+oliveira believes bafetimbi gomis form has made seven of his eight swansea appearances
+
+
+
+transformer xl output the portugal striker has been ruled out for between three to four weeks
+nelson oliveira has been sidelined for four weeks with injury
+he has scored four goals in seven matches and has recovered from a training ground injury
+the year old has made his swansea debut in the home defeat against chelsea in january
+
+
+figure comparison of the transformer baseline output and the output of transformer xl decoder model output
+source article is sampled from the cnn daily mail summarization corpus
+baseline model produces an incoherent summary while transformer xl encoder decoder model outputs coherent human readable summary
+discussion and future work we present an end to end novel encoder decoder architecture that effectively integrates entity level knowledge from the wikidata knowledge graph in the attention calculations and utilizes xl ideas to encode longer term dependency
+we show performance improvements over a transformer baseline under same resources in terms of number of layers number of heads number of dimensions of hidden states
+on the popular cnn daily mail summarization dataset
+we also conduct preliminary fact checking and include examples for which our model is respectful to the facts while baseline transformer model is nt
+similar to the previous works in abstractive summarization we nd that rouge metric is not representative of the performance in terms of human readability coherence and factual correctness
+rouge by denition rewards extractive strategies by evaluating based on word overlap between ground truth summary and output model summary
+metric is not exible towards rephrasing which limits model s ability to output abstractive summaries
+it s also important to note that ground truth is subjective in the abstractive summarization setting since there can be more than one correct abstractive summary to a source article
+we believe nding metrics that are representative of the desired performance is an important research direction
+finally we believe entity linking should be part of the end to end training instead of a separate pipeline in the beginning
+it s possible that we lose valuable information both during entity extraction part and during disambiguation part to the chosen knowledge graph
+references asli celikyilmaz antoine bosselut xiaodong he and yejin choi
+
+deep communicating agents for abstractive summarization
+in proceedings of the naacl conference
+romain paulus caiming xiong and richard socher
+
+a deep reinforced model for abstractive summarization
+in proceedings of the iclr conference
+abigail see peter j
+liu and christopher d
+manning
+
+get to the point summarization with pointer generator networks
+in proceedings of the acl conference
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n gomez ukasz kaiser and illia polosukhin
+
+attention is all you need
+in advances in neural information processing systems pages
+caglar gulcehre sungjin ahn ramesh nallapati bowen zhou and yoshua bengio
+
+pointing the unknown words
+in proceedings of the acl conference
+ramesh nallapati bowen zhou cicero dos santos caglar gulcehre and bing xiang
+
+abstractive text summarization using sequence to sequence rnns and beyond
+in computational natural language learning
+zhengyan zhang xu han zhiyuan liu xin jiang maosong sun and qun liu
+
+ernie enhanced language representation with informative entities
+in proceedings of the acl conference
+zihang dai zhilin yang yiming yang jaime g
+carbonell quoc v
+le and ruslan salakhutdinov
+
+transformer xl attentive language models beyond a fixed length context
+in proceedings of the acl conference
+sebastian gehrmann yuntian deng and alexander m
+rush
+
+bottom up abstractive summarization
+in proceedings of the emnlp conference
+yang liu
+
+fine tune bert for extractive summarization
+arxiv
+qingyu zhou nan yang furu wei shaohan huang ming zhou and tiejun zhao
+
+neural document summarization by jointly learning to score and select sentences
+in proceedings of the acl conference
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language understanding
+in proceedings of the naacl conference
+karl moritz hermann tomas kocisky edward grefenstette lasse espeholt will kay mustafa suleyman and phil blunsom
+
+teaching machines to read and comprehend
+in neural information processing systems
+antoine bordes nicolas usunier alberto garca durn jason weston and oksana yakhnenko
+
+translating embeddings for modeling multi relational data
+in neural information processing systems
+
+wikidata
+chin yew lin
+
+rouge a package for automatic evaluation of summaries
+in text summarization branches out acl workshop
+pypi
+python
+org pypi
+
+jianpeng cheng and mirella lapata
+
+neural summarization by extracting sentences and words
+in proceedings of the acl conference
+

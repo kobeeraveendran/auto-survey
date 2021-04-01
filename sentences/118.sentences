@@ -1,0 +1,812 @@
+t c o l c
+s c v
+v i x r a summarizing dialogic arguments from social media amita misra shereen oraby shubhangi tandon sharath ts pranav anand and marilyn walker uc santa cruz natural language and dialogue systems lab n
+high
+santa cruz california usa
+edu abstract online argumentative dialog is a rich source of information on popular beliefs and opinions that could be useful to panies as well as governmental or public policy agencies
+compact easy to read summaries of these dialogues would thus be highly valuable
+a it is not even clear what form such a summary should take
+previous work on summarization has primarily focused on summarizing written texts where the notion of an abstract of the text is well dened
+we collect gold dard training data consisting of ve human summaries for each of dialogues on the topics of gay marriage gun control and abortion
+we present several different computational models aimed at ing segments of the dialogues whose tent should be used for the summary ing linguistic features and tures with both svms and bidirectional lstms
+we show that we can identify the most important arguments by using the alog context with a best f measure of
+for gun control
+for gay marriage and
+for abortion
+introduction online argumentative dialog is a rich source of information on popular beliefs and opinions that could be useful to companies as well as mental or public policy agencies
+compact easy to read summaries of these dialogues would thus be highly valuable
+however previous work on summarization has primarily focused on rizing written texts where the notion of an abstract of the text is well dened
+work on dialog summarization is in its infancy
+early work was domain specic for example cusing on extracting actions items from meetings murray
+gurevych and strube plied semantic similarity to switchboard dialog showing improvements over several baseline marizers
+work on argument summarization has to date focused on monologic data
+ranade et al
+summarize online debates using topic and sentiment rich features but their unit of mary is a single debate post rather than an tended conversation
+wang and ling erate abstractive one sentence summaries for ionated arguments from debate websites using an attention based neural network model but the puts are well structured arguments and a central claim constructed by the editors rather than generated conversations
+postid turn gays
+
+you wo nt let me have everything i want so you must hate me
+spoil child
+
+you wo nt let me have everything i want so you must hate me
+and who made you master daddy that you think it is your place to grant or disallow anything to your fellow citizens did i say that i was and it is you implied it when you compared gays and their supporters ghting for rights to spoiled children
+for the analogy to work there has to be a parent gure for the gays as well
+the public is the parent gure and the law ers are or should be the public s servant
+this then implies that homosexuals are are not part of the public and the law makers are not their servants as well and that you do indeed believe it is your right to allow and disallow things to your fellow citizens
+that they are lesser group than you
+you just proved your hate
+homosexuals are a deviant minority
+figure gay rights argument
+to our knowledge there is no prior work on summarizing important arguments from noisy gumentative dialogs in online debate such as that in figure
+a it is not even clear what form summary contributors says that no one can prove that gun owners are safer than non gun owners
+says no one has been able to prove gun owners are safer than non gun points out there is no empirical data suggesting that gun owners are safer than non gun owners
+states there are no statistics proving owning a gun makes people safer
+believes that there is no proof that gun owners are safer than non gun owners
+owners
+human label from pyramid annotations nobody has been able to prove that gun owners are safer than non gun owners
+tier rank they say that if had a family member die from gun violence it might be more signicant to them he says if had a personal or family encounter with gun violence he would family encounters with gun violence changes signicance
+that people who have had relatives die from gun violence have a different feel differently
+attitude
+fend themselves
+pro gun perspective is on people died without the ability to on people died without the ability to defend themselves
+table example summary contributors pyramid labels and tier rank in gun control dialogs such a summary should take
+the two sants in figure obviously do not agree should a summary give preference to one person s views should a summary be based on decisions about which argument is higher quality well structured more logical or which better follows theories of argumentation fortunately summarization is something that any native speaker can do without formal training
+thus our gold standard training data consists of human summaries for each dialog from a corpus of dialogs discussing gay marriage gun trol and abortion
+arguments that are important to extract to form the basis of summary content are dened to be those that appear in a majority of human summaries as per the pyramid model nenkova and passonneau
+we then aim to learn how to automatically extract these important arguments from the original dialogs
+we rst dene several baselines using off shelf summarizers such as lexrank and sic erkan and radev nenkova and derwende
+our experiments explore the fectiveness of combining traditional linguistic tures with in both svms and tional lstms
+we show that applying ence and representing the context improves formance
+performance is overall better for the bidirectional lstm but both models perform ter when linguistic features and argumentative tures are combined with word embeddings
+we achieve a best f measure of
+for gun control
+for gay marriage and
+for abortion
+we discuss related work in more detail in section when we can compare it with our approach
+experimental method
+data our corpus of dialogs and summaries focus on the topics gay marriage gun control and abortion from the the publicly available internet argument corpus iac abbott et al
+
+we used the portion of the iac containing posts from http
+com
+we use the debate forum data to extract dialog exchanges between pairs of authors with at least turns per author in order to represent different perspectives on an issue
+to get richer and more diverse data per topic taining multiple argumentative claims and sitions we ensure that the corpus does not contain more than one dialog per topic between any ular pair of authors
+the dataset contains gay rights dialogues gun control dialogues and abortion dialogues
+we adopt a three step process to identify useful sentences for extraction that we briey summarize here
+dialogs are read and summarized by pre qualied workers on mechanical turk
+since the dialogs vary in length and content we applied a limit that dialogs with a word count less than must be summarized by the annotators in words and dialogs with in this task you will carefully read part of a dialog where two people are discussing the issue of gun control
+several previous workers have each summarized this dialog and we have related those summaries by grouping together parts of their summaries that roughly describe the same actions in the dialogue
+in this task you will link these action description groups to sentences in the dialogue
+each dialog is automatically divided into sentences
+your job is to provide the best action description group for each sentence
+the action description groups are sets of sentences from several summaries that essentially describe the same action in the dialog in different words
+each group has a unique label and you will select the label that best approximates what is happening in the sentence and select a label using the radio button provided with each sentence
+please especially note more than one sentence can map to same group
+for example two people may say virtually the same thing multiple times
+not all sentences will have a good group so if you can not nd any similar set for a sentence then select none of the labels match in the radio button option
+you are expected to read and comprehend the sentence
+since these come from summaries the action summaries may use very different words from those used in the dialogs
+table directions for step annotation mapping pyramid labels to sentences
+word count greater than words should be summarized in words
+we train undergraduate linguists to use the pyramid method nenkova and neau to identify important arguments in the dialog they then construct pyramids for each set of ve summaries
+repeated ments of the ve summaries end up on higher tiers of the pyramid and indicate the most important content as shown in table
+this results in a ranking of the most important guments abstract objects in a dialog but the linguistic representation of these arguments is based on the language used in the maries themselves
+to identify the spans of text in the alog itself that correspond to the important arguments we must map the ranked labels from the summaries back onto the dialog text
+we recruited graduate students and dergraduates to label each sentence of the alog with the best set of human labels from the pyramids
+table shows the directions for this task
+we now have one or more labels for each tence in a dialog but we are primarily interested in the tier rank of the sentences
+we group labels by tier and compute the average tier label per tence
+we dene any sentence with an average tier score of or higher as important
+thus steps and above are simply carried out to arrive at a well motivated and theoretically grounded inition of important argument and the task we address in this paper is binary classication plied to dialogs to select sentences that are tant
+table shows the resulting number of portant sentences for each topic
+the average hen s kappa between the annotators is respectable with a kappa value of
+for gun control
+for abortion and
+for gay marriage
+topic gun control gay marriage abortion important not important table sentence distribution in each domain
+
+baselines we use several off the shelf extractive tion engines frequency probability distribution and graph based from the python package sumy to provide a baseline for comparison with our models
+to enable direct comparison we dene a sentence as important if it appears in the top n sentences in the output of the baseline summarizer where n is the number of important sentences for the dialog as dened by our method
+sumbasic
+nenkova and vanderwende show that content units and words that are repeated often are likely be mentioned in a human mary and that frequency is a powerful predictor of human choices in content selection for marization
+sumbasic uses a greedy search proximation with a frequency based sentence lection component and a component to re weight the word probabilities in order to minimize dancy
+kl divergence summary
+this approach is based on nding a set of summary sentences
+python
+org pypi sumy which closely match the document set unigram distribution
+it greedily adds a sentence to a mary as long as it decreases the kl divergence haghighi and vanderwende
+lexrank
+this method is a degree based method of computing centrality that is used for tive summarization and has shown to outperform centroid based methods on duc evaluation tasks
+it computes sentence importance based on vector centrality in a graph where cosine ity is used for sentence adjacency weights in the graph erkan and radev
+summary sentences selected by human annotators nobody has been able to prove that gun owners are safer than non gun owners
+you can play around with numbers to make the problem seem insignicant
+i suppose you could also say that only people died in and use your logic to say that it s only a small problem
+perhaps if somebody in your family had died of gun olence you would have a different attitude
+nobody has been able to prove that non gun owners are safer than gun owners
+so if you can not prove things one way or the other why try to infringe on my rights i did nt say that it ca nt be proven one way or the other
+i just said you ca nt prove that gun owners are safer
+using illogic skewed statistics revisionist history all in an attempt to violate my constitutional rights that would be you and other gun grabbers who are trying to infringe on law abiding citizens rights
+show me in the constitution where it says that ing an illogical argument is a violation of somebody s rights
+you and your ilk are doing everything in your power to implement your victim disamament program in olation of my civil rights
+no different than jim crow laws and other tutional drivel
+figure human selected summary sentences for a gun control dialogue
+figures and show our gold standard mary and the summary sentences selected by lexrank for the same dialog
+lexrank es many of the important sentences but it also includes a number of sentences which can not be used to construct a summary such as wow that is easy
+the baseline outputs in general gest that frequency or graph similarity alone leave room for improvement when predicting tant sentences in user generated argumentative alogue
+summary sentences selected by lexrank show me in the constitution where it says that ing an illogical argument is a violation of somebody s rights
+nobody has been able to prove that gun owners are safer than non gun owners
+i just said you ca nt prove that gun owners are safer
+wow that is easy
+at least have the courage to say it
+
+
+
+witch hunt
+no different than jim crow laws and other tutional drivel
+so if you can not prove things one way or the other why try to infringe on my rights oh stop your witch hunt
+you can play around with numbers to make the problem seem insignicant
+using illogic skewed statistics revisionist history all in an attempt to violate my constitutional rights that would be you and other gun grabbers who are trying to infringe on law abiding citizens rights
+i suppose you could also say that only people died in and use your logic to say that it s only a small problem
+figure lex rank selected sentences for a gun control dialogue
+
+features most formal models of argumentation have cused on carefully crafted debates or face to face exchanges
+however as the bottom up mentative dialogs in online social networks are far less logical gabbriellini and torroni toni and torroni and the serendipity of the teractions yields less rule governed conversational turns ones that violate even the rules of istically grounded argument models walton and krabbe
+this makes it difcult to construct useful theoretically grounded features
+in place of that enterprise we exploit more conventional marization sentiment word class and sentence complexity features
+we also construct features sensitive to dialogic context
+the theoretical literature discusses the ways in which dialogic argumentation shows ferent speech act uses than in less argumentative genres budzynska and reed jacobs and jackson including the fact that arguments in these conversations are frequently smuggled in via non assertive speech acts e
+
+hostile tions
+inspired by this we implement three basic methods for dialogic context we extract the log act tag and some word class class information from the previous sentence we extract a grained measure of a sentence s position within a turn and we use coreference chains to resolve anaphora in a sentence to acquire a hopefully more contentful antecedent
+below we describe these features in more detail
+google word embeddings from mikolov et al
+are popular for expressing semantic relationships between words
+previous work on argument mining has developed methods using that are effective for argument recognition habernal and gurevych
+we created a dimensional vector by ltering stopwords and punctuation and then averaging the word embeddings from google s model for the remaining words
+glove embeddings glove is an unsupervised algorithm for obtaining vector representations for words pennington et al
+
+these pre trained word embeddings are dimensional vectors and each sentence is represented as a concatenation of word vectors
+we use glove embeddings to initialize our long short term memory lstm models as glove embeddings have been trained on web data and in some cases work better than stojanovski et al
+
+readability grades we hypothesized that tentful sentences were more likely to be plex
+to measure that we used readability grades which calculate a series of linear sion measures based on the number of words syllables and sentences
+we used readability flesch kincaid readability score tomated readability index coleman liau index smog index gunning fog index flesch ing ease lix and rix
+liwc the linguistics inquiry word count liwc tool has been useful in previous work on stance detenction pennebaker et al
+masundaran and wiebe hasan and ng and we suspected it would help to guish personal conversation from substantive ysis
+it classies words into different categories based on thought processes emotional states tentions and motivations
+for each liwc gory we computed an aggregate frequency score for a sentence
+using these categories we aim to capture both the style and the content types in the argument
+style words are linked to sures of people s social and psychological worlds while content words are generally nouns and ular verbs that convey the content of a cation
+to capture additional contextual
+python
+org pypi readability tion we computed the liwc score of the previous sentence
+sentiment sentiment features have shown to be useful for argumentative claim identication and here too we suspected that name calling and the like could be agged by sentiment features
+we used the stanford sentiment analyzer from socher et al
+to compute ve sentiment categories very negative to very positive per sentence
+dialog act of previous sentence dac we pothesized that important sentences may be more likely in response to particular dialog acts like questions e
+
+a question may be followed by an explanation or an answer
+to identify if a previous sentence was a question we combined the tags into two categories indicating whether the previous sentence was a question type or not
+we implemented a binary previoussentact feature which used dialog act classication from nltk loper and bird
+sentence position we divide a turn into thirds and create an integral feature based on which third a sentence is located in the turn
+coref in the hope that coreference resolution would help ground utterance semantics we placed anaphoric words with their most tative mention obtained using stanford ence chain resolution manning et al
+
+
+machine learning models we reserved random dialogs in each topic for our test set using the rest as training
+sentences were automatically split
+this led to several tences consisting essentially of punctuation which were removed lter for sentences without a verb and at least dictionary words
+for learning we created a balanced training and test set by randomly selecting an equal number of sentences for each class giving the following combinations train and test sentences for abortion training and test for gay marriage and training and test for gun control
+we use two machine learning models
+svm
+we use support vector machines with a linear kernel from scikit learn pedregosa et al
+with our theoretically motivated linguistic features and uses cross validation for parameter tuning and the second is a combination tional lstm
+cnn bilstm
+a combination of tional and recurrent neural networks has been used for sentence representations wang et al
+where cnn is able to learn the local tures from words or phrases in the text and the rnn learns long term dependencies
+using this as a motivation we include a convolutional layer and max pooling layer before the input is fed into an rnn
+the model used for binary classication consists of a convolution layer of size and different lters
+the convolution layer takes as put the glove embeddings
+a bidirectional lstm layer is stacked on the convolutions layer and then concatenated with another layer of bidirectional lstm different versions are used with different features and feature combinations as shown in ble and described further below
+the outputs of the lstm are fed through a sigmoid layer for nary classication
+lstm creates a validation set by a to random selection on the training set
+regularization is performed by using a drop out rate of
+in the drop out layer
+the model is timized using the adam kingma and ba optimizer
+the deep network was implemented ing the keras package chollet
+
+results we use standard classication evaluation sures based on precision recall and f measure
+performance evaluation uses weighted average score on test set
+we rst evaluate simple models based on a single feature
+simple ablation models
+table rows and show the results for our three baseline tems
+the lexrank summarizer performs best across all topics but overall the results show that summarizers aimed at newswire or monologic data do not work on argumentative dialog
+row shows that improves over the baseline but this did not work as well as it did in previous research habernal and gurevych
+one reason could be that averaged beddings for each word lose too much tion in long sentences
+row shows that dialog act classication works better than the random baseline for gun control and gay marriage but not for abortion
+interestingly row shows that timent by itself beats lexrank across all topics suggesting a relationship of sentiment to argument that could be further explored
+each row has an additional column for each topic indicating what happens when we rst run stanford coreference to replacing each pronoun with its most representative mention
+the results show that coreference improves the f score for both gun control and abortion
+liwc categories and readability perform well across topics
+feature combination models
+we rst evaluate svm with different feature binations with details on results in table
+for the gun control topic liwc categories on the rent sentence give an f score of
+
+adding liwc from the previous sentence improves it to in
+rows and without coref column
+contrast just doing a coref replacement improves liwc current sentence score to
+row for gun control with and without coref columns
+a paired t test on the result vectors shows that coref replacement provides a statistically signicant provement at p
+
+for the abortion topic the overall performance is low as compared to the other two topics suggesting that arguments used for abortion are harder to identify
+both dac scores are quite low but readability and liwc do better
+the lstm models on their own do not perform better than svm across topics but adding features to the lstm models improves them beyond the svm results
+we paired only lstm row arately with the best performing model in bold for each topic in table to evaluate if the tion is signicant
+paired t tests on the result tors show that the differences in f score are tistically signicant when we compare lstm to lstm with features for each topic p
+for all topics indicating that adding contextual tures makes a signicant improvement
+adding liwc categories from current and previous terances to lstm also improves performance for gun control and abortion
+for the gay marriage topic lstm combined with liwc and ity works better than lstm alone
+
+analysis and discussion to qualitatively gain some insight into the tions of some of the systems we examined random predictions from different models
+one reason that a graph based system such as lexrank performs well on duc might ne that duc data sets are tered into related documents by human assessors
+to observe the behavior of the method on noisy data the authors of lexrank added random uments to each cluster to show that lexrank is gun control gay marriage abortion f weight avg
+f weight avg
+coref f weight avg
+f weight avg
+coref f weight avg
+f weight avg
+coref id classier features kl sum kl sumbasic sb lex rank lr dialog act dac readability r liwc current tence lc sentiment snt sentence turn st baseline baseline baseline svm svm svm svm svm svm bi lstm svm liwc current vious lcp lcp r lcp dac r svm svm svm bi lstm dac bi lstm st bi lstm lcp bi lstm r bi lstm dac bi lstm dac bi lstm lcp bi lstm dac
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+feature combinations
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table results for classication on test set for each topic
+best performing model in bold
+insensitive to some limited noise in the data
+ever topic changes are more frequent in dialog and dialogs contain content that is not necessarily lated to the argumentative purpose of the dialog
+for example lexical overlap is important to lexrank but this resulted in lexrank selecting the two of these sentences well it s not going to work
+and get to work
+one reason that svm with sentiment features performs well is that positive sentiment predicts the not important class
+it seems that sentiment analyzers classify both phatic communication and sarcastic arguments as positive both of which can be correctly assigned to the not important class as shown by the following examples i ll be nice
+
+
+out of context sermon
+you re a ne one to talk about sliming folks yes it does sounds right to you the results show that liwc performs well and that liwc used to represent context performs even better
+to understand which liwc features were important we performed chi square feature selection over liwc features on the training set
+content categories were highly ranked across ics suggesting that the liwc features are being exploited for a form of within topic topic tion this suggests that more general topic ing could help results
+table shows the top liwc categories for each topic based on chi square based feature lection on the training set for all the three ics
+unsurprisingly across all topics the liwc marker of complexity words per sentence pears
+in addition many other topics link monsense with important facets of these debates the opposition in abortion between questions of the sanctity of life biological processes health of individuals involved
+similarly with gay riage we see sides of the debate between sonal relationships family afliation and tions of sexual practice sexual drives
+the case of gun control is somewhat surprising since one might expect to see liwc categories relating to life and safety
+instead we see money category coming from discussions about gun buy back and gun prices
+to understand better why coreference resolution was helping we also examined cases where coreference matters
+coreference tion can also interact with different features such as liwc i
+e
+since liwc calculates a frequency distribution of categories in the text corefence moves a word from the pronoun to some other category
+for example replacing it by ment decreases impersonal pronouns and total pronouns while increasing six letter words
+in several cases these replacements produce correct predictions e
+
+with only if it is legal to sell it
+topic abortion gun control gay marriage liwc categories biological processes health ond person sexual words per tence first person singular money ond person third person plural words per sentence family sexual words per tence afliation drives table top liwc categories by chi square for each topic related work this work builds on multiple strands of research into dialog summarization and argumentation
+dialog summarization
+to the best of our edge none of the previous approaches have cused on debate dialog summarization
+prior search on spoken dialog summarization has plored lexical features and information specic to meetings such as action items speaker status and structural discourse features
+zechner murray et al
+whittaker et al
+janin et al
+carletta
+in contrast to mation content roman et al
+examine how social phenomena such as politeness level affect summarization
+emotional information has also been observed in summaries of professional chats discussing technology zhou and hovy
+other approaches use semantic similarity metrics to identify the most central or important ances of a spoken dialog using switchboard pus gurevych and strube
+dialog ture and prosodic features have been studied for nding patterns of importance and opinion marization on switchboard conversations wang and liu ward and richart ruiz
+additional parallel work is on summarizing email thread conversations using conversational features and dialog acts specic to the email domain ray oya and carenini
+summarization
+document summarization is a mature area of nlp and hence spans a vast range of approaches
+the graph and ing based systems compute sentence importance based on inter and intra document sentence ilarities mihalcea and tarau erkan and radev ganesan et al
+
+carbonell and goldstein use a greedy approach based on maximal marginal relevance
+mcdonald reformulated this as a dynamic ming problem providing a knapsack based lution
+the submodular approach by lin and bilmes produces a summary by ing an objective function that includes coverage and diversity
+recently there has been a surge in data driven approaches to summarization based on neural works and continuous sentence features
+an coder decoder architecture is the main framework used in these types of models
+however one jor bottleneck to applying neural network models to extractive summarization is that the generation systems need a huge amount of training data i
+e
+documents with sentences labeled as worthy
+nallapati et al
+rush et al
+see et al
+used models trained on the tated version of the gigaword corpus and paired the rst sentence of each article with its headline to form sentence summary pairs
+such newswire models did not work well here the neural rization model from opennmt framework klein et al
+very often generated unk iyer et al
+train an kens for our data
+end to end neural attention model using lstms to summarize source code from online programming websites
+pairing the post title with the source code snippet from accepted answers gives a large amount of training data that can be used to ate summaries
+our approach is similar in spirit to li et al
+
+in this work rst elementary discourse units edu s are used as scu for extractive summarization of news articles
+however we served in debate dialogs that the same tative text can be used by interlocutors on site sides of an issue and hence could not be sidered in isolation as a summary unit
+barker et al
+describe a corpus of original guardian articles along with associated content comments groups summaries and backlinks
+however the comment data is different from conversational alogic debates it is less strongly threaded less rectly dialogic and less argumentative and they do not present a computational model for ment summary generation
+misra et al
+use pyramid annotation of dialog summaries on online debates to derive scus and labels but they go on to work with the human generated labels of the pyramid annotation
+our task using raw sentences from social media dialogs is appreciably harder
+argumentation
+argumentative dialog is a highly challenging task with creative analytical and tical abilities needed to persuade or convince other person but what constitutes a good ment is still an open ended question jackson and jacobs toulmin sternberg walton et al
+
+the real world arguments found in social media dialog are informal tured and so the well established argument ries may not be a good predictor of people s choice of arguments habernal et al
+rosenfeld and kraus
+in this work we propose mid based summarization to rank and select ments in social media dialog which to the best of our knowledge is a novel method for ranking guments in conversational data
+conclusion and future work we presented a novel method for argument marization of dialog exchanges from social media debates with our results signicantly beating the traditional summarization baselines
+we show that adding context based features improves argument summarization
+since we could nd both topic specic and topic independent features we plan to explore unsupervised topic modeling that could be used to create a larger and more diverse dataset and build sequential models that could generalize well across a vast range of topics
+acknowledgments this work was supported by nsf cise ri
+thanks to the three anonymous ers for helpful comments
+references robert abbott brian ecker pranav anand and lyn walker
+
+internet argument corpus
+an sql schema for dialogic social media and the corpora to go with it
+in proc
+of the
+emma barker monica lestari paramita ahmet aker emina kurtic mark hepple and robert j
+gaizauskas
+
+the sensei annotated corpus human summaries of reader comment conversations in on line news
+in proc
+of the sigdial
+katarzyna budzynska and chris reed
+
+speech acts of argumentation inference anchors and in in proc
+of the ripheral cues in dialogue
+aaai conference on computational models of ural argument
+jaime carbonell and jade goldstein
+
+the use of mmr diversity based reranking for reordering in proc
+of the uments and producing summaries
+annual international acm sigir conference on research and development in information trieval
+jean carletta
+
+unleashing the killer periences in creating the multi everything ami ing corpus
+in proc
+of the lrec
+francois chollet
+
+keras
+gunes erkan and dragomir r radev
+
+lexrank graph based lexical centrality as salience in text journal of articial intelligence summarization
+research
+s gabbriellini and p torroni
+
+ms dialogues persuading and getting persuaded
+a model of social network debates that reconciles arguments and trust
+in proc
+of the argmas
+kavita ganesan chengxiang zhai and jiawei han
+
+opinosis a graph based approach to tive summarization of highly redundant opinions
+in proc
+of the coling
+i
+gurevych and m
+strube
+
+semantic similarity applied to spoken dialogue summarization
+in proc
+of the acl
+ivan habernal and iryna gurevych
+
+ing debate portals for semi supervised in tion mining in user generated web discourse
+proc
+of the emnlp
+ivan habernal judith eckle kohler and iryna gurevych
+
+argumentation mining on the web in proc
+of from information seeking perspective
+the workshop on frontiers and connections between argumentation theory and natural language cessing
+aria haghighi and lucy vanderwende
+
+ing content models for multi document tion
+in proc
+of hlt naacl
+kazi saidul hasan and vincent ng
+
+frame semantics for stance classication
+in proc
+of the conll
+srinivasan iyer ioannis konstas alvin cheung and luke zettlemoyer
+
+summarizing source code using a neural attention model
+in proc
+of the annual meeting of the acl
+sally jackson and scott jacobs
+
+structure of conversational argument pragmatic bases for the enthymeme
+quarterly journal of speech
+scott jacobs and sally jackson
+
+relevance and digressions in argumentative discussion a matic approach
+argumentation
+a
+janin j
+ang s
+bhagat r
+dhillon j
+wards j
+macias guarasa n
+morgan b
+peskin e
+shriberg a
+stolcke et al
+
+the icsi ing project resources and research
+in proc
+of the icassp nist meeting recognition workshop
+diederik p
+kingma and jimmy ba
+
+adam a method for stochastic optimization
+in proc
+of the iclr
+g
+klein y
+kim y
+deng j
+senellart and a
+m
+rush
+
+open source toolkit for neural machine translation
+arxiv e prints
+junyi jessy li kapil thadani and amanda stent
+
+the role of discourse units in near extractive summarization
+in proc
+of the sigdial
+hui lin and jeff bilmes
+
+a class of submodular functions for document summarization
+in proc
+of the annual meeting of the acl hlt
+
+nltk the natural e
+loper and s
+bird
+in proc
+of the language toolkit
+shop on effective tools and methodologies for ing natural language processing and computational linguistics volume
+christopher d
+manning mihai surdeanu john bauer jenny finkel steven j
+bethard and david closky
+
+the stanford corenlp natural guage processing toolkit
+in proc
+of acl tem demonstrations
+ryan mcdonald
+
+a study of global inference in algorithms in multi document summarization
+proc
+of the european conference on ir search
+springer verlag
+r
+mihalcea and p
+tarau
+
+textrank ing order into texts
+in proc
+of conference on emnlp
+tomas mikolov ilya sutskever kai chen greg s rado and jeff dean
+
+distributed tions of words and phrases and their ity
+in advances in neural information processing systems
+amita misra pranav anand jean e
+fox tree and marilyn walker
+
+using summarization to cover argument facets in dialog
+in proc
+of the naacl hlt
+g
+murray s
+renals j
+carletta and j
+moore
+
+incorporating speaker and discourse features into in proc
+of the main speech summarization
+ference on hlt of the naacl
+gabriel murray
+
+summarizing spoken and ten conversations
+in in proc
+of the emnlp
+ramesh nallapati bowen zhou and bowen zhou
+
+abstractive text summarization using sequence to sequence rnns and beyond
+in proc
+of the conll
+ani nenkova and rebecca passonneau
+
+ating content selection in summarization the mid method
+in proc
+of the joint annual meeting of hlt naacl
+ani nenkova and lucy vanderwende
+
+the pact of frequency on summarization
+microsoft search redmond washington tech
+rep
+msr
+tatsuro oya and giuseppe carenini
+
+extractive summarization and dialogue act modeling on email threads an integrated probabilistic approach
+in proc
+of the annual meeting of sigdial
+f
+pedregosa g
+varoquaux a
+gramfort v
+michel b
+thirion o
+grisel m
+blondel p
+hofer r
+weiss v
+dubourg j
+vanderplas a
+sos d
+cournapeau m
+brucher m
+perrot and e
+duchesnay
+
+scikit learn machine ing in python
+journal of machine learning search
+james w
+pennebaker l
+e
+francis and r
+j
+booth
+liwc linguistic inquiry and word count
+jeffrey pennington richard socher and christopher d manning
+
+glove global vectors for word representation
+in proc
+of the conference on emnlp
+sarvesh ranade jayant gupta vasudeva varma and radhika mamidi
+
+online debate tion using topic directed sentiment analysis
+in proc
+of the second international workshop on issues of sentiment discovery and opinion mining acm
+n
+roman p
+piwek p
+carvalho and m
+b
+r
+adne
+
+politeness and bias in dialogue marization two exploratory studies
+in j
+shanahan y
+qu and j
+wiebe editors computing attitude and affect in text theory and applications volume of the information retrieval series
+springer
+ariel rosenfeld and sarit kraus
+
+providing guments in discussions on the basis of the prediction of human argumentative behavior
+acm trans
+teract
+intell
+syst
+
+alexander m
+rush sumit chopra and jason weston
+
+a neural attention model for abstractive tence summarization
+in proc
+of the emnlp
+abigail see christopher manning and peter liu
+
+get to the point summarization with generator networks
+in proc
+of the acl
+richard socher alex perelygin jean wu jason chuang christopher d
+manning andrew ng and christopher potts
+
+recursive deep models for semantic compositionality over a sentiment bank
+in proc
+of the conference on emnlp
+swapna somasundaran and janyce wiebe
+
+ognizing stances in online debates
+in proc
+of the annual meeting of the acl
+r
+sternberg
+
+cognitive psychology
+cengage learning
+dario stojanovski gjorgji strezoski gjorgji jarov and ivica dimitrovski
+finki at task deep learning architecture for in twitter sentiment analysis
+hlt
+
+francesca toni and paolo torroni
+
+bottom up in proc
+of the first international argumentation
+conference on theory and applications of formal argumentation
+springer verlag
+stephen e
+toulmin
+
+the uses of argument
+cambridge university press
+d
+walton and e
+krabbe
+
+commitment in alogue basic concept of interpersonal reasoning
+state university of new york press
+douglas walton chris reed and fabrizio macagno
+
+argumentation schemes
+cambridge sity press
+lu wang and wang ling
+
+neural network based abstract generation for opinions and arguments
+in proc
+of the hlt naacl
+dong wang and yang liu
+
+a pilot study of in proc
+opinion summarization in conversations
+of the annual meeting of the acl hlt volume xingyou wang weijie jiang and zhiyong luo
+
+combination of convolutional and recurrent neural network for sentiment analysis of short texts
+in proc
+of the coling
+nigel g ward and karen a richart ruiz
+
+terns of importance variation in spoken dialog
+s
+whittaker v
+kalnikaite and p
+ehlen
+
+markup as you talk establishing effective memory cues while still contributing to a meeting
+in proc
+of the acm conference on computer supported cooperative work
+klause zechner
+
+automatic generation of cise summaries of spoken dialogues in unrestricted domains
+in proc
+of the annual international acm sigir conference on research and ment in information retrieval
+l
+zhou and e
+hovy
+
+digesting virtual geek culture the summarization of technical internet lay chats
+in proc
+of the annual meeting on acl
+this figure
+png is available in format from
+org
+this figure
+png is available in format from
+org
+

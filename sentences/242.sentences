@@ -1,0 +1,619 @@
+contrastive attention mechanism for abstractive sentence summarization xiangyu hongfei mingming min weihua yue institute of articial intelligence soochow university suzhou china school of computer science and technology soochow university suzhou china alibaba damo academy hangzhou china school of engineering westlake university china
+edu
+cn hfyu
+suda
+edu
+cn
+edu
+cn weihua
+inc
+com yue
+
+org
+abstract we propose a contrastive attention mechanism to extend the sequence to sequence work for abstractive sentence summarization task which aims to generate a brief summary of a given source sentence
+the proposed trastive attention mechanism accommodates two categories of attention one is the tional attention that attends to relevant parts of the source sentence the other is the opponent attention that attends to irrelevant or less evant parts of the source sentence
+both tentions are trained in an opposite way so that the contribution from the conventional tion is encouraged and the contribution from the opponent attention is discouraged through a novel softmax and softmin functionality
+periments on benchmark datasets show that the proposed contrastive attention mechanism is more focused on the relevant parts for the summary than the conventional attention mechanism and greatly advances the of the art performance on the abstractive tence summarization task
+we release the code at
+com travel abstractive text summarization
+introduction abstractive sentence summarization aims at erating concise and informative summaries based on the core meaning of source sentences
+ous endeavors tackle the problem through either dorr et al
+or rule based methods tistical models trained on relatively small scale training corpora banko et al
+
+following its successful applications on machine translation sutskever et al
+bahdanau et al
+the sequence to sequence framework is also applied on the abstractive sentence summarization task ing large scale sentence summary corpora rush et al
+chopra et al
+nallapati et al
+equal contribution
+obtaining better performance compared to the traditional methods
+one central component in state of the art quence to sequence models is the use of tion for building connections between the source sequence and target words so that a more formed decision can be made for generating a get word by considering the most relevant parts of the source sequence bahdanau et al
+vaswani et al
+
+for abstractive sentence summarization such attention mechanisms can be useful for selecting the most salient words for a short summary while ltering the negative ence of redundant parts
+we consider improving abstractive tion quality by enhancing target to source tion
+in particular a contrastive mechanism is taken by encouraging the contribution from the conventional attention that attends to relevant parts of the source sentence while at the same time nalizing the contribution from an opponent tion that attends to irrelevant or less relevant parts
+contrastive attention was rst proposed in puter vision song et al
+which is used for person re identication by attending to person and background regions contrastively
+to our edge we are the rst to use contrastive attention for nlp and deploy it in the sequence to sequence framework
+in particular we take transformer vaswani et al
+as the baseline summarization model and enhance it with a proponent attention ule and an opponent attention module
+the mer acts as the conventional attention mechanism while the latter can be regarded as a dual module to the former with similar weight calculation ture but using a novel softmin function to age contributions from irrelevant or less relevant words
+to our knowledge we are the rst to investigate t c o l c
+s c v
+v i x r a transformer as a sequence to sequence rizer
+results on three benchmark datasets show that it gives highly competitive accuracies pared with rnn and cnn alternatives
+when equipped with the proposed contrastive attention mechanism our transformer model achieves the best reported results on all data
+the visualization of attentions shows that through using the trastive attention mechanism our attention is more focused on relevant parts than the baseline
+we lease our code at xxx
+related work automatic summarization has been investigated in two main paradigms the extractive method and the abstractive method
+the former extracts important pieces of source document and catenates them sequentially jing and mckeown knight and marcu neto et al
+while the latter grasps the core meaning of the source text and re state it in short text as tive summary banko et al
+rush et al
+
+in this paper we focus on abstractive marization and especially on abstractive sentence summarization
+previous work deals with the abstractive tence summarization task by using either rule based methods dorr et al
+or statistical methods utilizing a source summary parallel pus to train a machine translation model banko et al
+or a syntax based transduction model cohn and lapata woodsend et al
+
+in recent years sequence to sequence neural framework becomes predominant on this task by encoding long source texts and decoding into short summaries together with the attention anism
+rnn is the most commonly adopted and extensively explored architecture chopra et al
+nallapati et al
+li et al
+
+a cnn based architecture is recently employed by gehring et al
+using which plies cnn on both encoder and decoder
+later wang et al
+build upon with topic words embedding and encoding and train the tem with reinforcement learning
+the most related work to our contrastive tion mechanism is in the eld of computer vision
+song et al
+rst propose the contrastive attention mechanism for person re identication
+in their work based on a pre provided person and background segmentation the two regions are contrastively attended so that they can be in comparison we apply the ily discriminated
+contrastive attention mechanism for sentence level summarization by contrastively attending to evant parts and irrelevant or less relevant parts
+furthermore we propose a novel softmax min functionality to train the attention mechanism which is different to song et al
+who use mean squared error loss for attention training
+other explorations with respect to the teristics of the abstractive summarization task clude copying mechanism that copies words from source sequences for composing summaries gu et al
+gulcehre et al
+song et al
+the selection mechanism that elaborately selects important parts of source sentences zhou et al
+lin et al
+the distraction anism that avoids repeated attention on the same area chen et al
+and the sequence level training that avoids exposure bias in teacher ing methods ayana et al
+li et al
+edunov et al
+
+such methods are built on conventional attention and are orthogonal to our proposed contrastive attention mechanism
+approach we use two categories of attention for summary generation
+one is the conventional attention that attends to relevant parts of source sentence the other is the opponent attention that contrarily tends to irrelevant or less relevant parts
+both gories of attention output probability distributions over summary words which are jointly optimized by encouraging the contribution from the tional attention and discouraging the contribution from the opponent attention
+figure illustrates the overall networks
+we use transformer architecture as our basis upon which we build the contrastive attention mechanism
+the left part is the original transformer
+we derive the opponent attention from the conventional tention which is the encoder decoder attention of the original transformer and stack several layers on top of the opponent attention as shown in the right part of figure
+both parts contribute to the summary generation by producing probability tributions over the target vocabulary respectively
+the left part outputs the conventional ity based on the conventional attention as the inal transformer does while the right part outputs the opponent probability based on the opponent where q k v denotes query vector key vectors and value vectors respectively
+denotes the mension of one vector of k
+softmax function outputs the attention weights distributed over v
+k v is a vector of weighted sum of elements of v and represents current context information
+we focus on the encoder decoder attention which builds the connection between source and target by informing the decoder which area of the source text should be attended to
+specically in the encoder decoder attention q is the single vector coming from the current position of the coder k and v are the same sequence of vectors that are the outcomes of the encoder at all source positions
+softmax function distributes the tion weights over the source positions
+the attentions in transformer adopts the head implementation in which each head putes attention as equation but with smaller q k v whose dimension is h times of their original dimension respectively
+the attentions from h heads are concatenated together and early projected to compose the nal attention
+in this way multi head attention provides a view of attention behavior benecial for the nal performance
+deep layers the n plates in figure stands for the stacked n identical layers
+on the source side each layer of the stacked n layers contains two sublayers the self attention mechanism and the fully nected feed forward network
+each sublayer ploys residual connection that adds input to come of sublayer then layer normalization is ployed on the outcome of the residual connection
+on the target summary side each layer contains an additional sublayer of the encoder decoder tention between the self attention sublayer and the feed forward sublayer
+at the top of the decoder the softmax layer is applied to convert the decoder output to summary word generation probabilities
+
+contrastive attention mechanism
+
+opponent attention as illustrated in figure the opponent attention is derived from the conventional encoder decoder attention
+since the multi head attention is ployed in transformer there are nh heads in tal in the conventional encoder decoder attention where n denotes the number of layers h denotes figure overall networks
+the left part is the original transformer
+the right part that takes the opponent tention as bottom layer fulls the contrastive attention mechanism
+attention
+the two probabilities in figure are jointly optimized in a novel way as explained in section
+
+
+transformer for abstractive sentence summarization architecture is an attention network based transformer sequence to sequence vaswani et al
+which encodes the source text into hidden vectors and decodes into the target text based on the source side information and the target generation history
+in comparison to the rnn based architecture and the cnn based architecture both the encoder and the decoder of transformer adopt attention as main function
+i let x and y denote the source sentence and its summary respectively
+transformer is trained to maximize the probability of y given x x where x is the conventional probability of the current summary word yi given the source sentence and the mary generation history
+pc is computed based on the attention mechanism and the stacked deep ers as shown in the left part of figure
+attention mechanism scaled dot product attention is applied in former k v softmax v qkt dk sourceembeddingtargetembeddinglinearsoftmaxfeedforwardadd normadd normselfattentionencoderdecoderattentionadd normfeedforwardadd normadd normselfattentionattentionindicesconventional probabilitiesnxnxfeedforwardadd normlinearsoftminopponentattentionnormopponent probabilitiestransformercontrastive attention mechanism innity value so that the softmax function puts zero given the negative innity value input
+then the maximum weight in c is set zero in o after the opponent and softmax functions
+in this way the most relevant part of the source quence which receives maximum attention in the conventional attention weights c is masked and neglected in o
+instead the remaining less vant or irrelevant parts are extracted into o for the following contrastive training and decoding
+we also tried other methods to calculate the such as o opponent attention weights c song et al
+or o c which aims to make o contrary to c but they underperform the masking nent function on all benchmark datasets
+so we present only the masking opponent in the ing sections
+after o is obtained via equation the ponent attention is attentiono where v is from the head same to that of q and in computing c
+to the compared conventional attention attentionc which summarizes current relevant context attentiono summarizes current irrelevant or less relevant context
+they constitute a trastive pair and contribute together for the nal summary word generation
+
+
+opponent probability the opponent probability x is puted by stacking several layers on top of attentiono and a softmin layer in the end as shown in the right part of figure
+in lar x where w is the matrix of the linear projection layer
+attentiono contributes to po via equation step by step
+the layernorm and feedforward layers with residual connection is similar to the al
+directly let o in extracting background features for person re identication in computer vision
+we have to add softmax function since the attention weights must be normalized to one in sequence to sequence framework
+figure heatmaps of two sampled heads from the a is of the conventional encoder decoder attention
+fth head of the third layer and is of the fth head of the rst layer
+the number of heads in each layer
+these heads exhibit diverse attention behaviors posing a lenge of determining which head to derive the ponent attention so that it attends to irrelevant or less relevant parts
+figure illustrates the attention weights of two sampled heads
+the attention weights in well reect the word level relevant relation between the source sentence and the target summary while tention weights in do not
+we nd that such behavior characteristic of each head is xed
+for example head a always exhibits the relevant lation across different sentences and different runs
+based on depicting heatmaps of all heads for a few sentences we choose the head that corresponds well to the relevant relation between source and target to derive the opponent attention
+specically let c denote the conventional encoder decoder attention weights of the head which is used for deriving the opponent attention c softmax qkt dk where q and k are from the head same to that of c
+let o denote the opponent attention weights
+it is obtained through the opponent function applied on c followed by the softmax function o the opponent function in equation performs a masking operation which nds the maximum weight in c and replaces it with the negative manual alignments between source and target of sampled sentence summary pairs we select the head that has the lowest alignment error rate aer of its attention weights
+b original transformer while a novel softmin tion is introduced in the end to invert the tion from attentiono where v w i
+e
+the input vector to the min function in equation
+softmin normalizes v so that scores of all words in the summary cabulary sum to one
+we can see that the bigger the vi the smaller the po i is
+softmin functions contrarily to softmax
+as a result when we try to maximize x where y is the gold summary word we effectively search for an appropriate attentiono to generate the lowest vg where g is the index of y in v
+it means that the more irrelevant is attentiono to the summary the lower the vg can be obtained resulting in higher po
+
+training and decoding during training we jointly maximize the tional probability pc and the opponent probability po j x x where is the balanced weight
+the conventional probability is computed as the original former does basing on sublayers of feed forward linear projection and softmax stacked over the conventional attention as illustrated in the left part of figure
+the opponent probability is based on similar sublayers stacked over the opponent tion but with softmin as the last sublayer as trated in the right part of figure
+due to the contrary properties of softmax and softmin jointly maximizing pc and po actually maximizes the contribution from the conventional attention for summary word generation while at the same time minimizes the contribution from the opponent
+in other words the ing objective is to let the relevant part attended also tried replacing softmin in equation with max and correspondingly setting the training objective as maximizing j but this method failed to train because po becomes too small during training and results in negative innity value of that hampers the training
+in comparison softmin and the training objective of equation do not have such problem enabling the effective training of the proposed network
+by attentionc contribute more to the tion while let the irrelevant or less relevant parts attended by attentiono contribute less
+during decoding we aim to nd maximum j of equation in the beam search process
+experiments we conduct experiments on abstractive sentence summarization benchmark datasets to demonstrate the effectiveness of the proposed contrastive tion mechanism
+
+datasets in this paper we evaluate our proposed method on three abstractive text summarization benchmark datasets
+first we use the annotated gigaword corpus and preprocess it identically to rush et al
+which results in around
+m ing samples k validation samples and test samples for evaluation
+the source summary pairs are formed through pairing the rst sentence of each article with its headline
+we use as another english data set only for testing in our experiments
+it contains documents each containing four human generated reference maries
+the length of the summary is capped at bytes
+the last data set we used is a large corpus of chinese short text summarization lcsts hu et al
+which is collected from the chinese microblogging website sina weibo
+we follow the data split of the original paper with
+m summary pairs from the rst part of the corpus for training pairs from the last part with high notation score for testing
+
+experimental setup we employ transformer as our basis
+six layers are stacked in both the encoder and coder and the dimensions of the embedding tors and all hidden vectors are set
+the inner layer of the feed forward sublayer has the sionality of
+we set eight heads in the head attention
+the source embedding the target embedding and the linear sublayer are shared in our experiments
+byte pair encoding is employed in the english experiment with a shared target vocabulary of about tokens sennrich et al
+
+regarding the contrastive attention mechanism the opponent attention is derived from the head
+com pytorch fairseq system abs rush et al
+rush et al
+ras elman chopra et al
+words nallapati et al
+seassbeam zhou et al
+rnnmrt ayana et al
+actor critic li et al
+structuredloss edunov et al
+drgd li et al
+gehring et al
+wang et al
+factaware cao et al
+transformer gigaword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+
+
+
+
+table rouge scores on the english evaluation sets of both gigaword and
+on gigaword the length based rouge scores are reported
+on the recall based rouge scores are reported
+denotes no score is available in that work
+whose attention is most synchronous to word alignments of the source summary pair
+in our experiments we select the fth head of the third layer for deriving the opponent attention in the glish experiments and select the second head of the third layer in the chinese experiments
+all mensions in the contrastive architecture are set
+the in equation is tuned on the development set in each experiment
+during training we use the adam optimizer with
+
+
+the initial learning rate is
+
+the inverse square root schedule is applied for initial warm up and ing vaswani et al
+
+during training we use a dropout rate of
+on all datasets
+during evaluation we employ rouge lin as our evaluation metric
+since dard rouge package is used to evaluate the glish summarization systems we also follow the method of hu et al
+to map chinese words into numerical ids in order to evaluate the mance on the chinese data set
+
+results
+
+english results the experimental results on the english evaluation sets are listed in table
+we report the full length scores of and rouge l r l on the evaluation set of the annotated gigaword while report the recall based scores of the and r l on the evaluation set of to follow the setting of the ous works
+the results of our works are shown at the tom of table
+the performances of the lated works are reported in the upper part of ble for comparison
+abs and are the pioneer works of using neural models for stractive text summarization
+ras elman extends abs with attentive cnn encoder
+uses large vocabulary and linguistic features such as pos and ner tags
+rnnmrt actor critic structuredloss are sequence level training methods to overcome the problem of the usual teacher forcing methods
+drgd uses current latent random model to improve rization quality
+factaware generates summary words conditioned on both the source text and the fact descriptions extracted from openie or dencies
+besides the above rnn based related works cnn based architectures of and are included for son
+table shows that we build a strong line using transformer alone which obtains the state of the art performance on gigaword tion set and obtains comparable performance to the state of the art on
+when we troduce the contrastive attention mechanism into transformer it signicantly improves the mance of transformer and greatly advances the state of the art on both gigaword evaluation set and as shown in the row of attention
+
+
+chinese results table presents the evaluation results on sts
+the upper rows list the performances of the related works the bottom rows list the system rnn context hu et al
+copynet gu et al
+rnnmrt ayana et al
+rnndistraction chen et al
+drgd li et al
+actor critic li et al
+global lin et al
+transformer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+
+table the full length based rouge scores on the chinese evaluation set of lcsts
+mances of our transformer baseline and the gration of the contrastive attention mechanism into transformer
+we only take character sequences as source summary pairs and evaluate the formance based on reference characters for strict comparison to the related works
+table shows that transformer also sets a strong baseline on lcsts that surpasses the formances of the previous works
+when former is equipped with our proposed contrastive attention mechanism the performance is icantly improved and drastically advances the state of the art on lcsts
+analysis and discussion
+effect of the contrastive attention mechanism on attentions figure shows the attention weights before and after using the contrastive attention mechanism
+we depict the averaged attention weights of all heads in one layer in figure and to study how it contributes to the conventional ity computation and depict the opponent attention weights in figure to study its contribution to the opponent probability
+since we select the fth head of the third layer to derive the opponent tion in english experiment the studies are carried out on the third layer
+figure is from the baseline transformer ure is from transformer tion
+we can see that transformer trastiveattention is more focused on the source parts that are most relevant to the summary than the baseline transformer which scatters attention weights on summary word neighbors or even tional words such as and the
+former contrastiveattention cancels such tered attentions by using the contrastive attention mechanism
+figure the attention weight changes by ing the contrastive attention mechanism
+is the average attention weights of the third layer of the baseline transformer is that of and c is the opponent attention derived from the fth head of the third layer
+figure depicts the opponent attention weights
+they are optimized during training to generate the lowest score which is fed into min to get the highest opponent probability po
+the more irrelevant to the summary word the ponent is the lower the score can be obtained thus resulting in higher po
+figure shows that the tentions are formed over irrelevant parts with ied weights as the result of maximizing po during training
+
+effect of the opponent probability in decoding we study the contribution of the opponent ability po by dropping it during decoding to see if it hurts the performance
+table shows that dropping po signicantly harms the performance of transformer contrastiveatt
+the mance difference between the model dropping po and the baseline transformer is marginal ing that adding the opponent probability po is key for achieving the performance improvement
+
+explorations on deriving the opponent attention masking more attention weights for deriving the opponent attention c system mask maximum weight mask weights mask weights dynamically mask synchronous head non synchronous head averaged head transformer baseline gigaword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+
+
+
+table results of explorations on the opponent attention derivation
+the upper part presents the inuence of masking more attention weights for deriving the opponent attention
+the middle part presents the results of ing different head for the opponent attention derivation
+the bottom row presents the result of transformer
+gigaword transformer po transformer po
+
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+r l
+
+
+table the effect of dropping po denoted by from during decoding
+in section
+
+we mask the most salient word that has the maximum weight of c to derive the opponent attention
+in this subsection we mented with masking more weights of c by two ways masking top k weights dynamically masking
+in the dynamically masking method we order the weights from big to small at rst then go on masking two neighbors until the ratio between them is over a threshold
+the threshold is
+based on training and tuning on the development set
+the upper rows of table presents the formance comparison between masking maximum weight and masking more weights
+it shows that masking maximum weight performs better cating that masking the most salient weight leaves more irrelevant or less relevant words to pute the opponent probability po which is more reliable than that computed from less remaining words after masking more weights
+selecting non synchronous head or averaged head for deriving the opponent attention as explained in section
+
+the opponent tention is derived from the head that is most chronous to the word alignments between source sentence and summary
+we denote it chronous head
+we also explored deriving the opponent attention from the fth head of the rst layer which is non synchronous to the word ments as illustrated in figure
+its result is sented in the non synchronous head row
+in dition the attention weights averaged on all heads of the third layer are used to derive the opponent attention
+we denote it averaged head
+as shown in the middle part of table both non synchronous head and averaged head underperform synchronous head
+synchronous head performs worst and even worse than the transformer baseline on gigaword
+this indicates that it is better to compose the ponent attention from irrelevant parts that can be easily located in the synchronous head
+averaged head performs slightly worse than synchronous head and is also slower due to the involved all heads
+
+qualitative study in contrast table shows the qualitative results
+the lights in the baseline transformer manifest the incorrect areas extracted by the baseline tem
+the highlights in show that correct contents are extracted since the contrastive system guish relevant parts from irrelevant parts on the source side and made attending to correct areas more easily
+conclusion we proposed a contrastive attention mechanism for abstractive sentence summarization using both the conventional attention that attends to the evant parts of the source sentence and a novel opponent attention that attends to irrelevant or less relevant parts for the summary word ation
+both categories of the attention constitute a contrastive pair and we encourage contribution from the conventional attention and penalize src press freedom in algeria remains at risk despite the release on wednesday of prominent newspaper editor mohamed unk after a two year prison sentence human rights organizations said
+ref algerian press freedom at risk despite editor s release unk picture transformer press freedom remains at risk in algeria rights groups say press freedom remains at risk despite release of algerian editor src denmark s poul erik hoyer completed his hat trick of men s singles badminton titles at the european championships winning the nal here on saturday ref hoyer wins singles title transformer hoyer completes hat trick hoyer wins men s singles title src french bank credit agricole launched on tuesday a public cash offer to buy the percent of emporiki bank it does not already own in a bid valuing the greek group at
+billion euros
+billion dollars
+ref credit agricole announces
+euro bid for greek bank emporiki transformer credit agricole launches public cash offer for greek bank french bank credit agricole bids
+billion euros for greek bank table example summaries generated by the baseline transformer and
+tribution from the opponent attention through joint training
+using transformer as a strong baseline experiments on three benchmark data sets show that the proposed contrastive attention mechanism signicantly improves the performance ing the state of the art performance for the task
+acknowledgments the authors would like to thank the anonymous reviewers for the helpful comments
+this work was supported by national key program of china grant no
+national natural science foundation of china grant no
+
+references ayana shiqi shen yu zhao zhiyuan liu and maosong sun
+
+neural headline generation with sentence wise optimization
+computer search repository
+
+version
+dzmitry bahdanau kyunghyun cho and yoshua gio
+
+neural machine translation by jointly learning to align and translate
+in international conference on learning representations
+michele banko vibhu o mittal and michael j brock
+
+headline generation based on cal translation
+in proceedings of the annual meeting on association for computational tics pages
+ziqiang cao furu wei wenjie li and sujian li
+
+faithful to the original fact aware neural tive summarization
+in thirty second aaai ence on articial intelligence
+qian chen xiao dan zhu zhen hua ling si wei and hui jiang
+
+distraction based neural in proceedings of works for modeling document
+the twenty fifth international joint conference on articial intelligence pages
+sumit chopra michael auli and alexander m rush
+
+abstractive sentence summarization with tentive recurrent neural networks
+in proceedings of the conference of the north american ter of the association for computational linguistics human language technologies pages
+trevor cohn and mirella lapata
+
+sentence in proceedings pression beyond word deletion
+of the international conference on tional linguistics volume pages
+bonnie dorr david zajic and richard schwartz
+
+hedge trimmer a parse and trim approach to headline generation
+in proceedings of the naacl on text summarization workshop volume pages
+sergey edunov myle ott michael auli david ier and marcaurelio ranzato
+
+classical structured prediction losses for sequence to quence learning
+in proceedings of the ference of the north american chapter of the ciation for computational linguistics human guage technologies pages
+jonas gehring michael auli david grangier nis yarats and yann n dauphin
+
+in tional sequence to sequence learning
+ings of the international conference on chine learning pages
+jiatao gu zhengdong lu li hang and victor o
+k
+incorporating copying mechanism in li
+
+in proceedings of sequence to sequence learning
+the annual meeting of the association for putational linguistics
+caglar gulcehre sungjin ahn ramesh nallapati bowen zhou and yoshua bengio
+
+pointing the unknown words
+in proceedings of the nual meeting of the association for computational linguistics
+baotian hu qingcai chen and fangze zhu
+
+sts a large scale chinese short text summarization dataset
+in proceedings of the conference on kaiqiang song lin zhao and fei liu
+
+structure infused copy mechanisms for abstractive in proceedings of the summarization
+national conference on computational linguistics pages
+ilya sutskever oriol vinyals and quoc v le
+
+sequence to sequence learning with neural works
+in advances in neural information ing systems pages
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n gomez ukasz kaiser and illia polosukhin
+
+attention is all you need
+in advances in neural information cessing systems pages
+li wang junlin yao yunzhe tao li zhong wei liu and qiang du
+
+a reinforced topic aware convolutional sequence to sequence model for stractive text summarization
+in proceedings of the twenty seventh international joint conference on articial intelligence pages
+kristian woodsend yansong feng and mirella ata
+
+title generation with quasi synchronous grammar
+in proceedings of the conference on empirical methods in natural language ing pages
+qingyu zhou yang nan furu wei and zhou ming
+
+selective encoding for abstractive sentence summarization
+in proceedings of the annual meeting of the association for computational guistics pages
+empirical methods in natural language ing pages
+hongyan jing and kathleen r mckeown
+
+cut in and paste based text summarization
+ings of the north american chapter of the sociation for computational linguistics conference pages
+kevin knight and daniel marcu
+
+based summarization step one sentence in proceedings of the seventeenth national sion
+conference on articial intelligence and twelfth conference on on innovative applications of cial intelligence pages
+piji li lidong bing and wai lam
+
+critic based training framework for abstractive summarization
+computing research repository
+
+piji li wai lam lidong bing and zihao wang
+
+deep recurrent generative decoder for abstractive in proceedings of the text summarization
+conference on empirical methods in natural guage processing pages
+chin yew lin
+
+rouge a package for automatic in proc of the evaluation of summaries
+workshop on text summarization branches out
+junyang lin sun xu shuming ma and su qi
+
+global encoding for abstractive summarization
+in proceedings of the annual meeting of the sociation for computational linguistics pages
+ramesh nallapati bowen zhou cicero nogueira dos santos caglar gulcehre and xiang bing
+
+abstractive text summarization using sequence in proceedings of the sequence rnns and beyond
+signll conference on computational ral language learning pages
+joel larocca neto alex a freitas and celso a
+a
+kaestner
+
+automatic text summarization ing a machine learning approach
+in brazilian posium on articial intelligence pages
+alexander m rush sumit chopra and jason weston
+
+a neural attention model for abstractive in proceedings of the tence summarization
+conference on empirical methods in natural guage processing pages
+rico sennrich barry haddow and alexandra birch
+
+neural machine translation of rare words with subword units
+in proceedings of the annual meeting of the association for computational guistics
+chunfeng song yan huang wanli ouyang and liang wang
+
+mask guided contrastive attention in proceedings model for person re identication
+of the ieee conference on computer vision and pattern recognition pages
+

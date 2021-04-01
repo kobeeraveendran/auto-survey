@@ -1,0 +1,768 @@
+v o n g l
+s c v
+v i x r a submitted as a conference paper at iclr read highlight and summarize a cal neural semantic encoder based approach rajeev bhatt ambati department of electrical engineering pennsylvania state university state college pa usa
+com saptarashmi bandyopadhyay department of computer science and engineering pennsylvania state university state college pa usa
+com prasenjit mitra college of information science and technology pennsylvania state university state college pa usa
+edu abstract traditional sequence to sequence models and other variations of the attention mechanism such as hierarchical attention have been applied to the text summarization problem
+though there is a hierarchy in the way humans use guage by forming paragraphs from sentences and sentences from words cal models have usually not worked that much better than their traditional counterparts
+this effect is mainly because either the hierarchical attention anisms are too sparse using hard attention or noisy using soft attention
+in this paper we propose a method based on extracting the highlights of a document a key concept that is conveyed in a few sentences
+in a typical text summarization dataset consisting of documents that are tokens in length average capturing long term dependencies is very important e
+
+the last sentence can be grouped with the rst sentence of a document to form a summary
+lstms long term memory proved useful for machine translation
+however they often fail to capture long term dependencies while modeling long sequences
+to address these issues we have adapted neural semantic encoders nse to text summarization a class of memory augmented neural networks by improving its functionalities and proposed a novel hierarchical nse that outperforms similar previous models signicantly
+the quality of summarization was improved by augmenting guistic factors namely lemma and part of speech pos tags to each word in the dataset for improved vocabulary coverage and generalization
+the cal nse model on factored dataset outperformed the state of the art by nearly rouge points
+we further designed and used the rst gpu based self critical reinforcement learning model
+introduction when there are a very large number of documents that need to be read in limited time we often resort to reading summaries instead of the whole document
+automatically generating abstractive summaries is a problem with various applications e
+
+automatic authoring banerjee mitra
+we have developed automatic text summarization systems that condense large documents into short and readable summaries
+it can be used for both single e
+
+rush et al
+see et al
+and nallapati et al
+and multi document summarization e
+
+celikyilmaz et al
+nallapati et al
+hen et al
+
+text summarization is broadly classied into two categories extractive e
+
+nallapati et al
+and narayan et al
+and abstractive summarization e
+
+nallapati et al
+chopra et al
+and chen bansal
+extractive approaches select sentences from a given submitted as a conference paper at iclr document and groups them to form concise summaries
+by contrast abstractive approaches generate human readable summaries that primarily capture the semantics of input documents and contain rephrased key content
+the former task falls under the classication paradigm and the latter belongs to the generative modeling paradigm and therefore it is a much harder problem to solve
+the backbone of state of the art summarization models is a typical encoder decoder sutskever et al
+architecture that has proved to be effective for various sequential modeling tasks such as machine translation sentiment analysis and natural language generation
+it contains an encoder that maps the raw input word vector representations to a latent vector
+then the decoder usually equipped with a variant of the attention mechanism bahdanau et al
+uses the latent vectors to generate the output sequence which is the summary in our case
+these models are trained in a supervised learning setting where we minimize the cross entropy loss between the predicted and the target summary
+encoder decoder models have proved effective for short sequence tasks such as machine translation where the length of a sequence is less than tokens
+however in text summarization the length of the sequences vary from to tokens and modeling long term dependencies becomes increasingly difcult
+despite the metric s known drawbacks text summarization models are evaluated using rouge lin a discrete similarity score between predicted and target summaries based on gram gram and gram overlap
+cross entropy loss would be a convenient objective on which to train the model since rouge is not differentiable but doing so would create a mismatch between metrics used for training and evaluation
+though a particular summary scores well on rouge evaluation comparable to the target summary it will be assigned lower probability by a supervised model
+to tackle this problem we have used a self critic policy gradient method rennie et al
+to train the models directly using the rouge score as a reward
+in this paper we propose an architecture that addresses the issues discussed above
+
+problem formulation let d
+
+
+dn be the set of document sentences where each sentence i n is a set of words and s
+
+
+sm be the set of summary sentences
+in general most of the sentences in d are a continuation of another sentence or related to each other for example in terms of factual details or pronouns used
+so dividing the document into multiple paragraphs as done by celikyilmaz et al
+leaves out the possibility of a sentence level dependency between the start and end of a document
+similarly abstracting a single document sentence as done by chen bansal can not include related information from multiple document sentences
+in a good human written summary each summary sentence is a compressed version of a few document sentences
+mathematically s s
+
+
+dk d
+
+
+dk where c is a compressor we intend to learn
+figure represents the fundamental idea when using a sequence to sequence architecture
+for a sentence s in summary the representations of all the related document sentences
+
+
+dk are expected to form a cluster that represents a part of the highlight of the document
+first we adapt the neural semantic encoder nse for text summarization by improving its tion mechanism and compose function
+in a standard sequence to sequence model the decoder has access to input sequence through hidden states of an lstm hochreiter schmidhuber which suffers from the difculties that we discussed above
+the nse is equipped with an additional memory which maintains a rich representation of words by evolving over time
+we then propose a novel hierarchical nse by using separate word memories for each sentence to enrich the word representations and a document memory to enrich the sentence representations which performed better than its previous counterparts nallapati et al
+nallapati et al
+ling rush
+finally we use a maximum entropy self critic model to achieve better performance using rouge evaluation
+submitted as a conference paper at iclr figure document sentences are rst projected into a semantic space typically by an encoder in a sequence to sequence model
+are highlights of a document representing closely related sentence semantics respectively
+these lights are then used by the decoder to form concise summaries
+related work the rst encoder decoder for text summarziation is used by rush et al
+coupled with an tention mechanism
+though encoder decoder models gave a state of the art performance for neural machine translation nmt the maximum sequence length used in nmt is just tokens
+cal document lengths in text summarization vary from to tokens and lstm is not effective due to the loss in memory over time for very long sequences
+nallapati et al
+used chical et al
+to mitigate this effect where a word lstm is used to encode decode words and a sentence lstm is used to encode decode sentences
+the use of two lstms separately for words and sentences improves the ability of the model to retain its memory for longer sequences
+additionally nallapati et al
+explored using a hierarchical model consisting of a feature rich encoder incorporating position named entity recognition ner tag term frequency tf and inverse document frequency idf scores
+since an rnn is a sequential model puting at one time step needs all of the previous time steps to have computed before and is slow because the computation at all the time steps can not be performed in parallel
+chopra et al
+used convolutional layers coupled with an attention mechanism bahdanau et al
+to increase the speed of the encoder
+since the input to an rnn is fed sequentially it is expected to capture the positional information
+but both works nallapati et al
+and chopra et al
+found positional embeddings to be quite useful for reasons unknown
+nallapati et al
+proposed an extractive summarization model that classies sentences based on content saliency novelty and position
+to deal with out of vocabulary oov words and to facilitate copying salient information from input sequence to the output see et al
+proposed a pointer generator network that bines pointing vinyals et al
+with generation from vocabulary using a soft switch
+attention models for longer sequences tend to be repetitive due to the decoder repeatedly attending to the same position from the encoder
+to mitigate this issue see et al
+used a coverage mechanism to penalize a decoder from attending to same locations of an encoder
+however the pointer generator and the coverage model see et al
+are still highly extractive copying the whole article tences of the time
+paulus et al
+introduced an intra attention model in which attention also depends on the predictions from previous time steps
+one of the main issues with sequence to sequence models is that optimization using the entropy objective does not always provide excellent results because the models suffer from a match between the training objective and the evaluation metrics such as rouge lin and meteor banerjee lavie
+a popular algorithm to train a decoder is the teacher forcing algorithm that minimizes the negative log likelihood cross entropy loss at each decoding time step given the previous ground truth outputs
+but during the testing stage the prediction from the submitted as a conference paper at iclr ous time step is fed as input to the decoder instead of the ground truth
+this exposure bias results in error accumulation over each time step because the model has never been exposed to its predictions during training
+instead recent works show that summarization models can be trained using forcement learning rl where the rouge lin score is used as the reward paulus et al
+chen bansal and celikyilmaz et al
+
+hen et al
+made such an earlier attempt by using q learning for single and multi document summarization
+later ling rush proposed a coarse hierarchical attention model to select a salient sentence using sentence attention using reinforce williams and feed it to the decoder
+narayan et al
+used reinforce to rank sentences for extractive tion
+celikyilmaz et al
+proposed deep communicating agents that operate over small chunks of a document which is learned using a self critical rennie et al
+training approach sisting of intermediate rewards
+chen bansal used a advantage actor critic method to extract sentences followed by a decoder to form abstractive summaries
+our model does not suffer from their limiting assumption that a summary sentence is an abstracted version of a single source sentence
+paulus et al
+trained their intra attention model using a self critical policy gradient algorithm rennie et al
+
+though an rl objective gives a high rouge score the output summaries are not readable by humans
+to mitigate this problem paulus et al
+used a weighted sum of supervised learning loss and rl loss
+humans rst form an abstractive representation of what they want to say and then try to put it into words while communicating
+though it seems intuitive that there is a hierarchy from sentence representation to words as observed by both nallapati et al
+and ling rush these hierarchical attention models failed to outperform a simple attention model rush et al
+
+unlike feedforward networks rnns are expected to capture the input sequence order
+but strangely positional embeddings are found to be effective nallapati et al
+chopra et al
+ling rush and nallapati et al
+
+we explored a few approaches to solve these issues and improve the performance of neural models for abstractive summarization
+proposed models in this section we rst describe the baseline neural semantic encoder nse class discuss provements to the compose function and attention mechanism and then propose the hierarchical nse
+finally we discuss the self critic model that is used to boost the performance further using rouge evaluation
+
+neural semantic encoder a neural semantic encoder munkhdalai yu is a memory augmented neural network augmented with an encoding memory that supports read compose and write operations
+unlike the traditional sequence to sequence models using an additional memory relieves the lstm of the burden to remember the whole input sequence
+even compared to the attention model bahdanau et al
+which uses an additional context vector the nse has anytime access to the full input sequence through a much larger memory
+the encoding memory is evolved using basic operations described as follows ot lst m read zt sof t mr zt t ct f m lp c ot mt t lst m w ct submitted as a conference paper at iclr mt zt ht r w f m lp c multi layer be the read compose and write operations respectively
+el rl ek rk are where xt rd is the raw embedding vector at the current time step
+f lst m perceptron lst m vectors of ones is a matrix of ones and is the outer product
+instead of using the raw input the read function lst m in equation uses an lstm to project the word embeddings to the internal space of memory to obtain the hidden states ot
+now the alignment scores zt of the past memory are calculated using ot as the key with a simple dot product attention mechanism shown in equation
+a weighted sum gives the retrieved input memory that is used in equation by a multi layer perceptron in composing new information
+equation uses an lstm and projects the composed states into the internal space of memory to obtain the write states ht
+finally in equation the memory is updated by erasing the retrieved memory as per zt and writing as per the write vector ht
+this process is performed at each time step throughout the input sequence
+the encoded memories m t are similarly used by the decoder to obtain the write vectors that are eventually fed to projection and softmax layers to get the vocabulary distribution
+r
+improved nse although the vanilla nse described above performed well for machine translation just a dot product attention mechanism is too simplistic for text summarization
+in machine translation it is sufcient to compute the correlation between word vectors from the semantic spaces of different languages
+in contrast text summarization also needs a word sentence and sentence sentence correlation along with the word word correlation
+so in search of an attention mechanism with a better capacity to model the complex semantic relationships inherent in text summarization we found that the additive attention mechanism bahdanau et al
+given by the equation below performs well
+zt sof tanh w u ot battn where w u battn are learnable parameters
+one other important difference is the compose function a multi layer perceptron mlp is enough for machine translation as the sequences are short in length
+however text summarization consists of longer sequences that have sentence sentence dependencies and a history of previously composed words is necessary for overcoming repetition rush et al
+and thereby maintaining novelty
+a powerful function already at our disposal is the lstm we replaced the mlp with an lstm as shown below ht lst m w ct in a standard text summarization task due to the limited size of word vocabulary out of vocabulary oov words are replaced with tokens
+pointer networks vinyals et al
+facilitate the ability to copy words from the input sequence to the output via pointing
+later see et al
+proposed a hybrid pointer generator mechanism to improve upon pointing by retaining the ability to generate new words
+it points to the words from the input sequence and generates new words from the vocabulary
+a generation probability pgen is calculated using the retrieved memories attention distribution current input hidden state ot and write state ht as follows pgen t mmr t w t h ht w t o ot bptr where wm wh wo bptr are learnable parameters and is the sigmoid activation function
+next pgen is used as a soft switch to choose between generating a word from the vocabulary by sampling from pvocab or copying a word from the input sequence by sampling from the attention distribution
+for each document we maintain an auxiliary vocabulary of oov words in the input sequence
+we obtain the following nal probability distribution over the total extended vocabulary pgenpvocab pgen zt i i w wi submitted as a conference paper at iclr note that if w is an oov word then is zero similarly if w does not appear in the source document then zt i is zero
+the ability to produce oov words is one of the primary advantages of the pointer generator mechanism
+we can also use a smaller vocabulary size and thereby speed up the computation of output projection and softmax layers
+i w wi
+hierarchical nse figure hierarchical nse from a given article all the m sentences consisting of n words each are processed by the nse using read r compose c and write w operations
+each sentence memory is updated n times by each word in the sentence m k
+after the last encoder step all the updated sentence memories m n sm are concatenated to form the cumulative sentence memory ms
+the decoder then uses the cumulative sentence memory ms and document memory md in a similar fashion to produce the write vectors ht that are passed through a softmax layer to obtain the vocabulary distribution
+
+
+
+m n m n n when humans read a document we organize it in terms of word semantics followed by sentence semantics and then document semantics
+in a text summarization task after reading a document sentences that have similar meanings or continual information are grouped together and then pressed in words
+such a hierarchical model was rst introduced by yang et al
+for document classication and later explored unsuccessfully for text summarization nallapati et al
+
+in this work we propose to use a hierarchical model with improved nse to take advantage of both augmented memory and also the hierarchical document representation
+we use a separate memory for each sentence to represent all the words of a sentence and a document memory to represent all sentences
+word memory composes novel words and document memory composes novel sentences in the encoding process that can be later used to extract highlights and decode to summaries as shown in figure
+let d be the input document sequence where sin is the number of sentences in a document and tin is the number of words per sentence
+let mi rtind be the sentence memories that encode all the words in a sentence and m d m d rsind be the document memory that encodes all the sentences present in the document
+at each time step an input token is read and is used to retrieve aligned content from both corresponding sentence memory m i s t
+please note that the retrieved document memory which is a weighted combination of all the sentence representations forms a highlight
+after composition both the sentence and document memories are written simultaneously
+this way the words are encoded with contextual meaning and also new simpler sentences are formed
+the functionality of the model is as follows and document memory m d t xt ot ot lst m r t s zs t zd t m s r t zs t m d r t zd ms ot md ms ct lst m c r t r t submitted as a conference paper at iclr lst m w t u s m s m d t u d si i sin sin ct zs zd t ht t ht encoder stage decoder stage m s where fattn is the attention mechanism given by
+u pdate remains the same as the vanilla nse given by concat is the vector concatenation
+please note that nse munkhdalai yu has a concept of shared memory but we use multiple memories for resenting words and a document memory for representing sentences this is fundamentally different to a shared memory which does not have a concept of hierarchy
+
+self critical sequence training as discussed earlier training in a supervised learning setting creates a mismatch between training and testing objectives
+also feeding the ground truth labels in training time step creates an exposure bias while testing in which we feed the predictions from the previous time step
+policy gradient methods overcome this by directly optimizing the non differentiable metrics such as rouge lin and meteor banerjee lavie
+it can be posed as a markov decision process in which the set of actions a is the vocabulary and reward r is the rouge score itself
+so we should nd a policy such that the set of sampled words y
+
+
+yt achieves highest rouge score among all possible summaries
+we used the self critical model of rennie et al
+proposed for image captioning
+in self critical sequence training the reinforce algorithm williams is used by modifying its baseline as the greedy output of the current model
+at each time step t the model predicts two words yt sampled from
+
+
+the baseline output that is greedily generated by considering the most probable word from the vocabulary and yt sampled from the
+
+
+
+this model is trained using the following loss function lrl
+
+
+using the above training objective probability and thereby increasing
+com looping over data and creating guresropy regularization
+to generate samples with high additionally we have used learns above
+t the model ht v v v l lrl ht t where
+
+
+is the sampling probability and v is the size of the ulary
+it is similar to the exploration exploitation trade off
+is the regularization coefcient that explicitly controls this trade off a higher corresponds to more exploration and a lower sponds to more exploitation
+we have found that all tensorflow based open source implementations of self critic models use a function tf
+py func that runs only on cpu and it is very slow
+to the best of our knowledge ours is the rst gpu based implementation
+experiments and results
+dataset we used the cnn daily mail dataset nallapati et al
+which has been used as the standard benchmark to compare text summarization models
+this corpus has training pairs submitted as a conference paper at iclr validation pairs and test pairs as dened by their scripts
+the source document in the ing set has words spanning
+sentences on an average while the summaries consist of words and
+sentences nallapati et al
+
+the unique characteristics of this dataset such as long documents and ordered multi sentence summaries present exciting challenges mainly because the proven sequence to sequence lstm based models nd it hard to learn long term dependencies in long documents
+we have used the same train validation test split and examples for a fair parison with the existing models
+the factoring of lemma and part of speech pos tag of surface words are observed hyay to increase the performance of nmt models in terms of bleu score drastically
+this is due to the improvement of the vocabulary coverage and better generalization
+we have added a pre processing step by incorporating the lemma and pos tag to every word of the dataset and ing the supervised model on the factored data
+the process of extracting the lemma and the pos tags has been described in bandyopadhyay
+please refer to the appendix for an example of factoring
+
+training settings for all the plain nse models we have truncated the article to a maximum of tokens and the summary to tokens
+for the hierarchical nse models articles are truncated to have a maximum of sentences and words per sentence each
+shorter sequences are padded with pad tokens
+since the factored models have lemma pos tag and the separator for each word sequence lengths should be close to times the non factored counterparts
+for practical reasons of memory and time we have used tokens per article and tokens for the summary
+for all the models including the pointer generator model we use a vocabulary size of words for both source and target
+though some previous works nallapati et al
+have used large vocabulary sizes of since our models have a copy mechanism smaller vocabulary is enough to obtain good performance
+large vocabularies increase the computation time
+since memory plays a prominent role in retrieval and update it is vital to start with a good initialization
+we have used dimensional pre trained glove pennington et al
+word vectors to represent the input sequence to a model
+sentence memories are initialized with glove word vectors of all the words in that sentence
+document memories are initialized with vector representations of all the sentences where a sentence is represented with the average of the glove word vectors of all its words
+all the models are trained using the adam optimizer with the default learning rate of
+
+we have not applied any regularization as the usage of dropout and penalty resulted in similar performance however with a drastically increased training time
+the hierarchical models process one sentence at a time and hence attention distributions need less memory and therefore a larger batch size can be used which in turn speeds up the training process
+the non factored model is trained on nvidia tesla gpus with a batch size of examples per gpu it takes approximately minutes per epoch
+since the factored sequences are long we used a batch size of examples per gpu on nvidia tesla gpus
+the hier model reaches optimal cross entropy loss in just epochs unlike epochs for both nallapati et al
+and see et al
+
+for the self critical model training is started from the best supervised model with a learning rate of
+and manually changed to
+when needed with
+and the reported results are obtained after training for days
+
+evaluation all the models are evaluated using the standard metric rouge we report the scores for and rouge l which quantitively represent word overlap bigram overlap and longest common subsequence between reference summary and the summary that is to be ated
+the results are obtained using pyrouge
+the performance of various models and our improvements are summarized in table
+a direct implementation of nse performed very poorly due to the simple dot product attention mechanism
+in nmt a transformation from word vectors in one language to another one say english to french using a mere matrix multiplication is enough cause of the one to one correspondence between words and the underlying linear structure imposed
+org project submitted as a conference paper at iclr table rouge scores on the test set
+our hierarchical hier nse model outperform previous hierarchical and pointer generator models
+hier nse factor is the factored model and hier nse sc is the self critic model
+paradigm models rouge f score hierattn nallapati et al
+abstractive model nallapati et al
+pointer generator see et al
+pointer generator coverage see et al
+hier nse ours hier nse factor ours with intra attention paulus et al
+dca celikyilmaz et al
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+l
+
+
+
+
+
+
+
+
+
+hier nse sc ours
+
+
+supervised learning reinforcement learning in learning the word vectors pennington et al
+
+however in text summarization a word tence could be a condensation of a group of words sentences
+therefore using a complex neural network based attention mechanism proposed improved the performance
+both dot product and ditive bahdanau et al
+mechanisms perform similarly for the nmt task but the difference is more pronounced for the text summarization task simply because of the nature of the problem as described earlier
+replacing multi layered perceptron mlp in the nse with an lstm further improved the performance because it remembers what was previously composed and facilitates the composition of novel words
+this also eliminates the need for additional mechanisms to penalize repetitions such as coverage see et al
+and intra attention paulus et al
+
+finally ing memories for each sentence enriches the corresponding word representation and the document memory enriches the sentence representation that help the decoder
+please refer to the appendix for a few example outputs
+table shows the results in comparison to the previous methods
+our hierarchical model outperforms nallapati et al
+hier by rouge points
+our factored model achieves the new state of the art sota result outperforming celikyilmaz et al
+by almost rouge points
+table performance of various nse models on cnn daily mail corpus
+please note that the data is not factored here
+model plain nse nse improved attention nse improved compose hierarchical nse rouge f score l
+
+
+
+
+
+
+
+
+
+
+
+conclusion in this work we presented a memory augmented neural network for the text summarization task that addresses the shortcomings of lstm based models
+we applied a critical pre processing step by factoring the dataset with inherent linguistic information that outperforms the state of the art by a large margin
+in the future we will explore new sparse functions martins astudillo to enforce strict sparsity in selecting highlights out of sentences
+the general framework of processing and extracting highlights can also be used with powerful pre trained models like bert devlin et al
+and xlnet yang et al
+
+submitted as a conference paper at iclr references dzmitry bahdanau kyunghyun cho and yoshua bengio
+neural machine translation by jointly learning to align and translate
+url
+org
+
+cite
+accepted at iclr as oral presentation
+saptarashmi bandyopadhyay
+factored neural machine translation at loresmt
+in ceedings of the workshop on technologies for mt of low resource languages pp
+dublin ireland august
+european association for machine translation
+url
+aclweb
+org anthology
+satanjeev banerjee and alon lavie
+meteor an automatic metric for mt evaluation with in proceedings of the acl workshop on improved correlation with human judgments
+trinsic and extrinsic evaluation measures for machine translation summarization pp
+ann arbor michigan june
+association for computational linguistics
+url
+aclweb
+org anthology
+siddhartha banerjee and prasenjit mitra
+wikikreator improving wikipedia stubs automatically
+in proceedings of the annual meeting of the association for computational linguistics and the international joint conference on natural language processing volume long papers pp
+beijing china july
+association for computational linguistics
+doi
+
+url
+aclweb
+org anthology
+asli celikyilmaz antoine bosselut xiaodong he and yejin choi
+deep communicating agents for abstractive summarization
+in proceedings of the conference of the north american ter of the association for computational linguistics human language technologies volume long papers pp
+new orleans louisiana june
+association for putational linguistics
+
+
+url
+aclweb
+anthology
+yen chun chen and mohit bansal
+fast abstractive summarization with reinforce selected sentence rewriting
+in proceedings of the annual meeting of the association for computational guistics volume long papers pp
+melbourne australia july
+association for computational linguistics
+
+
+url
+aclweb
+org anthology
+sumit chopra michael auli and alexander m
+rush
+abstractive sentence summarization with attentive recurrent neural networks
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies pp
+san diego california june
+association for computational linguistics
+
+
+url
+aclweb
+org anthology
+jacob devlin ming wei chang kenton lee and kristina toutanova
+bert pre training of deep bidirectional transformers for language understanding
+corr
+
+url
+org
+
+stefan hen margot mieskes and iryna gurevych
+a reinforcement learning approach for in bernhard fisseni bernhard schroder adaptive and multi document summarization
+and torsten zesch eds
+proceedings of the international conference of the german ciety for computational linguistics and language technology gscl university of duisburg essen germany september october pp
+
+gscl e
+v
+
+url
+inf
+uni due
+wp content
+pdf
+sepp hochreiter and jurgen schmidhuber
+long short term memory
+neural comput
+november
+issn
+
+neco
+
+
+
+
+url
+
+
+neco
+
+
+
+
+chin yew lin
+rouge a package for automatic evaluation of summaries
+in text summarization branches out pp
+barcelona spain july
+association for computational tics
+url
+aclweb
+org anthology
+submitted as a conference paper at iclr jeffrey ling and alexander rush
+coarse attention models for document summarization
+in proceedings of the workshop on new frontiers in summarization pp
+copenhagen mark september
+association for computational linguistics
+
+
+url
+aclweb
+org anthology
+andre f
+t
+martins and ramon f
+astudillo
+from softmax to sparsemax a sparse model of tention and multi label classication
+in proceedings of the international conference on ternational conference on machine learning volume pp
+
+jmlr
+org
+url
+acm
+org citation
+
+
+tsendsuren munkhdalai and hong yu
+neural semantic encoders
+in proceedings of the ference of the european chapter of the association for computational linguistics volume long papers pp
+valencia spain april
+association for computational tics
+url
+aclweb
+org anthology
+ramesh nallapati bowen zhou cicero dos santos c aglar gulcehre and bing xiang
+tive text summarization using sequence to sequence rnns and beyond
+in proceedings of the signll conference on computational natural language learning pp
+berlin germany august
+association for computational linguistics
+
+
+url
+aclweb
+org anthology
+ramesh nallapati feifei zhai and bowen zhou
+summarunner a recurrent neural network based sequence model for extractive summarization of documents
+in proceedings of the thirty first aaai conference on articial intelligence pp
+
+aaai press
+url
+acm
+org citation
+
+
+shashi narayan shay b
+cohen and mirella lapata
+ranking sentences for extractive tion with reinforcement learning
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies ume long papers pp
+new orleans louisiana june
+association for putational linguistics
+
+
+url
+aclweb
+anthology
+romain paulus caiming xiong and richard socher
+a deep reinforced model for abstractive summarization
+in international conference on learning representations
+url https
+net
+jeffrey pennington richard socher and christopher manning
+glove global vectors for word resentation
+in proceedings of the conference on empirical methods in natural language processing emnlp pp
+doha qatar october
+association for computational linguistics
+
+
+url
+aclweb
+org
+steven j
+rennie etienne marcheret youssef mroueh jerret ross and vaibhava goel
+self critical sequence training for image captioning
+ieee conference on computer vision and pattern recognition cvpr pp
+
+alexander m
+rush sumit chopra and jason weston
+a neural attention model for abstractive tence summarization
+in proceedings of the conference on empirical methods in natural language processing pp
+lisbon portugal september
+association for putational linguistics
+
+
+url
+aclweb
+anthology
+abigail see peter j
+liu and christopher d
+manning
+get to the point summarization with pointer generator networks
+in proceedings of the annual meeting of the association for computational linguistics volume long papers pp
+vancouver canada july
+association for computational linguistics
+
+
+url https
+aclweb
+org anthology
+ilya sutskever oriol vinyals and quoc v le
+sequence to sequence learning with neural networks
+in z
+ghahramani m
+welling c
+cortes n
+d
+lawrence and k
+q
+weinberger eds
+advances in neural information processing systems pp
+submitted as a conference paper at iclr
+curran associates inc
+
+url
+nips
+cc sequence to sequence learning with neural networks
+pdf
+oriol vinyals meire fortunato and navdeep jaitly
+pointer networks
+in proceedings of the international conference on neural information processing systems volume pp
+cambridge ma usa
+mit press
+url
+acm
+citation
+
+
+ronald j
+williams
+simple statistical gradient following algorithms for connectionist issn
+
+ment learning
+mach
+learn
+may
+
+url
+
+
+zhilin yang zihang dai yiming yang jaime g
+carbonell ruslan salakhutdinov and quoc v
+corr le
+xlnet generalized autoregressive pretraining for language understanding
+
+
+url
+org
+
+zichao yang diyi yang chris dyer xiaodong he alex smola and eduard hovy
+hierarchical in proceedings of the conference of the attention networks for document classication
+north american chapter of the association for computational linguistics human language technologies pp
+san diego california june
+association for computational linguistics
+
+
+url
+aclweb
+org
+a appendix figure below shows the self critical model
+all the examples shown in tables are chosen as per the shortest article lengths available due to space constraints
+figure self critic training reduces exposure bias and by learning a policy whose samples score better than the greedy samples that are used during test time in a supervised learning setting
+submitted as a conference paper at iclr table sample outputs for both non factored and factored input articles
+while factoring each surface word is augmented with lemma and pos tag separated by
+original article the build up for the blockbuster ght between floyd mayweather and manny pacquiao in las vegas on may steps up a gear on tuesday night when the american holds an open workout for the media
+the session will be streamed live across the world and you can watch it here from am uk
+factored article the the dt build up build up nn for for in the the dt blockbuster blockbust nn ght ght nn between between in floyd oyd nnp mayweather mayweath nnp and and cc manny manni nnp pacquiao pacquiao nnp in in in las la nnp vegas vega nnp on on in may may nnp cd steps step nns up up rb a a dt gear gear nn on on in tuesday tuesday nnp night night nn when when wrb the the dt american american nnp holds hold vbz an an open open jj workout workout nn for for in the the dt media media nns
+
+
+the the dt session session nn will will md be be vb streamed stream vbn live live jj across across in the the dt world world nn and and cc you you prp can can md watch watch vb it it prp here here rb from from in am am
+
+gt summary oyd mayweather holds an open media workout from am uk pm edt
+the american takes on manny pacquiao in las vegas on may
+mayweather s training is being streamed live across the world
+hier nse output the build up for the blockbuster ght between oyd mayweather and manny pacquiao in las vegas on may steps up a gear on tuesday night
+the session will be streamed live across the world and you can watch it here from uk
+the session will be the media s open workout for the media
+hier nse sc the oyd mayweather and manny pacquiao in las vegas
+the american holds an open workout for the media
+will be streamed live across the world and
+gt summary factored oyd oyd nnp mayweather mayweath nnp holds hold vbz an an open open jj media media nns workout workout nn from from in am am cd uk uk nnp vbd pm pm cd edt edt nnp nn
+the the american american jj takes take vbz on on in manny manni nnp pacquiao pacquiao nnp in in in las la nnp vegas vega nnp on on in may may nnp cd
+mayweather mayweath nnp s s pos training train nn is is vbz being be vbg streamed stream vbn live live jj across across in the the dt world world nn
+hier nse output factored the the dt session session will will md be be vb streamed stream vbn live live jj across across in the the dt world world nn and and cc you you prp can can md watch watch vb it it prp here here rb from from in am am nnp nnp nnp nnp
+the the american american nnp holds hold vbz an an open open jj workout workout nn for for in the the dt media media nns
+submitted as a conference paper at iclr table sample outputs for both non factored and factored input articles
+while factoring each surface word is augmented with lemma and pos tag separated by
+original article cnn justin timberlake and jessica biel welcome to parenthood
+the celebrity couple announced the arrival of their son silas randall timberlake in statements to people
+silas was the middle name of timberlake s maternal grandfather bill bomar who died in while randall is the musician s own middle name as well as his father s rst people reports
+the couple announced the pregnancy in january with an instagram post
+it is the rst baby for both
+factored article jj cnn cnn nnp nnp justin justin nnp timberlake timberlak nnp and and cc jessica jessica nnp biel biel nnp welcome welcom nn to to to parenthood parenthood nn
+
+
+the the dt celebrity celebr nn couple coupl nn announced announc vbd the the dt arrival arriv nn of of in their their prp son son nn silas sila nnp randall randal nnp timberlake timberlak nnp in in in statements statement nns to to to people peopl nns
+
+
+silas sila nnp was wa vbd the the dt middle middl jj name name nn of of in timberlake timberlak nnp s s pos maternal matern jj grandfather grandfath nn bill bill nnp bomar bomar nnp who who wp died die vbd in in in cd while while in randall randal nnp is is vbz the the dt musician musician nn s s pos own own jj middle middl nn name name nn as as rb well well rb as as in his hi prp father father nn s s pos rst rst jj people peopl nnp reports report nns
+
+
+the the dt couple coupl nn announced announc vbd the the dt pregnancy pregnanc nn in in in january januari nnp with with in an an dt instagram instagram nnp post post nn
+
+
+it it prp is is vbz the the dt rst rst jj baby babi nn for for in both both dt
+
+
+gt summary timberlake and biel welcome son silas randall timberlake
+the couple announced the pregnancy in january
+hier nse output silas was the middle name of timberlake s maternal grandfather bill bomar the couple announced the pregnancy in january with an instagram post
+it is the rst baby for both
+hier nse sc justin timberlake and jessica biel the couple of their son
+silas randall timberlake in
+the rst baby for both
+gt summary factored timberlake timberlak nnp and and cc biel biel nnp welcome welcom vbp son son nn silas sila nnp randall randal nnp timberlake timberlak nnp
+the the dt couple coupl nn announced announc vbd the the dt pregnancy pregnanc nn in in in january januari nnp
+hier nse output factored justin justin nnp timberlake nnp nnp and and cc jessica jessica nnp nnp nnp nnp are are in in in statements statement nns to to to people peopl nns
+he he nnp is is vbz the the dt rst rst jj baby vbz nn for for in both both dt
+timberlake jj bill bill nn the the couple nn s s pos son son nn
+submitted as a conference paper at iclr table sample outputs from the hierarchical nse and self critical model
+original article cnn once hillary clinton s ofcial announcement went online social media sponded in a big way with terms like hillary clinton and yes even whyimnotvotingforhillary trending
+certainly you could nt go far on twitter even before clinton tweeted her announcement without an opinion or thought on her new paign there were over million views of her announcment tweets in one hour and facebook video views so far by sunday evening
+some tweeted their immediate support with one word groundtruth summary response across social media led to multiple trending topics for hillary clinton s presidential nouncement
+some responded to her video and her new campaign logo
+hier nse output hillary clinton tweeted her announcement without an opinion or thought on her new campaign
+some tweeted their immediate support with one word hillary clinton yes
+hier nse sc hillary clinton s ofcial announcement
+clinton hillary clinton
+in the
+table factored input and outputs for the same example used in table
+article factored jj cnn cnn nnp nnp once onc nnp hillary hillari nnp clinton clinton nnp s s pos ofcial ofci jj announcement announc nn went went vbd online onlin nn social social jj media media nns responded respond vbd in in in a a dt big big jj way way nn with with in terms term nns like like in hillary hillari nnp clinton clinton nnp nnp and and cc yes ye uh even even rb whyimnotvotingforhillary whyimnotvotingforhillari nnp trending trend nn
+
+
+certainly certainli rb you you prp could could md nt nt rb go go vb far far rb on on in twitter twitter nnp nnp even even rb before befor in clinton clinton nnp tweeted tweet vbd her her prp announcement announc nn nn without without in an an dt opinion opinion nn or or cc thought thought nn on on in her her prp new new jj campaign campaign nn nn there there ex were were vbd over over in cd million million cd views view nns of of in her her prp announcment announc jj tweets tweet nns in in in one one cd hour hour nn and and cc cd facebook facebook nnp video video nn views view nns so so rb far far rb by by in sunday sunday nnp evening even vbg nn
+
+
+some some dt tweeted tweet vbd their their prp immediate immedi jj support support nn with with in one one cd word word nn gt summary factored response respons nnp across across in social social jj media media nns led led vbd to to to multiple multipl vb trending trend vbg topics topic nns for for in hillary hillari nnp clinton clinton nnp s s pos presidential presidenti jj announcement announc nn
+some some dt responded respond vbd to to to her her prp video video nn and and cc her her prp new new jj campaign campaign nn logo logo nn
+hier nse output factored hillary nnp nnp clinton clinton nnp s s pos ofcial jj announcement announc nn went went vbd online onlin nn
+clinton clinton nnp tweeted tweet vbd her her prp new new jj campaign campaign nn without without in an an dt opinion opinion or or cc thought thought vbd on on in twitter twitter nn with with in terms term nns like like in hillary nnp nnp clinton clinton nnp nnp nnp jj
+submitted as a conference paper at iclr table sample outputs from the hierarchical nse and self critical model
+original article blackpool are in talks to sign austria defender thomas piermayr
+the year old has been training with the championship club this week and they are keen to get him on board for what is expected to be conrmed as a campaign in league one next season
+piermayr is a free agent and had been playing for colorado rapids
+the former austria international had a spell with inverness caledonian thistle in
+thomas piermayr left in action for the colorado rapids tries to tackle obafemi martins last year groundtruth summary thomas piermayr has been training with blackpool this week
+austrian defender is a free agent after leaving mls side colorado rapids
+blackpool are bottom of the championship and look set to be relegated
+hier nse output thomas has been training with the championship club this week
+the former austria international had a spell with inverness caledonian thistle
+blackpool are in talks to sign austria defender thomas
+hier nse sc blackpool are in talks to sign austria defender thomas
+has been training with the championship club this week
+is a free agent and
+table factored input and outputs for the same example used in table
+factored article blackpool blackpool nnp are are vbp in in in talks talk nns to to to sign sign vb austria austria nnp defender defend nn thomas thoma nnp piermayr piermayr nnp
+
+
+the the dt year old year old jj has ha vbz been been vbn training train vbg with with in the the dt championship championship nnp club club nn this thi dt week week nn and and cc they they prp are are vbp keen keen jj to to to get get vb him him prp on on in board board nn for for in what what wp is is vbz expected expect vbn to to to be be vb conrmed conrm vbn as as in a a dt campaign campaign nn in in in league leagu nnp one one nnp next next jj season season nn
+
+
+piermayr piermayr nnp is is vbz a a free free jj agent agent nn and and cc had had vbd been been vbn playing play vbg for for in colorado colorado nnp rapids rapid nnp
+
+
+the the dt former former jj austria austria nnp nnp international intern jj had had vbd a a dt spell spell nn with with in inverness inver nnp caledonian caledonian nnp thistle thistl nnp in in in cd
+
+
+thomas thoma nnp piermayr piermayr nnp nnp left left vbd in in in action action nn for for in the the dt colorado colorado nnp rapids rapid nnp nnp tries tri vbz to to to tackle tackl vb obafemi obafemi nnp martins martin nnp last last jj year year nn gt summary factored thomas thoma nnp piermayr piermayr nnp has ha vbz been been vbn training train vbg with with in blackpool blackpool nnp this thi dt week week nn
+austrian austrian jj defender defend nn is is vbz a a free free jj agent agent nn after after in leaving leav vbg mls ml nnp side side nn colorado colorado nnp rapids rapid nnp
+blackpool blackpool nnp are are vbp bottom bottom nn of of in the the dt championship championship nnp and and cc look look vb set set vbn to to to be be vb relegated releg vbn
+hier nse output factored the the dt year old year old jj has ha vbz been been vbn training train nnp with with in the the dt championship championship nnp club club nnp this thi dt week week nn
+the the dt former former jj austria austria nnp nnp international intern jj had had vbd a a dt spell spell nn with with in nnp nnp nnp nnp nnp nnp
+

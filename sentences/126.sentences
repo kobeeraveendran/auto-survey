@@ -1,0 +1,689 @@
+a deep network model for paraphrase detection in short text messages basant agarwala heri ramampiaroa helge langsetha massimiliano ruoccoa c adept
+of computer science norwegian university of science and technology norway bswami keshvanand institute of technology india ctelenor research trondheim norway c e d r i
+s c v
+v i x r a abstract this paper is concerned with paraphrase detection
+the ability to detect similar sentences written in natural language is crucial for several applications such as text mining text summarization plagiarism detection authorship authentication and question answering
+given two sentences the objective is to detect whether they are semantically identical
+an important insight from this work is that existing paraphrase systems perform well when applied on clean texts but they do not necessarily deliver good performance against noisy texts
+challenges with paraphrase detection on user generated short texts such as twitter include language irregularity and noise
+to cope with these challenges we propose a novel deep neural network based approach that relies on coarse grained sentence modeling using a convolutional neural network and a long short term memory model combined with a specic ne grained word level similarity matching model
+our experimental results show that the proposed approach outperforms existing state of the art approaches on user generated noisy social media data such as twitter texts and achieves highly competitive performance on a cleaner corpus
+keywords paraphrase detection sentence similarity deep learning lstm cnn
+introduction twitter has for some time been a popular means for expressing opinions about a variety of subjects
+paraphrase detection in user generated noisy texts such as twitter is an important task for various natural language processing nlp information retrieval and text mining tasks including query ranking plagiarism detection question answering and document summarization
+recently the paraphrase detection task has gained signicant interest in applied nlp because of the need to deal with the pervasive problem of linguistic variation
+paraphrase detection is an nlp classication problem
+given a pair of sentences the system determines the semantic similarity between the two sentences
+if the two sentences convey the same meaning it is labelled as paraphrase otherwise non paraphrase
+most of the existing paraphrase systems have performed quite well on clean text corpora such as the microsoft paraphrase corpus msrp
+however detecting paraphrases in user generated noisy tweets is more challenging due to issues like misspelling acronyms style and structure
+although little attention has been given to paraphrase detection in noisy short texts some initial work has been reported on the benchmark semeval twitter dataset
+unfortunately the best performing approaches on one dataset perform poorly when evaluated against another
+as we discuss later in this paper the state of the art approach for the semeval dataset proposed by dey et al
+gives quite poor score when evaluated on the msrp dataset
+similarly ji and eisenstein is the corresponding author email addresses basant
+
+no basant agarwal
+no heri ramampiaro
+no helge langseth massimiliano
+
+no massimiliano ruocco now on referred to as tweets
+preprint submitted to information processing and management december best performing approach on the msrp dataset but does not perform well on the semeval dataset
+in conclusion existing approaches are not very generic but instead they are highly dependant on the data used for training
+focusing on the problem discussed above the main goal of this work is to develop a robust paraphrase detection model based on deep learning techniques that is able to successfully detect paraphrasing in both noisy and clean texts
+more specically we propose a hybrid deep neural architecture composed by a lutional neural network cnn and a long short term memory lstm model further enhanced by a novel word pair similarity module
+the proposed paraphrase detection model is composed of two main nents i
+e
+pair wise word similarity matching and sentence modelling
+the pair wise similarity matching model is used to extract ne grained similarity information between pairs of sentences
+we use a cnn to learn the patterns in the semantic correspondence between each pair of words in the two sentences that are intuitively useful for paraphrase identication
+the idea to apply convolutions over a pair wise word to word similarity matrix to extract the important word word similarity pairs is motivated by how tions over text can extract the most important parts of a sentence
+in sentence modelling architecture we extract the local region information in form of important n grams from the text using the cnn and the long term dependency information using the lstm
+by using this architecture we are able to develop an informative semantic representation of each sentence
+in this paper we show how the proposed model can be enhanced by employing an extra set of statistical features extracted from the input text
+to demonstrate its robustness we evaluated the proposed approach and compare it with the state of the art models using two dierent datasets covering both noisy user generated texts i
+e
+the semeval twitter benchmark dataset and clean texts i
+e
+the microsoft paraphrase corpus msrp
+in summary the main contributions of this paper are
+we propose a novel deep neural network architecture leveraging coarse grained sentence level features and ne grained word level features for detecting paraphrases on noisy short text from twitter
+the model combines sentence level and word level semantic similarity information such that it can capture semantic information at each level
+when the text is grammatically irregular or very short the level similarity model can provide useful information while the semantic representation of the sentence provide useful information otherwise
+in this way both model components compliment each other and provide ecient overall performance
+
+we show how the proposed pair wise similarity model can used to extract word level semantic mation and demonstrate its usefulness in the paraphrase detection task
+
+we propose a method combining statistical textual features and features learned from the deep tecture
+
+we present an extensive comparative study for the paraphrase detection problem
+the rest of the paper is organized as follows we formally dene the problem in section then discuss related word concerning paraphrase detection in section
+in section we motivate our work and present our proposed solution in detail
+thereafter we describe the experimental setup in section and evaluate the approach and discuss the results in section
+finally in section we conclude the paper and outline plans for future research
+
+problem statement si let and be two sentences such that
+and are said to be paraphrased if they convey the same meaning and are semantically equivalent
+now assume that we have a collection of n annotated sentence pairs si having annotations ki for i
+
+
+n
+for a given i ki indicates whether the i sentence pair is paraphrased or non paraphrased
+the problem addressed in this paper is to develop a model which can reliably annotate a previously unseen sentence pair as paraphrased or non paraphrased
+there are several methods that have been proposed and work well for clean texts but most of them have failed to provide satisfactory results when applied on noisy texts like tweets
+on the other hand some approaches have recently been developed for paraphrase detection on noisy texts e
+
+the work by xu et al
+and dey et al
+but as shown later these approaches do not work well on clean texts
+in conclusion there is still a strong need for a robust and reliable method which can perform well for both clean texts and user generated noisy short texts
+addressing this need is the main objective of the work presented in this paper
+
+related work the use of deep neural network for natural language processing has increased considerably over the recent years
+most of the previous work on sentence modelling have focused on feature like n gram overlap features syntax features and machine translation based features
+recently deep learning based methods have shifted researchers attention towards semantically distributed representations
+a variety of deep neural network based architectures have been proposed for sentence similarity a strategy we also focus on in this paper
+substantial work has been carried out on paraphrase detection from the clean text microsoft paraphrase corpus
+das and smith present a probabilistic model for paraphrase detection based on syntactic larity semantics and hidden loose alignment between syntactic trees of the two given sentences
+heilman and smith propose a tree edit model for paraphrase identication based on syntactic relations among words
+they develop a logistic regression model that uses syntactic features of edit sequences to classify a sentence pair
+socher et al
+present an approach based on recursive autoencoders for paraphrase detection
+their approach learns feature vectors for phrases in syntactic trees and employs a dynamic ing layer mechanism which converts a variable sized matrix into a xed sized representation
+parsing is a powerful tool for identifying the important syntactic structure in the text but relying on the parsing makes the approach less exible
+our approach does not use such resources to develop the model
+oliva et al
+propose symss based on the syntactic structure of the sentences
+they represent the sentences as a syntactic dependence tree use wordnet to extract meaning of individual words and further use syntactic connections among them to assess information similarity
+ji and eisenstein use several hand crafted features with latent representation from matrix factorization as features to train a support vector machine
+the arc model proposed by hu et al
+is a convolutional siamese architecture in which two weight convolutional sentence models are trained
+el alfy et al
+propose a model considering a set of weak textual similarity metrics
+they boost the performance of individual metrics using abductive learning
+further they aim to select an optimal subset of similarity measures and construct a composite score that is used for classication
+wang et al
+decompose the sentence similarity matrix into a similar component matrix and a dissimilar component matrix and train a two channel convolutional neural network to compose these components into feature vectors
+ferreira et al
+propose a supervised machine learning learning approach
+they extract various features based on lexical syntactic and semantic similarity measures and use various machine learning algorithms such as bayesian network rbf network
+decision tree and support vector machines
+some contributions have also been reported for detecting paraphrases on noisy short text like tweets
+xu et al
+propose a latent variable model that jointly infer the correspondence between words and sentences
+eyecioglu and keller use a support vector machine with simple lexical word overlap and character grams features for paraphrase detection
+zhao and lan use various machine learning classiers and employ a variety of features like string based corpus based syntactic features and word distributional representations
+zarrella et al
+present an ensemble approach based on various features such as mixtures of string matching metrics distance measurements tweet specic distributed word representations and recurrent neural networks for modeling similarity
+karan et al
+present a supervised approach that combines semantic overlap and word alignment features
+vo et al
+experiment with various sets of features with dierent classiers and show that the combination of word n gram word alignment by meteor metric for evaluation of translation with explicit ordering bleu bilingual evaluation understudy and editdistance is the best feature set for twitter paraphrase detection votedperceptron proved to be the best machine learning algorithm
+dey et al
+use a set of lexical syntactic semantic and pragmatic features
+in this paper we focus on using deep learning algorithms to develop a robust and reliable paraphrase detection system which can work well on both clean text and noisy short text such as tweets
+to the best of our knowledge this is the rst work to fully explore this area while also including a comprehensive comparative study of exiting approaches
+table summarizes the approaches discussed in section
+table comparison among related approaches
+work description resources used classication dataset asobek word overlap and character n grams features pos tagger support vector chine svm twitter msrp mitre mixtures of string matching metrics regularized logistic regression ecnu various string based corpus based syntactic and distributed word representation based features various features such as machine translation edit distance sentiment features semantic overlap features and word alignment features multi instance learning paraphrase model multip a set of lexical syntactic semantic and pragmatic features combination of several word similarity measures weighted textual matrix factorization wtmf with handling missing words probabilistic model with syntactic and n gram overlap features pos tagger wordnet various pre trained word embeddings svm random est rf gradient boosting gb pos tagger stump decision oner baysian logistic regression votedperceptron mlp pos tagger svm pos tagger similarity score wordnet pos tagger ne tags svm twitter dataset twitter dataset twitter dataset twitter dataset twitter dataset twitter msrp pos tagger wordnet similarity threshold matrix tion score msrp msrp wordnet dependency parser logistic regression svm msrp syntactic features of edit sequences pos tagger parser wordnet logistic regression msrp similarity features based in syntactic dependency tree wordnet dependency parser similarity threshold score msrp dependency parser representation of feature vectors for phrases in syntactic trees matrix factorization with supervised reweighting recursive coder with dynamic pooling msrp svm with a linear kernel msrp continue on the next page
+table comparison among related works cont
+
+work description resources used classication dataset pre trained word embeddings convolutional ral network msrp hierarchical structures of sentences with their layer by layer composition combination of eight machine translation metrics wordnet boosting through textual similarity metrics sentence similarity learning by lexical decomposition and composition represent pair of sentence as combination of similarity measures pre trained word embeddings dependency parser this work hybrid of deep learning and statistical features pos tagger pre trained word embeddings svm svm cnn svm rbf work bayesian network multi layer neural network msrp msrp msrp msrp msrp twitter dataset
+deepparaphrase architecture we propose a deep learning based approach for detecting paraphrase sentences for tweets
+we rst convert each sentence in a pair into a semantic representative vector using a cnn and an lstm
+then a semantic pair level vector is computed by taking the element wise dierence of each vector in the sentence representations
+the resulting dierence is the discriminating representative vector of the pair of sentences which is used as feature vector for learning the similarity between the two sentences
+in addition to this coarse level semantic information we extract more ne grained important information using a similarity matrix which contains word to word similarity quantication
+further convolutions are applied over the pair wise similarity matrix to learn the similarity patterns between the words in the pair of sentences
+the aim of the convolution function is to extract more ne grained similarity features
+finally a third set of features are extracted using statistical analysis of the text and concatenated with the rest of the learned features
+a fully connected neural network is used to produce the classication from this concatenated feature vector
+the rst layers are activated by the relu function while we use the sigmoid function to transfer the latent representation into a two class decision rule
+we train the model to optimize binary cross entropy
+the proposed architecture is depicted in figure
+at a high level of abstraction the proposed model therefore consists of two main components that will be discussed next
+
+
+sentence modelling with cnn and lstm in this component we represent every sentence using our joint cnn and lstm architecture
+the cnn is able to learn the local features from words to phrases from the text while the lstm learns the term dependencies of the text
+more specically we rstly take the word embedding as input to our cnn model in which various types of convolutions and pooling techniques are applied to capture the maximum information from the text
+next the encoded features are used as input to the lstm network
+finally the long term dependencies learned by the lstm becomes the semantic sentence representation
+the architecture of the proposed model for mapping the sentences into a feature vector is shown in figure
+the main goal of this step is to learn good intermediate semantic representations of the sentences which are further used for the semantic similarity task
+the input to the sentence model is a pair of sentences and which we transform into matrices of their words embeddings
+here each word is represented by figure the proposed deepparaphrase architecture a vector w rd where is the size of the word embedding
+we used pre trained word embeddings see section
+for details
+the sentence embedding matrices are then fed into the cnn
+the result captures the local region information and is used as input to the lstm
+the aim of the convolutional layer is therefore to extract patterns i
+e
+important word sequences from the input sentences
+the motivation for using convolutions comes from the fact that convolutional lters can learn n gram discriminating features which is useful for sentence similarity analysis
+the features generated by the convolutional layer have the form of n grams and are fed into the lstm
+this model component is able to process sequential input with the aim to learn the long term dependencies in the sentences
+eventually the last latent layer of the lstm is taken as the semantic representation of the sentence and the dierence between element wise dierence between these representations is used as a semantic discrepancy measure at the level of the sentence pair
+
+
+pair wise word similarity matching a pair wise similarity matrix is construed by computing the similarity of each word in to another word in
+convolutions are applied onto this similarity matrix to analyze patterns in the pair wise word to word similarities
+figure illustrates this process
+it is intuitive that given two sentences semantic correspondence between words provide important mantic information for detecting similar sentences and the pair wise word similarity matching model learns the word level similarity patterns between the two sentences
+because important n grams are extracted by applying convolutional neural network over text we obtain the important word word similarity pairs from the similarity matrix
+this similarity matrix is further used as features for the classication of the paraphrase detection problem
+the goal of the pair wise word similarity matching model is to compare the semantic embedding of each word in one sentence against all the semantic embeddings of the words from the other sentences
+this means that we compute the dot product as a similarity measure between all the word embeddings of the two sentences
+finally we match the two sentences and generate a similarity matrix s of size m n where m and n denote the lengths of sentence and respectively
+next we apply the cnn onto the similarity matrix to learn the patterns in the semantic correspondence between the two sentences
+we convolve over s in two directions both from left to right and from top to bottom
+this gives lstmclassifierclassificationoutputdensedensecnncnnlstmconvolution max poolingmax poolingconvolution substructionfeature vectoradditional featuresconcatenationembeddingsembeddingssentnce s matrixsentence s matrix two separate results and
+after the convolution layer global max pooling is applied to obtain the most informative feature vectors from and and nally these are concatenated to produce the output from this module
+figure pair wise word similarity matching model
+
+statistical features features consist of the following we extracted a third set of features to enhance the discriminating representation of the sentences
+these
+tf idf similarity between sentences and
+
+cosine similarity between the vectors of sentences and
+
+the average wordnet based similarity between the in sentence and those in
+
+the average wordnet based similarity between the in sentence and
+
+the average wordnet based similarity between the in sentence and
+
+the cosine similarity between the semantic representation of each sentence pair
+
+six n gram overlap features computed by the number of unigrams bigrams and trigrams that are common to the given sentence pair divided by the total n grams in and respectively
+we use all these additional features for the experiments performed on the microsoft paraphrase corpus while only the two latter features were used for the experiments on twitter
+before evaluating our proposed method for paraphrase identication and compare it against the of the art approaches we rst describe how our experiments have been set up including the datasets performance measures and the hyperparameter settings that we have used
+
+experimental setup
+
+datasets we consider two widely used benchmark datasets which we briey describe in the following
+twitter paraphrase semeval dataset the dataset provided by semeval has been used by all the recent works for paraphrase detection in tweets
+it consists of noisy and short text containing paraphrase and non paraphrase pairs in the training dataset paraphrase and non paraphrase sentence pairs in development set and tweets in the test set
+we have ignored the debatable entries that were marked in
+the statistics of the dataset are shown in table
+in our implementation we use nltk s part of speech tagger to extracts the verbs nouns and adjectives from each sentence
+sentence filtersn filtersconvolutionsmax poolingmax poolingsimilarity featurevector poolingsimilarity matrix table statistics of the twitter paraphrase corpus unique sent
+sent
+pair paraphrase non paraphrase debatable train dev test
+microsoft paraphrase dataset we also investigate the empirical performance of the proposed model on a clean text corpus
+more specically we use the microsoft paraphrase dataset which is considered the evaluation standard for paraphrase detection algorithms
+this dataset comprises candidate paraphrase sentence pairs obtained from web news sources
+in this corpus the length of each sentence varied from to words with an average words in a sentence and of the sentence pairs are marked as paraphrased
+furthermore the data is split into training and test sets containing and samples respectively
+this same train test partitioning has been applied on all the approaches evaluated in this paper
+despite being the most widely used datasets for evaluating paraphrase detection models their sizes are too small to reliably train a deep learning architecture
+we have therefore applied a simple augmentation scheme to double the number of sentence pairs in the corpus for every pair of sentences we simply exchange the order of sentences to obtain the new pair and add this new pair to the corpus
+
+
+performance measures we adopted the standard performance measure that are widely used in the literature for paraphrase detection
+these measures are precision recall score and accuracy
+precision is dened as number of correctly classied paraphrase pairs out of total paraphrase sentence pairs extracted hence computed as here tp refers to true positives i
+e
+number of paraphrase pairs classied as paraphrase while fp refers for false positives i
+e
+number of non paraphrase pairs determined as paraphrase
+recall is the ratio between predicted sentence pairs that are actual paraphrases and total true paraphrase pairs here fn is false negatives i
+e
+number of paraphrase pairs classied as non paraphrase pairs tn means true negatives i
+e
+number of non paraphrases determined as non paraphrases
+the score combines the precision and recall finally accuracy is the fraction of the paraphrase sentence pairs that are classied correctly precision t p t p f p
+recall t p t p f n
+score precision recall precision recall accuracy t p t n t p t n f n f p
+
+hyperparameter setting hyperparameters were chose by rough investigations into the training data to choose optimization rithm learning rates regularization and size of training dataset
+the optimal settings for these rameters vary between datasets hence we choose separately for the twitter and msrp datasets
+performance of optimization algorithms performance vs
+learning rate performance vs
+dropout rate learning curve figure evaluation of dierent hyperparameters for the semeval twitter dataset
+
+
+hyperparameter settings on the twitter dataset we empirically experiment with various optimizers see figure and chose adadelta to optimize the learning process
+we further tune the learning rate for this optimizer see figure with learning rate
+appearing to be optimal
+dropout is used for regularization of the proposed model
+this prevents feature co adaptation by randomly setting a portion of the hidden units to zero during training
+we applied dropout to every layer and set the dropout ratio to
+cf
+figure
+finally we investigate the sensitivity of the approach wrt
+the amount of training data supplied
+figure shows the learning curve i
+e
+the learning quality as a function of the amount of the training data used
+we clearly see an increasing trend in the learning curve which indicates that more training data may further improve the performance of the proposed model
+in the absence of a large supervised training set it is common to initialize word embeddings with pretraining values that have been obtained from an unsupervised neural language model
+we follow this strategy and used the popular glove during our experiments on twitter dataset
+we chose the embeddings pretrained on billion tweets and use the dimensional version
+
+
+
+hyperparameter settings for msrp dataset the parameter selection process for the msrp dataset is similar to what was discussed for the twitter data above see figure for results
+for this dataset we chose the adadelta optimizer with learning rate set embeddings are available at
+stanford
+edu projects
+performance of optimization algorithms performance vs
+learning rate performance vs
+dropout rate learning curve figure evaluation of dierent hyperparameters for the msrp dataset to
+
+the dropout rate was chosen to be
+
+when examining the eect of the size of the training data we can again see an increasing trend both with respect to accuracy and somewhat less pronounced with respect to score
+further increase in the training dataset would therefore provide slight improvements in the nal performance of the model also on this dataset
+we used the dimensional version of the publicly google vectors to initialize the word embeddings
+these vectors are trained on billion words from google news using the continuous bag of words architecture
+
+results and discussion in this section we present the results from using both datasets that we presented in section
+
+
+
+results and discussion on twitter corpus we train our model using the training dataset with development set for tuning the parameters and then we test the system with the provided testing dataset of test entries ignoring the debatable entries
+these results are provided in table
+recall that there are mainly two components in the proposed approach sentence modelling using cnn and lstm and pair wise word similarity matching
+our intuition for using the two models
+google
+com archive p is that both coarse grained sentence level and ne grained word level information should be important for the paraphrase detection task
+in our experiments we rstly use only sentence modelling architecture to develop the paraphrase detection model
+we call this experiment the sentmod architecture for paraphrase detection
+it can be seen from the results in table that the sentmod architecture performs quite well giving an score of
+
+next we use the pair wise word similarity matching model to extract the word level similarity information based features
+when we use only these features to train the paraphrase model the model provides an score of
+
+we call these features the pair wise features
+further we augment these word level pair wise features with the sentence level features extracted using the sentmod architecture and feed it to train the proposed deep learning model for paraphrase detection task
+we call the architecture for this model deepparaphrase architecture
+the experimental results show the signicant improvement in the performance of the paraphrase detection task
+specically it gives an score of
+an improvement of
+percentage points
+it also shows that the pair wise word similarity information in fusion with sentence level similarity information provides good performance for paraphrase detection task
+finally we augment two additional features namely the overlap features and similarity features items and in the description in section
+
+this gives an additional improvement in the performance of the model resulting in an score of
+which is signicantly better than other existing methods for paraphrase detection on the twitter dataset
+we refer to this nal model as the augdeepparaphrase model
+table results on semeval twitter dataset
+model sentmod architecture pair wise features deepparaphrase architecture augdeepparaphrase precision recall
+
+
+
+
+
+
+
+score
+
+
+
+the comparison between the proposed method and existing state of the art methods is provided in table
+firstly we compare the results of the proposed approach with the best methods on clean text microsoft paraphrase dataset and then with the state of the art methods on noisy twitter dataset
+guo and diab proposed a weighted textual matrix factorization method for paraphrase detection based on modeling the semantic space of the words that are present or absent in the sentences
+their model uses wordnet ontonotes wiktionary and the brown corpus
+their approach performed quite well on msrp dataset but provide worse results on twitter dataset
+das and smith used logistic regression based classier based on simple n gram features and overlapping features which shows competitive results on msrp dataset
+ji and eisenstein presented a state of the art model for paraphrase detection on msrp dataset which is still the best known performance on clean text
+however it can be seen from the results presented in table that their method performed worse than other methods on the twitter data
+considering the semeval twitter dataset table also shows the comparison of our approach against the state of the art methods
+as can be observed the results from this comparison our approach outperforms all related methods with respect to the score
+the main reason for this is that our approach leverages the semantic information at both coarse grained sentence level features and ne grained word level features for detecting paraphrases on tweets
+the ensemble based method proposed by zarrella et al
+obtained higher recall as compared to our results but our model gave higher overall score
+while the method suggested by zhao and lan got slightly higher precision as compared to proposed approach our approach is superior wrt
+score
+in conclusion the state of the art algorithms that perform well when trained on clean texts do not necessarily work very well for noisy short texts and vice versa
+in contrast to this our approach is robust in the sense that it performs well on both types of datasets
+more specically it outperformed all the existing methods when applied on noisy texts and produced very competitive results against the state of the art table comparison with state of the art of results on semeval twitter dataset
+model random guo and diab das and smith ji and eisenstein eyecioglu and keller zarrella et al
+zhao and lan vo et al
+karan et al
+xu et al
+dey et al
+augdeepparaphrase precision recall
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+score
+
+
+
+
+
+
+
+
+
+
+
+methods on clean texts
+next we analyze the misclassications on test data using the proposed approach
+some example tweets pairs including both correct and incorrect detection by our model are reported in table
+we show some examples from the test data which cases our method could correctly classify
+for example our proposed approach could correctly identify the tweet pair terrible things happening in turkey and children are dying in turkey as paraphrase
+it could understand the semantic meaning despite the fact that the pair only has one common word
+similarly the proposed approach could determine correct label as paraphrase for the sentence pairs on row and in table although the sentence pairs have several words in common
+nevertheless there are several examples where it has been dicult to provide correct classications
+sider for example the tweet pair no
+in table
+our approach determines this pair as non paraphrase which is incorrect according to the gold standard annotation
+the two tweets do not share many words and common sense knowledge is required to understand that a person who has won lots of trophies and prizes should be respected rather than hated
+another similar example is the tweet pair no
+the gold standard annotation for this pair is that it is a paraphrase
+to correctly classify this pair the system needs to know that if a person is genius then it is obvious that he she would be able to write well
+finally consider the pair family guy is really a reality show and family guy is such a funny show
+our approach identies this pair as paraphrase which is wrong according to the gold standard annotation
+the possible reason for this error is the misleading lexical overlap information between the sentences in the pair that are overshadowed by the few dierent words
+to summarize after looking at the misclassied examples in table there are several cases that could cause our system to fail to correctly classify pairs of tweets
+this includes cases where common sense knowledge is required
+what could be learned from the examples is however that our proposed approach is able to capture the semantic information from short noisy texts which can in turn help in correctly classifying pairs that would otherwise be dicult by only looking at the syntactic contents
+
+
+results and discussions on msrp dataset the results of our experiments with the microsoft paraphrase dataset are summarized in table
+firstly we extract the coarse grained sentence level features with the sentmod architecture and further feed to train paraphrase detection model
+as can be observed in table this architecture gives an accuracy of
+and score of
+
+next we evaluate the pair wise features to train the paraphrase detection model these features individually provide
+score
+further we fuse these pair wise features with the sentence level features extracted using the sentmod architecture to train the paraphrase detection model
+table examples of tweet pairs from the twitter paraphrase corpus
+s
+no
+tweet tweet prediction remark gold annotation terrible things happening in turkey children are dying in turkey anyone trying to see after earth sometime soon me and my son went to see after earth last night paraphrase paraphrase correct paraphrase paraphrase correct hahaha that sounds like me that sounds totally reasonable to me paraphrase paraphrase correct i do nt understand the hatred for rafa benitez top and a trophy and still they do nt give any respect for benitez shonda is a freaking genius dang shonda knows she can write terrible things happening in turkey be with us to stop the violence in turkey i must confess i love star wars somebody watch star wars with me please paraphrase incorrect paraphrase paraphrase incorrect paraphrase incorrect paraphrase paraphrase paraphrase paraphrase incorrect family guy is really a reality show family guy is such a funny show paraphrase paraphrase incorrect i see everybody watching family guy tonight i have nt watched family guy in forever paraphrase paraphrase incorrect this deepparaphrase architecture provides a signicant improvement in the performance
+with this deep learning model we obtain the accuracy of
+and score of
+
+the nal paraphrase model augdeepparaphrase model is built by including the additional features described in section
+
+here we see an improvement of
+in score
+overall the experimental results show that both sentence level semantic information and word level similarity information are important for paraphrase detection task
+table results on msrp dataset
+model sentmod architecture pair wise features deepparaphrase architecture augdeepparaphrase accuracy
+
+
+
+
+
+
+
+as with the twitter dataset we also compared our approach with several related methods
+we present the results of the experiments in table in which we report the measured accuracy and the scores
+the experimental results show that the proposed approach outperforms all the related methods except quite recent method by wang et al
+
+as discussed in section they also employ a neural network based approach
+nevertheless the large number of options introduced in the nal model such as the semantic matching functions max global local l decomposition operations rigid linear orthogonal and lter types unigrams bigrams trigrams makes it less applicable to re implement or scale for other datasets or other similar problems
+in contrast we have developed our approach to be more robust and generic such that it can easily be applied for other datasets
+table experimental results for paraphrase detection on msrp
+accuracy
+
+
+
+
+
+model all positive baseline socher et al
+ji and eisenstein inductive setup hu et al
+i hu et al
+arc ii madnani et al
+eyecioglu and keller el alfy et al
+wang et al
+dey et al
+ferreira et al
+augdeepparaphrase model
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+in the authors reported the best results as
+accuracy and
+score on this dataset
+however to achieve these results they seemed to have relied on using testing data with training dataset to build the model
+they called it a form of transductive learning in which they assumed that they have access to a test set
+in contrast in our approach the test data is kept totally disjoint from the training process
+using the same experimental setup i
+e
+applying inductive setup without using test data in training the model the approach by ji and eisenstein gives an accuracy of
+and score of
+which is very close to the results of our approach
+focusing on the performance of our approach in relation to the existing methods our experimental results show that our approach produces competitive results achieving accuracy of
+and f score of
+
+more importantly we achieved these with less extra annotated resources and no special training strategy compared to the current state of the art methods
+table shows some examples of sentence pairs that our approach has classied both correctly and incorrectly
+sentence pair no
+was correctly classied as paraphrase even though the sentences do not have many words in common
+sentence pair no
+was correctly classied as non paraphrase even though the two sentences have four words in common words and share the context
+conversely sentence pair no
+was incorrectly predicted as paraphrase
+this pair is dicult to classify correctly for humans
+sentence pair no
+was incorrectly classied as non paraphrase
+the main reason for this misclassication is the presence of possibly rare words such as incredulous jeopardize endanger which seemed to have made this sentence pair hard to classify
+in summary it seems that our proposed approach is able to capture the semantic information from clean texts just as it was when analyzing tweets
+this can in turn help in correctly classifying pairs that would otherwise be dicult by only looking at the syntactic contents
+there are however cases that are hard to classify due to both the lack a complete vocabulary and common sense knowledge
+
+conclusions in this paper we introduced a robust and generic paraphrase detection model based on deep neural network model which performs well on both user generated noisy short texts such as tweets and quality clean texts
+we proposed a pair wise word similarity model which can capture ne grained semantic table example sentence pairs from msrp paraphrase corpus
+s
+no
+sentence sentence prediction remark gold annotation paraphrase paraphrase correct ricky clemons brief troubled missouri basketball career is over
+missouri kicked ricky clemons o its team ending his troubled career there
+but people have been killed since and hundreds injured
+runners are often injured by bulls and have been killed since
+i would rather be talking about positive numbers than negative
+the tech heavy nasdaq composite index shot up
+percent for the week
+the respected medical journal lancet has called for a complete ban on tobacco in the united kingdom
+mrs
+clinton said she was incredulous that he would endanger their marriage and family
+but i would rather be talking about high standards rather than low standards
+the nasdaq composite index advanced
+or
+percent to
+after gaining
+percent last week
+a leading u
+k
+medical journal called friday for a complete ban on tobacco prompting outrage from smokers groups
+she had nt believed he would jeopardize their marriage and family
+paraphrase paraphrase correct paraphrase paraphrase correct paraphrase paraphrase incorrect paraphrase paraphrase incorrect paraphrase incorrect paraphrase corresponding information between each pair of words in given sentences
+in addition we used a hybrid deep neural network that extracts coarse grained information by developing best semantic representation of the given sentences based on cnn and lstm
+the model that we developed consisted of both sentence modelling and pair wise word similarity matching model
+as discussed in this paper this model proved to be useful for paraphrase detection
+in our evaluation we included a comprehensive comparison against state of the art approaches
+this showed that our approach produced better results than all the existing approaches in terms of score when applied on noisy short text twitter paraphrase corpus and provided very competitive results when applied on clean texts from the microsoft paraphrase corpus
+overall our experimental results have shown the robustness and eectiveness of the proposed method for paraphrase detection
+for future work we plan to investigate how our method works on related tasks such as question answering sentence matching and information retrieval
+we will also further study how to include more close to common sense knowledge in our model training
+references b
+dolan c
+quirk c
+brockett unsupervised construction of large paraphrase corpora exploiting massively allel news sources in proceedings of the international conference on computational linguistics coling association for computational linguistics stroudsburg pa usa article no
+
+w
+xu a
+ritter c
+callison burch w
+dolan y
+ji extracting lexically divergent paraphrases from twitter actions of the association for computational linguistics
+w
+xu c
+callison burch b
+dolan task paraphrase and semantic similarity in twitter pit in proceedings of the international workshop on semantic evaluation hlt denver colorado usa june
+k
+dey r
+shrivastava s
+kaushik a paraphrase and semantic similarity detection system for user generated text content on microblogs in coling
+y
+ji j
+eisenstein discriminative improvements to distributional sentence similarity in proceedings of the conference on empirical methods in natural language processing emnlp october grand hyatt seattle seattle washington usa a meeting of sigdat a special interest group of the acl
+n
+madnani j
+tetreault m
+chodorow re examining machine translation metrics for paraphrase identication in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies naacl hlt association for computational linguistics stroudsburg pa usa isbn
+v
+rus p
+mccarthy m
+lintean d
+mcnamara a
+graesser paraphrase identication with lexico syntactic graph sumption in proceedings of the international florida articial intelligence research society conference
+d
+das n
+a
+smith paraphrase identication as probabilistic quasi synchronous recognition in proceedings of the joint conference of the annual meeting of the acl and the international joint conference on natural language processing of the afnlp volume acl association for computational linguistics stroudsburg pa usa isbn
+m
+heilman n
+a
+smith tree edit models for recognizing textual entailments paraphrases and answers to questions in human language technologies the annual conference of the north american chapter of the association for computational linguistics hlt association for computational linguistics stroudsburg pa usa isbn
+r
+socher e
+h
+huang j
+pennington a
+y
+ng c
+d
+manning dynamic pooling and unfolding recursive autoencoders for paraphrase detection in proceedings of the international conference on neural information processing systems curran associates inc
+usa isbn
+j
+oliva j
+i
+serrano m
+d
+del castillo a
+iglesias symss a syntax based measure for short text semantic similarity data knowledge engineering issn
+b
+hu z
+lu h
+li q
+chen convolutional neural network architectures for matching natural language sentences in z
+ghahramani m
+welling c
+cortes n
+d
+lawrence k
+q
+weinberger eds
+advances in neural information processing systems mit press cambridge
+e
+
+m
+el alfy r
+e
+abdel aal w
+g
+al khatib f
+alvi boosting paraphrase detection through textual similarity metrics with abductive networks appl
+soft comput
+c issn
+z
+wang h
+mi a
+ittycheriah sentence similarity learning by lexical decomposition and composition in proceedings of the international conference on computational linguistics coling technical papers
+r
+ferreira g
+d
+cavalcanti f
+freitas r
+d
+lins s
+j
+simske m
+riss combining sentence similarities measures to identify paraphrases computer speech language issn
+a
+eyecioglu b
+keller twitter paraphrase identication with simple overlap features and svms in proceedings of the international workshop on semantic evaluation hlt denver colorado usa june
+j
+zhao m
+lan ecnu leveraging word embeddings to boost performance for paraphrase in twitter in proceedings of the international workshop on semantic evaluation hlt denver colorado usa june
+g
+zarrella j
+c
+henderson e
+m
+merkhofer l
+strickhart mitre seven systems for semantic similarity in tweets in proceedings of the international workshop on semantic evaluation hlt denver colorado usa june
+m
+karan g
+glavas j
+snajder b
+d
+basic i
+vulic m
+moens tklbliir detecting twitter paraphrases with tweetingjay in proceedings of the international workshop on semantic evaluation hlt denver colorado usa june
+n
+p
+a
+vo s
+magnolini o
+popescu paraphrase identication and semantic similarity in twitter with simple tures in proceedings of socialnlp hlt denver colorado june association for computational linguistics
+r
+mihalcea c
+corley c
+strapparava corpus based and knowledge based measures of text semantic similarity in proceedings of the national conference on articial intelligence
+volume i aaai press
+w
+guo m
+diab modeling sentences in the latent space in proceedings of the annual meeting of the association for computational linguistics long papers volume acl association for computational linguistics stroudsburg pa usa
+v
+nair g
+e
+hinton rectied linear units improve restricted boltzmann machines in proceedings of the international conference on machine learning omnipress
+r
+collobert j
+weston l
+bottou m
+karlen k
+kavukcuoglu p
+kuksa natural language processing almost from scratch j
+mach
+learn
+res
+
+t
+mikolov i
+sutskever k
+chen g
+s
+corrado j
+dean distributed representations of words and phrases and their compositionality in advances in neural information processing systems
+

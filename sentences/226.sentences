@@ -1,0 +1,912 @@
+noname manuscript no
+will be inserted by the editor attributed rhetorical structure grammar for domain text summarization ruqian shengluan chuanqing yu chaoqun songmao received date accepted date abstract this paper presents a new approach of automatic text rization which combines domain oriented text analysis dota and rhetorical structure theory rst in a grammar form the attributed rhetorical ture grammar arsg where the non terminal symbols are domain keywords called domain relations while the rhetorical relations serve as attributes
+we developed machine learning algorithms for learning such a grammar from a corpus of sample domain texts as well as parsing algorithms for the learned grammar together with adjustable text summarization algorithms for ating domain specic summaries
+our practical experiments have shown that with support of domain knowledge the drawback of missing very large training data set can be eectively compensated
+we have also shown that the edge based approach may be made more powerful by introducing grammar parsing and rst as inference engine
+for checking the feasibility of model transfer we introduced a technique for mapping a grammar from one domain to others with acceptable cost
+we have also made a comprehensive comparison of our approach with some others
+keywords attribute grammar attributed rhetorical structure grammar automatic text summarization grammar learning rhetorical structure theory ruqian lu
+ac
+cn key laboratory of madis academy of mathematics and systems science chinese academy of sciences beijing china key laboratory of intelligent information processing institute of computing technology chinese academy of sciences beijing china university of chinese academy of sciences beijing china p e s l c
+s c v
+v i x r a introduction ruqian et al
+summarizing information and knowledge from nl texts without relying on nlu techniques has always been a challenging task for the information neers
+fortunately we have seen the emerging and development of successful linguistic theories which support the analyzing understanding and ing of nl texts
+there are usually two dierent approaches for text summarization the abstractive approach and the extractive counterpart
+in these works various techniques of machine learning have been proposed to challenge the diculties of automatic text summarization
+it is often that machine learning has to be done over hundreds of thousands articles or even millions of such samples
+the quantity and quality of sample articles to be learned from may aect the capability and eciency of the nal summarizer essentially
+this problem is even more serious if the information one wants from text summarization is domain oriented
+we may have a huge set of news articles in general
+but it is dicult to have access to a huge set of articles in a specialized area
+this is even worse regarding domain oriented chinese texts summarization due to the lack of large sized open sources
+one way out of this diculty is to take the domain knowledge based approach
+in this approach the lack or scarce of domain oriented training data may be compensated by pre collected domain knowledge of the marizer
+with well organized domain knowledge even a limited set of ing data may produce good quality summarizers
+for example most lexical chain based methods leverage extern knowledge base kb to construct cal chains and use them as lexical cohesion features for text summarization genest and lapalme used a knowledge base to identify patterns in the representation of the source documents and generate summary text from
+timofeyev and choi rst derived syntactic structure and mapped words to cyc
+by clustering mapped cyc concepts main topics were identied and then used for identifying informative concepts and forming the summary sentences
+however although these works make use of concepts as representation of knowledge they do not make use of inference as driving engine of edge
+this weakness has aected the result of summarization
+in this paper we propose a knowledge based grammar supported rhetorical structure ory rst enriched approach for automatic text summarization where grammatical inference and rst serve as knowledge driving engine
+rhetorical structure theory rst was formally proposed as a technique of studying discourse structure of natural language texts
+the use of rst in automatic generation of text summarization was a bit later
+it was daniel marcu who has nished the rst work on practical rst based discourse parsing and text summarization
+central to rst is the notion of coherence so that rst can also be understood as a theory of text coherence
+the basic components of rst are the rhetorical relations rre for short
+rre holds attributed rhetorical structure grammar for domain text summarization between two sibling nodes under a common parent node where one child node is nucleus n with the remaining one a satellite s
+it is possible that both children are nuclei
+in terms of the writer s purpose what expressed in n is more essential than what expressed in s
+n is comprehension independent of s but not vice versa
+we have designed a framework of attribute grammar where both terminal and non terminal symbols are concepts of a given domain
+for each tion rule the rule head is an abstraction or consequence of the rule body
+the rhetorical relations serve as attributes of non terminal domain concepts
+other attributes include symbolic markers such as the cues and punctuations
+the grammar is non deterministic due to the complexity of natural language resentation of domain texts
+in fact it is probabilistic where the probability comes from machine learning on training texts
+besides the grammar is ented towards precedential bottom up parsing
+in the following sections we will provide details of how such a grammar is learned from a set of training articles and how it is applied to summarizing domain texts automatically
+we call the resulting model an attributed rhetorical structure grammar arsg
+the remaining part of this paper is organized as follows section is about related works
+section introduces the basic concepts of our approach and arsg
+section is about grammar learning and parser implementation
+tion is about arsg based text summarization and its optimization
+section presents experimental results
+section introduces a technique of model duction
+section compares our approach with two representative approaches
+concluding remarks are given in section
+related works classical extractive summarization approaches rely on textual features for summary generation which include rst based lexical chain based as well as other machine learning based methods
+the rst approaches for single document summarization have got good sults
+generally they rst construct a rhetorical structure tree rtr and then select the content based on the rtr where the core is rst analysis which may be based on rules machine learning techniques or deep learning networks
+marcu et al
+were the rst to use rule based methods for discourse analysis by beneting information derived from a corpus study of tree phrases
+lethanh et al
+used syntactic textual operations to erate best discourse structures
+toloski et al
+presented a discourse menter slseg leading to higher precision
+machine learning approaches utilize probabilistic models svm and crf
+soricut and marcu used bilistic models spade for sentence segmentation and tree building to extract features from the syntactic tree
+many researches focused on svm based discourse analysis
+they regarded relation identication as classication problem
+joty et al
+rst used dynamic conditional random field dcrf for sentence level discourse ruqian et al
+ysis following hilda
+recent advances in deep learning led to ther progress in nlp
+ji and eisenstein s representation learning based method is the state of art method in identifying relation types
+however deep learning method has poor interpretability
+on the other hand the current rst analyzers are insucient for practical use
+lexical chain exploits the lexical cohesion among related words and is a mixed syntactic and semantic approach which has been widely used in text summarization and some other nlp areas because of its easy computation and high eciency
+one of its main approaches focuses on the use of knowledge resources such as wordnet
+hirst and st onge sented the rst implementation based on greedy disambiguation
+barzilay and elhadad proposed a new method for word sense disambiguation wsd but with exponential complexity
+galley and mckeown gained best results by separating wsd from lexical chain construction
+remus and biemann used the latent dirichlet allocation lda topic model for estimating tic closeness by interpreting lexical chains as clusters
+barzilay presented a method of scoring chains as summary sentences
+ercan represented topics by sets of co located lexical chains to get the nal summary
+graph based methods are another type of classical methods where each text is represented as a graph whose nodes and edges correspond to textual units often sentences or words and their similarity respectively
+according to the basic idea of pagerank these models rank and select the top n sentences words as the nal summary
+utilizing statistical tools fattah proposed a hybrid machine learning model based on maximum entropy bayes and svm model as well as textual features to improve summary content selection
+for more details see
+with large available datasets and high performance computing devices deep neural networks have shown great promise in text summarization
+rush et al
+rst applied attention framework to abstractive text summarization on large scale datasets with good performance
+for further advancements see
+cheng and lapata proposed a deep tive model including a hierarchical document reader and an attention based content extractor trained and tested on huge datasets dailymail and duc where the attention is directly applied to decoder rather than to hidden units
+their improvements include summarunner of nallapati al
+and neusum of zhou et al
+which achieved the best result on cnn dailymail dataset
+basic concepts and attributed rhetorical structure grammar denition
+a domain knowledge base dkb is composed of three kinds of concepts
+the acting agents of a domain called green concepts
+ldc
+upenn
+edu nlpir
+nist
+gov projects duc data
+html attributed rhetorical structure grammar for domain text summarization
+the major inuence factors of a domain called red concepts
+the concepts about dynamics of a domain called blue concepts
+note that the third kind of domain concept dcp is also called domain relation dre
+each kind of concepts forms a hierarchy ordered in dierent levels
+a domain concept is not necessary a single word
+it may also be a phrase
+example
+the domain of world economy and trade wet
+green concepts asean usa developing countries brics imf bank of china future option soared
+
+red concepts market price ination trade policy gdp pmi stock
+blue concepts stabilized rise turbulent gladness with worry spurt denition
+a lexical core lc for short is a triple of green red blue concepts
+in the parsing process of arsg to be dened later they appear as the three nodes of a binary tree called basic tree where blue concept is the root and green red concepts are the two leaves
+note the dierence between lexical core and lexical chain
+ally a lexical chain connects words of similar meaning and often runs through the whole text
+it does nt reect the meaning of a single sentence unit because of its non locality not at clause level and its non conformity consisting of unstructured single words with incomplete information
+on the contrary a lexical core is a part of a sentence or clause locality characterizing the main relatedness conformity of its elements
+more exactly properties of dre include
+each dre denotes the change or not change or the way of change of some state of that domain
+domains themselves are organized in hierarchies where each child main inherits its parent domain s dre in addition to its own
+throughout this paper we will use the following text as example of mar parsing and content summarization
+example
+a text from the domain wet it is well known that although china s foreign trade develops rapidly and china s integration into the global value chain is increasing china is still in a lower position in the international division of labor
+especially in the high tech industries technology and services exports and so on china is still at the low end of the global value chain
+therefore how to speed up the transformation and upgrading of foreign trade and to enhance the status of international division of labor in china is an important factor of china s economic development in the future
+example
+from the clause we extract the lc china green foreign trade red develops rapidly blue ruqian et al
+attribute grammar was invented based on the idea that a perfect grammar parsing should not be only based on its syntax but also on its semantics
+that means the parsing process should bring some information with it
+such information is called attributes therefore the name of attribute grammar
+in top down bottom up parsing the attributes are calculated and brought downwards upwards to terminals root of the grammar
+they are called inherited synthesized attributes
+the grammars using these attributes are called l attributed s attributed grammars
+as a working tool for text marization we prefer the s attributed grammar
+we dierentiate between syntactic attributes and semantic attributes
+the former is those syntactic elements of nl texts which have inuence on arsg parsing e
+
+the cues punctuations segmentations and even paragraph archies
+the latter characterizes the role of dre and rhetorical relation rre during parsing
+it performs two functions of which the rst one is doing value calculation and transmission
+this is traditional in attribute grammar e
+
+example
+the second one is unique in arsg
+it helps guide the parsing process shift or reduce
+denition
+an attributed rhetorical structure grammar arsg is a seven tuple rs dre dcp rre p p p f at at where rs is the start symbol dre the set of domain relations dcp the set of domain concepts rre the set of rhetorical relations at the synthesized attributes where each attribute is an arithmetical or logical function with grammar symbols as arguments
+p p is the set of probabilistic tion rules production rules for short attached with attributes and reasons where a reason is a propositional formula characterizing the state of parsing e
+
+the values of attributes and cues
+a production rule of p p has the following form ae where a b d are dre x y are role attributes nucleus satellite ae is set of attribute equations lf is a reason n is a positive integer used for dynamically calculating the probability of taking this rule for reduction
+the reasons lf are used for resolving reduce reduce conicts during parsing
+p f at is a set of precedence tuples where each tuple is in the form a b c slfa b c ps or a b c rlfa b c pr where abc is a string of three neighboring grammar symbols during parsing
+slfa b c short for shift logic function is a reason for shifting the parser over c while rlfa b c short for reduce logic function is a reason for reducing a b to some dre concept
+the truth values of both slfa b c and rlfa b c depend on the attribute values of a b and c
+ps and pr are probabilities with ps
+thus the quintuples are used for resolving shift reduce conicts
+attributed rhetorical structure grammar for domain text summarization fig
+an arsg as parsing tree of example that c is taken into consideration see means arsg is an one symbol looking forward grammar
+so it is also called
+in principle for can be dened
+but due to its high complexity in grammar learning we give up its consideration
+denition
+an attributed rhetorical structure tree artr over a text d is an parsing tree over d
+example
+fig
+shows an artr representing the parsing process of the text in example
+on the bottom line represent the eight clauses of the text
+are the roots of the eight basic trees which are the leaves of artr where i basic tree is the tree representation of the lc of i th clause ci
+above them correspond to the non leaf nodes of the parsing tree where each one is a domain relation dre
+among the attributes of dre we only display the rre attribute and role attribute
+for example for the node the domain relation is good devel
+attribute has value elaboration while attribute has value s i
+e
+satellite
+we will see that attributes are very useful
+they not only solve the representation problem but also solve the parsing problem
+for the meaning of short notations in fig
+see the underlined parts of example
+grammar learning and parser implementation now we are about to learn an arsg from a set of mannually parsed domain specic nl texts
+this is done by the following procedure and algorithm
+note that in our terminology a procedure is a pseudo program performed by human programmer and computer cooperatively while an algorithm is a program executed by computer alone
+ruqian et al
+procedure
+prepare the dkb where h m a mean human manually and automatically resp
+
+h determine a domain d of knowledge
+m collect a number of e dictionaries of domain d
+a scan the e dictionaries to extract all concepts from them
+a use thesaurus to enrich the concept set with their hypernyms hyponyms and nicknames
+a use these relations to construct three partial orderings of three types of concepts which form the dkb
+next we will describe how to learn an arsg
+procedure constructs a parsing tree from each sample text
+algorithm synthesizes all these parsing trees with statistic methods to generate the wanted arsg
+to learn an arsg the programmer should start from a training set of nl texts in the domain under consideration
+he she should simulate the parsing process of the future grammar manually to generate a parsing tree in form of artr from each text
+the future arsg is then constructed by statistically evaluating this set of artrs
+in this sense the next procedure is critical where the computer should record each dynamical context which leads to the decision of the next parsing step such as how the shift reduce conict was resolved which logical tion called reason was used in each case how the reduce reduce conict was resolved which attribute equations were calculated and which attribute values were passed over in a bottom up way
+all these records will be used in the future parsing process
+for convenience we have implemented an annotation system based on java web techniques which makes human programmer s ulation of the parsing process in an interactive way
+all operations and context changes are recorded by the computer automatically
+the programmer s work can therefore be reduced with the help of this system
+note that although arsg is probabilistic a single sample artr is not probabilistic
+the probability is calculated by synthesizing the whole set of artrs
+the following procedure constructs an artr in two stages
+the rst stage is preprocessing
+it constructs all basic trees including the rst three steps of procedure
+the second stage is manual parsing
+it constructs the remaining part main part of artr which is completed in step
+this is why no production is produced in the rst stage
+all production rules p p and shift reduce precedence rules p f at are generated in the second stage
+procedure
+construct artrs following procedure and transform them to grammar component instances
+for each marked text t i
+e
+text whose all lcs have been extracted do the following out all lcs called t
+
+a scan the sentences and match their words against the dkb to nd
+a turn each lc of t in a basic tree with its blue concept gi as root and green resp
+red concepts ai and bi as two leaves
+attributed rhetorical structure grammar for domain text summarization
+determine the attributes of the roots of all basic trees
+assign values to these attributes if possible
+in particular syntactic attributes like cue and punctuation and semantic attributes like rre role as well as positive and negative evaluations of concepts should be assigned to gi
+note that syntactical attributes can be determined automatically while some semantic ones should be decided manually
+therefore the mode is
+
+if there is more than one tree then scan the roots of trees from left to right
+push the rst two roots in a stack
+loop while there are at least two elements in the stack do assume the top two are a b begin produce grammar component instances if the programmer decides a shift action then the following is done tomatically push the next root say c into stack and produce the dence tuple a b c slfa b c where slfa b c is the reason of shift
+return
+if the programmer decides a reduce action with a new domain relation say d as target then the following is done automatically replace a b with d as their parent node a new root
+produce a b c rlfa b c where rlfa b c is the reason for reduction as well as a production instance ae where lf is the reason for taking the above rule for reduction ae is the set of attribute equations to be calculated during reduction x and y denote nucleus satellite
+in particular all cue attributes of a and b are uploaded to d and become a part of d s cue attributes
+also the role attributes x and y are uploaded to d
+return
+end
+all artr are produced
+stop procedure
+example
+apply procedure to example for generating grammar ponent instances
+
+after performing the rst two steps we get the sequence of lcs and corresponding basic trees china foreign trade develops rapidly china integration into the global value chain increasing china international division of labor lower position china global value chain low end china global value chain low end china transformation and upgrading speed up china international division of labor enhance china economic development in the future is important where most triples contain a green red and blue concept
+has borrowed a green and a blue concept from borrows a green concept from
+this is a technique used in arsg to complement the imperfect clauses
+the underlined parts correspond to short notations contained in fig
+above
+the underlined words are labeled as the abbreviation of each lc in fig
+
+ruqian et al
+
+after performing step we have the attributes with their values
+here we only list those of the rst three basic trees empty
+
+step of procedure is done level wise in a loop
+we show the rst few steps we use notation of fig
+to simplify the representation where all nodes are numbered with letter k followed by an integer
+assume the programmer decides to reduce nodes and to node then node and node are reduced to node
+these decisions lead to the building of following precedence tuples and production instances
+where point point t rue t rue conjunction concession
+in the above representation each reason is the conjunction of all attribute propositions of that part of text under parsing
+note that the number attached to each rule of in algorithm is a positive integer not a probability
+the probability is calculated at parsing time as follows when the programmer decides to reduce the string ab the computer nds all rules with a b as right side whose reason lf is implied by the current parsing context current attribute values of a and b and ignores all other rules
+attributed rhetorical structure grammar for domain text summarization algorithm following procedure assume the construction of artrs for all training texts is nished and grammar component instances generated
+learn an arsg rs dre dcp rre p p p f at at input the start symbol rs and four sets dre dcp rre at dened beforehand
+output p p p f at
+consider all the sets a b c slfi i nabc and a b c rlfj j mabc constructed in procedure where a b c are dre
+for each above multi set construct precedence tuples a b c slf ps a b c rlf pr slfi slf i rlfj rlf j ps nabc mabc mabc mabc where let p f at a b c slf ps if it exists a b c rlf pr if it exists where all precedence tuples with ps or pr are removed
+for each pair of dre concepts a b investigate the multi set of all rule instances generated in procedure in the following form aei i g which means if lfi true then the concept string ab can be reduced to di where xi yi equals n s or s n or n n with n as nucleus and s as satellite g is the total number of rule instances whose right sides are a b
+during reduction of the i th rule the set of attribute equations aei will be calculated and performed
+classify the rules in t sets of essentially identical copies where rules in the same set are identical except the reasons lfij which are allowed to be dierent aei i t j ji ji g i cluster each i set to a single rule with a count of copy numbers where the reason lfi is the disjunction of all lfij aei ji i t where ji is now the weight of the i rule
+note that all components in the rules are depending on particular a and b
+we omit their indices when no ambiguity exists
+the sets for all possible a b are the learned p p of the grammar
+assume the rules whose lf are satised by the current parsing context have the indices k
+aek jk k i g then the probability that the h th rule h is used for reduction is jk
+ruqian et al
+example
+apply algorithm for generating grammar rules and applying them in parsing
+assume procedure generates following rule instances q r q r s m q s m q s q r f v q r f u s where m q r s u v are attributes the digits after each rule denote the number of identical copies of that rule instance
+combine the third and fourth rule because they are equal except the lf values m q s v as a result the p p of the corresponding grammar has rules in total
+assume the parser decides to reduce ab
+if the current parsing context satises u s but not v s then the following rules are applicable q r m q s v q r f u s the probability that a b are reduced to r is is f q r is
+if v s but not u s is satised then the following rules are applicable q r s m q s v q r f v the probability that a b are reduced to r is is f q r is
+if both u s and v s are satised then all rules are applicable
+the possibility that a b are reduced to r is r is q is f q r is f q r is
+sometimes we need auxiliary information from other constituents of the sentence such as numbers they often reveal some statistical data naming entities they often denote some key persons or institutions and cues they often remind the role of the sentence unit
+we take all these in particular the cues in consideration
+cue phrases can be used as a suciently accurate indicator of rhetorical relations
+unfortunately not all the text units have cue phrases
+we ca nt attributed rhetorical structure grammar for domain text summarization algorithm arsg relation precedence parsing a rough sketch
+preprocessing extract one lc from each clause if possible and build a basic tree from each lc
+the initial string to be parsed is then the string of basic tree roots which are domain relations
+use bottom up probabilistic attributed relation precedence parsing technique to parse the initial string until the nal parsing tree artr is generated
+use precedence tuples to resolve any shift reduce conict
+if reduce is to be done use rule reason parameter of rule head to select a group of rules as candidates
+if the candidates are not unique use rule numbers to calculate probability for selecting a single rule to resolve the reduce reduce conict nally
+apply the rule
+calculate all attribute equations
+if step or fails then try backtracking
+if all backtracking fails then stop the program
+parsing failed
+recognize rhetorical relations purely depending on cue phrases
+but we can combine cue phrases and arsg relation precedence parsing to improve parsing accuracy
+the way to do this is to dene cues and other syntactic marks as attributes as we have done in the above algorithms
+denition
+domain independent cues are those parts of a statement which notify the readers about the existence conrmation negation or formation of text topics
+example
+if if
+
+
+else otherwise announce say although still less especially in particular because therefore while and whereas are all domain independent cues
+the parsing process of a text is done in two stages
+the rst stage forms the whole text into a sequence of lcs in form of basic trees with their corresponding initial attributes
+the second stage is the real parsing process
+the whole learned attributed rhetorical structure grammar and cues are taken into consideration for text parsing
+the goal is to nd an artr of the highest plausibility
+algorithm is a rough sketch of arsg relation precedence parsing
+here a fail of backtracking means either no rule is applicable or all applicable rules have failed
+arsg based text summarization before further developing the idea of arsg and discussing how to use it to analyze and summarize a nl text we rst present a technique of generating text summarization based on arsg parsing
+dierent from the majority of literature our summarization technique is purely based on the generated artr rather than selecting most important edus from the text directly
+generally a text reporting commenting the circumstance of a domain consists of two parts a review of the current situation and a proposal about what to do next
+this corresponds to the two ruqian et al
+algorithm nucleus centered artr summary generation given the artr t the number of text edus the number of desired summary edus m h the reduction rate of summary t the number of already outputted edus i if t then output and stop else call coroutine n coroutine n n coroutine s s
+sub algorithm n if x is a leaf node then output x if i m or i h t then stop else i i switch else n switch n switch s if x is a leaf node then output x if i m or i h t then stop else i i switch else s switch s switch where is the root of tree t and mean the nucleus resp
+satellite child nodes of x
+subtrees of the artr generated note that an artr is always binary
+since we want the generated summaries to be always balanced between review and proposal no matter how many edus are extracted the selection of edus should be alternated between these two subtrees whenever both subtrees are not empty
+when going to produce a summary the summarizer traverses the artr in a nucleus preference way
+it starts from artr s n subtree whose root is a nucleus and traverses artr s and s subtree whose root is a satellite alternatively
+for any subtree t the traverse order is t s root t s n subtree t subtree or t s another n subtree if t has two n subtrees
+whenever a leaf node lc is traversed the sentence unit represented by it will be outputted
+the traversal will be stopped if all nodes have been traversed or enough number of edus have been outputted
+for implementing the balanced output of edus declared above we apply the coroutine technique
+a coroutine consists of a nite set of subroutines
+although each subroutine runs independent dierent subroutines may run in an interleaving way
+the switch instruction interrupts the running of a subroutine and switches the control to another subroutine
+later when the control is switched back to the original subroutine the latter continues running from the interrupted point
+theorem
+algorithm has the following properties
+it terminates for any nite artr
+it is ergodic in the sense that all nodes will be scanned therefore all edus corresponding to the leaf nodes will be outputted unless it is terminated because enough edus have been outputted
+each node will be scanned at most once therefore no edu will be
+edus corresponding to the left and right subtrees will be outputted outputted twice alternatively attributed rhetorical structure grammar for domain text summarization table the current scale of dkb of wet domain green concepts red concepts blue concepts height of hierarchy number of concepts
+edus corresponding to any subtree t will be outputted in the nucleus rst way i
+e
+edus corresponding to t s n subtree will be outputted earlier than those corresponding to t s s subtree
+therefore for each of artr s two subtrees the order of outputting edus is the lexicographic order of the paths leading to the leaf nodes where nucleus is preferred over satellite
+for example the path n n s is preferred over n s n
+no matter how long the outputted summary is it is always balanced in the same sense as the original text s rhetorical structure
+
+the complexity of the algorithm is linear
+proof
+for
+yes because each call of the traverse function executes only a nite number of instructions and makes only a nite number of further calls
+each call of traverse function goes a level of the tree deeper
+the height of the parsing tree is nite
+therefore the number of instructions executed is nite
+for
+yes because of the recursive structure of the algorithm the ture of a nite binary tree and the program halting condition i m or i h t
+for
+yes because of the coroutine structure and the recursive structure of the traverse sub algorithm
+for
+yes because of the recursive structure of the traverse sub algorithm
+for
+yes because each call of the traverse function goes a level of the tree deeper and no backtracking is needed
+for
+yes because in the sub algorithm the recursive call of is always before that of
+for
+yes the complexity is where n is the number of tree nodes
+experimental results we have run procedure and constructed the dkb of wet where the cepts were collected from some e dictionaries including an english chinese world economy and trade dictionary together with the thesaurus of onym words tce for short
+the current scale of dkb is shown in table
+to evaluate our parsing method we prepared the data set according to procedure
+in the domain of wet we collected chinese texts from the ocial web pages of china s ministry of as our tal corpus
+it contains paragraphs and sentences
+under support of
+mofcom
+gov
+ruqian et al
+table basic data in procedure and procedure of our experimental corpus knowledge domain number of texts average length of per text average number of sentences per text average number of edus per text average length of per edu wet a computer aided context analyzing system two programmers simulated the parsing process of all the texts according to procedure and procedure
+the basic data in procedure and procedure are listed in table where each edu corresponds to a domain oriented lc
+after performing procedure and procedure we counted the manually parsed artrs
+we also analyzed the reasons of disagreement between two dierent programmers and made some regulations following which two grammers parsed the same texts independently to measure the consistency
+our experiments have shown that two programmers marking the same text segment pairs from chinese texts have produced mismatches
+the rate of mismatches is
+
+in the above parsing process the rre was grounded in the framework of rst whose latest relation denitions are available at the dre was grounded in the type system of blue
+in the following we will give a snapshot of artrs and the arsgs which are learned from them
+each artr has a similar structure as shown in fig
+the leaves of which i
+e
+the basic trees have blue concepts as roots as dened in denition
+due to the dierent lengths of texts the widths of artrs are ranging from to with the average width
+the depths of artrs are ranging from to with the average
+
+for generating the set at we dened classes of synthesized attributes which are required to cover all the aspects of arsg parsing
+among these attributes rre denotes the rhetorical relation between two sibling nodes role means nucleus or satellite cue has the usual meaning happy means positive or negative regard to a state or state change
+in total we collected cues as values of cue attribute
+then we learned p p and p f at from all the artrs
+for p p there are production rule instances in form of
+they are classied them into sets of essentially identical copies as in example
+with the method explained in procedure they are further synthesized in the same number of production rules in form of
+for p f at we got preference rule instances in form of which are then synthesized in step of algorithm to preference rules in form of
+
+sfu
+ca denitions
+html attributed rhetorical structure grammar for domain text summarization fig
+a real case of our parsing method table layer wise outputs of applying alogrithm to artr in fig
+china s service trade decit grew more slowly in as more chinese people traveled overseas
+the service trade decit stood at billion u
+s
+dollars at the end of up percent year on year and mainly driven by tourist spending overseas
+china s goods trade surplus shrank percent in to billion u
+s
+dollars
+the surplus is still much higher than and before indicating competitiveness in foreign trade
+china s current account continued in surplus standing at billion u
+s
+dollars
+experiment
+fig
+is a real case of our parsing method
+the input text on the left side is translated from chinese
+the artr on the right side is the output
+applying algorithm to the artr in fig
+we get the sequence of outputs shown in table where digital numbers denote the original order of the edus in the text while capital letters denote the order of their generation by algorithm
+in fact this is also the order of their signicance in the summary
+in this way the users can request the summarizer to generate a summary of any length which is always the most signicant part of the original text
+each time the newly generated edu will be inserted in the right place of the sequence of already outputted edus
+for example for one gets only one edu for one gets the edu sequence
+note that in practical application the redundant words will be deleted
+to validate the eectiveness of grammar learning we used ten fold validation to evaluate our parsing method where each time of the data is used
+among the learned asrgs the average size of p p and p f at are and resp
+their average repetition rate is
+for p p and
+for p f at see fig
+
+we used precision recall and f score measurements to estimate the mance of our parsing algorithm algorithm
+the estimation was based on comparing the performance of the machine learned arsg parser with that of ruqian et al
+fig
+distribution of repetition rate of ten fold cross validation table average correctness measured by ten fold cross validation level structure nuclearity rre dre sentence level paragraph level discourse level
+
+
+
+
+
+
+
+
+
+
+
+table correctness of attributes of correctly parsed nodes precision recall f score
+
+
+manually parsed artr
+precision reects the rate of correctly parsed artrs among all machine parsed ones
+recall reects the rate of correctly machine parsed artrs among all manually parsed ones
+f score is the harmonic mean of precision and recall
+note that the way of calculating precision recall and f score is the same for both manually constructed and machine parsed artr because they have the same number of leaf nodes
+experiment text parsing using arsg
+we used the arsgs for text parsing according to algorithm
+note that when shift reduce conict or reduce reduce conict happens during parsing the highest probability date production rule will be selected rst while the second highest probability rule will be selected only if the rst selection was not successful and ing is necessary
+table shows the mean correctness of fold parsing using arsgs
+as for the correctness of attribute use we only evaluate those attributes on the correctly parsed nodes e
+
+correctly parsed dres
+table shows the mean values which illustrate that the mean precision is close to mean recall
+the high values indicate that almost all correctly parsed nodes have correct attributes
+attributed rhetorical structure grammar for domain text summarization table rouge rate of comparative evaluations ilp textrank lead mead arsg rouge
+
+
+
+
+
+
+
+
+
+experiment evaluation of arsg based summarization techniques used in parsing
+our summarization technique which is elaborated in algorithm is purely based on the artr generated by arsg parsing
+as shown by periment it can provide exible and adjustable summaries either in form of an abstract in requested length or one according to requested reduction ratio
+a synthetic experiment was made by learning an arsg based on all training texts
+we applied it to parse text and produce the artr in fig
+
+we also compared our method with other classical summarization methods among which we used rouge a recall oriented summarization evaluation method which measures the n gram overlap between system generated and manually produced summaries to evaluate these methods
+the rouge scores are standard in automatic text summarization among which we chose and rouge as our evaluation measures
+note that before the calculation of rouge scores ictclas chinese word splitter was used to split the summaries where punctuations and stop words were excluded from matching
+we compared the performance of our arsg method with those of based method textrank lead and mead methods which are all classical summarization methods
+ilp is a text summarization method which utilizes integer linear programming ilp for inference under a mum coverage model
+textrank is a graph based summarization approach
+it represents a text as a graph whose nodes and edges correspond to tences and their similarity
+this model ranks sentences according to voting or recommendation from the adjacent sentences
+lead selects sentences from the beginning of an article
+mead computes summary sentences using cluster centroids produced by a topic detection and system
+table shows the evaluation results with reduce rate of
+in the periments on our collected chinese corpus the rouge scores of our method is better than the other methods
+our arsg based summarization method enjoys the best performance with an of
+over ilp
+a transductive approach for model generalization the supervised learning of arsg discussed above can be made more eective by introducing a transductive approach for model transfer
+we assume that the dierent application domains thus also their models form a partial order ruqian et al
+table the current scale of dkb after extension used for id text parsing green concepts red concepts blue concepts number of concepts table the modication of arsg from wet to id production rules attributes precedence rules number of changes according to the knowledge they contain
+among them the domain of global situation analysis gsa is the root of a big tree whose nodes represent ferent child domains and thus also dierent child models
+we do not need to construct a model for each node explicitly
+by doing appropriate partial order operations it is possible to transfer models from one node to the others
+by extending reducing transforming crossing knowledge bases and grammar rules we can upgrade simplify transfer recombine the models
+in this sense our models are transferable
+the wet domain which has been taken as an example in this paper is just one of these nodes
+it is not dicult to transfer wet oriented arsg to other child domains of gsa
+experiment
+experiment on other domain texts
+to validate the transferability of our method we conduct an experiment on the domain industrial dynamics id which is another child domain of gsa and also a sister domain of wet
+to check the feasibility of transferring an arsg model we collected chinese texts from another open source the ocial web of china s ministry of industry and information nology miit
+the average text length of this corpus is approximately equal to the corpus of wet
+the experiment shows that with a slight extension table of the wet dkb and a simple transformation table of the arsg rules it is possible to obtain a usable new arsg for the id domain
+in fact regarding the concept database the blue ones are enough to be used for id text parsing
+only a few new green concepts and red concepts should be added
+correspondingly the amount of grammar rule modications is shown in table
+comparing it with the arsg learned above production rules preference rules see the statements before experiment the workload of generating an arsg for the new domain id is less than of learning that arsg for the original domain wet not yet to mention the save of manual work on texts and manual construction of parsing trees for each text
+we randomly selected texts from this corpus which are then parsed both mechanically by the transferred arsg and manually by human
+the sults comparing between automatically generated artrs and manually parsed artrs are shown in table which indicate the eectiveness of our method
+
+miit
+gov
+attributed rhetorical structure grammar for domain text summarization table precision after model transfer level structure nuclearity rre dre sentence level paragraph level discourse level
+
+
+
+
+
+
+
+
+
+
+
+a selective comparative study table compares our arsg approach with the two most followed approaches the graph based resp
+nn based approaches
+in addition we also compare arsg with ilp methods
+since the later need calculate relevance and redundancy weights of sentence resp
+sentence pairs we consider it as based on graph methods
+roughly speaking ilp method can provide high quality summaries but has diculty in processing large sized documents since its complexity is np hard
+concluding remarks the contributions of this paper include
+introduced an attribute grammar based approach to study automatic text summarization
+introduced ical structure theory in this approach to help nl analysis
+combine the above two to form a framework of arsg
+proposed and implemented tive algorithms for machine learning an arsg
+proposed and implemented eective algorithm for parsing nl texts in arsg framework
+proposed and implemented rst guided algorithm for generating adjustable summaries
+proposed a transductive approach for model transfer to avoid data retraining when given arsg applied to new domains
+performed a series of ments to validate above results
+in order to save the work of building a new dkb for each new domain we introduced a transduction approach for model transfer
+two dierent domains often have some similarities regarding the abstract representation of their herit knowledge
+take the two example domains wet and id considered in this paper
+the concepts output of wet and production of id are dierent
+but the rule if output increases then situation is improved can be mapped to if production increases then situation is improved given output is mapped to production
+this reminds that afresh retraining is not always necessary when transferring to a new domain
+this is shown by experiment and tables and
+in particular table shows that the workload of obtaining an id model by transferring is roughly only of that for building the wet model
+it is also a new idea in this paper that we propose a method of combining the rst with the lexical chain technique i
+e
+combining the coherent approach with the cohesive approach
+these two approaches have been forming the main streams of text summarization research
+roughly speaking the former is a top down technique and the latter is a bottom up one
+if isolated from ruqian et al
+table comparison of three approaches approach graph neural network arsg data request limited data set limited data set representative work paradigm technique information source knowledge request knowledge beneter model application design of model structure training of model parameters evolution of model structure model interpretability generalization of model applicability to dierent data sources preciseness of summary textrank unsupervised mainly syntactical nn se supervised our method supervised mainly syntactical mainly semantical data driven data driven knowledge driven few linguistic knowledge human graph design domain independent very large data set few linguistic knowledge human nn design domain independent domain knowledge computer model construct parse domain dependent simple dicult need try and test fixed once designed no training weighted graph revision algorithmic and mechanically heuristic analysis and revision of model behavior supercial poor need manual training algorithmic incremental evolution professional simple reuse result fair simple reuse result fair simple reuse result fair success rate with roughly equals to simple reuse result fair depending on the quality of training data double success rate with than with dailymail simple reuse in the same domain result good simple reuse for new domain result inadequate transfer to new domain need dkb extension and model mapping generally low generally low generally high each other both have their own advantages and disadvantages
+however their combination will provide new vigor for both of them by augmenting their advantages and diminishing their disadvantages
+this combination of course should not be a simple put together
+both sides should adapt themselves to meet the other side
+we have changed lexical chains into lexical cores on the one hand and extended rhetorical relations with domain relations on the other hand this strategy has made our approach operational
+attributed rhetorical structure grammar for domain text summarization in spite of the success made by the rst technique in summarization nique research the rst based summarization technique is still in the phase of laboratory experiments
+we have appreciated a large set of rst research pers with outstanding experimental results
+but we did nt see its engineering even less commercial application yet
+our future work will be concentrated on deepening and broadening the application range of arsg approach including
+applying the arsg proach to a hierarchy of domains systematically and constructing a hierarchy of arsg on it to further test its model transfer capability
+introducing arsg based summarization of multiple texts
+discussing the specic ties and techniques encountered in this context
+making the above research results an engineering discipline and a public service for practical use
+paring arsg based summarization techniques with other approaches such as deep learning techniques to form more ecient new approaches
+acknowledgements this work was supported by national key research and ment program of china under grant national natural science foundation of china no
+and beijing science and technology project machine learning based stomatology and tsinghua tencent amss joint project www knowledge structure and its application
+references
+barzilay r
+elhadad m
+using lexical chains for text summarization
+in acl shop on intelligent scalable text summarization pp
+
+c
+mann w
+thompson s
+rhetorical structure theory toward a functional theory of text organization
+text
+cao z
+li w
+li s
+wei f
+retrieve rerank and rewrite soft template based neural summarization
+in vol
+pp
+
+carlson l
+marcu d
+okurovsky m
+e
+building a discourse tagged corpus in the in sigdial workshop on discourse and framework of rhetorical structure theory
+dialogue
+che w
+li z
+liu t
+ltp a chinese language technology platform
+in coling
+cheng j
+lapata m
+neural summarization by extracting sentences and words
+in demonstrations pp
+vol
+pp
+
+chopra s
+auli m
+rush a
+m
+abstractive sentence summarization with attentive recurrent neural networks
+in hlt naacl pp
+
+dong z
+dong q
+hownet and the computation of meaning
+durrett g
+berg kirkpatrick t
+klein d
+learning based single document rization with compression and anaphoricity constraints
+in
+ercan g
+cicekli i
+lexical cohesion based topic modeling for summarization
+in international conference on intelligent text processing and computational linguistics pp
+
+springer
+fattah m
+a
+a hybrid machine learning model for multi document summarization
+applied intelligence
+feng v
+w
+hirst g
+text level discourse parsing with rich linguistic features
+in pp
+
+flick c
+rouge a package for automatic evaluation of summaries
+in the workshop on text summarization branches out p
+
+galley m
+mckeown k
+improving word sense disambiguation in lexical chaining
+in ijcai pp
+ruqian et al
+
+gambhir m
+gupta v
+recent automatic text summarization techniques a survey
+articial intelligence review
+genest p
+e
+lapalme g
+absum a knowledge based abstractive summarizer
+generation par abstraction
+gillick d
+favre b
+a scalable global model for summarization
+in proceedings of the workshop on integer linear programming for natural langauge processing pp
+
+hermann k
+m
+kocisky t
+grefenstette e
+espeholt l
+kay w
+suleyman m
+in nips pp
+blunsom p
+teaching machines to read and comprehend
+
+hernault h
+prendinger h
+ishizuka m
+al
+hilda a discourse parser using support vector machine classication
+dialogue discourse
+hirao t
+yoshida y
+nishino m
+yasuda n
+nagata m
+single document in proceedings of the conference on marization as a tree knapsack problem
+empirical methods in natural language processing pp
+
+hirao t
+yoshida y
+nishino m
+yasuda n
+nagata m
+single document rization as a tree knapsack problem
+in emnlp pp
+
+hirst g
+st onge d
+al
+lexical chains as representations of context for the tection and correction of malapropisms
+wordnet an electronic lexical database
+ji y
+eisenstein j
+representation learning for text level discourse parsing
+in pp
+
+joty s
+r
+carenini g
+ng r
+t
+mehdad y
+combining and multi sentential rhetorical parsing for document level discourse analysis
+in pp
+
+julia h
+manning c
+d
+advances in natural language processing
+science
+knuth d
+e
+semantics of context free languages
+mathematical systems theory
+lei k
+zhang l
+liu y
+shen y
+liu c
+yu q
+weng w
+an event rizing algorithm based on the timeline relevance model in sina weibo
+science china information sciences
+lethanh h
+abeysinghe g
+huyck c
+generating discourse structures for written texts
+in international conference on computational linguistics p
+
+marcu d
+the rhetorical parsing of natural language texts
+in acl pp
+
+marcu d
+the theory and practice of discourse parsing and summarization
+mit
+mihalcea r
+tarau p
+textrank bringing order into texts
+unt scholarly works pp
+
+miller g
+a
+wordnet a lexical database for english
+commun
+acm press
+morris j
+hirst g
+lexical cohesion computed by thesaural relations as an indicator of the structure of text
+computational linguistics
+nallapati r
+zhai f
+zhou b
+summarunner a recurrent neural network based sequence model for extractive summarization of documents
+in aaai pp
+
+nallapati r
+zhou b
+dos santos c
+glar gulcehre c
+xiang b
+abstractive text summarization using sequence to sequence rnns and beyond
+conll p
+
+nenkova a
+mckeown k
+a survey of text summarization techniques
+in mining text data pp
+
+springer
+nenkova a
+mckeown k
+al
+automatic summarization
+foundations and trends in information retrieval
+page l
+brin s
+motwani r
+winograd t
+al
+the pagerank citation ranking bringing order to the web pp
+
+parveen d
+mesgar m
+strube m
+generating coherent summaries of scientic cles using coherence patterns
+in emnlp pp
+
+pourvali m
+abadeh m
+s
+automated text summarization base on lexicales chain and graph using of wordnet and wikipedia knowledge base
+international journal of computer science issues ijcsi attributed rhetorical structure grammar for domain text summarization
+qian t
+ji d
+zhang m
+teng c
+xia c
+word sense induction using lexical chain based hypergraph model
+in coling technical papers pp
+
+acl
+radev d
+r
+jing h
+sty m
+tam d
+centroid based summarization of multiple documents
+inf
+process
+manage
+
+remus s
+biemann c
+three knowledge free methods for automatic lexical chain extraction
+in hlt naacl pp
+
+rush a
+m
+chopra s
+weston j
+a neural attention model for abstractive sentence summarization
+in emnlp pp
+
+see a
+liu p
+j
+manning c
+d
+get to the point summarization with generator networks
+in vol
+pp
+
+silber h
+g
+mccoy k
+f
+eciently computed lexical chains as an intermediate sentation for automatic text summarization
+computational linguistics
+soricut r
+marcu d
+sentence level discourse parsing using syntactic and lexical
+toloski m
+brooke j
+taboada m
+a syntactic and lexical based discourse information
+in hlt naacl menter
+in pp
+
+wei t
+lu y
+chang h
+zhou q
+bao x
+a semantic approach for text clustering using wordnet and lexical chains
+expert syst
+appl
+
+yoshida y
+suzuki j
+hirao t
+nagata m
+dependency based discourse parser for single document summarization
+in emnlp pp
+
+zhang h
+p
+yu h
+k
+xiong d
+y
+liu q
+hhmm based chinese lexical analyzer clas
+in proceedings of the second sighan workshop on chinese language volume pp
+
+zhou q
+yang n
+wei f
+huang s
+zhou m
+zhao t
+neural document rization by jointly learning to score and select sentences
+in vol
+pp
+

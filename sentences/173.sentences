@@ -1,0 +1,1583 @@
+t c o l c
+s c v
+v i x r a producing compact texts with integer linear programming in concept to text generation gerasimos lampouras department of informatics athens university of economics and business ion androutsopoulos department of informatics athens university of economics and business concept to text generation typically employs a pipeline architecture which often leads to timal texts
+content selection for example may greedily select the most important facts which may require however too many words to express and this may be undesirable when space is limited or expensive
+selecting other facts possibly only slightly less important may allow the lexicalization stage to use much fewer words or to report more facts in the same space
+decisions made during content selection and lexicalization may also lead to more or fewer sentence aggregation opportunities affecting the length and readability of the resulting texts
+building upon on a publicly available state of the art natural language generator for semantic web ontologies this article presents an integer linear programming model that unlike pipeline architectures jointly considers choices available in content selection lexicalization and sentence aggregation to avoid greedy local decisions and produce more compact texts i
+e
+texts that report more facts per word
+compact texts are desirable for example when generating advertisements to be included in web search results or when summarizing structured information in limited space
+an extended version of the proposed model also considers a limited form of referring expression generation and avoids redundant sentences
+an approximation of the two models can be used when longer texts need to be generated
+experiments with three ontologies conrm that the proposed models lead to more compact texts compared to pipeline systems with no deterioration or with improvements in the perceived quality of the generated texts
+
+introduction the semantic web berners lee hendler and lassila shadbolt berners lee and hall and the growing popularity of linked data data that are published using semantic web technologies have renewed interest in concept to text natural language generation nlg especially text generation from ontologies bontcheva mellish and sun galanis and androutsopoulos mellish and pan schwitter et al
+schwitter liang et al
+williams third and power sopoulos lampouras and galanis
+an ontology provides a conceptualization of a knowledge domain e
+
+consumer electronics diseases by dening the classes and subclasses of the individuals entities in the domain the possible relations between them
+the current standard to specify semantic web ontologies is owl horrocks patel schneider and van harmelen grau et al
+a formal language based department of informatics athens university of economics and business patission athens department of informatics athens university of economics and business patission athens greece
+e mail
+gr greece
+e mail
+gr on description logics baader et al
+rdf and rdf schema antoniou and van harmelen
+given an owl ontology for a knowledge domain one can publish on the web machine readable statements about the domain e
+
+available products known diseases their features or symptoms with the statements having formally ned semantics based on the ontology
+nlg can then produce texts describing classes or individuals of the ontology e
+
+product descriptions information about diseases from the same statements
+this way the same information becomes more easily accessible to both computers which read the machine readable statements and end users who read the texts which is one of the main goals of the semantic web
+nlg systems typically employ a pipeline architecture reiter and dale
+firstly content selection chooses the logical facts axioms in the case of an owl ontology to be expressed in the text to be generated
+the purpose of the next stage text planning ranges from simply ordering the facts to be expressed in effect also ordering the tences that will express them to making more complex decisions about the rhetorical structure of the text
+lexicalization then selects the words and syntactic structures to express each fact as a single sentence
+sentence aggregation may then combine shorter sentences into longer ones
+another component generates appropriate referring sions pronouns noun phrases
+and surface realization produces the nal text based on internal representations of the previous decisions
+each stage of the pipeline in effect performs a local optimization constrained by decisions of the previous stages and largely unaware of the consequences of its own decisions on the subsequent stages
+the pipeline architecture has engineering advantages e
+
+it is easier to specify and monitor the input and output of each stage but produces texts that may be suboptimal since the decisions of the generation stages are actually co dependent danlos marciniak and strube belz
+content selection for example may greedily select the most important facts among those that are relevant to the purpose of the text but these facts may require too many words to express which may be undesirable when space is limited or expensive
+selecting other facts possibly only slightly less important may allow the lexicalization stage to use much fewer words or to report more facts in the same space
+decisions made during content selection and lexicalization facts to express words and syntactic structures to use may also lead to more or fewer sentence aggregation opportunities affecting the length and readability of the texts
+some of these issues can be addressed by over generating at each stage e
+
+producing several alternative sets of facts at the end of content selection several alternative lexicalizations
+and employing a nal ranking component to select the best combination walker rambow and rogati
+this over generate and rank approach however may also fail to nd an optimal solution and generates an exponentially large number of date solutions when several components are pipelined
+in this article we present an integer linear programming ilp model that unlike pipeline architectures jointly considers choices available in content selection ization and sentence aggregation to avoid greedy local decisions and produce more compact texts i
+e
+texts that report more facts per word
+compact texts are desirable for example when generating short product descriptions to be included as advertisements most linked data currently use only rdf and rdf schema but owl is in effect a superset of rdf schema and hence methods to produce texts from owl also apply to linked data
+consult also
+
+following common practice in semantic web research we often use the term ontology to refer jointly to terminological knowledge tbox statements that establishes a conceptualization of a knowledge domain and assertional knowledge abox statements that describes particular individuals
+lampouras androutsopoulos generating texts with integer linear programming in web search results thomaidou et al
+thomaidou
+question answering may also involve generating a natural language summary of facts e
+
+rdf triples related to a question without exceeding a maximum text length tsatsaronis et al
+the more compact the summary the more facts can be reported in the available space increasing the chances of reporting the information sought by the user
+compact texts are also desirable when showing texts on devices with small screens corston oliver or as subtitles vandeghinste and y
+
+if an importance score is available for each fact our model can take it into account to maximize the total importance instead of the total number of the expressed facts per word
+the model itself however does not produce importance scores we assume that the scores are produced by a separate process barzilay and lapata demir carberry and mccoy not included in our content selection
+for simplicity in the experiments of this article we treat all the facts as equally important
+an extended version of our ilp model also considers a limited form of referring expression ation where the best name must be chosen per individual or class among multiple alternatives
+the extended model also avoids sentences that report information that is obvious to humans from the names of the individuals and classes e
+
+a red wine is a kind of wine with red color
+experiments with three owl ontologies from very different knowledge domains wines consumer electronics diseases conrm that our models lead to more compact texts compared to pipeline systems with the same components with no deterioration or with improvements in the perceived quality of the generated texts
+although solving ilp problems is in general np hard karp off the shelf ilp solvers can be used
+the available solvers guarantee nding a globally optimum solution and they are very fast in practice in the ilp problems we consider when the the number of available facts per individual or class being described is small
+we also present an approximation of our ilp models which is more efcient when the number of available facts is larger and longer texts need to be generated
+our ilp models and approximations have been embedded in naturalowl lampouras and galanis an nlg system for owl as alternatives to the system s original pipeline architecture
+we base our work on naturalowl cause it is the only open source nlg system for owl that implements all the processing stages of a typical nlg system reiter and dale it is extensively documented and has been tested with several ontologies
+the processing stages and linguistic resources of naturalowl are typical of nlg systems mellish et al
+
+hence we believe that our work is at least in principle also applicable to other nlg systems
+our ilp models do not directly consider text planning but rely on the external to the ilp model text planner of
+we hope to include more text planning and referring expression generation decisions directly in our ilp model in future work
+we also do not consider surface realization since it is not particularly interesting in naturalowl all the decisions have in effect already been made by the time this stage is reached
+the remainder of this article is structured as follows
+section below provides background information about
+section denes our ilp models
+section discusses the computational complexity of our ilp models along with the more see also
+google
+com
+consult also
+uned
+clef and
+bioasq
+
+see also the smartphone application acropolis rock
+which uses to describe historical monuments a video is available at
+youtube
+com
+the subtitles of the virtual museum guide of galanis et al
+are also generated by naturalowl see the video at
+
+cient approximation that can be used when then number of available facts is large
+section presents our experiments
+section discusses previous related work
+section concludes and proposes future work
+
+background information about naturalowl produces texts describing classes or individuals entities of an owl ogy e
+
+descriptions of types of products or particular products
+given an owl tology and a particular target class or individual to describe rst scans the ontology for owl statements relevant to the target
+if the target is the class stemilion for example a relevant owl statement may be the following
+stemilionregion red strong cabernetsauvignongrape madefrom the statement above denes stemilion as the intersection of i the class of bordeaux wines the class of all individuals whose locatedin property has for each ual stemilionregion among its values owl properties are generally many valued the classes of individuals whose hascolor hasflavor and madefromgrape property values include red strong and cabernetsauvignongrape respectively without excluding wines that have additional values in these properties and vi the class of individuals whose madefromgrape property has exactly one value hence a st
+emilion wine is made exclusively from cabernet sauvignon grapes
+naturalowl then converts each relevant statement into possibly multiple message triples of the form r where s is an individual or class o is another individual class or datatype value and r is a relation property that connects s to o
+for example the cabernetsauvignongrape part of the owl statement above is converted to the message triple stemilion madefrom cabernetsauvignongrape
+message triples are similar to rdf triples but they are easier to express as sentences
+unlike rdf triples the relations r of the sage triples may include relation modiers
+for example the madefrom part of the owl statement above is turned into the message triple stemilion where maxcardinality is a relation modier
+message triples may also contain conjunctions or disjunctions as their o as in coloradotickfever hassymptom headache myalgia
+we use the terms fact and message triple as synonyms in the remainder of this article
+having produced the message triples naturalowl consults a user model to select the most important ones and orders the selected triples according to manually authored text plans
+later processing stages convert each message triple to an abstract sentence representation aggregate sentences to produce longer ones and produce appropriate referring expressions e
+
+pronouns
+the latter three stages require a sentence plan for each relation r while the last stage also requires natural language names nl names for this example is based on the wine ontology one of the ontologies of our experiments see section
+for simplicity we omit some details about message triples
+consult androutsopoulos et al
+for more information about message triples and their relation to rdf triples
+this example is from the disease ontology another ontology used in our experiments
+lampouras androutsopoulos generating texts with integer linear programming the individuals and classes of the ontology
+rougly speaking a sentence plan species how to generate a sentence to express a message triple involving a particular relation r whereas an nl name species how to generate a noun phrase to refer to a class or individual by name
+we provide more information about sentence plans and nl names in the following subsections
+if sentence plans and nl names are not supplied ralowl automatically produces them by tokenizing the owl identiers of the relations individuals and classes of the ontology acting as a simple ontology verbalizer cregan schwitter and meyer kaljurand and fuchs schwitter et al
+wiener et al
+schutte power and third power schwitter stevens et al
+liang et al
+
+the resulting texts however are of much lower quality androutsopoulos lampouras and galanis
+for example the resulting text from the owl statement above would be st emilion is bordeaux
+st emilion located in st emilion region
+st emilion has color red
+st emilion has avor strong
+st emilion made from grape exactly cabernet sauvignon grape
+by contrast when appropriate sentence plans and nl names are provided naturalowl produces the following text st
+emilion is a kind of red strong bordeaux from the st
+emilion region
+it is made from exactly one grape variety cabernet sauvignon grapes
+in this article we assume that appropriate sentence plans and nl names are plied for each ontology
+they can be manually constructed using a protg plug in that accompanies naturalowl androutsopoulos lampouras and galanis
+automatic methods can also be used to extract and rank candidate sentence plans and nl names from the web with a human selecting the best among the most highly ranked ones in this case it has been shown that high quality sentence plans and nl names can be constructed in a matter of a few hours at most per ontology lampouras
+
+the natural language names of in naturalowl an nl name is a sequence of slots
+the contents of the slots are catenated to produce a noun phrase that names a class or individual
+each slot is companied by annotations specifying how to ll it in the annotations may also provide linguistic information about the contents of the slot
+for example we may specify that the english nl name of the class traditionalwinepiemonte is the following
+adj article indef headnoun sing neut prep article def noun sing neut noun sing neut the rst slot is to be lled in with an indenite article whose number should agree with the third slot
+the second slot is to be lled in with the adjective traditional
+the third slot with the neuter noun wine which will also be the head central noun of the noun phrase in singular number and similarly for the other slots
+naturalowl makes no distinctions between common and proper nouns but it can be instructed to capitalize particular nouns e
+
+piemonte
+in the case of the message triple consult
+stanford
+
+naturalowl and its protg plug in are available from
+cs
+aueb
+gr software
+html
+the nl names and sentence plans of naturalowl are actually represented in owl as instances of an ontology that describes the domain dependent linguistic resources of the system
+instanceof traditionalwinepiemonte the nl name above would allow a tence like this is a traditional wine from the piemonte region to be produced
+the slot annotations allow naturalowl to automatically adjust the nl names
+for example the system also generates comparisons to previously encountered individuals or classes as in unlike the previous products that you have seen which were all tional wines from the piemonte region this is a french wine
+in this particular example the head noun wine had to be turned into plural
+due to number agreement its article also had to be turned into plural in english the plural indenite article is void hence the article of the head noun was omitted
+as a further example we may specify that the nl name of the class famouswine is the following
+article indef adj headnoun sing neut if the triples instanceof traditionalwinepiemonte and instanceof famouswine were to be expressed naturalowl would then produce the single aggregated sentence this is a famous traditional wine from the piemonte region instead of two separate sentences this is a traditional wine from the piemonte region and it is a famous wine
+the annotations of the slots which indicate for example which words are adjectives and head nouns are used by the sentence tion component to appropriately combine the two sentences
+the referring expression generation component also uses the slot annotations to identify the gender of the head noun when a pronoun has to be generated e
+
+it when the head noun is neuter
+we can now dene more precisely nl names
+an nl name is a sequence of one or more slots
+each slot is accompanied by annotations requiring it to be lled in with exactly one of the an article denite or indenite possibly to agree with a noun slot
+a noun agged as the head
+the number of the head noun must also be specied
+an adjective agged as the head
+for example the nl name of the individual red may consist of a single slot to be lled in with the adjective red which will also be the head of the nl name
+the number and gender of the head adjective must be specied
+any other noun or adjective a preposition or any xed canned string
+exactly one head noun or adjective must be specied per nl name
+for nouns and adjectives the nl name may require a particular inectional form to be used e
+
+in a particular number case or gender or it may require an inectional form that agrees with another noun or adjective slot
+multiple nl names can also be provided for the same individual or class to produce more varied texts
+when providing nl names an individual or class can also be declared to be mous indicating that naturalowl should avoid referring to it by name
+for example in a museum ontology there may be a particular coin whose owl identier is
+we may not wish to provide an nl name for this individual it may not have an english name and we may want to avoid referring to the coin by tokenizing its identier exhibit
+by declaring the coin as anonymous would use only the nl name of its class e
+
+this coin simply this or a pronoun
+naturalowl also supports greek
+the possible annotations for greek nl names and sentence plans see below are slightly different but in this article we consider only english nl names and sentence plans
+we use simplenlg gatt and reiter to generate the inectional forms of nouns adjectives verbs
+lampouras androutsopoulos generating texts with integer linear programming
+the sentence plans of in naturalowl a sentence plan for a relation r species how to construct a sentence to express any message triple of the form r
+like nl names sentence plans are sequences of slots with annotations specifying how to ll the slots in
+the contents of the slots are concatenated to produce the sentence
+for example the following is a sentence plan for the relation madefrom
+ref nom verb passive present prep ref acc given the message triple stemilion madefrom cabernetsauvignongrape the sentence plan would lead to sentences like st
+emilion is made from cabernet gnon grapes or it is made from cabernet sauvignon grapes assuming that priate nl names have been provided for stemilion and cabernetsauvignongrape
+similarly given wine madefrom grape the sentence plan above would lead to sentences like wines are made from grapes or they are made from grapes assuming again appropriate nl names
+as another example the following sentence plan can be used with the relations hascolor and hasflavor
+ref nom verb active present ref nom the message triples stemilion hascolor red and stemilion for hasflavor strong it would produce the sentences st
+emilion is red and st
+emilion is strong respectively
+the rst sentence plan above for madefrom has four slots
+the rst slot is to be lled in with an automatically generated referring expression e
+
+pronoun or name for s in nominative case
+the verb of the second slot is to be realized in passive voice present tense and positive polarity as opposed to expressing negation and should agree in number and person with the referring expression of the rst slot agr
+the third slot is lled in with the preposition from and the fourth slot with an automatically generated referring expression for o in accusative case
+has built in sentence plans for domain independent relations e
+
+isa instanceof
+for example stemilion isa bordeaux is expressed as st
+emilion is a kind of bordeaux using the following built in sentence plan the last slot requires the nl name of o without article
+ref nom verb active present a kind string noarticle nom notice that the sentence plans are not simply slotted string templates e
+
+x is made from y
+their linguistic annotations e
+
+pos tags agreement voice tense cases along with the annotations of the nl names allow naturalowl to produce more natural sentences e
+
+turn the verb into plural when the subject is in plural produce appropriate referring expressions e
+
+pronouns in the correct cases and genders and aggregate shorter sentences into longer ones
+for example the annotations of the nl names and sentence plans allow naturalowl to produce the aggregated tence st
+emilion is a kind of red bordeaux made from cabernet sauvignon grapes from the triples stemilion isa bordeaux stemilion hascolor red stemilion madefrom cabernetsauvignongrape instead of three sentences
+we can now dene more precisely sentence plans
+a sentence plan is a sequence of slots
+each slot is accompanied by annotations requiring it to be lled in with exactly one of the a referring expression for the s a
+
+a
+the owner of the triple in a particular case
+a verb in a particular polarity and inectional form e
+
+tense voice possibly to agree with another slot
+a noun or adjective in a particular form possibly to agree with another slot
+a preposition or a xed string
+a referring expression for the o a
+
+a
+the ller of the triple in a particular case
+multiple sentence plans can be provided per relation to produce more varied texts and increase sentence aggregation opportunities
+sentence plans for message triples that involve relation modiers e
+
+stemilion are automatically produced from the sentence plans for the corresponding relations without modiers e
+
+stemilion madefrom cabernetsauvignongrape
+
+importance scores some message triples can lead to sentences that sound redundant because they report relations that are obvious to humans from the nl names of the individuals or classes as in the sentence a red wine is a kind of wine with red color
+the sentence of our example reports the following two message triples redwine isa wine redwine hascolor red expressed separately the two triples would lead to the sentences a red wine is a kind of wine and a red wine has red color but naturalowl aggregates them into a single sentence
+it is obvious that a red wine is a wine with red color and hence the two triples above should not be expressed
+similarly the following triple leads to the sentence a white bordeaux wine is a kind of bordeaux which again seems redundant
+whitebordeaux isa bordeaux naturalowl allows message triples to be assigned importance scores indicating how important or interesting it is to convey each message triple to different user types or particular users
+assigning a zero importance score to a message triple instructs ralowl to avoid expressing it
+the importance scores can be constructed manually or by invoking an external user modeling component androutsopoulos lampouras and galanis
+an additional mechanism of naturalowl assigns zero importance scores to message triples like the ones above which report relations that are obvious from the nl names this is achieved by using heuristics discussed elsewhere lampouras
+in the experiments of this article we use the zero importance scores that naturalowl automatically assigns to some message triples but we treat all the other message triples as equally important for simplicity
+
+our integer linear programming models we now discuss our integer linear programming ilp models starting from the rst simpler version which considers choices available in content selection lexicalization for simplicity we omit some details and functionality of sentence plans that are not relevant to the work of this article
+more details can be found elsewhere androutsopoulos lampouras and galanis
+lampouras androutsopoulos generating texts with integer linear programming figure illustration of the main decisions of our rst ilp model
+and sentence aggregation
+figure illustrates the main decisions of the model
+for tent selection the model decides which of the available facts message triples should be expressed
+for lexicalization it decides which sentence plan should be used for each fact that will be expressed assuming that multiple sentence plans are available per fact
+for sentence aggregation it decides which simple sentences each reporting a single fact should be aggregated to form longer sentences by partitioning the simple sentences or equivalently the message triples they express into groups shown as buckets in fig
+
+after using the ilp model the aggregation rules of naturalowl androutsopoulos lampouras and galanis are applied separately to the simple sentences of each group bucket to obtain a single aggregated sentence per group
+to keep the ilp model simpler the model itself does not control which particular aggregation rules will be applied to each group
+the number of groups buckets is xed equal to the maximum number of aggregated sentences that the model can generate per text
+to avoid generating very long aggregated sentences the number of simple sentences that can be placed in each group bucket can not exceed a xed upper limit the same for all groups
+groups left empty produce no sentences
+our second extended ilp model is very similar but also performs a limited form of referring expression generation by selecting among multiple alternative nl names it also takes into account that using a particular nl name may make expressing some other facts redundant section
+
+by contrast the rst simpler ilp model assumes that a single nl name is available per individual and class hence no choice of nl names is needed and does not try to avoid expressing redundant facts
+in both models a single selected or the only available one nl name is picked per individual or class unless the individual or class is marked as anonymous see section
+and it is used throughout the particular text being generated
+neither of the two models considers other referring expression generation decisions e
+
+whether to use a pronoun or a demonstrative noun phrase like this wine as opposed to repeating the nl name of a wine
+the existing referring expression generation component of naturalowl androutsopoulos lampouras and galanis is subsequently invoked after using the ilp models the sentences of each group can always be aggregated since they describe the same individual or class
+if no better aggregation rule applies a conjunction of the sentences in the group can be formed
+to decide if the picked nl name a pronoun or a demonstrative noun phrase should be used wherever a reference to an individual or class is needed in the text being generated
+a further limitation of our models is that they do not directly consider text planning relying on the external to the ilp models text planner of naturalowl instead
+the text planner is invoked before using the ilp models to partition the available message triples the triples about the individual or class to be described into topical sections for example message triples about the size weight and material of an electronic product may be placed in one section and triples about the functions and features of the product in another one
+this step is needed because our ilp models never aggregate together sentences expressing facts from different topical sections to avoid producing gated sentences that sound unnatural
+the text planner is also invoked after using one of the ilp models to order each group of simple sentences that the model has decided to aggregate
+as already noted each aggregated sentence is produced by applying the aggregation rules of to a group bucket of simple sentences but the rules presuppose that the simple sentences to be aggregated are already ordered which is why the text planer is invoked at this point
+after applying the aggregation rules to each group of ordered simple sentences the text planner is also used to order the topical sections and the now aggregated sentences within each section
+
+our first ilp model let us now focus on our rst ilp model
+as already noted this model assumes that there is a single nl name per individual and class excluding anonymous ones
+furthermore the model assumes that all the nl names are short and approximately equally long
+let f
+
+
+fn be the set of all the available facts fi about the target individual or class s to be described
+recall that we use the term fact as a synonym of message triple
+for each fact fi ri we assume that a set pi
+
+
+of tive sentence plans is available facts with the same relation ri have the same set of sentence plans pi
+recall also that each sentence plan pik species how to express fi as an alternative single sentence and that a sentence plan is a sequence of slots along with instructions specifying how to ll the slots in
+we call elements the unordered slots of a sentence plan along with their tions but with si and oi accompanied by the individuals classes or datatype values they refer to
+in the rst example of section
+there are four elements ref s stemilion passive from ref o cabernetsauvignongrape
+when all the nl names are short and approximately equally long we can roughly estimate the length in words of a sentence that will be produced to report a single fact before actually producing the sentence by counting the elements of the sentence plan that will be used to produce the sentence
+furthermore we can roughly estimate the length of an aggregated sentence i
+e
+a sentence that will be obtained by aggregating the simpler sentences each reporting a single fact of a group bucket of fig
+by counting the distinct elements no duplicates of the sentence plans that will be used to produce the simple sentences of the group because duplicate elements originating from more than one simple sentences are typically expressed only once in the aggregated sentence
+in the following aggregation example there are initially two simple sentences duced by sentence plans identical to the rst one of section
+except for the different prepositions
+the sentence plans of the two simple sentences have four elements each ref s bancroftchardonnay passive by ref o mountadam and ref s bancroftchardonnay passive in ref o bancroft
+the lampouras androutsopoulos generating texts with integer linear programming distinct elements of the two sentence plans are only six indicating that the aggregated sentence will be shorter than the two initial sentences together eight elements in total
+bancroft chardonnay is made by mountadam
+it is made in bancroft
+bancroft chardonnay is made by mountadam in bancroft
+by contrast if a slightly different sentence plan involving the verb produce is used in the rst simple sentence the aggregated sentence will be longer as shown below
+the sentence plans of the two simple sentences again have eight elements in total but their distinct elements are seven ref s bancroftchardonnay passive by ref o mountadam in ref o bancroft correctly ing that the aggregated sentence will now be longer
+bancroft chardonnay is produced by mountadam
+it is made in bancroft
+bancroft chardonnay is produced by mountadam and made in bancroft
+the number of distinct elements is only an approximate estimate of the length of the aggregated sentence because some of the names of the classes and individuals e
+
+bancroft chardonnay and some of the verb forms e
+
+is made are multi word but it allows the ilp model to roughly predict the length of an aggregated sentence by sidering only sentence plans before actually producing or aggregating any sentences
+the previous examples also show that selecting among alternative sentence plans affects the length of the generated text not only because different sentence plans may require more or fewer words to express the same fact but also because different nations of sentence plans may produce more or fewer aggregation opportunities e
+
+shared verbs
+content selection also affects the length of the text not only because different facts may require more or fewer words to report but also because the selected facts may or may not have combinations of sentence plans that provide aggregation opportunities and the aggregation opportunities may allow saving fewer or more words
+for example consider the following facts
+let us assume that all four facts are equally important and that we want to generate a text expressing only four of them
+mountadamriesling isa riesling mountadamriesling hasbody medium mountadamriesling hasmaker mountadam mountadamriesling hasflavor delicate mountadamriesling hassugar dry a pipeline approach to generation where the content selection decisions are made greedily without considering their effects on the later stages of lexicalization in our case sentence plan selection and aggregation might select the rst four of the facts perhaps randomly since all facts are equally important
+assuming that lexicalization also does not consider the effects of its choices selected sentence plans on sentence aggregation we may end up with the following text before and after aggregation
+this is a riesling
+it is medium
+it is produced by mountadam
+it has a delicate avor
+this is a medium riesling produced by mountadam
+it has a delicate avor
+on the other hand a global approach that jointly considers the decisions of content selection lexicalization and aggregation might prefer to express the fth fact instead of the fourth and to use sentence plans that allow more compressive aggregations leading to a much shorter text as shown below
+this is a riesling
+it is medium
+it is dry
+it is delicate
+this is a medium dry delicate riesling
+the length of the resulting text is important when space is limited or expensive as already discussed which is why we aim to produce compact texts i
+e
+texts that report as many facts per word as possible or texts that maximize the importance of the reported facts divided by the words used when facts are not equally important
+more precisely given an individual or class of an owl ontology and a set of available facts about it we aim to produce a text that goal expresses as many of the available facts as possible or a text that maximizes the total importance of the reported facts when facts are not equally important goal using as few words as possible
+by varying weights associated with goals and we obtain different compact texts aimed towards expressing more of the available facts at the expense of possibly using more words or aimed towards using fewer words at the expense of possibly expressing fewer of the available facts
+we can now formally dene our rst ilp model
+let
+
+
+sm be disjoint subsets buckets of fig
+of f
+
+
+fn the set of available facts each containing to n facts
+a single aggregated sentence is generated from each subset sj by aggregating the simple sentences more precisely their selected sentence plans that express the facts of sj
+an empty sj generates no sentence
+hence the resulting text can be at most m aggregated sentences long
+let us also dene if sentence plan pik is used to express fact fi and fi is in subset sj ai likj btj if fact fi is selected otherwise otherwise otherwise if element et is used in subset sj and let b be the set of all the distinct elements no duplicates from all the available sentence plans pik that can express the facts of f
+as already noted the length of an aggregated sentence resulting from a subset sj can be roughly estimated by counting the distinct elements of the sentence plans that were chosen to express the facts of sj
+the objective function of our rst ilp model eq
+below maximizes the total importance of the selected facts or simply the number of selected facts if all facts are equally important and minimizes the number of distinct elements in each subset sj i
+e
+the approximate length of the corresponding aggregated sentence an alternative explanation is that by minimizing the number of distinct elements in each sj we favor subsets that aggregate well
+by a and b we jointly denote all the ai and btj variables
+denotes the cardinality of a set
+the two parts of the objective function are normalized to by dividing by the total number of available facts and the number of subsets m times the total number of distinct elements
+we multiply i with the importance score of the corresponding fact fi
+we assume that the importance scores range in in our experiments all the importance scores are set to with the exception of redundant message triples that are assigned zero importance scores section
+
+the parameters are used to tune the priority given to expressing many important facts vs
+generating shorter texts we set
+constraint ensures that for each selected fact exactly one sentence plan is selected and that the fact is placed in exactly one subset if a fact is not selected no sentence plan lampouras androutsopoulos generating texts with integer linear programming for the fact is selected and the fact is placed in no subset
+in constraint bik is the set of distinct elements et of the sentence plan pik
+this constraint ensures that if pik is selected in a subset sj then all the elements of pik are also present in sj
+if pik is not selected in sj then some of its elements may still be present in sj if they appear in another selected sentence plan of sj
+in constraint p et is the set of sentence plans that contain element et
+if et is used in a subset sj then at least one of the sentence plans of p et must also be selected in sj
+if et is not used in sj then no sentence plan of p et may be selected in sj
+constraint limits the number of elements that a subset sj can contain to a maximum allowed number bmax in effect limiting the maximum estimated length of an aggregated sentence
+constraint ensures that facts from different topical sections will not be placed in the same subset sj to avoid unnatural aggregations
+subject to max a b ai m btj m ai likj for i
+
+
+n m etbik btj likj for likj btj for i
+
+
+n j
+
+
+m
+
+
+t
+
+
+j
+
+
+m pikp et btj bmax for j
+
+
+m likj for
+
+
+m i
+
+
+n
+
+
+n i i
+our extended ilp model the ilp model of the previous section assumes that a single nl name is available for each individual or class excluding anonymous ones
+by contrast our extended ilp model assumes that multiple alternative nl names are available
+the reader is reminded that an nl name species how to generate a noun phrase naming an individual or class and that it is a sequence of slots along with instructions specifying how to ll them in
+for an individual or class acting as the o of a fact r to be expressed the extended ilp model always selects the shortest available nl name
+it takes however into account the length of the shortest nl name of o when estimating the length of a sentence that will express r
+by contrast the model of the previous section ignored the lengths of the nl names when estimating sentence lengths assuming that all the nl names are short and approximately equally long an assumption that does not always hold
+for example the disease ontology one of the ontologies of our experiments includes an individual with an nl name that produces the noun phrase paralysis of the legs due to thrombosis of spinal arteries and another individual with an nl name that produces simply inammation
+hence a sentence that uses the former nl name to express a fact whose o is the former individual will be much longer than a sentence that uses the latter nl name to express another fact whose o is the latter individual even if both sentences are produced by the same sentence plan
+the extended model also considers the possibility of o being a conjunction or disjunction of classes individuals datatype values section as in the last fact below
+brazilianhemorrhagicfever isa viralinfectiousdisease brazilianhemorrhagicfever hasmaterialbasisin sabiavirus brazilianhemorrhagicfever transmittedby rodents brazilianhemorrhagicfever hassymptom muscleaches dizziness in the ilp model of the previous section we made no distinction between os that are single classes individuals or datatype values and os that are conjunctions or disjunctions assuming that the number of conjuncts or disjuncts respectively is always small and does not affect much the length of the resulting sentence
+in some ontologies though the number of conjuncts or disjuncts varies greatly
+in the disease ontology the number of conjuncts in the hassymptom relation ranges from to
+let us assume that we wish to generate a text for brazilianhemorrhagicfever that we are limited to expressing two facts and that all facts are equally important
+the model of the previous section might for example select the rst and last of the facts above possibly because their sentence plans are short in elements leading to the following sentence
+the brazilian hemorrhagic fever is a viral infectious disease that causes fatigue muscle aches and dizziness
+by contrast the extended ilp model takes into account that the conjunction in the o of the last fact above requires ve words
+hence it might select the rst and third facts instead producing the following shorter sentence
+the brazilian hemorrhagic fever is a viral infectious disease transmitted by rodents
+note also that selecting the rst and second facts which only have single individuals or classes as os would lead to the following sentence which is longer because of the length of the sabia virus
+the brazilian hemorrhagic fever is a viral infectious disease caused by the sabia virus
+selecting among the alternative nl names of the s of a fact r is more complicated because a longer nl name e
+
+producing the napa region bancroft chardonay wine may also convey some of the other available facts without requiring separate sentences for them thus saving words
+consider for example the following facts and assume that we wish to generate a text expressing all of them
+bancroftchardonnay isa chardonnay bancroftchardonnay locatedin naparegion bancroftchardonnay hasmaker bancroft bancroftchardonnay hasflavor moderate bancroftchardonnay hassugar dry let us also assume that bancroftchardonnay has three alternative nl names which produce bancroft chardonnay the napa region bancroft chardonnay wine and lampouras androutsopoulos generating texts with integer linear programming the moderate tasting and dry bancroft chardonnay wine respectively
+for each alternative nl name of s we invoke the mechanism of naturalowl section
+that detects redundant facts message triples with zero importance scores
+in our example if we choose to refer to s as bancroft chardonnay we do not need to produce separate sentences for the rst and third facts above since they are already indirectly expressed by the nl name of s and similarly for the other two nl names of s as shown below
+s called bancroft chardonnay bancroft chardonnay is moderate and dry
+it is produced in the napa region
+it is a chardonnay
+it is produced by bancroft
+s called the napa region bancroft chardonnay wine the napa region bancroft chardonnay wine is moderate and dry
+it is a chardonnay
+it is produced by bancroft in the napa region
+s called the moderate tasting and dry bancroft chardonnay wine the moderate tasting and dry bancroft chardonnay wine is produced in the napa region
+it is a moderate dry chardonnay
+it is produced by bancroft
+selecting the nl name that produces the shortest noun phrase bancroft chardonnay does not lead to the shortest text
+the shortest text is obtained when the second nl name is selected
+selecting the third nl name above which leads to the largest number of facts made redundant meaning facts that no longer need to be expressed as separate sentences also does not lead to the shortest text as shown above
+to further increase the range of options that the extended ilp model considers and help it to produce more compact texts when using the extended ilp model we allow alternative nl names to be provided also for individuals or classes declared as anonymous section
+possibly anonymous is now a better term
+in other words the system can refer to an individual or class declared to be possibly anonymous by using a demonstrative pronoun this or a demonstrative noun phrase mentioning the parent class e
+
+this chardonnay as with anonymous individuals and classes before but it can also use an nl name of the individual or class if provided i
+e
+declaring an individual or class as possibly anonymous licenses the use of a demonstrative or demonstrative noun phrase without excluding the use of an nl name
+continuing our example let us assume that bancroftchardonnay has been declared as possibly anonymous
+then the following texts are also possible
+demonstrative used for s this is a moderate dry chardonnay
+it is produced by bancroft in the napa region
+demonstrative noun phrase used for s this chardonnay is moderate and dry
+it is produced by bancroft in the napa region
+it is a chardonnay
+as illustrated above a demonstrative noun phrase that mentions the ancestor class e
+
+this chardonnay is also taken to express the corresponding fact about the ancestor class e
+
+bancroftchardonnay isa chardonnay
+notice also that using a some of the nl names of this article like the rst two of this example were semi automatically constructed by the methods of lampouras
+the other nl names like the third one of this example were manually authored to provide more choices to the extended ilp model
+a pronoun can also be used but pronouns are generated by the external to our ilp models referring expression generation component of naturalowl after invoking the ilp models as already discussed
+demonstrative or demonstrative noun phrase does not necessarily lead to the shortest text
+in our example the shortest text is still obtained using the second nl name
+before moving on to the formulation of the extended ilp model let us discuss how it estimates the lengths of possibly aggregated sentences
+in the ilp model of the previous section we roughly estimated the length of an aggregated sentence resulting from a subset bucket sj by counting the distinct elements of the sentence plans chosen to express the facts of sj
+for example let us assume that the distinct elements ref s stemilion passive from and ref o cabernetsauvignongrape are used in a single subset sj
+the ilp model of the previous section did not consider the lengths of the noun phrases that will be produced by the nl names of stemilion and cabernetsauvignongrape of the elements ref s stemilion and ref o cabernetsauvignongrape
+also it did not take into account that the element passive actually produces two words is made
+the extended model denes a function that maps each distinct element et to the length in words of the text it produces e
+
+is made
+more specically if et is an element referring to a single individual or class acting as the o of a message triple e
+
+ref o cabernetsauvignongrape then is the length in words of the shortest nl name of o if o is a conjunction or disjunction then is the sum of the lengths of the shortest nl names of all the conjuncts or disjuncts
+however if et is an element referring to s e
+
+ref s stemilion then because the nl name of s will be used only once at the beginning of the text and each subsequent reference to s will be via a pronoun of length e
+
+st
+emilion is red and strong
+it is made from cabernet sauvignon grapes
+the rst occurrence of the nl name is counted separately directly in the objective function discussed below
+the estimated length of a possibly aggregated sentence is the sum of the estimated lengths of the distinct elements of the sentence that produced it
+overall the extended model estimates more accurately the length of the text that will be produced though the actual text length may still be slightly different for example connectives or complementizers e
+
+and that may be added during aggregation
+we can now formally dene our extended ilp model
+as in the simpler model of section
+f is the set of available facts fi about the individual or class s we wish to generate a text for and
+
+
+are disjoint subsets of f buckets of fig
+showing which simple sentences each expressing a single fact of f will be aggregated together
+let n
+
+
+be a set of alternative nl names for s
+recall that we model only the choice of nl name for s assuming that the shortest nl name is always used for the oi of each fact fi ri
+each ai variable now indicates if the corresponding fact fi is explicitly expressed by generating a sentence if the fact fi is expressed as a sentence ai otherwise by contrast is more general di if the corresponding fact fi is conveyed either explicitly by generating a sentence for fi or implicitly via an nl name if the fact fi is expressed as a sentence or via an nl name otherwise the distinction between ai and is necessary because when a fact fi is expressed is also selected
+for example a fact fi as a sentence a sentence plan for fi lampouras androutsopoulos generating texts with integer linear programming bancroftchardonnay hasmaker bancroft can be expressed as a sentence in the nal text e
+
+this is produced by bancroft
+it comes from the napa region
+or through an nl name e
+
+bancroft chardonnay is produced in the napa region
+
+in both texts fi is expressed but in the former text ai whereas in the latter one ai
+the likj and btj variables are as in the ilp model of the previous section eq
+and
+for the extended model we also dene if the nl name nr is used for s mr otherwise similarly to the previous model s objective function the extended model s tive function maximizes the total importance of the expressed facts or simply the number of expressed facts if all facts are equally important and minimizes the length of the distinct elements in each subset sj and the length of the single initial occurrence of the nl name used to express s i
+e
+the approximate length of the resulting text
+by d b and m we jointly denote all the btj and mr variables
+the left part of the objective is the same as in the previous model with the variables ai replaced by
+in the right part we multiply the btj and mr variables with the functions and which calculate the lengths in words of the corresponding element et and nl name respectively
+the two parts of the objective function are normalized to by dividing by the total number of available facts and the number of subsets m times the total length of distinct elements plus the total length of the r available nl names
+again the parameters are used to tune the priority given to expressing many important facts vs
+generating shorter texts we set
+max d m di btj mr m subject to ai likj for i
+
+
+n m etbik btj likj for pikp et likj btj for i
+
+
+n j
+
+
+m
+
+
+t
+
+
+j
+
+
+m btj wmax for j
+
+
+m likj for
+
+
+m i
+
+
+n
+
+
+n i mr ai mr for i
+
+
+n constraints serve the same purpose as in the previous model eq
+except that constraint now limits the number of words instead of elements that a subset sj can contain to a maximum allowed number wmax
+constraint ensures that exactly one nl name is selected from the available nl names of s
+in constraint is the set of nl names that indirectly express the fact fi
+if fi is to be expressed i
+e
+then either one of the nl names in must be selected or a sentence for fi must be generated ai not both
+if fi is not to be expressed then none of the nl names in may be selected nor should a sentence be generated for fi
+
+computational complexity and approximations the models of sections
+and
+are formulated as ilp problems more precisely binary ilp problems since all their variables are binary
+solving binary ilp problems is in general np hard karp
+we also note that content selection as performed by our models is similar to the multiple knapsack problem which is also np hard
+in both cases we have n items facts m knapsacks fact subsets buckets of a certain capacity and we wish to ll the knapsacks with m disjoint subsets of the available items so that the total importance of the selected items items placed in the knapsacks is maximum
+however in our models each item fact is further associated with a set of sentence plan elements subsets of which are possibly shared in a subset bucket with other items facts and the capacity of the knapsacks is specied in distinct elements
+furthermore the elements of each item depend on the selected sentence plans there are additional constraints to comply with topical sections and the objective function of our models also tries to minimize the total length of the resulting text
+hence our models do not correspond directly to the multiple knapsack problem
+a possible approach to solve ilp models in polynomial time is to relax the constraint that variables are integer or binary and solve the resulting linear programming model lp relaxation using for example the simplex algorithm dantzig
+the resulting values of the variables are then rounded to the closest integral values
+the solution is not guaranteed to be optimal for the original ilp problem nor feasible some constraints of the original problem may be violated
+the solution of the lp relaxation though is the same as the solution of the original ilp problem if the problem can be formulated as maxx ct with constraints ax b where c a m have integer values and the matrix a is totally unimodular schrijver roth and yih
+an integer matrix is totally unimodular if every square nonsingular submatrix is unimodular i
+e
+its determinant is or
+unfortunately this is not the case in our ilp models
+in practice off the shelf solvers that solve the original ilp problem not the lp relaxation are very fast when the number of variables is small
+our experiments show that solving the rst ilp model is reasonably fast provided that the number of fact subsets buckets is m
+indeed m seems to be the greatest factor to the model we use the branch and cut implementation of glpk with mixed integer rounding mixed cover and clique cuts see
+net projects
+lampouras androutsopoulos generating texts with integer linear programming figure illustration of the approximation of the rst ilp model
+complexity the number of variables in the model grows exponentially to m while the effect of the other parameters e
+
+number of available facts is weaker
+we did not examine experimentally how the solving times of the extended ilp model relate to the number of subsets m however the variables in the extended model also grow exponentially to the number of fact subsets m
+when the number of variables is too large to solve the rst ilp model efciently we use an approximation of the model which considers each fact subset bucket gated sentence of the nal text separately fig
+
+we start with the full set of available facts f and use the rst ilp model with m to produce the rst aggregated sentence of the nal text
+we then remove the facts expressed by the rst aggregated sentence from f and use the ilp model again with m to produce the second aggregated sentence
+this process is repeated until we produce the maximum number of allowed aggregated sentences or until we run out of available facts
+since the approximation of the rst ilp model does not consider all the fact subsets jointly it does not guarantee nding a globally optimal solution for the entire text
+nevertheless experiments presented below that compare the approximation to the original rst ilp model show no apparent decline in text quality nor in the ability to produce compact texts
+solving times now grow almost linearly to both the number of subsets m and the number of available facts
+furthermore decreases in every subsequent solving of the model to produce the next aggregated sentence of the text which reduces the time needed by the solver
+our experiments indicate that the approximation can guarantee practical running times even for m while still outperforming the pipeline approach in terms of producing more compact texts
+the same approximation considering each fact subset separately can be applied to our extended ilp model
+we did not experiment with the approximation of the extended model however because the only ontology we considered that required m and hence an approximation consumer electronics ontology did not require the extended model the lengths of the nl names did not vary signicantly and we could not think of alternative nl names for the products being described
+
+experiments we now present the experiments we performed to evaluate our ilp models
+we rst discuss the ontologies and systems that were used in our experiments
+
+the ontologies of our experiments we experimented with three owl ontologies the wine ontology which provides information about wines wine producers
+the consumer electronics ontology intended to help exchange information about consumer electronics products and the disease ontology which describes diseases including their symptoms causes
+the wine ontology is one of the most commonly used examples of owl ontologies and involves a wide variety of owl constructs hence it is a good test case for systems that produce texts from owl
+the consumer electronics and disease ontologies were constructed by biomedical and e commerce experts to address real life information needs hence they constitute good real world test cases from different domains
+the wine ontology contains wine classes wine individuals a total of classes and individuals including wineries regions
+and relations properties
+manually authored high quality domain dependent generation resources text plans sentence plans nl names
+for naturalowl are available for this ontology from our previous work androutsopoulos lampouras and galanis
+the consumer electronics ontology comprises classes and individuals e
+
+printer types paper sizes manufacturers but no information about particular ucts
+in previous work androutsopoulos lampouras and galanis we added individuals digital cameras camcorders printers
+the individuals were randomly selected from a publicly available dataset of digital cameras camcorders and printers that complies with the consumer electronics ontology
+from these individuals we generate texts for the development individuals cameras camcorders printers for which high quality manually authored domain dependent generation resources are available from our previous work
+the disease ontology currently contains information about diseases all resented as classes
+apart from is a relations synonyms and pointers to related terms however all the other information is represented using strings containing quasi english sentences with relation names used mostly as verbs
+for example there is an axiom in the ontology stating that the rift valley fever is a kind of viral infectious disease
+all the other information about the rift valley fever is provided in a string shown below as denition
+the tokens that contain underscores e
+
+consult
+
+org tr owl guide wine
+
+ebusinessunibw
+org ontologies consumerelectronics and ontology
+
+the dataset was obtained from
+esolda
+
+a list of similar datasets is available at
+goodrelations vocabulary
+org datasets
+lampouras androutsopoulos generating texts with integer linear programming are relation names
+the ontology declares all the relation names but uses them only inside denition strings
+apart from diseases it does not dene any of the other entities mentioned in the denition strings e
+
+symptoms viruses
+name rift valley fever is a viral infectious disease denition a viral infectious disease that infection rift valley fever virus which is aedes mosquitoes
+the virus affects domestic animals cattle buffalo sheep goats and camels and humans
+the infection jaundice vomiting blood passing blood in the feces ecchymoses caused by bleeding in the skin ing from the nose or gums menorrhagia and bleeding from venepuncture sites
+we dened as individuals all the non disease entities mentioned in the denition strings also adding statements to formally express the relations mentioned in the original denition strings
+for example the resulting ontology contains the ing denition of rift valley fever where infection jaundice
+are new individuals
+infection jaundice menorrhagia the new form of the ontology was produced automatically using patterns that searched the denition strings for relation names e
+
+sentence breaks and words introducing secondary clauses e
+
+that which
+some sentences of the nal denition strings that did not include declared relation names e
+
+the virus affects
+
+
+and humans in the denition string of rift valley fever were discarded because they could not be automatically converted to appropriate owl statements
+the new form of the disease ontology contains classes relations and individuals
+from the classes all describing diseases classes participate only in is a and synonym relations hence texts for them would not be particularly interesting
+from the remaining classes we generate texts for the randomly selected development classes of evaggelakaki for which manually authored domain dependent generation resources for naturalowl are available
+
+the systems of our experiments we call pipeline the original naturalowl which uses a pipeline architecture
+two modied versions of naturalowl called ilpnlg and ilpnlgextend use our rst the new form of the disease ontology that we produced is available upon request and will be made publicly available when this article is published
+and extended ilp models respectively
+all the systems of our experiments share the same linguistic resources e
+
+text plans sentence plans nl names aggregation rules ontologies and importance scores all facts are assigned an importance of except for facts that are automatically assigned zero importance scores section
+
+pipeline has a parameter m specifying the number of facts to report per generated text
+during content selection pipeline ranks all the available facts f by decreasing importance and selects the m most important ones or all of them if m selecting randomly among facts with the same importance when needed
+in the experiments that follow we generated texts with pipeline for different values of m
+for each m value the texts of pipeline were generated t times each time using a different randomly selected alternative sentence plan of each relation and a different randomly selected nl name of each individual or class when multiple alternative nl names were available
+for the pipeline model we assume that the sentence plans and nl names are uniformly distributed with each being equally probable to be selected
+for the aggregation of the selected facts pipeline uses the text planner from the original naturalowl
+the text planner is invoked after content selection to partition the selected facts into topical sections and to order the topical sections and the facts within each topical section
+the aggregation rules are then applied to all the facts of each topical section also considering their selected sentence plans
+from the t generated texts pipeline returns the one which is estimated to have the highest facts per word ratio
+rather than use the actual length of each produced text to calculate the facts per words ratio the number of words is instead estimated as the sum of distinct elements in each sentence of the text to better align the objective of pipeline to that of ilpnlg
+we also generated the texts for different values of m using a variant of pipeline dubbed pipelinestoch which selects randomly amongst available facts in addition to sentence plans and nl names
+however unlike pipeline the probability of each sentence plan or nl name is based on their respective length in distinct elements with the shortest ones being more probable to be selected
+the fact s probabilities are similarly estimated by the length of the shortest sentence plan and nl name available to them
+in regards to aggregation pipelinestoch constructs fact subsets corresponding to sentences in the nal text with the objective of minimizing the number of distinct elements in each subset similarly to ilpnlg
+each subset is initialized with random facts sampled based on the length of their available resources and subsequent facts are randomly placed in each subset with probabilities estimated on the number of elements each fact has in common with the facts already in that particular subset
+as with pipeline for each m the texts are generated t times and the one with the highest facts per word ratio is used for the evaluation
+a greedier variant of pipeline pipelineshort always selects the shortest in elements sentence plan among the available ones and the shortest in words nl name
+in pipelineshort if a subset of facts has the same importance they are additionally ranked by increasing length of the shortest sentence plan and nl name available to each this way the fact with the potential to generate the shortest sentence will be selected rst
+our nal baseline pipelinebeam extends the output of pipelineshort by ing beam search to select alternative facts sentence plans nl names and fact subsets
+during content selection pipelinebeam selects the subset of m facts with the shortest sentence plans and nl names available to them similarly to pipelineshort and subsequently replaces a single random based on the length of the available resources fact from this subset with a random non selected fact
+this process is repeated until k additional fact subsets are constructed all differing from the initial subset by one replaced fact
+in a similar way k different sentence plan assignments k different lampouras androutsopoulos generating texts with integer linear programming nl name assignment and k different fact subset assignments are also constructed differing from the respective assignments of pipelineshort by one substitution each
+the combination of these assignments result in k k k k different texts for each m
+as in the other baselines the text amongst these with the highest estimated facts per words ratio is used for the evaluation
+to better compare the output of the pipeline baselines we set the number of ated texts t that pipeline pipelinestoch and pipelineshort generate to k k k k as pipelinebeam
+all the systems use the same text planner from the original naturalowl which is invoked before content selection to partition the facts into topical sections and to order the topical sections and the facts within each topical section
+each of the systems described above have different strategies to partition the selected facts after content selection in sentences
+the selected facts retain the order given from the text planner and the sentences inherit the minimum order of their included facts
+afterwards gregation rules are applied to all the facts of each fact subset also considering their selected sentence plans
+the text planner is rst invoked before using the ilp models to partition all the available facts f into topical sections
+it is also invoked after using one of the ilp models to order the sentences in each group bucket that the ilp model has decided to aggregate as already noted the aggregation rules presuppose that the sentences to be aggregated are already ordered which is why the text planer is invoked at this point
+after applying the aggregation rules to each group of ordered sentences ilpnlg and ilpnlgextend invoke the text planner again to order the topical sections and the now aggregated sentences within each topical section
+ilpnlg assumes that there is a single nl name per individual or class excluding anonymous ones and hence can not be used when multiple alternative nl names are available
+by contrast ilpnlgextend can handle multiple alternative nl names
+for each text it selects a single nl name per individual and class as discussed in section
+which is then replaced by a demonstrative demonstrative noun phrase or pronoun whenever the referring expression generation component of the original naturalowl decides to
+pipeline and pipelineshort can also handle multiple nl names but pipeline selects randomly among the alternative nl names and neshort selects always the shortest one
+like ilpnlgextend for each text pipeline and pipelineshort select a single nl name per individual and class which is then replaced by a demonstrative demonstrative noun phrase or pronoun whenever the referring expression generation component of the original naturalowl decides to
+a variant of pipelineshort called pipelineshort always selects the est now in words sentence plan among the available ones and the nl name of s the individual or class the text is generated for that indirectly expresses the largest number of available facts fi ri section
+thus not requiring sentences to express them
+for oi pipelineshort selects the same shortest in words nl name as ilpnlgextend and pipelineshort
+otherwise pipelineshort is identical to pipelineshort
+pipelineshort is a more appropriate baseline for ilpnlgextend than pipelineshort because like ilpnlgextend it estimates the lengths of sentences and nl names in words and it takes into account that nl names may indirectly express some of the available facts
+selecting the nl name of s that expresses the largest number of available facts usually leads to better facts per word ratios than simply selecting the shortest in words nl name of s
+if several nl names of s express the same number of available facts pipelineshort selects the shortest in words nl name
+finally ilpnlgapprox denotes a system that is identical to ilpnlg it uses our rst ilp model but with the approximation of section whereby each possibly aggregated sentence of the text is generated separately
+
+overview of the experiments before presenting the details of our experiments let us rst provide an overview
+we started by comparing ilpnlg to pipeline and pipelineshort on the wine ontology where experiments showed that ilpnlg leads to more compact texts i
+e
+texts with higher facts per word ratios with no deterioration in the perceived quality of the resulting texts compared to the texts of pipeline and pipelineshort
+we then tried to repeat the same experiments on the consumer electronics ogy but ilpnlg was too slow in many cases because of the larger number of available facts per product and the larger m number of subsets buckets required to express all or many of the available facts
+to address this problem we developed the approximation section of ilpnlg which is used in ilpnlgapprox
+the tion was much more efcient and achieved higher facts per word ratios than pipeline and pipelineshort with no deterioration in the perceived quality of the texts
+in texts expressing many facts the perceived quality of the texts of ilpnlgapprox was actually higher comparing to the texts of pipeline and pipelineshort
+we then moved on to the disease ontology to experiment with an additional domain
+since the disease ontology only required m fact subsets to express all the available facts per disease ilpnlgapprox was not required and ilpnlg was used instead
+we found that ilpnlg did not always perform better than pipeline and pipelineshort in terms of facts per word ratios because the lengths of the nl names of the disease ontology vary a lot and there are also several facts r whose o is a conjunction sometimes with many conjuncts
+to address these issues we extended ilpnlg to ilpnlgextend which consistently produced more compact texts than pipeline and pipelineshort on the disease ontology
+lastly we returned to the wine ontology to see how ilpnlgextend performs with multiple alternative nl names
+for this experiment we created alternative nl names for the individuals and classes of the wine ontology we could not do the same for the consumer electronics and disease ontologies because the names of electronic products tend to be unique and we did not have the expertise to create alternative names of diseases
+indeed ilpnlgextend produced more compact texts than pipeline and pipelineshort from the wine ontology when multiple nl names were available
+
+experiments with the wine ontology in a rst set of experiments we used the wine ontology along with the manually authored domain dependent generation resources e
+
+text plans nl names sentence plans we had constructed for this ontology in previous work androutsopoulos pouras and galanis
+we added more sentence plans to ensure that three sentence plans were available per relation
+a single nl name was available per individual and class in these experiments
+we generated english texts for the wine individuals of the ontology we did not experiment with texts describing classes because we could the domain dependent generation resources of that we used in all the experiments of this article are available upon request and will be made publicly available when this article is published
+lampouras androutsopoulos generating texts with integer linear programming figure facts per word ratios for the wine ontology grouped by m or values
+not think of multiple alternative sentence plans for many of their axioms
+for each wine individual there were available facts on average and a maximum of facts
+we generated texts with ilpnlg pipeline and pipelineshort for the uals
+with pipeline and pipelineshort we generated texts for m recall that m is the number of selected facts per text and that for each m value the texts of pipeline and pipelineshort are generated three times with randomly selected sentence plans section
+
+with ilpnlg we repeated the generation of the texts of the individuals using different values which led to texts expressing from zero to all of the available facts
+we set the maximum number of fact subsets to m which was the maximum number of sentences after aggregation in the texts of pipeline and pipelineshort
+all three systems were allowed to form aggregated tences with up to bmax distinct elements this was the number of distinct elements of the longest aggregated sentence in our previous experiments androutsopoulos lampouras and galanis where pipeline was allowed to combine up to three simple expressing one fact each sentences to form an aggregated one
+for each m value in the case of pipeline and pipelineshort and for each value in the case of ilpnlg we measured the average over the texts number of facts each system reported per text horizontal axis of fig
+and the average again over the texts number of facts each system reported per text divided by the average over the texts number of words vertical axis of fig
+with error bars showing condence intervals
+as one would expect pipelineshort expressed on average more facts per word fig
+than pipeline but the differences were small
+for
+far left of fig
+ilpnlg produces empty texts because it focuses on minimizing the number of distinct elements of each text
+for
+it performs better than pipeline and pipelineshort
+for
+it obtains the highest average facts per word ratio by selecting the facts and sentence plans that lead to the most compressive aggregations
+for greater values of it selects additional facts whose sentence plans do not aggregate that well which is why the ratio declines
+when m is small the two pipeline systems often select facts and sentence plans that offer few aggregation tunities as the number of selected facts increases some more aggregation opportunities arise which is why the facts per word ratio of the two systems improves
+we modied pipeline and pipelineshort to count distinct elements during aggregation
+for
+
+ilpnlg s results were identical
+figure facts per word ratios for the wine ontology grouped by numer of reported facts
+figure provides an alternative view of the behavior of the three systems
+in this case we group together all the texts of each system regardless of the m or values that were used to generate them that report or facts horizontal axis of fig
+
+for each group and each system we show vertical axis of fig
+the average number of reported facts per text divided by the average number of words of the texts in the group
+again fig
+shows that ilpnlg produces clearly more compact texts than pipeline and pipelineshort with the difference between the latter two systems being very small
+in all the experiments of this section the ilp solver used in ilpnlg was very fast average
+sec worst
+sec per text
+we show below sample texts generated by pipeline and pipelineshort both with m and ilpnlg with
+
+pipeline this sauternes has strong avor
+it is made from sauvignon blanc and semillon grapes and it is produced by chateau dychem
+pipelineshort this is a strong sauternes
+it is made from sauvignon blanc and semillon grapes and it is produced by chateau dychem
+ilpnlg this is a strong sauternes
+it is made from sauvignon blanc and semillon grapes by chateau dychem
+pipeline this riesling has sweet taste and it is full bodied
+it is made by schloss volrad
+pipelineshort this is a full sweet riesling
+it is produced by schloss volrad
+ilpnlg this is a full sweet moderate riesling
+in the rst group of generated texts above pipeline and pipelineshort use different verbs for the grapes and producer whereas ilpnlg uses the same verb which leads to we remove from each group duplicate texts of the same system for different m or values
+if we still have more than one texts of the same system for the same individual or class in the same group we keep only the text with the best facts per word ratio to avoid placing too much emphasis on individuals and classes with many texts in the same group
+especially for pipeline whose texts are generated three times per individual and class for each m value we keep the three texts regardless of m value excluding duplicates with the highest facts per word ratios per individual or class in each group
+figure and all the similar gures in the remainder of this article include error bars corresponding to condence intervals but the intervals are so small that they can hardly be seen
+lampouras androutsopoulos generating texts with integer linear programming table human scores for wine ontology texts
+criteria sentence uency text structure clarity overall pipelineshort
+
+
+
+
+
+
+
+ilpnlg
+
+
+
+
+
+
+
+a more compressive aggregation all the texts of the rst group describe the same wine and report four facts each
+in the second group of generated texts above ilpnlg has chosen to report the moderate avor of the wine instead of the producer and uses the same verb is for all the facts leading to a shorter sentence again all the texts of the second group describe the same wine and report four facts each
+recall that we treat all non redundant facts as equally important in our experiments
+in both groups of texts some facts are not aggregated because they belong in different topical sections
+we also wanted to investigate the effect of the higher facts per word ratio of ilpnlg on the perceived quality of the generated texts compared to the texts of the pipeline systems
+we were concerned that the more compressive aggregations of ilpnlg might lead to sentences sounding less uent or unnatural though aggregation is often used to produce more uent texts
+we were also concerned that the more compact texts of ilpnlg might be perceived as being more difcult to understand less clear or less well structured
+to investigate these issues we showed the texts of pipelineshort m and ilpnlg
+to computer science students dergraduates and graduates who were not involved in the work of this article they were all uent though not native english speakers
+we did not use pipeline in this experiment since its facts per word ratio was similar to that of pipelineshort
+each one of the texts was given to exactly one student
+each student was given imately randomly selected texts of each system
+the owl statements that the texts were generated from were not shown and the students did not know which system had generated each text
+each student was shown all of his her texts in random order regardless of the system that generated them
+the students were asked to score each text by stating how strongly they agreed or disagreed with statements below
+a scale from to was used strong disagreement ambivalent strong agreement
+sentence uency the sentences of the text are uent i
+e
+each sentence on its own is grammatical and sounds natural
+when two or more smaller sentences are combined to form a single longer sentence the resulting longer sentence is also grammatical and sounds natural
+text structure the order of the sentences is appropriate
+the text presents information by moving reasonably from one topic to another
+clarity the text is easy to understand if the reader is familiar with basic wine terms
+the students were also asked to provide an overall score per text
+we did not score referring expressions since both systems use the same component for them
+we note that although both systems use the same text planner in pipelineshort and all the pipeline variants the text planner is invoked once whereas in ilpnlg and ilpnlgextend it is invoked at different stages before and after using the ilp model section
+which is why we collected text structure scores too
+table shows the average scores of the two systems with condence intervals
+for each criterion the best score is shown in bold
+the sentence uency and overall scores of ilpnlg are slightly higher than those of pipelineshort whereas figure average solver times for ilpnlg with different maximum numbers of fact subsets m for the consumer electronics ontology
+figure average solver times for ilpnlg with different numbers of available facts and m for the consumer electronics ontology
+neshort obtained a slightly higher score for text structure and clarity
+the differences however are very small especially in clarity and we detected no statistically signicant difference between the two systems in any of the criteria
+hence there was no dence in these experiments that the higher facts per word ratio of ilpnlg comes at the expense of lower perceived text quality
+we investigated these issues further in a second set of experiments discussed in the next section where the generated texts were longer
+
+experiments with the consumer electronics ontology in the second set of experiments we used the consumer electronics ontology with the manually authored domain dependent generation resources e
+
+text plans nl names sentence plans of our previous work androutsopoulos lampouras and galanis
+as in the previous section we added more sentence plans to ensure that three sentence plans were available for almost every relation for some relations we could not think of enough sentence plans
+again a single nl name was available per individual and class
+we generated english texts with ilpnlg pipeline pipelineshort for the opment individuals section
+using m
+
+
+in the two pipeline systems and different values of in ilpnlg
+all three systems were allowed to form aggregated sentences with up to bmax distinct elements this was the number of distinct elements of the longest aggregated sentence in the experiments of our previous work androutsopoulos lampouras and galanis where pipeline was allowed to combine up to three simple expressing one fact each sentences to form an aggregated one
+there are available facts on average and a maximum of facts for each one of the development individuals compared to the available facts on average and the maximum of facts of the wine ontology
+hence the texts of the consumer electronics ontology are much longer when they report all the available facts
+in ilpnlg we would have to set the maximum number of fact subsets to m which was the maximum number of aggregated sentences in the texts of pipeline and we performed analysis of variance anova and post hoc tukey tests to check for statistically signicant differences
+a post hoc power analysis of the anova values resulted in power values greater or equal to
+
+we also note that in similar previous experiments androutsopoulos lampouras and galanis inter annotator agreement was strong sample pearson correlation r
+
+lampouras androutsopoulos generating texts with integer linear programming figure average solver times for ilpnlgapprox with different numbers of fact subsets m for the consumer electronics ontology
+figure average solver times for ilpnlgapprox with different numbers of available facts and m for the consumer electronics ontology
+pipelineshort
+the number of variables of our ilp model however grows tially to m and fig
+though the effect of is weaker
+figure shows the average time the ilp solver took for different values of m in the experiments with the consumer electronics ontology the results are averaged over the development individuals and also for
+
+
+
+for m the solver took minute and seconds on average per text recall that is also much larger now compared to the experiments of the previous section
+for m the solver was so slow that we aborted the experiment
+figure shows the average solver times for different numbers of available facts for m in this case we modied the set of available facts f of every individual to contain facts
+the results are again averaged over the development individuals and for
+
+
+
+although the times of fig
+also grow exponentially to they remain under seconds showing that the main factor to the complexity of ilpnlg is m the number of fact subsets i
+e
+the maximum allowed number of aggregated sentences of each text
+to efciently generate texts with larger m values we developed ilpnlgapprox the approximation of ilpnlg that considers each fact subset separately section
+figures show the average solver times of ilpnlgapprox for different values of m and respectively all the other settings are as in fig
+
+the solver times now grow approximately linearly to m and and are under
+seconds in all cases
+in figure we compare ilpnlg to ilpnlgapprox by showing their average fact per word ratios computed as in fig
+section
+
+we set m in ilpnlg to keep the solving times low in ilpnlgapprox we experimented with both m the value used in ilpnlg and m the value that was actually needed
+in all cases bmax
+the facts per word ratios of all three systems are very similar
+we conclude that ilpnlgapprox achieves very similar results to ilpnlg in much less time
+figures and show the facts per word ratios of ilpnlgapprox m pipeline and pipelineshort computed in two ways as in section
+for the texts of the development individuals
+again pipelineshort achieves slightly better results than pipeline
+the behavior of ilpnlgapprox in figure is very similar to the behavior of ilpnlg on the wine ontology fig
+for
+it produces empty texts while for
+it performs better than the other systems
+ilpnlgapprox obtains the highest facts per word ratio for
+where it selects the facts and sentence plans that lead to the most compressive aggregations
+for greater values of it selects additional facts whose sentence plans do not aggregate that well which is why the figure comparing the facts per word ratios of ilpnlgapprox and ilpnlg in texts generated from the consumer electronics ontology
+figure facts per word ratios for the consumer electronics ontology grouped by m or values
+ratio declines
+the two pipeline systems select facts and sentence plans that offer very few aggregation opportunities as the number of selected facts increases some more aggregation opportunities arise which is why the facts per word ratio of the two systems improves more clearly in fig
+
+figure also shows that ilpnlgapprox generates more compact texts than pipeline and pipelineshort
+we show below three example texts produced by pipeline pipelineshort both with m and ilpnlgapprox
+m
+each text reports six facts but ilpnlgapprox has selected facts and sentence plans that allow more compressive aggregations
+recall that we treat all the facts as equally important
+if importance scores are also available e
+
+if dimensions are less important they can be added as multipliers of i in the objective function eq
+of the ilp model
+pipeline sonysony dcr requires minimum illumination of
+lux and its display is
+in
+it features a sports scene mode it includes a microphone and an ir remote control
+its weight is
+grm
+pipelineshort sony dcr requires minimum illumination of
+lux and its display is
+in
+it features a sports scene mode it includes a microphone and an ir remote control
+it weighs
+grm
+lampouras androutsopoulos generating texts with integer linear programming figure facts per word ratios for the consumer electronics ontology grouped by reported facts
+ilpnlgapprox sony dcr has a microphone and an ir remote control
+it is
+mm high
+mm wide
+mm deep and it weighs
+grm
+we showed the texts of pipelineshort m and ilpnlgapprox
+m to the same six students that participated in the experiments with the wine ontology section
+
+again each text was given to exactly one student
+each student was given approximately randomly selected texts of each system
+the owl statements were not shown and the students did not know which system had generated each text
+each student was shown all of his her texts in random order regardless of the system that generated them
+the students were asked to score each text by stating how strongly they agreed or disagreed with statements as in section
+
+they were also asked to provide an overall score per text
+table shows the average scores of the two systems with condence intervals
+for each criterion the best score is shown in bold the condence interval of the best score is also shown in bold if it does not overlap with the condence interval of the other system
+unlike the wine ontology experiments table the scores of our ilp approach with the approximation of ilpnlgapprox are now higher than those of pipelineshort in all of the criteria and the differences are also larger though we found the differences to be statistically signicant only for clarity and overall quality
+we attribute these larger differences compared to the wine ontology experiments to the fact that the texts are now longer and the sentence plans more varied which often makes the texts of pipelineshort sound verbose and hence more difcult to follow compared to the more compact texts of ilpnlgapprox which sound more concise
+overall the human scores of the experiments with the wine and consumer tronics ontologies suggest that the higher facts per word ratios of our ilp approach do not come at the expense of lower perceived text quality
+on the contrary the texts of the when two condence intervals do not overlap the difference is statistically signicant
+when they overlap the difference may still be statistically signicant we performed analysis of variance anova and post hoc tukey tests to check for statistically signicant differences in those cases
+a post hoc power analysis of the anova values resulted in power values greater or equal to
+
+table human scores for consumer electronics texts
+criteria sentence uency text structure clarity overall pipelineshort
+
+
+
+
+
+
+
+ilpnlgapprox
+
+
+
+
+
+
+
+figure facts per word ratios grouped by m or values of ilpnlg pipeline and pipelineshort for texts generated from the disease ontology
+ilp approach may be perceived as clearer and overall better than those of the pipeline when the texts report many facts
+
+experiments with the disease ontology in a third set of experiments we generated texts for the development classes section
+of the disease ontology using the manually authored domain dependent generation resources e
+
+text plans nl names sentence plans of evaggelakaki but with additional sentence plans we constructed to ensure that there were three alternative sentence plans per relation
+we generated texts with ilpnlg pipeline and pipelineshort for m
+
+
+in the two pipeline systems and different values of in ilpnlg
+all three systems were allowed to form aggregated sentences with up to bmax distinct elements this was the number of distinct elements of the longest aggregated sentence in the experiments of evaggelakaki where pipeline was allowed to combine up to three simple expressing one fact each sentences to form an aggregated one
+there are
+available facts on average and a maximum of facts for each one of the classes
+in ilpnlg we set m which was the maximum number of aggregated sentences in the texts of pipeline and pipelineshort
+we did not use ilpnlgapprox since ilpnlg was reasonably fast average solver time
+sec per text worst
+sec per text because of the smaller values of m and compared to the experiments of the consumer electronics ontology
+lampouras androutsopoulos generating texts with integer linear programming figure facts per word ratios grouped by reported facts of ilpnlg pipeline and pipelineshort for texts generated from the disease ontology
+figure facts per word ratios grouped by m or values of ilpnlgextend pipeline and pipelineshort for texts generated from the disease ontology
+figures and show the facts per word ratios of ilpnlg pipeline and neshort computed in two ways as in section
+for the texts of the classes
+pipelineshort achieves only slightly better results than pipeline in both gures
+also fig
+shows that ilpnlg produces more compact texts than the two pipeline systems
+in figure however the difference between ilpnlg and the two pipeline systems is less clear
+for small values ilpnlg produces empty texts because it focuses on minimizing the number of distinct elements of each text
+for
+it performs only marginally better than pipelineshort unlike previous experiments cf
+fig
+and
+we attribute this difference to the fact that ilpnlg does not take into account the lengths of the nl names which vary a lot in the disease ontology nor does it take into account that the o of many facts r is a conjunction
+these issues were addressed in our extended ilp model section
+which is used in ilpnlgextend
+we then generated texts for the classes again this time with pipeline neshort both with m
+
+
+wmax and ilpnlgextend m wmax figure facts per word ratios grouped by reported facts of ilpnlgextend pipeline and pipelineshort for texts generated from the disease ontology
+we modied pipeline and pipelineshort to count words instead of elements when comparing against ilpnlgextend which is why we report wmax in all three systems
+similarly to how bmax was previously selected wmax was the number of words of the longest aggregated sentence in the experiments of evaggelakaki
+figures and show the new facts per word ratios for the texts of the classes
+in figure for
+ilpnlgextend produces empty texts because it focuses on minimizing the lengths of the texts
+for
+ilpnlgextend now performs clearly better than the pipeline systems obtaining the highest facts per word ratio for
+notice that we now compare to pipelineshort which is a better baseline for ilpnlgextend than pipelineshort section
+
+figure also conrms that ilpnlgextend outperforms the pipeline systems
+the ilp solver was actually slightly faster with ilpnlgextend average
+sec worst
+sec per text compared to ilpnlg average
+sec worst
+sec per text
+we show below three example texts produced by pipeline pipelineshort both with m and ilpnlgextend
+
+each text reports three facts but gextend has selected facts with fewer and shorter nl names and sentence plans that lead to better sentence aggregation
+recall that we treat all facts as equally important in these experiments but that our ilp models can also handle importance scores e
+
+treating facts reporting symptoms as more important than facts about is a relations
+pipeline nephropathia epidemica can be found in the kidneys
+it can often cause myalgia nausea renal failure vomiting abdominal pain headaches internal hemorrhage and back pain and it results in infections
+pipelineshort nephropathia epidemica is a kind of hemorrhagic fever with renal syndrome
+it originates from bank voles and it is caused by the puumala virus
+ilpnlgextend nephropathia epidemica results in infections
+it often originates from bank voles from the puumala virus
+
+further experiments with the wine ontology the experiments of the previous section tested the ability of ilpnlgextend to take into account the different lengths of nl names and the fact that some facts r lampouras androutsopoulos generating texts with integer linear programming involve conjunctions or disjunctions in their o
+they did not however test the ability of ilpnlgextend to cope with multiple alternative nl names per individual or class
+the consumer electronics and disease ontologies were inappropriate in this respect because the names of electronic products tend to be unique and we did not have the expertise to create alternative names of diseases as already noted
+instead we returned to the wine ontology which had been used in section
+with a single nl name per individual and class
+we now added more nl names to the wine ontology to ensure that approximately three nl names on average with a minimum of and a maximum of were available for each one of the individual and classes we generated texts for
+we generated texts for the wine individuals and of the wine classes of the wine ontology using pipeline pipelineshort and ilpnlgextend
+all three systems were allowed to form aggregated sentences with up to wmax words again we modied pipeline and pipelineshort to count words instead of elements when comparing against ilpnlgextend which is why we report wmax for all three systems
+similarly to section
+wmax was set to the number of words of the longest aggregated sentence in the experiments of our previous work sopoulos lampouras and galanis where pipeline was allowed to combine up to three simple expressing one fact each sentences to form an aggregated one
+in ilpnlgextend we used different values for setting m as in section
+
+in pipeline and pipelineshort we used m
+
+
+
+for each m value the texts of pipeline for the individuals and classes were generated times not unlike all the previous experiments with pipeline each time we used one of the different alternative sentence plans for each relation and one of the different alternative nl names for the individual or class the text was being generated for since pipeline can not select among alternative nl names and sentence plans by itself
+figures and show the facts per word ratios computed in two ways as in section
+
+in fig
+for
+ilpnlgextend produces empty texts because it focuses on minimizing the length of each text
+for
+it performs clearly better than the other systems
+for
+it obtains the highest facts per word ratio by selecting the facts and sentence plans that lead to the shortest in words aggregated sentences and nl names that indirectly express facts not requiring separate sentences
+for greater values of ilpnlgextend selects additional facts whose sentence plans do not aggregate that well or that can not be indirectly expressed via nl names which is why the ratio of ilpnlgextend declines
+we note that the highest average facts per word ratio of ilpnlgapprox
+for
+of fig
+is higher than the highest average ratio
+for
+we had obtained in section
+with ilpnlg fig
+
+also the overall values of are now smaller
+this is due to the larger number of factors in the right part of the objective function eq
+of ilpnlgextend
+figure conrms that ilpnlgextend outperforms the pipelines
+in the experiments of this section with ilpnlgextend the ilp solver was very fast average
+sec worst
+sec per text
+we show below texts produced by pipeline pipelineshort both with m and ilpnlgextend
+
+all texts describe the same wine and report four facts
+in the experiments of section
+we had not generated texts for wine classes because we could not think of alternative sentence plans for their axioms
+in the experiments of this section we generated texts for out of wine classes because we were able to provide alternative nl names for them
+generating texts for the additional classes required raising the maximum m value to unlike the experiments of section
+where it was
+figure fact per word ratios grouped by m or values of the additional wine ontology experiments
+figure fact per word ratios grouped by reported facts of the additional wine ontology experiments
+pipeline this sauvignon blanc is dry and medium
+it is made by stonleigh and it is produced in new zealand
+pipelineshort this delicate tasting and dry sauvignon blanc wine originates from new zealand
+ilpnlgextend this stonleigh sauvignon blanc is dry delicate and medium
+ilpnlgextend chose an nl name that avoids expressing the maker as a separate sentence and used the same verb is to express the other three facts allowing a single aggregated sentence to be formed
+it also avoided expressing the origin new zealand which would require a long sentence that would not aggregate well with the others
+marciniak and strube proposed an ilp approach to language processing lems where the decisions of classiers that consider different but co dependent
+related work lampouras androutsopoulos generating texts with integer linear programming tasks need to be combined
+they applied their approach to the generation of sentence route directions by training classiers whose decisions affect the generated text on a parallel corpus consisting of semantic representations and route directions
+the classiers control the ordering and lexicalization of phrases and a simple form of aggregation mainly the choice of connectives between the phrases
+marciniak and strube aimed to generate uent and grammatically correct texts by contrast our ilp models employ manually authored linguistic resources that guarantee uent and matical texts as also conrmed by our experiments and make no decisions directly affecting uency or grammaticality
+instead our models make decisions related to content selection lexicalization aggregation using more complex rules than marciniak and strube and a limited form of referring expression generation in the case of our extended model aiming to produce more compact texts without invoking classiers
+barzilay and lapata treated content selection as an optimization problem
+given a pool of facts database entries and scores indicating the importance of ing or excluding each fact or pair of facts their method selects the facts to express by solving an optimization problem similar to energy minimization
+a solution is found by applying a minimal cut partition algorithm to a graph representing the pool of facts and the importance scores
+the importance scores of single facts are obtained via supervised machine learning adaboost from a dataset of sports facts and news articles expressing them
+the importance scores of pairs of facts depend on parameters tuned on the same dataset using simulated annealing
+our ilp models are simpler in that they allow importance scores to be associated only with single facts not pairs of facts
+on the other hand our models jointly perform content selection lexicalization aggregation and limited referring expression generation not just content selection
+in other work barzilay and lapata consider sentence aggregation
+given a set of facts again database entries that a content selection stage has produced tion is viewed as the problem of partitioning the facts into optimal subsets similar to the buckets of our ilp models
+sentences expressing facts of the same subset are aggregated to form a longer sentence
+the optimal partitioning maximizes the pairwise similarity of the facts in each subset subject to constraints that limit the number of subsets and the number of facts in each subset
+a maximum entropy classier predicts the semantic similarity of each pair of facts and an ilp model is used to nd the optimal partitioning
+by contrast our ilp models aggregate sentences by minimizing the distinct elements of each subset to maximize the aggregation opportunities in each subset taking care not to aggregate together sentences expressing facts from different topics an external text planner partitions the available facts into topical sections
+again our models have broader scope in the sense that they jointly perform content selection lexicalization aggregation and limited referring expression generation not just aggregation
+althaus et al
+show that the ordering of a set of sentences to maximize local sentence to sentence coherence is equivalent to the traveling salesman problem and hence np complete
+they also provide an ilp formulation of the problem which can be solved efciently in practice using branch and cut with cutting planes
+our models do not order the sentences or facts of the generated texts relying on an external text planner instead
+it would be particularly interesting to add sentence or fact ordering to our models along the lines of althaus et al
+in future work
+kuznetsova et al
+use ilp to generate image captions
+they train classiers to detect the objects in each image
+having identied the objects of a given image they retrieve phrases from the captions of a corpus of images focusing on the captions of objects that are similar color texture shape to the ones in the given image
+to select which objects of the image to report a kind of content selection and in what order kuznetsova et al
+maximize via ilp the mean of the condence scores of the object detection classiers and the sum of the co occurrence probabilities of the objects that will be reported in adjacent positions in the caption
+the co occurrence probabilities are estimated from a corpus of captions
+having decided which objects to report and their order a second ilp model decides which phrases to use for each object a kind of lexicalization and orders the phrases
+the second ilp model maximizes the dence of the phrase retrieval algorithm and the local cohesion between subsequent phrases
+although generating image captions is very different to generating texts from ontologies it may be possible to use ideas from the work of kuznetsova et al
+related to ordering objects in our case facts and phrases in future extensions of our models
+joint optimization ilp models have also been used in multi document text marization and sentence compression mcdonald clarke and lapata kirkpatrick gillick and klein galanis lampouras and androutsopoulos woodsend and lapata where the input is text not formal knowledge tions
+statistical methods to jointly perform content selection lexicalization and surface realization have also been proposed in nlg liang jordan and klein konstas and lapata but they are currently limited to generating single sentences from at records as opposed to generating multi sentence texts from ontologies
+to the best of our knowldge our work is the rst to consider content selection icalization sentence aggregation and a limited form of referring expression generation as an ilp joint optimization problem in multi sentence concept to text generation
+an earlier form of our work has already been published lampouras and androutsopoulos but without the extended version of our ilp model section
+without the experiments on the disease ontology section
+without the further experiments on the wine ontology section
+with facts per word ratios grouped only by m and values without the results of fig
+and with much fewer details
+
+conclusions and future work we presented an ilp model that jointly considers decisions in content selection ization and sentence aggregation to avoid greedy local decisions and produce more compact texts
+an extended version of the ilp model predicts more accurately the lengths of the generated texts and also performs a limited form of referring expression generation by considering alternative nl names and how they can indirectly express facts
+we also dened an approximation of our models that generates separately each possibly aggregated sentence of the nal text and is more efcient when longer texts are generated
+the ilp models and approximations of this article were embedded in naturalowl a state of the art publicly available nlg system for owl ontologies that used a pipeline architecture in its original form
+experiments with three ontologies conrmed that our models can express more facts per word with no deterioration in the perceived quality of the generated texts or with improved perceived quality compared to texts generated by a pipeline architecture
+our experiments also showed that our ilp methods or their approximations are efcient enough to be used in practice
+the work of this article is the rst to consider content selection lexicalization sentence aggregation and a limited form of referring expression generation as an ilp joint optimization problem in multi sentence concept to text generation
+previous work in nlg employed a pipeline architecture considered fewer and different processing stages was concerned with generating single sentences or had very different inputs and goals
+our work could be extended to consider additional generation stages e
+
+text planning or more referring expression generation decisions
+it would also be lampouras androutsopoulos generating texts with integer linear programming ing to combine the ilp models with other user modeling components that would assign interest scores to message triples
+another valuable direction would be to combine ilp models for concept to text generation and multi document summarization to produce texts summarizing both structured and unstructured information
+references althaus karamanis and e
+n
+karamanis and a
+koller
+
+computing locally coherent discourses
+in annual meeting of acl pages barcelona spain
+androutsopoulos lampouras and i
+g
+lampouras and d
+galanis
+
+generating natural language descriptions from owl ontologies the naturalowl system
+journal of articial intelligence research
+antoniou and van g
+and f
+van harmelen
+
+a semantic web primer
+mit press edition
+baader et al
+f
+d
+calvanese d
+l
+mcguinness d
+nardi and p
+f
+patel schneider editors
+
+the description logic handbook
+cambridge university press
+barzilay and r
+and m
+lapata
+
+collective content selection for concept to text generation
+in conference on human language technology and empirical methods in natural language processing pages vancouver british columbia canada
+barzilay and r
+and m
+lapata
+
+aggregation via set partitioning for natural language generation
+in conference on human language technology and the annual conference of the north american chapter of acl pages new york ny
+a
+
+automatic generation of weather forecast texts using comprehensive probabilistic generation space models
+natural language engineering
+berg kirkpatrick gillick and kirkpatrick t
+d
+gillick and d
+klein
+
+jointly learning to extract and compress
+in annual meeting of acl human language technologies pages portland oregon
+berners lee hendler and lee t
+j
+hendler and o
+lassila
+
+the semantic web
+scientic american
+k
+
+generating tailored textual summaries from ontologies
+in european semantic web conference pages heraklion greece
+clarke and j
+and m
+lapata
+
+global inference for sentence compression an integer linear programming approach
+journal of articial intelligence research
+corston oliver s
+
+text compaction for display on very small screens
+in workshop on automatic summarization of annual conference of the north american chapter of acl pittsburgh pa
+cregan schwitter and a
+r
+schwitter and t
+meyer
+
+sydney owl syntax towards a controlled natural language syntax for owl
+in owl experiences and directions workshop innsbruck austria
+l
+
+conceptual and linguistic decisions in generation
+in international conference on computational linguistics pages stanford ca
+g
+b
+
+linear programming and extensions
+princeton university press
+demir carberry and s
+s
+carberry and k
+f
+mccoy
+
+a discourse aware graph based content selection framework
+in international natural language generation conference pages trim co
+meath ireland
+m
+
+generation of natural language texts from biomedical ontologies with the naturalowl system
+bsc thesis department of informatics athens university of economics and business in greek
+galanis and d
+and i
+androutsopoulos
+
+generating multilingual descriptions from linguistically annotated owl ontologies the naturalowl system
+in european workshop on natural language generation pages schloss dagstuhl germany
+galanis et al
+d
+g
+karakatsiotis g
+lampouras and i
+androutsopoulos
+
+an open source natural language generator for owl ontologies and its use in protg and second life
+in conference of the european chapter of acl demos pages athens greece
+galanis lampouras and d
+g
+lampouras and i
+androutsopoulos
+
+extractive multi document summarization with ilp and support vector regression
+in international conference on computational linguistics pages mumbai india
+gatt and a
+and e
+reiter
+
+simplenlg a realisation engine for practical applications
+in european workshop on natural language generation pages athens greece
+grau et al
+b
+c
+i
+horrocks b
+motik b
+parsia p
+patel schneider and u
+sattler
+
+owl the next step for owl
+web semantics
+halaschek wiener et al
+wiener c
+j
+golbeck b
+parsia v
+kolovski and j
+hendler
+
+image browsing and natural language paraphrases of semantic web annotations
+in international workshop on semantic web annotations for multimedia tenerife spain
+horrocks patel schneider and van i
+p
+f
+patel schneider and f
+van harmelen
+
+from shiq and rdf to owl the making of a web ontology language
+web semantics
+kaljurand and k
+and n
+fuchs
+
+verbalizing owl in attempto controlled english
+in international workshop on owl experiences and directions innsbruck austria
+
+
+reducibility among combinatorial problems
+in complexity of computer computations the ibm research symposia series
+springer us pages
+konstas and i
+and m
+lapata
+
+concept to text generation via discriminative reranking
+in annual meeting of acl pages jeju island korea
+konstas and i
+and m
+lapata
+
+unsupervised concept to text generation with hypergraphs
+in conference on human language technology of the annual conference of the north american chapter of acl pages montral canada
+kuznetsova et al
+p
+
+ordonez a
+berg t
+berg and y
+choi
+
+collective generation of natural image descriptions
+in annual meeting of acl pages jeju island korea
+g
+
+natural language generation from semantic web ontologies
+ph
+d
+thesis department of informatics athens university of economics and business greece
+lampouras and g
+and i
+androutsopoulos
+
+using integer linear programming for content selection lexicalization and aggregation to produce compact texts from owl ontologies
+in european workshop on natural language generation pages soa bulgaria
+lampouras and g
+and i
+androutsopoulos
+
+using integer linear programming in concept to text generation to produce more compact texts
+in annual meeting of acl pages soa bulgaria
+liang jordan and p
+m
+jordan and d
+klein
+
+learning semantic correspondences with less supervision
+in meeting of acl and international joint conference on natural language processing of the asian federation of natural language processing pages suntec singapore
+liang et al
+s
+f
+r
+stevens d
+scott and a
+rector
+
+automatic verbalisation of snomed classes using ontoverbal
+in conference on articial intelligence in medicine pages bled slovenia
+marciniak and t
+and m
+strube
+
+beyond the pipeline discrete optimization in nlp
+in conference on computational natural language learning pages ann arbor mi
+r
+
+a study of global inference algorithms in multi document summarization
+in european conference on information retrieval pages rome italy
+mellish and c
+and j
+z
+pan
+
+natural language directed inference from ontologies
+articial intelligence
+mellish et al
+c
+d
+scott l
+cahill d
+paiva r
+evans and m
+reape
+
+a reference architecture for natural language generation systems
+natural language engineering
+mellish and c
+and x
+sun
+
+the semantic web as a linguistic resource opportunities for natural language generation
+knowledge based systems
+r
+
+complexity assumptions in ontology verbalisation
+in annual meeting of acl short papers pages uppsala sweden
+lampouras androutsopoulos generating texts with integer linear programming power and r
+and a
+third
+
+expressing owl axioms by english sentences dubious in theory feasible in practice
+in international conference on computional linguistics pages beijing china
+reiter and e
+and r
+dale
+
+building natural language generation systems
+cambridge university press
+roth and d
+and w
+t
+yih
+
+a linear programming formulation for global inference in natural language tasks
+in conference on human language technology and the annual conference of the north american chapter of acl boston ma
+alexander
+
+theory of linear and integer programming
+john wiley sons inc
+n
+
+generating natural language descriptions of ontology concepts
+in european workshop on natural language generation pages athens greece
+r
+
+controlled natural languages for knowledge representation
+in international conference on computational linguistics posters pages beijing china
+schwitter et al
+r
+k
+kaljurand a
+cregan c
+dolbear and g
+hart
+
+a comparison of three controlled natural languages for owl
+
+in owl experiences and directions workshop washington dc
+shadbolt berners lee and n
+t
+berners lee and w
+hall
+
+the semantic web revisited
+ieee intell
+systems
+stevens et al
+r
+j
+malone s
+williams r
+power and a
+third
+
+automatic generation of textual class denitions from owl to english
+biomedical semantics
+s
+
+automated creation and optimization of online advertising campaigns
+ph
+d
+thesis department of informatics athens university of economics and business
+thomaidou et al
+s
+i
+lourentzou p
+katsivelis perakis and m
+vazirgiannis
+
+automated snippet generation for online advertising
+in acm international conference on conference on information knowledge management pages san francisco california usa
+tsatsaronis et al
+g
+m
+schroeder g
+paliouras y
+almirantis i
+androutsopoulos e
+gaussier p
+gallinari t
+artieres m
+alvers m
+zschunke and a
+ngonga
+
+bioasq a challenge on large scale biomedical semantic indexing and question answering
+in aaai fall symposium on information retrieval and knowledge discovery in biomedical text pages arlington va usa
+vandeghinste and y
+v
+and pan y
+
+sentence compression for automated subtitling a hybrid approach
+in workshop on text summarization of the annual meeting of acl pages barcelona spain
+walker rambow and m
+a
+o
+rambow and m
+rogati
+
+spot a trainable sentence planner
+in annual conference of the north american chapter of acl pages pittsburgh pa
+williams third and s
+a
+third and r
+power
+
+levels of organization in ontology verbalization
+in european workshop on natural language generation pages nancy france
+woodsend and k
+and m
+lapata
+
+multiple aspect summarization using integer linear programming
+in conference on empirical methods in natural language processing and computational natural language learning pages jesu island korea
+

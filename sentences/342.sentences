@@ -1,0 +1,630 @@
+summarizing text on any aspects a knowledge informed weakly supervised approach mellon university bowen lianhui eric p
+zhiting of washington
+cmu
+edu
+washington
+edu
+com inc
+san diego t c o l c
+s c v
+v i x r a abstract given a document and a target aspect e
+
+a topic of interest aspect based abstractive summarization attempts to generate a mary with respect to the aspect
+previous ies usually assume a small pre dened set of aspects and fall short of summarizing on other diverse topics
+in this work we study rizing on arbitrary aspects relevant to the ument which signicantly expands the cation of the task in practice
+due to the lack of supervision data we develop a new weak supervision construction method and an aspect modeling scheme both of which integrate rich external knowledge sources such as net and wikipedia
+experiments show our proach achieves performance boosts on marizing both real and synthetic documents given pre dened or arbitrary aspects
+introduction remarkable progresses have been made in ating generic summaries of documents nallapati et al
+see et al
+narayan et al
+partially due to the large amount of supervision data available
+in practice a document such as a news article or a medical report can span multiple topics or aspects
+to meet more specic mation need in applications such as personalized intelligent assistants it is often useful to rize a document with regard to a given aspect i
+e
+aspect based summarization
+recent research has explored the problem of aspect based abstractive summarization krishna and srinivasan frermann and klementiev
+a key challenge of the task is the lack of rect supervision data containing documents paired with multiple aspect based summaries
+previous studies have created synthetic data from generic and data available at
+tanyuqian aspect based summarization news summarization corpora which have a small set of aspects e
+
+sports health and other aspects in frermann and klementiev
+as a result models trained on these data tend to be restricted to the pre dened set and fall short of summarizing on other diverse aspects
+this paper aims to go beyond pre dened aspects and enable summarization on arbitrary aspects evant to the document
+the arbitrary aspect may not be explicitly mentioned but only implicitly lated to portions of the document and it can be a new aspect not seen during training
+to this end we develop a new approach that integrates rich external knowledge in both aspect modeling and weak supervision construction
+specically we derive weak supervisions from a generic rization corpus where the conceptnet knowledge graph speer et al
+is used to substantially pand the aspect scope and enrich the supervisions
+to assist summarization model to better understand an aspect especially a previously unseen one we augment the model inputs with rich aspect related information extracted from wikipedia
+our approach is compatible with any neural encoder decoder architectures
+in this work we use the large pre trained bart model lewis et al
+and ne tune with the proposed method
+periments on real news articles show our approach achieves performance boosts over existing methods
+when adapting to the previous synthetic domain the bart model after ne tuning with our weak supervisions becomes substantially more data cient and outperforms previous best performing systems greatly using only
+training examples
+related work aspect based summarization as an instance of trollable text generation hu et al
+ficler and goldberg offers extra controllability pared to generic summarization to ensure concise figure illustration of our approach
+left constructing weak supervisions using conceptnet including extracting aspects and synthesizing aspect based summaries
+right augmenting aspect information including identifying aspect related words in the document using wikipedia and feeding both aspect and related words into summarization model
+summaries of interest
+early work has studied aware summarization in the multi document ting with typically small datasets containing tiple documents tagged with a relevant topic dang conroy et al
+
+for single document aspect based summarization extractive methods were used to extract related key sentences words from the document lin and hovy
+our work studies abstractive aspect based tion that generates summaries
+deutsch and roth studied a sub task of learning to select formation in documents that should be included in the summary
+recent work frermann and tiev krishna and srinivasan on the problem synthesized training data that use news categories as the aspects and thus have a small pre dened set of aspects available
+we aim to able summarization on any aspects and develop new weak supervisions by integrating rich external knowledge
+aspect based summarization has also been plored in the customer reviews domain hu and liu where product aspects customer timent and sometimes textual summaries are tracted popescu and etzioni wang and ling angelidis and lapata
+query based summarization produces a summary in response to a natural language query question daum iii and marcu liu et al
+xie et al
+which differs from abstract aspects
+incorporating knowledge through weak sion has primarily been studied in classication or extraction problems hu et al
+peng et al
+ratner et al
+
+for example hu et al
+creates soft labels from a logical rule hanced teacher model to train neural classiers
+this work explores weak supervisions in the ation setting
+automatic creation of data sions also links our work to text data augmentation in either heuristic based wei and zou or automated manner sennrich et al
+hu et al
+
+this work embeds rich structured edge in the data synthesis process
+approach given a document and an aspect which can be a word or a phrase the task aims to generate a mary that concisely describes information in the document that is relevant to the aspect
+we present our approach that enables a neural summarization model to summarize on any aspects
+the aspect can be any words relevant to but not necessarily ring in the document
+our approach incorporates rich external knowledge sources including ceptnet for enriching weak supervisions in training sec
+and wikipedia for advising the aspect relation to improve comprehension sec
+
+figure shows an overview of our approach
+an advantage of our approach is that it is ible with any neural summarization architectures such as the popular encoder decoders
+this enables us to make use of the large pre trained network bart lewis et al
+on which we apply our approach for ne tuning and improved inference
+
+knowledge enriched weak supervisions usually no direct supervision data is available
+we start with a generic summarization corpus
+ically in this work we use the cnn dailymail hermann et al
+which consists of a set of document summary pairs
+our approach structs weakly supervised examples by cally extracting potential aspects and synthesizing aspect based summaries from the generic summary
+nercolony collapse disorder has killed millions of bees
+scientists suspect a virus may combine with other factors to collapse colonies
+disorder rst cropped up in as bees were imported from australia
+billion in u
+s
+crops each year dependent on bees for pollination
+generic summary bees australia u
+s
+insect y colonoy ower country great barrier reef oceania koala conceptnetsummary billion in u
+s
+crops each year dependent on bees for pollination
+extracted aspectsaspect u
+s
+dollar technology tf idf ranking dollar texas technology
+s
+dollar s billion in u
+s
+crops each year dependent on bees for pollination
+summarization model inputoutputaspect u
+s
+words each resulting aspect and its aspect based summary are then paired with the document for training
+extracting aspects given a generic summary we want to extract as many aspects as possible so that the summarization model can see sufcient examples during training
+on the other hand the aspects must be relevant to the generic summary to facilitate synthesizing appropriate summary in the next step
+to this end we rst apply a named entity recognition ner to extract a set of entities mentioned in the generic summary
+these entities serve as a seed set of aspects
+we then augment the seed set by collecting each entity s neighbor concepts on the conceptnet knowledge graph as these concepts are semantically closely related to the entity and thus the generic summary
+for example in figure insect is a new pect from conceptnet given the seed entity bees
+synthesizing aspect based summaries for each aspect we synthesize a specic summary by extracting and concatenating all relevant sentences from the generic summary
+we make use of ceptnet in a similar way as above
+specically a sentence is considered relevant if it mentions the aspect or any of its neighbors on conceptnet
+the use of conceptnet greatly augments the supervisions in terms of both the richness of aspects and the informativeness of respective summaries
+
+knowledge aided aspect comprehension the summarization model is required to precisely locate information in the document that matches the desired aspect
+such comprehension and ing can be challenging especially with only noisy weak supervisions during training
+our approach facilitates the inference by informing the model with pre computed document aspect relations
+concretely we extract words from the document which are most related to the aspect more details below and feed those words into the model gether with the aspect and document
+in this way the model is advised which parts of the document are likely to be aspect related
+for the bart tecture we use an input format as where s is a special token for separation
+to determine the related words the intuition is that the words should be describing or be associated with the aspect
+we use the wikipedia page of the aspect for ltering the words
+besides we want
+io models xx to select only salient words in the document for a concise summary
+thus we rst rank all words in the document by tf idf scores and select top words that occur in the aspect s wikipedia
+experiments setup we construct weak supervisions from k out of k summary pairs in the training set of the cnn dailymail dataset mann et al
+
+we use the cnn pretrained bart lewis et al
+provided by fairseq ott et al
+as our base tion model and ne tune with our approach plemented using texar hu et al
+
+we use adam optimizer with an initial learning rate of and beam search decoding with a width of
+
+studies on synthetic domain we rst study on the synthetic data ma news introduced in frermann and klementiev
+although its aspects are restricted to only grained topics the synthetic domain facilitates tomatic evaluation providing a testbed for parison with the previous models and studying the generalization ability of our weak supervision approach when adapting to the new domain
+specically ma news is synthesized from cnn dailymail by interleaving paragraphs of inal documents belonging to different aspects
+the assembled document is paired with each nent s aspect and generic summary to form an aspect based summary instance
+the dataset has k examples in train dev test sets spectively and contains pre dened aspects cluding sport health travel news ence technology tv showbiz
+comparisons with previous methods we rst compare our approach with the previous rization models as shown in table
+in the rst block sf is the best model in frermann and klementiev with a customized neural chitecture and is trained with the full ma news in the second block we also training set
+train the large bart model with the ma news training set either using the full k instances or only k instances
+bart trained with the full set unsurprisingly shows much better results than sf yet the one with the k subset falls hind sf
+the third block evaluates our method
+bart weak sup is ne tuned only with our select words
+if the wikipedia api does not nd any page of the aspect the related word is set to empty
+models r l pg net sf
+
+
+bart ma news sup k
+bart ma news sup k
+bart weak sup ours ma news sup k ours
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table results rouge on the ma news test set
+the results of pg net and sf are from ermann and klementiev where sf is the ous best model
+our approach trains with only weak supervisions sec
+or with additional k ma news supervised training data
+models r l weak sup only
+
+
+ma news sup k
+
+weak sup ma news sup k
+
+weak sup ma news sup k
+
+weak sup
+
+
+
+
+
+
+
+
+
+
+
+table fine tuning bart on the synthetic domain evaluated on ma news test set
+weak sup only trains bart only with our weak supervisions
+ma news sup k trains with k ma news vised examples
+weak sup trains rst with weak pervisions and then supervisedly on ma news
+weak supervisions sec
+even without using any direct supervision examples in ma news the model performs slightly better than sf
+more terestingly by further using only k ma news instances to continue ne tuning the model we achieve performance boosts compared to both sf and bart ma news sup k
+this shows our proposed knowledge informed method provides rich information that helps with the task
+efciency of adapting to the domain we tinue to study how our weakly supervised method can help with efcient adaptation of bart to the synthetic domain
+as shown in table by ne tuning bart using more ma news training data i
+e
+ma news sup k k and k the test performance improves reasonably as is also shown by the blue curve in figure
+however if we add our proposed weak supervisions i
+e
+weak sup the performance improves much faster as is also shown by the orange curve in the gure
+the enhanced data efciency validates the effectiveness of the weakly supervised method
+figure visualizing the results in table
+the green dashed line marks the performance of bart ne tuned on the whole ma news training set
+models accu
+info
+fluency ma news sup k
+
+
+weak sup ours ma news k ours
+
+
+
+
+
+table human evaluation using point likert scale
+ma news k trains bart with the whole news set
+weak sup trains with our weak sions
+ma news k further ne tunes with k news instances
+
+summarizing real news on any aspects we next study summarization of a document on arbitrary aspects
+to evaluate the generalization of the methods we test on real news articles from the all the news corpus kaggle where we randomly extract articles from different lications other than cnn so that no articles are included in the weak supervision
+we ask human annotators to label an arbitrary relevant aspect for each article
+we then collect aspect based maries by the models and present each to tators to rate
+figure proportions of model outputs that get a man score
+for example around of maries by weak sup ours are scored or in terms of accuracy
+of supervised training news sup news weak
+
+
+
+
+
+news sup sup sup ma news k ours document in an exclusive interview with breitbart news republican presidential nominee donald trump blasted bill clinton s suggestion that the united states use syrian refugees to rebuild detroit
+the populist billionaire denounced clinton s suggested proposal as crazy and unfair to american workers who are already living there and are in need of jobs
+it s very unfair to the people that are living there
+i think it s crazy trump told breitbart on thursday
+i mean these people
+
+
+
+
+
+there are plenty of people in detroit who you could almost look at as refugees carson said
+i mean we need to take care of our own people
+we need to create jobs for them
+clinton s suggestion that the u
+s
+ought to give detroit jobs to foreign refugees came during a february discussion at the clinton global initiative with chobani billionaire and mass migration enthusiast hamdi ulukaya
+the truth is that the big loser in this over the long run is
+
+
+
+
+
+a pretty good deal
+during the discussion clinton praised ulukaya for his efforts to ll his yogurt plants with imported foreign refugees
+ulukaya suggested that the u
+s
+ought to be taking in more refugees and said that he was proud of turkey s decision to accept million syrian refugees
+ulukaya told clinton that syrian refugees bring avors to the community just like in
+
+
+twin falls idaho where ulukaya s yogurt factory is based
+clinton s controversial suggestion that
+
+
+
+
+
+millions of more illegal immigrants thousands of more violent crimes and total chaos and lawlessness
+according to pew polling data hillary clinton s plan to expand immigration is opposed by at least percent of the american electorate voters whom clinton has suggested are racist for opposing immigration
+according to a september rasmussen survey percent black voters oppose clinton s refugee agenda to admit more than middle eastern refugees with less than one percent of black voters
+percent in favor of her refugee plan
+aspect donald trump summary presidential nominee donald trump calls suggestion that the u
+s
+use syrian refugees to rebuild detroit crazy and unfair to american workers who are already living there and in need of jobs
+aspect hamdi ulukaya summary chobani billionaire and mass migration enthusiast hamdi ulukaya suggested that the u
+s
+should take in more refugees to ll jobs like in his yogurt plant in twin falls idaho where his factory is based
+aspect vote summary polls show that at least percent of the u
+s
+electorate is opposed to expanding immigration and that percent of black voters oppose the plan to admit more than middle eastern refugees to the country
+table generated summaries of a document on different aspects
+document content relevant to specic aspects is highlighted in respective colors
+related words identied through wikipedia sec
+are highlighted in bold
+as in previous work kryscinski et al
+ermann and klementiev the criteria include accuracy coherence between the aspect and the summary informativeness factual correctness and relevance of the summary with regard to the document and uency language quality of vidual sentences and the whole summary
+the pearson correlation coefcient of human scores is
+showing moderate inter rater agreement
+table shows the averaged scores and figure shows the proportions of model outputs receiving high scores in terms of the three criteria
+we can see our weakly supervised method performs best
+the model trained on the k ma news ples though performs well on the ma news test set table fails to generalize to the broader set of diverse aspects showing the importance of troducing rich knowledge in supervisions and ference process for generalization
+interestingly ne tuning our model with k ma news instances results in inferior performance showing the vious synthetic data with limited aspects could strict generalization to other aspects
+table shows example summaries by our weak sup model
+given an arbitrary aspect e
+
+an entity or a word the model correctly identies the related portions in the document and generates a relevant short summary
+it is also noticeable that our approach identies meaningful related words using wikipedia as described in sec
+which help with precise summarization
+conclusions this paper studies the new problem of summarizing a document on arbitrary relevant aspects
+to tackle the challenge of lacking supervised data we have developed a new knowledge informed weakly pervised method that leverages external knowledge bases
+the promising empirical results motivate us to explore further the integration of more nal knowledge and other rich forms of supervisions e
+
+constraints interactions auxiliary models versaries hu and xing ziegler et al
+in learning
+we are also interested in extending the aspect based summarization in more application scenarios e
+
+summarizing a document corpus
+references stefanos angelidis and mirella lapata
+
+rizing opinions aspect extraction meets sentiment prediction and they are both weakly supervised
+in emnlp
+john m conroy judith d schlesinger and dianne p oleary
+
+topic focused multi document marization using an approximate oracle score
+in coling acl pages
+hoa trang dang
+
+overview of duc
+in duc volume pages
+hal daum iii and daniel marcu
+
+bayesian in coling acl query focused summarization
+pages
+daniel deutsch and dan roth
+
+summary cloze a new task for content selection in topic focused summarization
+in emnlp pages
+jessica ficler and yoav goldberg
+
+controlling linguistic style aspects in neural language tion
+arxiv preprint
+
+lea frermann and alexandre klementiev
+
+ducing document structure for aspect based rization
+in acl pages florence italy
+acl
+karl moritz hermann tomas kocisky edward stette lasse espeholt will kay mustafa suleyman and phil blunsom
+
+teaching machines to read and comprehend
+in neurips pages
+minqing hu and bing liu
+
+mining and rizing customer reviews
+in kdd pages
+zhiting hu xuezhe ma zhengzhong liu eduard hovy and eric xing
+
+harnessing deep ral networks with logic rules
+in acl
+zhiting hu haoran shi bowen tan wentao wang zichao yang tiancheng zhao junxian he lianhui qin di wang al
+
+texar a modularized versatile and extensible toolkit for text generation
+in acl system demonstrations
+zhiting hu bowen tan russ r salakhutdinov tom m mitchell and eric p xing
+
+learning data in manipulation for augmentation and weighting
+
+zhiting hu and eric p xing
+
+learning from all types of experiences a unifying machine learning perspective
+in kdd
+zhiting hu zichao yang xiaodan liang ruslan salakhutdinov and eric p xing
+
+toward trolled generation of text
+in icml
+kaggle
+
+all the news
+
+million news articles
+
+one all the news articles
+kundan krishna and balaji vasan srinivasan
+
+generating topic oriented summaries using neural attention
+in naacl pages
+wojciech kryscinski nitish shirish keskar bryan cann caiming xiong and richard socher
+
+neural text summarization a critical evaluation
+in emnlp
+mike lewis yinhan liu naman goyal jan ghazvininejad abdelrahman mohamed omer levy ves stoyanov and luke zettlemoyer
+
+bart denoising sequence to sequence pre training translation and for natural language generation comprehension
+arxiv preprint
+
+chin yew lin and eduard hovy
+
+the automated acquisition of topic signatures for text tion
+in coling pages
+yan liu sheng hua zhong and wenjie li
+
+query oriented multi document summarization via unsupervised deep learning
+in aaai
+ramesh nallapati bowen zhou caglar gulcehre bing xiang al
+
+abstractive text tion using sequence to sequence rnns and beyond
+in conll
+shashi narayan shay b cohen and mirella lapata
+
+do nt give me the details just the summary topic aware convolutional neural networks for treme summarization
+in emnlp
+myle ott sergey edunov alexei baevski angela fan sam gross nathan ng david grangier and fairseq a fast extensible michael auli
+
+toolkit for sequence modeling
+in naacl
+haoruo peng yangqiu song and dan roth
+
+event detection and co reference with minimal pervision
+in emnlp pages
+ana maria popescu and orena etzioni
+
+ing product features and opinions from reviews
+in natural language processing and text mining pages
+springer
+alexander ratner stephen h bach henry ehrenberg jason fries sen wu and christopher r
+
+snorkel rapid training data creation with weak pervision
+in vldb
+abigail see peter j liu and christopher d manning
+
+get to the point summarization with generator networks
+rico sennrich barry haddow and alexandra birch
+
+improving neural machine translation models with monolingual data
+in acl pages
+robyn speer joshua chin and catherine havasi
+
+conceptnet
+an open multilingual graph of eral knowledge
+in aaai
+lu wang and wang ling
+
+neural network based abstract generation for opinions and arguments
+in naacl
+jason wei and kai zou
+
+eda easy data mentation techniques for boosting performance on in emnlp pages text classication tasks
+
+yujia xie tianyi zhou yi mao and weizhu chen
+
+conditional self attention for query based summarization
+arxiv preprint
+
+daniel m ziegler nisan stiennon jeffrey wu tom b brown alec radford dario amodei paul tiano and geoffrey irving
+
+fine tuning arxiv guage models from human preferences
+preprint
+
+a more experimental details we use adam optimizer with
+
+a weight decay of
+and an initial learning rate of
+for generation we use beam search decoding with a width of and a length penalty of
+all experiments are conducted on gtx gpus
+b more generation examples we provide more generated summaries from our weakly supervised model
+document in an exclusive interview with breitbart news republican presidential nominee donald trump blasted bill clinton s suggestion that the united states use syrian refugees to rebuild detroit
+the populist billionaire denounced clinton s suggested proposal as crazy and unfair to american workers who are already living there and are in need of jobs
+it s very unfair to the people that are living there
+i think it s crazy trump told breitbart on thursday
+i mean these people are getting started i think it s a very very hard place to get your start
+we should nt have them i
+e
+syrian refugees in the country trump added
+we do nt know who these people are
+we have no idea
+this could be the all time great trojan horse
+we have no idea who they are
+the whole thing is ridiculous
+number one we should build safe zones over in syria that s what we should have and we should have the gulf states fund them
+it s just crazy
+we ought to be building safe zones in syria and not taking these people in whether it s detroit or anywhere else
+and former gop presidential contender ben carson echoed trump s sentiment in a friday interview on breitbart news daily on siriusxm patriot channel
+carson explained that we need to take care of our own people and noted that the policies of democrat politicians have turned many americans living in detroit into refugees in their own country
+there are plenty of people in detroit who you could almost look at as refugees carson said
+i mean we need to take care of our own people
+we need to create jobs for them
+clinton s suggestion that the u
+s
+ought to give detroit jobs to foreign refugees came during a february discussion at the clinton global initiative with chobani billionaire and mass migration enthusiast hamdi ulukaya
+the truth is that the big loser in this over the long run is going to be syria
+this i
+e
+the syrian migrant crisis is an enormous opportunity for americans clinton said in february
+detroit has empty structurally sound houses
+and lot of jobs are to be had repairing those houses
+detroit just came out of bankruptcy and the mayor s trying to do an innovative sort of urban homesteading program there
+but it just gives you an example of what could be done
+and i think any of us who have ever had any personal experience with either syrian americans or syrian refugees think it s a pretty good deal
+during the discussion clinton praised ulukaya for his efforts to ll his yogurt plants with imported foreign refugees
+ulukaya suggested that the u
+s
+ought to be taking in more refugees and said that he was proud of turkey s decision to accept million syrian refugees
+ulukaya told clinton that syrian refugees bring avors to the community just like in
+
+
+twin falls idaho where ulukaya s yogurt factory is based
+clinton s controversial suggestion that u
+s
+give detroit jobs to imported foreign refugees has received virtually no media coverage outside of breitbart news
+during his wednesday immigration policy address trump challenged the media to begin asking hillary clinton to explain her radical immigration platform
+the media needs to begin demanding to hear hillary clinton s answer on how her policies will affect americans and their security
+
+
+these are matters of for our country and its people and we deserve answers from hillary clinton
+
+
+what we do know despite the total lack of media curiosity is that hillary clinton promises a radical amnesty combined with a radical reduction in immigration enforcement
+the result will be millions of more illegal immigrants thousands of more violent crimes and total chaos and lawlessness
+according to pew polling data hillary clinton s plan to expand immigration is opposed by at least percent of the american electorate voters whom clinton has suggested are racist for opposing immigration
+according to a september rasmussen survey percent black voters oppose clinton s refugee agenda to admit more than middle eastern refugees with less than one percent of black voters
+percent in favor of her refugee plan
+aspect donald trump summary presidential nominee donald trump calls suggestion that the u
+s
+use syrian refugees to rebuild detroit crazy and unfair to american workers who are already living there and in need of jobs
+aspect hamdi ulukaya summary chobani billionaire and mass migration enthusiast hamdi ulukaya suggested that the u
+s
+should take in more refugees to ll jobs like in his yogurt plant in twin falls idaho where his factory is based
+aspect vote summary polls show that at least percent of the u
+s
+electorate is opposed to expanding immigration and that percent of black voters oppose the plan to admit more than middle eastern refugees to the country
+document the palestinian authority ofcially became the member of the international criminal court on wednesday a step that gives the court jurisdiction over alleged crimes in palestinian territories
+the formal accession was marked with a ceremony at the hague in the netherlands where the court is based
+the palestinians signed the icc s founding rome statute in january when they also accepted its jurisdiction over alleged crimes committed in the occupied palestinian territory including east jerusalem since june
+later that month the icc opened a preliminary examination into the situation in palestinian territories paving the way for possible war crimes investigations against israelis
+as members of the court palestinians may be subject to counter charges as well
+israel and the united states neither of which is an icc member opposed the palestinians efforts to join the body
+but palestinian foreign minister riad al malki speaking at wednesday s ceremony said it was a move toward greater justice
+as palestine formally becomes a state party to the rome statute today the world is also a step closer to ending a long era of impunity and injustice he said according to an icc news release
+indeed today brings us closer to our shared goals of justice and peace
+judge kuniko ozaki a vice president of the icc said acceding to the treaty was just the rst step for the palestinians
+as the rome statute today enters into force for the state of palestine palestine acquires all the rights as well as responsibilities that come with being a state party to the statute
+these are substantive commitments which can not be taken lightly she said
+rights group human rights watch welcomed the development
+governments seeking to penalize palestine for joining the icc should immediately end their pressure and countries that support universal acceptance of the court s treaty should speak out to welcome its membership said balkees jarrah international justice counsel for the group
+what s objectionable is the attempts to undermine international justice not palestine s decision to join a treaty to which over countries around the world are members
+in january when the preliminary icc examination was opened israeli prime minister benjamin netanyahu described it as an outrage saying the court was overstepping its boundaries
+the united states also said it strongly disagreed with the court s decision
+as we have said repeatedly we do not believe that palestine is a state and therefore we do not believe that it is eligible to join the icc the state department said in a statement
+it urged the warring sides to resolve their differences through direct negotiations
+we will continue to oppose actions against israel at the icc as counterproductive to the cause of peace it said
+but the icc begs to differ with the denition of a state for its purposes and refers to the territories as palestine
+while a preliminary examination is not a formal investigation it allows the court to review evidence and determine whether to investigate suspects on both sides
+prosecutor fatou bensouda said her ofce would conduct its analysis in full independence and impartiality
+the war between israel and hamas militants in gaza last summer left more than people dead
+the inquiry will include alleged war crimes committed since june
+the international criminal court was set up in to prosecute genocide crimes against humanity and war crimes
+cnn s vasco cotovio kareem khadder and faith karimi contributed to this report
+aspect palestinian summary palestinian foreign minister the world is also a step closer to ending a long era of impunity and injustice
+the palestinian authority becomes the member of the international criminal court
+the move gives the court jurisdiction over alleged crimes committed in palestine since june
+aspect israel summary israel and the u
+s
+opposed the palestinians efforts to join the court which is based in the netherlands
+palestinian foreign minister today brings us closer to our shared goals of justice and peace the court has jurisdiction over alleged crimes committed in the occupied territories since june
+document around bill gates gave microsoft the company he founded a a computer on every desk and in every home
+but microsoft ceo satya nadella who in and rose to the top job in thinks gates famous mission had a big aw
+when i joined the company in we used to talk about our mission as putting a pc in every home and by the end of the decade we have done that at least in the developed world nadella told published on monday
+it always bothered me that we confused an enduring mission with a temporal goal
+in other words nadella is saying that gates vision for the future of microsoft had a logical stopping point and did not consider what the company s direction would be once the goal was achieved
+in the under former ceo steve ballmer microsoft became better known for its efforts to than for innovating
+nadella believes in making microsoft more driven by a sense of purpose in he said was to empower every person and every organization on the planet to achieve more
+and he has encouraged the company
+under nadella microsoft has taken the focus off windows and the pc and pinned its hopes to the rise of its azure and ofce products as the company s older businesses stagnate
+while this approach has nt translated to huge revenue growth it has revitalized the company s image
+gates told usa today that he enjoys working with nadella serving his successor as a special adviser and helping guide the company s investments in technology as it competes with apple google and amazon
+aspect innovation summary in the under former ceo steve ballmer microsoft became better known for its efforts to than for innovating
+under nadella microsoft has taken the focus off windows and the pc and pinned its hopes to the rise of its azure and ofce products
+aspect apple summary gates says he enjoys working with nadella serving as a special adviser and helping guide the company s investments in technology as it competes with apple google and amazon
+it always bothered me that we confused an enduring mission with a temporal goal he said
+document ofcials have discovered that islamic state jihadis have been using a chemistry laboratory at mosul university to make bombs used by isis jihadists throughout the region
+the university of mosul is the best daesh research center in the world gen
+hatem magsosi iraq s main explosives ofcer told the wall street journal
+trainees go to raqqa then to mosul university to use the existing facilities
+isis hijacked university chemistry lab in mosul for making bombs https
+by pic
+twitter
+wsj think tank april they have found chemical bombs and suicide bomb vests like the ones used in the brussels attacks and by at least some of the paris attackers
+the lab also contained explosives and chemical weapons
+however ofcials told the outlet they do not know how much of the facility remains intact currently
+the united coalition bombed the university in march
+alumni said the university boasted a strong reputation around iraq for its science departments
+a year ago the islamic state established a research hub in the chemistry lab
+the terrorist group kept the staff at the university many who specialized in organic industrial and analytical chemistry
+a raid in syria in march killed islamic state s abd mustafa also known as haji imam
+he taught physics in iraq before he joined in
+ofcials put him in prison but released him in
+then he traveled to syria where he eventually joined the islamic state
+gen
+magsosi said the group places imam as the top expert at the mosul bomb lab
+the sources told the journal that the islamic state used one part of the university for explosives and another for suicide bombs
+the wall street journal reports during the same time frame there has been a surge in islamic state s use of bombs that mix chemical precursors into an explosive powdery substance known as triacetone triperoxide or tatp both in iraq and europe
+it is nt clear how many of these weapons if any can be traced to research or training conducted in mosul
+gen
+magsosi says that his units called explosives the satan recipe because they are very hard to detect and they are usually so lethal
+the islamic state captured mosul iraq s second largest city in june
+since then they have destroyed libraries and buildings at the university
+kurdish outlet rudaw reported last october that the group destroyed the university s faculty of agriculture buildings
+in december isis raided the central library of mosul to destroy all books
+these books promote indelity and call for disobeying allah announced a militant to the residents
+so they will be burned
+the library was the biggest repository of learning the northern iraqi town
+the terrorists destroyed iraq newspapers dating to the early century maps and books from the ottoman empire and book collections contributed by about of mosul s establishment families
+after that raid the isis militants targeted the library at the university of mosul
+they burned science and culture textbooks in front of the students
+according to the boston globe a university of mosul history professor who spoke on condition he not be named because of his fear of the islamic state said the extremists started wrecking the collections of other public libraries last month
+he reported particularly heavy damage to the archives of a sunni muslim library the library of the latin church and monastery of the dominican fathers and the mosul museum library with works dating back to bc
+citing reports by the locals who live near these libraries the professor added that the militants used to come during the night and carry the materials in refrigerated trucks with license plates
+militants also targeted the public library which was home to more than rare books and manuscripts
+elderly residents begged the men not to burn the building
+aspect chemistry summary chemistry lab at mosul university used to make bombs used by isis jihadists throughout the region ofcials say
+ofcials say they do not know how much of the facility remains intact currently after coalition bombed the university in march
+isis used one part of the university for explosives and another for suicide bombs sources say
+aspect europe summary ofcials have found chemical bombs and suicide bomb vests like the ones used in the brussels attacks and by at least some of the paris attackers
+the lab also contained explosives and chemical weapons
+it is not clear how many of these weapons if any can be traced to research or training conducted in the university
+aspect book summary book collections destroyed in front of students at university library in mosul iraq
+isis has destroyed libraries and buildings at the university since it captured the city in june including one with works dating back to bc
+ofcials say they do not know how much of the facility remains intact currently
+

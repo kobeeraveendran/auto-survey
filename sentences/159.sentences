@@ -1,0 +1,787 @@
+adapting the neural encoder decoder framework from single to multi document summarization logan lebanoff kaiqiang song and fei liu department of computer science university of central florida orlando fl usa loganlebanoff
+ucf
+edu
+ucf
+edu g u a l c
+s c v
+v i x r a abstract generating a text abstract from a set of ments remains a challenging task
+the neural encoder decoder framework has recently been exploited to summarize single documents but its success can in part be attributed to the ability of large parallel data automatically quired from the web
+in contrast parallel data for multi document summarization are scarce and costly to obtain
+there is a pressing need to adapt an encoder decoder model trained on single document summarization data to work with multiple document input
+in this paper we present an initial investigation into a novel adaptation method
+it exploits the maximal marginal relevance method to select tative sentences from multi document input and leverages an abstractive encoder decoder model to fuse disparate sentences to an stractive summary
+the adaptation method is robust and itself requires no training data
+our system compares favorably to state of the art extractive and abstractive approaches judged by automatic metrics and human assessors
+introduction neural abstractive summarization has primarily focused on summarizing short texts written by gle authors
+for example sentence summarization seeks to reduce the rst sentence of a news article to a title like summary rush et al
+pati et al
+takase et al
+song et al
+single document summarization sds cuses on condensing a news article to a handful of bullet points paulus et al
+see et al
+
+these summarization studies are ered by large parallel datasets automatically vested from online news outlets including word rush et al
+cnn daily mail mann et al
+nyt sandhaus and newsroom grusky et al
+
+to date multi document summarization mds has not yet fully beneted from the development dataset source summary pairs gigaword rush et al
+cnn daily mail hermann et al
+tac dang et al
+duc over and yen a news article the rst sentence of a news article
+words title like words multi sent news articles words related to a topic multi sent news articles words related to a topic multi sent million k table a comparison of datasets available for sent
+marization gigaword single doc cnn dm and multi doc summarization duc tac
+the labelled data for multi doc summarization are much less
+of neural encoder decoder models
+mds seeks to condense a set of documents likely written by tiple authors to a short and informative summary
+it has practical applications such as summarizing product reviews gerani et al
+student sponses to post class questionnaires luo and man luo et al
+and sets of news cles discussing certain topics hong et al
+
+state of the art mds systems are mostly tive nenkova and mckeown
+despite their promising results such systems can not perform text abstraction e
+
+paraphrasing generalization and sentence fusion jing and mckeown
+further annotated mds datasets are often scarce containing only hundreds of training pairs see ble
+the cost to create ground truth summaries from multiple document inputs can be prohibitive
+the mds datasets are thus too small to be used to train neural encoder decoder models with millions of parameters without overtting
+a promising route to generating an abstractive summary from a multi document input is to apply a neural encoder decoder model trained for document summarization to a mega document created by concatenating all documents in the set at test time
+nonetheless such a model may not scale well for two reasons
+first identifying portant text pieces from a mega document can be challenging for the encoder decoder model which is trained on single document summarization data where the summary worthy content is often tained in the rst few sentences of an article
+this is not the case for a mega document
+second dundant text pieces in a mega document can be peatedly used for summary generation under the current framework
+the attention mechanism of an encoder decoder model bahdanau et al
+is position based and lacks an awareness of mantics
+if a text piece has been attended to ing summary generation it is unlikely to be used again
+however the attention value assigned to a similar text piece in a different position is not fected
+the same content can thus be repeatedly used for summary generation
+these issues may be alleviated by improving the encoder decoder architecture and its attention mechanism cheng and lapata tan et al
+
+however in these cases the model has to be re trained on large scale mds datasets that are not available at the current stage
+there is thus an increasing need for a lightweight adaptation of an encoder decoder model trained on sds datasets to work with document inputs at test time
+in this paper we present a novel adaptation method named pg mmr to generate abstracts from multi document inputs
+the method is bust and requires no mds training data
+it bines a recent neural encoder decoder model pg for pointer generator networks see et al
+that generates abstractive summaries from document inputs with a strong extractive rization algorithm mmr for maximal marginal relevance carbonell and goldstein that identies important source sentences from document inputs
+the pg mmr algorithm tively performs the following
+it identies a ful of the most important sentences from the document
+the attention weights of the pg model are directly modied to focus on these important sentences when generating a summary sentence
+next the system re identies a number of tant sentences but the likelihood of choosing tain sentences is reduced based on their ity to the partially generated summary thereby ducing redundancy
+our research contributions clude the following we present an investigation into a novel tion method of the encoder decoder framework from to multi document summarization
+to the best of our knowledge this is the rst tempt to couple the maximal marginal relevance algorithm with pointer generator networks for multi document summarization we demonstrate the effectiveness of the posed method through extensive experiments on standard mds datasets
+our system compares favorably to state of the art extractive and stractive summarization systems measured by both automatic metrics and human judgments
+related work popular methods for multi document tion have been extractive
+important sentences are extracted from a set of source documents and tionally compressed to form a summary daume iii and marcu zajic et al
+gillick and favre galanis and androutsopoulos berg kirkpatrick et al
+li et al
+thadani and mckeown wang et al
+yogatama et al
+filippova et al
+rett et al
+
+in recent years neural networks have been exploited to learn word sentence resentations for and multi document marization cheng and lapata cao et al
+isonuma et al
+yasunaga et al
+narayan et al
+
+these approaches remain extractive and despite encouraging results marizing a large quantity of texts still requires phisticated abstraction capabilities such as alization paraphrasing and sentence fusion
+prior to deep learning abstractive tion has been investigated barzilay et al
+carenini and cheung ganesan et al
+gerani et al
+fabbrizio et al
+pighin et al
+bing et al
+liu et al
+liao et al
+
+these approaches construct domain templates using a text planner or an open tem and employ a natural language generator for surface realization
+limited by the availability of labelled data experiments are often performed on small domain specic datasets
+neural abstractive summarization utilizing the encoder decoder architecture has shown ing results but studies focus primarily on document summarization nallapati et al
+kikuchi et al
+chen et al
+miao and blunsom tan et al
+zeng et al
+zhou et al
+paulus et al
+see et al
+gehrmann et al
+
+the ing mechanism gulcehre et al
+gu et al
+allows a summarization system to both copy words from the source text and generate new words from the vocabulary
+reinforcement learning is exploited to directly optimize tion metrics paulus et al
+kryscinski et al
+chen and bansal
+these studies cus on summarizing single documents in part cause the training data are abundant
+the work of baumel et al
+and zhang et al
+are related to ours
+in particular baumel et al
+propose to extend an abstractive marization system to generate query focused maries zhang et al
+add a document set coder to their hierarchical summarization work
+with these few exceptions little research has been dedicated to investigate the feasibility of extending the encoder decoder framework to erate abstractive summaries from multi document inputs where available training data are scarce
+this paper presents some rst steps towards the goal of extending the encoder decoder model to a multi document setting
+we introduce an tation method combining the pointer generator pg networks see et al
+and the maximal marginal relevance mmr algorithm carbonell and goldstein
+the pg model trained on sds data and detailed in section is capable of generating document abstracts by performing text abstraction and sentence fusion
+however if the model is applied at test time to rize multi document inputs there will be tions
+our pg mmr algorithm presented in tion teaches the pg model to effectively nize important content from the input documents hence improving the quality of abstractive maries all without requiring any training on document inputs
+limits of the encoder decoder model the encoder decoder architecture has become the standard for neural abstractive rization rush et al
+
+the encoder is often a bidirectional lstm hochreiter and ber converting the input text to a set of den states he i one for each input word indexed by i
+the decoder is a unidirectional lstm that generates a summary by predicting one word at a time
+the decoder hidden states are represented by hd t indexed by t
+for sentence and document summarization nallapati et al
+paulus et al
+see et al
+the input text is treated as a sequence of words and the model is expected to capture the source syntax inherently
+t i i be et t i i the attention weight t i measures how tant the i th input word is to generating the t th output word eq
+
+following see et al
+t i is calculated by measuring the strength of interaction between the decoder hidden state t the encoder hidden state he hd i and the tive attention i eq
+
+i denotes the lative attention that the i th input word receives up to time step
+a large value of i indicates the i th input word has been used prior to time t and it is unlikely to be used again for generating the t th output word
+a context vector ct is constructed eq
+to summarize the semantic meaning of the input it is a weighted sum of the encoder hidden states
+the context vector and the decoder hidden state hd t are then used to compute the vocabulary probability measuring the likelihood of a vocabulary word w being selected as the t put word eq
+
+ct i t i t by in many encoder decoder models a switch is estimated pgen to indicate whether the system has chosen to select a word from the cabulary or to copy a word from the input text eq
+
+the switch is computed using a ward layer with activation over hd where is the embedding of the output word at time
+the attention weights t i are used if a to compute the copy probability eq
+
+word w appears once or more in the input text its copy probability i wi w t i is the sum of the attention weights over all its occurrences
+the nal probability p w is a weighted combination of the vocabulary probability and the copy bility
+a cross entropy loss function can often be used to train the model end to end
+pgen t p t i i wi w to thoroughly understand the aforementioned encoder decoder model we divide its model rameters into four groups
+they include parameters of the encoder and the decoder wz bz for calculating the switch eq
+represents the concatenation of two vectors
+the pointer generator networks see et al
+use two linear layers to produce the vocabulary distribution
+we use wy and by to denote parameters of both layers
+figure system framework
+the pg mmr system uses k highest scored source sentences in this case to guide the pg model to generate a summary sentence
+all other source sentences are muted in this process
+best viewed in color
+wy by for calculating eq
+v we be for attention weights eq
+
+by training the encoder decoder model on document summarization sds data containing a large collection of news articles paired with maries hermann et al
+these model eters can be effectively learned
+however at test time we wish for the model to generate abstractive summaries from document inputs
+this brings up two issues
+first the parameters are ineffective at identifying salient content from multi document inputs
+humans are very good at identifying representative sentences from a set of documents and fusing them into an abstract
+however this capability is not supported by the encoder decoder model
+second the tion mechanism is based on input word positions but not their semantics
+it can lead to redundant content in the multi document input being edly used for summary generation
+we ture that both aspects can be addressed by ducing an external model that selects tative sentences from multi document inputs and dynamically adjusts the sentence importance to duce summary redundancy
+this external model is integrated with the encoder decoder model to erate abstractive summaries using selected sentative sentences
+in the following section we present our adaptation method for multi document summarization
+our method maximal marginal relevance
+our adaptation method incorporates the maximal marginal vance algorithm mmr carbonell and goldstein into pointer generator networks pg see et al
+by adjusting the network s attention ues
+mmr is one of the most successful extractive approaches and despite its straightforwardness performs on par with state of the art systems luo and litman yogatama et al
+
+at each iteration mmr selects one sentence from the ument d and includes it in the summary s until a length threshold is reached
+the selected tence is the most important one amongst the remaining sentences and it has the least content overlap with the current summary
+in the equation below d measures the similarity of the sentence to the document
+it serves as a proxy of sentence importance since important sentences usually show similarity to the centroid of the ument
+maxsj s sj measures the imum similarity of the sentence si to each of the summary sentences acting as a proxy of dancy
+is a balancing factor
+argmax d importance sjs sj redundancy our pg mmr describes an iterative framework for summarizing a multi document input to a mary consisting of multiple sentences
+at each eration pg mmr follows the mmr principle to select the k highest scored source sentences they serve as the basis for pg to generate a summary sentence
+after that the scores of all source tences are updated based on their importance and redundancy
+sentences that are highly similar to the partial summary receive lower scores
+ing k sentences via the mmr algorithm helps the pg system to effectively identify salient source content that has not been included in the summary
+muting
+to allow the pg system to effectively utilize the k source sentences without retraining the neural model we dynamically adjust the pg attention weights t i at test time
+let sk sent
+
+
+
+
+encoderneural decoderdocument
+
+
+
+
+scoressumm sent sent resent a selected sentence
+the attention weights of the words belonging to are calculated as before eq
+
+however words in other tences are forced to receive zero attention weights t and all t i are renormalized eq
+
+new t i t i otherwise it means that the remaining sentences are muted in this process
+in this variant the sentence tance does not affect the original attention weights other than muting
+in an alternative setting the sentence salience is multiplied with the word salience and ized eq
+
+pg uses the reweighted alpha ues to predict the next summary word
+new t i t otherwise sentence importance
+to estimate sentence portance d we introduce a supervised regression model in this work
+importantly the model is trained on single document tion datasets where training data are abundant
+at test time the model can be applied to identify portant sentences from multi document input
+our model determines sentence importance based on four indicators inspired by how humans identify important sentences from a document set
+they clude a sentence length its absolute and tive position in the document c sentence quality and how close the sentence is to the main topic of the document set
+these features are considered to be important indicators in previous extractive summarization framework galanis and sopoulos hong et al
+
+he he n regarding the sentence quality c we age the pg model to build the sentence tation
+we use the bidirectional lstm encoder to encode any source sentence to a vector is the concatenation of the sentation
+last hidden states of the forward and backward passes
+a document vector is the average of all sentence vectors
+we use the document vector and the cosine similarity between the document and sentence vectors as indicator d
+a support tor regression model is trained on sentence score pairs where the training data are obtained from the cnn daily mail dataset
+the target importance score is the rouge l recall of the sentence pared to the ground truth summary
+our model chitecture leverages neural representations of algorithm the pg mmr algorithm for rizing multi document inputs
+input sds data mds source sentences si train the pg model on sds data and are the importance and dundancy scores of the source sentence si for all source sentences for all source sentences summary t index of summary words while t lmax do find with highest mmr scores t i based on compute new eq
+run pg decoder for one step to get wt summary summary wt if wt is the period symbol then end while summary i i end if tences and documents they are data driven and not restricted to a particular domain
+sentence redundancy
+to calculate the dancy of the sentence maxsj s sj we compute the rouge l precision which sures the longest common subsequence between a source sentence and the partial summary ing of all sentences generated thus far by the pg model divided by the length of the source tence
+a source sentence yielding a high l precision is deemed to have signicant content overlap with the partial summary
+it will receive a low mmr score and hence is less likely to serve as basis for generating future summary sentences
+alg
+provides an overview the pg mmr gorithm and fig
+is a graphical illustration
+the mmr scores of source sentences are updated ter each summary sentence is generated by the pg model
+next a different set of highest scored tences are used to guide the pg model to generate the next summary sentence
+muting the ing source sentences is important because it helps the pg model to focus its attention on the most nicant source content
+the code for our model is publicly available to further mds research
+experimental setup datasets
+we investigate the effectiveness of the pg mmr method by testing it on standard document summarization datasets over and yen
+com ucfnlp multidoc summarization dang and owczarzak
+these include and containing topics respectively
+the summarization system is tasked with ating a concise uent summary of words or less from a set of documents discussing a topic
+all documents in a set are chronologically ordered and concatenated to form a mega document ing as input to the pg mmr system
+sentences that start with a quotation mark or do not end with a period are excluded wong et al
+
+each system summary is compared against human stracts created by nist assessors
+following vention we report results on and datasets which are standard test sets and are used as a validation set for parameter tuning
+the pg model is trained for single document summarization using the cnn daily mail mann et al
+dataset containing single news articles paired with summaries human written ticle highlights
+the training set contains articles
+an article contains tokens on age and a summary contains tokens
+tences
+during training we use the eters provided by see et al
+
+at test time the maximum minimum decoding steps are set to words respectively corresponding to the max min lengths of the pg mmr summaries
+cause the focus of this work is on multi document summarization mds we do not report results for the cnn daily mail dataset
+baselines
+we compare pg mmr against a broad spectrum of baselines including state of the art extractive and abstractive systems
+they are described below
+ext sumbasic vanderwende et al
+is an extractive approach assuming words occurring frequently in a ment set are more likely to be included in the summary ext kl sum haghighi and vanderwende greedily adds source sentences to the summary if it leads to a crease in kl divergence ext lexrank erkan and radev uses a graph based approach to compute sentence importance based on vector centrality in a graph representation ext centroid hong et al
+computes the importance of each source sentence based on its cosine similarity with the document centroid ext icsisumm gillick et al
+leverages the ilp framework to identify a globally optimal set of sentences covering the most important concepts in the document set hyperparameters for all pg mmr variants are and
+except for bestsummrec where
+are grateful to hong et al
+for providing the summaries generated by centroid icsisumm dpp systems
+these are only available for the dataset
+system sumbasic vanderwende et al
+klsumm haghighi et al
+lexrank erkan and radev centroid hong et al
+icsisumm gillick and favre dpp taskar song et al
+opinosis ganesan et al
+pg original see et al
+pg mmr summrec pg mmr sentattn pg mmr cosine default pg mmr bestsummrec r
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table rouge results on the dataset
+system r
+sumbasic vanderwende et al
+
+
+
+klsumm haghighi et al
+
+
+lexrank erkan and radev
+
+song et al
+
+
+opinosis ganesan et al
+
+
+pg original see et al
+
+pg mmr summrec
+
+
+pg mmr sentattn pg mmr cosine default
+
+
+
+pg mmr bestsummrec
+
+
+
+
+
+
+
+
+
+table rouge results on the dataset
+ext dpp taskar selects an optimal set of sentences per the determinantal point processes that balance the erage of important information and the sentence diversity abs opinosis ganesan et al
+generates abstractive summaries by searching for salient paths on a word occurrence graph created from source documents abs song et al
+is a recent proach that scores sentences using lexrank and generates a title like summary for each sentence using an decoder model trained on gigaword data
+abs pg original see et al
+introduces an decoder model that encourages the system to copy words from the source text via pointing while retaining the ity to produce novel words through the generator
+results having described the experimental setup we next compare the pg mmr method against the lines on standard mds datasets evaluated by both automatic metrics and human assessors
+rouge lin
+this automatic metric sures the overlap of unigrams bigrams and skip bigrams with a maximum distance of words r between the system summary and a set of reference summaries
+rouge scores of various systems are presented in table and spectively for the and datasets
+we explore variants of the pg mmr method
+they differ in how the importances of source tences are estimated and how the sentence tance affects word attention weights
+cosine computes the sentence importance as the cosine similarity score between the sentence and ment vectors both represented as sparse tf idf vectors under the vector space model
+rec estimates the sentence importance as the predicted r l recall score between the sentence and the summary
+a support vector regression model is trained on sentences from the cnn daily mail datasets k and applied to duc tac sentences at test time see
+rec obtains the best estimate of sentence tance by calculating the r l recall score between the sentence and reference summaries
+it serves as an upper bound for the performance of summrec
+for all variants the sentence tance scores are normalized to the range of
+sentattn adjusts the attention weights using eq
+so that words in important sentences are more likely to be used to generate the summary
+the weights are otherwise computed using eq
+
+as seen in table and our pg mmr method surpasses all unsupervised extractive baselines cluding sumbasic klsumm and lexrank
+on the dataset icsisumm and dpp show good performance but these systems are trained directly on mds datasets which are not utilized by the pg mmr method
+pg mmr exhibits perior performance compared to existing it outperforms opinosis and tive systems
+original by a large margin in terms of f scores
+
+
+for and
+
+
+in particular pg original is the for
+original pointer generator networks with document inputs at test time
+compared to it mmr is more effective at identifying worthy content from the input
+cosine is used as the default pg mmr and it shows ter results than summrec
+it suggests that the sentence and document representations tained from the encoder decoder model trained on cnn dm are suboptimal possibly due to a vocabulary mismatch where certain words in the duc tac datasets do not appear in cnn dm and their embeddings are thus not learned during ing
+finally we observe that bestsummrec yields the highest performance on both datasets
+this nding suggests that there is a great potential for improvements of the pg mmr method as its extractive and abstractive components can be separately optimized
+figure the median location of summary n grams in the multi document input and the lower higher quartiles
+the n grams come from the summary tence and the location is the source sentence index
+system grams grams grams sent pg original pg mmr human abst
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table percentages of summary n grams or the entire tences appear in the multi document input
+location of summary content
+we are ested in understanding why pg mmr forms pg original at identifying summary content from the multi document input
+we ask the tion where in the source documents does each system tend to look when generating their maries our ndings indicate that pg original gravitates towards early source sentences while pg mmr searches beyond the rst few sentences
+in figure we show the median location of the rst occurrences of summary n grams where the n grams can come from the to summary sentence
+for pg original summaries n grams of the summary sentence frequently come from the and source sentences corresponding to the lower higher quartiles of source sentence dices
+similarly n grams of the summary tence come from the to source sentences
+for pg mmr summaries the patterns are ent
+the n grams of the and summary tences come from source sentences of the range and respectively
+our ndings gest that pg original tends to treat the input as a single document and identies summary worthy content from the beginning of the input whereas pg mmr can successfuly search a broader range of the input for summary content
+this capability is crucial for multi document input where tant content can come from any article in the set
+degree of extractiveness
+table shows the in the multi document inputpg originalpg summ summ summ summ summ sent linguistic quality system fluency inform
+nonred
+lexrank pg original pg mmr
+
+
+
+
+
+
+
+
+
+
+
+rankings
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table linguistic quality and rankings of system summaries
+human abstract pg original summary boeing plane with people on board crashed into a tain in the west sulawesi province of indonesia on monday january killing at least passengers with possible survivors
+the plane was adam air ight departing at pm from surabaya on java bound for manado in northeast sulawesi
+the plane crashed in a mountainous region in polewali west lawesi province
+there were three americans on board survived
+it is not know if they the cause of the crash is not known at this time but it is possible bad weather was a factor
+summary plane with people on board crashes
+three americans among on board plane in indonesia
+rescue team arrives in indonesia after plane crash
+plane with crashes in west sulawesi killing at least
+no word on the fate of boeing
+plane carrying passengers loses contact with makassar
+plane crashes in indonesia killing at least
+indonesian navy sends two planes to carry bodies of ve
+indonesian plane carrying missing
+indonesian lawmaker criticises slow deployment of plane
+hundreds of kilometers plane crash
+adam air boeing crashed monday after vanishing off air trafc control radar screens between the indonesian islands of java and sulawesi
+up to people were thought to have survived with rescue teams racing to the crash site near polewali in west sulawesi some metres north of the south sulawesi provincial capital makassar
+it was the worst air disaster since sept
+when a mandala line s boeing crashed shortly after taking off from the north sumatra s airport killing people
+earlier on friday a ferry carrying people sank off the java coast
+pg mmr summary the adam air boeing crashed monday afternoon but search and rescue teams only discovered the wreckage early tuesday
+the indonesian rescue team arrived at the mountainous area in west sulawesi province where a passenger plane with people onboard crashed into a mountain in polewali west sulawesi province
+air force rear commander eddy suyanto told shinta radio station that the plane operated by local carrier adam air had crashed in a mountainous region in polewali province on monday
+there was no word on the fate of the remaining people on board the boeing
+table example system summaries and human written abstract
+the sentences are manually de tokenized for readability
+percentages of summary n grams or entire tences appearing in the multi document input
+pg original and pg mmr summaries both show a high degree of extractiveness and similar ings have been revealed by see et al
+
+because pg mmr relies on a handful of resentative source sentences and mutes the rest it appears to be marginally more extractive than pg original
+both systems encourage generating summary sentences by stitching together source sentences as about and of the mary sentences do not appear in the source but about the n grams do
+the summaries generated by rewriting selected source sentences to title like summary sentences exhibits a high degree of abstraction close to that of human abstracts
+linguistic quality
+to assess the linguistic quality of various system summaries we employ amazon mechanical turk human evaluators to judge the summary quality including pg mmr lexrank pg original and
+a turker is asked to rate each system summary on a scale of worst to best based on three evaluation ria informativeness to what extent is the ing expressed in the ground truth text preserved in the summary uency is the summary matical and well formed and non redundancy does the summary successfully avoid repeating information
+human summaries are used as the ground truth
+the turkers are also asked to provide an overall ranking for the four system summaries
+results are presented in table
+we observe that the lexrank summaries are highest rated on ency
+this is because lexrank is an extractive approach where summary sentences are directly taken from the input
+pg mmr is rated as the best on both informativeness and non redundancy
+garding overall system rankings pg mmr maries are frequently ranked as the and best summaries outperforming the others
+example summaries
+in table we present example summaries generated by various tems
+pg original can not effectively identify portant content from the multi document input
+tends to generate short title like sentences that are less informative and carry stantial redundancy
+this is because the system is trained on the gigaword dataset rush et al
+where the target summary length is words
+mmr generates summaries that effectively dense the important source content
+conclusion we describe a novel adaptation method to erate abstractive summaries from multi document inputs
+our method combines an extractive marization algorithm mmr for sentence tion and a recent abstractive model pg for fusing source sentences
+the pg mmr system strates competitive results outperforming strong extractive and abstractive baselines
+references dzmitry bahdanau kyunghyun cho and yoshua neural machine translation by corr bengio
+
+jointly learning to align and translate
+
+
+regina barzilay kathleen r
+mckeown and michael elhadad
+
+information fusion in the context of multi document summarization
+in proceedings of the annual meeting of the association for tional linguistics acl
+tal baumel matan eyal and michael elhadad
+
+query focused abstractive summarization rating query relevance multi document coverage and summary length constraints into els
+arxiv preprint
+
+taylor berg kirkpatrick dan gillick and dan klein
+
+jointly learning to extract and compress
+in proceedings of the annual meeting of the tion for computational linguistics acl
+lidong bing piji li yi liao wai lam weiwei guo and rebecca j
+passonneau
+
+abstractive multi document summarization via phrase selection and merging
+in proceedings of acl
+ziqiang cao wenjie li sujian li and furu wei
+
+improving multi document summarization via text classication
+in proceedings of the association for the advancement of articial intelligence aaai
+jaime carbonell and jade goldstein
+
+the use of mmr diversity based reranking for reordering documents and producing summaries
+in ings of the international acm sigir conference on research and development in information retrieval sigir
+giuseppe carenini and jackie chi kit cheung
+
+extractive vs
+nlg based abstractive tion of evaluative text the effect of versiality
+in proceedings of the fifth international natural language generation conference inlg
+qian chen xiaodan zhu zhen hua ling si wei and hui jiang
+
+distraction based neural networks for document summarization
+in proceedings of the twenty fifth international joint conference on ticial intelligence ijcai
+yen chun chen and mohit bansal
+
+fast stractive summarization with reinforce selected tence rewriting
+in proceedings of the annual ing of the association for computational linguistics acl
+jianpeng cheng and mirella lapata
+
+neural summarization by extracting sentences and words
+in proceedings of acl
+hoa trang dang and karolina owczarzak
+
+overview of the tac update summarization in proceedings of text analysis conference task
+tac
+hal daume iii and daniel marcu
+
+a channel model for document compression
+in ceedings of the annual meeting of the association for computational linguistics acl
+greg durrett taylor berg kirkpatrick and dan klein
+
+learning based single document tion with compression and anaphoricity constraints
+in proceedings of the association for computational linguistics acl
+gunes erkan and dragomir r
+radev
+
+lexrank graph based lexical centrality as salience in text journal of articial intelligence summarization
+research
+giuseppe di fabbrizio amanda j
+stent and robert gaizauskas
+
+a hybrid approach to document summarization of opinions in reviews
+proceedings of the international natural guage generation conference inlg
+katja filippova enrique alfonseca carlos menares lukasz kaiser and oriol vinyals
+
+sentence compression by deletion with lstms
+in proceedings of the conference on empirical ods in natural language processing emnlp
+dimitrios galanis and ion androutsopoulos
+
+an extractive supervised two stage method for sentence compression
+in proceedings of naacl hlt
+kavita ganesan chengxiang zhai and jiawei han
+
+opinosis a graph based approach to stractive summarization of highly redundant in proceedings of the international ions
+ence on computational linguistics coling
+sebastian gehrmann yuntian deng and alexander rush
+
+bottom up abstractive in proceedings of the conference on tion
+pirical methods in natural language processing emnlp
+shima gerani yashar mehdad giuseppe carenini raymond t
+ng and bita nejat
+
+abstractive summarization of product reviews using discourse structure
+in proceedings of the conference on pirical methods in natural language processing emnlp
+dan gillick and benoit favre
+
+a scalable global in proceedings of the model for summarization
+naacl workshop on integer linear programming for natural langauge processing
+dan gillick benoit favre dilek hakkani tur berndt bohnet yang liu and shasha xie
+
+the icsi utd summarization system at tac
+in proceedings of tac
+max grusky mor naaman and yoav artzi
+
+newsroom a dataset of
+million summaries with diverse extractive strategies
+in proceedings of the north american chapter of the association for computational linguistics naacl
+jiatao gu zhengdong lu hang li and victor o
+k
+incorporating copying mechanism in in proceedings of li
+
+sequence to sequence learning
+acl
+caglar gulcehre sungjin ahn ramesh nallapati bowen zhou and yoshua bengio
+
+pointing the unknown words
+in proceedings of the nual meeting of the association for computational linguistics acl
+aria haghighi and lucy vanderwende
+
+ing content models for multi document tion
+in proceedings of the north american ter of the association for computational linguistics naacl
+karl moritz hermann tomas kocisky edward grefenstette lasse espeholt will kay mustafa leyman and phil blunsom
+
+teaching chines to read and comprehend
+in proceedings of neural information processing systems nips
+sepp hochreiter and jurgen schmidhuber
+
+long short term memory
+neural computation
+kai hong john m conroy benoit favre alex kulesza hui lin and ani nenkova
+
+a itory of state of the art and competitive baseline maries for generic news summarization
+in ings of the ninth international conference on guage resources and evaluation lrec
+masaru isonuma toru fujino junichiro mori yutaka matsuo and ichiro sakata
+
+extractive marization using multi task learning with document classication
+in proceedings of the conference on empirical methods in natural language processing emnlp
+hongyan jing and kathleen mckeown
+
+the composition of human written summary sentences
+in proceedings of the international acm sigir conference on research and development in mation retrieval sigir
+yuta kikuchi graham neubig ryohei sasano hiroya takamura and manabu okumura
+
+ling output length in neural encoder decoders
+in proceedings of emnlp
+wojciech kryscinski romain paulus caiming xiong improving abstraction and richard socher
+
+in text summarization
+in proceedings of the ference on empirical methods in natural language processing emnlp
+chen li fei liu fuliang weng and yang liu
+
+document summarization via guided sentence pression
+in proceedings of the conference on empirical methods in natural language processing emnlp
+kexin liao logan lebanoff and fei liu
+
+stract meaning representation for multi document summarization
+in proceedings of the international conference on computational linguistics ing
+chin yew lin
+
+rouge a package for in proceedings tomatic evaluation of summaries
+of acl workshop on text summarization branches out
+fei liu jeffrey flanigan sam thomson norman sadeh and noah a
+smith
+
+toward tive summarization using semantic representations
+in proceedings of the north american chapter of the association for computational linguistics man language technologies naacl
+wencan luo and diane litman
+
+summarizing student responses to reection prompts
+in ings of the conference on empirical methods in ural language processing emnlp
+wencan luo fei liu zitao liu and diane litman
+
+automatic summarization of student course in proceedings of the north american feedback
+chapter of the association for computational guistics human language technologies naacl
+yishu miao and phil blunsom
+
+language as a latent variable discrete generative models for in proceedings of the tence compression
+ence on empirical methods in natural language processing emnlp
+ramesh nallapati bowen zhou cicero dos santos caglar gulcehre and bing xiang
+
+stractive text summarization using sequence sequence rnns and beyond
+in proceedings of the signll conference on computational natural language learning conll
+shashi narayan shay b
+cohen and mirella lapata
+
+ranking sentences for extractive tion with reinforcement learning
+in proceedings of the annual conference of the north american chapter of the association for computational guistics human language technologies hlt
+ani nenkova and kathleen mckeown
+
+matic summarization
+foundations and trends in information retrieval
+paul over and james yen
+
+an introduction to
+national institute of standards and technology
+romain paulus caiming xiong and richard socher
+
+a deep reinforced model for abstractive in proceedings of the conference on marization
+empirical methods in natural language processing emnlp
+daniele pighin marco cornolti enrique alfonseca and katja filippova
+
+modelling events through memory based open patterns for in proceedings of the annual tive summarization
+meeting of the association for computational guistics acl
+lu wang hema raghavan vittorio castelli radu rian and claire cardie
+
+a sentence pression based framework to query focused document summarization
+in proceedings of acl
+kam fai wong mingli wu and wenjie li
+
+tractive summarization using supervised and in proceedings of the supervised learning
+national conference on computational linguistics coling
+michihiro yasunaga rui zhang kshitijh meelu ayush pareek krishnan srinivasan and dragomir radev
+
+graph based neural multi document the summarization
+ence on computational natural language learning conll
+in proceedings of alexander m
+rush sumit chopra and jason weston
+
+a neural attention model for sentence in proceedings of the conference on marization
+empirical methods in natural language processing emnlp
+dani yogatama fei liu and noah a
+smith
+
+extractive summarization by maximizing semantic volume
+in proceedings of the conference on pirical methods on natural language processing emnlp
+david zajic bonnie j
+dorr jimmy lin and richard schwartz
+
+multi candidate reduction tence compression as a tool for document rization tasks
+information processing and ment
+wenyuan zeng wenjie luo sanja fidler and raquel urtasun
+
+efcient summarization with again and copy mechanism
+in proceedings of the international conference on learning tions iclr
+jianmin zhang jiwei tan and xiaojun wan
+
+towards a neural network approach to tive multi document summarization
+arxiv preprint
+
+qingyu zhou nan yang furu wei and ming zhou
+
+selective encoding for abstractive sentence summarization
+in proceedings of the annual ing of the association for computational linguistics acl
+evan sandhaus
+
+the new york times annotated corpus
+linguistic data consortium
+abigail see peter j
+liu and christopher d
+manning
+
+get to the point summarization with in proceedings of the annual generator networks
+meeting of the association for computational guistics acl
+kaiqiang song lin zhao and fei liu
+
+structure infused copy mechanisms for abstractive summarization
+in proceedings of the international conference on computational linguistics ing
+sho takase jun suzuki naoaki okazaki tsutomu rao and masaaki nagata
+
+neural headline generation on abstract meaning representation
+in proceedings of the conference on empirical ods in natural language processing emnlp
+jiwei tan xiaojun wan and jianguo xiao
+
+abstractive document summarization with a in proceedings of based attentional neural model
+the annual meeting of the association for tional linguistics acl
+alex kuleszaand ben taskar
+
+determinantal point processes for machine learning
+now lishers inc
+kapil thadani and kathleen mckeown
+
+tence compression with joint structural inference
+in proceedings of conll
+lucy vanderwende hisami suzuki chris brockett and ani nenkova
+
+beyond sumbasic focused summarization with sentence simplication and lexical expansion
+information processing and management
+

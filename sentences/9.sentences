@@ -1,0 +1,289 @@
+t c o l c
+s c v
+v i x r a assembling actor based mind maps from text streams claudine brucks and christoph schommer university of luxembourg campus kirchberg
+dept
+of computer science and communication ilias laboratory rue richard coudenhove kalergi luxembourg email claudine
+brucks christoph
+schommer uni
+lu october abstract for human beings the processing of text streams of unknown size leads generally to problems because e
+
+noise must be selected out information be tested for its relevance or redundancy and linguistic phenomenon like ambiguity or the resolution of pronouns be advanced
+putting this into simulation by using an articial mind map is a challenge which oers the gate for a wide eld of applications like automatic text summarization or punctual retrieval
+in this work we present a framework that is a rst step towards an automatic intellect
+it aims at assembling a mind map based on incoming text streams and on a subject verb object strategy having the verb as an interconnection between the adjacent nouns
+the mind map s performance is enriched by a pronoun resolution engine that bases on the work of
+introduction a text stream is a data ow that is lost once it is read
+such a stream occurs very often in practice for example while reading a text or listening to a story probably told by someone else
+in both cases human beings store the major incidents rather associative
+first they remove noise and then extract information out of it which can either be relevant or redundant obvious
+then relevant information is connected very adaptively meaning that if the same information is read or listened again the association between co occurred words increases or decreases in case it is not
+with such a performance inconsiderable information gets lost whereas important facts can be kept
+this is quite important because a constructive processing like the generation of a summarisation of the text and a retrieve of contents becomes manageable
+incremental adaptive mind maps serve in a similar way as they simulate such a human formance through their associative incremental and adaptive architecture they process incoming data streams adapt internal structures depending on the given input strengthen or weaken internal connections and send longer established connections to a simulating long term memory
+in this respect we base on a work given by that argues for a real time approach for nding associative relationships between categorical entities from transactional data streams
+technically these categorical entities are resented as connectionist cells while associations are represented by links between them
+these links may become stronger over time or degrade according to whether the tion re occurs after a while or not is observed for a while
+the work suggests a three layer architecture in the rst layer the short term memory treats the incoming signals and structs the associations
+the second layer which is called the long term memory stores associations that have a strong connection and that may be useful for a further analysis
+the last layer the action layer serves as a communication interface with the user over which he can consult the actual state of the system and interact with it
+the generation of such a mind map becomes complicated by the fact that the incoming text can be corrupt or even ambiguous
+for example pronouns produce an ambiguity between existing referenced persons in the text having the president of united states has said that
+
+
+and a succeeding furthermore he has mentioned that
+
+
+leads undoubtedly to the same person but the recognition of such relationships is not natural
+if we keep such relationships unsolved the mind map can become ineective or even wrong
+in this respect a meaningful part of the intended mind map described in this work concerns with the resolution of pronouns
+for this we are inspired by some earlier work notably a syntax based approach
+all possible candidates for a pronoun are evaluated on a set of salience factors as for example recency or subject emphasis
+the candidate with the highest salience weight will be chosen as antecedent
+presents a similar approach where the candidates are evaluated on indicators but no syntactic or semantic information on the sentence are needed
+furthermore the mind map concerns with a temporal management of text streams to construct an actor based structure
+architecture of the mind map the motivation of pronoun resolution for the semantic network learning is to nd the correct antecedent for each pronoun
+this is important to construct complete mind maps for each actor in a text
+for this the text stream is treated by a sliding window which rst buers and processes a certain number of sentences with the consequence that the information once it is read gets lost
+for each sentence that is in the sliding window a pre dened subject verb object structure is instantiated and arranged in a semantic work structure having concepts and connections between them
+the connections become stronger or weaker according to the underlying text stream i
+e
+the occurrence of the subject verb object instantiation
+figure shows the general architecture of the mind map
+first the complete text i
+e
+each sentence is preprocessed which is done in order to get syntactic and semantic mation out of the text to further treat the input
+in fact pronouns are used as substitutes for nouns in a text
+as an example the pronoun he refers back to harry in a sentence like figure architecture harry goes to the zoo where he looks at the beautiful animals
+then a predened structure of and is extracted from each sentence as well as the adjacent of both subjects and objects
+all these extracted elements are in fact the essence of the sentence
+finally the co reference resolution focuses on merging concepts that relate to the same content
+as an example the concepts president washington and george washington relate both to the same person
+however the co reference resolution is limited to the actors of the text
+accuracy pronoun resolution following our experiences and looking back at the most important concepts for each egory of the text where most important refers to those that have the most outgoing edges we have observed that these concepts are generally the actors of the stories this is in respect to stories whereas for biographies and news articles the most important concept is the person the biography or news text is about
+in scientic texts the actors are often not the most occurring actors
+in respect to the structures that occur multiple times inside a text stream one can observe that most of all subject verb structures reoccur more often than subject verb object structures
+those subject verb structures that occur multiple times mostly contain a verb of cognition or communication as for instance say think or explain
+in concern of the accuracy of the pronoun resolution that is how many pronouns are correctly or wrongly resolved and even remain unresolved see table we have observed that the resolution results applied to pronouns given in third person singular are rather successful
+for this we have used texts from dierent domains i
+e
+fairy tales news articles biographies and scientic articles
+only the resolution of it and they lead to an insucient accuracy which demand for an alternative method
+pronoun he his him himself she her herself it its itself they their them themselves i my me myself correct
+
+
+
+
+
+
+
+
+
+false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table resolving the pronouns correct wrong and unresolved
+implementation in concern of the implementation we use a graphical user interface on which the user can operate for example to x the window size to x the actors in the text and to look at the dierent outputs of the program as for example the dierent sub mind map related to each actor diverse actor statistics
+for the preprocessing of the text streams we still need the tagged text which permits to lter out all the nouns proper nouns and pronouns
+the parse tree which gives more information about the constituents of each sentence as for example the clauses
+the grammatical relations between the single words of a sentence relating for ple a subject noun with its corresponding verb
+figure mind map for john sees the yellow lion
+with this the pronoun resolution works as illustrated in the selective examples he she we take the last male female noun or name occurring before the pronoun that acts as a subject in the sentence
+if there is none we take the last male female noun or name before the pronoun
+they we look back at the last two sentences and take the last plural before the pronoun
+plurals remain either plural nouns e
+
+the women the children the cars or noun phrases containing nouns connected by and or e
+
+john and paul
+it we detect if it is pleonastic or not
+if it is pleonastic it has no antecedent as for example in the phrase it can be seen that
+
+
+
+this is done with the help of a set of some xed sentence structure patterns taken from
+if it is not pleonastic we take the last non living object occurring before the pronoun which is part of a non prepositional phrase
+to extract the structure of subject verb object from each sentence the grammatical tions described in are used john sees the yellow lion with the relation nsubj nominal subject relates the noun john with the corresponding verb sees whereas the relation dobj direct object relates this verb with the object lion
+in this figure the workbench
+way the sentence elements are extracted and the sentence structure can be translated into the mind map
+all subjects and objects take over the roles of the concepts whereas the verbs serve as connections between the concepts
+the adjectives represent sub concepts of both subjects and objects
+from a graphical point of view actors are represented as double circles while concepts that represent no actors are drawn as boxes
+the concepts adjective are drawn as diamonds
+concepts are linked by a directed arrow labeled with the verb that relates the subject with the object
+an example can be seen in figure representing the sentence john sees the yellow lion
+in order to merge concepts that refer to the same actors we use an incremental based thesaurus
+sine the user can enter dierent information about the actor for example the rst name the last name nicknames
+in advance we use this external information to establish the thesaurus
+following the spirit of the concepts are then matched
+figure presents the implemented user interface consisting of dierent components for example the technical left part including processing information graph options and actor statistics the monitoring part below including the last parsed sentences and formation about each node and the notes part to do and save own comments
+the workbench is enriched by help buttons
+an example the following text is taken from an extract of the children story malcolm the scotty dog
+in this example the focus is on an actor called malcolm
+the text is processed sentence wide
+with that we start with malcolm picked the bone up and ran over to the other side of the garden
+the mind map for the actor malcolm after this sentence can be seen in figure
+the actor malcolm is centralized pointing to the concepts bone and side of garden
+the last concept is characterised by a sub concept called other
+after the next sentence the mind map of malcolm has evolved in the way as represented in figure
+he set the bone down and looked around
+we observe that he has been resolved to malcolm
+an empty concept is added since looked around does not imply an object
+the concept bone is stimulated again by set down new concept and connected to it
+with he picked it up and could not wait to taste it
+both occurrences of it have been replaced by bone figure
+the negative verb could not wait is specially marked in the mind map by an inhibitating arrow
+the phrase he picked up the bone has re occurred in the text stream
+to mark this re occurrence in the map the structure malcolm picked up bone has been enforced by means of a straight line
+here it is possible for the reader to display the mind maps in certain depths
+by selecting a depth of only the concepts directly related to the actor will be represented while for a depth of all the concepts at a distance of two nodes will be displayed
+this can be illustrated by processing the following sentence
+the bone was big and it tasted delicious
+by displaying a depth of the mind map of malcolm will be as in figure
+but when displaying a depth of the mind map will look as in figure
+here we notice that the concept bone is explained in a more detailed way
+and in fact the user decides how detailed the mind map should be
+figure shows the mind map after the processing of a larger amount of sentences
+figure mind map of malcolm after rst sentence figure mind map of malcolm after two sentences conclusions the mind map is a knowledge structure that continuously actualises itself as long as text is read
+the representation of the mind map as a semantic network structure permits to figure mind map of malcolm after three sentences figure mind map of malcolm after four sentences with a depth of gather all the actions thoughts and states of being of one actor in a graphical tation
+through the temporal consolidation changes over time can easily be captured in the mind map
+currently we work on two mind map extensions that concern with an improved interaction
+first and since a main application is the support of a textual marization of read text streams we currently build an automatic text based summariser
+the rst prototypical version simply outputs the concepts related to an actor including the sub concepts and the connections
+as the connections are syntactically unchanged it is easy to generate sentences out of it
+secondly a selective information retrieval engine is currently done through the extension of the user mind map communication through a sql like interface
+with that we aim at queries like the following select sub concepts concepts from mind map with where concept malcolm this leads to a result set where all concepts sub concepts and associations are retrieved
+the operation depth says that only the neighbor elements are considered
+in case that depth is set to all components of the over next level are retrieved
+a second retrieval then results in a set where only all sub concepts of harry are retrieved
+select sub concepts name from mind map figure a mind map after having read sentences
+where name harry other concepts
+dressed
+to be more precise the following commands are currently under implementation select the projection that gives the concepts sub concepts and associations to from the selection to a mind map alternatively several mind maps can be with depth the depth around a concept
+where the where clause allows a diverse condition setting
+however a disadvantage of the mind map is currently that it grows fast and becomes very large
+with this implementation texts with sentences are still an overkill
+in this respect the optimization of the existing solution is a future concern as well
+furthermore sentences can be composed of not only one single clause but of several clauses
+these clauses are either independent or dependent clauses
+independent clauses can stand as a simple sentence and express a complete thought
+dependent clauses on the other hand can not express a complete thought by standing alone as a sentence
+they simply make no sense when standing alone
+this is why dependent clauses are connected to an independent clause
+this connection is lost in the mind maps so that some branches going o one actor do not make a lot of sense
+also the application depends highly on the accuracy of the parser used during the preprocessing
+if the parser can not identify the and of the sentence errors or gaps will occur in the mind maps
+also as the resolution of some pronouns depends on the correct processing of the sentences some pronouns may be wrongly resolved due to mistakes of the parser
+this work has been done within a master thesis at the mine research group ilias laboratory university of luxembourg
+acknowledgement references c
+brucks m
+hilker c
+schommer r
+weires and c
+wagner
+symbolic computing with incremental mind maps to manage and mine data streams some applications
+international workshop on neural symbolic learning and reasoning
+ecai
+patras greece
+
+i
+dagan and a
+itai
+automatic processing of large corpora for the resolution of anaphora references
+in proceedings of the international conference on tational linguistics coling pp
+
+m
+dimitrov
+a light weight approach to coreference resolution for named entities in text
+proceedings of the fourth discourse anaphora and anaphor resolution colloquium daarc
+
+s
+lappin h
+j
+leass
+an algorithm for pronomial anaphora resolution
+association for computer linguistics
+r
+mitkov
+anaphora resolution the state of the art
+
+california state versity northridge
+r
+mitkov
+towards a more consistent comprehensive evaluation of anaphora lution algorithms systems
+
+proceedings of the discourse anaphora anaphor resolution colloquium lancaster uk
+r
+mitkov c
+barbu
+using corpora to improve pronoun resolution
+
+languages in context
+s
+muthukrishnan
+data streams algorithms applications
+
+in proceedings of the annual acm siam symposium on discrete algorithms
+d
+klein and c
+d
+manning
+fast exact inference with a factored model for natural language parsing
+in advances in neural information processing systems nips cambridge ma mit press pp
+
+d
+klein and c
+d
+manning
+
+accurate unlexicalized parsing
+proceedings of the meeting of the association for computational linguistics pp
+
+h
+j
+leass and s
+lappin
+an algorithm for pronominal anaphora resolution
+putational linguistics vol pp
+
+r
+mitkov
+robust pronoun resolution with limited knowledge
+coling acl pp
+
+t
+rothenberger s
+oez e
+tahirovic c
+schommer
+figuring out actors in text streams using collocations to establish incremental mind maps
+corr
+
+
+c
+schommer
+incremental discovery of association rules with dynamic neural cells
+proceedings of the workshop on symbolic networks
+ecai valencia spain
+b
+a
+wooley
+pronoun resolution of they and them
+proceedings of the eleventh international florida articial intelligence research society conference may sanibel island florida usa
+aaai press pp
+
+

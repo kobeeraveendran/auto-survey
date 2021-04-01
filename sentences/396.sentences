@@ -1,0 +1,1070 @@
+submitted for publication in the proceedings of the ringberg symposium fields particles and gravitation on the occassion of the w
+zimmermann birthday r a m v h t e h v i x r a the bogoluibov renormalization group in theoretical and mathematical physics d
+v
+shirkov n
+n
+bogoliubov laboratory of theoretical physics
+jinr
+ru jinr dubna russia abstract this text follows the line of a talk on ringberg symposium dedicated to wolfhart mann birthday
+the historical overview part partially overlaps with corresponding text of my previous commemorative paper see ref
+in the list
+at the same time second part includes some recent results in qft sect
+
+and summarize sect
+
+an impressive progress of the qft renormalization group application in mathematical physics
+contents early history of the rg in the qft
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+the birth of bogoliubov s renormalization group
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+renormalization and renormalization invariance
+
+the discovery of the renormalization group
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+creation of the rg method
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+other early rg applications
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+further bogoliubov s rg development
+quantum eld theory
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ways of the rg expanding
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+functional self similarity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+recent application in mathematical physics
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+references early history of the rg in the qft
+the birth of bogoliubov s renormalization group
+in the spring of a small conference on quantum electrodynamics and elementary particle theory was organized in moscow
+it took place at the lebedev institute in the rst half of april
+among the participants there were several foreigners including hu ning and gunnar kallen
+landau s survey lecture fundamental problems in qft in which the issue of ultraviolet uv behaviour in the qft was discussed constituted the central event of the conference
+not long before the problem of short distance behaviour in qed was advanced substantially in a series of articles by landau abrikosov and khalatnikov
+they succeeded in constructing a closed approximation of the schwinger dyson equations which admitted an explicit solution in the massless limit and in modern language it resulted in the summation of the leading uv logarithms
+the most remarkable fact was that this solution turned out to be self contradictory from the physical point of view because it contained a ghost pole in the renormalized amplitude of the photon propagator or in terms of bare notions the diculty of zero physical charge
+at that time our meetings with nicolai nicolaevich bogoliubov n
+n
+in what follows were regular and intensive because we were tightly involved in the writing of nal of our big book
+n
+n
+was very interested in the results of landau s group and proposed me to consider the general problem of evaluating their reliability by constructing e
+
+the second approximation including next to leading uv logs to the schwinger dyson equations to verify the stability of the uv asymptotics and the very existence of a ghost pole
+shortly after the meeting at the lebedev institute alesha abrikosov told me about gell mann and low s which had just appeared
+the same physical problem was treated in this paper but as he put it it was hard to understand and to combine it with the results obtained by the landau group
+i looked through the article and presented n
+n
+with a brief report on the methods and results which included some general assertions on the scaling properties of the electron charge distribution at short distances and rather cumbersome functional equations see below section
+
+n
+n
+immediate comment was that gell mann and low approach is very important it is closely related to the groupe normalisation discovered a couple of years earlier by stueckelberg and petermann in the course of discussing the structure of the nite arbitrariness in the scattering matrix elements arising upon removal of the divergences
+this group is an example of the continuous groups studied by sophus lie
+this implied that functional group equations similar to those of paper should take place not only in the uv limit but also in the general case as well
+within the next few days i succeeded in recasting dyson s nite transformations and obtaining the desired functional equations for the qed propagator amplitudes which have group properties as well as the group dierential equations that is the sophus lie equations just at that time the rst draft of a central part of the book has been published in the form of two extensive papers
+of the renormalization group rg
+each of these resulting equations see below eqs
+contained a specic object the product of the squared electron charge and the transverse photon propagator amplitude
+we named this product the invariant charge
+from the physical point of view this function is an analogue of the so called eective charge of an electron rst discussed by dirac in which describes the eect of the electron charge screening due to quantum vacuum polarization
+also the term renormalization group was rst introduced in our doklady akademii nauk sssr publication in and in the english language paper
+at the above mentioned lebedev meeting gunnar kallen presented a paper written with pauli on the so called lee model the exact solution of which contained a ghost pole which in contrast to the physical one corresponding to a bound state had negative residue in the nucleon propagator
+kallen pauli s analysis led to the conclusion that the lee model is physically void
+in view of the argument on the presence of a similar pole in the qed photon propagator which follows from the abovementioned solution of landau s group as well as from an dependent analysis by fradkin obtained in moscow kallen s report resulted in a heated discussion on the possible inconsistency of qed
+in the discussion kallen argued that no rigorous conclusion about the properties of sum of an innite nonconvergent series can be drawn from the analysis of a nite number of terms
+nevertheless before long a publication by landau and pomeranchuk see e
+
+the review appeared arguing that not only qed but also local qft were self contradictory
+without going into details remind that our analysis of this problem carried out with the aid of the rg formalism just appeared led to the conclusion that such a claim can not have the status of a rigorous result independent of perturbation theory
+
+renormalization and renormalization invariance
+as is known the regular formalism for eliminating ultraviolet divergences in quantum eld theory qft was developed on the basis of covariant perturbation theory in the late
+this breakthrough is connected with the names of tomonaga feynman schwinger and some others
+in particular dyson and abdus salam carried out the general analysis of the structure of divergences in arbitrarily high orders of perturbation theory
+nevertheless a number of subtle questions concerning so called overlapping divergences remained unclear
+an important contribution in this direction based on a thorough analysis of the matical nature of uv divergences was made by bogoliubov
+this was achieved on the basis of a branch of mathematics which was new at that time namely the sobolev schwartz theory of distributions
+the point is that propagators in local qft are distributions similar to the dirac delta function and their products appearing in the coecients of the scattering matrix expansion require supplementary denition in the case when their arguments coincide and lie on the light cone
+in view of this the uv divergences reect the ambiguity in the denition of these products
+in the mid on the basis of this approach bogoliubov and his disciples developed a technique of supplementing the denition of the products of singular stueckelberg feynman propagators and proved a theorem on the niteness and uniqueness for renormalizable theories of the scattering matrix in any order of perturbation theory
+the prescription part of this theorem namely bogoliubov s r operation still remains a practical means of obtaining nite and unique results in perturbative calculations in qft
+the bogoliubov algorithm works essentially as follows to remove the uv divergences of one loop diagrams instead of introducing some ularization for example the momentum cuto and handling quasi innite counterterms it suces to complete the denition of divergent feynman integral by subtracting from it certain polynomial in the external momenta which in the simplest case is reduced to the rst few terms of the taylor series of the integral
+for multi loop diagrams including ones with overlapping divergencies one should rst subtract all divergent subdiagrams in a hierarchical order regulated by the r operator
+the uniqueness of computational results is ensured by special conditions imposed on them
+these conditions contain specic degrees of freedom related to dierent tion schemes and momentum scales that can be used to establish the relationships between the lagrangian parameters masses coupling constants and the corresponding physical tities
+the fact that physical predictions are independent of the arbitrariness in the ization conditions that is they are renorm invariant constitutes the conceptual foundation of the renormalization group
+an attractive feature of this approach is that it is free from any auxiliary nonphysical attributes such as bare masses bare coupling constants and regularization parameters which turn out to be unnecessary in computations employing bogoliubov s approach
+as a whole this method can be regarded as renormalization without regularization and counterterms
+
+the discovery of the renormalization group
+the renormalization group was discovered by stueckelberg and petermann in as a group of innitesimal transformations related to a nite arbitrariness arising in the elements of the scattering s matrix upon elimination of the uv divergences
+this arbitrariness can be xed by means of certain parameters ci
+
+
+we must expect that a group of innitesimal operators pi exists satisfying pis e
+
+
+admitting thus a renormalization of e
+these authors introduced the normalization group generated as a lie group by the imal operators pi connected with renormalization of the coupling constant e
+in the following year on the basis of dyson s transformations written in the regularized form gell mann and low derived functional equations for qed propagators in the uv limit
+for example for the renormalized transverse part d of the photon propagator they obtained an equation of the form dc where is the cuto momentum and is the physical electron charge
+the appendix to this article contains the general solution obtained by t
+d
+lee of this functional equation for the photon amplitude written in two equivalent forms f xf ln dy with at
+a qualitative analysis of the behaviour of the electromagnetic interaction at small distances was carried out with the aid of
+two possibilities namely innite and nite charge renormalizations were pointed out our conclusion is that the shape of the charge distribution surrounding a test charge in the vacuum does not at small distances depend on the coupling constant except through the scale factor
+the behavior of the propagator functions for large momenta is related to the magnitude of the renormalization constants in the theory
+thus it is shown that the unrenormalized coupling constant which appears in perturbation theory as a power series in the renormalized coupling constant it may really be innite as perturbation theory indicates it may be a nite number independent of with divergent coecients many behave either in two ways
+note that the latter possibility corresponds to the case when vanishes at a nite point
+here is known now as a xed point of the renormalization group mations
+the paper paid no attention to the group character of the analysis and the results obtained there
+the authors failed to establish a connection between their results and the standard perturbation theory and did not discuss the possibility that a ghost pole might exist
+the nal step was taken by bogoliubov and shirkov see also the survey published in english in
+using the group properties of nite dyson transformations for the coupling constant and the elds these authors derived functional group equations for the propagators and vertices in qed in the general case that is with the electron mass taken into account
+for example the equation for the transverse amplitude of the photon propagator and electron propagator amplitude were obtained in the form t y t y y y y y y in which the dependence not only on momentum transfer where is a certain normalizing scale factor but also on the mass variable y is taken into account
+as can be seen the product of electron charge squared and photon propagator plitude enters in both functional equations
+this product is invariant with respect to dyson transfermation
+we called this function invariant charge
+t y t in the modern notation the rst equation which in the massless case y is equivalent to is an equation for the invariant charge now widely known as an eective or running coupling y y t y t y
+let us emphasize that unlike in the ref
+approach in our case there are no simplications due to the massless nature of the uv asymptotics
+here the homogeneity of the transfer momentum scale is violated explicitly by the mass m
+nevertheless the symmetry even though a bit more complex one underlying the renormalization group as before can be stated as an exact symmetry of the solutions of the quantum eld problem see eq
+below
+this is what we mean when using the term bogoliubov s renormalization group or renorm group for short
+the dierential group equations dges for and for the electron propagator y y y y y y y with y y at
+were rst derived in by dierentiating the functional equations
+in this way an explicit realization of the dges mentioned in the citation from was obtained
+these results lished a conceptual link with the stueckelberg petermann and gell mann low approaches
+
+creation of the rg method another important achievement of paper consisted in formulating a simple algorithm for improving an approximate perturbative solution by combining it with the lie dierential equations modern notation is used in this quotation from formulae show that to obtain expressions for and s valid for all values of their arguments one has only to dene y and y in the vicinity of
+this can be done by means of the usual perturbation theory
+in our adjacent publication this algorithm was eectively used to analyse the uv and infrared ir asymptotic behaviour in qed
+the one loop and two loop uv asymptotics ln ln ln of the photon propagator as well as the ir asymptotics y y of the electron propagator in transverse gauge were obtained
+at that time these expressions had already been known only at the one loop level
+it should be noted that in the mid the problem of the uv behaviour in local qft was quite urgent
+as it has been mentioned already a substantial progress in the analysis of qed at small distances was made by landau and his collaborators
+however landau s approach did not provide a prescription for constructing subsequent approximations
+an answer to this question was found only within the new renorm group method
+the simplest uv asymptotics of qed propagators obtained in our paper for example pression agreed precisely with the results of landau s group
+within the rg approach these results can be obtained in just a few lines of argumentation
+to this end the massless one loop approximation of perturbation theory should be substituted into the right hand side of the rst equation in to compute the generator followed by an elementary integration of the rst of eqs
+
+p t
+
+
+moreover starting from the two loop expression p t containing the term we arrive at the second renormalization group approximation performing summation of the next to leading uv logs
+comparing solution with one can conclude that loop correction is extremely essential just in the vicinity of the ghost pole singularity at exp
+this demonstrates that the rg method is a regular procedure within which it is quite easy to estimate the range of applicability of the results
+the second order renorm group solution for the invariant coupling rst obtained in contains the nontrivial log of log dependence which is now widely known of the two loop approximation for the running coupling in quantum chromodynamics qcd
+quite soon this approach was formulated for the case of qft with two coupling constants g and h namely for a model of pion nucleon interactions with self interaction of pions
+to the system of functional equations for two invariant couplings h y h h y h t y t t y t y h h t y h h t y h y h there corresponds a coupled system of nonlinear dierential equations
+it was analysed in one loop appriximation to carry out the uv analysis of the renormalizable model of nucleon interaction
+in refs
+and the rg was thus directly connected with practical tions of the uv and ir asymptotics
+since then this technique known as the renormalization group method rgm has become the sole means of asymptotic analysis in local qft
+
+other early rg applications another important general theoretical application of the rg method was made in the summer of in connection with the then topical so called ghost pole problem
+this eect rst discovered in quantum electrodynamics was at rst thought to indicate a possible diculty in qed and then as a proof of the inconsistency of the whole local qft
+however the rg analysis of the problem carried out in on the basis of massless tion demonstrated that no conclusion obtained with the aid of nite order computations within perturbation theory can be regarded as a complete proof
+this corresponds precisely to the impression one can get when comparing and
+in the mid this result was very signicant for it restored the reputation of local qft
+nevertheless in the course of the following decade the applicability of qft in elementary particle physics remained doubtful in the eyes of many theoreticians
+in the general case of arbitrary covariant gauge the renormalization group analysis in qed was carried out in
+here the point was that the charge renormalization is connected only with the transverse part of the photon propagator
+therefore under nontransverse for example feynman gauge the dyson transformation has a more complex form
+this issue has been resolved by considering the treating the gauge parameter as another coupling constant
+ovsyannikov found the general solution to the functional rg equations taking mass into account y y in terms of an arbitrary function of two arguments reversible in its second argument
+to solve the equations he used the dierential group equations represented as linear partial dierential equations of the form which are now widely known as the callan symanzik equations x y y
+the results of this period of pioneers were collected in the chapter renormalization group in the monograph the rst edition of which appeared in shortly after that translated into english and french and very quickly acquired the status of the qft folklore
+further bogoliubov s rg development
+quantum eld theory the next decade and a half brought a calm period during which there was practically no substantial progress in the renorm group method
+
+new possibilities for applying the rg method were discovered when the technique of operator expansion at small distances on the light cone appeared
+the idea of this approach stems from the fact that the rg transform regarded as a dyson transformation of the renormalized vertex function involves the simultaneous scaling of all its invariant arguments normally the squares of the momenta of this function
+the expansion on the light cone so to say separates the arguments as a result of which it becomes possible to study the physical uv asymptotic behaviour by means of the expansion coecients when some momenta are xed on the mass shell
+as an important example we can mention the evolution equations for moments of qcd structure functions
+
+in the early s
+weinberg proposed the notion of the running mass of a fermion
+if considered from the viewpoint of this idea can be formulated as follows any parameter of the lagrangian can be treated as a generalized coupling constant and its eective counterpart should be included into the renorm group formalism
+however the results obtained in the framework of this approach turned out to be cally the same as before
+for example the most familiar expression for the fermion running mass m in which the leading uv logarithms are summed was known for the electron mass in qed with since the mid see
+
+the end of the calm period can be marked well enough by the year when the renormalization group method was applied in the quantum theory of non abelian gauge elds in which the famous eect of asymptotic freedom has been discovered
+the one loop renorm group expression s s s ln for the qcd eective coupling s exhibits a remarkable uv asymptotic behaviour thanks to being positive
+this expression implies in contrast to eq
+that the eective qcd coupling decreases as increases and tends to zero in the uv limit
+this discovery which has become technically possible only because of the rg method use is the most important physical result obtained with the aid of the renorm group approach in particle physics
+
+one more interesting application of the rg method in the multicoupling case ascending back in refers to special solutions so called separatrices in a phase space of several invariant couplings
+these solutions relate eective couplings and represent a scale invariant trajectories like e
+
+gi in the phase space which are straight lines at the one loop case
+some of them that are attractive or stable in the uv limit are related to tries that reveal themselves in the high energy domain
+it has been conjectured that these trajectories may be connected to hidden symmetries of a lagrangian and even could serve as a tool to nd them
+on this basis the method has been developed for nding out these symmetries
+it was shown that in the phase space of the invariant charges the nal symmetry corresponds to a singular solution that remain straight line when taking into account the higher order corrections
+such solutions corresponding to supersymmetry have been found for some combinations of yukawa and quartic interactions
+generally these singular solutions obey the relations dgi dt dgi dt t ln which are known since zimmermann s paper as the reduction equations
+in the they have been used see also review paper and references therein in the uv analyzis of asymptotically free models
+just for these cases the one loop reduction relations are adequate to physics
+quite recently some other application of this technique has been found in a metrical generalizations of grand unication scenario in the standard model
+it has been shown that it is possible to achieve complete uv niteness of a theory if yukawa couplings are related to the gauge ones in a way corresponding to these special solutions that is to reduction relations
+
+a general method of approximate solution of the massive rg equations has been developed
+analytic expressions of high level of accuracy for an eective coupling and one argument function have been obtained up to and three loop order
+for example the two loop massive expression for the invariant coupling s s ln at small s values corresponds to adequate perturbation expansion s n at the same time it smoothly interpolates between two massless limits with a ln c at and described by equation analogous to eq
+
+in the latter case it can be represented in the form usual for the qcd practice o s
+
+
+
+s ln ln ln
+the solution demonstrate in particular that the threshold crossing generally changes the subtraction scheme
+our investigation was prompted by the problem of explicitly taking into account heavy quark masses in qcd
+however the results obtained are important from a more general point of view for a discussion of the scheme dependence problem in qft
+the method used could also be of interest for rg applications in other elds within the situation with disturbed homogeneity such as e
+
+intermediate asymptotics in hydrodynamics size scaling in critical phenomena and the excluded volume problem in polymer theory
+in the paper this method was used for the eective couplings evolution in standard model sm
+here new analytic solution of a coupled system of three mass dependent loop evolution equations for three sm invariant gauge couplings has been obtained
+
+one more recent qft development relevant to renorm group is the analytic approach to perturbative qcd pqcd
+it is based upon the procedure of invariant analytization ascending to the end of
+the approach consists in a combining of two ideas the rg summation of leading uv logs with analyticity in the variable imposed by spectral representation of the kallen lehmann type which implements general properties of local qft including the bogoliubov condition of microscopic causality
+this combination was rst devised to get rid of the ghost pole in qed about forty years ago
+here the pqcd invariant coupling is transformed into an analytic coupling which by constuction is free of ghost singularities due to incorporating some nonperturbative structures
+this analytic coupling has no unphysical singularities in the complex plane its conventional perturbative expansion precisely coincides with the usual perturbation one for it has no extra parameters it obeys an universal ir limiting value that is independent of the scale parameter it turns out to be remarkably stable with respect to higher loop corrections and in turn to scheme dependence
+meanwhile the analytized perturbation expansion for an observable f in contrast with the usual case may contain specic functions instead of powers
+in other words the pertubation series for f due to analyticity imperative may change its form turning into an asymptotic expansion erdelyi over a nonpower set
+
+ways of the rg expanding as is known in the early wilson succeeded in transplanting the rg philosophy from relativistic qft to a quite another branch of modern theoretical physics namely the theory of phase transitions in spin lattice systems
+this new version of the rg was based on kadano s of joninig in blocks of few neighbouring spins with appropriate change renormalization of the coupling constant
+to realize this idea it is necessary to average spins in each block
+this operation reducing the number of degrees of freedom and simplifying the system under consideration preserves all its long range properties under a suitable renormalization of the coupling constant
+along with this the above procedure gives rise to a new theoretical model of the original physical system
+in order that the system obtained by averaging be similar to the original one one must also discard those terms of a new eective hamiltonian which turns out to be irrelevant in the description of infrared properties
+as a result of this kadanowilson decimation we arrive at a new model system characterized by new values of the elementary scale spacing between blocks and coupling constant of blocks interaction
+by iterating this operation one can construct a discrete ordered set of models
+from the physical point of view the passage from one model to some other one is an irreversible approximate procedure
+two passages of that sort applied in sequence should be equivalent to one which gives rise to a group structure in the set of transitions between models
+however in this case the rg is an approximative and is realized as a semigroup
+this construction obviously in no way connected with uv properties was much clearer from the general physical point of view and could therefore be readily understood by many theoreticians
+because of this in the seventies the rg concept and its algorithmic structure were successfully carried over to diverse branches of theoretical physics such as polymer physics the theory of noncoherent transfer and so on
+apart from constructions analogous to that of kadanowilson in a number of cases the connection with the original quantum eld renorm group was established
+this has been done with help of the functional integral representation
+for example the classic kolmogorov type turbulence problem was connected with the rg approach by the following steps
+dene the generating functional for correlation functions
+
+write for this functional the path integral representation
+
+by a change of functional integration variable establish an equivalence of the given classical statistical system with some qft model
+
+construct the schwinger dyson equations for this equivalent qft
+
+use the feynman diagram technique and perform a nite renormalization
+
+write down the standard rg equations and use them to nd xed point and scaling behavior
+the physics of renormalization transformation in the turbulence problem is related to a change of uv cuto in the wave number variable
+hence in dierent branches of physics the rg evolved in two directions the construction of a set of models for the physical problem at hand by direct analogy with the kadanowilson approach by averaging over certain degrees of freedom in polymer physics noncoherent transfer theory percolation theory and others the search for an exact rg symmetry directly or by proving its equivalence to some qft for example in turbulence theory and turbulence in plasma
+what is the nature of the symmetry underlying the renormalization group in qft the renorm group symmetry is an exact symmetry of a solution described in terms of the notions of the and some boundary
+in turbulence and some other branches of physics it is a symmetry of a solution of an equivalent qft model
+in spin lattice theory polymer theory noncoherent transfer theory percolation theory and so on in which the kadanowilson blocking concept is used the rg transformation involves transitions inside a set of auxiliary models constucted especially for this purpose
+to formulate rg one should dene an ordered set m of models mi
+the rg tion connecting various models has the form mni
+here the symmetry can be formulated only in the terms of whole set m
+there is also a purely mathematical dierence between the aforesaid rg realizations
+in qft the rg is a continuous symmetry group
+on the contrary in the theory of critical phenomena polymers and other cases when an averaging operation is necessary we have an approximate discrete semigroup
+it must be pointed out that in dynamical chaos theory in which rg ideas and terminology can sometimes be applied too functional iterations do not constitute a group at all in general
+an entirely dierent terminology is sometimes adopted in the above mentioned domains of theoretical physics
+terms like the real space rg the wilson rg the monte carlo rg or the chaos are in use
+nevertheless the armative answer to the question are there distinct renormalization groups implies no more than what has just been said about the dierences between cases a and on the one hand and c on the other
+for this reason we shall use notation of the bogoliubov renormalization group for the exact lie group as it emerged from the qft original papers see also chapter renormalization group in the monograph of
+this is to make clear distinction between exact group and the wilson construction for which the term ization group is widely used in the current literature
+
+functional self similarity
+an attempt to analyse the relationship between these formulations on a simple common basis was undertaken about fteen years ago
+in this paper see also our surveys it was demonstrated that all the above mentioned realizations of the rg could be considered in a unied manner by using only some common notions of mathematical physics
+in the general case it proves convenient to discuss the symmetry underlying the renorm group with the aid of a continuous one parameter transformation of two variables and g rt t g g g
+here is the basic variable subject to a scaling transformation while g is a physical quantity undergoing a more complicated functional transformation
+to form a group the transform rt must satisfy the composition law which yields the functional equation for g rtr rt g g t g
+this equation has the same form as the functional equation for the eective coupling in qft in the massless case that is at y
+it is therefore clear that the contents of rg equation can be reduced to the group composition law
+in physical problems the second argument g of the transformation usually is related to the boundary value of a solution of the problem under investigation
+this means that the symmetry underlying the rg approach is a symmetry of a solution not of equation describing the physical system at hand involving a transformation of the parameters entering the boundary conditions
+therefore in the simplest case the renorm group can be dened as a continuous one parameter group of transformations of a solution of a problem xed by a boundary condition
+the rg transformation aects the parameters of a boundary condition and corresponds to changing the way in which this condition is introduced for one and the same solution
+special cases of such transformations have been known for a long time
+if we assume that f g is a factored function of its arguments then from eq
+it follows that f z with k being a number
+in this particular case the group transform takes the form pt z t tk which is known in mathematical physics long since as a power self similarity transformation
+more general case rt with functional transformation law can be characterized as a functional self similarity fss transformation
+
+recent application in mathematical physics we can now answer the question concerning the physical meaning of the symmetry that underlies fss and the bogoliubov renorm group
+as we have already mentioned it is not a symmetry of the physical system or the equations of the problem at hand but a symmetry of a solution considered as a function of the essential physical variables and suitable boundary conditions
+a symmetry like that can be related in particular to the invariance of a physical quantity described by this solution with respect to the way in which the boundary conditions are imposed
+the changing of this way constitutes a group operation in the sense that the group property can be considered as the transitivity property of such changes
+homogeneity is an important feature of the physical systems under consideration
+ever homogeneity can be violated in a discrete manner
+imagine that such a discrete geneity is connected with a certain value of x say
+in this case the rg transformation with canonical parameter t will have the form rt t y t g y g
+the group composition law yields precisely the functional equation
+the symmetry connected with fss is a very simple and frequently encountered property of physical phenomena
+it can easily be discovered in various problems of theoretical physics in classical mechanics transfer theory classical hydrodynamics and so on
+recently some interesting attempts have been made to use the rg concept in classical mathematical physics in particular to study strong nonlinear regimes and to investigate asymptotic behavior of physical systems described by nonlinear partial dierential equations des
+about a decade ago the rg ideas were applied by late veniamin pustovalov with authors to analyze a problem of generating of higher harmonics in plasma
+this problem after some simplication was reduced to a couple of partial des with the boundary parameter solution characteristic explicitly included
+it was proved that these des admit an exact symmetry group that takes into account transformations of this boundary parameter which is related to the amplitude of the magnetic eld at a critical density point
+the solution symmetry obtained was then used to evaluate the eciency of harmonics generation in cold and hot plasma
+the advantageous use of the rg approach in solving the above particular problem gave promise that it may work in other cases and this was illustrated in by a series of examples for various boundary value problems
+moreover in refs
+the possibility of devising a regular method for nding a special class of symmetries of the equations in mathematical physics namely rg type symmetries was discussed
+the latter are dened as solution symmetries with respect to transformations involving parameters that enter into the solutions through the equations as well as through the boundary conditions in addition to or even rather than the natural variables of the problem present in the equations
+as it is well known the aim of modern group analysis which goes back to works of sophus lie is to nd symmetries of des
+this approach does not include a similar problem of studying the symmetries of solutions of these equations
+beside the main direction of both the classical and modern analysis there also remains the study of solution symmetries with respect to transformations involving not only the variables present in the equations but also parameters entering into the solutions from boundary conditions
+from the aforesaid it is clear that the symmetries which attracted attention in the in connection with the discovery of the rg in qft were those involving the parameters of the system in the group transformations
+it is natural to refer to these symmetries related to fss as the rg type symmetries
+it should be noted that the procedure of revealing the rg symmetry rgs or some group feature similar to rg regularity in any partial case qft spin lattice polymers turbulence and so on up to now is not a regular one
+in practice it needs some imagination and atypical manipulation invented for every particular case see discussion in
+by this reason the possibility to nd a regular approach to constructing rgs is of principal interest
+recently a possible scheme of this kind was presented in application to mathematical model of physical system that is described by des
+the leading idea in this case is based on the fact that solution symmetry for such system can be found in a regular manner by using the well developed methods of modern group analysis
+the scheme that describes devising of rgs is then formulated as follows
+firstly a specic rg manifold should be constructed
+secondly some auxiliary symmetry i
+e
+the most general symmetry group admitted by this manifold is to be found
+thirdly this symmetry should be restricted on a particular solution to get the rgs
+fourthly the rgs allows one to improve an approximate solution or in some cases to get an exact solution
+depending on both a mathematical model and boundary conditions the rst step of this procedure can be realized in dierent ways
+in some cases the desired rg manifold is obtained by including parameters entering into a solution via and boundary condition in the list of independent variables
+the extension of the space of variables volved in group transformations e
+
+by taking into account the dependence of coordinates of renorm group operator upon dierential non local variables which leads to the lie backlund and non local transformation groups can also be used for constructing the rg manifold
+the use of the ambartsumian s invariant embedding method and of dierential constraints sometimes allows reformulations of a boundary condition in a form of additional and enables one to construct the rg manifold as a combination of original equations and embedding equations or dierential constraints which are compatible with these equations
+at last of particular interest is the perturbation method of constructing the rg manifold which is based on the presence of a small parameter
+the second step the calculating of a most general group g admitted by the rg manifold is a standard procedure in the group analysis and has been described in detail in many texts and monographs see for example
+the symmetry group g thus constructed can not as yet be referred to as a renorm group
+in order to obtain this the next third step should be done which consists in restricting g on a solution of a boundary value problem
+this procedure utilizes the invariance condition and mathematically appears as a combining of dierent coordinates of group generators admitted by the rg manifold
+the nal step i
+e
+constructing analytic expression for solution of boundary value problem on the basis of the rgs usually presents no specic problems
+a review of results that were obtained on the basis of the formulated scheme can be found for example in
+up to now the described regular method is feasible for systems that can be described by des and is based on the formalism of modern group analysis
+however it seems also possible to extend our approach on physical systems that are not described just by dierential equations
+a chance of such extension is based on recent advances in group analysis of systems of integro dierential equations that allow transformations of both dynamical variables and functionals of a solution to be formulated
+more intriguing is the issue of a possibility of constructing a regular approach for more complicated systems in particular to that ones having an innite number of degrees of freedom
+the formers can be represented in a compact form by functional or path integrals
+the author is indebted to d
+v
+kazakov v
+f
+kovalev b
+v
+medvedev as well as to late v
+v
+pustovalov for useful discussion and comments
+references l
+d
+landau a
+a
+abrikosov and i
+m
+khalatnikov doklady an sssr in russian
+nuovo cim
+supp
+
+n
+n
+bogoliubov and d
+v
+shirkov problems in quantum eld theory
+i and ii uspekhi fiz
+nauk and in russian for german translation see fortschr
+d
+physik and
+m
+gell mann and f
+low quantum electrodynamics at small distances phys
+rev
+
+e
+c
+g
+stueckelberg and a
+petermann la normalisation constantes dans la theorie quanta helv
+phys
+acta
+p
+a
+m
+dirac in theorie du positron eme conseil du physique solvay structure et propriete noyaux atomiques octobre gauthier villars pp
+
+n
+n
+bogoliubov and d
+v
+shirkov on the renormalization group in qed doklady an sssr in russian
+n
+n
+bogoliubov and d
+v
+shirkov charge renormalization group in qft nuovo cim
+
+e
+s
+fradkin soviet phys
+jetp
+l
+d
+landau on the quantum theory of fields in niels bohr and the development of physics eds
+w
+pauli et al
+pergamon london pp
+n
+n
+bogoliubov and d
+v
+shirkov lee type model in qed doklady an sssr in russian
+n
+n
+bogoliubov and o
+s
+parasyuk doklady an sssr in russian acta mathematica
+n
+n
+bogoliubov and d
+v
+shirkov application of the renormalization group to improve the formulae of perturbation theory doklady an sssr in russian
+d
+v
+shirkov renormalization group with two coupling constants in the theory of doscalar mesons doklady an sssr in russian
+i
+f
+ginzburg ibid
+in russian
+l
+d
+landau and i
+ya
+pomeranchuk doklady an sssr in sian
+i
+ya
+pomeranchuk doklady an sssr in russian nuovo cim
+
+a
+a
+logunov soviet phys
+jetp
+l
+v
+ovsyannikov doklady an sssr in russian english lation in in the intermissions
+
+
+ed
+yu
+a
+trutnev ws
+n
+n
+bogoliubov and d
+v
+shirkov introduction to the theory of quantized elds nauka moscow and in russian for english and french translations see
+n
+n
+bogoliubov and d
+v
+shirkov introduction to the theory of quantized elds two american editions and wiley interscience n
+y
+bogolioubov n
+n
+chirkov d
+v
+introduction theorie des champes quantique paris dunod
+k
+wilson phys
+rev
+
+g
+altarelli and g
+parisi nucl
+phys
+b
+s
+weinberg phys
+rev
+d
+d
+gross and p
+wilczek phys
+rev
+d h
+politzer
+phys
+rev
+lett
+
+d
+i
+kazakov and d
+v
+shirkov singular solutions of rg eqs
+and the symmetry of the lagrangian jinr preprint in high energy particle interaction proceed
+smolenice conf
+eds
+d
+krupa j
+pisut veda bratislava
+w
+zimmermann comm
+math
+phys
+
+r
+oehme and w
+zimmermann comm
+math
+phys
+r
+oehme k
+sibold and w
+zimmermann phys
+lett
+b phys
+lett
+b
+w
+zimmermann in renormalization group eds
+d
+v
+shirkov et al ws singapore pp
+a
+v
+ermushev d
+i
+kazakov o
+v
+tarasov nucl
+phys
+b o
+piguet k
+sibold phys
+lett
+b
+d
+i
+kazakov phys
+lett
+b
+d
+v
+shirkov threshold eects in two loop approximation and parameterization of the real qcd sov
+j
+nucl
+phys
+mass dependence in renorm group solutions theor
+math
+fiz
+
+d
+v
+shirkov perturbative analysis of general rg solution in a massive case nucl
+phys
+b
+d
+v
+shirkov mass eects in running coupling evolution and hard processes in spectives in particle physics eds
+d
+klabucar et al
+ws pp on continuous mass dependent analysis of dis data in proc
+conf
+bruxelles july eds
+j
+lemonne et al
+ws pp
+d
+v
+shirkov mass and scheme eects in coupling constant evolution munich preprint mpi oct
+published in english in teor
+math
+fizika
+d
+v
+shirkov and i
+l
+solovtsov jinr rapid comm
+no
+e print archive hep phys
+rev
+lett
+
+d
+v
+shirkov nucl
+phys
+proc
+suppl
+b
+n
+n
+bogoliubov a
+a
+logunov and d
+v
+shirkov sov
+phys
+jetp
+k
+a
+milton i
+l
+solovtsov and o
+p
+solovtsova phys
+lett
+b
+d
+v
+shirkov renorm group causality and non power perturbation expansion in qft jinr preprint dubna print archive hep to appear in the april issue of theor
+math
+fiz
+no
+
+k
+wilson phys
+rev
+b
+l
+kadano physica
+p
+g
+de gennes phys
+lett
+j
+cloiseaux j
+physique paris
+t
+l
+bell et al phys
+rev
+g
+f
+chapline phys
+rev
+
+c
+dedominicis phys
+rev
+
+l
+adjemyan a
+vasilev and m
+gnatich teoret
+mat
+fiz
+see also a
+n
+vasiliev quantum field renormalization group in the theory of turbulence and in magnetic hydrodynamics in pp
+a
+n
+vasiliev quantum field rg in the theory of critical behavior and stochastic dynamics sankt peterburg pinp publ
+house
+renormalization group proceed
+dubna conf
+eds
+d
+v
+shirkov et al ws singapore
+g
+pelletier j
+plasma phys
+
+d
+v
+shirkov the renormalization group the invariance principle and functional similarity soviet phys
+dokl
+
+d
+v
+shirkov in nonlinear and turbulent processes in physics ed
+r
+z
+sagdeev harwood acad
+publ
+n
+y
+v
+pp
+d
+v
+shirkov renormalization group in modern physics in pp also int
+j
+mod
+phys
+
+d
+v
+shirkov renormalization group in dierent elds of theoretical physics kek report feb
+
+m
+a
+mnatsakanyan soviet phys
+dokl
+
+d
+v
+shirkov several topics on renorm group theory
+in pp
+renormalization group proceed
+of dubna conf
+eds
+d
+v
+shirkov v
+b
+zhev ws singapore
+v
+f
+kovalev v
+v
+pustovalov strong nonlinearity and generation of high harmonics in laser plasma in proceedings of the conf
+on plasma physics kiev ussr april ed
+a
+g
+sitenko naukova dumka kiev inuence of laser plasma temperature on the high harmonics generation process ibid functional self similarity in a problem of plasma theory with electron nonlinearity theor
+math
+physics no
+v
+f
+kovalev s
+v
+krivenko v
+v
+pustovalov the renormalization group method based on group analysis in
+l
+v
+ovsyannikov group analysis of dierential equations acad
+press n
+y
+
+n
+h
+ibragimov transformation groups applied to mathematical physics reidel publ
+dordrecht lancaster
+m
+sophus lie
+gesammelte abhandlungen
+leipzig oslo bd
+bd
+d
+v
+shirkov bogoliubov renormgroup russian math
+surveys with numerous misprints for corrected version see the bogoliubov renormalization group second english printing jinr comm
+also in hep
+this article originally appeared in august in russian as a preprint of joint institute for nuclear research no
+being simultaneously submitted to uspekhi math
+nauk
+unfortunately in the second half of published version uspehi mat
+nauk v
+no
+due to the editorail oce irresposibility there appeared more than misprints related to the references of papers
+in spite of the author s signal for the umn editorial board these errors have been reproduced in the english translation
+moreover this latter publication russian math
+surveys due to the translator s poor qualication both in the subject terminology and russian contains a lot ca of additional errors distorting the author s text
+by these reasons the author published anew the corrected english text in the form of jinr communication
+it is adequate d
+v
+shirkov renormalization group symmetry and sophus lie group analysis intern
+to the russian text of preprint
+j
+mod
+physics c
+v
+f
+kovalev v
+v
+pustovalov d
+v
+shirkov group analysis and renormgroup tries j
+math
+phys
+
+to our knowledge the embedding method was rst introduced by v
+a
+ambartzumyan in astr
+journ
+in russian later on this method enjoyed wide tion to dierent problems see e
+
+j
+casti r
+kalaba imbedding methods in applied mathematics addison wesley reading ma and references therein
+crc handbook of lie group analysis of dierential equations ed
+n
+h
+ibragimov crc press boca raton florida usa
+vol
+symmetries exact solutions and conservation laws vol
+applications in engineering and physical sciences vol
+new trends in theoretical developments and computational methods
+peter j
+olver applications of lie groups to dierential equations springer n
+y
+
+v
+f
+kovalev group and renormgroup symmetries of boundary value problems in modern group analysis vi developments in theory computation and application eds
+n
+h
+ibragimov f
+m
+mahomed new age internatl p ltd publishers india n
+delhi
+v
+f
+kovalev and d
+v
+shirkov renormalization group in mathematical physics and some problems of laser optics j
+nonlin
+opt
+phys
+mater
+
+yu
+n
+grigoryev s
+v
+meleshko sov
+phys
+dokl
+
+v
+f
+kovalev s
+v
+krivenko v
+v
+pustovalov group analysis of the vlasov kinetic equation di
+equations no no
+v
+f
+kovalev s
+v
+krivenko v
+v
+pustovalov symmetry group of vlasov maxwell tions in plasma theory j
+nonlin
+math
+phys
+
+

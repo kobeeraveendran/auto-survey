@@ -1,0 +1,254 @@
+international workshop on african human language technologies
+jan africanhlt un rsumeur base graphes indpndant la langue juan manuel torres moreno laboratoire informatique lia universit pays de vaucluse avignon france juan manuel
+avignon
+fr javier ramirez departamento de sistemas cbi universidad autonoma metropolitana azcapotzalco mexico df mexique iria da cunha laboratoire informatique davignon lia uapv institut universitari de lingstica aplicada upf espagne iria
+
+edu abstract in this paper we present reg a graph based approach for study a fundamental problem of natural language processing nlp the automatic text summarization
+the algorithm maps a document as a graph then it computes the weight of their sentences
+we have applied this approach to summarize documents in three languages
+keywords automatic text summarization graphs algorithms nlp cortex
+introduction le rsum automatique documents est une mthodes fouille qui permet compresser un document avec perte tout en conservant son informativit
+il problmatique importante du traitement automatique de langues tal
+rsumer consiste condenser plus importante issue ou plusieurs documents afin produire une version abrge de son contenu
+les gros titres nouvelles les bandes annonces et les synopsis sont quelques exemples de rsums utiliss couramment
+de manire gnrale les personnes sont rsumeurs extrmement performants
+les approches par extraction de phrases combinant algorithmes numriques et statistiques ont montr leur pertinence dans cette tche
+basant sur tudes du comportement rsumeurs professionnels et notamment sur travaux les chercheurs ont essay processus cognitif cration rsum
+les premiers travaux portant sur rsum automatique textes datent annes
+luhn dcrit une technique simple spcifique aux articles scientifiques qui utilise la distribution
+africanhlt
+com djibouti institute of science and information technologies cerd djibouti
+rep
+of djibouti international workshop on african human language technologies
+jan africanhlt frquences dans document pour pondrer phrases
+luhn tait dj motiv par la problmatique
+il dcrit quelques uns avantages les rsums produits manire automatique par rapport aux rsums manuels cot de production trs rduit non assujetti aux problmes de subjectivit et de variabilit observs sur les rsumeurs professionnels
+de luhn techniques statistiques pour la production automatique rsums a eu un impact considrable grande systmes tant bass sur ces mmes ides
+par la suite a tendu travaux de luhn en tenant compte position phrases prsence mots provenant la structure du document par exemple les titres sous titres
+prsence indices significant impossible hardly
+
+les recherches menes par au sein du chemical abstracts service cas dans la production rsums partir scientifiques chimie ont permis valider approches automatique phrases
+un nettoyage phrases reposant oprations fut pour la premire fois introduit
+les phrases commenant par exemple par in par exemple in conclusion ou finissant par that seront limines rsum
+afin que les rsums satisfassent les standards imposs par le cas une normalisation vocabulaire est effectue
+elle inclut remplacement mots phrases par leur abrviation une standardisation variantes orthographiques
+ces travaux ont pos les bases du rsum automatique textes
+une mthodologie de rsums merge analyse prtraitement ii identification phrases saillantes dans document source iii construction du rsum par concatnation phrases extraites traitement surfacique phrases
+ce travail porte sur la conception systme de rsum automatique gnrique
+ce systme utilise mthodes de reprer dans document phrases plus importantes
+notre volont traitements statistiques est motive par fait que systme doit tre plus indpendant possible la langue
+la mthode propose repose un prtraitement documents sur une fonction phrases par optimisation graphe
+
+algorithmes de rsum base graphes considrent le rsum par extraction comme une identification segments les plus prestigieux dans un graphe
+les algorithmes classement bass sur graphes tel que ont t utiliss avec succs dans les rseaux sociaux du nombre citations ou structure du web
+ces algorithmes peuvent tre vus comme les lments cls du paradigme amorc dans recherche sur internet classement pages web par leurs positions dans le rseau non pas leurs contenus
+en termes ces algorithmes permettent du sommet graphe basant non pas locale du sommet lui mme mais sur globale issue rcursive du graphe complet
+appliqu au rsum automatique cela signifie que le document est reprsent par un graphe textuelles phrases lies entre elles par des relations issues calculs similarit
+les phrases sont ensuite slectionnes selon critres centralit ou prestige dans graphe puis assembles pour produire extraits
+les rsultats reports montrent que les performances approches base graphe sont au niveau meilleurs systmes actuels mais ne portent que sur documents en anglais et en portugais
+il est important de noter que les mthodes de
+africanhlt
+com djibouti institute of science and information technologies cerd djibouti
+rep
+of djibouti international workshop on african human language technologies
+jan africanhlt classement sont entirement dpendantes bonne construction du graphe sens reprsenter document
+puisque ce graphe gnr partir similarits inter phrases que peut avoir calcul considrer
+dans leurs travaux utilisent modle sac de pour reprsenter chaque phrase comme un vecteur n dimensions n nb total mots diffrents et chaque composante vecteur un poids tf idf
+les valeurs entre phrases sont ensuite obtenues par un calcul cosinus entre leurs reprsentations vectorielles
+le point faible cette mesure et plus gnralement toutes les mesures utilisant mots comme units est sont tributaires du vocabulaire
+dans une langue les prtraitements qui sont appliqus aux segments se doivent minimaux
+malheureusement dans cette configuration que les performances de mesure cosinus chutent car elle ne permet en aucun cas en relation qui morphologiquement peuvent tre trs proches
+une solution combinant mesures et celles bases sur caractres
+proposent une mesure drive similarit entre chanes de caractres originellement employ pour la dtection redondantes record linkage
+cette mesure permet crer relations entre deux segments qui mme sils ne partagent aucun mot en contiennent morphologiquement proches
+une seconde question est la construction du graphe document partir mesures mixtes mots caractres permet segments
+ont montr que cela possible
+nous voulions cependant une solution avec un algorithme base encore plus simple
+nous posons problme rsum automatique par extraction comme un problme
+ainsi un texte est reprsent comme un graphe non dirig qui peut tre assimil comme un problme de coloration ou une variantes celui commerce
+le problme ainsi de p tant p nombre phrases document
+cela fait de cette tche un problme np complet
+nous nous sommes tourns vers les approches gloutonnes
+nous avons dvelopp un algorithme optimal m sommets m fix par
+reg resumeur base graphes ralise une phrases plus pertinentes rsum par extraction
+
+reg un algorithme resumeur base de graphes reg consiste deux grandes phases une reprsentation adquate documents puis une pondration phrases
+la premire ralise au moyen reprsentation vectorielle qui est assez la langue
+la deuxime par un algorithme glouton
+la gnration rsum effectue par concatnation phrases pertinentes pondres dans
+
+pr traitement et reprsentation vectorielle les documents sont pr traits avec algorithmes classiques de filtrage de mots fonctionnels avec un dictionnaire de normalisation et de lemmatisation afin rduire la dimensionnalit
+une reprsentation en sac de mots produit une matrice n frquences absences compose
+
+
+p phrases lignes n un vocabulaire de
+
+
+n termes colonnes
+i
+
+
+
+
+
+s
+africanhlt
+com djibouti institute of science and information technologies cerd djibouti
+rep
+of djibouti international workshop on african human language technologies
+jan africanhlt la prsence du mot i est reprsente par sa frquence son absence par est donc n occurrences
+s est une matrice entire respectivement une phrase car ses lments prennent valeurs frquentielles absolues
+
+une solution gloutonne a partir modle vectoriel reprsentation de documents nous proposons crer un graphe g s a o sommets s reprsentent phrases et a
+une arte entre deux sommets est cre si les phrases correspondantes possdent au moins un mot en commun
+on construit une matrice partir matrice mots comme suit si matrice s dans la phrase i prsent on vrifie dans la colonne et quand un lment on met dans la case j matrice a qui veut que phrases i et partagent mot
+pour afficher phrases plus lourdes nous avons trouv fallait chercher une variante poids maximum poids sont sur sommets pas sur artes
+nous avons ainsi construit un algorithme kruskal
+propos fonctionne de la faon suivante i gnrer matrice a qui aura autant lignes colonnes que phrases considres dire p ii calculer poids sommets la somme entrantes du sommet calculer chaque sommet nombre mots partag avec autres phrases demander pourcentage phrases qui aura rsum
+la matrice p sera gnre partir reprsentation vectorielle
+le calcul comme suit parcourir la i chaque lment j gal descendre par colonne j pour identifier phrases qui partagent ce mot les poids des sommets reprsentant phrases graphe correspondant sont
+cela donne lieu une matrice dadjacence
+nous montrons lalgorithme sur graphe correspondant gure
+
+africanhlt
+com djibouti institute of science and information technologies cerd djibouti
+rep
+of djibouti international workshop on african human language technologies
+jan africanhlt figure graphe correspondant texte mars
+expriences sur le rsum automatique sous que poids phrase indique son importance dans document nous avons appliqu reg au rsum par extraction de phrases
+notre mthode oriente pour moment la gnration rsums gnriques mono document
+cependant nous pensons modification simple conclusion pourrait nous permettre rsums multi document guids par une requte ou un sujet dfini par ce qui correspond au protocole confrences duc tac document understandig conferences nlpir
+nist
+gov projects duc index
+html
+reg de rsum automatique comprend trois modules
+le premier ralise la transformation vectorielle du texte avec processus filtrage lemmatisation stemming normalisation
+le second module applique glouton et ralise
+nous obtenons la pondration phrase directement de
+ainsi les phrases pertinentes seront slectionnes comme ayant plus grande pondration
+finalement troisime module gnre rsums par affichage et concatnation phrases pertinentes
+le premier dernier module reposent sur systme cortex
+nous avons valu rsums produits par notre systme avec logiciel rouge qui mesure la similarit suivant plusieurs stratgies entre un rsum candidat produit automatiquement rsums rfrence crs par humains
+nous avons ralis une batterie tests diffrents sur documents trs htroclite phrases mots
+des valuation textes en franais domaine ouvert textes composites littraire textes encyclopdiques en anglais et textes en espagnol domaine spcialit
+pour tests en franais rcuprables sur site
+lia
+univ avignon
+nous avons choisi le corpus suivant mars puces et la lettre zola
+wikipedia
+org wiki
+
+
+
+deux textes la wikipdia en anglais ont t analyss lewinksky
+wikipedia
+org wiki qubec
+wikipedia
+org
+enfin en espagnol nous avons utilis textes revue medicina clinica
+elsevier
+
+pour cette tche de textes phrases et mots a t slectionn
+nous avons valu rsums produits par notre systme avec rouge
+dans cas franais et anglais les rsums de rfrence ont t produits par plusieurs juges de niveau universitaire
+pour espagnol nous avons utilis les rsums produits par auteurs comme rsum rfrence
+dans la table nous prsentons dtail mesures et
+africanhlt
+com djibouti institute of science and information technologies cerd djibouti
+rep
+of djibouti international workshop on african human language technologies
+jan africanhlt pour texte mars
+dans cette table on constate que trois premires places sont ex equo par reg cortex et enertex
+table mesures rouge pour mars figure
+mesures rouge pour jaccuse medicina clinica
+conclusion dans cet article nous avons introduit un algorithme glouton bas sur approches de graphes
+cela nous a permis un nouvel algorithme rsum automatique
+des tests effectus ont montr que notre algorithme efficace pour recherche segments pertinents
+on obtient rsums quilibrs o la plupart thmes sont abords dans condens final
+les avantages supplmentaires consistent ce que les rsums sont obtenus faon indpendante texte sujets abords certaine quantit de bruit et de la langue sauf pour la partie prtraitement
+les rsultats ici prsents sont trs encourageants
+nous rservons aussi une exprience sur rsums tronqus un nombre fixe de mots
+ceci lisserait le biais segmentation par phrase induit par systmes tal selon critres arbitraires
+nous pensons glouton reg pourrait tre incorpor au systme cortex o jouerait rle mtriques pilotes par un algorithme de dcision
+ceci permettrait rsums requte de ou rsums multi documents
+une autre voie intressante un termes texte dcrivant une thmatique topique qui sera introduit dans graphe document
+ainsi phrases du document pourraient ou non selon leur degr de pertinence par rapport la thmatique
+ceci permettrait de gnrer rsums personnaliss telles que dfinis dans les tches tac duc
+orients sera aussi considre pour crer une espce de chane conceptuelle entre les phrases
+applications envisages cet algorithme concernent langue
+ainsi
+africanhlt
+com djibouti institute of science and information technologies cerd djibouti
+rep
+of djibouti international workshop on african human language technologies
+jan africanhlt nous nous proposons langues trs loignes langues europennes dans plan syntaxique et grammaticale telles que somali par exemple
+une collaboration avec centre recherche de djibouti cours
+ce projet a t financ partiellement par projet anr france
+acknowledgment references inderjeet mani and mark t
+maybury the mit press advances in automatic text summarization
+kintsch w
+and van dijk t
+a
+toward a model of text comprehension and production psychological review
+van dijk t
+a
+recalling and summarizing complex discourse text processing w
+burchart and k
+hulker eds
+berlin walter de gruyter luhn h
+p
+the automatic creation of literature abstracts ibm journal of research and development pp
+edmundson h
+p
+new methods in automatic extracting journal of the acm jacm acm press new york ny usa
+pollock j
+j
+and zamora a
+automatic abstracting research at chemical abstracts service journal of chemical information and computer sciences american chemical society
+mihalcea r
+graph based ranking algorithms for sentence extraction applied to text summarization acl on interactive poster and demonstration sessions association for computational linguistics morristown nj usa erkan g
+and radev d
+r
+lexrank graph based lexical centrality as salience in text summarization journal of artificial intelligence research
+sergey brin and lawrence page the anatomy of a large scale hypertextual web search engine computer networks and isdn systems elsevier science pub
+b
+v
+mihalcea rada language independent extractive summarization proceedings of the acl interactive poster and demonstration sessions june ann arbor michigan association for computational linguistics
+boudin florian torres moreno juan manuel and velazquez morales patricia an efficient statistical approach for automatic organic chemistry summarization international conference on natural language processing gotal springer lecture notes in computer science gothenburg sweden
+boudin florian et torres moreno juan manuel rsum automatique multidocument et indendance langue une premire valuation en franais
+senlis france
+porter m
+f
+an algorithm for suffix stripping program
+gould r
+graph theory the benjamin cummings publishing company inc
+radev d
+and winkel a
+and topper m
+multi document centroid based text summarization acl philadelphia pa july
+
+africanhlt
+com djibouti institute of science and information technologies cerd djibouti
+rep
+of djibouti international workshop on african human language technologies
+jan africanhlt juan manuel torres moreno patricia velazquez morales et jean guy meunier condenss textes par des mthodes numriques
+jadt
+irisa inria france
+vol
+pp a
+morin et p
+sbillot eds
+lin c
+
+
+rouge a package for automatic evaluation of summaries
+in workshop on text summarization branches out
+silvia fernandez eric sanjuan et juan manuel torres moreno enertex un systme bas sur lenergie textuelle taln avignon pp
+florian boudin and juan manuel torres moreno
+neo cortex a performant user oriented multi document summarization system cicling mexico df mexico february
+the springer lncs proceedings pp
+
+africanhlt
+com djibouti institute of science and information technologies cerd djibouti
+rep
+of djibouti

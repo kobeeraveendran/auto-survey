@@ -1,0 +1,493 @@
+contextualizing citations for scientific summarization using word embeddings and domain knowledge arman cohan information retrieval lab dept
+of computer science georgetown university
+cs
+georgetown
+edu nazli goharian information retrieval lab dept
+of computer science georgetown university
+cs
+georgetown
+edu a m l c
+s c v
+v i x r a abstract citation texts are sometimes not very informative or in some cases inaccurate by themselves they need the appropriate context from the referenced paper to reflect its exact contributions
+to address this problem we propose an unsupervised model that uses tributed representation of words as well as domain knowledge to extract the appropriate context from the reference paper
+tion results show the effectiveness of our model by significantly outperforming the state of the art
+we furthermore demonstrate how an effective contextualization method results in improving citation based summarization of the scientific articles
+keywords text summarization scientific text information retrieval introduction in scientific literature related work is often referenced along with a short textual description regarding that work which we call citation text
+citation texts usually highlight certain contributions of the referenced paper and a set of citation texts to a reference paper can provide useful information about that paper
+therefore citation texts have been previously used to enhance many downstream tasks in ir nlp such as search and summarization e
+
+
+while useful citation texts might lack the appropriate context from the reference article
+for example details of the ods assumptions or conditions for the obtained results are often not mentioned
+furthermore in many cases the citing author might misunderstand or misquote the referenced paper and ascribe butions to it that are not intended in that form
+hence sometimes the citation text is not sufficiently informative or in other cases even inaccurate
+this problem is more serious in life sciences where accurate dissemination of knowledge has direct impact on human lives
+we present an approach for addressing such concerns by adding the appropriate context from the reference article to the citation texts
+enriching the citation texts with relevant context from the reference paper helps the reader to better understand the context for the ideas methods or findings stated in the citation text
+permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page
+copyrights for components of this work owned by others than acm must be honored
+abstracting with credit is permitted
+to copy otherwise or republish to post on servers or to redistribute to lists requires prior specific permission a fee
+request permissions from
+org
+sigir shinjuku tokyo japan acm
+
+
+
+
+doi
+
+
+
+a challenge in citation contextualization is the discourse and terminology variations between the citing and the referenced thors
+hence traditional ir models that rely on term matching for finding the relevant information are ineffective
+we propose to address this challenge by a model that utilizes word embeddings and domain specific knowledge
+specifically our approach is a retrieval model for finding the appropriate context of citations aimed at capturing terminology variations and ing between the citation text and its relevant reference context
+we perform two sets of experiments to evaluate the performance of our system
+first we evaluate the relevance of extracted contexts intrinsically
+then we evaluate the effect of citation tion on the application of scientific summarization
+experimental sults on tac benchmark show that our approach significantly outperforms several strong baselines in extracting the relevant contexts
+we furthermore demonstrate that our contextualization models can enhance summarizing scientific articles
+contextualizing citations given a citation text our goal is to extract the most relevant context to it in the reference article
+these contexts are essentially certain textual spans within the reference article
+throughout colloquially we refer to the citation text as query and reference spans in the reference article as documents
+our approach extends language models for ir lm by incorporating word embeddings and domain ontology to address shortcomings of lm for this research purpose
+the goal in lm is to rank a document d according to the tional probability qi q where qi shows the tokens in the query q
+estimating is often achieved by maximum likelihood estimate from term frequencies with some sort of smoothing
+using dirichlet smoothing we have d w v w d where d shows the frequency of term qi in document d c is the entire collection v is the vocabulary and the dirichlet smoothing parameter
+in the citation contextualization problem the target reference sentences are short documents and there exist terminology variations between the citing author and the referenced author
+hence the citation terms usually do not appear in the documents and relying only on the frequencies of citation terms in the documents d for estimating yields an almost uniform smoothed distribution that is unable to decisively distinguish between the documents
+embeddings
+distributed representation embedding of a word w in a field f is a mapping w fn where words semantically similar to w will be ideally located close to it
+given a query q we rank the documents d according to the following scoring function knowledge can further help the embedding based retrieval model we incorporate it in our model in the following ways retrofitting faruqui et al
+proposed a model that uses the constraints on wordnet lexicon to modify the word vectors and pull synonymous words closer to each other
+to inject the domain knowledge in the embeddings we apply this model on two domain specific ontologies namely mesh and protein ontologies
+we chose these two biomedical domain ontologies because they are in the same domain as the articles in the tac dataset
+mesh is a broad ontology that consists of biomedical terms and po is a more focused ontology related to biology of proteins and genes
+interpolating in the lm we also directly incorporate the main knowledge in the retrieval model we modify the lm into the following interpolated lm with parameter where is estimated using eq
+and is similar to except that we replace fsem with the function font which considers domain ontology in calculating similarities font d dj dj if if dj o
+
+where is a parameter and qi dj shows that there is an is synonym relation in ontology between qi and experiments data
+we use the tac biomedical summarization
+this dataset contains scientific biomedical journal articles and total citation texts where the relevant contexts for each citation text are annotated by experts
+
+baselines
+to our knowledge the only published results on tac is where the authors utilized query reformulation qr based on umls ontology
+in addition to we also implement eral other strong baselines to better evaluate the effectiveness of our model vsm vector space model that was used in desm dual embedding space model which is a recent embedding based retrieval model and lmd lda language modeling with lda smoothing which is a recent extension of the lmd to also account for the latent topics
+all the baseline parameters are tuned for the best performance and the same preprocessing is applied to all the baselines and our methods
+our methods
+we first report results based on training the beddings on wikipedia wewiki
+since tac dataset is in ical domain many of the biomedical terms might be either of vocabulary or not captured in the correct context using eral embeddings therefore we also train biomedical embeddings
+in addition we report results for biomedical embeddings with retrofitting as well as interpolating domain knowledge
+intrinsic evaluation first we analyze the effectiveness of our proposed approach for contextualization intrinsically
+that is we evaluate the quality of the
+georgetown
+edu
+nlm
+nih
+gov values of the parameters and were selected empirically by grid search
+nist
+gov train biomedical embeddings on trec genomics and collections both wikipedia and genomics embeddings were trained using gensim implementation of negative sampling window size of and dimensions
+figure dot product of embeddings and its logit for a ple word and its top most similar words top and
+which leverages this property fsem d w v fsem w d where fsem is a function that measures semantic relatedness of the query term qi to the document and is defined as fsem d d dj where dj s are document terms and dj is the relatedness between the the query term and document term which is calculated by applying a similarity function to the distributed representations of qi and dj
+we use a transformation of dot products between the unit vectors and corresponding to the embeddings of the terms qi and dj for the similarity function dj
+if
+otherwise we first explain the role of and then the reason for considering the function instead of raw dot product
+is a parameter that controls the noise introduced by less similar words
+many unrelated word vectors have non zero similarity scores and adding them up introduces noise to the model and reduces the performance
+s function is to set the similarity between unrelated words to zero instead of a positive number
+to identify an appropriate value for we select a random set of words from the embedding model and calculate the average and standard deviation of pointwise absolute value of similarities between terms from these two samples
+we then select the threshold to be two standard deviations larger than the average to only consider very high similarity values this choice was empirically justified
+examining term similarity values between words shows that there are many terms with high similarities associated with each term and these values are not highly discriminative
+we apply a transfer function to the dot product
+to dampen the effect of less similar words
+in other words we only want highly related words to have high similarity values and similarity should quickly drop as we move to less related words
+we use the logit function for to achieve this dampening effect log figure shows this effect
+the purple line is the normalized dot product of a sample word with the most similar words in the model
+as illustrated the similarity score differences among top words is not very discriminative
+however applying the logit function green line causes the less similar words to have lower similarity values to the target word
+domain knowledge
+successful word embedding methods have previously shown to be effective in capturing syntactic and semantic relatedness between terms
+these co occurrence based models are data driven
+on the other hand domain ontologies and lexicons that are built by experts include some information that might not be captured by embedding methods
+therefore using domain
+
+
+
+
+
+dot productnormalized
+
+
+
+
+
+dot productnormalized logit table results on tac dataset
+p r c f acter offset precision recall and scores rg rouge character offset precision at k
+shows statistical nificant improvement over the best baseline performance two tailed t test
+
+values are percentages
+method vsm desm lmd lda qr wewiki webio r
+
+
+
+
+
+f ndcg c c p
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table top relevant words to the word expression ing to embeddings trained on wikipedia vs
+genomics
+general wikipedia interpretation sense emotion function intension manifestation expressive biomedical genomics upregulation mrna induction protein abundance gene downregulation extracted citation contexts using our contextualization methods in terms of how accurate they are with respect to human annotations
+evaluation
+we consider the following evaluation metrics for assessing the quality of the retrieved contexts for each citation from multiple aspects character offset overlaps of the retrieved contexts with human annotations in terms of precision c p recall r and f score c f
+these are the recommended metrics for the task per
+ndcg we treat any partial overlaps with the gold standard as a correct context and then calculate the ndcg scores
+rouge n scores to also consider the content similarity of the retrieved contexts with the gold standard we calculate the rouge scores between them
+iv character precision at k since we are usually interested in the top retrieved spans we consider character offset precision only for the top k spans and we denote it with c
+results
+the results of intrinsic evaluation of contextualization are presented in table
+our models last rows of table achieve significant improvements over the baselines consistently across most of the metrics
+this shows the effectiveness of our models viewed from different aspects in comparison with the baselines
+the best baseline performance is the query reformulation qr method by which improves over other baselines
+wiki we observe that using general domain embeddings does not vide much advantage in comparison with the best baseline compare we and qr in the table
+however using the domain specific embeddings webio results in c f improvement over the best baseline
+this is expected since word relations in the biomedical context are better captured with biomedical embeddings
+in table an illustrative word expression gives better intuition why is that the case
+as shown using general embeddings left column in the table the most similar words to expression are those related to
+nist
+biomedsumm guidelines
+html table breakdown of our best model s character f score f by quartiles of human performance measured by p
+quartiles p f of our model mean stdev
+
+
+
+
+
+
+
+
+the general meaning of it
+however many of these related words are not relevant in the biomedical context
+in the biomedical context expression refers to the appearance in a phenotype attributed to a particular gene
+as shown on the right column the domain specific embeddings bio trained on genomics data are able to capture this meaning
+this further confirms the inferior performance of the out of domain word embeddings in capturing correct word level semantics
+last two rows in table show incorporating the domain knowledge in the model which results in significant provement over the best baseline in terms of most metrics e
+
+and f improvements
+this shows that domain ontologies provide additional information that the domain trained embeddings may not contain
+while both our methods of incorporating domain ontologies prove to be effective interpolating domain knowledge directly webio dmn has the edge over retrofitting webio rtrft
+this is likely due to the direct effect of ontology on the interpolated language model whereas in retrofitting the ontology first affects the embeddings and then the context extraction model
+to analyze the performance of our system more closely we took the context identified by annotator as the candidate and the other as gold standard and evaluated the precision to obtain an estimate of human performance on each citation
+we then divided the tions based on human performance to groups by quartiles
+table shows our system s performance on each of these groups
+we serve that when human precision is higher upper quartiles in the table our system also performs better and with more confidence lower std
+therefore the system errors correlate well with human disagreement on the correct context for the citations
+averaged over the annotators for each citation the mean precision was
+note that this translates to our c metric
+in table we observe that our best method c of
+is comparable with average human precision score c of
+which further demonstrates the effectiveness of our model
+
+external evaluation citation based summarization can effectively capture various tributions and aspects of the paper by utilizing citation texts
+however as argued in section citation texts do not always curately reflect the original paper
+we show how adding context from the original paper can address this concern while keeping the benefits of citation based summarization
+specifically we compare how using no contextualization versus various proposed alization approaches affect the quality of summarization
+we apply the following well known summarization algorithms on the set of citation texts and the retrieved citation contexts lexrank based sumbasic and kl divergence for space constraints we will not explain these approaches here refer to for details
+we then compare the effect of our proposed contextualization methods using the standard rouge n summarization evaluation metrics
+results
+the results of external evaluation are illustrated in ble
+the first row no context shows the performance of each table effect of contextualization on summarization
+columns are summarization algorithms and rows show tation contextualization approaches
+no context uses only citations without any contextualization
+evaluation metrics are rouge rg scores
+shows statistically significant provement over the best baseline performance
+
+method no context vsm desm lmd lda qr wewiki webio lsa
+
+
+
+
+
+
+klsum
+
+
+
+
+
+
+lexrank sumbasic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+summarization approach solely on the citations without any textualization
+the next rows show the baselines and last rows are our proposed contextualization methods
+as shown effective contextualization positively impacts the generated summaries
+for example our best method is webio dmn which significantly proves the quality of generated summaries in terms of rouge over the ones without any context
+we observe that two low performing baseline methods for contextualization according to table vsm and also do not result in any improvements for tion
+therefore the intrinsic quality of citation contextualization has direct impact on the quality of generated summaries
+these sults further demonstrate that effective contextualization is helpful for scientific citation based summarization
+related work related work has mostly focused on extracting the citation text in the citing article e
+
+
+in this work given the citation texts we focus on extracting its relevant context from the reference paper
+related work have also shown that citation texts can be used in different applications such as summarization
+our proposed model utilizes word embeddings and the domain edge
+embeddings have been recently used in general information retrieval models
+vuli and moens proposed an architecture for learning word embeddings in multilingual settings and used them in document and query representation
+mitra et al
+proposed dual embedded space model that predicts document aboutness by comparing the centroid of word vectors to query terms
+ganguly et al
+used embeddings to transform term weights in a tion model for retrieval
+their model uses embeddings to expand documents and use co occurrences for estimation
+unlike these works we directly use embeddings in estimating the likelihood of query given documents we furthermore incorporate ways to utilize domain specific knowledge in our model
+the most relevant prior work to ours is where the authors approached the problem using a vector space model similarity ranking and query reformulations
+conclusions citation texts are textual spans in a citing article that explain tain contributions of a reference paper
+we presented an effective model for contextualizing citation texts associating them with the appropriate context from the reference paper
+we obtained cally significant improvements in multiple evaluation metrics over several strong baseline and we matched the human annotators precision
+we showed that incorporating embeddings and domain knowledge in the language modeling based retrieval is effective for situations where there are high terminology variations between the source and the target such as citations and their reference context
+citation contextualization not only can help the readers to better understand the citation texts but also as we demonstrated they can improve other downstream applications such as scientific document summarization
+overall our results show that citation contextualization enables us to take advantage of the benefits of citation texts while ensuring accurate dissemination of the claims ideas and findings of the original referenced paper
+acknowledgements we thank the three anonymous reviewers for their helpful ments and suggestions
+this work was partially supported by tional science foundation nsf through grant
+references amjad abu jbara and dragomir radev
+
+reference scope identification in citing sentences
+in naacl hlt
+acl
+arman cohan and nazli goharian
+
+scientific article summarization using citation context and article s discourse structure
+in emnlp
+
+arman cohan and nazli goharian
+
+scientific document summarization via citation contextualization and scientific discourse
+international journal on digital libraries
+arman cohan luca soldaini and nazli goharian
+
+matching citation text and cited spans in biomedical literature a search oriented approach
+in naacl hlt
+
+anita waard and henk pander maat
+
+epistemic modality and knowledge attribution in scientific discourse a taxonomy of types and overview of features
+in workshop on detecting structure in scholarly discourse
+acl
+manaal faruqui jesse dodge kumar sujay jauhar chris dyer eduard hovy and a
+noah smith
+
+retrofitting word vectors to semantic lexicons
+in naacl hlt
+association for computational linguistics
+debasis ganguly dwaipayan roy mandar mitra and gareth j
+f
+jones
+
+word embedding based generalized language model for information retrieval
+in sigir
+acm
+felix hill roi reichart and anna korhonen
+
+evaluating semantic models with similarity estimation
+computational linguistics
+kokil jaidka muthu kumar chandrasekaran sajal rustagi and min yen kan
+
+overview of the cl scisumm shared task
+
+in jcdl
+fanghong jian jimmy xiangji huang jiashu zhao tingting he and po hu
+
+a simple enhancement for ad hoc information retrieval via topic modelling
+in sigir
+acm
+qiaozhu mei and chengxiang zhai
+
+generating impact based summaries for scientific literature
+
+in acl vol
+
+
+bhaskar mitra eric nalisnick nick craswell and rich caruana
+
+a dual embedding space model for document ranking
+corr
+
+ramesh nallapati bowen zhou and mingbo ma
+
+classify or select neural architectures for extractive document summarization
+
+
+ani nenkova and kathleen mckeown
+
+a survey of text summarization techniques
+in mining text data
+springer
+vahed qazvinian and dragomir r
+radev
+
+scientific paper summarization using citation summary networks coling
+
+anna ritchie stephen robertson and simone teufel
+
+comparing citation contexts for information retrieval
+in cikm
+acm
+gnes sndor and anita de waard
+
+identifying claimed knowledge updates in biomedical research articles
+in proceedings of the workshop on detecting structure in scholarly discourse
+acl
+simone teufel and marc moens
+
+summarizing scientific articles ments with relevance and rhetorical status
+computational linguistics
+ivan vuli and marie francine moens
+
+monolingual and cross lingual information retrieval models based on bilingual word embeddings
+in sigir
+stephen wan ccile paris and robert dale
+
+whetting the appetite of scientists producing summaries tailored to the citation context
+in jcdl
+
+chengxiang zhai and john lafferty
+
+a study of smoothing methods for language models applied to information retrieval
+tois
+

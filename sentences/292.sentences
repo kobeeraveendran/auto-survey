@@ -1,0 +1,631 @@
+text segmentation by cross segment attention michal lukasik boris dadachev goncalo simoes kishore papineni google research mlukasik bdadachev gsimoes
+com c e d l c
+s c v
+v i x r a abstract document and discourse segmentation are two fundamental nlp tasks pertaining to breaking up text into constituents which are commonly used to help downstream tasks such as mation retrieval or text summarization
+in this work we propose three transformer based chitectures and provide comprehensive parisons with previously proposed approaches on three standard datasets
+we establish a new state of the art reducing in particular the ror rates by a large margin in all cases
+we further analyze model sizes and nd that we can build models with many fewer parameters while keeping good performance thus tating real world applications
+introduction text segmentation is a traditional nlp task that breaks up text into constituents according to ned requirements
+it can be applied to documents in which case the objective is to create logically coherent sub document units
+these units or ments can be any structure of interest such as paragraphs or sections
+this task is often referred to as document segmentation or sometimes simply text segmentation
+in figure we show one ample of document segmentation from wikipedia on which the task is typically evaluated koshorek et al
+badjatiya et al
+
+documents are often multi modal in that they cover multiple aspects and topics breaking a ument into uni modal segments can help improve speed up down stream applications
+for example document segmentation has been shown to improve information retrieval by indexing document units instead of full documents llopis et al
+shtekh et al
+
+other applications such as summarization and information extraction can also benet from text segmentation koshorek et al
+
+early life and marriage franklin delano roosevelt was born on january in the hudson valley town of hyde park new york to businessman james roosevelt i and his second wife sara ann delano
+
+
+
+aides began to refer to her at the time as the president s friend and gossip linking the two romantically appeared in the newspapers
+
+
+
+legacy roosevelt is widely considered to be one of the most important gures in the history of the united states as well as one of the most inuential gures of the century
+
+
+
+roosevelt has also appeared on several u
+s
+postage stamps
+figure illustration of text segmentation on the ample of the wikipedia page of president roosevelt
+the aim of document segmentation is breaking the raw text into a sequence of logically coherent sections e
+
+early life and marriage and legacy in our ple
+a related task called discourse segmentation breaks up pieces of text into sub sentence elements called elementary discourse units edus
+edus are the minimal units in discourse analysis ing to the rhetorical structure theory mann and thompson
+in figure we show examples of edu segmentations of sentences
+for example the sentence annuities are rarely a good idea at the age because of withdrawal restrictions poses into the following two edus annuities are rarely a good idea at the age and because of withdrawal restrictions the rst one being a ment and the second one being a justication in the discourse analysis
+in addition to being a key step in discourse analysis joty et al
+discourse segmentation has been shown to improve a number of downstream tasks such as text summarization by helping to identify ne grained sub sentence units that may have different levels of importance when creating a summary li et al
+
+multiple neural approaches have been recently proposed for document and discourse tion
+koshorek et al
+proposed the use of sentence annuities are rarely a good idea at the age because of withdrawal restrictions sentence wanted an investment that s as simple and secure as a certicate of deposit but offers a return worth getting excited about
+figure example discourse segmentations from the rst dt dataset carlson et al
+
+in the tations the edus are separated by the character
+hierarchical bi lstms for document tion
+simultaneously li et al
+introduced an attention based model for both document mentation and discourse segmentation and wang et al
+obtained state of the art results on course segmentation using pretrained contextual embeddings peters et al
+
+also a new scale dataset for document segmentation based on wikipedia was introduced by koshorek et al
+providing a much more realistic setup for evaluation than the previously used small scale and often synthetic datasets such as the choi dataset choi
+however these approaches are evaluated on ferent datasets and as such have not been compared against one another
+furthermore they mostly rely on rnns instead of the more recent transformers vaswani et al
+and in most cases do not make use of contextual embeddings which have been shown to help in many classical nlp tasks devlin et al
+
+in this work we aim at addressing these tions and bring the following contributions
+we compare recent approaches that were posed independently for text discourse segmentation li et al
+koshorek et al
+wang et al
+on three public datasets
+
+we introduce three new model architectures based on transformers and bert style textual embeddings to the document and course segmentation tasks
+we analyze the strengths and weaknesses of each architecture and establish a new state of the art
+
+we show that a simple paradigm argued for by some of the earliest text segmentation rithms can achieve competitive performance in the current neural era
+
+we conduct ablation studies analyzing the portance of context size and model size
+literature review document segmentation many early research efforts were focused on unsupervised text tation doing so by quantifying lexical cohesion within small text segments hearst choi
+being hard to precisely dene and tify lexical cohesion has often been approximated by counting word repetitions
+although tationally expensive unsupervised bayesian proaches have also been popular utiyama and hara eisenstein mota et al
+
+however unsupervised algorithms suffer from two main drawbacks they are hard to specialize for a given domain and in most cases do not naturally deal with multi scale issues
+indeed the desired segmentation granularity paragraph section ter
+is necessarily task dependent and vised learning provides a way of addressing this property
+therefore supervised algorithms have been a focus of many recent works
+in particular multiple neural approaches have been proposed for the task
+in one a sequence ing algorithm is proposed where each sentence is encoded using a bi lstm over tokens and then a bi lstm over sentence encodings is used to label each sentence as ending a segment or not koshorek et al
+
+authors consider a large dataset based on wikipedia and report improvements over supervised text segmentation methods
+in another work a sequence to sequence model is proposed li et al
+where the input is encoded using a bigru and segment endings are generated using a pointer network vinyals et al
+
+the authors report signicant improvements over sequence beling approaches however on a dataset composed of articial documents created by ing segments from random articles from the brown corpus choi
+lastly badjatiya et al
+consider an attention based cnn bi lstm model and evaluate it on three small scale datasets
+discourse segmentation contrary to document segmentation discourse segmentation has ically been framed as a supervised learning task
+however a challenge of applying supervised proaches for this type of segmentation is the fact that the available dataset for the task is limited carlson et al
+
+for this reason approaches for discourse segmentation usually rely on nal annotations and resources to help the models generalize
+early approaches to discourse tation were based on features from linguistic tations such as pos tags and parsing trees soricut and marcu xuan bach et al
+joty et al
+
+the performance of these systems was highly dependent on the quality of the tions
+recent approaches started to rely on end to end neural network models that do not need linguistic annotations to obtain high quality results relying instead on pretrained models to obtain word or sentence representations
+an example of such work is by li et al
+which proposes a to sequence model getting a sequence of glove pennington et al
+word embeddings as input and generating the edu breaks
+another approach utilizes elmo pretrained embeddings in the bi lstm architecture and achieves state of the art results on the task wang et al
+
+architectures we propose three model architectures for tation
+one uses only local context around each candidate break while the other two leverage the full context from the input by candidate break we mean any potential segment boundary
+all our models rely on the same preprocessing technique and simply feed the raw input into a word piece sub word tokenizer wu et al
+
+we use the word piece tokenizer implementation that was open sourced as part of the bert release devlin et al
+more precisely its english uncased variant which has a vocabulary size of word pieces
+
+cross segment bert for our rst model we represent each candidate break by its left and right local contexts i
+e
+the quences of word piece tokens that come before and after respectively the candidate break
+the main motivation for this model is its simplicity however using only local contexts might be sub optimal as longer distance linguistic artifacts are likely to help locating breaks
+using such a simple model is a departure from recent trends favoring chical models which are conceptually appealing to model documents
+however it is also interesting to note that using local context was a common proach with earlier text segmentation models such as hearst which were studying semantic shift by comparing the word distributions before and after each candidate break
+in figure we illustrate the model
+the input is composed of a cls token followed by the two contexts concatenated together and separated by a sep token
+when necessary short contexts are padded to the left or to the right with tokens
+sep and are special tokens duced by bert devlin et al
+
+they stand for respectively classication token since it is typically for classication tasks as a representation of the entire input sequence separator token and padding token
+the input is then fed into a former encoder vaswani et al
+which is tialized with the publicly available bertlarge model
+the bertlarge model has layers uses dimensional embeddings and tion heads
+the model is then ne tuned on each task
+the released bert checkpoint supports quences of up to tokens so we keep at most word pieces for each side
+we study the effect of length of the contexts and denote the context conguration by n m where n and m are the ber of word piece tokens before and after the sep token
+
+lstm our second proposed model is illustrated in ure
+it starts by encoding each sentence with bertlarge independently
+then the tensors produced for each sentence are fed into a bi lstm that is responsible for capturing a representation of the sequence of sentences with an indenite size
+when encoding each sentence with bert all the sequences start with a cls token
+if the mentation decision is made at the sentence level e
+
+document segmentation we use the cls token as input of the lstm
+in cases in which the segmentation decision is made at the word level e
+
+discourse segmentation we obtain bert s full sequence output and use the left most piece of each word as an input to lstm
+note that due to the context being short for the discourse mentation task it is fully encoded in a single pass using bert
+alternatively one could encode each word independently considering that many words consist of a single word piece encoding them with a deep transformer encoder would be somewhat wasteful of computing resources
+with this model we reduce the bert s inputs to a maximum sentence size of tokens
+keeping this size small helps reduce training and inference times since the computational cost of transformers cross segment bert lstm c hierarchical bert figure our proposed segmentation models illustrating the document segmentation task
+in the cross segment bert model left we feed a model with a local context surrounding a potential segment break tokens to the left and k tokens to the right
+in the lstm model center we rst encode each sentence using a bert model and then feed the sentence representations into a bi lstm
+in the hierarchical bert model right we rst encode each sentence using bert and then feed the output sentence representations in another transformer based model
+and self attention in particular increases ically with the input length
+then the lstm is responsible for handling the diverse and potentially large sequence of sentences with linear tional complexity
+in practice we set a maximum document length of sentences
+longer ments are split into consecutive non overlapping chunks of sentences and treated as independent documents
+in essense the hierarchical nature of this model is close to the recent neural approaches such as koshorek et al
+
+
+hierarchical bert our third model is a hierarchical bert model that also encodes full documents replacing the document level lstm encoder from the lstm model with a transformer encoder
+this architecture is similar to the hibert model used for document summarization zhang et al
+encoding each sentence independently
+the cls token representations from sentences are passed into the document encoder which is then able to late the different sentences through cross attention as illustrated in figure
+due to the quadratic computational cost of formers we use the same limits as lstm for input sequence sizes word pieces per sentence and sentences per document
+to keep the number of model parameters parable with our other proposed models we use layers for both the sentence and the document encoders for a total of layers
+in order to use the bertbase checkpoint for these experiments we use attention heads and dimensional word piece embeddings
+we study two alternative initialization dures initializing both sentence and document coders using bertbase pre training all model weights on wikipedia using the procedure described in zhang et al
+which can be summarized as a masked sentence prediction objective ogously to the masked token pre training objective from bert
+we call this model hierarchical bert for tency with the literature
+evaluation methodology
+datasets we perform our experiments on datasets commonly used in the literature
+document segmentation periments are done on k and choi while discourse segmentation experiments are done on the rst dt dataset
+we summarize statistics about the datasets in table
+k the k dataset koshorek et al
+contains thousand articles from a snapshot of the english wikipedia which are domly partitioned into train development and test sets
+we re use the original splits provided by the authors
+while several segmentation granularities are possible the dataset is used to predict section boundaries
+the average number of segments per document is
+with an average segment length of
+sentences
+we found that the preprocessing methodology used on the k dataset can have a cross segmenttokenstransformert
+
+
+
+
+
+contextright
+
+
+
+
+
+bilstmdocumentsentencespredn
+
+
+
+
+
+
+
+
+transformerdocumentsentencespredn
+
+
+able effect on the nal numerical results in lar when ltering lists code snippets and other cial elements
+we used the original preprocessing script koshorek et al
+for a fair comparison
+choi choi s dataset choi is an early dataset containing synthetic documents made of concatenated extracts of news articles
+each document is made of segments where each ment was created by sampling a document from the brown corpus and then sampling a random segment length up to sentences
+this dataset was originally used to evaluate supervised segmentation algorithms so it is what ill designed to evaluate supervised algorithms
+we use this dataset as a best effort attempt to allow comparison with some of the previous literature
+however we had to create our own splits as no standard splits exist we randomly sampled documents as a test set and documents as a validation set leaving documents for training following evaluation from li et al
+
+since the brown corpus only contains documents the same documents are sampled over and over necessarily resulting in data leakage between the different splits
+its use should therefore be aged in future research
+rst dt we perform experiments on discourse segmentation on the rst discourse treebank rst dt carlson et al
+
+the dataset is composed of wall street journal articles that are part of the penn treebank marcus et al
+and is split into the train set composed of cles and the test set composed of articles
+we found that the choice of a validation set held out from the train set has a large impact on model performance
+for this reason we conduct fold cross validation and report the average over test set metrics
+since this dataset is used for discourse tion all the segmentation decisions are made at the intra sentence level i
+e
+the context that is used in the decisions is just a sentence
+in order to make the evaluation consistent with other systems from the literature we decided to use the sentence splits that are available in the dataset even though they are not human annotate
+for this reason there are cases in which some edus which were manually annotated overlap between two sentences
+in such cases we merge the two sentences
+docs sections sentences k train k dev k test choi train choi dev choi test rst dt train rst dt test edus docs sentences table statistics about the datasets
+
+metrics following the trend of many studies on text mentation soricut and marcu li et al
+we evaluate our approaches using precision recall and score with regard to the internal boundaries of the segments only
+in our tion we do not include the last boundary of each sentence document because it would be trivial to categorize it as a positive boundary which would lead to an articial ination of the results
+to allow comparison with the existing literature we also use the pk metric beeferman et al
+to evaluate our results on the choi s dataset note that lower pk scores indicate better performance
+k is set as is customary to half the average ment size over the reference segmentation
+the pk metric is less harsh than the score in that it takes into account near misses
+it is important to note that pk metric is known to suffer from biases for example penalizing false negatives more than false positives and discounting errors close to the document extremities pevzner and hearst
+results in table we report results from the document and discourse segmentation experiments on the three datasets presented in section
+
+we clude several state of the art baselines which had not been compared against one another before as they have been proposed independently over a short time period hierarchical bi lstm koshorek et al
+segbot li et al
+and wang et al
+
+we also include the human annotation baseline from wang et al
+providing an additional reference point on the rst dt dataset to the trained els
+we estimate standard deviations for our posed models and were able to calculate them from precision k recall precision bi lstm koshorek et al
+segbot li et al
+bi wang et al
+
+
+
+
+
+
+
+
+rst dt recall
+
+
+
+choi pk
+cross segment bert lstm hier
+bert
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+human wang et al
+
+
+
+table test set results on text segmentation and discourse segmentation for baselines and our models
+where possible we estimate standard deviations by bootstrapping the test set times
+the hierarchical bi lstm whose code and trained checkpoint were publicly released
+to train our models we used the adamw mizer loshchilov and hutter with a dropout rate as well as a linear warmup procedure
+learning rates are set between and sen to maximize the score on the validation sets from each dataset
+for the more expensive els and especially on the k dataset we trained our models using google cloud tpus
+we can see from the table that our models perform the baselines across all datasets reducing the relative error margins from the best baseline by and respectively on the k rst dt and choi datasets
+the improvements are statistically signicant for all datasets
+the errors are impressively low on the choi dataset but it is important to point out that it is a small scale thetic dataset and as such limited
+since each ument is a concatenation of extracts from random news articles it is an articially easy task for which a previous neural baseline achieved an already low error margin
+moreover on this dataset the segment bert model obtains very good results compared to the hierarchical models which do not attend across the candidate break
+this aligns with the expectation that locally attending across a ment break is sufcient here as we expect large semantic shifts due to the articial nature of the dataset
+hierarchical models with a sentence encoder followed by a document encoder perform well on the rst dt dataset
+as a reminder this discourse segmentation task is about segmenting individual sentences so there is no notion of document context
+in order to study whether the hierarchical structure is really necessary for discourse segmentation we also trained a model without the bi lstm that is making predictions directly using bert this decreased the score by
+
+it is also worth noting that several known lstm downsides were particularly apparent on the k the model was harder to train and signicantly slower during both training and inference
+regarding the hierarchical bert model ent initialization methods were used for the two document segmentation datasets
+on the choi dataset a hibert initialization a model fully trained end to end for hierarchical bert similarly to zhang et al
+was necessary to get good results due the small dataset size
+on the contrary we obtained slightly better results initializing both levels of the hierarchy with bertbase on the k dataset even though the model took longer to converge
+other initializations e
+
+random for both levels of the hierarchy or bertbase at the lower level and random at the upper level gave worse results
+perhaps the most surprising result from table is the good performance of our cross segment bert model across all datasets since it only relies on local context to make predictions
+and while the bert checkpoints were pre trained using among other things the next sentence prediction task it was not clear a priori that our cross segment bert model would be able to detect much more subtle semantic shifts
+to further evaluate the ness of this model we tried using longer contexts
+in particular we considered using a cross segment bert with contexts achieving
+
+recall and
+precision scores
+therefore we can see that encoding the full document in a hierarchical manner using transformers does not improve over cross segment bert on this dataset
+this suggests that bert self attention mechanism applied across candidate segment breaks with a limited context is in this case just as powerful as separately encoding each sentence and then ing a ow of information across encoded sentences
+in the next section we further analyze the impact of context length on the results from the segment bert model
+analyses in this section we perform additional analyses and ablation studies to better understand our tion models
+experiments revolve around the cross segment bert model
+we choose this model because it has several advantages over its alternatives it outperforms all baselines previously ported as state of the art and its results are competitive with the more complex cal approaches we considered
+it is conceptually close to the original bert model devlin et al
+whose code is open source and is as such simple to ment
+it only uses local document context and fore does not require encoding an entire ment to segment a potentially small piece of text of interest
+one application for text segmentation is in ing a document writer in composing a document for example to save them time and effort
+the task proposed by lukasik and zens aligned with what industrial applications such as google docs explore provide was to recommend related entities to a writer in real time
+however text segmentation could also help authors in structuring their ment better by suggesting where a section break might be appropriate
+motivated by this tion we next analyze how much context is needed to reliably predict a section break
+
+role of trailing context size for the aforementioned application it would be helpful to use as little trailing after the break text as possible
+this way we can suggest tion breaks sooner
+reducing the context size also speeds up the model as cost is quadratic in quence length
+to this end we study the effect of trailing context size going from word piece tokens down to
+for this set of experiments we held the leading context size xed at tokens and tuned bertbase with a batch size of examples and a learning rate of
+the results for these n experiments are shown in figure
+while the results are intuitive it is not clear figure analysis of the importance of the right text length solid red line
+dashed blue line denotes the hierarchical bi lstm baseline encoding the full context koshorek et al
+
+whether the performance drops because of smaller trailing context or because of smaller overall text
+to answer this we ran another experiment with tokens on the left and tokens on the right
+with all else being the same this experiment attains score of
+
+this is much smaller than
+with tokens on each side of the proposed break
+clearly it is crucial that the model sees both sides of the break
+this aligns with the intuition that word distributions fore and after a true segment break are typically quite different hearst
+however presenting the model with just the distributions of tokens on either side of the proposed break leads to poor formance in another experiment we replaced the running text on either side with a sorted list of most frequent tokens seen in a larger context tokens on either side padding as necessary and tuned bertbase with all else the same
+this experiment attains
+score compared to
+with running text on either side
+this suggests that high performing models are ing more than just counting tokens on each side to detect semantic shift
+
+role of transformer architecture the best cross segment bert model relies on bertlarge
+while powerful this model is slow and expensive to run
+for large scale applications such as ofine analysis for web search or online document processing such as google docs or crosoft ofce such large models are prohibitively expensive
+table shows the effect of model size on performance
+for these experiments we ized the training with models pre trained as in the right context length word segment bert basehier
+bi lstm architecture parameters m
+m
+m
+m
+m
+m
+m
+m
+
+m
+table effect of model architecture on k sults
+bert paper devlin et al
+
+the rst two experiments are initialized with bertlarge and bertbase respectively
+overall the larger the model the better the formance
+these experiments also suggest that in addition to the size the conguration also matters
+a dimensional model with more layers can outperform a dimensional model with fewer layers
+while the new state of the art is several standard deviations better than the previous one as reported in table this gain came at a steep cost in the model size
+this is unsatisfactory as large size hinders the possibility of using the model at scale and with low latency which is desirable for this application wang et al
+
+in the next section we explore smaller models with better formance using model distillation
+
+model distillation as can be seen from the previous section mance degrades quite quickly as smaller and fore more practical networks are used
+an tive to the pre tuning approach used above is distillation which is a popular technique to build small networks bucila et al
+hinton et al
+
+instead of training directly a small model on the segmentation data with binary bels we can instead leverage the knowledge learnt by our best network called in this context the teacher as follows
+first we record the tions or more precisely the output logits from the teacher model on the full dataset
+then a small student model is trained using a combination of a cross entropy loss with the true labels and a mse loss to mimick the teacher logits
+the tive weight between the two objectives is treated as a hyperparameter
+distillation results are presented in table
+we can see that the distilled models perform better than architecture parameters m
+m
+table distillation results on the k dataset
+models trained directly on the training data without a teacher increasing scores by over points
+we notice that distillation allows much more pact models to signicantly outperform the vious state of the art
+unfortunately we can not directly compare model sizes with koshorek et al
+since they rely on a subset of the dings from a public archive that includes over m vocabulary items including phrases most of which are likely never used by the model
+it is however fair to say their hierarchical bi lstm model relies on dozens of millions of embedding parameters even though these are not ne tuned during training as well as several million lstm parameters
+conclusion in this paper we introduce three new model chitectures for text segmentation tasks a segment bert model that uses only local context around candidate breaks as well as two chical models lstm and hierarchical bert
+we evaluated these three models on ment and discourse segmentation using three dard datasets and compared them with other recent neural approaches
+our experiments showed that all of our models improve the current state of art
+in particular we found that a cross segment bert model is extremely competitive with chical models which have been the focus of recent research efforts chalkidis et al
+zhang et al
+
+this is surprising as it suggests that local context is sufcient in many cases
+due to its plicity we suggest at least trying it as a baseline when tackling other segmentation problems and datasets
+naturally these results do not imply that chical models should be disregarded
+we showed they are strong contenders and we are convinced there are applications where local context is not sufcient
+we tried several encoders at the level of the hierarchy
+our experiments suggest that deep transformer encoders are useful for coding long and complex inputs e
+
+documents for document segmentation applications while lstms proved useful for discourse segmentation
+moreover rnns in general may also be useful for very long documents as they are able to deal with very long input sequences
+finally we performed ablation studies to better understand the role of context and model size
+sequently we showed that distillation is an effective technique to build much more compact models to use in practical settings
+in future work we plan to further investigate how different techniques apply to the problem of text segmentation including data augmentation wei and zou lukasik et al
+and methods for regularization and mitigating labeling noise jiang et al
+lukasik et al
+
+references pinkesh badjatiya litton j
+kurisinkel manish gupta and vasudeva varma
+
+attention based neural text segmentation
+corr
+
+doug beeferman adam berger and john lafferty
+
+statistical models for text segmentation
+chine learning
+cristian bucila rich caruana and alexandru niculescu mizil
+
+model compression
+in ceedings of the twelfth acm sigkdd international conference on knowledge discovery and data ing philadelphia pa usa august pages
+lynn carlson daniel marcu and mary ellen okurovsky
+
+building a discourse tagged pus in the framework of rhetorical structure theory
+in proceedings of the second sigdial workshop on discourse and dialogue
+ilias chalkidis ion androutsopoulos and nikolaos aletras
+
+neural legal judgment prediction in in proceedings of the conference of english
+the association for computational linguistics acl florence italy july august ume long papers pages
+freddy y
+y
+choi
+
+advances in domain pendent linear text segmentation
+in proceedings of the north american chapter of the association for computational linguistics conference naacl pages stroudsburg pa usa
+tion for computational linguistics
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language standing
+corr
+
+jacob eisenstein
+
+hierarchical text segmentation in human from multi scale lexical cohesion
+guage technologies conference of the north ican chapter of the association of computational linguistics proceedings pages
+marti hearst
+
+texttiling segmenting text into multi paragraph subtopic passages
+computational linguistics
+geoffrey hinton oriol vinyals and jeffrey dean
+
+distilling the knowledge in a neural network
+in nips deep learning and representation ing workshop
+haoming jiang pengcheng he weizhu chen aodong liu jianfeng gao and tuo zhao
+
+smart robust and efcient ne tuning for trained natural language models through principled regularized optimization
+shaq joty giuseppe carenini raymond ng and gabriel murray
+
+discourse analysis and its plications
+in proceedings of the annual ing of the association for computational linguistics tutorial abstracts pages florence italy
+sociation for computational linguistics
+shaq joty giuseppe carenini and raymond t
+ng
+
+codra a novel discriminative framework for rhetorical analysis
+computational linguistics
+omri koshorek adir cohen noam mor michael rotman and jonathan berant
+
+text mentation as a supervised learning task
+corr
+
+jing li aixin sun and shaq joty
+
+segbot a generic neural text segmentation model with pointer in proceedings of the twenty seventh network
+international joint conference on articial ligence pages
+international joint conferences on articial intelligence zation
+junyi jessy li kapil thadani and amanda stent
+
+the role of discourse units in near extractive rization
+in proceedings of the annual meeting of the special interest group on discourse and logue pages los angeles
+association for computational linguistics
+fernando llopis antonio ferrandez rodrguez and jose luis vicedo gonzalez
+
+text tion for efcient information retrieval
+in ings of the third international conference on putational linguistics and intelligent text ing cicling pages berlin
+springer verlag
+ilya loshchilov and frank hutter
+
+weight decay regularization in adam
+
+
+fixing corr michal lukasik srinadh bhojanapalli aditya krishna menon and sanjiv kumar
+
+does label arxiv preprint smoothing mitigate label noise
+
+michal lukasik himanshu jain aditya menon ungyeon kim srinadh bhojanapalli felix yu and sanjiv kumar
+
+semantic label smoothing for sequence to sequence problems
+in proceedings of the conference on empirical methods in ral language processing
+michal lukasik and richard zens
+
+content plorer recommending novel entities for a ment writer
+in proceedings of the conference on empirical methods in natural language ing pages brussels belgium
+tion for computational linguistics
+william c mann and sandra a thompson
+
+rhetorical structure theory toward a functional ory of text organization
+text interdisciplinary journal for the study of discourse
+mitchell marcus grace kim mary ann marcinkiewicz robert macintyre ann bies mark ferguson karen katz and britta schasberger
+
+the penn treebank annotating predicate argument structure
+in proceedings of the workshop on human language technology hlt pages stroudsburg pa usa
+association for computational linguistics
+pedro mota maxine eskenazi and lusa coheur
+
+beamseg a joint model for multi document in proceedings mentation and topic identication
+of the conference on computational natural language learning conll pages
+ciation for computational linguistics
+jeffrey pennington richard socher and christopher manning
+
+glove global vectors for word resentation
+in proceedings of the conference on empirical methods in natural language ing emnlp pages doha qatar
+ciation for computational linguistics
+matthew e
+peters mark neumann mohit iyyer matt gardner christopher clark kenton lee and luke zettlemoyer
+
+deep contextualized word sentations
+corr
+
+lev pevzner and marti a
+hearst
+
+a critique and improvement of an evaluation metric for text mentation
+comput
+linguist
+
+gennady shtekh polina kazakova nikita nikitinsky and nikolay skachkov
+
+applying topic mentation to document level information retrieval
+in proceedings of the central and eastern european software engineering conference russia cee secr pages new york ny usa
+acm
+radu soricut and daniel marcu
+
+sentence level discourse parsing using syntactic and lexical in proceedings of the human mation
+guage technology conference of the north can chapter of the association for computational linguistics pages
+masao utiyama and hitoshi isahara
+
+a tical model for domain independent text in proceedings of the annual meeting tion
+on association for computational linguistics pages
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n gomez ukasz kaiser and illia polosukhin
+
+attention is all you need
+in i
+guyon u
+v
+luxburg s
+bengio h
+wallach r
+fergus s
+vishwanathan and r
+nett editors advances in neural information cessing systems pages
+curran ciates inc
+oriol vinyals meire fortunato and navdeep jaitly
+in proceedings of the
+pointer networks
+international conference on neural tion processing systems volume pages cambridge ma usa
+mit press
+yizhong wang sujian li and jingfeng yang
+
+toward fast and accurate neural discourse in proceedings of the conference on tation
+empirical methods in natural language processing pages
+association for putational linguistics
+jason wei and kai zou
+
+eda easy data mentation techniques for boosting performance on in proceedings of the text classication tasks
+conference on empirical methods in ral language processing and the international joint conference on natural language processing emnlp ijcnlp pages hong kong china
+association for computational linguistics
+yonghui wu mike schuster zhifeng chen quoc v
+le mohammad norouzi wolfgang macherey maxim krikun yuan cao qin gao klaus macherey jeff klingner apurva shah melvin son xiaobing liu ukasz kaiser stephan gouws yoshikiyo kato taku kudo hideto kazawa keith stevens george kurian nishant patil wei wang cliff young jason smith jason riesa alex nick oriol vinyals greg corrado macduff hughes and jeffrey dean
+
+google s neural machine translation system bridging the gap between human and machine translation
+corr
+
+ngo xuan bach nguyen le minh and akira mazu
+
+a reranking model for discourse in proceedings mentation using subtree features
+of the annual meeting of the special interest group on discourse and dialogue pages seoul south korea
+association for computational linguistics
+xingxing zhang furu wei and ming zhou
+
+bert document level pre training of hierarchical bidirectional transformers for document in proceedings of the annual meeting tion
+of the association for computational linguistics pages
+

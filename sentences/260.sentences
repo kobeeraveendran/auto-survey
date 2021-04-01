@@ -1,0 +1,552 @@
+a m l c
+s c v
+v i x r a attend to the beginning a study on using bidirectional attention for extractive summarization ahmed cezary university of pittsburgh pitssburgh pa usa microsoft research fuse lab ccp bellevue wa usa
+edu
+com abstract forum discussion data differ in both structure and ties from generic form of textual data such as news
+forth summarization techniques should in turn make use of such differences and craft models that can benet from the structural nature of discussion data
+in this work we propose attending to the beginning of a document to improve the performance of extractive summarization models when plied to forum discussion data
+evaluations demonstrated that with the help of bidirectional attention mechanism ing to the beginning of a document initial comment post in a discussion thread can introduce a consistent boost in rouge scores as well as introducing a new state of the art sota rouge scores on the forum discussions dataset
+additionally we explored whether this hypothesis is able to other generic forms of textual data
+we make use of the tendency of introducing important information early in the text by attending to the rst few sentences in generic tual data
+evaluations demonstrated that attending to ductory sentences using bidirectional attention improves the performance of extractive summarization models when even applied to more generic form of textual data
+introduction recently automatic text summarization models either tractive or abstractive witnessed fast performance strides due to the emergence of deep learning models specially models
+a large number of recent neural abstractive rization models employ the encoder decoder structure see liu and manning gehrmann deng and rush paulus xiong and socher to convert the input quence into a relatively shorter sequence
+most of the recent extractive models on the other hand employ only an coder part to convert the input sequence into a xed feature vector followed by a classication part nallapati zhai and zhou liu and lapata
+text summarization has been applied to different natural language domains news academic papers emails meeting notes forum discussions
+
+while some models can be transferable from one main to the other it might be more benecial to craft this work was done during internship copyright association for the advancement of articial intelligence www
+aaai
+org
+all rights reserved
+ditional modications in those models to account for ences between domains
+forum discussion data tarnpradab liu and hua for example is different in both ture and properties when compared to generic textual data such as news
+discussion threads usually start with an initial post comment i
+e
+seeking knowledge or help
+
+
+the following comments tend to target the initial post comment providing additional information or opinions
+with that said a question arises
+can we enhance existing summarization models to benet from such properties inspired by seo et al
+we propose integrating rectional attention mechanism in extractive summarization models to help to attend to early pieces of text initial ment
+the main objective is to benet from the dependency between the initial comment and the following comments and try to distinguish between important and irrelevant or supercial replies
+moreover recent research by jung et al
+showed that in some domains humans tend to duce relatively important information early at the beginning of textual articles
+unlike discussion threads we explore the benet of attending to the beginning in a more generic textual setting
+simply by integrating bidirectional attention mechanism and attending to the rst few sentences in a ument
+we conducted some experiments to evaluate this pothesis using a dataset of generic non discussion based documents
+thus our contributions in this work are fold
+first we introduce integrating bidirectional attention mechanism into extractive summarization models to help to attend to earlier pieces of text
+second we achieved a new sota on the forum discussion dataset through the proposed attending to the beginning mechanism
+third to further ify the transferability of our hypothesis i
+e
+attending to the beginning we perform evaluations to show that attending to earlier sentence in a more generic text can also benet summarization models
+on different domains other than cussions
+related work automatic text summarization has seen increasing est and improved performance due to the emergence of models sutskever vinyals and le and tention mechanisms bahdanau cho and bengio
+this is true for both automatically generating coherent mary abstractive summarization and extracting salient pieces of text extractive summarization
+the majority of recent research has been directed towards the news domain see liu and manning paulus xiong and socher i
+e
+due to the existence of huge annotated datasets cnn dailmail gigawords newyork times
+unlike news other domains such as emails discussions meeting notes students feedback and opinions can still be considered derexplored
+recent efforts to tackle such domains started to emerge luo liu and litman targeted student feedback marization by extracting a set of representative phrases
+li et al
+proposed doing abstractive summarization for meeting notes by employing textual and visual tion into a multi model setting
+li li and zong yang et al
+tackled the problem of opinion and review summarization
+a work targeting similar domain as ours is done by tarnpradab liu and hua
+in which they proposed doing hierarchical attention to perform extractive summarization over a dataset of forum discussions collected from trip advisor
+another work which shares a similar sign concept as ours was done by wang quan and wang
+they also integrated bidirectional attention nism in their model however their model and ours are ferent in both intuition and application
+the major motive to integrate bidirectional attention in their design is to attend to an external template during the summarization process while in ours we propose attending to early pieces of input text using the bidirectional attention mechanism
+another major difference is the intended application
+they developed their model for the task of abstractive summarization over news data while ours is intended for extractive tion task
+dataset in this work we employ two extractive summarization datasets
+first we used the discussion dataset proposed by tarnpradab liu and hua
+the discussion dataset is extracted from trip advisor forum discussions
+the data consists of threads
+in their work tarnpradab liu and hua used threads for training and for idation
+we did nt use the same data distribution reported by the authors however we kept the same testing data size for comparability reasons
+we used our own split to verify the utility of our proposed techniques
+we used threads for training for validation and for testing
+over we conducted additional experiments using msw et al
+
+msw dataset is a generic textual dataset that is used to verify the transferability of our pothesis to more generic textual domains
+we verify whether we can benet from documents structure and human s dency to present important information earlier by attending to early sentences
+msw dataset consists of a collection of generic documents of different domains
+we split the dataset trip advisor msw part train val test train val test documents total sentences table model datasets data into training validation and testing of and documents respectively
+table summarizes the bution of datasets used
+baselines in order to validate our hypothesis and show the utility of our proposed enhancements we implemented baselines
+the following sections provide additional details regarding each of the baselines implemented
+we used the python off the shelf package for text rization sumy
+summarization is done hierarchically where each comment from the discussion thread is passed rately to sumy
+the resultant summaries are then combined and passed to sumy as one nal document to get the thread summary
+lsa clustering we implemented a simple baseline for extractive rization
+the baseline uses latent semantic analysis lsa to embed sentences into vector space
+sentences are then clustered using the k means clustering algorithm
+we use a number of clusters n where n is the number of tences in the input document
+lastly for each cluster a ter head is picked
+the cluster head is the sentence closest to the mean point of the cluster
+summarunner summarunner is an auto regressive extractive tion model proposed by nallapati zhai and zhou
+siatl siatl is sentence classication model developed by chronopoulou baziotis and potamianos
+the model employs multi task learning by integrating language ing auxiliary loss during the training process
+siatl model was developed originally as a sentence classication model
+however we decided to deal with extractive summarization as a pure sentence classication problem and use siatl model as extractive summarizer
+unlike summarunner which is an auto regressive model i
+e
+previous decisions made by the model affect its future decisions siatl performs classication independently for can be downloaded from
+dropbox
+com s threaddataset
+dataset is not publicly available
+org project to paper for original model design each sentence
+while it may always seem that sive models would perform better xiao and carenini showed that non auto regressive models can sometimes be more efcient
+thus we decided to use the siatl model as a baseline and compare the performance of auto regressive and non auto regressive models within the extent of our study
+attend to the beginning i i hb hd throughout this work we hypothesize that attending to the initial part of a text during extractive summarization would help in selecting more salient sentences
+the intuition is that in some
+
+discussion threads the initial part of a text holds important topical information
+forth it renders an important factor in selecting salient tences for summarization objective
+thus we validate this hypothesis by calculating the importance of a sentence with respect to the initial part of the text in the form of tention
+inuenced by seo et al
+wang quan and wang the same interaction approach is employed here to produce beginning aware sentence representations for each sentence in the document
+first a sentence resentation is produced for each sentence of the document as well as each sentence of the beginning part of the ument i
+e
+initial post comment in the case of discussion rmn is then computed for dataset
+similarity matrix s each pair of document and beginning part sentences sij hip j
+where n is the number of sentences in the beginning part m is the number of sentences in the input document is the concatenation operator hd i is the sentence representation of the i s sentence in the document and hb j is sentence representation of the j s sentence in the beginning part
+each row and column of s is then ized by softmax which produces two new matrices s and s
+hb b bidirectional attention is then calculated as a s hb where a represents document to beginning s tention and b represents beginning to document attention
+finally we obtain the beginning aware sentence tions for each sentence in the document gd m where ai hd gd hd bi the underlying mechanism to integrate bidirectional tention in siatl and is very much the same except for the level of granularity in which attention operates on
+summarunner operates on the level of ment so the bidirectional attention mechanism is calculated on the level of sentences between all document sentences and the beginning sentences i
+e
+hd is the sentence i resentation of the i s sentence in the document and hb j is sentence representation of the j s sentence in the beginning part
+on the other hand siatl operates on the level of sentence thus bidirectional attention is calculated between words of the input sentence and words of the beginning part of the document i
+e
+hd i is the word representation of the i s word in the input sentence and hb j is word representation of the j s word in the beginning part
+i ai hd i i s i t is available at github
+com amagooda summarunner coattention additional proposed modications bert embedding recently released et al
+embeddings showed the ability to outperform simply using shallow word embeddings
+moreover it helped pushing the state of the art for numerous tasks within the nlp community
+in this work we integrate bert embeddings within the summarunner model
+instead of initializing word embeddings randomly bert embeddings are used
+the model embedding layer is initialized with bert embedding and froze during the ing phase
+keyword extraction attention mechanisms aim to weight tokens differently based on their importance
+another modication we duce in this work is directed towards feeding the model with an extra signal
+the extra signal in this case is keywords
+the intuition behind feeding the model with keywords is pushing the model to give more attention to some specic words
+the way we integrate keywords in summarunner model is by extracting keywords from each sentence si
+then separately encode the keywords into hidden states ing bilstm hkwi nkwi where nkwi is the ber of extracted keywords from sentence si
+the last den state is then used to represent all the keywords hkw
+a new sentence embedding hdkw is then formed by directly concatenating the original document aware sentence sentation and the keywords representation
+j j i i hd hdkw i hkw i experiments to verify our hypotheses and validate the utility of our proposed modications we conducted a number of iments
+our experimental designs address the following hypotheses hypothesis attending to the beginning of a discussion thread would help extractive summarization models to select more salient sentences
+hypothesis non auto regressive models such as siatl might be more suitable for thread discussion summarization compared to auto regressive models such as summarunner
+hypothesis adding additional features such as contextual embeddings e
+
+bert and keywords can give summarization models a boost in performance
+hypothesis attend to the beginning is transferable to different forms of text other than discussion threads
+lsa kmeans
+as part of two lsa vector spaces were used first a vector space trained on a part of wikipedia
+second a vector space trained using the forum discussion dataset
+scikitlearn python package was used to produce lsa vector spaces of dimensions
+the lsa baseline summarunner
+we summarunner model following nallapati zhai and zhou
+to operate on forum discussion data comments are split into implemented
+
+for j si for si in sentences using stanford sentence parser
+all sentences are then concatenated into a single document
+
+
+n si for si in cj d where si is the i s sentence is the concatenation operator cj is the j s comment and n is the number of comments
+moreover to operate on msw dataset each document is also split into sentences using stanford sentence parser
+summarunner used randomly initialized embeddings of size
+the hidden state size of the lstm is
+input sentences are truncated to tokens while shorter sentences are padded
+the model is trained with batch size for epoch
+we calculate rouge score over the development set on each epoch
+later on the checkpoint with maximum rouge is used for testing
+siatl
+we used the implementation of siatl released by the
+the model used embeddings of size dimensions
+the hidden state size of the shared lstm is
+the task lstm is of size
+input tences are truncated to tokens while shorter sentences are padded
+the model is trained with batch size for epoch
+similarly we calculate the rouge score over the development set
+later on the checkpoint with the maximum rouge score is used for testing
+summarunner bidirectional att
+and
+the bidirectional attention mechanism integrated in marunner operates on the level of document
+to conduct experiments on forum discussion data the beginning part is the rst comment which is the initial post in the thread
+on the other hand during experiments on the msw dataset the beginning part is the rst n sentences in each document
+in this work we used n
+summarunner bert embedding
+to tialize summarunner with bert word embeddings bert base uncased embeddings were
+each word is represented by the concatenation of bert s last two layers which leads to a word representation of size
+we tried combining different number of and for each word representation
+we found that combining or layers performs better than using only the last layer
+we decided to use only layers to reduce the number of model parameters
+summarunner keyword extraction
+to extract keywords we use rapid automatic keyword extraction rake rose et al
+to identify keywords
+for each sentence in the document keywords extracted and concatenated
+each pair of sentence and corresponding concatenated keywords are then passed to summarunner as separate inputs
+siatl bidirectional att
+and
+like summarunner siatl operates on the level of
+com alexandra chron siatl
+googleapis
+com bert uncased
+zip individual sentences
+thus the bidirectional attention mechanism integrated operates on the level of words
+the to conduct experiments on forum discussion data beginning part is all the words from the initial comment in the thread
+on the other hand during experiments on the msw dataset the beginning part is all the words from the rst n sentences in each document
+in this work we used n
+results on forum dataset table presents summarization performance results for the non neural extractive baselines for the original and proposed variants of the two summarization models marunner and siatl and nally for the highest score reported by tarnpradab liu and hua
+following tarnpradab liu and hua and other recent work performance is evaluated using and rouge l r l lin on
+summarization model r l baselines summarunner tarnpradab best sumy lsa kmeans discussions lsa kmeans wikipedia summarunner basic siatl self attention bidir
+att
+bert keywords kws bidir
+att
+kws bert kws bert bidir
+att
+bert bidir
+att
+kws bidir
+att
+self att
+bidir
+att
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+siatl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table rouge results
+italics indicates outperforms all baselines
+boldface indicates best result over all models
+underlining indicates best result within model group the motivation for using bidirectional attention nism is our hypothesis
+table supports this esis
+all rouge scores for summarunner and siatl that involves attending to the beginning by using tional attention mechanism rows and form their corresponding counterpart without using tional attention rows and respectively
+our ond hypothesis is non auto regressive models might be more suitable than auto regressive ones for discussion marization
+table shows that using non auto regressive model siatl indeed improve rouge scores compared to the auto regressive model summarunner
+in rows and we see that siatl improved scores from
+to
+
+similarly and r l are also improved from
+to
+and from
+to
+respectively
+additionally siatl introduced a new sota with a huge improvement in rouge scores compared to the previous work using chical attention rows and in which improved by
+
+improved by
+and nally r l proved by
+
+we also see the same benets of ing to the beginning for siatl model compared to using only the self attention mechanism i
+e
+original model ing only bidirectional attention or combining both attention mechanisms self and bidirectional boost rouge scores rows and our next hypothesis is that enriching models with additional features such as contextual embeddings or words would boost the performance
+for these experiments we only used summarunner model since it still has a room for improvement to catch up with the siatl model
+table shows that our third hypothesis is a valid one but not for all cases
+it shows that while adding contextual embeddings by itself or adding keywords by itself helps the model
+bining contextual embeddings with keywords tends to harm the model
+we can see that adding keywords to both variants of summarunner original and with bidirectional tion introduces a slight improvement over rouge scores rows and
+where improved from
+and
+to
+and
+respectively
+improved from
+and
+to
+and
+and r l proved from
+and
+to
+and
+
+larly adding bert contextual embedding introduces a good improvement over rouge scores for both variants of marunner rows and
+where improved from
+and
+to
+and
+respectively
+improved from
+and
+to
+and
+and r l improved from
+and
+to
+and
+
+surprisingly adding both features bert and keywords tends to be harmful to the model rows and
+further analysis is still needed to reach a solid conclusion for such behavior
+results on msw dataset table presents summarization performance results for the original and proposed variants of summarunner for the best performing variant of siatl
+the motivation behind conducting experiments on the msw dataset is to validate our last hypothesis
+we can see that table clearly shows that our hypothesis is a valid one
+it shows that tending to the beginning of a document helps selecting more salient sentences not just for discussion threads but even for generic textual documents
+similar to the results on the cussions dataset we can see that attending to the beginning through a bidirectional attention mechanism boosts rouge scores rows and
+additionally we can see that ing bidirectional attention with bert embeddings further improves the performance rows and
+discussion analysis unlike its promising performance on discussions table siatl performed poorly on msw dataset ble
+surprisingly it was only able to outperform the baseline
+through analyzing different criteria of the generated output for summarunner and siatl over the model summarunner bidir
+att
+bert bidir
+att
+bert siatl self att
+bidir
+att
+
+
+
+
+
+
+
+
+
+
+r l
+
+
+
+
+table rouge results over msw dataset
+two used datasets
+we observed that siatl tends to erate longer summaries compared to summarunner and this most likely due to its non auto regressive nature
+marunner on the other hand tends to generate shorter summaries
+table shows the average and standard viation of the number of sentences generated using marunner and siatl model compared to the human notation
+it shows that for the forum discussion dataset the expected summary length is sentences
+for the same dataset the siatl model generates summaries of length sentences while summarunner generates summaries of length sentences
+this can justify the superior mance of siatl compared to summarunner on the rum discussion dataset
+on the other hand we can notice that the expected summary length for the msw dataset is sentences
+for the same dataset summarunner tently generates shorter summaries compared to siatl of lengths
+compared to respectively
+it is clear that the huge difference in the length of the summary between the human and siatl generated is the reason siatl performs on the msw dataset
+a potential solution for the siatl model would be by adding a nal post processing step e
+
+clustering redundancy reduction
+
+
+the rule of the post processing step would be slightly ltering the generated summary and help to pick a number of sentences close to the average number humans select
+model human summarunner siatl forum discussions avg
+
+std
+
+
+msw avg
+
+
+std
+
+
+table average and standard deviation of the number of sentences generated from each model and the human lected sentences conclusion future work we explored improving the performance of neural extractive summarizers when applied to discussion threads by ing to the beginning of the text i
+e
+initial comment post through a bidirectional attention mechanism
+we showed that attending to the beginning of the text improved rouge scores of different models and different variants of these models
+we also showed the applicability of using a recent sentence classication model siatl for extractive marization and introduced a new sota rouge score on the trip advisor forum discussion dataset
+additionally we luo w
+liu f
+and litman d
+
+an improved phrase based approach to annotating and summarizing in proc
+of coling the dent course responses
+international conference on computational tics technical papers
+nallapati r
+zhai f
+and zhou b
+
+summarunner a recurrent neural network based sequence model for tractive summarization of documents
+in thirty first aaai conference on articial intelligence
+paulus r
+xiong c
+and socher r
+
+a deep inforced model for abstractive summarization
+in tional conference on learning representations
+rose s
+engel d
+cramer n
+and cowley w
+
+tomatic keyword extraction from individual documents
+text mining applications and theory
+see a
+liu p
+j
+and manning c
+d
+
+get to the point summarization with pointer generator networks
+in proc
+of the annual meeting of the acl volume long papers volume
+seo m
+kembhavi a
+farhadi a
+and hajishirzi h
+
+bidirectional attention ow for machine comprehension
+in proc
+of the international conference on learning sentations iclr
+sutskever i
+vinyals o
+and le q
+v
+
+sequence to sequence learning with neural networks
+in advances in neural information processing systems
+tarnpradab s
+liu f
+and hua k
+a
+
+toward tractive summarization of online forum discussions via archical attention networks
+in the thirtieth international flairs conference
+wang k
+quan x
+and wang r
+
+biset directional selective encoding with template for abstractive summarization
+arxiv preprint
+
+xiao w
+and carenini g
+
+extractive summarization of long documents by combining global and local context
+arxiv preprint
+
+yang m
+qu q
+shen y
+liu q
+zhao w
+and zhu j
+
+aspect and sentiment aware abstractive review summarization
+in proc
+of the international conference on computational linguistics
+showed that attending to the beginning of the text is not ited to datasets in the form of discussion threads
+we showed that it is transferable to more generic forms of text in which we can attend to the rst n sentences of the text similar to attending to the initial post comment in discussion threads
+lastly we showed that the utility of attending to the ning is constant regardless of the used model or dataset
+integrating bidirectional attention always introduces an provement in rouge scores
+future plans include trying more generic datasets such as news to further verify the ity of attending to the beginning
+further experimenting with the siatl model on other datasets as it showed promising results when used as extractive summarizer
+we also plan to try extending the siatl model with a post processing step to enforce more control over the output length
+we also plan to try different values for n the number of sentences as tial part from generic documents
+references bahdanau d
+cho k
+and bengio y
+
+neural chine translation by jointly learning to align and translate
+arxiv preprint
+
+chronopoulou a
+baziotis c
+and potamianos a
+
+an embarrassingly simple approach for transfer learning from pretrained language models
+in proc
+of the ference of naacl hlt volume long and short papers
+devlin j
+chang m
+
+lee k
+and toutanova k
+
+bert pre training of deep bidirectional transformers for guage understanding
+arxiv preprint
+
+gehrmann s
+deng y
+and rush a
+
+bottom up abstractive summarization
+in proc
+of the conference on emnlp
+jha r
+bi k
+li y
+pakdaman m
+celikyilmaz a
+bodev i
+and mcdonald k
+
+artemis a novel tation methodology for indicative single document rization
+arxiv preprint
+
+jung t
+kang d
+mentch l
+and hovy e
+
+earlier is nt always better sub aspect analysis on corpus and system biases in summarization
+in proc
+of the conference on emnlp and the ijcnlp
+li m
+zhang l
+ji h
+and radke r
+j
+
+keep ing summaries on topic abstractive multi modal meeting summarization
+in proc
+of the annual meeting of acl
+florence italy acl
+li j
+li h
+and zong c
+
+towards personalized review summarization via user aware sequence network
+in proc
+of the aaai conference on articial intelligence ume
+lin c
+
+
+rouge a package for automatic evaluation of summaries
+text summarization branches out
+liu y
+and lapata m
+
+text summarization with trained encoders
+in proc
+of the conference on ical methods in natural language processing and the international joint conference on natural language cessing emnlp ijcnlp
+

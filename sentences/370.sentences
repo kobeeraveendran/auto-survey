@@ -1,0 +1,1091 @@
+what makes a good summary reconsidering the focus of automatic summarization maartje ter hoeve university of amsterdam m
+a
+
+nl julia kiseleva microsoft research julia
+
+com maarten rijke university of amsterdam ahold delhaize m
+
+nl c e d l c
+s c v
+v i x r a abstract automatic text summarization has enjoyed great progress over the last years
+now is the time to re assess its focus and objectives
+does the current focus fully adhere to users desires or should we expand or change our focus we investigate this question ically by conducting a survey amongst heavy users of pre made summaries
+we find that the current focus of the field does not fully align with participants wishes
+in response we identify three groups of implications
+first we argue that it is important to adopt a broader perspective on automatic summarization
+based on our findings we illustrate how we can expand our view when it comes to the types of input material that is to be summarized the purpose of the summaries and their potential formats
+second we define requirements for datasets that can facilitate these research tions
+third usefulness is an important aspect of summarization that should be included in our evaluation methodology we propose a methodology to evaluate the usefulness of a summary
+with this work we unlock important research directions for future work on automatic summarization and we hope to initiate the development of methods in these directions
+introduction automatic text summarization has been an important research rection since the early days of the ir and nlp community
+the often implicit goal of the work on automatic text summarization is to generate a condensed textual version of the original input while preserving the main message of the original
+this notion is embedded in today s most common ation metrics for the summarization task
+these metrics computed either automatically or by performing a human evaluation focus on characteristics such as informativeness fluency succinctness and especially recently factuality e
+
+
+in recent years the quality of automatically generated textual summaries has increased tremendously with the rise of neural quence to sequence models e
+
+
+the introduction of formers and self supervised language representation models like bert have given the summarization quality an additional boost e
+
+
+given these positive developments it is important to ask selves what the future directions of automatic summarization should be and whether the current form of automatic summarization aligns with users wishes an important aspect in explicit definitions of the goal of automatic summarization e
+
+
+for ple mani defines this goal as to take an information source extract content from it and present the most important content to the user in a condensed form and in a manner sensitive to the user s or plication s needs
+in this paper we empirically explore users needs most current automatic text summarization techniques
+example of automatic text summarization with users desires
+figure summarization methods that are currently the standard vs
+example of summarizing while taking users wishes and desires into account
+and compare them with current efforts for automatic text rization
+we also examine how we can evaluate the usefulness of a summary in a feasible and comprehensive manner
+we start our investigation by conducting a survey amongst heavy users of pre made summaries
+we use the word pre made to tiate these summaries from summaries that people write themselves for example to help them to understand a text e
+
+
+instead pre made summaries are made by someone else e
+
+a teacher who writes a summary to help students studying for their exams
+as automatically generated summaries also fall in this category of pre made summaries they should have the same characteristics as users desire for this category
+in this research we identify and investigate these characteristics
+during our investigation we focus on the three classes of context factors defined by jones input factors purpose factors and output factors which describe the input material the purpose of the summary and what the summary should look like respectively
+figure gives an example
+figure shows the textual unstructured input and output of most current textual summarization techniques
+purpose factors are often ignored
+figure shows an example of how the interpretation of these factors could differ keeping the purpose of the summary for the user in mind
+output factorspurpose factorsinput factorsthis figure shows the classical approach for textual summarization
+unstructured textual input is transformed into shorter textual output
+the usual approach for textual summarization uses unstructured textual input and output
+output factorspurpose factorsinput factorsother ways of summarizationwe take users wishes into account and might have a more structured input and output
+more aware of users desires more useful summary we conclude our investigation by carefully examining the cations of our findings
+by doing so we contribute the following we unveil important and currently underexposed research rections for research on automatic text summarization cerning the input purpose and output factors we define priorities for efforts on dataset collection to be able to study these directions and we propose a new feasible and comprehensive evaluation methodology to evaluate the usefulness of a generated mary
+the rest of this paper is structured as follows
+we discuss related work in section
+in section we describe our survey
+we present our results in section
+in section we discuss the implications of our research for future research on automatic text summarization and we conclude in section
+related work below we introduce the context factors in greater detail and use them to give an overview of methods for automatic text tion
+we then give an overview of evaluation schemes for automatic summarization
+we conclude by framing our own position
+
+requirements of an automated summary jones argues that one should take the context of a summary into account in order to generate useful summaries a statement that has been repeated by others e
+
+
+to do this in a structured manner jones defines three classes of context factors input factors purpose factors and output factors
+each of these classes is concerned with a step in the summarization process
+input factors describe the input material that is to be summarized
+output factors describe what the generated summary looks like
+purpose factors are the most important context factors according to jones they describe the purpose of the generated summary
+jones argues that the purpose factors are often not fully recognized a statement that is still timely at present as we will show in section
+
+each context factor class can be divided into more fine grained classes
+we refer to table in appendix a for an extensive overview
+
+automatic text summarization now we discuss recent work on automatic summarization tured around the three context factor classes
+specifically we nect this work to the fine grained factors that each of the context factor classes can be divided into
+input factors
+we start with the factor unit which describes how many sources are to be summarized at once and the factor scale which describes the length of the input data that we are ing
+these factors are related to the difference between single and multi document summarization e
+
+
+scale plays an important role when material shorter than a single ment is summarized such as in sentence summarization e
+
+
+regarding the genre of the input material we see that most current work on automatic text summarization focuses on the news domain or wikipedia e
+
+
+a smaller body of work addresses different input genres such as scientific articles e
+
+forum data e
+
+or opinions e
+
+
+the aforementioned differences are closely related to the input factor subject type which describes the difficulty level of the input material
+the factor medium refers to the input language
+most research on automatic text summarization is concerned with english as language input although there are ceptions such as chinese e
+
+or multi lingual input
+the last input factor is structure
+especially in recent neural approaches explicit structure of the input text is often ignored
+exceptions clude graph based approaches where implicit structure is used to summarize a document e
+
+and summarization of tabular data e
+
+or screenplays e
+
+
+purpose factors
+although identified as the most important text factor class by jones and followed by for example mani purpose factors do not receive a substantial amount of attention in work on automatic text summarization
+there are some exceptions such as query based summarization e
+
+question driven summarization e
+
+and personalized rization e
+
+
+they take the situation and the audience into account
+the use cases of the generated summaries are also clearer in these approaches than in typical work on automatic text marization
+output factors
+we start with the output factors style and terial
+the latter is concerned with the degree of coverage of the summary
+most generated summaries have an informative style and cover most of the input material
+there are exceptions
+for example the xsum dataset constructs summaries of a single sentence and is therefore more indicative in terms of style and inevitably less of the input material is covered
+not many summaries have a critical or aggregative style
+aggregative summaries put different source texts in relation to one another to give an overview of a topic
+currently most popular summarization techniques focus on a running format
+work on template based summarization follows a more headed structured format e
+
+
+falke and gurevych introduce a more structured format in the form of concept maps and wu et al
+make knowledge graphs
+there is also a small body of work on multi modal summarization which has a more structured output e
+
+
+the difference between abstractive and extractive summarization is likely the best known distinction in output type e
+
+although it is not entirely clear which output factor best describes the difference
+
+evaluation evaluation methods for automatic text summarization can be ed in different ways
+one way is in intrinsic vs
+extrinsic evaluation methods
+intrinsic methods evaluate the model itself for ple on informativeness or fluency e
+
+
+extrinsic methods target how well the summary performs when used for a certain task e
+
+
+extrinsic methods require a lot of resources which explains the popularity of intrinsic methods
+another popular way to distinguish different types of tion metrics is between automatic and human evaluation
+over the years different automatic metrics have been proposed
+rouge which is most popular evaluates on lexical similarity
+the recently proposed bertscore evaluates on semantic similarity
+wang et al
+introduce an automatic extrinsic way of evaluating erated summaries by automatically generating questions about an input document and answering these questions based on the summary
+a similar approach is proposed by durmus et al
+
+most human evaluation approaches evaluate intrinsic factors such as informativeness readability and conciseness factors that are difficult to evaluate automatically
+there are some examples of extrinsic human evaluation methods where judges are asked to perform a certain task based on the summary
+examples are relevance assessment where the relevance of a document for a certain topic is judged based on its summary e
+
+and reading comprehension such as question answering e
+
+
+
+our position we conclude this related work section by stating how our work relates to the context factors and evaluation metrics
+context factors
+in this work we empirically investigate the needs and desires of heavy users of pre made summaries when it comes to the input purpose and output factors
+we do this by conducting a survey amongst this group of people
+the outcomes of this survey allow us to identify underexposed context factors and by doing so to reveal important and exciting research directions for future work on automatic summarization
+evaluation
+we return the observation by jones that the purpose factors are not explicitly addressed in most work on matic summarization
+in some cases one can justify this when the usefulness of a generated summary is less important for example when the objective is to test a certain model architecture or when it is not precisely known who will use the summary defined by the purpose factor situation
+however we agree with jones that the purpose factors deserve more attention
+as a next step we should also explicitly evaluate generated summaries on their usefulness for the intended use cases
+so far usefulness is not evaluated in a ble and comprehensive manner
+the few existing metrics are often either very resource demanding and too task specific e
+
+or too little specific and hence ignoring the purpose factors e
+
+
+moreover these metrics are ignored by most current work on automatic summarization
+in this paper we aim to bridge the gap by introducing a feasible and comprehensive evaluation methodology to evaluate usefulness
+method here we describe the participants of our survey section
+and our survey procedure section
+
+
+participants we recruited our participants among university students
+this group is particularly well suited for our investigation as sity students are heavy users of pre made summaries for example during exam preparations
+their extensive experience with made summaries makes them experts in this area and therefore they can be expected to have strong and grounded opinions on this topic
+because of their expertise we can use their identified requirements as a reliable starting point to broaden our focus on automatic summarization
+we also considered two different strategies for choosing the participant pool no restrictions on background summarization usage and investigating a number of different target groups
+study levels
+study backgrounds
+figure participant details
+figure overview of survey procedure
+the first would not work as it would be unclear how to compare experiences from different potentially unexperienced participants and hence it would not lead to reliable or actionable conclusions
+although the second setup would give us more data points it comes at the cost of making our study unnecessarily cluttered whereas not adding much generalizability
+we recruited participants by contacting ongoing courses and dent associations and through advertisements on internal student websites
+as an incentive we offered a ten euro shopping voucher to ten randomly selected participants
+a total of participants started the survey and completed the full survey resulting in a
+completion rate
+we only include participants who completed the study in our analysis
+participants spent minutes on average on the survey
+in the final part of our survey we ask participants to indicate their current level of education and main field of study
+the details are given in figure
+
+survey procedure figure shows a brief schematic overview of our survey procedure
+a detailed account is given in appendix b figure
+we arrived at this version of the survey after a number of initial pilot runs where we ensured participants understood their task and all questions
+we ran the survey with surveymonkey
+com
+the entire survey with the exact formulation of the instructions questions and answer options is attached in appendix c to ensure reproducibility
+our survey can also be re used to inquire different target groups with slight modifications to match the target group
+for example the current framing around study activities can easily be adapted to activities representative for another target group
+introduction
+the survey starts with an introduction in which we explain to participants what to expect how we process the data and that participation is voluntarily
+after participants agree with this an explanation of the term pre made summary follows
+as we do not want to bias participants by stating that the summary was automatically generated we explain that this summary can be made by anyone e
+
+a teacher a good performing fellow student the authors of the original material or a computer
+recall from tion that an automatically generated summary is also a pre made summary and for this reason our survey identifies the istics a good automatically generated summary should have
+we also give some examples of types of pre made summaries as based
+
+
+
+
+busin
+
+introductioncontext factorsrememberedfuture featuresclosingimagined on the feedback from our initial pilot experiments we noticed that participants were missing this information
+we explicitly state that these are just examples and that participants can come up with any type of summary themselves
+context factors
+in the main part of our survey we focus on the context factors
+first we ask participants whether they have made use of a pre made summary in one of their recent study activities
+if so we ask them to choose the study activity where a summary was most useful
+we call this group of participants the remembered group as they describe an existing summary from memory
+if participants indicate that they have not used a made summary in one of their recent study activities we ask them whether they can imagine a situation where a pre made summary would have been helpful
+if not we ask them to explain their answer and lead them to the final background questions and closing page
+if yes we ask them to keep this imaginary situation in mind for the rest of the survey
+we call this group the imagined group
+now we ask the remembered and imagined groups about the input purpose and output factors of the summary they have in mind
+we ask questions for each of the subcategories of the context factors that we discussed in section and that can be found in the overview in appendix a as well
+at this point the two groups are in different branches of the survey
+the difference between the branches is mainly linguistically motivated in the imagined group we use verbs of probability instead of asking them to describe an existing situation
+a number of questions can only be asked in the remembered group e
+
+how helpful the summary was
+for the first question of the context factors part we ask ticipants what the study material consisted of
+we give them a number of options as well as an other checkbox
+to avoid sition bias all answers options for multiple choice and multiple response questions in the survey are randomized with the other checkbox always as the last option
+if participants do not choose the mainly text option for this first question we tell them that we cus on textual input in the current and we ask them whether they can think of a situation where the input material consisted of text
+if not we lead participants to the background questions and closing page
+if yes they proceed to the remaining questions that give us a full overview of the input purpose and output factors of the situation that participants have in mind
+finally we ask the remembered group to suggest how their described summary could be turned into their ideal summary
+we then ask both groups for any final remarks about the summary or input material
+trustworthiness and future features questions
+both groups are then led to some exploratory questions
+we add these questions to get some initial understanding of the trust users would have in machine generated summaries and to get some preliminary ideas for the interpretation of the context factors in a less standard setting but these questions are not the main focus of this research
+for the first set of questions we tell participants to imagine that the summary was made by a computer but contained all the needs that were identified in the previous part of the survey
+we then ask them questions about trust in computer versus human generated acknowledge that other modalities as well as a mixture of modalities are important to investigate but leave this for future work to ensure clarity in our results
+table different levels of investigation
+we did not find nificant differences for but add it here for completeness
+remembered branch vs imagined branch all respondents together different study fields different study levels different levels of how helpful the summary was according to participants rated on a point likert scale note that only the remembered group answered this question summaries
+as a next step we ask participants to imagine that they could interact with the computer program that made the summary in the form of a digital assistant
+we tell them not to feel restricted by the capabilities of today s digital assistants
+the full scenario sketch can be found in appendix c
+we then ask participants to select the three most useful and the three least useful features for the digital assistant to have in this scenario in a similar fashion as in ter hoeve et al
+
+results here we present the outcomes for each survey question and ine them at different levels summarized in table
+for space and clarity reasons we present the results on a per group level when interesting differences are found otherwise we present the results of all respondents together
+we use the question formulation as used for the remembered group and abbreviate the answer options
+
+identifying branches of our participants
+indicated that they had used a pre made summary before and hence they were led to the remembered branch
+of the remaining
+
+responded that they could think of a situation where a pre made summary would be useful for them
+they were led to the imagined branch
+we asked the few remaining participants why they could not think of a situation
+people answered that they would not trust a pre made summary and that making a summary themselves helped them with their study activities
+previous work has indeed found that writing summaries can help with tasks such as reading comprehension e
+
+
+
+input factors figure shows the results for the input factor questions
+here we highlight some particularly noteworthy results
+first we see that textual input is significantly more popular than the other input types figure
+this result is based on participants initial sponses and not on the follow up question if they selected another option than text
+this stresses the relevance of automatic text summarization
+furthermore participants described a very diverse input for the factors scale and unit figure much more diverse than the classical focus of automatic text summarization
+figure shows that most input material had a considerable amount of ture
+typically this structure is discarded in work on automatic summarization even though it can be an important source of mation
+we discuss the implications of these findings in section
+
+medium the study material consisted of mc scale unit what was the length of the study material mc genre what was the genre of the study material mc subject type how would you classify the difficulty level of the study material mc e structure how was the study material structured mr figure results for the input factor questions
+specific input factor in italics
+answer type in brackets mc multiple choice mr multiple response
+indicates significance after bonferroni correction with
+
+if two options are flagged with these options are not significantly different from each other yet both have been chosen significantly more often than the other options
+
+purpose factors figure shows the results for the purpose factor questions
+again we highlight a number of particularly interesting results
+first for the purpose factor audience figure we asked how much main knowledge was or should be expected from the readers of the summary
+we find that people selected the targeted level and targeted level option i
+e
+a lot or full domain knowledge significantly more often than the other options
+this corresponds to the result we found in the previous section for the difficulty level of the input most participants described specialized input material figure
+as our participant pool consists of students this is rather unsurprising
+however for other target groups the objective could be to rather make a summary for people without a lot of domain knowledge based on very specialized input material
+the main takeaway here is that one should make sure that the expected difficulty level of the summary is aligned with the users expectations
+in our example we can see this was the case
+in ure we show the results split based on how helpful participants indicated the summary was
+we can see that targeted level i
+e
+almost no domain knowledge was mostly perceived as not helpful
+although this result is not significant with a fisher s exact it denotes a trend that is worth paying attention to when designing future summarization models
+is more suitable in this case than a standard test due to the small sample size for some options
+in figure we find how the summary helped participants with their task
+we show the results for the remembered and the imagined group
+a first interesting observation from our data i
+e
+not noted in figure is that participants in the imagined group ticked more boxes than participants in the remembered group
+vs
+
+per participant on average
+this is a first observation that shows the wide variety of potential use cases of pre made summaries
+secondly we find that the imagined group chose the option fresh memory and overview more often than the remembered group fisher s exact test
+
+although this result is not significant after a bonferroni correction to correct for the number of tests we think this can inspire interesting future research directions when it comes to defining the purpose factors for a generated summary
+in general we can see that many different use cases were very popular whereas current research on automatic summarization is mostly concerned with simply giving an overview of the input material
+this is an important observation that we should use to broaden our vision of the automatic summarization research
+participants reported that the summary was helpful or very ful figure which allows us to draw valid conclusions from the results of this survey
+in section
+we discuss the implications of we do not find any significant differences in the overall results when we exclude these few participants who did not find their summary helpful and we do not find many correlations w
+
+t
+how helpful a summary was and a particular context factor we choose to include all participants in the analysis regardless of how helpful they found their summary
+of respondentsmainly textmainly figuresmainly videomainly
+
+
+
+
+
+
+resps
+of respondentssingle articlemult
+articlessingle book chapt
+mult
+chapt
+same bookmult
+chapt
+various knowotherscale
+
+
+
+
+
+
+
+resps
+of
+
+
+
+
+resps
+of respondentsordinaryspecializedgeographicallybasedsubject
+
+
+resps
+of respondentsnonetitle titlessubheadingschapterssections and
+
+
+
+
+
+
+resps
+situation what was the goal of this study activity mc situation who made this pre made summary mc only if remembered situation the summary was made specifically to help me and potentially my fellow students with my study activity ls only if remembered audience for what type of people was the summary intended ls e use how did this summary help you with your task mr use overall how helpful was the made summary for you ls only if bered figure results for the purpose factor questions
+specific purpose factor in italics
+answer type in brackets mc multiple choice mr multiple response ls likert scale
+indicates significance after bonferroni correction with
+with
+
+indicates noteworthy results where significance was lost after correction for the number of tests
+if two options are flagged these options are not significantly different from each other yet both were chosen significantly more often than the other options
+our findings for the research on automatic summarization regarding the purpose factors in more detail
+
+output factors figure shows the results for the output factor questions
+textual summaries were significantly more popular than the other summary types figure
+this again stresses the importance of automatic text summarization
+when we investigate the results for the described coverage of the summary figure we find that most participants indicated that the summary covered or should cover most of the input material
+we split these results based on how helpful the summary was for participants and find that summaries that only covered some of the input material were significantly less helpful for participants than summaries with more coverage
+this is in line with the findings that most participants used the summary to study for an exam section
+purpose factors figure
+studying for an exam likely requires an overview of the full study material
+this result shows that in agreement with jones the purpose factors are extremely important in order to define the output factors
+for the output factor style we find a fascinating difference tween the remembered and imagined group figure
+whereas the remembered group described significantly more often an formative summary the imagined group opted significantly more often for a critical or aggregative summary
+most research on tomatic summarization focusses on informative summaries only this result opens up very exciting directions for future research
+the results for the described output structure of the summary figure are also very important and insightful
+participants scribed a substantially richer format of the pre made summaries than is adopted in most research on automatic summarization
+stead of consisting of just a running text the vast majority of ipants indicated that the summary contained or should contain all kinds of structural elements such as special formatting diagrams headings
+moreover we find that participants in the imagined group ticked more boxes on average than participants in the membered group
+vs
+
+per participant indicating a desire for structure in the generated summaries
+this is supported by the answers to the open ended question where we asked participants in the remembered group what would be needed to optimize the described summary
+we discuss these results in the next paragraph
+of respondentsstudying for
+
+
+
+resps
+of respondentsteacher tafellow studentofficial orga
+the authors oforig
+materialcomputer knowothersummary
+
+
+
+
+
+
+of respondentsstrongly disagreedisagreeneither agreenor disagreeagreestrongly agreei do know
+made to help
+
+
+
+
+
+of respondentsuntargeted
+
+
+
+
+
+
+
+
+
+
+
+
+of
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+beredimagi of
+
+
+
+
+a format what was the type of the mary mc format how was the summary tured mr material how much of the study rial was covered by the summary ls style what was the style of this mary mc figure results for the output factor questions
+specific output factor in italics
+answer type in brackets mc multiple choice mr multiple response ls likert scale
+indicates significance or fisher s exact test after bonferroni tion with
+with
+
+the results we found for the output factors unlock many future research directions which again indicates that we should widen our focus on the automatic summarization research
+we discuss this in more detail in section
+
+
+
+open answer questions
+we asked the participants who scribed an existing summary how this summary could be formed into their ideal summary
+of the participants who filled out this question
+made suggestions
+many of these suggestions are centered around adding additional structural elements to the summary like figures diagrams or tables
+one of the participants wrote an ideal summary is good enough to fully replace the original often longer texts contained in articles that need to be read for exams
+the main purpose behind this is speed of learning from my experience
+more tables graphs and visual representations of the study material and key concepts links would improve the summary as i would faster comprehend the study material
+another participant wrote more images graphs to have some changes from just studying from text
+perhaps some online video material about the most difficult parts
+participants also indicated a desire for more structure in the mary text itself for example by adding headings or color codings
+one participant wrote colors and a key for color coding different sections such as definitions on the left maybe and then the rest of the page reflects the structure of the course material with notes on the readings that have many headings and subheadings
+another theme that can be distilled from participants answers is the desire to have more examples in the summary
+one participant wrote more examples i think
+for me personally i need examples to understand the material
+now i needed to imagine them myself
+some participants wrote that they would like to have a more personalized summary i d highlight some things i find difficult
+so i d personalise the summary more
+another participant wrote make it more personalized may be
+these notes were by another student
+i might have focussed more on some parts and less on others
+
+trustworthiness and future features in this section we report the results for the exploratory questions that we asked about the trustworthiness of a summary generated by a machine versus a human as well as the results for the questions about features for summarization with a digital voice assistant
+we find that participants are divided on the question whether it would make a difference to them whether the summary was generated by a machine or a computer
+if we look at all participants together we find that
+
+of the participants answered that it would make a difference whereas
+answered that it would not
+however if we split the participants based on study background an interesting difference emerges figure
+participants with a background in stem indicated significantly more often that it would not make a difference to them whereas the other groups of students indicated the opposite
+almost all participants who of respondentslecture notesblog posthighlightsabstractive textshort videoslide showothersummary
+
+
+
+
+
+
+resps
+of respondentsrunning texthighlightsspecialformattingdiagramstablesgraphsfiguresheadingssections
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+of respondentsnonealmost nonesomemostallsummary
+
+
+
+
+
+
+
+
+
+of respondentsinformativeindicativecriticalaggregativeothersummary
+
+
+
+
+
+
+would it make a difference to you whether the summary was generated by a computer program or by a human mc which type of summary would you trust more mc please choose the three most useful tures for a digital assistant to have in this scenario
+mr please choose the three least useful tures for a digital assistant to have in this scenario
+mr figure results for the future feature questions
+answer type in brackets
+mc multiple choice mr multiple response
+indicates significance or fisher s exact test after bonferroni correction with
+
+answered that it would make a difference said that they would not trust a computer on being able to find the relevant information i
+e
+all seemed to favor the human generated summary
+only one participant advocated for the computer generated summary as a computer is more objective
+almost all participants who said it would not matter to them did add the condition that the quality of the generated summary should be as good as if a human had generated it similar to the observation reported in vtyurina et al
+for automatic systems for conversational search
+one person wrote if the summary captures all previously discussed elements it is effectively good for the same purpose
+so then it does not matter who generated it
+this comment exactly captures the motivation of the setup of our survey
+this caution regarding automatically generated summaries is confirmed by the question where we asked which type of summary participants would trust more a human generated one or a chine generated one
+people chose the human generated summary significantly more often figure
+this also holds for the pants with a stem background which aligns with the responses to the open questions we reported earlier apparently participants do not fully trust that the condition they raised earlier would be satisfied namely that only if the machine was just as good as the human it would not matter for them whether the summary was generated by a machine or a computer
+the results for the most and least useful features for a digital assistant in a summarization scenario are given in figure and
+adding more details to the summary and answering specific tions based on the content of the summary are very popular features whereas summarizing parts of the input material with less detail is not very popular
+lastly we asked participants whether they could think of any other features that they would like their digital assistant to have in the outlined scenario
+a number of participants answered that they would like the digital assistant to generate questions based on the summary so that they could test their own understanding
+e
+
+one participant said make questions for me to test me and another participant had a related comment maybe the the digital assistant could find old exam questions to link to parts of the summary where the question is related to so that there is a function to test if you ve understood the summary
+another line of answers pointed towards giving explicit relations between the input material and summary for example show links between subject materials and what their relation is and another person wrote dynamic linking from summary to original source is a great added value of generating a summary
+of respondentsyesnodifference computer
+
+
+
+
+
+soc of respondentshuman genmachine genno differencetrust
+
+
+
+
+
+
+
+
+soc of respondentssummarizemore detailedsummarizeless detailedswitch summarystylesexplainsummaryprovide sourcesearch relatedsourcesanswer questionsmost useful
+
+
+
+
+
+
+resps
+of respondentssummarizemore detailedsummarizeless detailedswitch summarystylesexplainsummaryprovide sourcesearch relatedsourcesanswer questionsleast useful
+
+
+
+
+
+
+resps
+implications in the previous section we have presented the results of our survey and we have discussed our interpretation of these findings on a question basis
+here we want to take the opportunity to summarize our findings as general implications for future research efforts
+we explicitly do not argue that current research efforts on matic summarization are invalid
+on the contrary we are excited to see the great progress of the last years
+instead we argue that our results help to spark the development of methods and datasets that facilitate a more encompassing range of summaries
+here we first discuss the implications of our empirical findings for the context factors of summaries and automatic summarization methods
+this will then lead us to answer what this means for dataset collection efforts
+finally we move our focus to evaluation and propose a new evaluation methodology to evaluate usefulness
+
+context factors input factors
+as noted in section the input factors are best represented from all context factors in current research efforts on automatic summarization
+despite this the vast majority of search focuses on english news or wikipedia summarization while stripping away all cues other than raw text
+in order to serve a wider audience and to test the generalization capabilities of current proaches we argue that a wider range of input factors is necessary
+our survey results lead to concrete suggestions different styles difficulty levels and including structure
+the feasibility of this is strongly dependent on available datasets
+therefore we focus on the implications for dataset collection efforts later in this section
+purpose factors
+automatically generated summaries can serve a wide variety of use cases
+current research efforts often serve the purpose of improving model performance on evaluation metrics such as rouge leaving the intended use cases implicit
+we see great value in this type of research as the precise users are not always known and believe that our research can inspire new tions for summarization that can contribute to the challenging goal of making strong performing models with a good understanding of the input that generalize to a wide variety of situations
+nevertheless we also echo jones the purpose factors serve more attention as the ideal format of the summary highly depends on them
+who will use the summary why and in what scenario our results inspire many ways of taking the purpose factors into account
+we need to evaluate whether our generated summaries are indeed useful for the intended users
+as there is no comprehensive way of evaluating this yet we propose an evaluation methodology to evaluate usefulness at the end of this section
+output factors
+the results of our survey inspire the generation of different summary types that are different than the current dard
+we are particularly excited about the implications for the summary format and style
+including more structure in the maries for example by means of diagrams or figures as well as by explicitly adding relations between input text and summary or between parts of the summary as requested by users requires a thorough understanding of the input text
+the many recent cations on model hallucinations e
+
+show that there are still many challenging and exciting research questions in this area
+
+dataset requirements one important requirement for the execution of the defined search directions is the availability of appropriate datasets
+as tioned in section there are some datasets available that are unlike most of the existing datasets especially in terms of input factors
+these datasets deserve a stronger recognition and research focus
+on top of that we hope to inspire dataset collection efforts that clude a more encompassing range of context factors and especially output factors
+
+more datasets with an explicit use of structural elements such as diagrams headers and explicit formatting
+we strongly encourage keeping the purpose factors closely in mind during these collection efforts
+
+usefulness as evaluation methodology following jones and mani we argue that only a correct choice of context factors will result in a useful summary for users
+it is important to explicitly evaluate this usefulness
+in our survey we found that participants mostly found their described summaries very helpful yet it was hard to define a single factor that makes a summary particularly helpful
+instead it is the combination that counts
+therefore usefulness can best be evaluated with a human evaluation
+as existing metrics are very resource demanding e
+
+or not comprehensive enough e
+
+here we propose a feasible and comprehensive method to evaluate usefulness
+first from the purpose factors the intended use factors of the summary need to be identified
+next the output factors need to be evaluated on these use factors
+for this we take inspiration from research on simulated work tasks
+evaluators should be given a specific task to imagine e
+
+writing a news article or studying for an exam
+this task should be relatable to the evaluators so that reliable answers can be obtained
+with this task in mind evaluators should be asked to judge two summaries in a pairwise manner on their usefulness in the following format the output factor of which of these two summaries is most useful to you to use factor an example of such a question would be the style of which of these two summaries is most useful to you to substitute a chapter that you need to learn for your exam preparation as with all human evaluations it is important to ensure that judges understand the meaning of each of the evaluation criteria e
+
+style and substitute in the example
+we give example questions for each of the remaining output and use factors in appendix d
+conclusion in this paper we have empirically investigated the desiderata of users of automatic summaries by means of a survey amongst heavy users of pre made summaries
+we focused on three classes of tial context factors input purpose and output factors
+we identified that purpose factors are often under addressed and found that users desiderata deviate especially from the current focus of automatic summarization research when it comes to the output factors
+based on these findings we identified important future research directions and requirements for efforts on dataset collection
+we also proposed a new methodology to evaluate the usefulness of automatically generated summaries
+our study opens new tant future directions to enhance further research on automatic summarization
+acknowledgments we thank ana lucic for her helpful feedback
+this research was supported by the nationale politie
+all content represents the ion of the authors which is not necessarily shared or endorsed by their respective employers sponsors
+references reinald kim amplayo and mirella lapata
+
+unsupervised opinion rization with noising and denoising
+arxiv preprint
+
+abdelkrime aries walid khaled hidouci al
+
+automatic text tion what has been done and what has to be done
+arxiv preprint
+
+pia borlund
+
+the iir evaluation model a framework for evaluation of interactive information retrieval systems
+information research
+pia borlund
+
+a study of the use of simulated work task situations in interactive information retrieval evaluations
+journal of documentation
+ziqiang cao wenjie li sujian li and furu wei
+
+retrieve rerank and rewrite soft template based neural summarization
+in proceedings of the annual meeting of the association for computational linguistics volume long papers
+
+jianpeng cheng and mirella lapata
+
+neural summarization by extracting sentences and words
+arxiv preprint
+
+sumit chopra michael auli and alexander m rush
+
+abstractive sentence summarization with attentive recurrent neural networks
+in proceedings of the conference of the north american chapter of the association for computational linguistics human language technologies
+
+arman cohan franck dernoncourt doo soon kim trung bui seokhwan kim walter chang and nazli goharian
+
+a discourse aware attention model for abstractive summarization of long documents
+arxiv preprint
+
+yang deng wenxuan zhang and wai lam
+
+multi hop inference for question driven summarization
+arxiv preprint
+
+jacob devlin ming wei chang kenton lee and kristina toutanova
+
+bert pre training of deep bidirectional transformers for language understanding
+arxiv preprint
+
+bonnie dorr christof monz stacy president richard schwartz and david zajic
+
+a methodology for extrinsic evaluation of text summarization does rouge correlate
+in proceedings of the acl workshop on intrinsic and extrinsic evaluation measures for machine translation summarization
+
+duc
+
+duc documents tasks and measures
+
+esin durmus he he and mona diab
+
+feqa a question answering uation framework for faithfulness assessment in abstractive summarization
+arxiv preprint
+
+tobias falke and iryna gurevych
+
+bringing structure into maries crowdsourcing a benchmark corpus of concept maps
+arxiv preprint
+
+sebastian gehrmann yuntian deng and alexander rush
+
+bottom up abstractive summarization
+in proceedings of the conference on empirical methods in natural language processing
+
+ben goodrich vinay rao peter j liu and mohammad saleh
+
+assessing the factual accuracy of generated text
+in proceedings of the acm sigkdd international conference on knowledge discovery data mining
+
+karl moritz hermann tomas kocisky edward grefenstette lasse espeholt will kay mustafa suleyman and phil blunsom
+
+teaching machines to read and comprehend
+in advances in neural information processing systems
+
+baotian hu qingcai chen and fangze zhu
+
+lcsts a large scale chinese short text summarization dataset
+arxiv preprint
+
+k sparck jones
+
+automatic summarizing factors and directions
+in advances in automatic text summarization
+number
+mit press cambridge mass usa
+mahnaz koupaee and william yang wang
+
+wikihow a large scale text summarization dataset
+arxiv preprint
+
+faisal ladhak esin durmus claire cardie and kathleen mckeown
+
+ilingua a new benchmark dataset for cross lingual abstractive summarization
+arxiv preprint
+
+chin yew lin
+
+rouge a package for automatic evaluation of summaries
+in text summarization branches out
+
+marina litvak and natalia vanetik
+
+query based summarization using mdl principle
+in proceedings of the multiling workshop on summarization and summary evaluation across source types and genres
+
+peter j liu mohammad saleh etienne pot ben goodrich ryan sepassi lukasz kaiser and noam shazeer
+
+generating wikipedia by summarizing long sequences
+arxiv preprint
+
+yang liu and mirella lapata
+
+text summarization with pretrained encoders
+arxiv preprint
+
+hans peter luhn
+
+the automatic creation of literature abstracts
+ibm journal of research and development
+inderjeet mani
+
+automatic summarization
+vol
+
+john benjamins ing
+inderjeet mani
+
+summarization evaluation an overview
+
+rbert mro et al
+
+personalized text summarization based on important terms identification
+in international workshop on database and expert systems applications
+ieee
+ramesh nallapati feifei zhai and bowen zhou
+
+summarunner a current neural network based sequence model for extractive summarization of documents
+in aaai
+
+shashi narayan shay b cohen and mirella lapata
+
+do nt give me the details just the summary topic aware convolutional neural networks for extreme summarization
+arxiv preprint
+
+shashi narayan shay b cohen and mirella lapata
+
+ranking sentences for extractive summarization with reinforcement learning
+arxiv preprint
+
+preksha nema mitesh m khapra anirban laha and balaraman ravindran
+
+diversity driven attention model for query based abstractive summarization
+in proceedings of the annual meeting of the association for computational linguistics volume long papers
+
+ani nenkova and rebecca j passonneau
+
+evaluating content selection in summarization the pyramid method
+in proceedings of the human language nology conference of the north american chapter of the association for computational linguistics hlt naacl
+
+pinelopi papalampidi frank keller lea frermann and mirella lapata
+
+screenplay summarization using latent narrative structure
+arxiv preprint
+
+romain paulus caiming xiong and richard socher
+
+a deep reinforced model for abstractive summarization
+arxiv preprint
+
+p david pearson linda fielding al
+
+comprehension instruction
+book of reading research
+giuseppe riccardi frederic bechet morena danieli benoit favre robert gaizauskas udo kruschwitz and massimo poesio
+
+the sensei project making sense of human conversations
+in international workshop on future and emerging trends in language technology
+springer
+alexander m rush sumit chopra and jason weston
+
+a neural attention model for abstractive sentence summarization
+arxiv preprint
+
+evan sandhaus
+
+the new york times annotated corpus
+linguistic data consortium philadelphia
+abigail see peter j liu and christopher d manning
+
+get to the point summarization with pointer generator networks
+arxiv preprint
+
+jiwei tan xiaojun wan and jianguo xiao
+
+abstractive document rization with a graph based attentional neural model
+in proceedings of the annual meeting of the association for computational linguistics volume long papers
+
+maartje ter hoeve robert sim elnaz nouri adam fourney maarten rijke and ryen w white
+
+conversations with documents an exploration of document centered assistance
+in proceedings of the conference on human information interaction and retrieval
+
+naushad uzzaman jeffrey p bigham and james f allen
+
+multimodal summarization of complex sentences
+in proceedings of the international conference on intelligent user interfaces
+
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n gomez ukasz kaiser and illia polosukhin
+
+attention is all you need
+in advances in neural information processing systems
+
+michael vlske martin potthast shahbaz syed and benno stein
+
+tl dr mining reddit to learn automatic summarization
+in proceedings of the workshop on new frontiers in summarization
+
+alexandra vtyurina denis savenkov eugene agichtein and charles la clarke
+
+exploring conversational search with humans assistants and wizards
+in proceedings of the chi conference extended abstracts on human factors in computing systems
+
+alex wang kyunghyun cho and mike lewis
+
+asking and answering questions to evaluate the factual consistency of summaries
+arxiv preprint
+
+lu wang hema raghavan vittorio castelli radu florian and claire cardie
+
+a sentence compression based framework to query focused multi document summarization
+arxiv preprint
+
+zeqiu wu rik koncel kedziorski mari ostendorf and hannaneh hajishirzi
+
+extracting summary knowledge graphs from long documents
+arxiv preprint
+
+jiacheng xu zhe gan yu cheng and jingjing liu
+
+discourse aware neural extractive text summarization
+in proceedings of the annual meeting of the association for computational linguistics
+association for computational linguistics
+michihiro yasunaga rui zhang kshitijh meelu ayush pareek krishnan vasan and dragomir radev
+
+graph based neural multi document rization
+in proceedings of the conference on computational natural language learning conll
+
+shuo zhang zhuyun dai krisztian balog and jamie callan
+
+rizing and exploring tabular data in conversational search
+arxiv preprint
+tianyi zhang varsha kishore felix wu kilian q weinberger and yoav artzi
+
+bertscore evaluating text generation with bert
+arxiv preprint
+
+junnan zhu haoran li tianshang liu yu zhou jiajun zhang chengqing zong et al
+
+msmo multimodal summarization with multimodal output
+
+a overview context factors table overview of different context factors classes defined by jones with descriptions of the factors within these classes
+input factors form purpose factors situation output factors material structure how is the input text structured e
+
+subheadings rhetorical patterns
+tied it is known who will use the summary for what purpose and when
+covering the summary covers all of the important information in the source text
+scale how large is the input data that we are summarizing e
+
+a book a chapter a single article
+floating it is not exactly known who will use the summary for what purpose or when
+partial the summary intentionally covers only parts of the important information in the source text
+medium what is the input language type e
+
+full text telegraphese style
+this also refers to which natural language is used
+audience genre what type of literacy does the input text have e
+
+description narrative
+targetted a lot of domain knowledge is pected from the readers of the summary
+running the summary is formatted as an abstract like text
+subject type untargetted no domain knowledge is pected from the readers of the summary
+headed the summary is structured ing a certain standardised format with ings and other explicit structure
+format style specialized you need to speak the jargon to understand this input type
+retrieving use the summary to retrieve source text
+informative the summary conveys the raw information that is in the source text
+previewing use the summary preview a text that one is about to read
+indicative the summary just states the topic of the source text nothing more
+ordinary everyone could understand this input type
+use restricted the input type text is only standable for people familiar with a certain area for example because it contains local names
+unit single only one input source is given
+substitutes use the summary as a substitute for the source text
+critical the summary gives a critical review of the merits of the source text
+refreshing use the summary to refresh ones memory of the source text
+aggregative different source texts are put in relation to one another to give an overview of a certain topic
+multi multiple input sources are given prompts use the summary as action prompt to read the source text
+b survey overview figure overview survey design
+used pre made you think of of of human vs assistance a pre made summaryimagine a pre made summaryfuture feature questionsclosing questions c verbatim survey overview table a complete overview of the survey
+this table includes the explanation that participants received as well as all the questions and the answer options
+if a question was the start of a branch the direction of the branch has been written behind the answer options in italic
+this was never shown to the participants
+note that the survey was performed in surveymonkey
+the survey had a lay out as provided by surveymonkey i
+e
+it consisted of different pages and colors were used to highlight certain important parts in texts
+question nr
+question and answer options introduction and instructions thank you for taking the time to fill out this survey before you start please take the time to read these instructions carefully
+if you still have any questions after reading the instructions please send them to anonymized
+we will give away anonymized vouchers of anonymized currency each among the participants
+if you would like to take part in the raffle you can leave your email address at the end of this survey
+goal of the study what the survey will look like the goal of this survey is to get insight in how summaries help or can help you when studying
+in what follows you will get questions that aim to develop an understanding for for which types of study material it is useful to have summaries how these summaries can help you with your task what these summaries should look like we expect this survey to take approximately minutes of your time
+use the next button to go to the next page once you have filled out all the questions on the page
+use the prev button to go back one page
+about your privacy we value your privacy and will process your answers anonymously
+the answers of all participants in this survey will be used to gain insight in how pre made summaries can be helpful for different types of studying activities
+the answers will be presented in a research paper about this topic
+this will be done either in an aggregated manner or by citing verbatim examples of the answers
+again this will all be done anonymously
+i agree that i have read and understood the instructions
+i also understand that my participation in this survey is voluntarily
+i agree important some background knowledge you need to know throughout this survey we make use of the term pre made summary
+it is very important that you understand what this means
+on this page we explain this term so please make sure to read this carefully
+
+com question nr
+question and answer options definition pre made summary one type of summary is one that you make yourself
+another type of summary is one that has been made for you
+in this survey we focus on this latter type and we call them pre made summaries
+who makes these pre made summaries these pre made summaries can be made by a person for example your teacher your friend a fellow student or someone at some official organisation
+the pre made summaries can also be made by a computer
+what kinds of summaries are we talking about there are no restrictions on what these pre made summaries can look like
+on the contrary that is one of the things we aim to find out with this survey but to give some examples you could think of a written overview of a text book highlights in text to draw your attention to important bits blog posts
+these are really just examples and do nt let them limit your creativity you can come up with any example of a pre made summary that is helpful for you
+yes i understand what a pre made summary is yes please think back to your recent study activities
+examples of study activities can be studying for an exam writing a paper doing homework exercises
+note that these are just examples any other study activity is fine too
+did you use a pre made summary in any of these study activities yes participants are led to no participants are led to can you think of one of your recent study activities where a pre made summary would have been useful for you yes participants are led to no participants are led to why do you think a pre made summary would not have helped you with any of your recent study activities open response participants are led to start branch of participants who described an existing summary if you have multiple study activities where you used a pre made summary please take the one where you found the pre made summary most useful
+the original study material consisted of mainly text participants are led to mainly figures participants are led to mainly video participants are led to mainly audio participants are led to a combination of some or all of the above participants are led to i do not know because i have not seen the study material participants are led to other please specify participants are led to question nr
+question and answer options for now we narrow down our survey to study material that is mostly textual
+do you recall any other recent study activity where you made use of a pre made summary and where the original study material mainly consisted of text yes participants are led to no participants are led to what was the goal of this study activity studying for an exam writing a paper essay report
+doing homework exercises other please specify who made this pre made summary a teacher or teaching assistant a fellow student an official organisation the authors of the original study material a computer program i am not sure i found it online other please specify now some questions will follow about what the study material that was summarized looked like
+what was the length of the study material a single article multiple articles a single book chapter multiple book chapters from the same book multiple book chapters from various books a combination of the above i do not know because i have not seen the study material only the summary other please specify how was the study material structured multiple answers possible there was no particular structure e
+
+just one large text the text contained a title or titles the text contained subheadings the text consisted of different chapters the text consisted of different sections and or paragraphs i do not know because i have not seen the study material only the summary other please specify question nr
+question and answer options what was the genre of the study material mainly educational such as a text book chapter mainly scientific such as an academic article publication report mainly nonfiction writing such as history books mainly fiction writing such as novels short fictional stories other please specify how would you classify the difficulty level of the study material ordinary most people would be able to understand it specialized you need to know the jargon of the field to be able to understand it geographically based you can only understand it if you are familiar with a certain area for example because it contains local names now we will ask some questions about the purpose of the pre made summary that you used
+the summary was made specifically to help me and potentially fellow students with my study activity
+strongly disagree disagree neither agree nor disagree agree strongly agree i do nt know for what type of people was the summary intended your score can range from untargetted to targetted
+untargetted no domain knowledge is expected from the users of the summmary
+targetted full domain knowledge is expected from the users of the summmary
+question nr
+question and answer options how did this summary help you with your task multiple answers possible the summary helped to retrieve parts of the original study material i used the summary to preview the text that i was about to read i used the summary as a substitute for the original study material i used the summary to refresh my memory of the original study material i used the summary as a reminder that i had to read the original study material the summary helped to get an overview of the original study material the summary helped to understand the original study material other please specify what was the type of the summary lecture notes blog post highlights of some kind in the original study material abstractive piece of text such as a written overview of a text book an abstract of a paper
+short video a slide show other please specify how was the summary structured multiple answers possible the summary was a running text without particular structure the summary consisted of highlights in the original study material without particular structure the summary itself contained special formatting such as bold or cursive text highlights the summary contained diagrams the summary contained tables the summary contained graphs the summary contained figures the summary contained headings the summary consisted of different sections paragraphs other please specify how much of the study material was covered by the summary none of the study material was covered almost none of the study material was covered some of the study material was covered most of the study material was covered all of the study material was covered question nr
+question and answer options what was the style of this summary informative the summary simply conveyed the information that was in the original study material indicative the summary gave an idea of the topic of the study material but not more critical the summary gave a critical review of the study material aggregative the summary put different source texts in relation to one another and by doing this gave an overview of a certain topic other please specify overall how helpful was the pre made summary for you your score can range from not helpful at all to very helpful
+not helpful at all very helpful imagine you could turn this summary into your ideal summary
+what would you change is there anything else you want us to know about the summary that we have not covered yet open response open response is there anything else you want us to know about the original study material that we have not covered yet open response participants are led to start branch of participants who described an imagined summary please take one of these study activities in mind and imagine you would have had a pre made summary
+the original study material consisted of mainly text participants are led to mainly figures participants are led to mainly video participants are led to mainly audio participants are led to a combination of some or all of the above participants are led to other please specify participants are led to question nr
+question and answer options for now we narrow down our survey to study material that is mostly textual
+do you recall any other recent study activity where you could have used a pre made summary and where the original study material mainly consisted of text yes participants are led to no participants are led to now some questions will follow about what the study material that could be summarized looked like
+what was the goal of this study activity studying for an exam writing a paper essay report
+doing homework exercises other please specify what was the length of the study material a single article multiple articles a single book chapter multiple book chapters from the same book multiple book chapters from various books a combination of the above other please specify how was the study material structured multiple answers possible there was no particular structure e
+
+just one large text the text contained a title or titles the text contained subheadings the text consisted of different chapters the text consisted of different sections and or paragraphs other please specify what was the genre of the study material mainly educational such as a text book chapter mainly scientific such as an academic article publication report mainly nonfiction writing such as history books mainly fiction writing such as novels short fictional stories other please specify question nr
+question and answer options how would you classify the difficulty level of the study material ordinary most people would be able to understand it specialized you need to know the jargon of the field to be able to understand it geographically based you can only understand it if you are familiar with a certain area for example because it contains local names now we will ask some questions about the purpose of the pre made summary that would have been helpful
+for what type of people should the summary ideally be intended your score can range from untargetted to targetted
+untargetted no domain knowledge is expected from the users of the summmary
+targetted full domain knowledge is expected from the users of the summmary
+how would this summary help you with your task multiple answers possible the summary would help to retrieve parts of the original study material i would use the summary to preview the text that i was about to read i would use the summary as a substitute for the original study material i would use the summary to refresh my memory of the original study material i would use the summary as a reminder that i had to read the original study material the summary would help to get an overview of the original study material the summary would help to understand the original study material other please specify now we will ask some questions about what the summary should look like and cover
+what would be the ideal type of the summary lecture notes blog post highlights of some kind in the original study material abstractive piece of text such as a written overview of a text book an abstract of a paper
+short video a slide show other please specify question nr
+question and answer options what is the ideal structure of the summary multiple answers possible the summary should be a running text without particular structure the summary should consist of highlights in the original study material without particular structure the summary itself should contain special formatting such as bold or cursive text highlights
+the summary should contain diagrams the summary should contain tables the summary should contain graphs the summary should contain figures the summary should contain headings the summary should consist of different sections paragraphs other please specify how much of the study material should be covered by the summary none of the study material should be covered almost none of the study material should be covered some of the study material should be covered most of the study material should be covered all of the study material should be covered what should the style of this summary be informative the summary should simply convey the information that was in the original study material indicative the summary should give an idea of the topic of the study material but not more critical the summary should give a critical review of the study material aggregative the summary should put different source texts in relation to one another and by doing this give an overview of a certain topic other please specify is there anything else you would want us to know about your ideal summary that we have not covered yet is there anything else you would want us to know about the original study material that we have not covered yet open response open response look out questions now let s assume the pre made summary was generated by a computer
+you can assume that this machine generated summary captures all the needs you have identified in the previous questions
+question nr
+question and answer options would it make a difference to you whether the summary was generated by a computer program or by a human yes participants are led to no participants are led to please explain the difference
+open response please explain your answer
+open response which type of summary would you trust more a summary generated by a human for example a teacher or a good performing fellow student a summary generated by a computer no difference which type of summary would you trust more a summary generated by a human for example a teacher or a good performing fellow student a summary generated by a computer no difference now imagine that you can interact with the computer program that made the summary in the form of a digital assistant
+imagine that your digital assistant made an initial summary for you and you can ask questions about it to your digital assistant and the assistant can answer them
+answers can be voice output but also screen output e
+
+a written summary on the screen
+in the next part we would like to investigate how you would interact with the assistant
+please do not feel restricted by the capabilities of today s digital assistants
+please choose the three most useful features for a digital assistant to have in this scenario
+summarize particular parts of the study material with more detail summarize particular parts of the study material with less detail switch between different summary styles for example highlighting vs a generated small piece of text explain why particular pieces ended up in the summary provide the source of certain parts of the summary on request search for different related sources based on the content of the summary answer specific questions based on the content of the summary question nr
+question and answer options please choose the three least useful features for a digital assistant to have in this scenario
+summarize particular parts of the study material with more detail summarize particular parts of the study material with less detail switch between different summary styles for example highlighting vs a generated small piece of text explain why particular pieces ended up in the summary provide the source of certain parts of the summary on request search for different related sources based on the content of the summary answer specific questions based on the content of the summary can you think of any other features that you would like your digital assistant to have to help you in this scenario thank you for filling out this survey so far we would still like to ask you two final background questions
+open response background questions what is the current level of education you are pursuing bachelor s degree master s degree mba other please specify what is your main field of study open response thank you you have come to the end of our survey
+thanks a lot for helping out we very much appreciate your time
+if you would like to participate in the raffle to win a voucher please fill out your e mail address below
+we will only use this e mail address to blindly draw names who win a voucher and to contact you if your name has been drawn
+open response d examples evaluation questions here we give additional examples for the evaluation questions that can be used for our proposed evaluation methodology
+the phrase a document that is important for your task should be substituted to match the task at hand
+for example in the case of exam tions this could be replaced with a chapter that you need to learn for your exam preparation
+only the questions with the intended purpose factors should be used in the evaluation
+purpose factor use output factor style the style of which of these two summaries is most useful to you to retrieve a document that is important for your task the style of which of these two summaries is most useful to you to preview a document that is important for your task the style of which of these two summaries is most useful to you to substitute a document that is important for your task the style of which of these two summaries is most useful to you to refresh your memory about a document that is important for your task the style of which of these two summaries is most useful to you to prompt you to read a source text that is important for your task purpose factor use output factor format the format of which of these two summaries is most useful to you to retrieve a document that is important for your task the format of which of these two summaries is most useful to you to preview a document that is important for your task the format of which of these two summaries is most useful to you to substitute a document that is important for your task the format of which of these two summaries is most useful to you to refresh your memory about a document that is important for your task the format of which of these two summaries is most useful to you to prompt you to read a source text that is important for your task purpose factor use output factor material the coverage of which of these two summaries is most useful to you to retrieve a document that is important for your task the coverage of which of these two summaries is most useful to you to preview a document that is important for your task the coverage of which of these two summaries is most useful to you to substitute a document that is important for your task the coverage of which of these two summaries is most useful to you to refresh your memory about a document that is important for your task the coverage of which of these two summaries is most useful to you to prompt you to read a source text that is important for your task

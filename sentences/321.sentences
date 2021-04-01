@@ -1,0 +1,741 @@
+p e s l c
+s c v
+v i x r a m o d e r n m e t h o d s o f t e x t g e n e r a t i o n national research university higher school of economics moscow russia dimas munoz montesinos aug abstract contents introduction models
+bert
+
+
+experiments synthetic text generation is challenging and has limited success
+recently a new architecture called transformers allow machine learning models to understand better sequential data such as translation or summarization
+bert and using transformers in their cores have shown a great performance in tasks such as text classication translation and nli tasks
+in this article we analyse both algorithms and compare their output quality in text generation tasks
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+infer masked token
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+question answering
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+conditional text generation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+models comparison
+architecture and pre training
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+performance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+related models conclusions references appendix a appendix experiments results a
+infer masked token
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a
+question answering
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a
+conditional text generation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+appendix simple transformer model introduction introduction natural language processing nlp is a large eld where we can nd different tasks text classication named entities recognition language texts written with translation
+
+
+these tasks have a common challenge human languages usually unstructured texts
+the task that concerns us in this article is text generation using a conditional language model and the novel transformers architecture
+in order to understand text generation it is necesary to dene what is a language model lm
+from wikipedia a statistical language model is a probability distribution over sequences of words such that given a sequence of length m it assigns a probability
+
+
+wm to the whole sequence
+
+in consequence we can use a conditional lm to nd the probability of the next word in a sequence
+
+
+wm
+in this article we assume that you have fundamental knowledge of deep learning word vectors and embedding space
+nevertheless here we describe some models and techniques which are relevant to understand transformer based models
+models during a long time conditional text generation was based in models
+the idea behind consists of recurrent neural networks rrn that try to predict the next state sequence from the previous one the two rnns receive the names encoder and decoder respectively
+two of the most extended rnns were lstm introduced in by sepp hochreiter and jurgen schmidhuber and gru introduced in by junyoung chung et al
+however texts generated with rnns are far from being perfect they tend to be nonsense and sometimes they include spelling mistakes
+basically one wrong prediction has the potential to make the entire sentence meaningless
+furthermore it is not possible to apply parallelization since the rnns need to process data as a sequence
+figure this is the architecture of a model the rst rnn is called encoder and the second one is decoder
+in this case the model receives an input sentence abc and produces xyz as the output sentence the input and output may have different lengths
+contextualized word embeddings traditionally a model received a sequence of tokens usually words and transformed them into static vectors
+in short they are simply vectors of numbers that represent the meaning of a word
+one widely extended model is introduced by mikolov et al
+in which computes the static vector of each token the vectors are called embeddings
+furthermore introduction vectors of provided state of the art sota performance in syntactic and semantic word similarities
+the power of using word vectors is that they lend themselves to mathematical operators
+for example we can add and subtract vectors king man woman queen the recent techniques consists of incorporating context into word embeddings replacing static vectors with contextualized word representations has led to signicant improvements on virtually every nlp task
+elmo introduced this kind of word embeddings in vectors are learned functions of the internal states of a deep bidirectional language model
+this is one of the breakthroughs which will lead models to further understanding of words
+for example they may difference homonyms e
+
+rock can be a stone or a music genre instead of having the same static vector for them
+transformers google s researches released a new model called transformer in in the paper attention is all you need
+very briey this architecture consists of self attention and point wise fully connected layers see figure
+similarly to what we describe for transformers include an encoder decoder and a nal linear layer
+figure transformer model architecture described in attention is all you need
+these models are designed to handle sequences of data especially useful in nlp
+note that in contrast to they do not contain recurrence or convolution so they do not require to process sequences in order
+this fact allows us to parallelize much more than rnns and reduces training time
+models models
+bert
+
+description bidirectional encoder representations from transformers commonly known by its abbreviated form bert as the name suggests is designed to pretrain deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers
+the model architecure is a technical innovation that implements multiple layers of transformer encoders to language modelling
+the authors of bert describe two steps in their framework pre training and ne tuning see figure
+
+during pre training the model is trained on unlabeled data over different pre training tasks masked lm and next sentence prediction
+the authors pretrained bert on the bookscorpus m words and wikipedia m words
+
+during ne tuning the model is initialized with the pre trained parameters this is also known as transfer learning
+then each downstream task is ne tuned separately
+this process is simple so it is not described in this article
+figure overall pre training and ne tuning procedures described in bert s paper
+
+
+input representation in order to make bert handle a variety of downstream tasks the authors dened three different inputs which allow us to unambiguously represent both a single sentence and a pair of sentences
+one of these inputs is the tokenized text using a technique called wordpiece sub words units
+apart from the sub words units the tokens i
+e
+authors introduced two new tokens that must be appended to the input sentences in the beginning of the input and sep after each sentence
+the second and third inputs are sequences of and
+one called token type ids or segment ids indicates that a token belongs to the sentence a a series of or the sentence b a series of
+the other called mask ids is used when input texts are padded to same length indicates whether the text is padded from a certain position
+models figure example of bert s input with a single sentence
+if there were two different sentences in the input there would be in the segments sequence starting from the position of the token sep
+as you can see in figure not all tokens are words thus it is easier to handle unknown words
+word pieces are very powerful in the sense that tokens cover all the word even the words that do not occur in the dictionary and we do not lose information since all subword units are in the input
+
+
+pre training tasks masked language model mlm
+in this task authors masked of wordpiece tokens in each sequence of the dataset at random and then predict those masked tokens
+they only mask of tokens since the token mask is not used in ne tuning and they may create a mismatch between pre training and ne tuning
+next sentence prediction nsp
+in words of the authors tasks such as question answering qa and natural language inference nli are based on understanding the relationship between two sentences which is not directly captured by language modeling
+in order to train a model that understands sentence relationships given a pair of sentences the model should predict if the second sentence is the subsequent sentence in the original document
+the authors built a dataset where is the actual next sentence and is a random sentence from a monolingual corpus
+
+
+
+description generative pretrained transformer known by is a large unsupervised transformer based language model and the successor to gpt
+was introduced in june by researchers from openai in their paper language models are unsupervised multitask learners
+consists of solely stacked decoder blocks from the transformer in the vanilla transformer architecture the decoder is fed a architecture
+word embedding concatenated with a context vector both generated by the in the context vector is zero initialized for the rst word encoder
+embedding
+furthermore in the vanilla transformer architecture self attention is applied to the entire surrounding context e
+
+all of the other words in the sentence but in masked self attention is used instead the decoder is only allowed via obfuscation masking of the remaining word positions to glean information from the previous words in the sentence plus the word itself
+besides this is a close copy of the vanilla transformer architecture and very similar to its predecessor gpt
+authors of trained it with a simple objective given some text predict the next word
+for this purpose they used around gb of crawled data from internet
+also in a similar way as bert they ne tuned in downstream tasks to analyse the model performance in different situations
+experiments figure gpt architecture described in improving language understanding by generative pre training transformer and training objectives are on the left and the input transformations for ne tuning are on the right
+in authors moved the layer normalization to the input of each sub block and also added another layer normalization after the nal self attention block
+
+
+input representation uses byte pair encoding bpe as input representation
+this technique allows us to combine the empirical benets of word level lms with the generality of byte level approaches
+bpe is a simple compression method in which the most common pair of consecutive bytes of data is replaced with a byte that does not occur within that data
+for instance given the sequence aaabdaaabac and z aa then we obtain zabdzabac
+it is important to highlight the fact that the authors do not apply any kind of pre processing to the data e
+
+lowercasing tokenization or out of vocabulary tokens
+they believe that a general language model lm should be able to compute the probability of and also generate any string
+experiments
+infer masked token as we have explained before one of the pretraining tasks of bert was mlm so for this experiment we only need a pretrained bert model and huggingface already provides a wide variety of pretrained and ne tuned models in pytorch or tensorflow
+in particular we chose bert multilingual base model which is a pretrained model on the top languages with the largest wikipedia using a mlm objective
+then we apply the softmax function to normalize the output and pick the top words
+since this experiment is really simple and does not require any further training we proceeded to test it out
+despite infered words are correct in many cases there are other cases where the word suggestions are far to be good
+for instance the rst word of today is
+written in english is demolished it is gramatically
+co models experiments figure given the sentence this car is very in spanish it returns words such as popular
+simple
+or uncommon
+
+in this case all words make sense
+figure given the sentence i think that nastya is a very mask person in russian it returns words such as young
+big
+or great
+
+in this context the last word new does not make sense
+correct but it is very uncommon
+however if we use a only english pretrained model we used bert base model the rst output is closed
+also in non english languages sometimes it is unable to return a word but punctuation symbols
+we believe that we must use monolingual models to obtain good results
+in other words we must train one bert model per language
+there are a wide list of arguments for this which are described in the conclusions section
+you can nd some infered masked tokens of our experiments in the appendix
+there are a wide variety of tests in three languages english spanish and russian
+
+question answering in question answering tasks the model receives a text called context and a question regarding to the context and it should mark the inital and ending of the answer in the context that the model does not generate text
+similarly to the previous experiment we import bert multilingual base model from huggingface
+then we add two fully connected layers to obtain the initial and ending token positions from the context see figure
+based on these positions we pick a portion of context and return it as the answer to the question
+however we can not test it without previous training ne tuning bert and adjust weights of fully connected layers
+in other words we are using a technique called transfer learning the model is pre trained in a dataset a and then we use that pre trained model to carry that knowledge into solving dataset b
+experiments figure sample question answering to napoleon s biography context extracted from wikipedia
+the answer is good but it is not stricly accurate it should be only since we did not ask for the period
+in order to train this qa model we use xquad
+this dataset consists of a subset of paragraphs and question answer pairs from the development set of squad
+together with their professional translations into ten languages such as spanish and russian
+in our experiments answers tend to be accurate when we ask simple questions and when we use similar words as the context see figure
+we observe that it is particularly difcult to the model to understand some synonyms and homonyms
+for example we ask in spanish when was napoleon crowned king of italy and when did he become monarch the rst gives a good answer march strictly it was on may and the second returns a totally wrong answer november
+you can nd some questions and answers of our experiments in the appendix
+there are a wide variety of questions in three languages english spanish and russian
+overall the model answers correctly when we write questions in english
+
+conditional text generation in this task we experimented with due to bert is not designed for text generation
+was only trained to predict the next token in a sentence but it surprisingly learned basic competence in some tasks like translating between languages and answering questions see figure
+has the ability to generate conditional text samples of unprecedented quality
+in the appendix you can observe that the model is capable of generating synthetic texts close to human quality
+we provided different kind of prompts to analyse the versatility of and despite it shows coherence and good quality in particular when we write about topics highly represented in the training data we found failures such as sudden topic switching repetitive text and lm failures
+for example sometimes the model negates what it just wrote in the previous sentences
+in figure even though text quality is good you can observe that it also wrote the extravagant sentence if the ship had not been in the water as we explain later and bert architectures are different the rst is a transformer encoder architecture and the second is a transformer decoder
+com deepmind xquad models comparison figure architecture of qa bert model
+the rms titanic was visited by divers for the rst time in years
+the british vessel was damaged to the bow in and the ship was found to be completely submerged
+the titanic is also the only ship that has sunk in international waters
+but according to experts the damage to the titanic would have been even worse if the ship had not been in the water
+in fact according to reports the damage could have been caused by a catastrophic failure of the
+
+
+figure text sample generated by after providing an initial text in bold letters
+one
+this fact lead that we can not use bert as it is for text generation
+nevertheless there are some efforts to create new bert based algorithms for this purpose the main idea consists of adding a decoder transformer in the end
+for example the recent paper cg bert looks very promising in this task but we could not include it in this article due to lack of time and resources to train the model
+the main idea of cg bert is to use half layers of bert as encoders and half layers as decoders
+in addition to bert and we tried to implement a simple transformer model to be capable of generating a conversation
+the result is poor since the training data is really small as well as the resources to train the model
+you can read the details in the appendix
+models comparison
+architecture and pre training one difference that we encounter between bert and is in the architecture despite both are transformers based architectures it uses encoders in the case of bert and in the case of decoders
+this particularity related models makes bert and to understand text information in a different way and in consecuence their performance variate depending on the dataset
+we nd another difference in the pre training method aims to predict the next word in a sentence while bert is trained in nsp and mlm
+we should keep in mind these pre training methods when we use transfer learning to ne tune a model
+
+performance in order to evaluate bert and authors prepared different versions of both models with different number of parameters and ne tuned them in different downstream tasks
+one version is bert base which has the same number of parameters as gpt the predecesor of for comparison purposes
+unfortunately we could not nd common benchmarks between bert and in the same datasets so we only can compare bert and gpt in glue and swag tasks
+glue which consists of a wide list of nlp tasks sentiment analysis similarity nli question answering
+
+
+is one of the dataset where bert was ne tuned
+in this dataset bert base already outperformed gpt and prior approaches such as and bert large got an even better result thus it achieved the status sota in this collection of tasks
+swag consists of multiple choice questions about grounded situations given a question situation we have to pick the correct answer among four choices
+identically as glue bert outperformed gpt bert large improved gpt score by
+
+it is also surprising that bert large got a better score than a human expert in a small subset of questions
+related models the models described in this article bert and demonstrate the benets of large scale language modeling
+both papers leverage advances in compute and available text corpora to signicantly surpass state of the art performance in natural language understanding nlu modeling and generation
+currently there are new models based on bert and architectures which get even better results
+some of them are roberta robustly optimized version of bert with larger training data albert lite version of bert distilbert also a reduced version of bert and structbert incorporate language structures into bert pre training
+appart from the mentioned bert based models nvidia published megatron lm in
+in a few words it is a simple and efcient model parallel approach by modicating existing pytorch transformer implementations
+they released a
+billion parameters version of bert and
+of
+both megatron models got better scores than both vanilla bert and models in the same tasks
+glue leaderboard
+com leaderboard in squad albert has the sota status
+github
+io squad
+in glue structbert achieves the second best score
+leaderboard in swag roberta is in the second position in the leaderboard
+allenai
+org swag submissions public conclusions figure evolution of number of parameters described by authors of distilbert
+additionally openai published recently a new model called it uses the same architecture as
+the largest version of this novel model has billion parameters which is times more than any previous non sparse language mode
+however despite the strong quantitative and qualitative improvements of particularly compared to its direct predecessor it still has notable weaknesses in text synthesis and several nlp tasks they are extensively described in the paper
+unfortunately we could not include text samples generated by in this article due to openai has not released the model yet
+conclusions transformers disrupted sequence based deep learning signicantly
+the two variants of transformer models that we showed bert and outperform previous approaches with rnns
+in both cases models take advantage of attention layers which selectively weight different elements in input data and can achieve state of the art performance on many language modelling benchmarks
+although there are some situations where the output of transformers based models is close to the human quality we nd that the output quality depends on how familiar is the model with the topic
+for instance is not able to generate a high quality text when we provide an uncommon context such as the recent pandemic or a new popular person
+in the case of bert we observe that the model tend to answer incorrectly in question answering tasks when we use homonyms or synonyms instead of the same words as the context
+these experiments show us that still computers are distant from fully understanding of unstructured texts written in human languages
+we observe a trend to build larger models in the nlp eld so they can capture more information from unstructured texts
+furthermore unlikely humans they need to be trained with tons of data
+in terms of zero shot or conclusions one shot tasks we need to improve the efciency of nlp algorithms since they see much more text than a human sees in their lifetime
+in general we observe that despite these models achieve better performance than us in specic tasks the common sense of humans produces better results rather than any deep learning model
+also we can not ignore the fact that we learn from our daily life but it is difcult to measure what type of data should we provide to a model during pre training to get a similar knowledge
+this is the most likely reason deep learning models fail to produce coherent texts
+in addition to the previous points we observe a growing need to pre train a model per language bert or any other model
+apart from the grammar rules of each language or for example the evident difference of rtl and ltr languages there is knowledge which is intrinsic to the language polite expressions informal style
+
+
+if we want to obtain human quality in text generation we will need large dataset not only in english but also in other languages we can not use translated data
+in summary we will see more transformer based models in the future
+they have demonstrated superiority in parallel computation and modelling long range dependencies compared to rnns such as lstm
+still we do not know which is the best approach to pre train them as well as how to reproduce the human common sense this is mandatory in text generation
+thus it is very likely that we are going to see not only new pre training methods but also larger models
+references references ilya sutskever oriol vinyals and quoc v
+le
+sequence to sequence learning with neural networks
+sepp hochreiter and jrgen schmidhuber
+long short term memory
+neural computation
+junyoung chung caglar gulcehre kyunghyun cho and yoshua bengio
+empirical evaluation of gated recurrent neural networks on sequence modeling
+tomas mikolov kai chen greg corrado and jeffrey dean
+efcient estimation of word representations in vector space
+matthew e
+peters mark neumann mohit iyyer matt gardner deep christopher clark kenton lee and luke zettlemoyer
+contextualized word representations
+ashish vaswani noam shazeer niki parmar jakob uszkoreit llion jones aidan n
+gomez lukasz kaiser and illia polosukhin
+attention is all you need
+jacob devlin ming wei chang kenton lee and kristina toutanova
+bert pre training of deep bidirectional transformers for language understanding
+yonghui wu mike schuster zhifeng chen quoc v
+le mohammad norouzi wolfgang macherey maxim krikun yuan cao qin gao klaus macherey jeff klingner apurva shah melvin johnson xiaobing liu ukasz kaiser stephan gouws yoshikiyo kato taku kudo hideto kazawa keith stevens george kurian nishant patil wei wang cliff young jason smith jason riesa alex rudnick oriol vinyals greg corrado macduff hughes and jeffrey dean
+google s neural machine translation system bridging the gap between human and machine translation
+alec radford karthik narasimhan tim salimans and ilya sutskever
+improving language understanding by generative pre training
+alec radford jeffrey wu rewon child david luan dario amodei and ilya sutskever
+language models are unsupervised multitask learners
+philip gage
+a new algorithm for data compression
+c users j
+
+pranav rajpurkar jian zhang konstantin lopyrev and percy liang
+squad questions for machine comprehension of text
+congying xia chenwei zhang hoang nguyen jiawei zhang and for text generation with bert philip yu
+generalized few shot intent detection
+cg bert conditional alex wang amanpreet singh julian michael felix hill omer levy and samuel r
+bowman
+glue a multi task benchmark and analysis platform for natural language understanding
+references rowan zellers yonatan bisk roy schwartz and yejin choi
+swag a large scale adversarial dataset for grounded commonsense inference
+yinhan liu myle ott naman goyal jingfei du mandar joshi danqi chen omer levy mike lewis luke zettlemoyer and veselin stoyanov
+roberta a robustly optimized bert pretraining approach
+zhenzhong lan mingda chen sebastian goodman kevin gimpel for piyush sharma and radu soricut
+self supervised learning of language representations
+albert a lite bert victor sanh lysandre debut julien chaumond and thomas wolf
+distilbert a distilled version of bert smaller faster cheaper and lighter
+wei wang bin bi ming yan chen wu zuyi bao jiangnan xia liwei peng and luo si
+structbert incorporating language structures into pre training for deep language understanding
+mohammad shoeybi mostofa patwary raul puri patrick legresley jared casper and bryan catanzaro
+training multi billion parameter language models using model parallelism
+megatron lm tom b
+brown benjamin mann nick ryder melanie subbiah jared kaplan prafulla dhariwal arvind neelakantan pranav shyam girish sastry amanda askell sandhini agarwal ariel herbert voss gretchen krueger tom henighan rewon child aditya ramesh daniel m
+ziegler jeffrey wu clemens winter christopher hesse mark chen eric sigler mateusz litwin scott gray benjamin chess jack clark christopher berner sam mccandlish alec radford ilya sutskever and dario amodei
+language models are few shot learners
+appendix experiments results a appendix experiments results a
+infer masked token despite some options could t into philosophical or rare situations we it believe that they are uncommon options to replace the masked token
+also occurs that some options are grammatically correct but they do not t in the context of the sentence
+in both cases we note them as incorrect
+english
+sentence options notes hello model
+i m a mask today is
+model
+real
+business
+mathematical
+new
+all correct
+demolished
+unknown
+closed
+abandoned
+active
+only the third option closed seems correct
+mask is a good idea
+all correct
+it
+this
+that
+there
+it
+the
+a
+another
+his
+her
+incident
+accident
+explosion
+scene
+crash
+all correct
+all correct
+the doctor ran to the emergency room to see mask patient
+the doctor ran to the emergency room to see the
+appendix experiments results sentence options notes russian
+mask
+mask
+
+mask
+spanish
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+correct all except the last option
+all incorrect
+the only the rst and second options correct
+are appendix experiments results sentence options notes
+migo conmigo l
+ella
+ellos
+dios
+correct the option all except rst conmigo
+dinero
+
+tiempo
+aos
+problemas
+tiempo
+dinero
+pruebas
+informacin
+recursos
+colegio
+pueblo
+mar
+mundo
+hotel
+rst the three options are correct
+rst the tiempo and the last two options informacin and recursos are correct
+correct all except the forth option mundo
+ayer estuve paseando y me encontr con mask
+si tuviera mask podra vacaciones
+necesito aprobar el examen
+para voy a ir con mis amigos al mask
+a
+question answering english
+the context is the napoleon s biography extracted from wikipedia
+napoleon bonaparte august may was a french statesman and military leader who became notorious as an artillery commander during the french revolution
+he led many successful campaigns during the french revolutionary wars and was emperor of the french as napoleon i from until and again briey in during the hundred days
+napoleon dominated european and global affairs for more than a decade while leading france against a series of coalitions during the napoleonic wars
+he won many of these wars and a vast majority of his battles building a large empire that ruled over much of continental europe before its nal collapse in
+he is regarded as one of the greatest military commanders in history and his wars and campaigns are studied at military schools worldwide
+napoleon s political and cultural legacy has made him one of the most celebrated and controversial leaders in human history
+
+wikipedia
+org wiki napoleon appendix experiments results question answer notes correct but it should answer only
+incorrect
+when become emperor did napoleon until who bonaparte was napoleon napoleon bonaparte august may born napoleone buonaparte where are studied his wars and campaigns military worldwide schools correct
+is studied about what him military worldwide schools incorrect
+how long napoleon dominated europe for more than a decade correct
+russian
+context extracted from wikipedia about higher school of economics
+
+
+
+question answer notes when was hse founded year are where the campuses located moscow correct answer it but gramatically incorrect
+is partial answer
+what is of the higher school economics research university national correct but it not is accurate
+is the acronym for the higher school of economics what research national university higher school of economics incorrect
+
+wikipedia
+org appendix experiments results spanish
+description about sagrada familia extracted from wikipedia
+el tempo expiatorio de la sagrada familia temple expiatori de la sagrada famlia conocido simplemente como la sagrada familia una baslica catlica barcelona espaa diseada por el antoni gaud
+iniciada en todava est en construccin
+es gaud y el mximo exponente arquitectura modernista catalana
+es uno monumentos ms visitados espaa junto al museo del prado y la alhambra de granada la iglesia ms visitada europa la baslica de san pedro del vaticano
+cuando est nalizada ser la iglesia cristiana ms alta del mundo
+question answer notes escribe cmo cataln how is it written in catalan quin dise la iglesia who designed the church comenz cundo la construccin de la sagrada when did the familia sagrada construction familia began of qu lugar cristiano recibe ms visitas que la sagrada which christian familia place receives more visits than sagrada familia qu otros monumentos son muy visitados por espaa which other monuments are highly visited by tourists in spain temple expiatori de la sagrada famlia correct antoni gaud correct correct it outputs the whole context
+incorrect museo del prado la alhambra de granada correct a
+conditional text generation the following synthetic texts were generated by
+we fed the model with an initial text and then we let to nish it
+these text samples are written only in english due end up in nonsense outputs using other languages
+note that the model does not give the same output everytime we run it so you might obtain a different output
+
+wikipedia
+org wiki appendix experiments results last week many people reported that they saw a unicorn at the park
+it turned out to be a real unicorn but it was just a fake
+the unicorn was made of foam and plastic
+the foam was made of polystyrene which is a plastic that is commonly used in construction materials
+the fake unicorn was made of foam which has been known to be a very effective material for creating fake animals such as this one
+the foam was made of polystyrene
+
+
+in the last months a new virus spread worldwide and changed our daily lifes
+this new virus called ebola appeared in three countries and has killed more than people in the four countries guinea liberia and sierra leone
+the virus is spread through direct contact with the uids of infected persons which can include body uids such as blood sweat and tears
+
+
+it is also spread through contaminated food and water
+when ebola arrives in a country a lot of people
+
+
+q how would you describe to maria a i say
+
+
+i say that she s like very strong and very resilient
+q thank you very much
+a oh thanks for the offer to talk
+q what do you think about the death penalty a i am not an advocate for the death penalty
+i am not someone who believes that this life should be taken and then taken over again which of course is the case with every case when we see a murder
+it is my belief that a fair penalty should be used and that if the evidence was not sufcient to prove that the person committed the actual crime then there should be a life sentence
+teacher good morning everyone
+students good morning teacher
+teacher it s my pleasure to welcome you all here today
+students yeah
+teacher i want to talk about some things that you all do
+students yeah
+teacher you guys always seem to have such great enthusiasm
+students yeah
+teacher so we ll start with our rst topic
+what s your favorite type of book to read appendix simple transformer model appendix simple transformer model we implemented a simple model see figure to gure out whether we are able of generating text based on training data
+for this purpose we took an english dialogue written by shakespeare
+figure visual description of our transformer model
+the model consists of transformer encoders and transformer decoders to capture the text information and a fully connected layer to obtain the prediction for the next token in the text
+we kept the model simple due to two reasons we do not have enough resources to train a large model like bert or
+all its parameters
+if the model was larger we would also need a bigger dataset to train unfortunately the model predictions are really bad in the sense that it outputs nonsense tokens to continue a text
+here you can see the sample text that the model generated from the initial text romeo
+it is very likely that we need to increase the model size to better capture the text information in consecuence we need to use more data to train it and therefore generate a coherent text
+we took the dialogue from this tensorflow tutorial
+tensorflow
+org text appendix simple transformer model romeo took perform still sets big katharinad me my heart l belie to harpetsd upon me and sure darkness underd statutes
+deceive them or orderly and likely body will roodfor masteredond conclude else aged astherefore the suffer hiswittedwould being royalties and to ouroan as which and than him the goddess wasyour things curst hag that they admirings that how of they twere to spirit linger of glory of follow ised greatestar
