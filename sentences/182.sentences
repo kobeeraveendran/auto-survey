@@ -1823,9 +1823,7 @@ performance measures precision is a measure of the accuracy provided that a spec
 it is where tp and fp are the numbers of true positive and false positive predictions for the precision tp tp fp recall is a measure of the ability of a prediction model to select instances of a certain class from a data set
 since we are dealing with binary classication here the recall is also called as sensitivity
 the recall or sensitivity corresponds to the true positive rate and is dened as recall sensitivity tp tp fn where tp and fn are the numbers of true positive and false negative predictions for the considered class
-thus tp fn corresponds to the total number of test examples of the the f measure also known as score is a more accurate metric of classier performance than either precision or recall alone
-in binary classication the f measure is the harmonic mean of the precision and the recall as is calculated as f measure precision
-recall precision recall
+thus tp fn corresponds to the total number of test examples of the
 
 precision dened as sidered class
 
@@ -1833,7 +1831,9 @@ precision dened as sidered class
 recall considered class
 
 
-f measure
+f measure the f measure also known as score is a more accurate metric of classier performance than either precision or recall alone
+in binary classication the f measure is the harmonic mean of the precision and the recall as is calculated as f measure precision
+recall precision recall
 
 balanced accuracy evaluating the performance of a classication by averaging the accuracies obtained on individual cross validation folds is not a very good approach due to two main reasons
 firstly it does not allow for the derivation of meaningful condence intervals

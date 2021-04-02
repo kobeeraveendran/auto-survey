@@ -325,7 +325,7 @@ the rst term is the energy the second the von neumann where the partition functi
 it is useful to introduce the notion of k particle reduced density matrix for states oved
 for a diagonal state of the form f gn gn hn hn m this is the operator on the k particles space hk dened trhk n trhn ak s for every bounded operator ak on hk
 these are helpful for rewriting expressions involving only k particle operators
-in particular the number operator involves only one body terms so the expected particle number can be computed as xn i h i h i the energy involves only two body terms and we have h trf trh
+in particular the number operator involves only one body terms so the expected particle number can be computed as xn h i h i i the energy involves only two body terms and we have h trf trh
 n trf w
 i h h t
 the limit we shall consider is i

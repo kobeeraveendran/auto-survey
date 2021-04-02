@@ -593,8 +593,8 @@ no
 article
 publication date january
 shi al
-is updated with t hd t t t t eyt t
-finally the decoder hidden state is obtained by where hd is also referred to as the deterministic hidden state
+is updated with t hd t t t eyt t
+finally the decoder hidden state is obtained by t where hd is also referred to as the deterministic hidden state
 vae is incorporated into the decoder to capture latent structure information of summaries which is represented by a multivariate gaussian distribution
 by using a reparameterization trick latent variables can be first expressed as t t where the noise variable n i and gaussian parameters t and t in the network are calculated by t wvae henc bvae is a hidden vector of the encoding process of the vae and defined as t wvae henc bvae t t where henc t wenc hhd t with the latent structure variables the output hidden states hdec wenc wenc yeyt henc t benc can be formulated as hdec t wdec t t bdec finally the vocabulary distribution is calculated by pvocab t
 t we primarily focused on the network structure of drgd in this section
@@ -614,7 +614,7 @@ the top level salient information includes the important sentences chunks of tex
 hereafter we will use the term chunk to represent the top level information
 the hierarchical encoder first encodes tokens in a chunk for the chunk representation and then encodes ent chunks in a document for the document representation
 in this paper we only consider the single layer forward for both word and chunk encoders
-suppose the hidden states of chunk i and word j in this chunk are represented by hchk hidden state hd at decoding step t we can calculate word level attention weight wd t wd t i j l wd t chk t i chk t t with wd t by chk t i i j i j kl i attention weight chk t and schk i i i hd t can be calculated using eq
+suppose the hidden states of chunk i and word j in this chunk are represented by hchk hidden state hd at decoding step t we can calculate word level attention weight wd t wd t i j l wd t chk t i chk t t with wd t by chk t i i j i j kl attention weight chk t and schk i i i i hd t can be calculated using eq
 
 in this section we will review four where both alignment scores swd t i j k hd at the same time we can also calculate chunk level and hwd i j i for the current decoder
 deep communicating agents model which requires multiple layers of bi directional lstm falls out of the scope of this survey
@@ -1293,9 +1293,9 @@ bytecup
 
 
 
+
+
 r l
-
-
 
 r l
 

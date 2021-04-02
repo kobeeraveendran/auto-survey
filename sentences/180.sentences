@@ -206,7 +206,7 @@ thus we propose to dene the cumulative loss with a discount factor as the loss f
 note that the training objective for inator can be interpreted as maximizing the log likelihood for classication whether the input in equation comes from reader focused aspect or from decoder focused aspect
 t u m t m in order to model the gap between reader focused aspect and decoder focused aspect we subtract the reader tion rt d resulting in attention difference t rt d shown in equation
 then we use the attention difference t to sum up the document hidden states hd d ld c d lg by t rt d t
-dt d t ihd i
+t dt d t ihd i
 t t where dt denotes the semantic of unfocused document pects by summary generator a
 
 a
