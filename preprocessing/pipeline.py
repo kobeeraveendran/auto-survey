@@ -5,7 +5,7 @@ from collections import defaultdict
 import os
 
 # Can use max count to limit impact of frequent words by capping their count
-def load_bow(path="", vocab=None, max_count=0):
+def load_bow(path="", existing_bow = None, vocab=None, max_count=0):
     word_dict = dict()
 
     def add_word(word=""):
@@ -30,7 +30,15 @@ def load_bow(path="", vocab=None, max_count=0):
                         add_word(word)
 
     else:
-        for word in 
+        # filter a pre-existing bow as specified by the vocabulary
+        if existing_bow:
+            for key in existing_bow:
+                if key in vocab.token2id:
+                    if key in word_dict:
+                        word_dict[key] += existing_bow[key]
+
+                    else:
+                        word_dict[key] = existing_bow[key]
 
     return word_dict
 
@@ -85,23 +93,38 @@ if __name__ == "__main__":
     ### TRAINING LDA MODEL ###
     # Load Data
 
-    overall_model = models.LdaModel(
-        num_topics = 15, 
-        alpha = "asymmetric", 
-        eta = "auto", 
-        minimum_probability = 0.02, 
-        per_word_topics = True
-    )
+    # overall_model = models.LdaModel(
+    #     num_topics = 15, 
+    #     alpha = "asymmetric", 
+    #     eta = "auto", 
+    #     minimum_probability = 0.02, 
+    #     per_word_topics = True
+    # )
     
-    overall_bow = []
+    doc_bows = []
+    overall_bow = {}
+
+    topic_dists = []
 
     # individual docs
-    for doc_path in os.scandir("../bags/"):
+    for i, doc_path in enumerate(os.scandir("../bags/")):
+
+        if (i + 1) % 10 == 0:
+            print("ITERATION: ", i + 1)
+
         raw_bow = load_bow(path = doc_path)
+        doc_bows.append(raw_bow)
         doc_vocabulary = create_vocabulary([raw_bow])
-        overall_bow.append(raw_bow)
 
         doc_filtered_bow = load_bow(path = doc_path, vocab = doc_vocabulary)
+
+        for key, value in doc_filtered_bow.items():
+            if key in overall_bow:
+                overall_bow[key] += value
+
+            else:
+                overall_bow[key] = value
+
         train_data = [[]]
 
         for word in doc_vocabulary.token2id.keys():
@@ -118,11 +141,45 @@ if __name__ == "__main__":
             per_word_topics = True
         )
 
-        overall_model.update(corpus = train_data, update_every = 1)
+        # if not overall_model:
+        #     overall_model = models.LdaModel(
+        #         corpus = train_data, 
+        #         num_topics = 20, 
+        #         alpha = "asymmetric", 
+        #         eta = "auto", 
+        #         minimum_probability = 0.02, 
+        #         per_word_topics = True
+        #     )
+        
+        # else:
+        #     overall_model.update(corpus = train_data, update_every = 1)
+
         doc_topic_dist = doc_model.get_document_topics(doc_vocabulary.doc2bow(convert_bow(doc_filtered_bow)))
-    
-    overall_vocabulary = create_vocabulary(overall_bow)
-    overall_topic_dist = overall_model.get_document_topics(overall_vocabulary.doc2bow(convert_bow()))
+        topic_dists.append(doc_topic_dist)
+
+    overall_vocabulary = create_vocabulary(doc_bows)
+    filtered_overall_bow = load_bow(existing_bow = overall_bow, vocab = overall_vocabulary)
+
+    train_data = [[]]
+
+    for word in overall_vocabulary.token2id.keys():
+        train_data[0].append(word)
+
+    train_data = [overall_vocabulary.doc2bow(convert_bow(filtered_overall_bow))]
+
+    overall_model = models.LdaModel(
+        corpus = train_data, 
+        alpha = "asymmetric", 
+        eta = "auto", 
+        minimum_probability = 0.02, 
+        per_word_topics = True
+    )
+
+    print(filtered_overall_bow)
+
+    overall_topic_dist = overall_model.get_document_topics(overall_vocabulary.doc2bow(convert_bow(filtered_overall_bow)))
+
+    print(overall_topic_dist)
 
     # Save LDA model
     # Note: Also need to save word_to_id for inputting data into model
