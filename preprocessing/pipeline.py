@@ -1,6 +1,7 @@
 from gensim import models
 from gensim.corpora import Dictionary
 from collections import defaultdict
+from rouge_score import rouge_scorer
 
 import os, math
 
@@ -418,4 +419,37 @@ if __name__ == "__main__":
         for sentence in overall_summary:
             print("    ", sentence[0], " [", sentence[1], "]")
         print("")
+
+
+
+    # --- ROUGE Score Evaluation ---
+    print("Computing per-document ROUGE scores...", end='\r')
+    rouge = rouge_scorer.RougeScorer(['rouge1', 'rougeL'], use_stemmer=True)
+    scores = []
+    for i in range(len(targets)):
+        print("Computing per-document ROUGE scores... ", i, "/", len(targets), end="\r")
+
+        doc_bow = targets[i][0]
+        doc_sentences = targets[i][1]
+
+        doc_raw = ""
+        for sentence in doc_sentences:
+            doc_raw = doc_raw + sentence[1]
+
+        summary_raw = ""
+        for sentence in doc_summaries[i]:
+            summary_raw = summary_raw + sentence[0]
+
+        #print("Attempting: ")
+        #print(summary_raw)
+        #print(doc_raw)
+        sc = rouge.score(summary_raw, doc_raw)
+        scores.append(sc)
+    print("Computing per-document ROUGE scores... Complete           ")
+
+    if VERBOS:
+        print("ROUGE Scores:")
+        for i, score in enumerate(scores):
+            print("Target", i, ":  ROUGE-1 =", score['rouge1'].precision, " ROUGE-L =", score['rougeL'].precision)
+
 
