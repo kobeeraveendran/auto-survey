@@ -183,7 +183,7 @@ if __name__ == "__main__":
     # * Appear in less than 60% of docs
     # * Appear at least 100 times
     print("Building Vocabulary...", end="\r")
-    model_vocab = create_vocabulary(doc_bows, min_word_frequency=0, max_word_frequency=0.6, min_word_count=100)
+    model_vocab = create_vocabulary(doc_bows, min_word_frequency=0, max_word_frequency=0.6, min_word_count=200)
     print("Building Vocabulary... Complete              ")
 
     if (VERBOS):
@@ -266,21 +266,31 @@ if __name__ == "__main__":
 
     print("Loading Summary Targets...", end="\r")
     targets = []
+    overall_bow = []
+    overall_sentences = []
     with open(TARGETS_FILE, 'r') as file:
         for line in file:
                 for word in line.split():
                     target_id = int(word.lower().strip())
                     
                     target_bow = load_bow(path=BOW_DIR+str(target_id)+".bow", vocab=model_vocab, as_list=True)
+
+                    for word in target_bow:
+                        overall_bow.append(word)
+
                     target_bow = model_vocab.doc2bow(raw_bow)
                     target_sentences = load_sentences(path=SENTENCES_DIR+str(target_id)+".sentences", vocab=model_vocab, include_original=True)
 
+                    for sentence in target_sentences:
+                        overall_sentences.append(sentence)
+
                     targets.append((target_bow, target_sentences))
-        
+
+    overall_bow = model_vocab.doc2bow(overall_bow)
+
     print("Loading Summary Targets... Complete              ",)
 
     doc_summaries = []
-    doc_topics = []
     print("Generating per document summaries...", end="\r")
     for i in range(len(targets)):
         print("Generating per document summaries... ", i, "/", len(targets), end="\r")
@@ -289,8 +299,7 @@ if __name__ == "__main__":
         doc_bow = targets[i][0]
         doc_sentences = targets[i][1]
 
-        doc_topic = lda_model.get_document_topics(doc_bow, minimum_probability=0)
-        doc_topics.append(doc_topic)
+        doc_topics = lda_model.get_document_topics(doc_bow, minimum_probability=0)
 
         # Extract per document summaries as most probable setences based on topic distribution
         best_sentences = [("", -1, -1)] * PER_DOC_SENTENCES
@@ -313,12 +322,18 @@ if __name__ == "__main__":
 
             for topic_id in range(NUM_TOPICS):
                 topic_score = 1
+                topic_prob = 0
+
+                for topic in doc_topics:
+                    if topic[0] == topic_id:
+                        topic_prob = topic[1]
+
                 for word in word_topics:
                     word_prob = 0
                     for topic in word:
                         if topic[0] == topic_id:
                             word_prob = topic[1]
-                    topic_score = topic_score * word_prob
+                    topic_score = topic_score * word_prob * topic_prob
 
                 score = score + topic_score
 
@@ -345,86 +360,10 @@ if __name__ == "__main__":
                 print("    ", sentence[0], " [", sentence[1], "]")
             print("")
 
+    print("Generating multi-document summary...", end="\r")
+
+    OVERALL_SENTENCES = 5
+
+    doc_topic = lda_model.get_document_topics(overall_bow, minimum_probability=0)
 
 
-
-# Didnt want to straight remove this code, so here it is for now
-def old_code():
-    # individual docs
-    for i, doc_path in enumerate(os.scandir("../bags/")):
-
-        if (i + 1) % 10 == 0:
-            print("ITERATION: ", i + 1)
-
-        raw_bow = load_bow(path = doc_path)
-        doc_bows.append(raw_bow)
-        doc_vocabulary = create_vocabulary([raw_bow])
-
-        doc_filtered_bow = load_bow(path = doc_path, vocab = doc_vocabulary)
-
-        for key, value in doc_filtered_bow.items():
-            if key in overall_bow:
-                overall_bow[key] += value
-
-            else:
-                overall_bow[key] = value
-
-        train_data = [[]]
-
-        for word in doc_vocabulary.token2id.keys():
-            train_data[0].append(word)
-
-        train_data = [doc_vocabulary.doc2bow(convert_bow(doc_filtered_bow))]
-
-        doc_model = models.LdaModel(
-            corpus = train_data, 
-            num_topics = 10, 
-            alpha = "asymmetric", 
-            eta = "auto", 
-            minimum_probability = 0.02, 
-            per_word_topics = True
-        )
-
-        # if not overall_model:
-        #     overall_model = models.LdaModel(
-        #         corpus = train_data, 
-        #         num_topics = 20, 
-        #         alpha = "asymmetric", 
-        #         eta = "auto", 
-        #         minimum_probability = 0.02, 
-        #         per_word_topics = True
-        #     )
-        
-        # else:
-        #     overall_model.update(corpus = train_data, update_every = 1)
-
-        doc_topic_dist = doc_model.get_document_topics(doc_vocabulary.doc2bow(convert_bow(doc_filtered_bow)))
-        topic_dists.append(doc_topic_dist)
-
-    overall_vocabulary = create_vocabulary(doc_bows)
-    filtered_overall_bow = load_bow(existing_bow = overall_bow, vocab = overall_vocabulary)
-
-    train_data = [[]]
-
-    for word in overall_vocabulary.token2id.keys():
-        train_data[0].append(word)
-
-    train_data = [overall_vocabulary.doc2bow(convert_bow(filtered_overall_bow))]
-
-    overall_model = models.LdaModel(
-        corpus = train_data, 
-        alpha = "asymmetric", 
-        eta = "auto", 
-        minimum_probability = 0.02, 
-        per_word_topics = True
-    )
-
-    print(filtered_overall_bow)
-
-    overall_topic_dist = overall_model.get_document_topics(overall_vocabulary.doc2bow(convert_bow(filtered_overall_bow)))
-
-    print(overall_topic_dist)
-
-    # Save LDA model
-    # Note: Also need to save word_to_id for inputting data into model
-    overall_model.save("./overall_model.lda")
