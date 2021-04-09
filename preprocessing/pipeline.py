@@ -55,6 +55,44 @@ def load_bow(path="", existing_bow = None, vocab=None, max_count=0, min_word_len
 
     return word_dict
 
+# Returns list of Strings when include original is False
+# Returns list of tuple (filtered sentence string, complete sentence string) when include original is True
+def load_sentences(path="", vocab=None, include_original=True):
+    sentences = []
+
+    if path:
+        with open(path, 'r') as file:
+            for line in file:
+                clean_line = ""
+                filtered_line = ""
+
+                for word in line.split():
+                    word = word.lower().strip()
+
+                    if (clean_line == ""):
+                        clean_line = word
+                    
+                    else:
+                        clean_line = clean_line + " " + word
+
+                    if vocab and (word in vocab.token2id):
+                        if (filtered_line == ""):
+                            filtered_line = word
+
+                        else:
+                            filtered_line = filtered_line + " " + word
+
+                if (include_original):
+                    sentences.append((filtered_line, clean_line))
+        
+                else:
+                    if vocab:
+                        sentences.append(filtered_line)
+                    else:
+                        sentences.append(clean_line)
+
+    return sentences
+
 def convert_bow(bow=dict()):
     words = []
     for word in bow:
@@ -121,12 +159,17 @@ if __name__ == "__main__":
 
     VERBOS = 1
 
+    BOW_DIR = "../bags/"
+    SENTENCES_DIR = "../sentences/"
+
+
+
     # --- Build Vocabulary from entire corpus ---
 
     print("Loading raw BOW Files...", end="\r")
     # Load every document into memory
-    total_files = len(os.listdir("../bags/"))
-    for i, doc_path in enumerate(os.scandir("../bags/")):
+    total_files = len(os.listdir(BOW_DIR))
+    for i, doc_path in enumerate(os.scandir(BOW_DIR)):
         raw_bow = load_bow(path = doc_path)
         doc_bows.append(raw_bow)
 
@@ -151,6 +194,9 @@ if __name__ == "__main__":
     # Free raw documents from memory
     doc_bows = []
 
+
+
+
     # --- Train LDA Model over entire corpus ---
     NUM_TOPICS = 20
     BATCH_SIZE = 16
@@ -167,7 +213,7 @@ if __name__ == "__main__":
 
     print("Loading filtered BOW Files...", end="\r")
     doc_bows = []
-    for i, doc_path in enumerate(os.scandir("../bags/")):
+    for i, doc_path in enumerate(os.scandir(BOW_DIR)):
         raw_bow = load_bow(path = doc_path, vocab = model_vocab, as_list=True)
         doc_bows.append(model_vocab.doc2bow(raw_bow))
 
@@ -209,6 +255,100 @@ if __name__ == "__main__":
             decay=0.6)
         
     print("Training LDA Model... Complete (", total_iters, "batches of", BATCH_SIZE, ")                       ")
+
+
+
+
+    # --- Extract summary of target documents  ---
+    TARGETS_FILE = "./targets.txt"
+    PER_DOC_SENTENCES = 3
+    MIN_SENTENCE_LENGTH = 5
+
+    print("Loading Summary Targets...", end="\r")
+    targets = []
+    with open(TARGETS_FILE, 'r') as file:
+        for line in file:
+                for word in line.split():
+                    target_id = int(word.lower().strip())
+                    
+                    target_bow = load_bow(path=BOW_DIR+str(target_id)+".bow", vocab=model_vocab, as_list=True)
+                    target_bow = model_vocab.doc2bow(raw_bow)
+                    target_sentences = load_sentences(path=SENTENCES_DIR+str(target_id)+".sentences", vocab=model_vocab, include_original=True)
+
+                    targets.append((target_bow, target_sentences))
+        
+    print("Loading Summary Targets... Complete              ",)
+
+    doc_summaries = []
+    doc_topics = []
+    print("Generating per document summaries...", end="\r")
+    for i in range(len(targets)):
+        print("Generating per document summaries... ", i, "/", len(targets), end="\r")
+
+        # Extract document topic distribution
+        doc_bow = targets[i][0]
+        doc_sentences = targets[i][1]
+
+        doc_topic = lda_model.get_document_topics(doc_bow, minimum_probability=0)
+        doc_topics.append(doc_topic)
+
+        # Extract per document summaries as most probable setences based on topic distribution
+        best_sentences = [("", -1, -1)] * PER_DOC_SENTENCES
+        idx = 0
+        for sentence in doc_sentences:
+            score = 0
+            word_topics = []
+            idx = idx + 1
+
+            if (len(sentence[0]) < 2):
+                continue
+
+            if (len(sentence[0].split()) < MIN_SENTENCE_LENGTH):
+                continue
+
+            for word in sentence[0].split():
+                word = word.strip()
+                if word in model_vocab.token2id:
+                    word_topics.append(lda_model.get_term_topics(model_vocab.token2id[word], minimum_probability=0))
+
+            for topic_id in range(NUM_TOPICS):
+                topic_score = 1
+                for word in word_topics:
+                    word_prob = 0
+                    for topic in word:
+                        if topic[0] == topic_id:
+                            word_prob = topic[1]
+                    topic_score = topic_score * word_prob
+
+                print ("Probability of topic ", topic_id," is ",topic_score, "  || ", ("" in model_vocab.token2id))
+
+                score = score + topic_score
+
+            for i in range(PER_DOC_SENTENCES):
+                if score > best_sentences[i][1]:
+                    best_sentences[i] = (sentence[1], score, idx)
+                    break
+
+            print("Score of \"", sentence[0], "\" is", score)
+
+        sorted_summary = sorted(best_sentences, key=lambda x: x[-1])
+        doc_summary = []
+        for sentence in sorted_summary:
+            doc_summary.append(sentence)
+
+        print("Summary of \"", i, "\" is ", doc_summary)
+        doc_summaries.append(doc_summary)
+
+    print("Generating per document summaries... Compelete                    ")
+
+    if VERBOS:
+        print("Generated Summaries:")
+        for i, doc in enumerate(doc_summaries):
+            print("    Summary of document", i, ":")
+            for sentence in doc:
+                print("    ", sentence[0], " [", sentence[1], "]")
+            print("")
+
 
 
 
