@@ -2,23 +2,36 @@ from gensim import models
 from gensim.corpora import Dictionary
 from collections import defaultdict
 
-import os
+import os, math
 
 # Can use max count to limit impact of frequent words by capping their count
-def load_bow(path="", existing_bow = None, vocab=None, max_count=0):
+def load_bow(path="", existing_bow = None, vocab=None, max_count=0, min_word_len=2, as_list=False):
+
     word_dict = dict()
+    if as_list:
+        word_dict = []
+        
 
     def add_word(word=""):
-        if word in word_dict:
-            if (max_count == 0) or (word_dict[word] < max_count):
-                word_dict[word] = word_dict[word] + 1
+        if as_list:
+            word_dict.append(word)
+
         else:
-            word_dict[word] = 1
+            if word in word_dict:
+                if (max_count == 0) or (word_dict[word] < max_count):
+                    word_dict[word] = word_dict[word] + 1
+            else:
+                word_dict[word] = 1
 
     if path:
         with open(path, 'r') as file:
             for line in file:
                 for word in line.split():
+                    word = word.lower().strip()
+
+                    # Enforce minimum word length
+                    if (len(word) < min_word_len):
+                        continue
 
                     # No vocab, include all words
                     if vocab == None:
@@ -50,7 +63,7 @@ def convert_bow(bow=dict()):
 
     return words
 
-
+# Returns a gensim.corpora.Dictionary 
 def create_vocabulary(documents=[], min_word_frequency=0.05, max_word_frequency=1, min_word_count=5):
     if len(documents) < 1:
         return defaultdict(bool)
@@ -106,6 +119,101 @@ if __name__ == "__main__":
 
     topic_dists = []
 
+    VERBOS = 1
+
+    # --- Build Vocabulary from entire corpus ---
+
+    print("Loading raw BOW Files...", end="\r")
+    # Load every document into memory
+    total_files = len(os.listdir("../bags/"))
+    for i, doc_path in enumerate(os.scandir("../bags/")):
+        raw_bow = load_bow(path = doc_path)
+        doc_bows.append(raw_bow)
+
+        # Progress tracing
+        if (i + 1) % 17 == 0:
+            print("Loading BOW Files... ", i, "/", total_files, end="\r")
+
+    print("Loading BOW Files... Complete              ")
+
+    # Build vocabulary using words that:
+    # * Appear in less than 60% of docs
+    # * Appear at least 100 times
+    print("Building Vocabulary...", end="\r")
+    model_vocab = create_vocabulary(doc_bows, min_word_frequency=0, max_word_frequency=0.6, min_word_count=100)
+    print("Building Vocabulary... Complete              ")
+
+    if (VERBOS):
+        print("Generated Vocabulary with ", len(model_vocab.token2id.keys()), " words")
+        if (VERBOS == 2): 
+            print(model_vocab.token2id.keys())
+
+    # Free raw documents from memory
+    doc_bows = []
+
+    # --- Train LDA Model over entire corpus ---
+    NUM_TOPICS = 20
+    BATCH_SIZE = 16
+    MAX_ITERATIONS = 200
+
+    lda_model = models.LdaModel(
+        num_topics = NUM_TOPICS,
+        id2word=model_vocab,
+        alpha = "asymmetric", 
+        # eta = "auto", 
+        minimum_probability = 0.02, 
+        per_word_topics = True
+    )
+
+    print("Loading filtered BOW Files...", end="\r")
+    doc_bows = []
+    for i, doc_path in enumerate(os.scandir("../bags/")):
+        raw_bow = load_bow(path = doc_path, vocab = model_vocab, as_list=True)
+        doc_bows.append(model_vocab.doc2bow(raw_bow))
+
+        # Progress tracing
+        if (i + 1) % 17 == 0:
+            print("Loading filtered BOW Files... ", i, "/", total_files, end="\r")
+    print("Loading filtered BOW Files... Complete              ")
+
+    print("Training LDA Model...", end="\r")
+    doc_itr = enumerate(doc_bows)
+
+    # Train on dataset in batches
+    total_iters = 0
+    while True:
+        total_iters += 1
+        batch = []
+        try:
+            for i in range(BATCH_SIZE):
+                batch.append(next(doc_itr)[1])
+        except StopIteration:
+            pass
+
+        print("Training LDA Model... ", BATCH_SIZE, "/", total_files, end="\r")
+
+        if VERBOS == 2:
+            print("Training LDA Model... ", BATCH_SIZE, "/", total_files)
+
+            print("Current Batch: ", batch)
+            print("len: ", len(batch))
+            print("t: ", type(batch[0]))
+
+        if len(batch) < 1:
+            break
+
+        lda_model.update(corpus=batch,
+            iterations=MAX_ITERATIONS,
+            update_every=0,
+            gamma_threshold=0.005,
+            decay=0.6)
+        
+    print("Training LDA Model... Complete (", total_iters, "batches of", BATCH_SIZE, ")                       ")
+
+
+
+# Didnt want to straight remove this code, so here it is for now
+def old_code():
     # individual docs
     for i, doc_path in enumerate(os.scandir("../bags/")):
 
