@@ -366,4 +366,57 @@ if __name__ == "__main__":
 
     doc_topic = lda_model.get_document_topics(overall_bow, minimum_probability=0)
 
+    best_sentences = [("", -1, -1)] * OVERALL_SENTENCES
+    idx = 0
+    for sentence in overall_sentences:
+        score = 0
+        word_topics = []
+        idx = idx + 1
+
+        if (len(sentence[0]) < 2):
+            continue
+
+        if (len(sentence[0].split()) < MIN_SENTENCE_LENGTH):
+            continue
+
+        for word in sentence[0].split():
+            word = word.strip()
+            if word in model_vocab.token2id:
+                word_topics.append(lda_model.get_term_topics(model_vocab.token2id[word], minimum_probability=0))
+
+        for topic_id in range(NUM_TOPICS):
+            topic_score = 1
+            topic_prob = 0
+
+            for topic in doc_topics:
+                if topic[0] == topic_id:
+                    topic_prob = topic[1]
+
+            for word in word_topics:
+                word_prob = 0
+                for topic in word:
+                    if topic[0] == topic_id:
+                        word_prob = topic[1]
+                topic_score = topic_score * word_prob * topic_prob
+
+            score = score + topic_score
+
+        for i in range(OVERALL_SENTENCES):
+            if score > best_sentences[i][1]:
+                best_sentences[i] = (sentence[1], score, idx)
+                break
+
+    sorted_summary = sorted(best_sentences, key=lambda x: x[-1])
+    overall_summary = []
+    for sentence in sorted_summary:
+        overall_summary.append(sentence)
+
+    print("Generating multi-document summary... Complete")
+
+    
+    if VERBOS:
+        print("Overall Summary:")
+        for sentence in overall_summary:
+            print("    ", sentence[0], " [", sentence[1], "]")
+        print("")
 
