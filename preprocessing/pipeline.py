@@ -183,7 +183,7 @@ if __name__ == "__main__":
     # * Appear in less than 60% of docs
     # * Appear at least 100 times
     print("Building Vocabulary...", end="\r")
-    model_vocab = create_vocabulary(doc_bows, min_word_frequency=0, max_word_frequency=0.6, min_word_count=200)
+    model_vocab = create_vocabulary(doc_bows, min_word_frequency=0, max_word_frequency=0.6, min_word_count=400)
     print("Building Vocabulary... Complete              ")
 
     if (VERBOS):
@@ -251,8 +251,7 @@ if __name__ == "__main__":
         lda_model.update(corpus=batch,
             iterations=MAX_ITERATIONS,
             update_every=0,
-            gamma_threshold=0.005,
-            decay=0.6)
+            gamma_threshold=0.005)
         
     print("Training LDA Model... Complete (", total_iters, "batches of", BATCH_SIZE, ")                       ")
 
