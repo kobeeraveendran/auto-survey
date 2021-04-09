@@ -320,8 +320,6 @@ if __name__ == "__main__":
                             word_prob = topic[1]
                     topic_score = topic_score * word_prob
 
-                print ("Probability of topic ", topic_id," is ",topic_score, "  || ", ("" in model_vocab.token2id))
-
                 score = score + topic_score
 
             for i in range(PER_DOC_SENTENCES):
@@ -329,14 +327,12 @@ if __name__ == "__main__":
                     best_sentences[i] = (sentence[1], score, idx)
                     break
 
-            print("Score of \"", sentence[0], "\" is", score)
 
         sorted_summary = sorted(best_sentences, key=lambda x: x[-1])
         doc_summary = []
         for sentence in sorted_summary:
             doc_summary.append(sentence)
 
-        print("Summary of \"", i, "\" is ", doc_summary)
         doc_summaries.append(doc_summary)
 
     print("Generating per document summaries... Compelete                    ")
