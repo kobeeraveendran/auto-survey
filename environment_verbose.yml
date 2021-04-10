@@ -1,30 +1,117 @@
-name: autosurvey
+name: autosurvey_test
 channels:
+  - conda-forge
   - defaults
 dependencies:
-  - ca-certificates=2021.1.19=haa95532_0
+  - aiohttp=3.7.4=py37hcc03f2d_0
+  - async-timeout=3.0.1=py_1000
+  - attrs=20.3.0=pyhd3deb0d_0
+  - blas=1.0=mkl
+  - boto=2.49.0=py_0
+  - boto3=1.17.33=pyhd8ed1ab_0
+  - botocore=1.20.33=pyhd8ed1ab_0
+  - brotlipy=0.7.0=py37hcc03f2d_1001
+  - bz2file=0.98=py_0
+  - ca-certificates=2021.1.19=haa95532_1
+  - cachetools=4.2.1=pyhd8ed1ab_0
+  - catalogue=2.0.1=py37h03978a9_2
   - certifi=2020.12.5=py37haa95532_0
-  - openssl=1.1.1i=h2bbff1b_0
+  - chardet=4.0.0=py37h03978a9_1
+  - click=7.1.2=pyh9f0ad1d_0
+  - colorama=0.4.4=pyh9f0ad1d_0
+  - cudatoolkit=10.1.243=h3826478_8
+  - cudnn=7.6.5=cuda10.1_0
+  - cupy=8.3.0=py37hd4ca531_0
+  - cymem=2.0.5=py37hf2a7229_1
+  - cython-blis=0.7.4=py37hda49f71_0
+  - dataclasses=0.8=pyhc8e2a94_1
+  - fastrlock=0.5=py37hf2a7229_2
+  - gensim=3.8.3=py37hd77b12b_2
+  - google-api-core=1.25.1=pyhd8ed1ab_0
+  - google-auth=1.24.0=pyhd3deb0d_0
+  - google-cloud-core=1.5.0=pyhd3deb0d_0
+  - google-cloud-storage=1.19.0=py_0
+  - google-crc32c=1.1.2=py37h9049977_0
+  - google-resumable-media=1.2.0=pyhd3deb0d_0
+  - googleapis-common-protos=1.52.0=py37h9ae81ce_1
+  - grpcio=1.36.1=py37h04d2302_0
+  - icc_rt=2019.0.0=h0cc432a_1
+  - idna=2.10=pyh9f0ad1d_0
+  - importlib-metadata=3.7.3=py37h03978a9_0
+  - importlib_metadata=3.7.3=hd8ed1ab_0
+  - intel-openmp=2020.3=h57928b3_311
+  - jinja2=2.11.3=pyh44b312d_0
+  - jmespath=0.10.0=pyh9f0ad1d_0
+  - joblib=1.0.1=pyhd3eb1b0_0
+  - libblas=3.9.0=8_mkl
+  - libcblas=3.9.0=8_mkl
+  - libcrc32c=1.1.1=h0e60522_2
+  - liblapack=3.9.0=8_mkl
+  - libprotobuf=3.15.6=h7755175_0
+  - markupsafe=1.1.1=py37hcc03f2d_3
+  - mkl=2020.4=hb70f87d_311
+  - mkl-service=2.3.0=py37h196d8e1_0
+  - multidict=5.1.0=py37hcc03f2d_1
+  - murmurhash=1.0.5=py37hf2a7229_0
+  - numpy=1.20.1=py37hd20adf4_0
+  - openssl=1.1.1k=h2bbff1b_0
+  - packaging=20.9=pyh44b312d_0
+  - pandas=1.2.3=py37hf11a4ad_0
+  - pathy=0.4.0=pyhd8ed1ab_0
   - pip=20.3.3=py37haa95532_0
+  - preshed=3.0.5=py37hf2a7229_0
+  - protobuf=3.15.6=py37hf2a7229_0
+  - pyasn1=0.4.8=py_0
+  - pyasn1-modules=0.2.7=py_0
+  - pycparser=2.20=pyh9f0ad1d_2
+  - pydantic=1.7.3=py37hcc03f2d_1
+  - pyopenssl=20.0.1=pyhd8ed1ab_0
+  - pyparsing=2.4.7=pyh9f0ad1d_0
+  - pysocks=1.7.1=py37h03978a9_3
   - python=3.7.9=h60c2a47_0
+  - python-dateutil=2.8.1=py_0
+  - python_abi=3.7=1_cp37m
+  - pytz=2021.1=pyhd8ed1ab_0
+  - requests=2.25.1=pyhd3deb0d_0
+  - rsa=4.7.2=pyh44b312d_0
+  - s3transfer=0.3.6=pyhd8ed1ab_0
+  - scikit-learn=0.24.1=py37hf11a4ad_0
+  - scipy=1.6.1=py37h14eb087_0
   - setuptools=52.0.0=py37haa95532_0
+  - shellingham=1.4.0=pyh44b312d_0
+  - six=1.15.0=pyh9f0ad1d_0
+  - smart_open=2.2.1=pyh9f0ad1d_0
+  - spacy=3.0.5=py37h3b38789_0
+  - spacy-legacy=3.0.1=pyhd8ed1ab_0
   - sqlite=3.33.0=h2a8f88b_0
+  - srsly=2.4.0=py37hf2a7229_2
+  - thinc=8.0.2=py37h3b38789_1
+  - threadpoolctl=2.1.0=pyh5ca1d4c_0
+  - tqdm=4.59.0=pyhd8ed1ab_0
+  - typer=0.3.2=pyhd8ed1ab_0
+  - typing-extensions=3.7.4.3=0
+  - typing_extensions=3.7.4.3=py_0
   - vc=14.2=h21ff451_1
   - vs2015_runtime=14.27.29016=h5e58377_2
+  - wasabi=0.8.2=pyh44b312d_0
   - wheel=0.36.2=pyhd3eb1b0_0
+  - win_inet_pton=1.1.0=py37h03978a9_2
   - wincertstore=0.2=py37_0
+  - yarl=1.6.3=py37hcc03f2d_1
+  - zipp=3.4.1=pyhd8ed1ab_0
   - zlib=1.2.11=h62dcd97_4
   - pip:
+    - absl-py==0.12.0
     - arxiv==0.5.3
     - cffi==1.14.4
-    - chardet==4.0.0
     - cryptography==3.3.1
+    - en-core-web-sm==3.0.0
     - feedparser==6.0.2
-    - idna==2.10
+    - nltk==3.6.1
     - pdfminer-six==20201018
-    - pycparser==2.20
-    - requests==2.25.1
+    - pycryptodome==3.10.1
+    - regex==2021.4.4
+    - rouge-score==0.0.4
     - sgmllib3k==1.0.0
-    - six==1.15.0
     - sortedcontainers==2.3.0
     - urllib3==1.26.3
