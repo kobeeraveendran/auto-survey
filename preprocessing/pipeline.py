@@ -5,6 +5,9 @@ from rouge_score import rouge_scorer
 
 import os, math
 
+# for summary comparison
+from gensim.summarization.summarizer import summarize
+
 # Can use max count to limit impact of frequent words by capping their count
 def load_bow(path="", existing_bow = None, vocab=None, max_count=0, min_word_len=2, as_list=False):
 
@@ -431,6 +434,10 @@ if __name__ == "__main__":
 
         print()
 
+    # TextRank summaries for comparison
+    # overall_text = ' '.join(overall_sentences)
+    # tr_overall_summary = summarize(overall_text)
+
     # --- ROUGE Score Evaluation ---
     print("Computing per-document ROUGE scores...", end='\r')
     rouge = rouge_scorer.RougeScorer(['rouge1', 'rougeL'], use_stemmer=True)
@@ -445,6 +452,10 @@ if __name__ == "__main__":
         for sentence in doc_sentences:
             doc_raw = doc_raw + sentence[1]
 
+        # textrank summary for comparison
+        doc_text = '. '.join([sentence[1] for sentence in doc_sentences])
+        tr_doc_summary = summarize(doc_text, ratio = 0.005)
+
         summary_raw = ""
         for sentence in doc_summaries[i]:
             summary_raw = summary_raw + sentence[0]
@@ -452,7 +463,7 @@ if __name__ == "__main__":
         #print("Attempting: ")
         #print(summary_raw)
         #print(doc_raw)
-        sc = rouge.score(summary_raw, doc_raw)
+        sc = rouge.score(summary_raw, tr_doc_summary)
         scores.append(sc)
     print("Computing per-document ROUGE scores... Complete           ")
 
