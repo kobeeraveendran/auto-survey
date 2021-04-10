@@ -261,7 +261,7 @@ if __name__ == "__main__":
 
     # --- Extract summary of target documents  ---
     TARGETS_FILE = "./targets.txt"
-    PER_DOC_SENTENCES = 3
+    PER_DOC_SENTENCES = 5
     MIN_SENTENCE_LENGTH = 5
 
     print("Loading Summary Targets...", end="\r")
@@ -362,7 +362,7 @@ if __name__ == "__main__":
 
     print("Generating multi-document summary...", end="\r")
 
-    OVERALL_SENTENCES = 5
+    OVERALL_SENTENCES = 10
 
     doc_topic = lda_model.get_document_topics(overall_bow, minimum_probability=0)
 
@@ -388,7 +388,7 @@ if __name__ == "__main__":
             topic_score = 1
             topic_prob = 0
 
-            for topic in doc_topics:
+            for topic in doc_topic:
                 if topic[0] == topic_id:
                     topic_prob = topic[1]
 
@@ -420,7 +420,16 @@ if __name__ == "__main__":
             print("    ", sentence[0], " [", sentence[1], "]")
         print("")
 
+    print("Alternative multi-doc summary:\n")
+    # alt. multi-doc summary using 2 most relevant sentences of each per-doc summary
+    for ds in doc_summaries:
+        best_sents = sorted(ds, key = lambda sent: sent[1], reverse = True)
 
+        for i in range(2):
+            sent = best_sents[i]
+            print("    {} | [{}]".format(sent[0], sent[1]))
+
+        print()
 
     # --- ROUGE Score Evaluation ---
     print("Computing per-document ROUGE scores...", end='\r')
