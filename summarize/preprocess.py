@@ -40,8 +40,7 @@ def clean_text(id, path, spacy_model):
 
     text = ' '.join(token_list)
 
-    with open("ids.txt", 'a', encoding = 'utf-8') as file:
-        file.write("{}:{}\n".format(id, path.split('/')[-1]))
+    id_line = "{}:{}\n".format(id, path.split('/')[-1])
 
     with open('../bags/{}.bow'.format(id), 'w', encoding = 'utf-8') as file:
         file.write(text + '\n')
@@ -49,7 +48,7 @@ def clean_text(id, path, spacy_model):
     with open("../sentences/{}.sentences".format(id), 'w', encoding = 'utf-8') as file:
         file.writelines(sentences)
 
-    return
+    return id_line
 
 if __name__ == "__main__":
 
@@ -60,11 +59,20 @@ if __name__ == "__main__":
 
     print("Processing documents...")
 
-    for i, pdf in enumerate(os.scandir('../downloads/')):
-        clean_text(i, pdf.path, nlp)
+    id_map = []
 
-        if (i + 1) % 10 == 0:
-            print("Processed {} documents...\n".format(i + 1))
+    print("Processed documents: 0", end = '\r')
+
+    for i, pdf in enumerate(os.scandir('../downloads/')):
+        id = clean_text(i, pdf.path, nlp)
+        id_map.append(id)
+
+        print("Processed documents:", i + 1, end = '\r')
+
+    print()
+
+    with open("ids.txt", 'w', encoding = 'utf-8') as file:
+            file.writelines(id_map)
 
     #x, df = vectorize(sents)
     #print(text)

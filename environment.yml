@@ -1,0 +1,15 @@
+name: autosurvey_test
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.7
+  - spacy
+  - cupy
+  - scikit-learn
+  - pandas
+  - gensim
+  - pip:
+    - arxiv==0.5.3
+    - pdfminer-six
+    - rouge-score

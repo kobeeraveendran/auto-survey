@@ -5,6 +5,9 @@ from rouge_score import rouge_scorer
 
 import os, math
 
+# for summary comparison
+from gensim.summarization.summarizer import summarize
+
 # Can use max count to limit impact of frequent words by capping their count
 def load_bow(path="", existing_bow = None, vocab=None, max_count=0, min_word_len=2, as_list=False):
 
@@ -199,7 +202,7 @@ if __name__ == "__main__":
 
 
     # --- Train LDA Model over entire corpus ---
-    NUM_TOPICS = 20
+    NUM_TOPICS = 200
     BATCH_SIZE = 16
     MAX_ITERATIONS = 200
 
@@ -261,7 +264,7 @@ if __name__ == "__main__":
 
     # --- Extract summary of target documents  ---
     TARGETS_FILE = "./targets.txt"
-    PER_DOC_SENTENCES = 3
+    PER_DOC_SENTENCES = 5
     MIN_SENTENCE_LENGTH = 5
 
     print("Loading Summary Targets...", end="\r")
@@ -362,7 +365,7 @@ if __name__ == "__main__":
 
     print("Generating multi-document summary...", end="\r")
 
-    OVERALL_SENTENCES = 5
+    OVERALL_SENTENCES = 10
 
     doc_topic = lda_model.get_document_topics(overall_bow, minimum_probability=0)
 
@@ -388,7 +391,7 @@ if __name__ == "__main__":
             topic_score = 1
             topic_prob = 0
 
-            for topic in doc_topics:
+            for topic in doc_topic:
                 if topic[0] == topic_id:
                     topic_prob = topic[1]
 
@@ -413,19 +416,42 @@ if __name__ == "__main__":
 
     print("Generating multi-document summary... Complete")
 
-    
+    overall_summary_text = []
     if VERBOS:
         print("Overall Summary:")
         for sentence in overall_summary:
             print("    ", sentence[0], " [", sentence[1], "]")
+            overall_summary_text.append(sentence[0])
         print("")
 
+    overall_summary_text = '. '.join(overall_summary_text)
 
+    print("Alternative multi-doc summary:\n")
+
+    overall_summary_alt = []
+    # alt. multi-doc summary using 2 most relevant sentences of each per-doc summary
+    for ds in doc_summaries:
+        best_sents = sorted(ds, key = lambda sent: sent[1], reverse = True)
+
+        for i in range(2):
+            sent = best_sents[i]
+            print("    {} | [{}]".format(sent[0], sent[1]))
+            overall_summary_alt.append(sent[0] + '.')
+
+        print()
+
+    overall_summary_alt_text = ' '.join(overall_summary_alt)
+
+    # TextRank summaries for comparison
+    # overall_text = ' '.join(overall_sentences)
+    # tr_overall_summary = summarize(overall_text)
 
     # --- ROUGE Score Evaluation ---
     print("Computing per-document ROUGE scores...", end='\r')
     rouge = rouge_scorer.RougeScorer(['rouge1', 'rougeL'], use_stemmer=True)
     scores = []
+
+    overall_text = []
     for i in range(len(targets)):
         print("Computing per-document ROUGE scores... ", i, "/", len(targets), end="\r")
 
@@ -436,6 +462,11 @@ if __name__ == "__main__":
         for sentence in doc_sentences:
             doc_raw = doc_raw + sentence[1]
 
+        # textrank summary for comparison
+        doc_text = '. '.join([sentence[1] for sentence in doc_sentences])
+        overall_text.append(doc_text)
+        tr_doc_summary = summarize(doc_text, ratio = 0.005)
+
         summary_raw = ""
         for sentence in doc_summaries[i]:
             summary_raw = summary_raw + sentence[0]
@@ -443,13 +474,27 @@ if __name__ == "__main__":
         #print("Attempting: ")
         #print(summary_raw)
         #print(doc_raw)
-        sc = rouge.score(summary_raw, doc_raw)
+        sc = rouge.score(summary_raw, tr_doc_summary)
         scores.append(sc)
     print("Computing per-document ROUGE scores... Complete           ")
+
+    overall_text = '. '.join(overall_text)
+    
+    print("Generating TextRank comparison summary...", end = '\r')
+    tr_overall_summary = summarize(overall_text, ratio = 0.005)
+    print("Generating TextRank comparison summary... Complete           ")
+
+    print("Computing overall summary ROUGE scores (aggregate and alternative)...", end = '\r')
+    overall_rouge_sc = rouge.score(overall_summary_text, tr_overall_summary)
+    overall_alt_rouge_sc = rouge.score(overall_summary_alt_text, tr_overall_summary)
+    print("Computing overall summary ROUGE scores... Complete                   ")
 
     if VERBOS:
         print("ROUGE Scores:")
         for i, score in enumerate(scores):
             print("Target", i, ":  ROUGE-1 =", score['rouge1'].precision, " ROUGE-L =", score['rougeL'].precision)
+
+        print("Overall  : ROUGE-1 = {} | ROUGE-L = {}".format(overall_rouge_sc["rouge1"].precision, overall_rouge_sc["rougeL"].precision))
+        print("Alt      : ROUGE-1 = {} | ROUGE-L = {}".format(overall_alt_rouge_sc["rouge1"].precision, overall_alt_rouge_sc["rougeL"].precision))
 
 
