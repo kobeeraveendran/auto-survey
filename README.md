@@ -29,7 +29,7 @@ python -m spacy download en_core_web_sm
 cd summarize/ && python preprocess.py
 ```
 
-**NOTE:** in our experiments, we used a dataset of 400 documents with topic tag `"text summarization"` for LDA training, and 3 of those documents for testing summary generation. You can tweak these values (including number of papers downloaded and the general topic of 
+**NOTE:** in our experiments, we used a dataset of 400 documents with topic tag `"text summarization"` for LDA training, and 3 of those documents (IDs 386, 251, and 113 in this repo) for testing summary generation. You can tweak these values (including number of papers downloaded and the general topic of 
 each paper) by manually running `arxiv_fetch.py` in `scripts/` with the flags described.
 
 ## Running Experiments

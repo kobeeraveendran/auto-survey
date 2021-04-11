@@ -3,7 +3,8 @@ from gensim.corpora import Dictionary
 from collections import defaultdict
 from rouge_score import rouge_scorer
 
-import os, math
+
+import os, math, argparse
 
 # for summary comparison
 from gensim.summarization.summarizer import summarize
@@ -145,16 +146,26 @@ def create_vocabulary(documents=[], min_word_frequency=0.05, max_word_frequency=
 
 if __name__ == "__main__":
 
+    # cmdline args
+    parser = argparse.ArgumentParser(description = "Summarizes a set of research articles using LDA.")
+
+    parser.add_argument(
+        "--all", 
+        action = "store_true", 
+        help = "Whether to generate summaries for every document used during training. Include this flag to use all docs, or exclude to use only those specified in targets.txt. \
+        This flag may be useful for reproducing the results shown in our plots. Example usage: python summarize.py --all"
+    )
+    parser.add_argument(
+        "--num_topics", 
+        type = int, 
+        default = 200, 
+        help = "Number of topics expected across all documents for LDA training (choose relative to the number of documents you are training on). Default 200"
+    )
+
+    args = parser.parse_args()
+
     ### TRAINING LDA MODEL ###
     # Load Data
-
-    # overall_model = models.LdaModel(
-    #     num_topics = 15, 
-    #     alpha = "asymmetric", 
-    #     eta = "auto", 
-    #     minimum_probability = 0.02, 
-    #     per_word_topics = True
-    # )
     
     doc_bows = []
     overall_bow = {}
@@ -202,7 +213,7 @@ if __name__ == "__main__":
 
 
     # --- Train LDA Model over entire corpus ---
-    NUM_TOPICS = 200
+    NUM_TOPICS = args.num_topics
     BATCH_SIZE = 16
     MAX_ITERATIONS = 200
 
@@ -271,23 +282,60 @@ if __name__ == "__main__":
     targets = []
     overall_bow = []
     overall_sentences = []
-    with open(TARGETS_FILE, 'r') as file:
-        for line in file:
-                for word in line.split():
-                    target_id = int(word.lower().strip())
-                    
-                    target_bow = load_bow(path=BOW_DIR+str(target_id)+".bow", vocab=model_vocab, as_list=True)
 
-                    for word in target_bow:
-                        overall_bow.append(word)
+    # if all documents used for training should also have summaries generated for them
+    # TODO: maybe clean up this duplication later
+    if args.all:
+        
+        for d_bow, d_sent in zip(os.scandir(BOW_DIR), os.scandir(SENTENCES_DIR)):
 
-                    target_bow = model_vocab.doc2bow(raw_bow)
-                    target_sentences = load_sentences(path=SENTENCES_DIR+str(target_id)+".sentences", vocab=model_vocab, include_original=True)
+            target_bow = load_bow(path = d_bow.path, vocab=model_vocab, as_list=True)
 
-                    for sentence in target_sentences:
-                        overall_sentences.append(sentence)
+            for word in target_bow:
+                overall_bow.append(word)
 
-                    targets.append((target_bow, target_sentences))
+            target_bow = model_vocab.doc2bow(raw_bow)
+            target_sentences = load_sentences(path = d_sent.path, vocab=model_vocab, include_original=True)
+
+            for sentence in target_sentences:
+                overall_sentences.append(sentence)
+
+            targets.append((target_bow, target_sentences))
+            
+            # target_bow = load_bow(path = d_bow.path, vocab = model_vocab, as_list = True)
+
+            # for word in target_bow:
+            #     overall_bow.append(word)
+
+            # target_bow = model_vocab.doc2bow(raw_bow)
+            # target_sentences = load_sentences(path = d_sent.path)
+
+            # for sentence in target_sentences:
+            #     overall_sentences.append(sentence)
+
+            # targets.append((target_bow, target_sentences))
+    
+    # otherwise, draws the pool of documents to generate summaries for from `targets.txt`
+    else:
+        with open(TARGETS_FILE, 'r') as file:
+            for line in file:
+                    for word in line.split():
+                        target_id = int(word.lower().strip())
+                        
+                        target_bow = load_bow(path=BOW_DIR+str(target_id)+".bow", vocab=model_vocab, as_list=True)
+
+                        for word in target_bow:
+                            overall_bow.append(word)
+
+                        target_bow = model_vocab.doc2bow(raw_bow)
+                        target_sentences = load_sentences(path=SENTENCES_DIR+str(target_id)+".sentences", vocab=model_vocab, include_original=True)
+
+                        for sentence in target_sentences:
+                            overall_sentences.append(sentence)
+
+                        targets.append((target_bow, target_sentences))
+
+    #print("\n\nDEBUG:\n\n", targets[0])
 
     overall_bow = model_vocab.doc2bow(overall_bow)
 
@@ -355,7 +403,7 @@ if __name__ == "__main__":
 
     print("Generating per document summaries... Compelete                    ")
 
-    if VERBOS:
+    if VERBOS: #and not args.all:
         print("Generated Summaries:")
         for i, doc in enumerate(doc_summaries):
             print("    Summary of document", i, ":")
@@ -471,30 +519,45 @@ if __name__ == "__main__":
         for sentence in doc_summaries[i]:
             summary_raw = summary_raw + sentence[0]
 
-        #print("Attempting: ")
-        #print(summary_raw)
-        #print(doc_raw)
         sc = rouge.score(summary_raw, tr_doc_summary)
         scores.append(sc)
     print("Computing per-document ROUGE scores... Complete           ")
 
     overall_text = '. '.join(overall_text)
     
-    print("Generating TextRank comparison summary...", end = '\r')
-    tr_overall_summary = summarize(overall_text, ratio = 0.005)
-    print("Generating TextRank comparison summary... Complete           ")
+    if len(targets) <= 30:
+        print("Generating TextRank overall comparison summary...", end = '\r')
+        tr_overall_summary = summarize(overall_text, ratio = 0.005)
+        print("Generating TextRank comparison summary... Complete           ")
 
-    print("Computing overall summary ROUGE scores (aggregate and alternative)...", end = '\r')
-    overall_rouge_sc = rouge.score(overall_summary_text, tr_overall_summary)
-    overall_alt_rouge_sc = rouge.score(overall_summary_alt_text, tr_overall_summary)
-    print("Computing overall summary ROUGE scores... Complete                   ")
+        print("Computing overall summary ROUGE scores (aggregate and alternative)...", end = '\r')
+        overall_rouge_sc = rouge.score(overall_summary_text, tr_overall_summary)
+        overall_alt_rouge_sc = rouge.score(overall_summary_alt_text, tr_overall_summary)
+        print("Computing overall summary ROUGE scores... Complete                   ")
+
+        if VERBOS:
+            print("ROUGE Scores:")
+            for i, score in enumerate(scores):
+                print("Target", i, ":  ROUGE-1 =", score['rouge1'].precision, " ROUGE-L =", score['rougeL'].precision)
+
+            print("Overall  : ROUGE-1 = {} | ROUGE-L = {}".format(overall_rouge_sc["rouge1"].precision, overall_rouge_sc["rougeL"].precision))
+            print("Alt      : ROUGE-1 = {} | ROUGE-L = {}".format(overall_alt_rouge_sc["rouge1"].precision, overall_alt_rouge_sc["rougeL"].precision))
 
     if VERBOS:
-        print("ROUGE Scores:")
-        for i, score in enumerate(scores):
-            print("Target", i, ":  ROUGE-1 =", score['rouge1'].precision, " ROUGE-L =", score['rougeL'].precision)
+        prec_avg_rouge1, prec_avg_rougeL, rec_avg_rouge1, rec_avg_rougeL = 0, 0, 0, 0
 
-        print("Overall  : ROUGE-1 = {} | ROUGE-L = {}".format(overall_rouge_sc["rouge1"].precision, overall_rouge_sc["rougeL"].precision))
-        print("Alt      : ROUGE-1 = {} | ROUGE-L = {}".format(overall_alt_rouge_sc["rouge1"].precision, overall_alt_rouge_sc["rougeL"].precision))
+        for score in scores:
+            prec_avg_rouge1 += score["rouge1"].precision
+            prec_avg_rougeL += score["rougeL"].precision
+            rec_avg_rouge1 += score["rouge1"].recall
+            rec_avg_rougeL += score["rougeL"].recall
+
+        avgs = [prec_avg_rouge1, prec_avg_rougeL, rec_avg_rouge1, rec_avg_rougeL]
+
+        for i, avg in enumerate(avgs):
+            avgs[i] = avg / len(scores)
+
+        print("\nAverage ROUGE score across all documents:")
+        print("(Precision)  ROUGE-1 = {} | ROUGE-L = {}\n(Recall)  ROUGE-1 = {} | ROUGE-L = {}".format(*avgs))
 
 
