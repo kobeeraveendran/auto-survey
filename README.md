@@ -40,11 +40,42 @@ Run the entire pipeline:
 
 ```bash
 cd summarize/
+
+# default: extracts 200 latent topics from corpus, summarizes only the documents specified in targets.txt
 python pipeline.py
+
+# custom: 50 topics, summarizes/computes scores for summaries of all documents in the training corpus
+# NOTE: currently, the --all flag must be specified to log scores for plot generation
+python pipeline.py --num_topics 50 --all
 ```
+
+After you've run the pipeline for *different* configurations (i.e. different numbers of topics to extract), you can generate plots like so:
+
+```bash
+cd scripts/ && python generate_plots.py
+```
+
+**NOTE:** to graph, the file `run_logs.csv` must exist in `plots/`, and the topic numbers (listed in the first column in the file) should be unique.
 
 ### Pipeline Overview
 
 Below is a diagram of our complete summarization pipeline. See `summarize/pipeline.py` for implementation.
 
 ![overview of our summarization pipeline](assets/pipeline.png "Overview of our summarization pipeline")
+
+## Preliminary Results
+
+Here are the results from a sample run:
+
+|     Doc     | ROUGE-1 Precision | ROUGE-L Precision | ROUGE-1 Recall | ROUGE-L Recall |
+|:-----------:|:-----------------:|:-----------------:|:--------------:|:--------------:|
+|  0 (target) |       0.560       |       0.360       |      0.097     |      0.062     |
+|  1 (target) |       0.083       |       0.050       |      0.375     |      0.223     |
+|  2 (target) |       0.384       |       0.219       |      0.275     |      0.157     |
+|   Overall   |       0.201       |       0.082       |      0.488     |      0.198     |
+| Alternative |       0.131       |       0.075       |      0.546     |      0.291     |
+|   Average   |       0.342       |       0.210       |      0.249     |      0.148     |
+
+And below, a plot of our results examining summarization performance with respect to the number of topics used during LDA model training:
+
+![a graph of our results](assets/rouge_scores.png "a graph of our topics vs. ROUGE score results")
