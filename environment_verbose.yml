@@ -1,4 +1,4 @@
-name: autosurvey_test
+name: autosurvey
 channels:
   - conda-forge
   - defaults
