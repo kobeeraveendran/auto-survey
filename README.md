@@ -42,3 +42,9 @@ Run the entire pipeline:
 cd summarize/
 python pipeline.py
 ```
+
+### Pipeline Overview
+
+Below is a diagram of our complete summarization pipeline. See `summarize/pipeline.py` for implementation.
+
+![overview of our summarization pipeline](assets/pipeline.png "Overview of our summarization pipeline")
