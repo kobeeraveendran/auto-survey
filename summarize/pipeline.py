@@ -528,7 +528,7 @@ if __name__ == "__main__":
 
     overall_text = '. '.join(overall_text)
     
-    if len(targets) <= 30:
+    if len(targets) <= 10:
         print("Generating TextRank overall comparison summary...", end = '\r')
         tr_overall_summary = summarize(overall_text, ratio = 0.005)
         print("Generating TextRank comparison summary... Complete           ")
@@ -541,10 +541,26 @@ if __name__ == "__main__":
         if VERBOS:
             print("ROUGE Scores:")
             for i, score in enumerate(scores):
-                print("Target", i, ":  ROUGE-1 =", score['rouge1'].precision, " ROUGE-L =", score['rougeL'].precision)
+                print("Target {}: ROUGE-1 prec. = {:.3f} | ROUGE-L prec. = {:.3f} | ROUGE-1 rec. = {:.3f} | ROUGE-L rec. = {:.3f}".format(
+                    i, 
+                    score['rouge1'].precision, 
+                    score['rougeL'].precision, 
+                    score['rouge1'].recall, 
+                    score['rougeL'].recall
+                ))
 
-            print("Overall  : ROUGE-1 = {} | ROUGE-L = {}".format(overall_rouge_sc["rouge1"].precision, overall_rouge_sc["rougeL"].precision))
-            print("Alt      : ROUGE-1 = {} | ROUGE-L = {}".format(overall_alt_rouge_sc["rouge1"].precision, overall_alt_rouge_sc["rougeL"].precision))
+            print("\nOverall  : ROUGE-1 prec. = {:.3f} | ROUGE-L prec. = {:.3f} | ROUGE-1 rec. = {:.3f} | ROUGE-L rec = {:.3f}".format(
+                overall_rouge_sc["rouge1"].precision, 
+                overall_rouge_sc["rougeL"].precision, 
+                overall_rouge_sc["rouge1"].recall, 
+                overall_rouge_sc["rougeL"].recall
+            ))
+            print("Alt      : ROUGE-1 prec. = {:.3f} | ROUGE-L prec. = {:.3f} | ROUGE-1 rec. = {:.3f} | ROUGE-L rec = {:.3f}".format(
+                overall_alt_rouge_sc["rouge1"].precision, 
+                overall_alt_rouge_sc["rougeL"].precision, 
+                overall_alt_rouge_sc["rouge1"].recall, 
+                overall_alt_rouge_sc["rougeL"].recall
+            ))
 
 
     prec_avg_rouge1, prec_avg_rougeL, rec_avg_rouge1, rec_avg_rougeL = 0, 0, 0, 0
@@ -562,12 +578,13 @@ if __name__ == "__main__":
 
     if VERBOS:
         print("\nAverage ROUGE score across all documents:")
-        print("(Precision)  ROUGE-1 = {} | ROUGE-L = {}\n(Recall)  ROUGE-1 = {} | ROUGE-L = {}".format(*avgs))
+        print("(Precision)  ROUGE-1 = {:.3f} | ROUGE-L = {:.3f}\n(Recall)     ROUGE-1 = {:.3f} | ROUGE-L = {:.3f}".format(*avgs))
 
-    os.makedirs("../plots/", exist_ok = True)
+    if args.all:
+        os.makedirs("../plots/", exist_ok = True)
 
-    with open("../plots/run_logs.csv", 'a', encoding = "utf-8") as file:
-        file.write("{},{},{},{},{}\n".format(args.num_topics, *avgs))
+        with open("../plots/run_logs.csv", 'a', encoding = "utf-8") as file:
+            file.write("{},{},{},{},{}\n".format(args.num_topics, *avgs))
 
     time_elapsed = time.time() - start_time
 
