@@ -4,7 +4,7 @@ from collections import defaultdict
 from rouge_score import rouge_scorer
 
 
-import os, math, argparse
+import os, math, argparse, time
 
 # for summary comparison
 from gensim.summarization.summarizer import summarize
@@ -145,6 +145,9 @@ def create_vocabulary(documents=[], min_word_frequency=0.05, max_word_frequency=
 
 
 if __name__ == "__main__":
+
+    # track execution time
+    start_time = time.time()
 
     # cmdline args
     parser = argparse.ArgumentParser(description = "Summarizes a set of research articles using LDA.")
@@ -543,21 +546,29 @@ if __name__ == "__main__":
             print("Overall  : ROUGE-1 = {} | ROUGE-L = {}".format(overall_rouge_sc["rouge1"].precision, overall_rouge_sc["rougeL"].precision))
             print("Alt      : ROUGE-1 = {} | ROUGE-L = {}".format(overall_alt_rouge_sc["rouge1"].precision, overall_alt_rouge_sc["rougeL"].precision))
 
+
+    prec_avg_rouge1, prec_avg_rougeL, rec_avg_rouge1, rec_avg_rougeL = 0, 0, 0, 0
+
+    for score in scores:
+        prec_avg_rouge1 += score["rouge1"].precision
+        prec_avg_rougeL += score["rougeL"].precision
+        rec_avg_rouge1 += score["rouge1"].recall
+        rec_avg_rougeL += score["rougeL"].recall
+
+    avgs = [prec_avg_rouge1, prec_avg_rougeL, rec_avg_rouge1, rec_avg_rougeL]
+
+    for i, avg in enumerate(avgs):
+        avgs[i] = avg / len(scores)
+
     if VERBOS:
-        prec_avg_rouge1, prec_avg_rougeL, rec_avg_rouge1, rec_avg_rougeL = 0, 0, 0, 0
-
-        for score in scores:
-            prec_avg_rouge1 += score["rouge1"].precision
-            prec_avg_rougeL += score["rougeL"].precision
-            rec_avg_rouge1 += score["rouge1"].recall
-            rec_avg_rougeL += score["rougeL"].recall
-
-        avgs = [prec_avg_rouge1, prec_avg_rougeL, rec_avg_rouge1, rec_avg_rougeL]
-
-        for i, avg in enumerate(avgs):
-            avgs[i] = avg / len(scores)
-
         print("\nAverage ROUGE score across all documents:")
         print("(Precision)  ROUGE-1 = {} | ROUGE-L = {}\n(Recall)  ROUGE-1 = {} | ROUGE-L = {}".format(*avgs))
 
+    os.makedirs("../plots/", exist_ok = True)
 
+    with open("../plots/run_logs.csv", 'a', encoding = "utf-8") as file:
+        file.write("{},{},{},{},{}\n".format(args.num_topics, *avgs))
+
+    time_elapsed = time.time() - start_time
+
+    print("Total time elapsed: {:.2f}s".format(time_elapsed))
