@@ -20,13 +20,13 @@ conda activate autosurvey
 
 # download a small set of research papers
 # additional command line args available; to view, run as: python arxiv_fetch.py -h
-python arxiv_fetch.py
+cd scripts/ && python arxiv_fetch.py
 
 # download and install spaCy language model
 python -m spacy download en_core_web_sm
 
 # preprocess the downloaded documents
-cd summarize/ && python preprocess.py
+cd ../summarize/ && python preprocess.py
 ```
 
 **NOTE:** in our experiments, we used a dataset of 400 documents with topic tag `"text summarization"` for LDA training, and 3 of those documents (IDs 386, 251, and 113 in this repo) for testing summary generation. You can tweak these values (including number of papers downloaded and the general topic of 
