@@ -72,7 +72,7 @@ if __name__ == "__main__":
     print()
 
     with open("ids.txt", 'w', encoding = 'utf-8') as file:
-            file.writelines(id_map)
+        file.writelines(id_map)
 
     #x, df = vectorize(sents)
     #print(text)
