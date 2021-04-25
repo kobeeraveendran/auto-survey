@@ -9,6 +9,8 @@ dependencies:
   - scikit-learn
   - pandas
   - gensim
+  - matplotlib
+  - nltk
   - pip:
     - arxiv==0.5.3
     - pdfminer-six
